@@ -47,7 +47,9 @@ nav {
     nav ul li.active {
       z-index: 1;
       background: white;
-      color: #4994FB; }
+      color: #4994FB;
+      margin-top: -5px;
+      font-size: 110%; }
 
 .panels {
   flex-grow: 1;
