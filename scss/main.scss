@@ -1,0 +1,157 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  top: 0px;
+}
+
+body {
+  background: #E4F0FE;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: #4994FB;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  padding: 0.5em 1em;
+  align-items: center;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  margin-top: 0.5em;
+
+  ul {
+    display: flex;
+    padding-left: 5px;
+    margin: 0;
+    border-bottom: solid 1px #bbbbbb;
+
+    li {
+      display: block;
+      border: solid 1px #bbbbbb;
+      padding: 0.3em 1em;
+      border-radius: 0.5em 0.5em 0 0;
+      border-bottom: none;
+      margin-left: -5px;
+      background: #D9E3F1;
+      color: #999999;
+      cursor: pointer;
+    }
+
+    li:hover {
+      background: #E4F0FE;
+    }
+
+    li.active {
+      z-index: 1;
+      background: white;
+      color: #4994FB;
+    }
+  }
+}
+
+.panels {
+  flex-grow: 1;
+  position: relative;
+
+  .panel {
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+  }
+
+  .panel.active {
+    z-index: 0;
+  }
+}
+
+#pythonCode {
+  width: 100%;
+  height: 100%;
+  font-size: 120%;
+}
+
+#renderCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+.runSim {
+  position: absolute;
+  color: white;
+  opacity: 0.8;
+  top: 2em;
+  left: 2em;
+  font-size: 200%;
+}
+
+.console {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: black;
+  opacity: 0.7;
+  color: white;
+  font-size: 150%;
+  height: 2em;
+  overflow: hidden;
+  transition: height 0.5s;
+
+  .chevron {
+    position: absolute;
+    right: 0;
+    font-size: 200%;
+    cursor: pointer;
+  }
+
+  .chevron::before {
+    content: "\2303";
+  }
+
+  .content {
+    position: absolute;
+    top: 0.5em;
+    bottom: 0.5em;
+    left: 1em;
+    right: 2em;
+    margin: 0px;
+    color: white;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: pre-wrap;
+
+    .error {
+      color: red;
+    }
+  }
+}
+
+.console.open {
+  height: 10em;
+
+  .chevron {
+    top: -0.5em;
+  }
+
+  .chevron::before {
+    content: "\2304";
+  }
+
+  .content {
+    overflow-y: scroll;
+  }
+}

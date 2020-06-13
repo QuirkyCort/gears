@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="jquery/jquery-3.5.1.slim.min.js"></script>
+
+  <script src="ace-1.4.10/src-min/ace.js"></script>
+
+  <script src="skulpt/0.11.0/skulpt.min.js"></script>
+  <script src="skulpt/0.11.0/skulpt-stdlib.js"></script>
+
+  <script src="cannon/0.6.2/cannon.js"></script>
+  <script src="oimo/1.0.9/Oimo.js"></script>
+  <script src="ammo/ammo.js"></script>
+
+  <script src="babylon/4.1.0/babylon.js"></script>
+  <script src="babylon/4.1.0/babylonjs.loaders.min.js"></script>
+  <script src="babylon/4.1.0/babylon.gui.min.js"></script>
+  <script src="pep/0.4.3/pep.min.js"></script>
+
+  <link rel="stylesheet" href="css/main.css">
+
+  <title>Generic Educational Robotics Simulator</title>
+</head>
+
+<body>
+  <header>
+    <div>Generic Educational Robotics Simulator</div>
+  </header>
+
+  <main>
+    <nav>
+      <ul>
+        <li id="navBlocks" class="active">Blocks</li>
+        <li id="navPython">Python</li>
+        <li id="navSim" class="activex">Simulator</li>
+      </ul>
+    </nav>
+    <div class="panels">
+
+      <div class="blocklyEditor panel active" aria-labelledby="navBlocks">
+        <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+        <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+          <block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38"></block>
+        </xml>
+      </div>
+
+      <div class="panel" aria-labelledby="navPython">
+        <div id="pythonCode"></div>
+      </div>
+
+      <div class="panel activex" aria-labelledby="navSim">
+        <canvas id="renderCanvas" touch-action="none"></canvas>
+        <div class="runSim">&#x25b6;</div>
+
+        <div class="console">
+          <div class="chevron"></div>
+          <pre class="content"></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="blockly/3.20200402.1/blockly.js"></script>
+  <script src="blockly/3.20200402.1/blocks.js"></script>
+  <script src="blockly/3.20200402.1/javascript.js"></script>
+  <script src="blockly/3.20200402.1/python.js"></script>
+  <script src="blockly/3.20200402.1/msg/en.js"></script>
+  <script src="js/blockly.js"></script>
+  <script src="js/skulpt.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/robot.js"></script>
+  <script src="js/babylon.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

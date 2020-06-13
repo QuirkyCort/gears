@@ -1,0 +1,104 @@
+[{
+  "type": "move",
+  "message0": "move %1 %2 at speed %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "direction",
+      "options": [
+        [
+          "Forward",
+          "FORWARD"
+        ],
+        [
+          "Reverse",
+          "REVERSE"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "print",
+  "message0": "print %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "text"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "when_started",
+  "message0": "When Started",
+  "nextStatement": null,
+  "colour": 65,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "sleep",
+  "message0": "sleep for %1 seconds",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "seconds",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 65,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "stop",
+  "message0": "stop moving",
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "move_steering",
+  "message0": "move steering with direction %1 and speed %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "steering",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}]
