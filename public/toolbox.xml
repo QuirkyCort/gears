@@ -23,7 +23,6 @@
     </block>
   </category>
   <category name="Control" colour="#9fa55b">
-    <block type="when_started"></block>
     <block type="sleep">
       <value name="seconds">
         <shadow type="math_number">
@@ -31,6 +30,7 @@
         </shadow>
       </value>
     </block>
+    <block type="exit"></block>
   </category>
   <category name="Logic" colour="#5b80a5">
     <block type="controls_if"></block>

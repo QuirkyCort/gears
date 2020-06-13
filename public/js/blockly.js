@@ -63,6 +63,7 @@ var blockly = new function() {
     Blockly.Python['sleep'] = self.pythonSleep;
     Blockly.Python['stop'] = self.pythonStop;
     Blockly.Python['move_steering'] = self.pythonMoveSteering;
+    Blockly.Python['exit'] = self.pythonExit;
   };
 
   // Generate python code
@@ -121,6 +122,12 @@ var blockly = new function() {
     var value_steering = Blockly.Python.valueToCode(block, 'steering', Blockly.Python.ORDER_ATOMIC);
     var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     var code = 'steering_drive.on(' + value_steering + ', ' + value_speed + ')\n';
+    return code;
+  };
+
+  // Exit
+  this.pythonExit = function(block) {
+    var code = 'exit()\n';
     return code;
   };
 }
