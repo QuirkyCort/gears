@@ -48,6 +48,7 @@ nav {
       background: #D9E3F1;
       color: #999999;
       cursor: pointer;
+      user-select: none;
     }
 
     li:hover {
@@ -99,6 +100,7 @@ nav {
   left: 2em;
   font-size: 200%;
   cursor: pointer;
+  user-select: none;
 }
 
 .world {
@@ -109,6 +111,7 @@ nav {
   left: 4em;
   font-size: 200%;
   cursor: pointer;
+  user-select: none;
 }
 
 .reset {
@@ -119,6 +122,7 @@ nav {
   left: 8em;
   font-size: 200%;
   cursor: pointer;
+  user-select: none;
 }
 
 .console {

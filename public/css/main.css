@@ -41,7 +41,8 @@ nav {
       margin-left: -5px;
       background: #D9E3F1;
       color: #999999;
-      cursor: pointer; }
+      cursor: pointer;
+      user-select: none; }
     nav ul li:hover {
       background: #E4F0FE; }
     nav ul li.active {
@@ -78,7 +79,8 @@ nav {
   top: 2em;
   left: 2em;
   font-size: 200%;
-  cursor: pointer; }
+  cursor: pointer;
+  user-select: none; }
 
 .world {
   position: absolute;
@@ -87,7 +89,8 @@ nav {
   top: 2em;
   left: 4em;
   font-size: 200%;
-  cursor: pointer; }
+  cursor: pointer;
+  user-select: none; }
 
 .reset {
   position: absolute;
@@ -96,7 +99,8 @@ nav {
   top: 2em;
   left: 8em;
   font-size: 200%;
-  cursor: pointer; }
+  cursor: pointer;
+  user-select: none; }
 
 .console {
   position: absolute;
