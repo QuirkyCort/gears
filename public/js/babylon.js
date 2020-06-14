@@ -1,12 +1,15 @@
 var babylon = new function() {
   var self = this;
 
+  this.world = worlds[0];
+  this.robot = robot;
+
   // Run on page load
   this.init = function() {
     self.canvas = document.getElementById('renderCanvas');
     self.engine = new BABYLON.Engine(self.canvas, true);
 
-    self.createScene(world, robot); // Call the createScene function
+    self.createScene(); // Call the createScene function
 
     // Register a render loop to repeatedly render the scene
     self.engine.runRenderLoop(function () {
@@ -21,7 +24,9 @@ var babylon = new function() {
   };
 
   // Create the scene
-  this.createScene = function (world, robot) {
+  this.createScene = function () {
+    let world = self.world;
+    let robot = self.robot;
     var scene = new BABYLON.Scene(self.engine);
     var gravityVector = new BABYLON.Vector3(0,-98.1, 0);
     // var physicsPlugin = new BABYLON.CannonJSPlugin();

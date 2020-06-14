@@ -9,21 +9,44 @@ var main = new function() {
     self.$consoleBtn = $('.console .chevron');
     self.$consoleContent = $('.console .content');
     self.$runSim = $('.runSim');
+    self.$world = $('.world');
     self.$reset = $('.reset');
 
     self.$navs.click(self.tabClicked);
     self.$consoleBtn.click(self.toggleConsole);
     self.$console.on('transitionend', self.scrollConsoleToBottom);
     self.$runSim.click(self.runSim);
+    self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
 
     self.loadPythonEditor();
   };
 
+  // Select world map
+  this.selectWorld = function() {
+    let $select = $('<select></select>');
+    worlds.forEach(function(world){
+      let $world = $('<option></option>');
+      $world.prop('value', world.name);
+      $world.text(world.shortDescription);
+      $select.append($world);
+    });
+
+    let options = {
+      title: 'Select World',
+      message: $select
+    };
+    confirmDialog(options, function(){
+      console.log($select.val());
+      babylon.world = worlds.find(world => world.name == $select.val());
+      self.resetSim();
+    });
+  };
+
   // Reset simulator
   this.resetSim = function() {
-    babylon.createScene(world, robot);
-  }
+    babylon.createScene();
+  };
 
   // Run the simulator
   this.runSim = function() {

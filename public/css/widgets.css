@@ -1,0 +1,101 @@
+@keyframes show {
+  0% {
+    transform: translateY(100vh) scaleX(0.1); }
+  100% {
+    transform: translateY(0) scaleX(1); } }
+@keyframes hide {
+  from {
+    transform: scale(1, 1); }
+  to {
+    transform: scale(0, 0); } }
+@keyframes toast {
+  0% {
+    transform: scale(0, 0); }
+  10% {
+    transform: scale(1, 1); }
+  90% {
+    transform: scale(1, 1); }
+  100% {
+    transform: scale(0, 0); } }
+.animatedHide {
+  animation-name: hide !important; }
+
+#activitySpinner {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  #activitySpinner > i {
+    font-size: 200px;
+    color: white; }
+
+.toastMsg {
+  z-index: 2000;
+  animation-name: toast;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  position: fixed;
+  font-size: 130%;
+  width: 60%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 3%;
+  border-radius: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  text-align: center;
+  box-shadow: 5px 5px 10px black;
+  background: grey;
+  color: white; }
+
+.dialogScreen {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 120%;
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+  .dialogScreen > .dialogWindow {
+    animation-name: show;
+    animation-duration: 0.1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    min-width: 30%;
+    top: 20%;
+    position: absolute;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
+    font-size: 130%;
+    max-height: 80%;
+    overflow-y: auto;
+    margin: auto; }
+    .dialogScreen > .dialogWindow > .dialogTitle {
+      padding: 2% 5%;
+      font-size: 130%;
+      font-weight: bold; }
+    .dialogScreen > .dialogWindow > .dialogBody {
+      padding: 0% 5%; }
+    .dialogScreen > .dialogWindow > .dialogButtonsRow {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      padding: 2% 5%; }
+      .dialogScreen > .dialogWindow > .dialogButtonsRow > button {
+        margin-left: 5px;
+        font-size: 100%; }

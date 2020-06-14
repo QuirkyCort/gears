@@ -1,5 +1,9 @@
-var world = new function() {
+var world_FLL = new function() {
   var self = this;
+
+  this.name = 'fll';
+  this.shortDescription = 'FLL / WRO Table';
+
   this.options = {
     image: 'textures/maps/WRO-2019-Regular-Junior.jpg',
     length: 236.2,
@@ -36,9 +40,9 @@ var world = new function() {
       faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
 
       var boxOptions = {
-          width: options.length,
+          width: options.width,
           height: 10,
-          depth: options.width,
+          depth: options.length,
           faceUV: faceUV
       };
 
@@ -46,6 +50,7 @@ var world = new function() {
       ground.material = groundMat;
       ground.receiveShadows = true;
       ground.position.y = -5;
+      ground.rotation.y = Math.PI / 2;
 
       var wallMat = new BABYLON.StandardMaterial('wallMat', scene);
       wallMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
@@ -131,4 +136,9 @@ var world = new function() {
 }
 
 // Init class
-world.init();
+world_FLL.init();
+
+if (typeof worlds == 'undefined') {
+  var worlds = [];
+}
+worlds.push(world_FLL);
