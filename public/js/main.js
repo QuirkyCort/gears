@@ -29,6 +29,9 @@ var main = new function() {
       let $world = $('<option></option>');
       $world.prop('value', world.name);
       $world.text(world.shortDescription);
+      if (world.name == babylon.world.name) {
+        $world.attr('selected', 'selected');
+      }
       $select.append($world);
     });
 

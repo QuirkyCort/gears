@@ -95,7 +95,8 @@
       display: flex;
       justify-content: flex-end;
       width: 100%;
-      padding: 2% 5%; }
+      padding: 2% 5%;
+      box-sizing: border-box; }
       .dialogScreen > .dialogWindow > .dialogButtonsRow > button {
         margin-left: 5px;
         font-size: 100%; }
