@@ -356,11 +356,11 @@ class Motor:
 
   @property
   def stop_action(self):
-    return self._stop_action
+    return self.wheel.stop_action()
 
   @stop_action.setter
   def stop_action(self, value):
-    self._stop_action = value
+    self.wheel.stop_action(value)
     return 0
 
   @property
@@ -688,6 +688,9 @@ class MotorSet:
 
   def off(self, motors=None, brake=True):
     motors = motors if motors is not None else self.motors.values()
+
+    for motor in motors:
+      motor.stop_action = motor.STOP_ACTION_HOLD if brake else motor.STOP_ACTION_COAST
 
     for motor in motors:
       motor.stop()

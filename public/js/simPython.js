@@ -53,6 +53,15 @@ var $builtinmodule = function(name) {
       self.wheel.command = command.v;
     });
 
+    $loc.stop_action = new Sk.builtin.func(function(self, stop_action) {
+      if (typeof stop_action != 'undefined') {
+        self.wheel.stop_action = stop_action.v;
+      } else {
+        return self.wheel.stop_action;
+      }
+    });
+
+
     $loc.state = new Sk.builtin.func(function(self) {
       return self.wheel.state;
     });

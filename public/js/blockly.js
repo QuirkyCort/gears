@@ -113,7 +113,13 @@ var blockly = new function() {
 
   // Stop
   this.pythonStop = function(block) {
-    var code = 'steering_drive.stop()\n';
+    var dropdown_stop_action = block.getFieldValue('stop_action');
+    if (dropdown_stop_action == 'HOLD') {
+      var brake = 'True';
+    } else {
+      var brake = 'False';
+    }
+    var code = 'steering_drive.stop(brake=' + brake + ')\n';
     return code;
   };
 

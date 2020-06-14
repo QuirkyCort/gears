@@ -8,7 +8,9 @@
         </shadow>
       </value>
     </block>
-    <block type="stop"></block>
+    <block type="stop">
+      <field name="stop_action">HOLD</field>
+    </block>
     <block type="move_steering">
       <value name="steering">
         <shadow type="math_number">

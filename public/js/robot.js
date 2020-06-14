@@ -3,15 +3,28 @@ function Wheel() {
 
   this.mesh = null;
   this.joint = null;
+
+  this.STOP_ACTION_BRAKE_FORCE = 1000;
+  this.STOP_ACTION_COAST_FORCE = 100;
+  this.STOP_ACTION_HOLD_FORCE = 1500;
+  this.MOTOR_POWER_DEFAULT = 1500;
+
   this.speed_sp = 1050;
+  this.stop_action = 'hold';
 
   this.runForever = function() {
     let speed = -self.speed_sp / 180 * Math.PI;
-    self.joint.setMotor(speed);
+    self.joint.setMotor(speed, self.MOTOR_POWER_DEFAULT);
   }
 
   this.stop = function() {
-    self.joint.setMotor(0);
+    if (self.stop_action == 'hold') {
+      self.joint.setMotor(0, self.STOP_ACTION_HOLD_FORCE);
+    } else if (self.stop_action == 'brake') {
+      self.joint.setMotor(0, self.STOP_ACTION_BRAKE_FORCE);
+    } else {
+      self.joint.setMotor(0, self.STOP_ACTION_COAST_FORCE);
+    }
   }
 }
 
