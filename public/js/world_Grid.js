@@ -2,7 +2,7 @@ var world_Grid = new function() {
   var self = this;
 
   this.name = 'grid';
-  this.shortDescription = 'Grid Map';
+  this.shortDescription = 'Grid Map (20cm)';
 
   this.options = {
     image: 'textures/maps/grid.png',
