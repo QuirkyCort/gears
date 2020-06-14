@@ -28,7 +28,7 @@ var skulpt = new function() {
       },
       function(err) {
         self.running = false;
-        main.consoleWrite('<span class="error">' + err.toString() + '</span>\n');
+        main.consoleWriteErrors(err.toString());
         // sim.stopAnimation();
       }
     );

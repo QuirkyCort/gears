@@ -98,6 +98,27 @@ nav {
   top: 2em;
   left: 2em;
   font-size: 200%;
+  cursor: pointer;
+}
+
+.world {
+  position: absolute;
+  color: white;
+  opacity: 0.8;
+  top: 2em;
+  left: 4em;
+  font-size: 200%;
+  cursor: pointer;
+}
+
+.reset {
+  position: absolute;
+  color: white;
+  opacity: 0.8;
+  top: 2em;
+  left: 8em;
+  font-size: 200%;
+  cursor: pointer;
 }
 
 .console {

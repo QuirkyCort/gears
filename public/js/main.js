@@ -9,32 +9,49 @@ var main = new function() {
     self.$consoleBtn = $('.console .chevron');
     self.$consoleContent = $('.console .content');
     self.$runSim = $('.runSim');
+    self.$reset = $('.reset');
 
     self.$navs.click(self.tabClicked);
     self.$consoleBtn.click(self.toggleConsole);
     self.$console.on('transitionend', self.scrollConsoleToBottom);
     self.$runSim.click(self.runSim);
+    self.$reset.click(self.resetSim);
 
     self.loadPythonEditor();
   };
 
+  // Reset simulator
+  this.resetSim = function() {
+    babylon.createScene(world, robot);
+  }
 
-  //
+  // Run the simulator
   this.runSim = function() {
     self.loadPython();
     skulpt.runPython();
   };
 
+  // Strip html tags
+  this.stripHTML = function(text) {
+    const regex = /</g;
+    const regex2 = />/g;
+    return text.replace(regex, '&lt;').replace(regex2, '&gt;');
+  }
 
   // write to console
   this.consoleWrite = function(text) {
-    const regex = /</g;
-    const regex2 = />/g;
-    text = text.replace(regex, '&lt;').replace(regex2, '&gt;');
-    text = main.$consoleContent.html() + text;
+    text = main.$consoleContent.html() + self.stripHTML(text);
     main.$consoleContent.html(text);
     self.scrollConsoleToBottom();
   };
+
+  // write to console
+  this.consoleWriteErrors = function(text) {
+    text = '<span class="error">' + self.stripHTML(text) + '</span>\n';
+    text = main.$consoleContent.html() + text;
+    main.$consoleContent.html(text);
+    self.scrollConsoleToBottom();
+  }
 
   // Toggle opening and closing of console
   this.toggleConsole = function() {

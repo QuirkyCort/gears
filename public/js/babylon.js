@@ -6,7 +6,7 @@ var babylon = new function() {
     self.canvas = document.getElementById('renderCanvas');
     self.engine = new BABYLON.Engine(self.canvas, true);
 
-    self.scene = self.createScene(world, robot); // Call the createScene function
+    self.createScene(world, robot); // Call the createScene function
 
     // Register a render loop to repeatedly render the scene
     self.engine.runRenderLoop(function () {
@@ -64,7 +64,7 @@ var babylon = new function() {
     });
 
     // Done
-    return scene;
+    self.scene = scene;
   };
 
   // Render loop
