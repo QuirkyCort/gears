@@ -1,4 +1,4 @@
-function Wheel() {
+function Wheel(scene, options) {
   var self = this;
 
   this.mesh = null;
@@ -12,10 +12,18 @@ function Wheel() {
   this.speed_sp = 1050;
   this.stop_action = 'hold';
 
+  this.position = 0;
+
+  this.rotation2PI = 0;
+  this.rotationRad = 0;
+
+  //
+  // Accessed by through Python
+  //
   this.runForever = function() {
     let speed = -self.speed_sp / 180 * Math.PI;
     self.joint.setMotor(speed, self.MOTOR_POWER_DEFAULT);
-  }
+  };
 
   this.stop = function() {
     if (self.stop_action == 'hold') {
@@ -25,7 +33,94 @@ function Wheel() {
     } else {
       self.joint.setMotor(0, self.STOP_ACTION_COAST_FORCE);
     }
-  }
+  };
+
+  //
+  // Used in JS
+  //
+  this.load = function(pos, startPos, body, pivot) {
+    var wheelMat = new BABYLON.StandardMaterial('wheel', scene);
+    var wheelTexture = new BABYLON.Texture('textures/robot/wheel.png', scene);
+    wheelMat.diffuseTexture = wheelTexture;
+    wheelMat.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+    var faceUV = new Array(3);
+    faceUV[0] = new BABYLON.Vector4(0, 0, 200/828, 1);
+    faceUV[1] = new BABYLON.Vector4(200/828, 3/4, 1, 1);
+    faceUV[2] = new BABYLON.Vector4(0, 0, 200/828, 1);
+    let wheelOptions = {
+      height: options.wheelWidth,
+      diameter: options.wheelDiameter,
+      tessellation: 48,
+      faceUV: faceUV
+    };
+
+    self.mesh = BABYLON.MeshBuilder.CreateCylinder("wheel", wheelOptions, scene);
+    self.mesh.material = wheelMat;
+    self.mesh.rotation.z = -Math.PI / 2;
+    self.mesh.position.x = pos[0];
+    self.mesh.position.y = pos[1];
+    self.mesh.position.z = pos[2];
+    scene.shadowGenerator.addShadowCaster(self.mesh);
+    self.mesh.position.addInPlace(startPos);
+    self.s = new BABYLON.Quaternion.FromEulerAngles(0,0,self.mesh.rotation.z);
+
+    self.mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.mesh,
+      BABYLON.PhysicsImpostor.CylinderImpostor,
+      {
+        mass: options.wheelMass,
+        restitution: 0.8,
+        friction: options.wheelFriction
+      },
+      scene
+    );
+
+    self.joint = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
+      mainPivot: pivot,
+      connectedPivot: new BABYLON.Vector3(0, 0, 0),
+      mainAxis: new BABYLON.Vector3(1, 0, 0),
+      connectedAxis: new BABYLON.Vector3(0, 1, 0),
+    });
+    body.physicsImpostor.addJoint(self.mesh.physicsImpostor, self.joint);
+  };
+
+  this.s = null;
+
+  this.render = function(delta) {
+    let e = self.mesh.rotationQuaternion;
+    let rot = self.getRotation(this.s, e) / Math.PI * 180;
+    if (! isNaN(rot)) {
+      self.position += rot;
+    }
+    // self.s = e.clone();
+  };
+
+  this.getRotation = function(s, e) {
+    r = e.multiply(BABYLON.Quaternion.Inverse(s));
+
+    var axis0 = new BABYLON.Quaternion(0,1,0,0);
+    var axis1 = s.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(s));
+    var axis2 = e.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(e));
+    
+    var v1 = new BABYLON.Vector3(axis1.x, axis1.y, axis1.z);
+    var v2 = new BABYLON.Vector3(axis2.x, axis2.y, axis2.z);
+    v1.normalize();
+    v2.normalize();
+    
+    var q1_xyz = v1.cross(v2);
+    if (q1_xyz.length() < 0.0001) {
+      var d = 2 * Math.acos(r.w);
+    } else {
+      var q1_w = 1 + BABYLON.Vector3.Dot(v1, v2);
+      var q1 = new BABYLON.Quaternion(q1_xyz.x, q1_xyz.y, q1_xyz.z, q1_w);
+      q1.normalize();  
+      var q2 = BABYLON.Quaternion.Inverse(r).multiply(q1);
+      var d = 2 * Math.acos(q2.w);
+    }    
+console.log(d);
+    return d;
+  };
 }
 
 var robot = new function() {
@@ -50,11 +145,9 @@ var robot = new function() {
     casterFriction: 0 // Warning: No effect due to parenting
   };
 
-  this.robot = {
-    body: null,
-    leftWheel: new Wheel(),
-    rightWheel: new Wheel()
-  }
+  this.body = null;
+  this.leftWheel = null;
+  this.rightWheel = null;
 
   // Run on page load
   this.init = function() {
@@ -82,7 +175,7 @@ var robot = new function() {
         depth: options.bodyLength
       }
       var body = BABYLON.MeshBuilder.CreateBox('body', bodyOptions, scene);
-      self.robot.body = body;
+      self.body = body;
       body.material = bodyMat;
       body.visibility = 1;
       body.position.x = 0;
@@ -101,41 +194,6 @@ var robot = new function() {
       caster.position.z = -(options.bodyLength / 2) + (options.wheelDiameter / 2);
       scene.shadowGenerator.addShadowCaster(caster);
       caster.parent = body;
-
-      // Wheels
-      var wheelMat = new BABYLON.StandardMaterial('wheel', scene);
-      var wheelTexture = new BABYLON.Texture('textures/robot/wheel.png', scene);
-      wheelMat.diffuseTexture = wheelTexture;
-      wheelMat.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
-
-      var faceUV = new Array(3);
-      faceUV[0] = new BABYLON.Vector4(0, 0, 200/828, 1);
-      faceUV[1] = new BABYLON.Vector4(200/828, 3/4, 1, 1);
-      faceUV[2] = new BABYLON.Vector4(0, 0, 200/828, 1);
-      let wheelOptions = {
-        height: options.wheelWidth,
-        diameter: options.wheelDiameter,
-        tessellation: 48,
-        faceUV: faceUV
-      };
-
-      var wheelLeft = BABYLON.MeshBuilder.CreateCylinder("wheelLeft", wheelOptions, scene);
-      self.robot.leftWheel.mesh = wheelLeft;
-      wheelLeft.material = wheelMat;
-      wheelLeft.rotation.z = -Math.PI / 2;
-      wheelLeft.position.x = -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset;
-      wheelLeft.position.y = options.wheelDiameter / 2;
-      scene.shadowGenerator.addShadowCaster(wheelLeft);
-      wheelLeft.position.addInPlace(startPos);
-
-      var wheelRight = BABYLON.MeshBuilder.CreateCylinder("wheelRight", wheelOptions, scene);
-      self.robot.rightWheel.mesh = wheelRight;
-      wheelRight.material = wheelMat;
-      wheelRight.rotation.z = -Math.PI / 2;
-      wheelRight.position.x = (options.wheelWidth + options.bodyWidth) / 2 + options.wheelToBodyOffset;
-      wheelRight.position.y = options.wheelDiameter / 2;
-      scene.shadowGenerator.addShadowCaster(wheelRight);
-      wheelRight.position.addInPlace(startPos);
 
       // Add Physics
       caster.physicsImpostor = new BABYLON.PhysicsImpostor(
@@ -158,55 +216,48 @@ var robot = new function() {
         },
         scene
       );
-      wheelLeft.physicsImpostor = new BABYLON.PhysicsImpostor(
-        wheelLeft,
-        BABYLON.PhysicsImpostor.CylinderImpostor,
-        {
-          mass: options.wheelMass,
-          restitution: 0.8,
-          friction: options.wheelFriction
-        },
-        scene
-      );
-      wheelRight.physicsImpostor = new BABYLON.PhysicsImpostor(
-        wheelRight,
-        BABYLON.PhysicsImpostor.CylinderImpostor,
-        {
-          mass: options.wheelMass,
-          restitution: 0.8,
-          friction: options.wheelFriction
-        },
-        scene
-      );
 
-      var jointLeftWheel = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
-        mainPivot: new BABYLON.Vector3(
+      // Wheels
+      self.leftWheel = new Wheel(scene, options);
+      self.rightWheel = new Wheel(scene, options);
+      self.leftWheel.load(
+        [
+          -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset, 
+          options.wheelDiameter / 2, 
+          0
+        ],
+        startPos,
+        body,
+        new BABYLON.Vector3(
           -(options.bodyWidth / 2) - options.wheelToBodyOffset - options.wheelWidth / 2,
           -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
           options.bodyLength / 2 - options.bodyEdgeToWheelCenterZ
-        ),
-        connectedPivot: new BABYLON.Vector3(0, 0, 0),
-        mainAxis: new BABYLON.Vector3(1, 0, 0),
-        connectedAxis: new BABYLON.Vector3(0, 1, 0),
-      });
-      body.physicsImpostor.addJoint(wheelLeft.physicsImpostor, jointLeftWheel);
-      self.robot.leftWheel.joint = jointLeftWheel;
-
-      var jointRightWheel = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
-        mainPivot: new BABYLON.Vector3(
+        )
+      );
+      self.rightWheel.load(
+        [
+          (options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset, 
+          options.wheelDiameter / 2, 
+          0
+        ],
+        startPos,
+        body,
+        new BABYLON.Vector3(
           (options.bodyWidth / 2) + options.wheelToBodyOffset + options.wheelWidth / 2,
           -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
           options.bodyLength / 2 - options.bodyEdgeToWheelCenterZ
-        ),
-        connectedPivot: new BABYLON.Vector3(0, 0, 0),
-        mainAxis: new BABYLON.Vector3(1, 0, 0),
-        connectedAxis: new BABYLON.Vector3(0, 1, 0),
-      });
-      body.physicsImpostor.addJoint(wheelRight.physicsImpostor, jointRightWheel);
-      self.robot.rightWheel.joint = jointRightWheel;
+        )
+      );
+      
 
       resolve();
     });
+  };
+
+  // Render loop
+  this.render = function(delta) {
+    self.leftWheel.render(delta);
+    self.rightWheel.render(delta);
   };
 }
 

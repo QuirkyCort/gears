@@ -56,7 +56,7 @@ var babylon = new function() {
     // scene.shadowGenerator.depthScale = 50;
 
     // Add meshes in the scene
-    self.engine.displayLoadingUI();
+    // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
     Promise.all([world.load(scene), robot.load(scene, world.robotStart)]).then(function() {
       scene.actionManager = new BABYLON.ActionManager(scene);
       scene.actionManager.registerAction(
@@ -66,7 +66,7 @@ var babylon = new function() {
           self.render
         )
       );
-      self.engine.hideLoadingUI();
+      // self.engine.hideLoadingUI();
     });
 
     // Done
@@ -77,6 +77,7 @@ var babylon = new function() {
   this.render = function() {
     var delta = self.scene.getEngine().getDeltaTime();
 
+    self.robot.render(delta);
   };
 }
 
