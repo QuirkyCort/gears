@@ -14,8 +14,10 @@ function Wheel(scene, options) {
 
   this.position = 0;
 
-  this.rotation2PI = 0;
-  this.rotationRad = 0;
+  this.rotationRounds = 0;
+  this.prevRotation = 0;
+  this.s = null;
+
 
   //
   // Accessed by through Python
@@ -85,15 +87,23 @@ function Wheel(scene, options) {
     body.physicsImpostor.addJoint(self.mesh.physicsImpostor, self.joint);
   };
 
-  this.s = null;
-
   this.render = function(delta) {
+    self.updatePosition();
+  };
+
+  this.updatePosition = function() {
     let e = self.mesh.rotationQuaternion;
     let rot = self.getRotation(this.s, e) / Math.PI * 180;
+
     if (! isNaN(rot)) {
-      self.position += rot;
+      if (rot - self.prevRotation > 180) {
+        self.rotationRounds -= 1;
+      } else if (rot - self.prevRotation < -180) {
+        self.rotationRounds += 1;
+      }
+      self.prevRotation = rot;
+      self.position = self.rotationRounds * 360 + rot;
     }
-    // self.s = e.clone();
   };
 
   this.getRotation = function(s, e) {
@@ -101,25 +111,38 @@ function Wheel(scene, options) {
 
     var axis0 = new BABYLON.Quaternion(0,1,0,0);
     var axis1 = s.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(s));
-    var axis2 = e.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(e));
-    
+    axis2 = e.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(e));
+
     var v1 = new BABYLON.Vector3(axis1.x, axis1.y, axis1.z);
     var v2 = new BABYLON.Vector3(axis2.x, axis2.y, axis2.z);
     v1.normalize();
     v2.normalize();
-    
+
     var q1_xyz = v1.cross(v2);
-    if (q1_xyz.length() < 0.0001) {
-      var d = 2 * Math.acos(r.w);
+    q1_dot = BABYLON.Vector3.Dot(v1, v2);
+    var q1_w = 1 + q1_dot;
+    q1 = new BABYLON.Quaternion(q1_xyz.x, q1_xyz.y, q1_xyz.z, q1_w);
+    q1.normalize();
+    q2 = BABYLON.Quaternion.Inverse(r).multiply(q1);
+    q2.normalize();
+    var d = 2 * Math.acos(q2.w);
+
+    var q2_xyz = new BABYLON.Vector3(q2.x, q2.y, q2.z);
+    q2_xyz.normalize();
+
+    var flip = false;
+    if (BABYLON.Vector3.Dot(q2_xyz, v2) > 0) {
+      flip = !flip;
+    }
+    if (q1_dot < 0) {
+      flip = !flip;
+    }
+
+    if (flip) {
+      return 2 * Math.PI - d;
     } else {
-      var q1_w = 1 + BABYLON.Vector3.Dot(v1, v2);
-      var q1 = new BABYLON.Quaternion(q1_xyz.x, q1_xyz.y, q1_xyz.z, q1_w);
-      q1.normalize();  
-      var q2 = BABYLON.Quaternion.Inverse(r).multiply(q1);
-      var d = 2 * Math.acos(q2.w);
-    }    
-console.log(d);
-    return d;
+      return d;
+    }
   };
 }
 
@@ -222,8 +245,8 @@ var robot = new function() {
       self.rightWheel = new Wheel(scene, options);
       self.leftWheel.load(
         [
-          -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset, 
-          options.wheelDiameter / 2, 
+          -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset,
+          options.wheelDiameter / 2,
           0
         ],
         startPos,
@@ -236,8 +259,8 @@ var robot = new function() {
       );
       self.rightWheel.load(
         [
-          (options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset, 
-          options.wheelDiameter / 2, 
+          (options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset,
+          options.wheelDiameter / 2,
           0
         ],
         startPos,
@@ -248,7 +271,7 @@ var robot = new function() {
           options.bodyLength / 2 - options.bodyEdgeToWheelCenterZ
         )
       );
-      
+
 
       resolve();
     });
