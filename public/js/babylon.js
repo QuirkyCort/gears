@@ -38,6 +38,8 @@ var babylon = new function() {
     var camera = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2, Math.PI / 5, 200, new BABYLON.Vector3(0, 0, 0), scene);
     camera.wheelPrecision = 5;
     camera.panningSensibility = 100;
+    camera.angularSensibilityX = 2000;
+    camera.angularSensibilityY = 2000;
     camera.attachControl(self.canvas, true);
 
     // Add lights to the scene
