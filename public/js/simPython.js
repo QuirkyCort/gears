@@ -13,9 +13,9 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       if (address.v == 'outB') {
-        self.wheel = robot.robot.leftWheel;
+        self.wheel = robot.leftWheel;
       } else if (address.v == 'outC') {
-        self.wheel = robot.robot.rightWheel;
+        self.wheel = robot.rightWheel;
       } else {
         throw new Sk.builtin.TypeError('No motor connected to ' + String(address.v));
       }
