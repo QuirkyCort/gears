@@ -8,9 +8,6 @@
         </shadow>
       </value>
     </block>
-    <block type="stop">
-      <field name="stop_action">HOLD</field>
-    </block>
     <block type="move_steering">
       <value name="steering">
         <shadow type="math_number">
@@ -22,6 +19,27 @@
           <field name="NUM">20</field>
         </shadow>
       </value>
+    </block>
+    <block type="move_tank">
+      <value name="left">
+        <shadow type="math_number">
+          <field name="NUM">20</field>
+        </shadow>
+      </value>
+      <value name="right">
+        <shadow type="math_number">
+          <field name="NUM">20</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="stop">
+      <field name="stop_action">HOLD</field>
+    </block>
+    <block type="position">
+      <field name="motor">LEFT</field>
+    </block>
+    <block type="reset_motor">
+      <field name="motor">BOTH</field>
     </block>
   </category>
   <category name="Control" colour="#9fa55b">

@@ -12,9 +12,9 @@ var $builtinmodule = function(name) {
     var self = this;
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
-      if (address.v == 'outB') {
+      if (address.v == 'outA') {
         self.wheel = robot.leftWheel;
-      } else if (address.v == 'outC') {
+      } else if (address.v == 'outB') {
         self.wheel = robot.rightWheel;
       } else {
         throw new Sk.builtin.TypeError('No motor connected to ' + String(address.v));
@@ -82,11 +82,13 @@ var $builtinmodule = function(name) {
       }
     });
 
-    $loc.pos = new Sk.builtin.func(function(self, pos) {
+    $loc.position = new Sk.builtin.func(function(self, pos) {
       if (typeof pos != 'undefined') {
-        self.wheel.pos = pos.v;
+        self.wheel.positionAdjustment += self.wheel.position - pos.v;
+        self.wheel.position = pos.v;
+        self.wheel.prevPosition = pos.v % 360;
       } else {
-        return self.wheel.pos;
+        return self.wheel.position;
       }
     });
 

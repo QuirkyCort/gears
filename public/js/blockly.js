@@ -64,13 +64,16 @@ var blockly = new function() {
     Blockly.Python['stop'] = self.pythonStop;
     Blockly.Python['move_steering'] = self.pythonMoveSteering;
     Blockly.Python['exit'] = self.pythonExit;
+    Blockly.Python['position'] = self.pythonPosition;
+    Blockly.Python['reset_motor'] = self.pythonResetMotor;
+    Blockly.Python['move_tank'] = self.pythonMoveTank;
   };
 
   // Generate python code
   this.genPython = function() {
     let code =
       'import time\n' +
-      'from ev3dev2.motor import MoveSteering, OUTPUT_B, OUTPUT_C\n\n';
+      'from ev3dev2.motor import *\n\n';
     code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
     return code
   };
@@ -100,7 +103,11 @@ var blockly = new function() {
 
   // Start
   this.pythonStart = function(block) {
-    var code = 'steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)\n\n';
+    var code =
+      'left_motor = LargeMotor(OUTPUT_A)\n' +
+      'right_motor = LargeMotor(OUTPUT_B)\n' +
+      'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
+      'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n\n';
     return code;
   };
 
@@ -134,6 +141,42 @@ var blockly = new function() {
   // Exit
   this.pythonExit = function(block) {
     var code = 'exit()\n';
+    return code;
+  };
+
+  // get position
+  this.pythonPosition = function(block) {
+    var dropdown_motor = block.getFieldValue('motor');
+    if (dropdown_motor == 'LEFT') {
+      var code = 'left_motor.position';
+    } else {
+      var code = 'right_motor.position';
+    }
+
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  // reset position
+  this.pythonResetMotor = function(block) {
+    var dropdown_motor = block.getFieldValue('motor');
+    if (dropdown_motor == 'LEFT') {
+      var code = 'left_motor.position = 0\n';
+    } else if (dropdown_motor == 'RIGHT') {
+      var code = 'right_motor.position = 0\n';
+    } else {
+      var code =
+        'left_motor.position = 0\n' +
+        'right_motor.position = 0\n';
+    }
+
+    return code;
+  };
+
+  // move tank
+  this.pythonMoveTank = function(block) {
+    var value_left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
+    var value_right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
+    var code = 'tank_drive.on(' + value_left + ', ' + value_right + ')\n';
     return code;
   };
 }

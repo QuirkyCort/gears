@@ -1,5 +1,8 @@
 import simPython, time
 
+# Needed to prevent loops from locking up the javascript thread
+SENSOR_DELAY = 0.01
+
 WAIT_RUNNING_TIMEOUT = 100
 
 OUTPUT_A = 'outA'
@@ -257,11 +260,12 @@ class Motor:
 
   @property
   def position(self):
-    return self.wheel.pos()
+    time.sleep(SENSOR_DELAY)
+    return int(self.wheel.position())
 
   @position.setter
   def position(self, value):
-    self.wheel.pos(int(value))
+    self.wheel.position(int(value))
     return 0
 
   @property

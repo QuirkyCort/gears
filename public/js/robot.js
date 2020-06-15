@@ -9,25 +9,38 @@ function Wheel(scene, options) {
   this.STOP_ACTION_HOLD_FORCE = 1500;
   this.MOTOR_POWER_DEFAULT = 1500;
 
+  this.modes = {
+    STOP: 1,
+    RUN: 2,
+    RUN_TO_POS: 2,
+    RUN_TIL_TIME: 3
+  };
+
   this.speed_sp = 1050;
   this.stop_action = 'hold';
-
   this.position = 0;
 
+  this.mode = this.modes.STOP;
+  this.actualPosition = 0;
+  this.positionAdjustment = 0;
   this.rotationRounds = 0;
   this.prevRotation = 0;
+  this.angularVelocity = 0;
   this.s = null;
-
 
   //
   // Accessed by through Python
   //
   this.runForever = function() {
+    self.mode = self.modes.RUN;
+
     let speed = -self.speed_sp / 180 * Math.PI;
     self.joint.setMotor(speed, self.MOTOR_POWER_DEFAULT);
   };
 
   this.stop = function() {
+    self.mode = self.modes.STOP;
+
     if (self.stop_action == 'hold') {
       self.joint.setMotor(0, self.STOP_ACTION_HOLD_FORCE);
     } else if (self.stop_action == 'brake') {
@@ -91,7 +104,7 @@ function Wheel(scene, options) {
     self.updatePosition();
   };
 
-  this.updatePosition = function() {
+  this.updatePosition = function(delta) {
     let e = self.mesh.rotationQuaternion;
     let rot = self.getRotation(this.s, e) / Math.PI * 180;
 
@@ -102,7 +115,11 @@ function Wheel(scene, options) {
         self.rotationRounds += 1;
       }
       self.prevRotation = rot;
-      self.position = self.rotationRounds * 360 + rot;
+
+      let position = self.rotationRounds * 360 + rot;
+      self.angularVelocity = (position - self.actualPosition) / delta * 1000;
+      self.actualPosition = position;
+      self.position = position - self.positionAdjustment;
     }
   };
 
@@ -271,6 +288,8 @@ var robot = new function() {
           options.bodyLength / 2 - options.bodyEdgeToWheelCenterZ
         )
       );
+      self.leftWheel.stop();
+      self.rightWheel.stop();
 
 
       resolve();
