@@ -17,6 +17,8 @@ var blockly = new function() {
     oneBasedIndex : true
   };
 
+  this.unsaved = false;
+
   // Run on page load
   this.init = function() {
     Blockly.geras.Renderer.prototype.makeConstants_ = function() {
@@ -32,7 +34,7 @@ var blockly = new function() {
 
   // Load toolbox
   this.loadToolBox = function() {
-    fetch('toolbox.xml')
+    return fetch('toolbox.xml')
       .then(response => response.text())
       .then(function(response) {
         var xml = (new DOMParser()).parseFromString(response, "text/xml");
@@ -43,16 +45,46 @@ var blockly = new function() {
         Blockly.Xml.domToWorkspace(workspaceBlocks, self.workspace);
 
         self.workspace.addChangeListener(Blockly.Events.disableOrphans);
+        self.loadLocalStorage();
+        setTimeout(function(){
+          self.workspace.addChangeListener(self.checkModified);
+        }, 3000);
       });
   };
 
   // Load custom blocks
   this.loadCustomBlocks = function() {
-    fetch('customBlocks.json')
+    return fetch('customBlocks.json')
       .then(response => response.json())
       .then(function(response) {
         Blockly.defineBlocksWithJsonArray(response);
       });
+  };
+
+  // Mark workspace as unsaved
+  this.checkModified = function(e) {
+    if (e.type != Blockly.Events.UI) {
+      console.log('modified');
+      self.unsaved = true;
+    }
+  };
+
+  // Save to local storage
+  this.saveLocalStorage = function() {
+    if (blockly.workspace && self.unsaved) {
+      var xml = Blockly.Xml.workspaceToDom(blockly.workspace);
+      var xmlText = Blockly.Xml.domToText(xml);
+      localStorage.setItem('blocklyXML', xmlText);
+    }
+  };
+
+  // Load from local storage
+  this.loadLocalStorage = function() {
+    var xmlText = localStorage.getItem('blocklyXML');
+    if (xmlText) {
+      var xml = Blockly.Xml.textToDom(xmlText);
+      Blockly.Xml.domToWorkspace(xml, blockly.workspace);
+    }
   };
 
   // Load Python generators

@@ -31,12 +31,14 @@ main {
 
 nav {
   margin-top: 0.5em;
+  display: flex;
+  border-bottom: solid 1px #bbbbbb;
+  justify-content: space-between;
 
   ul {
     display: flex;
     padding-left: 5px;
     margin: 0;
-    border-bottom: solid 1px #bbbbbb;
 
     li {
       display: block;
@@ -61,6 +63,16 @@ nav {
       color: #4994FB;
       margin-top: -5px;
       font-size: 110%;
+    }
+  }
+
+  .panelControlsArea {
+    .panelControls {
+      display: none;
+    }
+
+    .panelControls.active {
+      display: block;
     }
   }
 }
