@@ -1,10 +1,8 @@
-var main = new function() {
+var simPanel = new function() {
   var self = this;
 
   // Run on page load
   this.init = function() {
-    self.$navs = $('nav li');
-    self.$panels = $('.panels .panel');
     self.$console = $('.console');
     self.$consoleBtn = $('.console .chevron');
     self.$consoleContent = $('.console .content');
@@ -12,14 +10,11 @@ var main = new function() {
     self.$world = $('.world');
     self.$reset = $('.reset');
 
-    self.$navs.click(self.tabClicked);
     self.$consoleBtn.click(self.toggleConsole);
     self.$console.on('transitionend', self.scrollConsoleToBottom);
     self.$runSim.click(self.runSim);
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
-
-    self.loadPythonEditor();
   };
 
   // Select world map
@@ -46,16 +41,16 @@ var main = new function() {
     });
   };
 
+  // Run the simulator
+  this.runSim = function() {
+    main.loadPython();
+    robot.reset();
+    skulpt.runPython();
+  };
+
   // Reset simulator
   this.resetSim = function() {
     babylon.createScene();
-  };
-
-  // Run the simulator
-  this.runSim = function() {
-    self.loadPython();
-    robot.reset();
-    skulpt.runPython();
   };
 
   // Strip html tags
@@ -90,6 +85,31 @@ var main = new function() {
     var pre = self.$consoleContent[0];
     pre.scrollTop = pre.scrollHeight - pre.clientHeight
   };
+}
+
+var blocklyPanel = new function() {
+  var self = this;
+
+  // Run on page load
+  this.init = function() {
+    setInterval(blockly.saveLocalStorage, 5 * 1000);
+  };
+
+}
+
+var main = new function() {
+  var self = this;
+
+  // Run on page load
+  this.init = function() {
+    self.$navs = $('nav li');
+    self.$panelControls = $('.panelControlsArea .panelControls');
+    self.$panels = $('.panels .panel');
+
+    self.$navs.click(self.tabClicked);
+
+    self.loadPythonEditor();
+  };
 
   // Load ace editor
   this.loadPythonEditor = function() {
@@ -100,12 +120,16 @@ var main = new function() {
 
   // Clicked on tab
   this.tabClicked = function() {
+    var match = $(this)[0].id;
+
     self.$navs.removeClass('active');
     $(this).addClass('active');
 
     self.$panels.removeClass('active');
-    var match = $(this)[0].id;
     self.$panels.siblings('[aria-labelledby="' + match + '"]').addClass('active');
+
+    self.$panelControls.removeClass('active');
+    self.$panelControls.siblings('[aria-labelledby="' + match + '"]').addClass('active');
 
     if (match == 'navPython') {
       self.loadPython();
@@ -120,4 +144,6 @@ var main = new function() {
 }
 
 // Init class
+blocklyPanel.init();
+simPanel.init();
 main.init();
