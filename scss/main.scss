@@ -34,6 +34,7 @@ nav {
   display: flex;
   border-bottom: solid 1px #bbbbbb;
   justify-content: space-between;
+  align-items: center;
 
   ul {
     display: flex;
@@ -90,6 +91,43 @@ nav {
 
   .panel.active {
     z-index: 0;
+  }
+}
+
+.saveBlockly, .savePython {
+  font-weight: bold;
+  color: gray;
+  cursor: pointer;
+  user-select: none;
+  margin: 0 1em;
+}
+
+.saveBlockly.hide, .savePython.hide {
+  display: none;
+}
+
+.blocklyEditor {
+  .disable {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background: rgba(100, 100, 100, 0.6);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .enable {
+      font-size: 200%;
+      color: red;
+      border: solid 2px red;
+      padding: 0.5em;
+      border-radius: 0.5em;
+      cursor: pointer;
+      user-select: none;
+    }
   }
 }
 

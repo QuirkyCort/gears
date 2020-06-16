@@ -48,7 +48,7 @@ var blockly = new function() {
         self.loadLocalStorage();
         setTimeout(function(){
           self.workspace.addChangeListener(self.checkModified);
-        }, 3000);
+        }, 2000);
       });
   };
 
@@ -64,15 +64,17 @@ var blockly = new function() {
   // Mark workspace as unsaved
   this.checkModified = function(e) {
     if (e.type != Blockly.Events.UI) {
-      console.log('modified');
       self.unsaved = true;
+      blocklyPanel.showSave();
     }
   };
 
   // Save to local storage
   this.saveLocalStorage = function() {
-    if (blockly.workspace && self.unsaved) {
-      var xml = Blockly.Xml.workspaceToDom(blockly.workspace);
+    if (self.workspace && self.unsaved) {
+      self.unsaved = false;
+      blocklyPanel.hideSave();
+      var xml = Blockly.Xml.workspaceToDom(self.workspace);
       var xmlText = Blockly.Xml.domToText(xml);
       localStorage.setItem('blocklyXML', xmlText);
     }
@@ -83,7 +85,8 @@ var blockly = new function() {
     var xmlText = localStorage.getItem('blocklyXML');
     if (xmlText) {
       var xml = Blockly.Xml.textToDom(xmlText);
-      Blockly.Xml.domToWorkspace(xml, blockly.workspace);
+      self.workspace.clear()
+      Blockly.Xml.domToWorkspace(xml, self.workspace);
     }
   };
 

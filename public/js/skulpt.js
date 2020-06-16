@@ -12,7 +12,7 @@ var skulpt = new function() {
 
   // Run program
   this.runPython = function() {
-    var prog = main.editor.getValue();
+    var prog = pythonPanel.editor.getValue();
 
     var myPromise = Sk.misceval.asyncToPromise(
       function() {
