@@ -54,6 +54,7 @@ var main = new function() {
   // Run the simulator
   this.runSim = function() {
     self.loadPython();
+    robot.reset();
     skulpt.runPython();
   };
 

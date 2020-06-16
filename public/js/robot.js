@@ -50,6 +50,12 @@ function Wheel(scene, options) {
     }
   };
 
+  this.reset = function() {
+    self.positionAdjustment += self.position;
+    self.position = 0;
+    self.prevPosition = 0;
+  };
+
   //
   // Used in JS
   //
@@ -294,6 +300,12 @@ var robot = new function() {
 
       resolve();
     });
+  };
+
+  // Reset robot
+  this.reset = function() {
+    self.leftWheel.reset();
+    self.rightWheel.reset();
   };
 
   // Render loop
