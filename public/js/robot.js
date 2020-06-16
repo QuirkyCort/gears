@@ -124,11 +124,11 @@ function Wheel(scene, options) {
   };
 
   this.getRotation = function(s, e) {
-    r = e.multiply(BABYLON.Quaternion.Inverse(s));
+    var r = e.multiply(BABYLON.Quaternion.Inverse(s));
 
     var axis0 = new BABYLON.Quaternion(0,1,0,0);
     var axis1 = s.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(s));
-    axis2 = e.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(e));
+    var axis2 = e.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(e));
 
     var v1 = new BABYLON.Vector3(axis1.x, axis1.y, axis1.z);
     var v2 = new BABYLON.Vector3(axis2.x, axis2.y, axis2.z);
@@ -136,11 +136,11 @@ function Wheel(scene, options) {
     v2.normalize();
 
     var q1_xyz = v1.cross(v2);
-    q1_dot = BABYLON.Vector3.Dot(v1, v2);
+    var q1_dot = BABYLON.Vector3.Dot(v1, v2);
     var q1_w = 1 + q1_dot;
-    q1 = new BABYLON.Quaternion(q1_xyz.x, q1_xyz.y, q1_xyz.z, q1_w);
+    var q1 = new BABYLON.Quaternion(q1_xyz.x, q1_xyz.y, q1_xyz.z, q1_w);
     q1.normalize();
-    q2 = BABYLON.Quaternion.Inverse(r).multiply(q1);
+    var q2 = BABYLON.Quaternion.Inverse(r).multiply(q1);
     q2.normalize();
     var d = 2 * Math.acos(q2.w);
 
