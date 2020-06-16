@@ -48,14 +48,16 @@ var babylon = new function() {
     lightHemi.intensity = 0.5;
 
     var lightDir = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), scene);
+    lightDir.diffuse = new BABYLON.Color3(0.1, 1.2, 0.1);
     lightDir.position.y = 100;
     lightDir.position.x = 200;
     lightDir.intensity = 0.8;
 
     // Shadows
-    scene.shadowGenerator = new BABYLON.ShadowGenerator(1024, lightDir);
+    scene.shadowGenerator = new BABYLON.ShadowGenerator(512, lightDir);
     // scene.shadowGenerator.bias = 0.00005;
     // scene.shadowGenerator.depthScale = 50;
+    // scene._shadowsEnabled = false;
 
     // Add meshes in the scene
     // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
@@ -68,6 +70,26 @@ var babylon = new function() {
           self.render
         )
       );
+
+      // RTT test
+      var caster = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1}, scene);
+
+      var mat = new BABYLON.StandardMaterial("RTT mat", scene);
+      mat.diffuseTexture = robot.components[0].renderTarget;
+      mat.emissiveColor = new BABYLON.Color3(1,1,1);
+      mat.disableLighting = true;
+
+      var ground = BABYLON.MeshBuilder.CreateGround("RTT", {width: 6, height: 6}, scene);
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = 20;
+      ground.material = mat;
+
+      // robot.components[0].renderTarget.renderList
+      scene.meshes.forEach(function(mesh){
+        if (mesh.id != 'RTT')
+          robot.components[0].renderTarget.renderList.push(mesh);
+      });
+
       // self.engine.hideLoadingUI();
     });
 
@@ -78,6 +100,11 @@ var babylon = new function() {
   // Render loop
   this.render = function() {
     var delta = self.scene.getEngine().getDeltaTime();
+
+    // console.log(1000/delta);
+    // rttCam.position = robot.body.position;
+    // rttCam.rotation = robot.body.rotationQuaternion.multiply(rttCam.initialQuaternion).toEulerAngles();
+
 
     self.robot.render(delta);
   };

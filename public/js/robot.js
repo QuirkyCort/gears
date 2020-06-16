@@ -72,7 +72,7 @@ function Wheel(scene, options) {
     let wheelOptions = {
       height: options.wheelWidth,
       diameter: options.wheelDiameter,
-      tessellation: 48,
+      tessellation: 12,
       faceUV: faceUV
     };
 
@@ -194,6 +194,7 @@ var robot = new function() {
   this.body = null;
   this.leftWheel = null;
   this.rightWheel = null;
+  this.components = [];
 
   // Run on page load
   this.init = function() {
@@ -202,6 +203,7 @@ var robot = new function() {
   // Create the scene
   this.load = function (scene, robotStart) {
     var options = self.options;
+    self.scene = scene;
 
     return new Promise(function(resolve, reject) {
       var startPos = new BABYLON.Vector3(0,0,0);
@@ -212,7 +214,7 @@ var robot = new function() {
       }
 
       // Body
-      var bodyMat = new BABYLON.StandardMaterial('wheel', scene);
+      var bodyMat = new BABYLON.StandardMaterial('body', scene);
       bodyMat.diffuseColor = new BABYLON.Color3(0.94, 0.61, 0.05);
       bodyMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
       let bodyOptions = {
@@ -231,11 +233,15 @@ var robot = new function() {
       body.position.addInPlace(startPos);
 
       // Rear caster
+      var casterMat = new BABYLON.StandardMaterial('caster', scene);
+      casterMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.6);
+      casterMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
       let casterOptions = {
         diameter: options.wheelDiameter,
         segments: 5
       }
       var caster = BABYLON.MeshBuilder.CreateSphere("sphere", casterOptions, scene);
+      caster.material = casterMat;
       caster.position.y = -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY;
       caster.position.z = -(options.bodyLength / 2) + (options.wheelDiameter / 2);
       scene.shadowGenerator.addShadowCaster(caster);
@@ -297,9 +303,16 @@ var robot = new function() {
       self.leftWheel.stop();
       self.rightWheel.stop();
 
+      self.loadComponents();
 
       resolve();
     });
+  };
+
+  // Load components
+  this.loadComponents = function() {
+    self.components = [];
+    self.components.push(new ColorSensor(self.scene, self.body, [0,0,9], [Math.PI/2,0,0]));
   };
 
   // Reset robot
@@ -312,6 +325,12 @@ var robot = new function() {
   this.render = function(delta) {
     self.leftWheel.render(delta);
     self.rightWheel.render(delta);
+
+    self.components.forEach(function(component) {
+      if (typeof component.render == 'function') {
+        component.render(delta);
+      }
+    })
   };
 }
 
