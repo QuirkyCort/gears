@@ -188,13 +188,25 @@ var robot = new function() {
 
     wheelFriction: 2,
     bodyFriction: 0.1,
-    casterFriction: 0 // Warning: No effect due to parenting
+    casterFriction: 0, // Warning: No effect due to parenting
+
+    sensors: [
+      {
+        type: 'ColorSensor',
+        position: [0, -3, 6.5],
+        rotation: [Math.PI/2, 0, 0],
+        options: null
+      }
+    ]
   };
 
   this.body = null;
   this.leftWheel = null;
   this.rightWheel = null;
   this.components = [];
+
+  this.sensorCount = 0;
+  this.actuatorCount = 2;
 
   // Run on page load
   this.init = function() {
@@ -312,7 +324,24 @@ var robot = new function() {
   // Load components
   this.loadComponents = function() {
     self.components = [];
-    self.components.push(new ColorSensor(self.scene, self.body, [0,-3,6.5], [Math.PI/2,0,0]));
+    self.options.sensors.forEach(function(sensor){
+      if (sensor.type == 'ColorSensor') {
+        self.components.push(new ColorSensor(
+          self.scene, 
+          self.body, 
+          sensor.position, 
+          sensor.rotation,
+          'in' + (++self.sensorCount),
+          sensor.options));
+      } else {
+        console.log('Unrecognized sensor type: ' + sensor.type);
+      }
+    });
+  };
+
+  // Get component based on port name
+  this.getComponent = function(port) {
+    return self.options.sensors.find(sensor => sensor.port == port);
   };
 
   // Reset robot

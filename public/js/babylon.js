@@ -51,7 +51,7 @@ var babylon = new function() {
     lightHemi.intensity = 0.5;
 
     var lightDir = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), scene);
-    lightDir.diffuse = new BABYLON.Color3(0.1, 1.2, 0.1);
+    // lightDir.diffuse = new BABYLON.Color3(0.1, 1.2, 0.1);
     lightDir.position.y = 100;
     lightDir.position.x = 200;
     lightDir.intensity = 0.8;

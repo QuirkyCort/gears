@@ -1,11 +1,19 @@
-function ColorSensor(scene, parent, pos, rot) {
+function ColorSensor(scene, parent, pos, rot, port, options) {
   var self = this;
+
+  this.port = port;
+  this.options = null;
 
   this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
   this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
   this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
 
+  this.mask = [];
+  this.maskSize = 0;
+
   this.init = function() {
+    self.setOptions(options);
+
     var bodyMat = new BABYLON.StandardMaterial('colorSensor', scene);
     bodyMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
     let bodyOptions = {
@@ -31,7 +39,7 @@ function ColorSensor(scene, parent, pos, rot) {
 
     self.renderTarget = new BABYLON.RenderTargetTexture(
       'colorSensor',
-      4, // texture size
+      self.options.sensorResolution, // texture size
       scene,
       false, // generateMipMaps
       false // doNotChangeAspectRatio
@@ -62,18 +70,59 @@ function ColorSensor(scene, parent, pos, rot) {
         }
       });
     };
+
+    self.buildMask();
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      sensorResolution: 8
+    };
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
   };
 
   this.render = function(delta) {
     self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
   };
 
-  this.getRGB = function() {
-    self.pixels = self.renderTarget.readPixels();
-    self.results = [];
-    for (let i=0; i<self.pixels.length; i+=4) {
-      self.results.push(self.pixels[i]);
+  this.buildMask = function() {
+    let r2 = (self.options.sensorResolution / 2) ** 2;
+    let center = (self.options.sensorResolution - 1) / 2;
+    self.mask = [];
+    self.maskSize = 0;
+    for (let x=0; x<self.options.sensorResolution; x++) {
+      let x2 = (x-center)**2;
+      for (let y=0; y<self.options.sensorResolution; y++){
+        if ((x2 + (y-center)**2) < r2) {
+          self.mask.push(true);
+          self.maskSize++;
+        } else {
+          self.mask.push(false);
+        }
+      }
     }
+  };
+
+  this.getRGB = function() {
+    var r = 0;
+    var g = 0;
+    var b = 0;
+
+    let pixels = self.renderTarget.readPixels();
+    for (let i=0; i<pixels.length; i+=4) {
+      if (self.mask[i]) {
+        r += pixels[i];
+        g += pixels[i+1];
+        b += pixels[i+2];
+      }
+    }
+    return [r / self.maskSize, g / self.maskSize, b / self.maskSize];
   };
 
   this.init();
