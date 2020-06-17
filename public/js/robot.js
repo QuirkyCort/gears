@@ -203,6 +203,31 @@ var robot = new function() {
         rotation: [Math.PI/2, 0, 0],
         options: null
       }
+    ],
+
+    motors: [],
+
+    blocks: [
+      {
+        type: 'Box',
+        position: [-9, -2, 3],
+        rotation: [0, 0, 0],
+        options: {
+          height: 2,
+          width: 1,
+          depth: 14
+        }
+      },
+      {
+        type: 'Box',
+        position: [9, -2, 3],
+        rotation: [0, 0, 0],
+        options: {
+          height: 2,
+          width: 1,
+          depth: 14
+        }
+      }
     ]
   };
 
@@ -331,6 +356,7 @@ var robot = new function() {
   // Load components
   this.loadComponents = function() {
     self.components = [];
+
     self.sensorCount = 0;
     self.options.sensors.forEach(function(sensor){
       if (sensor.type == 'ColorSensor') {
@@ -345,6 +371,21 @@ var robot = new function() {
         console.log('Unrecognized sensor type: ' + sensor.type);
       }
     });
+
+    self.blocksCount = 0;
+    self.options.blocks.forEach(function(block){
+      if (block.type == 'Box') {
+        self.components.push(new BoxBlock(
+          self.scene,
+          self.body,
+          block.position,
+          block.rotation,
+          block.options));
+      } else {
+        console.log('Unrecognized block type: ' + block.type);
+      }
+    });
+
   };
 
   // Load meshes for components that needs it

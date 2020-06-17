@@ -81,15 +81,15 @@ var babylon = new function() {
       );
 
       // RTT test
-      var mat = new BABYLON.StandardMaterial("RTT mat", scene);
-      mat.diffuseTexture = robot.components[0].renderTarget;
-      mat.emissiveColor = new BABYLON.Color3(1,1,1);
-      mat.disableLighting = true;
+      // var mat = new BABYLON.StandardMaterial("RTT mat", scene);
+      // mat.diffuseTexture = robot.components[0].renderTarget;
+      // mat.emissiveColor = new BABYLON.Color3(1,1,1);
+      // mat.disableLighting = true;
 
-      var ground = BABYLON.MeshBuilder.CreateGround("RTT", {width: 6, height: 6}, scene);
-      ground.rotation.x = -Math.PI / 2;
-      ground.position.y = 20;
-      ground.material = mat;
+      // var ground = BABYLON.MeshBuilder.CreateGround("RTT", {width: 10, height: 10}, scene);
+      // ground.rotation.x = -Math.PI / 2;
+      // ground.position.y = 20;
+      // ground.material = mat;
 
       // Some components in the robot may need to see the fully loaded meshes
       robot.loadMeshes(scene.meshes.filter(mesh => mesh.id != 'RTT'));

@@ -1,3 +1,6 @@
+//
+// Color sensor. Uses a camera to capture image and extract average RGB values
+//
 function ColorSensor(scene, parent, pos, rot, port, options) {
   var self = this;
 
@@ -159,6 +162,71 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.g = g;
     self.b = b;
     return [r / self.maskSize, g / self.maskSize, b / self.maskSize];
+  };
+
+  this.init();
+}
+
+//
+// Just a dumb box with physics
+//
+function BoxBlock(scene, parent, pos, rot, options) {
+  var self = this;
+
+  this.type = 'Box';
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = new BABYLON.StandardMaterial('boxBody', scene);
+    bodyMat.diffuseColor = new BABYLON.Color3(0.64, 0.81, 0.05);
+    let bodyOptions = {
+      height: self.options.height,
+      width: self.options.width,
+      depth: self.options.depth
+    };
+    var body = BABYLON.MeshBuilder.CreateBox('boxBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      height: 1,
+      width: 1,
+      depth: 1
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
   };
 
   this.init();
