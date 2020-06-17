@@ -8,6 +8,7 @@ var skulpt = new function() {
       output: self.outf,
       read: self.builtinRead
     });
+    Sk.execLimit = 5000;
   };
 
   // Run program
@@ -30,14 +31,17 @@ var skulpt = new function() {
         '*': self.interruptHandler
       }
     );
+    var resetExecStart = setInterval(function(){Sk.execStart = Date();}, 2000);
     myPromise.then(
       function(mod) {
         self.running = false;
+        clearInterval(resetExecStart);
         simPanel.setRunIcon('run');
       },
       function(err) {
         self.running = false;
         simPanel.consoleWriteErrors(err.toString());
+        clearInterval(resetExecStart);
         simPanel.setRunIcon('run');
       }
     );

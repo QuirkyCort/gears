@@ -47,7 +47,6 @@ var $builtinmodule = function(name) {
 
       } else if (command.v == '') {
         self.wheel.stop();
-
       }
 
       self.wheel.command = command.v;
@@ -88,7 +87,7 @@ var $builtinmodule = function(name) {
         self.wheel.position = pos.v;
         self.wheel.prevPosition = pos.v % 360;
       } else {
-        return self.wheel.position;
+\        return self.wheel.position;
       }
     });
 
