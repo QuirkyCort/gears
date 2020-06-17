@@ -288,7 +288,7 @@ var robot = new function() {
       );
       self.rightWheel.load(
         [
-          (options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset,
+          (options.wheelWidth + options.bodyWidth) / 2 + options.wheelToBodyOffset,
           options.wheelDiameter / 2,
           0
         ],
@@ -312,7 +312,7 @@ var robot = new function() {
   // Load components
   this.loadComponents = function() {
     self.components = [];
-    self.components.push(new ColorSensor(self.scene, self.body, [0,0,9], [Math.PI/2,0,0]));
+    self.components.push(new ColorSensor(self.scene, self.body, [0,-3,6.5], [Math.PI/2,0,0]));
   };
 
   // Reset robot

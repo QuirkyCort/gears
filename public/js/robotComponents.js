@@ -25,13 +25,16 @@ function ColorSensor(scene, parent, pos, rot) {
 
     // Create camera and RTT
     self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
+    self.rttCam.fov = 1.0;
     self.rttCam.updateUpVectorFromRotation = true;
     self.rttCam.position = body.absolutePosition;
 
     self.renderTarget = new BABYLON.RenderTargetTexture(
       'colorSensor',
-      512, // texture size
-      scene
+      4, // texture size
+      scene,
+      false, // generateMipMaps
+      false // doNotChangeAspectRatio
     );
     scene.customRenderTargets.push(self.renderTarget);
     self.renderTarget.activeCamera = self.rttCam;
@@ -63,6 +66,14 @@ function ColorSensor(scene, parent, pos, rot) {
 
   this.render = function(delta) {
     self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
+  };
+
+  this.getRGB = function() {
+    self.pixels = self.renderTarget.readPixels();
+    self.results = [];
+    for (let i=0; i<self.pixels.length; i+=4) {
+      self.results.push(self.pixels[i]);
+    }
   };
 
   this.init();
