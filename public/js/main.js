@@ -68,6 +68,8 @@ var simPanel = new function() {
   // Reset simulator
   this.resetSim = function() {
     babylon.createScene();
+    skulpt.hardInterrupt = true;
+    self.setRunIcon('run');
   };
 
   // Strip html tags
