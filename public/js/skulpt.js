@@ -28,7 +28,7 @@ var skulpt = new function() {
       },
       function(err) {
         self.running = false;
-        main.consoleWriteErrors(err.toString());
+        simPanel.consoleWriteErrors(err.toString());
         // sim.stopAnimation();
       }
     );
@@ -46,7 +46,7 @@ var skulpt = new function() {
 
   // Write to stdout
   this.outf = function (text) {
-    main.consoleWrite(text);
+    simPanel.consoleWrite(text);
   }
 
   // File loader

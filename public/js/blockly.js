@@ -108,7 +108,8 @@ var blockly = new function() {
   this.genPython = function() {
     let code =
       'import time\n' +
-      'from ev3dev2.motor import *\n\n';
+      'from ev3dev2.motor import *\n' +
+      'from ev3dev2.sensor.lego import *\n\n';
     code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
     return code
   };

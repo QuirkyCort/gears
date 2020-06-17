@@ -118,22 +118,14 @@ var $builtinmodule = function(name) {
     var self = this;
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
-      if (address.v == 'in2') {
-        self.side = 'left';
-      } else if (address.v == 'in3') {
-        self.side = 'right';
-      } else {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor) {
         throw new Sk.builtin.TypeError('No color sensor connected to ' + String(address.v));
       }
     });
 
     $loc.value = new Sk.builtin.func(function(self) {
-      if (self.side == 'left') {
-        return sim.robotStates.sensor1;
-      } else if (self.side == 'right') {
-        return sim.robotStates.sensor2;
-      }
-      return [0,0,0];
+      return self.sensor.getRGB();
     });
 
     $loc.valueLAB = new Sk.builtin.func(function(self) {

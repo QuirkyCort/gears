@@ -34,6 +34,8 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     // Create camera and RTT
     self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
     self.rttCam.fov = 1.0;
+    self.rttCam.minZ = 0.1;
+    self.rttCam.maxZ = 10;
     self.rttCam.updateUpVectorFromRotation = true;
     self.rttCam.position = body.absolutePosition;
 
@@ -74,10 +76,17 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.buildMask();
   };
 
+  this.loadMeshes = function(meshes) {
+    meshes.forEach(function(mesh){
+      self.renderTarget.renderList.push(mesh);
+    });
+  };
+
   this.setOptions = function(options) {
     self.options = {
       sensorResolution: 8
     };
+
     for (let name in options) {
       if (typeof self.options[name] == 'undefined') {
         console.log('Unrecognized option: ' + name);

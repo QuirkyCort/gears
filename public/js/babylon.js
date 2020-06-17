@@ -88,10 +88,7 @@ var babylon = new function() {
       ground.material = mat;
 
       // robot.components[0].renderTarget.renderList
-      scene.meshes.forEach(function(mesh){
-        if (mesh.id != 'RTT')
-          robot.components[0].renderTarget.renderList.push(mesh);
-      });
+      robot.loadMeshes(scene.meshes.filter(mesh => mesh.id != 'RTT'));
 
       // self.engine.hideLoadingUI();
     });
@@ -105,9 +102,6 @@ var babylon = new function() {
     var delta = self.scene.getEngine().getDeltaTime();
 
     // console.log(1000/delta);
-    // rttCam.position = robot.body.position;
-    // rttCam.rotation = robot.body.rotationQuaternion.multiply(rttCam.initialQuaternion).toEulerAngles();
-
 
     self.robot.render(delta);
   };

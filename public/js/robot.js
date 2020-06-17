@@ -339,8 +339,17 @@ var robot = new function() {
     });
   };
 
+  // Load meshes for components that needs it
+  this.loadMeshes = function(meshes) {
+    self.components.forEach(function(component) {
+      if (typeof component.loadMeshes == 'function') {
+        component.loadMeshes(meshes);
+      }
+    });
+  };
+
   // Get component based on port name
-  this.getComponent = function(port) {
+  this.getComponentByPort = function(port) {
     return self.options.sensors.find(sensor => sensor.port == port);
   };
 
@@ -348,6 +357,11 @@ var robot = new function() {
   this.reset = function() {
     self.leftWheel.reset();
     self.rightWheel.reset();
+    self.components.forEach(function(component) {
+      if (typeof component.reset == 'function') {
+        component.reset();
+      }
+    })
   };
 
   // Render loop
@@ -359,7 +373,7 @@ var robot = new function() {
       if (typeof component.render == 'function') {
         component.render(delta);
       }
-    })
+    });
   };
 }
 
