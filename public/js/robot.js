@@ -193,7 +193,13 @@ var robot = new function() {
     sensors: [
       {
         type: 'ColorSensor',
-        position: [0, -3, 6.5],
+        position: [-2.5, -1, 9],
+        rotation: [Math.PI/2, 0, 0],
+        options: null
+      },
+      {
+        type: 'ColorSensor',
+        position: [2.5, -1, 9],
         rotation: [Math.PI/2, 0, 0],
         options: null
       }
@@ -259,6 +265,9 @@ var robot = new function() {
       scene.shadowGenerator.addShadowCaster(caster);
       caster.parent = body;
 
+      // Add components
+      self.loadComponents();
+
       // Add Physics
       caster.physicsImpostor = new BABYLON.PhysicsImpostor(
         caster,
@@ -315,8 +324,6 @@ var robot = new function() {
       self.leftWheel.stop();
       self.rightWheel.stop();
 
-      self.loadComponents();
-
       resolve();
     });
   };
@@ -324,12 +331,13 @@ var robot = new function() {
   // Load components
   this.loadComponents = function() {
     self.components = [];
+    self.sensorCount = 0;
     self.options.sensors.forEach(function(sensor){
       if (sensor.type == 'ColorSensor') {
         self.components.push(new ColorSensor(
-          self.scene, 
-          self.body, 
-          sensor.position, 
+          self.scene,
+          self.body,
+          sensor.position,
           sensor.rotation,
           'in' + (++self.sensorCount),
           sensor.options));
@@ -350,7 +358,7 @@ var robot = new function() {
 
   // Get component based on port name
   this.getComponentByPort = function(port) {
-    return self.options.sensors.find(sensor => sensor.port == port);
+    return self.components.find(sensor => sensor.port == port);
   };
 
   // Reset robot

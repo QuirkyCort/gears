@@ -1,6 +1,7 @@
 function ColorSensor(scene, parent, pos, rot, port, options) {
   var self = this;
 
+  this.type = 'ColorSensor';
   this.port = port;
   this.options = null;
 
@@ -14,22 +15,43 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
   this.init = function() {
     self.setOptions(options);
 
-    var bodyMat = new BABYLON.StandardMaterial('colorSensor', scene);
+    var bodyMat = new BABYLON.StandardMaterial('colorSensorBody', scene);
     bodyMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
     let bodyOptions = {
       height: 3,
       width: 3,
       depth: 5
     };
-    var body = BABYLON.MeshBuilder.CreateBox('colorSensor', bodyOptions, scene);
+    var body = BABYLON.MeshBuilder.CreateBox('colorSensorBody', bodyOptions, scene);
     self.body = body;
     body.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(body);
+
     body.position.z -= 2.50001;
-    body.bakeCurrentTransformIntoVertices();
-    body.position = self.position;
-    body.rotation = self.rotation;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
     body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+
+    var eyeMat = new BABYLON.StandardMaterial('colorSensorEye', scene);
+    eyeMat.diffuseColor = new BABYLON.Color3(0.9, 0.0, 0.0);
+    var eye = new BABYLON.MeshBuilder.CreateSphere("eye", {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
+    eye.material = eyeMat;
+    eye.position.z = 2.5;
+    eye.parent = body;
+
 
     // Create camera and RTT
     self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
@@ -37,7 +59,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.rttCam.minZ = 0.1;
     self.rttCam.maxZ = 10;
     self.rttCam.updateUpVectorFromRotation = true;
-    self.rttCam.position = body.absolutePosition;
+    self.rttCam.position = eye.absolutePosition;
 
     self.renderTarget = new BABYLON.RenderTargetTexture(
       'colorSensor',
@@ -124,13 +146,18 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var b = 0;
 
     let pixels = self.renderTarget.readPixels();
+    self.pixels = pixels;
     for (let i=0; i<pixels.length; i+=4) {
-      if (self.mask[i]) {
+
+      if (self.mask[i/4]) {
         r += pixels[i];
         g += pixels[i+1];
         b += pixels[i+2];
       }
     }
+    self.r = r;
+    self.g = g;
+    self.b = b;
     return [r / self.maskSize, g / self.maskSize, b / self.maskSize];
   };
 

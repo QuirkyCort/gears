@@ -2,7 +2,6 @@ var babylon = new function() {
   var self = this;
 
   this.world = worlds[0];
-  this.robot = robot;
 
   // Run on page load
   this.init = function() {
@@ -26,7 +25,6 @@ var babylon = new function() {
   // Create the scene
   this.createScene = function () {
     let world = self.world;
-    let robot = self.robot;
     if (self.scene) {
       self.scene.dispose()
     }
@@ -65,6 +63,14 @@ var babylon = new function() {
     // Add meshes in the scene
     // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
     Promise.all([world.load(scene), robot.load(scene, world.robotStart)]).then(function() {
+      // Debug physics
+      // pv = new BABYLON.PhysicsViewer(scene);
+      // scene.meshes.forEach(function(mesh){
+      //   if (mesh.physicsImpostor) {
+      //     pv.showImpostor(mesh.physicsImpostor);
+      //   }
+      // });
+
       scene.actionManager = new BABYLON.ActionManager(scene);
       scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction({
@@ -75,8 +81,6 @@ var babylon = new function() {
       );
 
       // RTT test
-      var caster = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1}, scene);
-
       var mat = new BABYLON.StandardMaterial("RTT mat", scene);
       mat.diffuseTexture = robot.components[0].renderTarget;
       mat.emissiveColor = new BABYLON.Color3(1,1,1);
@@ -87,7 +91,7 @@ var babylon = new function() {
       ground.position.y = 20;
       ground.material = mat;
 
-      // robot.components[0].renderTarget.renderList
+      // Some components in the robot may need to see the fully loaded meshes
       robot.loadMeshes(scene.meshes.filter(mesh => mesh.id != 'RTT'));
 
       // self.engine.hideLoadingUI();
@@ -103,7 +107,7 @@ var babylon = new function() {
 
     // console.log(1000/delta);
 
-    self.robot.render(delta);
+    robot.render(delta);
   };
 }
 

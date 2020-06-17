@@ -200,4 +200,54 @@
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "color_sensor",
+  "message0": "color sensor %1 on port %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "reflected light intensity",
+          "INTENSITY"
+        ],
+        [
+          "red",
+          "RED"
+        ],
+        [
+          "green",
+          "GREEN"
+        ],
+        [
+          "blue",
+          "BLUE"
+        ],
+        [
+          "hue",
+          "HUE"
+        ],
+        [
+          "saturation",
+          "SATURATION"
+        ],
+        [
+          "value",
+          "VALUE"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "port",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
 }]

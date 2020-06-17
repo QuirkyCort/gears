@@ -102,6 +102,7 @@ var blockly = new function() {
     Blockly.Python['position'] = self.pythonPosition;
     Blockly.Python['reset_motor'] = self.pythonResetMotor;
     Blockly.Python['move_tank'] = self.pythonMoveTank;
+    Blockly.Python['color_sensor'] = self.pythonColorSensor;
   };
 
   // Generate python code
@@ -109,7 +110,26 @@ var blockly = new function() {
     let code =
       'import time\n' +
       'from ev3dev2.motor import *\n' +
-      'from ev3dev2.sensor.lego import *\n\n';
+      'from ev3dev2.sensor import *\n' +
+      'from ev3dev2.sensor.lego import *\n' +
+      '\n' +
+      'left_motor = LargeMotor(OUTPUT_A)\n' +
+      'right_motor = LargeMotor(OUTPUT_B)\n' +
+      'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
+      'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n\n';
+
+    var sensorsCode = '';
+    var i = 1;
+    var sensor = null;
+    while (sensor = robot.getComponentByPort('in' + i)) {
+      if (sensor.type == 'ColorSensor') {
+        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n'
+      }
+      i++;
+    }
+
+    code += sensorsCode + '\n';
+
     code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
     return code
   };
@@ -139,11 +159,7 @@ var blockly = new function() {
 
   // Start
   this.pythonStart = function(block) {
-    var code =
-      'left_motor = LargeMotor(OUTPUT_A)\n' +
-      'right_motor = LargeMotor(OUTPUT_B)\n' +
-      'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
-      'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n\n';
+    var code = '';
     return code;
   };
 
@@ -214,6 +230,32 @@ var blockly = new function() {
     var value_right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
     var code = 'tank_drive.on(' + value_left + ', ' + value_right + ')\n';
     return code;
+  };
+
+  // color sensor value
+  this.pythonColorSensor = function(block) {
+    var dropdown_type = block.getFieldValue('type');
+    var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
+    var typeStr = '';
+
+    if (dropdown_type == 'INTENSITY') {
+      typeStr = 'reflected_light_intensity';
+    } else if (dropdown_type == 'RED') {
+      typeStr = 'rgb[0]';
+    } else if (dropdown_type == 'GREEN') {
+      typeStr = 'rgb[1]';
+    } else if (dropdown_type == 'BLUE') {
+      typeStr = 'rgb[2]';
+    } else if (dropdown_type == 'HUE') {
+      typeStr = 'hsv[0]';
+    } else if (dropdown_type == 'SATURATION') {
+      typeStr = 'hsv[1]';
+    } else if (dropdown_type == 'VALUE') {
+      typeStr = 'hsv[2]';
+    }
+
+    var code = 'color_sensor_in' + value_port + '.' + typeStr;
+    return [code, Blockly.Python.ORDER_ATOMIC];
   };
 }
 

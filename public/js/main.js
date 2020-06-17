@@ -64,16 +64,16 @@ var simPanel = new function() {
 
   // write to console
   this.consoleWrite = function(text) {
-    text = main.$consoleContent.html() + self.stripHTML(text);
-    main.$consoleContent.html(text);
+    text = simPanel.$consoleContent.html() + self.stripHTML(text);
+    simPanel.$consoleContent.html(text);
     self.scrollConsoleToBottom();
   };
 
   // write to console
   this.consoleWriteErrors = function(text) {
     text = '<span class="error">' + self.stripHTML(text) + '</span>\n';
-    text = main.$consoleContent.html() + text;
-    main.$consoleContent.html(text);
+    text = simPanel.$consoleContent.html() + text;
+    simPanel.$consoleContent.html(text);
     self.scrollConsoleToBottom();
   }
 
