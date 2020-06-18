@@ -43,16 +43,33 @@ var simPanel = new function() {
 
   // Run the simulator
   this.runSim = function() {
-    if (! pythonPanel.modified) {
-      pythonPanel.loadPythonFromBlockly();
+    if (skulpt.running) {
+      skulpt.hardInterrupt = true;
+      self.setRunIcon('run');
+    } else {
+      if (! pythonPanel.modified) {
+        pythonPanel.loadPythonFromBlockly();
+      }
+      robot.reset();
+      skulpt.runPython();
+      self.setRunIcon('stop');  
     }
-    robot.reset();
-    skulpt.runPython();
+  };
+
+  // Set run icon
+  this.setRunIcon = function(type) {
+    if (type == 'run') {
+      self.$runSim.html('&#x25b6;');
+    } else {
+      self.$runSim.html('&#x23f9;');
+    }
   };
 
   // Reset simulator
   this.resetSim = function() {
     babylon.createScene();
+    skulpt.hardInterrupt = true;
+    self.setRunIcon('run');
   };
 
   // Strip html tags

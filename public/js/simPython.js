@@ -47,7 +47,6 @@ var $builtinmodule = function(name) {
 
       } else if (command.v == '') {
         self.wheel.stop();
-
       }
 
       self.wheel.command = command.v;

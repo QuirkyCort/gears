@@ -8,10 +8,19 @@ var skulpt = new function() {
       output: self.outf,
       read: self.builtinRead
     });
+    Sk.execLimit = 5000;
   };
 
   // Run program
   this.runPython = function() {
+    if (typeof self.hardInterrupt != 'undefined') {
+      delete self.hardInterrupt;
+    }
+    if (self.running == true) {
+      return;
+    }
+    self.running = true;
+
     var prog = pythonPanel.editor.getValue();
 
     var myPromise = Sk.misceval.asyncToPromise(
@@ -22,22 +31,26 @@ var skulpt = new function() {
         '*': self.interruptHandler
       }
     );
+    var resetExecStart = setInterval(function(){Sk.execStart = Date();}, 2000);
     myPromise.then(
       function(mod) {
         self.running = false;
+        clearInterval(resetExecStart);
+        simPanel.setRunIcon('run');
       },
       function(err) {
         self.running = false;
         simPanel.consoleWriteErrors(err.toString());
-        // sim.stopAnimation();
+        clearInterval(resetExecStart);
+        simPanel.setRunIcon('run');
       }
     );
   };
 
   // InterruptHandler
   this.interruptHandler = function (susp) {
-    if (Sk.hardInterrupt === true) {
-      delete Sk.hardInterrupt;
+    if (self.hardInterrupt === true) {
+      delete self.hardInterrupt;
       throw new Sk.builtin.ExternalError('aborted execution');
     } else {
       return null;
