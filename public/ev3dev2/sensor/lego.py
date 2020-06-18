@@ -49,29 +49,26 @@ class ColorSensor:
     time.sleep(SENSOR_DELAY)
     hsv = self.hsv
 
-    if hsv[2] < 30:
-      return 1
+    if hsv[1] < 20:
+      if hsv[2] < 30:
+        return self.COLOR_BLACK
+      else:
+        return self.COLOR_WHITE
 
-    elif abs(hsv[0] - 207) < 20 and hsv[1] > 50 and hsv[2] > 50:
-      return 2
+    elif hsv[0] < 30:
+      return self.COLOR_RED
 
-    elif abs(hsv[0] - 120) < 20 and hsv[1] > 50 and hsv[2] > 50:
-      return 3
+    elif hsv[0] < 90:
+      return self.COLOR_YELLOW
 
-    elif abs(hsv[0] - 60) < 20 and hsv[1] > 50 and hsv[2] > 50:
-      return 4
+    elif hsv[0] < 163:
+      return self.COLOR_GREEN
 
-    elif (hsv[0] < 20 or hsv[0] > 340) and hsv[1] > 50 and hsv[2] > 50:
-      return 5
-
-    elif hsv[1] < 20 and hsv[2] > 80:
-      return 6
-
-    elif abs(hsv[0] - 24) < 20 and hsv[1] > 50 and hsv[2] < 50:
-      return 7
+    elif hsv[0] < 283:
+      return self.COLOR_BLUE
 
     else:
-      return 0
+      return self.COLOR_RED
 
   @property
   def color_name(self):
