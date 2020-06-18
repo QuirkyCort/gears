@@ -92,7 +92,6 @@ var blockly = new function() {
 
   // Load Python generators
   this.loadPythonGenerators = function() {
-    Blockly.Python['move'] = self.pythonMove;
     Blockly.Python['print'] = self.pythonPrint;
     Blockly.Python['when_started'] = self.pythonStart;
     Blockly.Python['sleep'] = self.pythonSleep;
@@ -103,11 +102,13 @@ var blockly = new function() {
     Blockly.Python['reset_motor'] = self.pythonResetMotor;
     Blockly.Python['move_tank'] = self.pythonMoveTank;
     Blockly.Python['color_sensor'] = self.pythonColorSensor;
+    Blockly.Python['ultrasonic_sensor'] = self.pythonUltrasonicSensor;
   };
 
   // Generate python code
   this.genPython = function() {
     let code =
+      '#!/usr/bin/env python3\n\n' +
       'import time\n' +
       'from ev3dev2.motor import *\n' +
       'from ev3dev2.sensor import *\n' +
@@ -124,6 +125,8 @@ var blockly = new function() {
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
         sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n'
+      } else if (sensor.type == 'UltrasonicSensor') {
+        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n'
       }
       i++;
     }
@@ -139,20 +142,10 @@ var blockly = new function() {
   // Python Generators
   //
 
-  // Move
-  this.pythonMove = function(block) {
-    var dropdown_direction = block.getFieldValue('direction');
-    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    if (dropdown_direction == 'REVERSE') {
-      value_speed *= -1;
-    }
-    var code = 'steering_drive.on(0, ' + value_speed + ')\n';
-    return code;
-  };
-
   // Print
   this.pythonPrint = function(block) {
     var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
+
     var code = 'print(' + value_text + ')\n';
     return code;
   };
@@ -166,6 +159,7 @@ var blockly = new function() {
   // Sleep
   this.pythonSleep = function(block) {
     var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
+
     var code = 'time.sleep(' + value_seconds + ')\n';
     return code;
   };
@@ -178,6 +172,7 @@ var blockly = new function() {
     } else {
       var brake = 'False';
     }
+
     var code = 'steering_drive.stop(brake=' + brake + ')\n';
     return code;
   };
@@ -186,7 +181,15 @@ var blockly = new function() {
   this.pythonMoveSteering = function(block) {
     var value_steering = Blockly.Python.valueToCode(block, 'steering', Blockly.Python.ORDER_ATOMIC);
     var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    var code = 'steering_drive.on(' + value_steering + ', ' + value_speed + ')\n';
+    var dropdown_units = block.getFieldValue('units');
+
+    if (dropdown_units == 'PERCENT') {
+      var code = 'steering_drive.on(' + value_steering + ', ' + value_speed + ')\n';
+    } else if (dropdown_units == 'DEGREES') {
+      var code = 'steering_drive.on(' + value_steering + ', SpeedDPS(' + value_speed + '))\n';
+    } else if (dropdown_units == 'ROTATIONS') {
+      var code = 'steering_drive.on(' + value_steering + ', SpeedRPS(' + value_speed + '))\n';
+    }
     return code;
   };
 
@@ -228,7 +231,15 @@ var blockly = new function() {
   this.pythonMoveTank = function(block) {
     var value_left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
     var value_right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
-    var code = 'tank_drive.on(' + value_left + ', ' + value_right + ')\n';
+    var dropdown_units = block.getFieldValue('units');
+
+    if (dropdown_units == 'PERCENT') {
+      var code = 'tank_drive.on(' + value_left + ', ' + value_right + ')\n';
+    } else if (dropdown_units == 'DEGREES') {
+      var code = 'tank_drive.on(SpeedDPS(' + value_left + '), SpeedDPS(' + value_right + '))\n';
+    } else if (dropdown_units == 'ROTATIONS') {
+      var code = 'tank_drive.on(SpeedRPS(' + value_left + '), SpeedRPS(' + value_right + '))\n';
+    }
     return code;
   };
 
@@ -240,6 +251,8 @@ var blockly = new function() {
 
     if (dropdown_type == 'INTENSITY') {
       typeStr = 'reflected_light_intensity';
+    } else if (dropdown_type == 'COLOR') {
+      typeStr = 'color';
     } else if (dropdown_type == 'RED') {
       typeStr = 'rgb[0]';
     } else if (dropdown_type == 'GREEN') {
@@ -255,6 +268,21 @@ var blockly = new function() {
     }
 
     var code = 'color_sensor_in' + value_port + '.' + typeStr;
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  // ultrasonic
+  this.pythonUltrasonicSensor = function(block) {
+    var dropdown_units = block.getFieldValue('units');
+    var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
+    var unitsStr = '';
+
+    if (dropdown_units == 'CM') {
+      unitsStr = 'distance_centimeters';
+    } else if (dropdown_units == 'INCHES') {
+      unitsStr = 'distance_inches';
+    }
+    var code = 'ultrasonic_sensor_in' + value_port + '.' + unitsStr;
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
 }

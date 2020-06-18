@@ -1,38 +1,4 @@
 [{
-  "type": "move",
-  "message0": "move %1 %2 at speed %3 %%",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "direction",
-      "options": [
-        [
-          "Forward",
-          "FORWARD"
-        ],
-        [
-          "Reverse",
-          "REVERSE"
-        ]
-      ]
-    },
-    {
-      "type": "input_dummy"
-    },
-    {
-      "type": "input_value",
-      "name": "speed",
-      "check": "Number"
-    }
-  ],
-  "inputsInline": true,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
   "type": "print",
   "message0": "print %1",
   "args0": [
@@ -98,7 +64,7 @@
 },
 {
   "type": "move_steering",
-  "message0": "move steering with direction %1 and speed %2 %%",
+  "message0": "move steering with direction %1 and speed %2 %3",
   "args0": [
     {
       "type": "input_value",
@@ -109,6 +75,24 @@
       "type": "input_value",
       "name": "speed",
       "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "%",
+          "PERCENT"
+        ],
+        [
+          "degrees / s",
+          "DEGREES"
+        ],
+        [
+          "rotations / s",
+          "ROTATIONS"
+        ]
+      ]
     }
   ],
   "inputsInline": true,
@@ -128,7 +112,7 @@
 },
 {
   "type": "position",
-  "message0": "position of  %1 in degrees",
+  "message0": "position of  %1 %2",
   "args0": [
     {
       "type": "field_dropdown",
@@ -141,6 +125,20 @@
         [
           "right motor",
           "RIGHT"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "degrees",
+          "DEGREES"
+        ],
+        [
+          "rotation",
+          "ROTATIONS"
         ]
       ]
     }
@@ -181,7 +179,7 @@
 },
 {
   "type": "move_tank",
-  "message0": "move tank with left speed %1 %% and right speed %2 %%",
+  "message0": "move tank with left speed %1 and right speed %2 %3",
   "args0": [
     {
       "type": "input_value",
@@ -192,6 +190,24 @@
       "type": "input_value",
       "name": "right",
       "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "%",
+          "PERCENT"
+        ],
+        [
+          "degrees / s",
+          "DEGREES"
+        ],
+        [
+          "rotations / s",
+          "ROTATIONS"
+        ]
+      ]
     }
   ],
   "inputsInline": true,
@@ -212,6 +228,10 @@
         [
           "reflected light intensity",
           "INTENSITY"
+        ],
+        [
+          "color",
+          "COLOR"
         ],
         [
           "red",
@@ -236,6 +256,36 @@
         [
           "value",
           "VALUE"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "port",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "ultrasonic_sensor",
+  "message0": "ultrasonic distance in %1 on port %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "cm",
+          "CM"
+        ],
+        [
+          "inches",
+          "INCHES"
         ]
       ]
     },

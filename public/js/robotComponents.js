@@ -246,19 +246,12 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
   this.init = function() {
     self.setOptions(options);
 
-    var bodyMat = new BABYLON.StandardMaterial('ultrasonicSensorBody', scene);
-    bodyMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-    let bodyOptions = {
-      height: 3,
-      width: 5,
-      depth: 2
-    };
-    var body = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody', bodyOptions, scene);
+    var body = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody', {height: 2, width: 5, depth: 2.5}, scene);
     self.body = body;
-    body.material = bodyMat;
-    scene.shadowGenerator.addShadowCaster(body);
-
-    body.position.z -= 2.50001;
+    body.visibility = false;
+    body.isPickable = false;
+    body.parent = parent;
+    body.position = self.position;
     body.physicsImpostor = new BABYLON.PhysicsImpostor(
       body,
       BABYLON.PhysicsImpostor.BoxImpostor,
@@ -269,75 +262,68 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
       },
       scene
     );
-    body.parent = parent;
-
-    body.position = self.position;
     body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
+    var bodyMat = new BABYLON.StandardMaterial('ultrasonicSensorBody', scene);
+    bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.5);
+
+    var rearBody = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody', {height: 2, width: 5, depth: 2 }, scene);
+    rearBody.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(rearBody);
+    rearBody.position.z -= 0.25;
+    rearBody.parent = body;
+
     var eyeMat = new BABYLON.StandardMaterial('colorSensorEye', scene);
-    eyeMat.diffuseColor = new BABYLON.Color3(0.9, 0.0, 0.0);
-    var eye = new BABYLON.MeshBuilder.CreateSphere("eye", {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
-    eye.material = eyeMat;
-    eye.position.z = 2.5;
-    eye.parent = body;
+    eyeMat.diffuseColor = new BABYLON.Color3(0.9, 0.0, 0.9);
 
+    var eyeL = BABYLON.MeshBuilder.CreateCylinder('eyeL', { height: 0.5, diameter: 2, tessellation: 12}, scene);
+    eyeL.material = eyeMat;
+    eyeL.rotation.x = -Math.PI / 2;
+    eyeL.position.x = -1.5;
+    eyeL.position.z = 1;
+    scene.shadowGenerator.addShadowCaster(eyeL);
+    eyeL.parent = body;
 
-    // Create camera and RTT
-    self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
-    self.rttCam.fov = 1.0;
-    self.rttCam.minZ = 0.1;
-    self.rttCam.maxZ = 10;
-    self.rttCam.updateUpVectorFromRotation = true;
-    self.rttCam.position = eye.absolutePosition;
+    var eyeR = BABYLON.MeshBuilder.CreateCylinder('eyeR', { height: 0.5, diameter: 2, tessellation: 12}, scene);
+    eyeR.material = eyeMat;
+    eyeR.rotation.x = -Math.PI / 2;
+    eyeR.position.x = 1.5;
+    eyeR.position.z = 1;
+    scene.shadowGenerator.addShadowCaster(eyeR);
+    eyeR.parent = body;
 
-    self.renderTarget = new BABYLON.RenderTargetTexture(
-      'colorSensor',
-      self.options.sensorResolution, // texture size
-      scene,
-      false, // generateMipMaps
-      false // doNotChangeAspectRatio
-    );
-    scene.customRenderTargets.push(self.renderTarget);
-    self.renderTarget.activeCamera = self.rttCam;
+    // Prep rays
+    self.rays = [];
+    self.rayVectors = [];
+    var straightVector = new BABYLON.Vector3(0,0,1);
+    let origin = new BABYLON.Vector3(0,0,0);
 
-    var fullEmissive = new BABYLON.Color3(1,1,1);
-    var noEmissive = new BABYLON.Color3(0,0,0);
+    self.options.rayRotations.forEach(function(rayRotation){
+      var matrixX = BABYLON.Matrix.RotationAxis(BABYLON.Axis.X, rayRotation[0]);
+      var matrixY = BABYLON.Matrix.RotationAxis(BABYLON.Axis.Y, rayRotation[1]);
+      var vec = BABYLON.Vector3.TransformCoordinates(straightVector, matrixX);
+      vec = BABYLON.Vector3.TransformCoordinates(vec, matrixY);
 
-    self.renderTarget.onBeforeRender = function() {
-      self.renderTarget.renderList.forEach(function(mesh) {
-        if (mesh.material) {
-          mesh.material.disableLighting = true;
-          if (mesh.diffuseTexture) {
-            mesh.material.emissiveColor = fullEmissive;
-          } else {
-            mesh.material.emissiveColor = mesh.material.diffuseColor;
-          }
-        }
-      });
-    };
-    self.renderTarget.onAfterRender = function() {
-      self.renderTarget.renderList.forEach(function(mesh) {
-        if (mesh.material) {
-          mesh.material.disableLighting = false;
-          mesh.material.emissiveColor = noEmissive;
-        }
-      });
-    };
+      self.rayVectors.push(vec);
+      var ray = new BABYLON.Ray(origin, new BABYLON.Vector3(0,0,1), self.options.rayLength);
+      self.rays.push(ray);
 
-    self.buildMask();
-  };
-
-  this.loadMeshes = function(meshes) {
-    meshes.forEach(function(mesh){
-      self.renderTarget.renderList.push(mesh);
+      // BABYLON.RayHelper.CreateAndShow(ray, scene, new BABYLON.Color3(1, 1, 1));
     });
   };
 
   this.setOptions = function(options) {
     self.options = {
-      sensorResolution: 8
+      rayOrigin:  new BABYLON.Vector3(0,0,1.25),
+      rayRotations: [
+        [-0.035, -0.305], [-0.035, -0.183], [-0.035, -0.061], [-0.035, 0.061], [-0.035, 0.183], [-0.035, 0.305],
+        [0, -0.367], [0, -0.244], [0, -0.122], [0, 0], [0, 0.122], [0, 0.244], [0, 0.367],
+        [0.035, -0.305], [0.035, -0.183], [0.035, -0.061], [0.035, 0.061], [0.035, 0.183], [0.035, 0.305]
+      ],
+      rayLength: 255,
+      rayIncidentLimit: 0.698132
     };
 
     for (let name in options) {
@@ -349,47 +335,30 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     }
   };
 
-  this.render = function(delta) {
-    self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
-  };
+  this.getDistance = function() {
+    var shortestDistance = 255;
 
-  this.buildMask = function() {
-    let r2 = (self.options.sensorResolution / 2) ** 2;
-    let center = (self.options.sensorResolution - 1) / 2;
-    self.mask = [];
-    self.maskSize = 0;
-    for (let x=0; x<self.options.sensorResolution; x++) {
-      let x2 = (x-center)**2;
-      for (let y=0; y<self.options.sensorResolution; y++){
-        if ((x2 + (y-center)**2) < r2) {
-          self.mask.push(true);
-          self.maskSize++;
-        } else {
-          self.mask.push(false);
+    var rayOffset = new BABYLON.Vector3(0,0,0);
+    self.options.rayOrigin.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, rayOffset);
+    self.rays[0].origin.copyFrom(self.body.absolutePosition);
+    self.rays[0].origin.addInPlace(rayOffset);
+
+    self.rayVectors.forEach(function(rayVector, i){
+      rayVector.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, self.rays[i].direction);
+
+      var hit = scene.pickWithRay(self.rays[i]);
+      if (hit.hit && hit.distance < shortestDistance) {
+        let hitVector = hit.getNormal();
+        if (hitVector) {
+          var incidentAngle = Math.abs(BABYLON.Vector3.Dot(hitVector, self.rays[i].direction));
+          if (incidentAngle > self.options.rayIncidentLimit && incidentAngle < (Math.PI - self.options.rayIncidentLimit)) {
+            shortestDistance = hit.distance;
+          }
         }
       }
-    }
-  };
+    });
 
-  this.getRGB = function() {
-    var r = 0;
-    var g = 0;
-    var b = 0;
-
-    let pixels = self.renderTarget.readPixels();
-    self.pixels = pixels;
-    for (let i=0; i<pixels.length; i+=4) {
-
-      if (self.mask[i/4]) {
-        r += pixels[i];
-        g += pixels[i+1];
-        b += pixels[i+2];
-      }
-    }
-    self.r = r;
-    self.g = g;
-    self.b = b;
-    return [r / self.maskSize, g / self.maskSize, b / self.maskSize];
+    return shortestDistance;
   };
 
   this.init();

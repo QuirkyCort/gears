@@ -274,13 +274,14 @@ var $builtinmodule = function(name) {
     var self = this;
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
-      if (address.v != 'in1') {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor) {
         throw new Sk.builtin.TypeError('No ultrasonic sensor connected to ' + String(address.v));
       }
     });
 
     $loc.dist = new Sk.builtin.func(function(self) {
-      return Math.round(sim.robotStates.ultrasonic);
+      return self.sensor.getDistance();
     });
 
   }, 'UltrasonicSensor', []);

@@ -8,6 +8,7 @@ function Wheel(scene, options) {
   this.STOP_ACTION_COAST_FORCE = 100;
   this.STOP_ACTION_HOLD_FORCE = 1500;
   this.MOTOR_POWER_DEFAULT = 1500;
+  this.MOTOR_PORTS_LIST = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   this.modes = {
     STOP: 1,
@@ -204,8 +205,8 @@ var robot = new function() {
         options: null
       },
       {
-        type: 'Ultrasonic',
-        position: [0, 10, 0],
+        type: 'UltrasonicSensor',
+        position: [0, 3, 8],
         rotation: [0, 0, 0],
         options: null
       },
@@ -357,11 +358,20 @@ var robot = new function() {
   // Load components
   this.loadComponents = function() {
     self.components = [];
-
     self.sensorCount = 0;
+    self.motorCount = 2;
+
     self.options.components.forEach(function(component){
       if (component.type == 'ColorSensor') {
         self.components.push(new ColorSensor(
+          self.scene,
+          self.body,
+          component.position,
+          component.rotation,
+          'in' + (++self.sensorCount),
+          component.options));
+      } else if (component.type == 'UltrasonicSensor') {
+        self.components.push(new UltrasonicSensor(
           self.scene,
           self.body,
           component.position,

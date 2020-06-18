@@ -1,7 +1,7 @@
 import simPython, time
 
 # Needed to prevent loops from locking up the javascript thread
-SENSOR_DELAY = 0.01
+SENSOR_DELAY = 0.001
 
 class ColorSensor:
   _DRIVER_NAME = 'lego-ev3-color'
@@ -199,17 +199,17 @@ class UltrasonicSensor:
   @property
   def distance_centimeters_continuous(self):
     time.sleep(SENSOR_DELAY)
-    return int(self.sensor.dist()) / 10.0
+    return self.sensor.dist()
 
   @property
   def distance_centimeters_ping(self):
     time.sleep(SENSOR_DELAY)
-    return int(self.sensor.dist()) / 10.0
+    return self.sensor.dist()
 
   @property
   def distance_centimeters(self):
     time.sleep(SENSOR_DELAY)
-    return int(self.sensor.dist()) / 10.0
+    return float(self.sensor.dist())
 
   @property
   def distance_inches_continuous(self):

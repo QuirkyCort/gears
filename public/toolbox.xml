@@ -1,14 +1,7 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
   <category name="Motion" colour="#5b67a5">
-    <block type="move">
-      <field name="direction">FORWARD</field>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-    </block>
     <block type="move_steering">
+      <field name="units">PERCENT</field>
       <value name="steering">
         <shadow type="math_number">
           <field name="NUM">0</field>
@@ -21,6 +14,7 @@
       </value>
     </block>
     <block type="move_tank">
+      <field name="units">PERCENT</field>
       <value name="left">
         <shadow type="math_number">
           <field name="NUM">20</field>
@@ -37,6 +31,7 @@
     </block>
     <block type="position">
       <field name="motor">LEFT</field>
+      <field name="units">DEGREES</field>
     </block>
     <block type="reset_motor">
       <field name="motor">BOTH</field>
@@ -48,6 +43,14 @@
       <value name="port">
         <shadow type="math_number">
           <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="ultrasonic_sensor">
+      <field name="units">CM</field>
+      <value name="port">
+        <shadow type="math_number">
+          <field name="NUM">3</field>
         </shadow>
       </value>
     </block>
