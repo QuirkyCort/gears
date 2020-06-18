@@ -138,15 +138,17 @@ var blocklyPanel = new function() {
   // Disable blockly by covering with blank div
   this.setDisable = function(state) {
     if (state == true) {
-      self.$panel.append('<div class="disable"><div class="enable">Enable Blocks Mode</div></div>');
-      if (Blockly.selected) {
-        Blockly.selected.unselect();
-      }
-      Blockly.clipboardSource_ = null;
-      Blockly.clipboardTypeCounts_ = null;
-      Blockly.clipboardXml_ = null;
+      if (self.$panel.find('.disable').length < 1) {
+        self.$panel.append('<div class="disable"><div class="enable">Enable Blocks Mode</div></div>');
+        if (Blockly.selected) {
+          Blockly.selected.unselect();
+        }
+        Blockly.clipboardSource_ = null;
+        Blockly.clipboardTypeCounts_ = null;
+        Blockly.clipboardXml_ = null;
 
-      self.$panel.find('.enable').click(self.enableBlocks);
+        self.$panel.find('.enable').click(self.enableBlocks);
+      }
     } else {
       self.$panel.find('.disable').remove();
     }
