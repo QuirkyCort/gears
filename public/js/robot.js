@@ -190,7 +190,7 @@ var robot = new function() {
     bodyFriction: 0.1,
     casterFriction: 0, // Warning: No effect due to parenting
 
-    sensors: [
+    components: [
       {
         type: 'ColorSensor',
         position: [-2.5, -1, 9],
@@ -202,12 +202,13 @@ var robot = new function() {
         position: [2.5, -1, 9],
         rotation: [Math.PI/2, 0, 0],
         options: null
-      }
-    ],
-
-    motors: [],
-
-    blocks: [
+      },
+      {
+        type: 'Ultrasonic',
+        position: [0, 10, 0],
+        rotation: [0, 0, 0],
+        options: null
+      },
       {
         type: 'Box',
         position: [-9, -2, 3],
@@ -358,34 +359,26 @@ var robot = new function() {
     self.components = [];
 
     self.sensorCount = 0;
-    self.options.sensors.forEach(function(sensor){
-      if (sensor.type == 'ColorSensor') {
+    self.options.components.forEach(function(component){
+      if (component.type == 'ColorSensor') {
         self.components.push(new ColorSensor(
           self.scene,
           self.body,
-          sensor.position,
-          sensor.rotation,
+          component.position,
+          component.rotation,
           'in' + (++self.sensorCount),
-          sensor.options));
-      } else {
-        console.log('Unrecognized sensor type: ' + sensor.type);
-      }
-    });
-
-    self.blocksCount = 0;
-    self.options.blocks.forEach(function(block){
-      if (block.type == 'Box') {
+          component.options));
+      } else if (component.type == 'Box') {
         self.components.push(new BoxBlock(
           self.scene,
           self.body,
-          block.position,
-          block.rotation,
-          block.options));
+          component.position,
+          component.rotation,
+          component.options));
       } else {
-        console.log('Unrecognized block type: ' + block.type);
+        console.log('Unrecognized component type: ' + component.type);
       }
     });
-
   };
 
   // Load meshes for components that needs it
