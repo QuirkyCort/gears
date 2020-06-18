@@ -155,9 +155,17 @@ nav {
     position: absolute;
     right: 0;
     font-size: 200%;
-    cursor: pointer; }
+    cursor: pointer;
+    user-select: none; }
   .console .chevron::before {
     content: "\2303"; }
+  .console .clear {
+    position: absolute;
+    right: .15em;
+    font-size: 180%;
+    cursor: pointer;
+    user-select: none;
+    top: 1em; }
   .console .content {
     position: absolute;
     top: 0.5em;

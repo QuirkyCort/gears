@@ -6,12 +6,14 @@ var simPanel = new function() {
     self.$console = $('.console');
     self.$consoleBtn = $('.console .chevron');
     self.$consoleContent = $('.console .content');
+    self.$consoleClear = $('.console .clear');
     self.$runSim = $('.runSim');
     self.$world = $('.world');
     self.$reset = $('.reset');
 
     self.$consoleBtn.click(self.toggleConsole);
     self.$console.on('transitionend', self.scrollConsoleToBottom);
+    self.$consoleClear.click(self.clearConsole);
     self.$runSim.click(self.runSim);
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
@@ -52,7 +54,7 @@ var simPanel = new function() {
       }
       robot.reset();
       skulpt.runPython();
-      self.setRunIcon('stop');  
+      self.setRunIcon('stop');
     }
   };
 
@@ -93,6 +95,11 @@ var simPanel = new function() {
     simPanel.$consoleContent.html(text);
     self.scrollConsoleToBottom();
   }
+
+  // clear all content
+  this.clearConsole = function() {
+    simPanel.$consoleContent.html('');
+  };
 
   // Toggle opening and closing of console
   this.toggleConsole = function() {

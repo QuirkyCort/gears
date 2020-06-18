@@ -193,10 +193,20 @@ nav {
     right: 0;
     font-size: 200%;
     cursor: pointer;
+    user-select: none;
   }
 
   .chevron::before {
     content: "\2303";
+  }
+
+  .clear {
+    position: absolute;
+    right: .15em;
+    font-size: 180%;
+    cursor: pointer;
+    user-select: none;
+    top: 1em;
   }
 
   .content {
