@@ -202,10 +202,16 @@ var blockly = new function() {
   // get position
   this.pythonPosition = function(block) {
     var dropdown_motor = block.getFieldValue('motor');
+    var dropdown_units = block.getFieldValue('units');
+
     if (dropdown_motor == 'LEFT') {
       var code = 'left_motor.position';
     } else {
       var code = 'right_motor.position';
+    }
+
+    if (dropdown_units == 'ROTATIONS') {
+      var code = '(' + code + ' / 360.0)';
     }
 
     return [code, Blockly.Python.ORDER_ATOMIC];

@@ -4,11 +4,11 @@ function Wheel(scene, options) {
   this.mesh = null;
   this.joint = null;
 
-  this.STOP_ACTION_BRAKE_FORCE = 1000;
-  this.STOP_ACTION_COAST_FORCE = 100;
-  this.STOP_ACTION_HOLD_FORCE = 1500;
-  this.MOTOR_POWER_DEFAULT = 1500;
-  this.MOTOR_PORTS_LIST = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  this.STOP_ACTION_BRAKE_FORCE = 2000;
+  this.STOP_ACTION_COAST_FORCE = 1000;
+  this.STOP_ACTION_HOLD_FORCE = 3000;
+  this.MOTOR_POWER_DEFAULT = 3000;
+  this.MAX_ACCELERATION = 0.5;
 
   this.modes = {
     STOP: 1,
@@ -17,7 +17,8 @@ function Wheel(scene, options) {
     RUN_TIL_TIME: 3
   };
 
-  this.speed_sp = 1050;
+  this.speed_sp = 0;
+  this._speed_sp = 0;
   this.stop_action = 'hold';
   this.position = 0;
 
@@ -34,9 +35,6 @@ function Wheel(scene, options) {
   //
   this.runForever = function() {
     self.mode = self.modes.RUN;
-
-    let speed = -self.speed_sp / 180 * Math.PI;
-    self.joint.setMotor(speed, self.MOTOR_POWER_DEFAULT);
   };
 
   this.stop = function() {
@@ -108,7 +106,21 @@ function Wheel(scene, options) {
   };
 
   this.render = function(delta) {
-    self.updatePosition();
+    if (self.mode == self.modes.RUN) {
+      let diff = self.speed_sp - self._speed_sp;
+      let diffLimit = delta * self.MAX_ACCELERATION;
+      if (diff > diffLimit) {
+        self._speed_sp += diffLimit;
+      } else if (diff < -diffLimit) {
+        self._speed_sp -= diffLimit;
+      } else {
+        self._speed_sp = self.speed_sp;
+      }
+
+      let speed = -self._speed_sp / 180 * Math.PI;
+      self.joint.setMotor(speed, self.MOTOR_POWER_DEFAULT);
+    }
+    self.updatePosition(delta);
   };
 
   this.updatePosition = function(delta) {
@@ -185,22 +197,22 @@ var robot = new function() {
 
     bodyMass: 1000,
     wheelMass: 200,
-    casterMass: 400, // Warning: No effect due to parenting
+    casterMass: 0, // Warning: No effect due to parenting
 
-    wheelFriction: 2,
-    bodyFriction: 0.1,
+    wheelFriction: 10,
+    bodyFriction: 0,
     casterFriction: 0, // Warning: No effect due to parenting
 
     components: [
       {
         type: 'ColorSensor',
-        position: [-2.5, -1, 9],
+        position: [-2.5, -0.5, 9],
         rotation: [Math.PI/2, 0, 0],
         options: null
       },
       {
         type: 'ColorSensor',
-        position: [2.5, -1, 9],
+        position: [2.5, -0.5, 9],
         rotation: [Math.PI/2, 0, 0],
         options: null
       },

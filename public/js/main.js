@@ -135,6 +135,12 @@ var blocklyPanel = new function() {
     }
   };
 
+  // Run when panel is inactive
+  this.onInActive = function() {
+    Blockly.DropDownDiv.hide()
+    Blockly.WidgetDiv.hide()
+  };
+
   // Disable blockly by covering with blank div
   this.setDisable = function(state) {
     if (state == true) {
@@ -193,6 +199,13 @@ var pythonPanel = new function() {
     self.$save.click(self.save);
 
     self.loadPythonEditor();
+  };
+
+  // Runs when panel is made active
+  this.onActive = function() {
+    if (self.modified == false) {
+      self.loadPythonFromBlockly();
+    }
   };
 
   // Load ace editor
@@ -294,6 +307,20 @@ var main = new function() {
   this.tabClicked = function() {
     var match = $(this)[0].id;
 
+    function getPanelByNav(nav) {
+      if (nav == 'navBlocks') {
+        return blocklyPanel;
+      } else if (nav == 'navPython') {
+        return pythonPanel;
+      } else if (nav == 'navSim') {
+        return simPanel;
+      }
+    };
+
+    inActiveNav = self.$navs.siblings('.active').attr('id');
+    inActive = getPanelByNav(inActiveNav);
+    active = getPanelByNav(match);
+
     self.$navs.removeClass('active');
     $(this).addClass('active');
 
@@ -303,10 +330,11 @@ var main = new function() {
     self.$panelControls.removeClass('active');
     self.$panelControls.siblings('[aria-labelledby="' + match + '"]').addClass('active');
 
-    if (match == 'navPython' && pythonPanel.modified == false) {
-      pythonPanel.loadPythonFromBlockly();
-    } else if (match == 'navBlocks') {
-      blocklyPanel.onActive();
+    if (typeof inActive.onInActive == 'function') {
+      inActive.onInActive();
+    }
+    if (typeof active.onActive == 'function') {
+      active.onActive();
     }
   };
 }

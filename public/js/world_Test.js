@@ -11,13 +11,13 @@ var world_Test = new function() {
     kinematicObjectRestitution: 0.1
   };
   this.robotStart = {
-    // position: new BABYLON.Vector3(0, 0, 0) // Ramp 1, 18 degrees
+    position: new BABYLON.Vector3(0, 0, 0) // Ramp 1, 18 degrees
     // position: new BABYLON.Vector3(35, 0, 0) // Ramp 2, 36 degrees
     // position: new BABYLON.Vector3(70, 0, 0) // Ramp 3, 45 degrees
     // position: new BABYLON.Vector3(105, 0, 0) // Ramp 3, 18 degrees, 0.1 friction
 
     // position: new BABYLON.Vector3(140, 0, 0) // static bumps
-    position: new BABYLON.Vector3(-35, 0, 0) // kinematic bumps
+    // position: new BABYLON.Vector3(-35, 0, 0) // kinematic bumps
 
     // position: new BABYLON.Vector3(-70, 0, 0) // Object 1, weight 800
     // position: new BABYLON.Vector3(-105, 0, 0) // Object 2, weight 1600
