@@ -388,7 +388,23 @@ function GyroSensor(scene, parent, pos, port, options) {
     var bodyMat = new BABYLON.StandardMaterial('gyroSensorBody', scene);
     bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.4, 0.2);
 
-    var body = BABYLON.MeshBuilder.CreateBox('gyroSensorBody', {height: 1, width: 2, depth: 2}, scene);
+    var bodyTexture = new BABYLON.Texture('textures/robot/gyro.png', scene);
+    bodyMat.diffuseTexture = bodyTexture;
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+    faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+
+    var boxOptions = {
+        height: 1,
+        width: 2,
+        depth: 2,
+        faceUV: faceUV
+    };
+
+    var body = BABYLON.MeshBuilder.CreateBox('gyroSensorBody', boxOptions, scene);
     self.body = body;
     body.material = bodyMat;
     body.parent = parent;
