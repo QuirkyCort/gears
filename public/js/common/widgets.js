@@ -1,3 +1,33 @@
+// File menu dropdown
+function menuDropDown($menuBtn, menuItems, options) {
+  var $dropDown = $(
+    '<ul class="fileMenuDropDown"></ul>'
+  );
+
+  menuItems.forEach(function(menuItem) {
+    let $li = $('<li></li>');
+    $li.text(menuItem.text);
+    if (menuItem.line) {
+      $li.addClass('underline');
+    }
+    $li.click(menuItem.callback);
+    $dropDown.append($li);
+  });
+
+  let top = $menuBtn[0].offsetTop + $menuBtn[0].offsetHeight;
+  let left = $menuBtn[0].offsetLeft;
+  $dropDown.css('top', top);
+  $dropDown.css('left', left);
+
+  $(document).one('click', function(){
+    $('.fileMenuDropDown').remove();
+  });
+
+  $menuBtn.append($dropDown);
+
+  return $menuBtn;
+}
+
 // Adds the "pressed" class on touch, and remove when released
 function setOnTouch(el) {
   if (el.constructor === Array) {

@@ -31,11 +31,11 @@ nav {
   border-bottom: solid 1px #bbbbbb;
   justify-content: space-between;
   align-items: center; }
-  nav ul {
+  nav ul.panelTabs {
     display: flex;
     padding-left: 5px;
     margin: 0; }
-    nav ul li {
+    nav ul.panelTabs li {
       display: block;
       border: solid 1px #bbbbbb;
       padding: 0.3em 1em;
@@ -46,18 +46,53 @@ nav {
       color: #999999;
       cursor: pointer;
       user-select: none; }
-    nav ul li:hover {
+    nav ul.panelTabs li:hover {
       background: #E4F0FE; }
-    nav ul li.active {
+    nav ul.panelTabs li.active {
       z-index: 1;
       background: white;
       color: #4994FB;
       margin-top: -5px;
       font-size: 110%; }
-  nav .panelControlsArea .panelControls {
-    display: none; }
-  nav .panelControlsArea .panelControls.active {
-    display: block; }
+  nav .menuBar {
+    display: flex;
+    margin-left: 0.5em; }
+    nav .menuBar .menuItem {
+      padding: 0.3em 0.5em;
+      font-weight: bold;
+      color: gray;
+      cursor: pointer;
+      user-select: none; }
+    nav .menuBar .menuItem:hover {
+      color: #4994FB; }
+    nav .menuBar ul.fileMenuDropDown {
+      background: #E4F0FE;
+      border: solid 1px #bbbbbb;
+      position: absolute;
+      top: 71px;
+      left: 272px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 0 0.5em 0.5em;
+      overflow: hidden;
+      box-shadow: 0px 10px 6px 0px rgba(0, 0, 0, 0.25); }
+      nav .menuBar ul.fileMenuDropDown li {
+        display: block;
+        color: gray;
+        padding: 0.5em; }
+      nav .menuBar ul.fileMenuDropDown li:hover {
+        background: white; }
+      nav .menuBar ul.fileMenuDropDown li.underline {
+        border-bottom: solid 1px #bbbbbb; }
+  nav .panelControlsArea {
+    margin-left: auto; }
+    nav .panelControlsArea .panelControls {
+      display: none; }
+    nav .panelControlsArea .panelControls.active {
+      display: block; }
 
 .panels {
   flex-grow: 1;

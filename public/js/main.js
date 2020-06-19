@@ -230,7 +230,10 @@ var pythonPanel = new function() {
     self.showSave();
 
     if (! self.modified) {
-      acknowledgeDialog('Changes to Python code cannot be converted back into blocks!');
+      acknowledgeDialog({
+        title: 'Warning!',
+        message: 'Changes to Python code cannot be converted back into blocks!'
+      });
       self.modified = true;
     }
   };
@@ -288,11 +291,79 @@ var main = new function() {
     self.$navs = $('nav li');
     self.$panelControls = $('.panelControlsArea .panelControls');
     self.$panels = $('.panels .panel');
+    self.$fileMenu = $('.fileMenu');
 
     self.$navs.click(self.tabClicked);
+    self.$fileMenu.click(self.toggleFileMenu);
 
     window.addEventListener('beforeunload', self.checkUnsaved);
     blocklyPanel.onActive();
+  };
+
+  // Toggle filemenu
+  this.toggleFileMenu = function(e) {
+    if ($('.fileMenuDropDown').length == 0) {
+      e.stopPropagation();
+
+      let menuItems = [
+        {text: 'Load blocks from your computer', line: false, callback: self.loadFromComputer},
+        {text: 'Save blocks to your computer', line: true, callback: self.saveToComputer},
+        {text: 'Load Python from your computer', line: false, callback: self.loadPythonFromComputer},
+        {text: 'Save Python to your computer', line: false, callback: self.savePythonToComputer},
+      ];
+
+      menuDropDown(self.$fileMenu, menuItems, {alignRight: true});
+    }
+  };
+
+  // save to computer
+  this.saveToComputer = function() {
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:application/xml;base64,' + btoa(blockly.getXmlText());
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'gearsBot.xml';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
+  // load from computer
+  this.loadFromComputer = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'application/xml,.xml';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        blockly.loadXmlText(this.result);
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+  };
+
+  // save to computer
+  this.savePythonToComputer = function() {
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/x-python;base64,' + btoa(pythonPanel.editor.getValue());
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'gearsBot.py';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
+  // load from computer
+  this.loadPythonFromComputer = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'text/x-python,.py';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        pythonPanel.editor.setValue(this.result);
+        self.tabClicked('navPython');
+        pythonPanel.warnModify();
+      };
+      reader.readAsText(e.target.files[0]);
+    });
   };
 
   // Check for unsaved changes
@@ -304,8 +375,12 @@ var main = new function() {
   };
 
   // Clicked on tab
-  this.tabClicked = function() {
-    var match = $(this)[0].id;
+  this.tabClicked = function(tabNav) {
+    if (typeof tabNav == 'string') {
+      var match = tabNav;
+    } else {
+      var match = $(this)[0].id;
+    }
 
     function getPanelByNav(nav) {
       if (nav == 'navBlocks') {
@@ -322,7 +397,7 @@ var main = new function() {
     active = getPanelByNav(match);
 
     self.$navs.removeClass('active');
-    $(this).addClass('active');
+    $('#' + match).addClass('active');
 
     self.$panels.removeClass('active');
     self.$panels.siblings('[aria-labelledby="' + match + '"]').addClass('active');

@@ -69,25 +69,33 @@ var blockly = new function() {
     }
   };
 
+  // get xmlText
+  this.getXmlText = function() {
+    var xml = Blockly.Xml.workspaceToDom(self.workspace);
+    return Blockly.Xml.domToText(xml);
+  };
+
   // Save to local storage
   this.saveLocalStorage = function() {
     if (self.workspace && self.unsaved) {
       self.unsaved = false;
       blocklyPanel.hideSave();
-      var xml = Blockly.Xml.workspaceToDom(self.workspace);
-      var xmlText = Blockly.Xml.domToText(xml);
-      localStorage.setItem('blocklyXML', xmlText);
+      localStorage.setItem('blocklyXML', self.getXmlText());
     }
   };
 
-  // Load from local storage
-  this.loadLocalStorage = function() {
-    var xmlText = localStorage.getItem('blocklyXML');
+  // load xmlText to workspace
+  this.loadXmlText = function(xmlText) {
     if (xmlText) {
       var xml = Blockly.Xml.textToDom(xmlText);
       self.workspace.clear()
       Blockly.Xml.domToWorkspace(xml, self.workspace);
     }
+  };
+
+  // Load from local storage
+  this.loadLocalStorage = function() {
+    self.loadXmlText(localStorage.getItem('blocklyXML'));
   };
 
   // Load Python generators
