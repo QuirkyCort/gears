@@ -206,13 +206,13 @@ var robot = new function() {
     components: [
       {
         type: 'ColorSensor',
-        position: [-2.5, -0.5, 9],
+        position: [-2.5, -1.5, 9],
         rotation: [Math.PI/2, 0, 0],
         options: null
       },
       {
         type: 'ColorSensor',
-        position: [2.5, -0.5, 9],
+        position: [2.5, -1.5, 9],
         rotation: [Math.PI/2, 0, 0],
         options: null
       },
@@ -241,6 +241,11 @@ var robot = new function() {
           width: 1,
           depth: 14
         }
+      },
+      {
+        type: 'GyroSensor',
+        position: [0, 3, -5],
+        options: null
       }
     ]
   };
@@ -388,6 +393,13 @@ var robot = new function() {
           self.body,
           component.position,
           component.rotation,
+          'in' + (++self.sensorCount),
+          component.options));
+      } else if (component.type == 'GyroSensor') {
+        self.components.push(new GyroSensor(
+          self.scene,
+          self.body,
+          component.position,
           'in' + (++self.sensorCount),
           component.options));
       } else if (component.type == 'Box') {

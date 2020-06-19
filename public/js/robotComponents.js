@@ -21,16 +21,16 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var bodyMat = new BABYLON.StandardMaterial('colorSensorBody', scene);
     bodyMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
     let bodyOptions = {
-      height: 3,
-      width: 3,
-      depth: 5
+      height: 2,
+      width: 2,
+      depth: 3
     };
     var body = BABYLON.MeshBuilder.CreateBox('colorSensorBody', bodyOptions, scene);
     self.body = body;
     body.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(body);
 
-    body.position.z -= 2.50001;
+    body.position.z -= 1.50001;
     body.physicsImpostor = new BABYLON.PhysicsImpostor(
       body,
       BABYLON.PhysicsImpostor.BoxImpostor,
@@ -52,7 +52,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     eyeMat.diffuseColor = new BABYLON.Color3(0.9, 0.0, 0.0);
     var eye = new BABYLON.MeshBuilder.CreateSphere("eye", {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
     eye.material = eyeMat;
-    eye.position.z = 2.5;
+    eye.position.z = 1.5;
     eye.parent = body;
 
 
@@ -60,7 +60,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
     self.rttCam.fov = 1.0;
     self.rttCam.minZ = 0.1;
-    self.rttCam.maxZ = 10;
+    self.rttCam.maxZ = 5;
     self.rttCam.updateUpVectorFromRotation = true;
     self.rttCam.position = eye.absolutePosition;
 
@@ -359,6 +359,101 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     });
 
     return shortestDistance;
+  };
+
+  this.init();
+}
+
+// Gyro sensor
+function GyroSensor(scene, parent, pos, port, options) {
+  var self = this;
+
+  this.type = 'GyroSensor';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(0, 0, 0);
+  this.actualRotation = 0;
+  this.rotationRounds = 0;
+  this.rotationAdjustment = 0;
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(0, 0, 0);
+  this.s = new BABYLON.Vector3(0,0,1);
+  this.origin = new BABYLON.Vector3(0,0,0);
+  this.e = new BABYLON.Vector3(0,0,0);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = new BABYLON.StandardMaterial('gyroSensorBody', scene);
+    bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.4, 0.2);
+
+    var body = BABYLON.MeshBuilder.CreateBox('gyroSensorBody', {height: 1, width: 2, depth: 2}, scene);
+    self.body = body;
+    body.material = bodyMat;
+    body.parent = parent;
+    body.position = self.position;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.render = function(delta) {
+    self.updateRotation(delta);
+  };
+
+  this.updateRotation = function(delta) {
+    self.s.rotateByQuaternionAroundPointToRef(self.body.absoluteRotationQuaternion, self.origin, self.e);
+
+    let rot = BABYLON.Vector3.GetAngleBetweenVectors(self.s, self.e, BABYLON.Vector3.Up()) / Math.PI * 180;
+
+    if (! isNaN(rot)) {
+      if (rot - self.prevRotation > 180) {
+        self.rotationRounds -= 1;
+      } else if (rot - self.prevRotation < -180) {
+        self.rotationRounds += 1;
+      }
+      self.prevRotation = rot;
+
+      let rotation = self.rotationRounds * 360 + rot;
+      self.angularVelocity = (rotation - self.actualRotation) / delta * 1000;
+      self.actualRotation = rotation;
+      self.rotation = rotation - self.rotationAdjustment;
+    }
+  };
+
+  this.reset = function() {
+    self.rotationAdjustment += self.rotation;
+    self.rotation = 0;
+    self.prevRotation = 0;
+  };
+
+  this.getAngle = function() {
+    return self.actualRotation;
+  };
+
+  this.getRate = function() {
+    return self.angularVelocity;
   };
 
   this.init();

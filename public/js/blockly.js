@@ -103,6 +103,8 @@ var blockly = new function() {
     Blockly.Python['move_tank'] = self.pythonMoveTank;
     Blockly.Python['color_sensor'] = self.pythonColorSensor;
     Blockly.Python['ultrasonic_sensor'] = self.pythonUltrasonicSensor;
+    Blockly.Python['gyro_sensor'] = self.pythonGyroSensor;
+    Blockly.Python['reset_gyro'] = self.pythonResetGyroSensor;
   };
 
   // Generate python code
@@ -127,7 +129,8 @@ var blockly = new function() {
         sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n'
       } else if (sensor.type == 'UltrasonicSensor') {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n'
-      }
+      } else if (sensor.type == 'GyroSensor') {
+        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n'      }
       i++;
     }
 
@@ -290,6 +293,29 @@ var blockly = new function() {
     }
     var code = 'ultrasonic_sensor_in' + value_port + '.' + unitsStr;
     return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  // gyro
+  this.pythonGyroSensor = function(block) {
+    var dropdown_type = block.getFieldValue('type');
+    var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
+
+    if (dropdown_type == 'ANGLE') {
+      var typeStr = 'angle';
+    } else if (dropdown_type == 'RATE') {
+      var typeStr = 'rate';
+    }
+    var code = 'gyro_sensor_in' + value_port + '.' + typeStr;
+
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  // gyro reset
+  this.pythonResetGyroSensor = function(block) {
+    var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'gyro_sensor_in' + value_port + '.reset()\n';
+    return code;
   };
 }
 

@@ -246,7 +246,8 @@ var $builtinmodule = function(name) {
     var self = this;
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
-      if (address.v != 'in4') {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor) {
         throw new Sk.builtin.TypeError('No gyro sensor connected to ' + String(address.v));
       }
     });
@@ -254,8 +255,8 @@ var $builtinmodule = function(name) {
     $loc.angleAndRate = new Sk.builtin.func(function(self) {
       var gyro = [];
 
-      gyro[0] = Math.round(sim.robotStates.gyro[0]);
-      gyro[1] = Math.round(sim.robotStates.gyro[1]);
+      gyro[0] = Math.round(self.sensor.getAngle());
+      gyro[1] = Math.round(self.sensor.getRate());
 
       return gyro;
     });

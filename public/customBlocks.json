@@ -300,4 +300,51 @@
   "colour": 160,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "gyro_sensor",
+  "message0": "gyro %1 on port %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "angle",
+          "ANGLE"
+        ],
+        [
+          "rate",
+          "RATE"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "port",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "reset_gyro",
+  "message0": "reset gyro on port %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "port",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
 }]
