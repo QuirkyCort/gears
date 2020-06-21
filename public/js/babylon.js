@@ -82,7 +82,7 @@ var babylon = new function() {
       self.cameraArc._panningMouseButton = 0; // change functionality from left to right mouse button
 
     } else if (self.cameraMode == 'arc') {
-      self.cameraArc.lockedTarget = null;
+      self.cameraArc.lockedTarget = new BABYLON.Vector3(0, 0, 0);
       self.cameraArc.alpha = -Math.PI / 2;
       self.cameraArc.beta = Math.PI / 5;
       self.cameraArc._panningMouseButton = 1;
