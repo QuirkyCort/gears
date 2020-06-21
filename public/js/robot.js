@@ -193,13 +193,13 @@ var robot = new function() {
 
   this.options = {
     wheelDiameter: 5.6,
-    wheelWidth: 0.8,
+    wheelWidth: 2.8,
     wheelToBodyOffset: 0.2,
-    bodyHeight: 5,
+    bodyHeight: 4,
     bodyWidth: 10,
-    bodyLength: 15,
+    bodyLength: 16,
     bodyEdgeToWheelCenterY: 1,
-    bodyEdgeToWheelCenterZ: 1,
+    bodyEdgeToWheelCenterZ: 2,
 
     bodyMass: 1000,
     wheelMass: 200,
@@ -212,45 +212,45 @@ var robot = new function() {
     components: [
       {
         type: 'ColorSensor',
-        position: [-2.5, -1.5, 9],
+        position: [-2.5, -1, 9],
         rotation: [Math.PI/2, 0, 0],
         options: null
       },
       {
         type: 'ColorSensor',
-        position: [2.5, -1.5, 9],
+        position: [2.5, -1, 9],
         rotation: [Math.PI/2, 0, 0],
         options: null
       },
       {
         type: 'UltrasonicSensor',
-        position: [0, 3, 8],
+        position: [0, 2.5, 8],
         rotation: [0, 0, 0],
         options: null
       },
       {
         type: 'Box',
-        position: [-9, -2, 3],
+        position: [-9, -1, 3],
         rotation: [0, 0, 0],
         options: {
-          height: 2,
+          height: 3,
           width: 1,
           depth: 14
         }
       },
       {
         type: 'Box',
-        position: [9, -2, 3],
+        position: [9, -1, 3],
         rotation: [0, 0, 0],
         options: {
-          height: 2,
+          height: 3,
           width: 1,
           depth: 14
         }
       },
       {
         type: 'GyroSensor',
-        position: [0, 3, -5],
+        position: [0, 2.5, -5],
         options: null
       }
     ]

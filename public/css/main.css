@@ -19,6 +19,11 @@ header {
   color: white;
   padding: 0.5em 1em;
   align-items: center; }
+  header .gearsIcon {
+    height: 1.6em;
+    margin-right: 0.5em;
+    margin-top: -0.3em;
+    margin-bottom: -0.3em; }
 
 main {
   flex-grow: 1;
