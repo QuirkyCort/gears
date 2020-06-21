@@ -4,10 +4,6 @@
 var $builtinmodule = function(name) {
   var mod = {};
 
-  mod.get_clock = new Sk.builtin.func(function() {
-    return sim.clock / sim.fps;
-  });
-
   mod.Motor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 
@@ -23,24 +19,16 @@ var $builtinmodule = function(name) {
 
     $loc.command = new Sk.builtin.func(function(self, command) {
       if (command.v == 'run-timed') {
-        self.wheel.time_target = sim.clock + self.wheel.time_sp * sim.fps;
-        self.wheel.state = 'running';
+        self.wheel.time_target = Date.now() + self.wheel.time_sp * 1000;
+        self.wheel.runTimed();
 
       } else if (command.v == 'run-to-rel-pos') {
-        self.wheel.position_target = self.wheel.pos + self.wheel.position_sp;
-        if (self.wheel.position_target != self.wheel.pos) {
-          self.wheel.state = 'running';
-        } else {
-          self.wheel.state = '';
-        }
+        self.wheel.position_target = self.wheel.position + self.wheel.position_sp;
+        self.wheel.runToPosition();
 
       } else if (command.v == 'run-to-abs-pos') {
         self.wheel.position_target = self.wheel.position_sp;
-        if (self.wheel.position_target != self.wheel.pos) {
-          self.wheel.state = 'running';
-        } else {
-          self.wheel.state = '';
-        }
+        self.wheel.runToPosition();
 
       } else if (command.v == 'run-forever') {
         self.wheel.runForever();

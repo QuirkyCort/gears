@@ -6,16 +6,26 @@ function Wheel(scene, options) {
 
   this.STOP_ACTION_BRAKE_FORCE = 2000;
   this.STOP_ACTION_COAST_FORCE = 1000;
-  this.STOP_ACTION_HOLD_FORCE = 3000;
+  this.STOP_ACTION_HOLD_FORCE = 30000;
   this.MOTOR_POWER_DEFAULT = 3000;
-  this.MAX_SPEED = 800;
+  this.MAX_SPEED = 800 / 180 * Math.PI;
   this.MAX_ACCELERATION = 2;  // degrees / msec^2
+  this.TIRE_DOWNWARDS_FORCE = new BABYLON.Vector3(0, -4000, 0);
 
   this.modes = {
     STOP: 1,
     RUN: 2,
-    RUN_TO_POS: 2,
-    RUN_TIL_TIME: 3
+    RUN_TO_POS: 3,
+    RUN_TIL_TIME: 4
+  };
+  this.state = '';
+  this.states = {
+    RUNNING: 'running',
+    RAMPING: 'ramping',
+    HOLDING: 'holding',
+    OVERLOADED: 'overloaded',
+    STATE_STALLED: 'stalled',
+    NONE: ''
   };
 
   this.speed_sp = 0;
@@ -38,22 +48,42 @@ function Wheel(scene, options) {
     self.mode = self.modes.RUN;
   };
 
+  this.runTimed = function() {
+    self.mode = self.modes.RUN_TIL_TIME;
+  };
+
+  this.runToPosition = function() {
+    if (self.position_target < self.position) {
+      self.positionDirectionReversed = true;
+    } else {
+      self.positionDirectionReversed = false;
+    }
+    self.mode = self.modes.RUN_TO_POS;
+  };
+
   this.stop = function() {
     self.mode = self.modes.STOP;
 
     if (self.stop_action == 'hold') {
       self.joint.setMotor(0, self.STOP_ACTION_HOLD_FORCE);
+      self.state = self.states.HOLDING;
+      self.position_target = self.position;
     } else if (self.stop_action == 'brake') {
       self.joint.setMotor(0, self.STOP_ACTION_BRAKE_FORCE);
+      self.state = self.states.NONE;
     } else {
       self.joint.setMotor(0, self.STOP_ACTION_COAST_FORCE);
+      self.state = self.states.NONE;
     }
   };
 
   this.reset = function() {
     self.positionAdjustment += self.position;
     self.position = 0;
+    self.position_target = 0;
     self.prevPosition = 0;
+    self.mode = self.modes.STOP;
+    self.state = self.states.HOLDING;
   };
 
   //
@@ -84,7 +114,13 @@ function Wheel(scene, options) {
     self.mesh.position.z = pos[2];
     scene.shadowGenerator.addShadowCaster(self.mesh);
     self.mesh.position.addInPlace(startPos);
+
     self.s = new BABYLON.Quaternion.FromEulerAngles(0,0,self.mesh.rotation.z);
+    self.s_i = BABYLON.Quaternion.Inverse(self.s);
+    self.axis0 = new BABYLON.Quaternion(0,1,0,0);
+    self.axis1 = self.s.multiply(self.axis0).multiply(self.s_i);
+    self.v1 = new BABYLON.Vector3(self.axis1.x, self.axis1.y, self.axis1.z);
+    self.v1.normalize();
 
     self.mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
       self.mesh,
@@ -107,63 +143,111 @@ function Wheel(scene, options) {
   };
 
   this.render = function(delta) {
+    self.mesh.physicsImpostor.applyForce(self.TIRE_DOWNWARDS_FORCE, self.mesh.getAbsolutePosition());
     if (self.mode == self.modes.RUN) {
-      let diff = self.speed_sp - self._speed_sp;
-      let diffLimit = delta * self.MAX_ACCELERATION;
-      if (diff > diffLimit) {
-        self._speed_sp += diffLimit;
-      } else if (diff < -diffLimit) {
-        self._speed_sp -= diffLimit;
-      } else {
-        self._speed_sp = self.speed_sp;
+      self.setMotorSpeed(delta);
+    } else if (self.mode == self.modes.RUN_TIL_TIME) {
+      self.setMotorSpeed(delta);
+      if (Date.now() > self.time_target) {
+        self.stop();
       }
-
-      let speed = -self._speed_sp / 180 * Math.PI;
-      if (speed > self.MAX_SPEED) {
-        speed = self.MAX_SPEED;
-      } else if (speed < -self.MAX_SPEED) {
-        speed = -self.MAX_SPEED;
+    } else if (self.mode == self.modes.RUN_TO_POS) {
+      self.setMotorSpeed(delta, self.positionDirectionReversed);
+      if (
+        (self.positionDirectionReversed == false && self.position >= self.position_target) ||
+        (self.positionDirectionReversed && self.position <= self.position_target)
+      ) {
+        self.stop();
       }
-      self.joint.setMotor(speed, self.MOTOR_POWER_DEFAULT);
+    } else if (self.state == self.states.HOLDING) {
+      self.holdPosition(delta);
     }
     self.updatePosition(delta);
   };
 
+  this.holdPosition = function(delta) {
+    const P_GAIN = 0.1;
+    const MAX_POSITION_CORRECTION_SPEED = 5;
+    let error = self.position_target - self.position;
+    let speed = -error * P_GAIN;
+
+    if (speed > MAX_POSITION_CORRECTION_SPEED) {
+      speed = MAX_POSITION_CORRECTION_SPEED;
+    } else if (speed < -MAX_POSITION_CORRECTION_SPEED) {
+      speed = -MAX_POSITION_CORRECTION_SPEED;
+    } else if (speed < 1) {
+      // speed = 0;
+    }
+    self.joint.setMotor(speed, 30000);
+  };
+
+  this.setMotorSpeed = function(delta, reversed=false) {
+    let diff = self.speed_sp - self._speed_sp;
+    let diffLimit = delta * self.MAX_ACCELERATION;
+    if (diff > diffLimit) {
+      self._speed_sp += diffLimit;
+      self.state = self.states.RAMPING;
+    } else if (diff < -diffLimit) {
+      self._speed_sp -= diffLimit;
+      self.state = self.states.RAMPING;
+    } else {
+      self._speed_sp = self.speed_sp;
+      self.state = self.states.RUNNING;
+    }
+
+    let speed = -self._speed_sp / 180 * Math.PI;
+    if (speed > self.MAX_SPEED) {
+      speed = self.MAX_SPEED;
+    } else if (speed < -self.MAX_SPEED) {
+      speed = -self.MAX_SPEED;
+    }
+    if (reversed) {
+      speed = -speed;
+    }
+    self.joint.setMotor(speed, self.MOTOR_POWER_DEFAULT);
+  };
+
   this.updatePosition = function(delta) {
     let e = self.mesh.rotationQuaternion;
-    let rot = self.getRotation(this.s, e) / Math.PI * 180;
+    let rot = self.getRotation(self.s, e) / Math.PI * 180;
 
-    if (! isNaN(rot)) {
-      if (rot - self.prevRotation > 180) {
-        self.rotationRounds -= 1;
-      } else if (rot - self.prevRotation < -180) {
-        self.rotationRounds += 1;
-      }
-      self.prevRotation = rot;
-
-      let position = self.rotationRounds * 360 + rot;
-      self.angularVelocity = (position - self.actualPosition) / delta * 1000;
-      self.actualPosition = position;
-      self.position = position - self.positionAdjustment;
+    if (rot - self.prevRotation > 180) {
+      self.rotationRounds -= 1;
+    } else if (rot - self.prevRotation < -180) {
+      self.rotationRounds += 1;
     }
+    prevRotation = self.prevRotation
+    self.prevRotation = rot;
+
+    let position = self.rotationRounds * 360 + rot;
+    self.angularVelocity = (position - self.actualPosition) / delta * 1000;
+    self.actualPosition = position;
+    self.position = position - self.positionAdjustment;
+
+    self.prevv2 = v2
   };
 
   this.getRotation = function(s, e) {
-    var r = e.multiply(BABYLON.Quaternion.Inverse(s));
+    var r = e.multiply(self.s_i);
 
-    var axis0 = new BABYLON.Quaternion(0,1,0,0);
-    var axis1 = s.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(s));
-    var axis2 = e.multiply(axis0).multiply(BABYLON.Quaternion.Inverse(e));
+    var axis2 = e.multiply(self.axis0).multiply(BABYLON.Quaternion.Inverse(e));
 
-    var v1 = new BABYLON.Vector3(axis1.x, axis1.y, axis1.z);
-    var v2 = new BABYLON.Vector3(axis2.x, axis2.y, axis2.z);
-    v1.normalize();
+    v2 = new BABYLON.Vector3(axis2.x, axis2.y, axis2.z);
     v2.normalize();
 
-    var q1_xyz = v1.cross(v2);
-    var q1_dot = BABYLON.Vector3.Dot(v1, v2);
+    q1_xyz = self.v1.cross(v2);
+    var q1_dot = BABYLON.Vector3.Dot(self.v1, v2);
     var q1_w = 1 + q1_dot;
-    var q1 = new BABYLON.Quaternion(q1_xyz.x, q1_xyz.y, q1_xyz.z, q1_w);
+    if (q1_w< 0.1) {
+      if (Math.abs(self.v1.x)> Math.abs(self.v1.z)) {
+        var q1 = new BABYLON.Quaternion(-self.v1.y, self.v1.x, 0, 0)
+      } else {
+        var q1 = new BABYLON.Quaternion(0,-self.v1.z, self.v1.y, 0)
+      }
+    } else {
+      var q1 = new BABYLON.Quaternion(q1_xyz.x, q1_xyz.y, q1_xyz.z, q1_w);
+    }
+
     q1.normalize();
     var q2 = BABYLON.Quaternion.Inverse(r).multiply(q1);
     q2.normalize();
@@ -192,12 +276,14 @@ var robot = new function() {
   var self = this;
 
   this.options = {
-    wheelDiameter: 5.6,
-    wheelWidth: 2.8,
-    wheelToBodyOffset: 0.2,
     bodyHeight: 4,
     bodyWidth: 10,
     bodyLength: 16,
+
+    wheelDiameter: 5.6,
+    wheelWidth: 0.8,
+    wheelToBodyOffset: 0.2,
+
     bodyEdgeToWheelCenterY: 1,
     bodyEdgeToWheelCenterZ: 2,
 
@@ -230,7 +316,7 @@ var robot = new function() {
       },
       {
         type: 'Box',
-        position: [-9, -1, 3],
+        position: [-7, -1, 3],
         rotation: [0, 0, 0],
         options: {
           height: 3,
@@ -240,7 +326,7 @@ var robot = new function() {
       },
       {
         type: 'Box',
-        position: [9, -1, 3],
+        position: [7, -1, 3],
         rotation: [0, 0, 0],
         options: {
           height: 3,

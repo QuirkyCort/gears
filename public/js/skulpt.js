@@ -6,7 +6,8 @@ var skulpt = new function() {
   this.init = function() {
     Sk.configure({
       output: self.outf,
-      read: self.builtinRead
+      read: self.builtinRead,
+      __future__: Sk.python3
     });
     Sk.execLimit = 5000;
   };
