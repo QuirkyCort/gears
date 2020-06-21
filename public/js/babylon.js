@@ -8,7 +8,8 @@ var babylon = new function() {
     self.canvas = document.getElementById('renderCanvas');
     self.engine = new BABYLON.Engine(self.canvas, true);
 
-    self.createScene(); // Call the createScene function
+    self.scene = self.createScene(); // Call the createScene function
+    self.loadMeshes(self.scene);
 
     // Register a render loop to repeatedly render the scene
     self.engine.runRenderLoop(function () {
@@ -24,7 +25,6 @@ var babylon = new function() {
 
   // Create the scene
   this.createScene = function () {
-    let world = self.world;
     if (self.scene) {
       self.scene.dispose()
     }
@@ -60,9 +60,23 @@ var babylon = new function() {
     // scene.shadowGenerator.depthScale = 50;
     // scene._shadowsEnabled = false;
 
-    // Add meshes in the scene
+    return scene;
+  };
+
+  // Remove all meshes
+  this.removeMeshes = function(scene) {
+    scene.actionManager.actions = [];
+    scene.actionManager.dispose();
+
+    for (let i=scene.meshes.length-1; i>=0; i--) {
+      scene.meshes[i].dispose(false, true);
+    }
+  };
+
+  // Load meshes
+  this.loadMeshes = function(scene) {
     // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
-    Promise.all([world.load(scene), robot.load(scene, world.robotStart)]).then(function() {
+    Promise.all([self.world.load(scene), robot.load(scene, self.world.robotStart)]).then(function() {
       // Debug physics
       // pv = new BABYLON.PhysicsViewer(scene);
       // scene.meshes.forEach(function(mesh){
@@ -96,9 +110,6 @@ var babylon = new function() {
 
       // self.engine.hideLoadingUI();
     });
-
-    // Done
-    self.scene = scene;
   };
 
   // Render loop

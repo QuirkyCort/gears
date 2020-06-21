@@ -69,7 +69,8 @@ var simPanel = new function() {
 
   // Reset simulator
   this.resetSim = function() {
-    babylon.createScene();
+    babylon.removeMeshes(babylon.scene);
+    babylon.loadMeshes(babylon.scene);
     skulpt.hardInterrupt = true;
     self.setRunIcon('run');
   };
@@ -310,7 +311,7 @@ var main = new function() {
 
       let menuItems = [
         {html: 'Ev3dev Mode', line: false, callback: self.switchToEv3dev},
-        {html: 'Pybricks Mode', line: true, callback: self.switchToPybricks}
+        {html: 'Pybricks Mode (Currently not working with simulator)', line: true, callback: self.switchToPybricks}
       ];
       var tickIndex;
       if (blockly.generator == ev3dev2_generator) {
