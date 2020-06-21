@@ -8,7 +8,8 @@ function Wheel(scene, options) {
   this.STOP_ACTION_COAST_FORCE = 1000;
   this.STOP_ACTION_HOLD_FORCE = 3000;
   this.MOTOR_POWER_DEFAULT = 3000;
-  this.MAX_ACCELERATION = 0.5;
+  this.MAX_SPEED = 800;
+  this.MAX_ACCELERATION = 2;  // degrees / msec^2
 
   this.modes = {
     STOP: 1,
@@ -118,6 +119,11 @@ function Wheel(scene, options) {
       }
 
       let speed = -self._speed_sp / 180 * Math.PI;
+      if (speed > self.MAX_SPEED) {
+        speed = self.MAX_SPEED;
+      } else if (speed < -self.MAX_SPEED) {
+        speed = -self.MAX_SPEED;
+      }
       self.joint.setMotor(speed, self.MOTOR_POWER_DEFAULT);
     }
     self.updatePosition(delta);
@@ -187,7 +193,7 @@ var robot = new function() {
 
   this.options = {
     wheelDiameter: 5.6,
-    wheelWidth: 2.8,
+    wheelWidth: 0.8,
     wheelToBodyOffset: 0.2,
     bodyHeight: 5,
     bodyWidth: 10,
