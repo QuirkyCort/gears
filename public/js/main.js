@@ -241,7 +241,7 @@ var pythonPanel = new function() {
   // Load Python code from blockly
   this.loadPythonFromBlockly = function() {
     self.blocklyModified = true;
-    let code = blockly.genPython();
+    let code = blockly.generator.genCode();
     self.editor.setValue(code);
     self.blocklyModified = false;
   };
