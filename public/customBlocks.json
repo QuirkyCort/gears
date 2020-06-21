@@ -311,4 +311,79 @@
   "colour": 160,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "initialize_drive",
+  "message0": "Initialize drive with wheels diameter (mm): %1 and distance between wheels (mm): %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "diameter",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "axle_distance",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "drive_straight",
+  "message0": "drive straight for %1 mm",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "distance",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "drive_turn",
+  "message0": "turn for  %1 degrees",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "angle",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "drive_drive",
+  "message0": "drive at speed %1 mm/s while turning at rate %2 degrees/s",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "rate",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
 }]

@@ -16,6 +16,10 @@ var pybricks_generator = new function() {
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
     Blockly.Python['reset_gyro'] = self.reset_gyro;
+    Blockly.Python['initialize_drive'] = self.initialize_drive;
+    Blockly.Python['drive_straight'] = self.drive_straight;
+    Blockly.Python['drive_turn'] = self.drive_turn;
+    Blockly.Python['drive_drive'] = self.drive_drive;
   };
 
   // Generate python code
@@ -28,8 +32,7 @@ var pybricks_generator = new function() {
       'from pybricks.robotics import DriveBase\n' +
       '\n' +
       'left_motor = Motor(PORT.A)\n' +
-      'right_motor = Motor(PORT.B)\n' +
-      'drive = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=80)\n\n';
+      'right_motor = Motor(PORT.B)\n\n';
 
     var sensorsCode = '';
     var i = 1;
@@ -214,6 +217,40 @@ var pybricks_generator = new function() {
     var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
 
     var code = 'gyro_sensor_in' + value_port + '.reset_angle()\n';
+    return code;
+  };
+
+  // initialize drive
+  this.initialize_drive = function(block) {
+    var value_diameter = Blockly.Python.valueToCode(block, 'diameter', Blockly.Python.ORDER_ATOMIC);
+    var value_axle_distance = Blockly.Python.valueToCode(block, 'axle_distance', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'drive = DriveBase(left_motor, right_motor, wheel_diameter=' + value_diameter + ', axle_track=' + value_axle_distance + ')\n';
+    return code;
+  };
+
+  // drive straight
+  this.drive_straight = function(block) {
+    var value_distance = Blockly.Python.valueToCode(block, 'distance', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'drive.straight(' + value_distance + ')\n';
+    return code;
+  };
+
+  // turn
+  this.drive_turn = function(block) {
+    var value_angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'drive.turn(' + value_angle + ')\n';
+    return code;
+  };
+
+  // drive with speed and turn
+  this.drive_drive = function(block) {
+    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+    var value_rate = Blockly.Python.valueToCode(block, 'rate', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'drive.drive(' + value_speed + ', ' + value_rate + ')\n';
     return code;
   };
 }

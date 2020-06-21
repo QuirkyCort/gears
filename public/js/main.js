@@ -305,6 +305,7 @@ var main = new function() {
   // Toggle python
   this.togglePythonMenu = function(e) {
     if ($('.pythonMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
       e.stopPropagation();
 
       let menuItems = [
@@ -338,6 +339,7 @@ var main = new function() {
   // Toggle filemenu
   this.toggleFileMenu = function(e) {
     if ($('.fileMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
       e.stopPropagation();
 
       let menuItems = [

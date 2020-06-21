@@ -16,6 +16,10 @@ var ev3dev2_generator = new function() {
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
     Blockly.Python['reset_gyro'] = self.reset_gyro;
+    Blockly.Python['initialize_drive'] = self.initialize_drive;
+    Blockly.Python['drive_straight'] = self.drive_straight;
+    Blockly.Python['drive_turn'] = self.drive_turn;
+    Blockly.Python['drive_drive'] = self.drive_drive;
   };
 
   // Generate python code
@@ -23,13 +27,13 @@ var ev3dev2_generator = new function() {
     let code =
       '#!/usr/bin/env python3\n\n' +
       'import time\n' +
+      'import math\n' +
       'from ev3dev2.motor import *\n' +
       'from ev3dev2.sensor import *\n' +
       'from ev3dev2.sensor.lego import *\n' +
       '\n' +
       'left_motor = LargeMotor(OUTPUT_A)\n' +
       'right_motor = LargeMotor(OUTPUT_B)\n' +
-      'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
       'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n\n';
 
     var sensorsCode = '';
@@ -210,6 +214,53 @@ var ev3dev2_generator = new function() {
     var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
 
     var code = 'gyro_sensor_in' + value_port + '.reset()\n';
+    return code;
+  };
+
+  // initialize drive
+  this.initialize_drive = function(block) {
+    var value_diameter = Blockly.Python.valueToCode(block, 'diameter', Blockly.Python.ORDER_ATOMIC);
+    var value_axle_distance = Blockly.Python.valueToCode(block, 'axle_distance', Blockly.Python.ORDER_ATOMIC);
+
+    var code =
+      '# Initialize Drive\n' +
+      'WHEEL_DIAMETER = ' + value_diameter + '\n' +
+      'WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * math.pi\n' +
+      'DISTANCE_BETWEEN_WHEELS = ' + value_axle_distance + '\n' +
+      'TURNING_CIRCLE = DISTANCE_BETWEEN_WHEELS * math.pi\n' +
+      'drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n\n';
+    return code;
+  };
+
+  // drive straight
+  this.drive_straight = function(block) {
+    var value_distance = Blockly.Python.valueToCode(block, 'distance', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'drive.on_for_rotations(0, SpeedDPS(300), ' + value_distance + ' / WHEEL_CIRCUMFERENCE)\n';
+    return code;
+  };
+
+  // turn
+  this.drive_turn = function(block) {
+    var value_angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
+
+    var direction = 100;
+    if (value_angle < 0) {
+      direction = -100;
+    }
+
+    var code =
+      'turn_distance = ' + value_angle + ' / 360.0 * TURNING_CIRCLE\n' +
+      'drive.on_for_rotations(' + direction + ', ' + 'SpeedDPS(300), ' + 'turn_distance / WHEEL_CIRCUMFERENCE)\n';
+    return code;
+  };
+
+  // drive with speed and turn
+  this.drive_drive = function(block) {
+    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+    var value_rate = Blockly.Python.valueToCode(block, 'rate', Blockly.Python.ORDER_ATOMIC);
+
+    var code = 'drive.on(' + value_rate + ', ' + value_speed + ')\n';
     return code;
   };
 }

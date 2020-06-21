@@ -19,7 +19,7 @@ function menuDropDown($menuBtn, menuItems, options) {
   $dropDown.css('top', top);
   $dropDown.css('left', left);
 
-  $(document).one('click', function(){
+  $(document).one('click', function(e){
     $('.menuDropDown').remove();
   });
 
