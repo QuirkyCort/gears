@@ -181,6 +181,16 @@ nav {
   cursor: pointer;
   user-select: none; }
 
+.camera {
+  position: absolute;
+  color: white;
+  opacity: 0.8;
+  top: 2em;
+  right: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none; }
+
 .console {
   position: absolute;
   bottom: 0;

@@ -35,13 +35,15 @@ var babylon = new function() {
     var physicsPlugin = new BABYLON.AmmoJSPlugin();
     scene.enablePhysics(gravityVector, physicsPlugin);
 
-    // var camera = new BABYLON.UniversalCamera('UniversalCamera', new BABYLON.Vector3(0, 3, -10), scene);
-    var camera = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2, Math.PI / 5, 200, new BABYLON.Vector3(0, 0, 0), scene);
-    camera.wheelPrecision = 5;
-    camera.panningSensibility = 100;
-    camera.angularSensibilityX = 2000;
-    camera.angularSensibilityY = 2000;
-    camera.attachControl(self.canvas, true);
+    var cameraArc = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2, Math.PI / 5, 200, new BABYLON.Vector3(0, 0, 0), scene);
+    cameraArc.panningAxis = new BABYLON.Vector3(1, 1, 0);
+    cameraArc.wheelPrecision = 5;
+    cameraArc.panningSensibility = 100;
+    cameraArc.angularSensibilityX = 2000;
+    cameraArc.angularSensibilityY = 2000;
+    cameraArc.attachControl(self.canvas, true);
+    self.cameraArc = cameraArc;
+    self.setCameraMode('arc');
 
     // Add lights to the scene
     var lightHemi = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
@@ -63,6 +65,30 @@ var babylon = new function() {
     return scene;
   };
 
+  // Set camera mode
+  this.setCameraMode = function(mode) {
+    if (typeof mode != 'undefined') {
+      self.cameraMode = mode;
+    }
+
+    if (self.cameraMode == 'follow') {
+      self.cameraArc.lockedTarget = robot.body;
+      self.cameraArc._panningMouseButton = 1;
+
+    } else if (self.cameraMode == 'orthoTop') {
+      self.cameraArc.lockedTarget = null;
+      self.cameraArc.alpha = -Math.PI / 2;
+      self.cameraArc.beta = 0;
+      self.cameraArc._panningMouseButton = 0; // change functionality from left to right mouse button
+
+    } else if (self.cameraMode == 'arc') {
+      self.cameraArc.lockedTarget = null;
+      self.cameraArc.alpha = -Math.PI / 2;
+      self.cameraArc.beta = Math.PI / 5;
+      self.cameraArc._panningMouseButton = 1;
+    }
+  }
+
   // Remove all meshes
   this.removeMeshes = function(scene) {
     scene.actionManager.actions = [];
@@ -77,6 +103,7 @@ var babylon = new function() {
   this.loadMeshes = function(scene) {
     // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
     Promise.all([self.world.load(scene), robot.load(scene, self.world.robotStart)]).then(function() {
+      self.setCameraMode();
       // Debug physics
       // pv = new BABYLON.PhysicsViewer(scene);
       // scene.meshes.forEach(function(mesh){

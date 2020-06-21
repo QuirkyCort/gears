@@ -10,6 +10,7 @@ var simPanel = new function() {
     self.$runSim = $('.runSim');
     self.$world = $('.world');
     self.$reset = $('.reset');
+    self.$camera = $('.camera');
 
     self.$consoleBtn.click(self.toggleConsole);
     self.$console.on('transitionend', self.scrollConsoleToBottom);
@@ -17,6 +18,23 @@ var simPanel = new function() {
     self.$runSim.click(self.runSim);
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
+    self.$camera.click(self.switchCamera);
+  };
+
+  // switch camera
+  this.switchCamera = function() {
+    if (babylon.cameraMode == 'arc') {
+      babylon.setCameraMode('follow');
+      self.$camera.html('&#x1f4f9; Follow');
+
+    } else if (babylon.cameraMode == 'follow') {
+      babylon.setCameraMode('orthoTop');
+      self.$camera.html('&#x1f4f9; Top');
+
+    } else if (babylon.cameraMode == 'orthoTop') {
+      babylon.setCameraMode('arc');
+      self.$camera.html('&#x1f4f9; Arc');
+    }
   };
 
   // Select world map
