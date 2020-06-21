@@ -2,6 +2,12 @@ var blockly = new function() {
   var self = this;
   var options = {
     toolbox : null,
+    zoom: {
+      controls: true
+    },
+    move: {
+      wheel: true
+    },
     collapse : true,
     comments : true,
     disable : true,
@@ -41,8 +47,7 @@ var blockly = new function() {
         options.toolbox = xml.getElementById('toolbox');
         self.workspace = Blockly.inject('blocklyDiv', options);
 
-        var workspaceBlocks = document.getElementById('workspaceBlocks');
-        Blockly.Xml.domToWorkspace(workspaceBlocks, self.workspace);
+        self.loadDefaultWorkspace();
 
         self.workspace.addChangeListener(Blockly.Events.disableOrphans);
         self.loadLocalStorage();
@@ -50,6 +55,15 @@ var blockly = new function() {
           self.workspace.addChangeListener(self.checkModified);
         }, 2000);
       });
+  };
+
+  // Load default workspace
+  this.loadDefaultWorkspace = function() {
+    let xmlText =
+      '<xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">' +
+        '<block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38" deletable="false"></block>' +
+      '</xml>';
+    self.loadXmlText(xmlText);
   };
 
   // Load custom blocks
@@ -86,10 +100,17 @@ var blockly = new function() {
 
   // load xmlText to workspace
   this.loadXmlText = function(xmlText) {
+    let oldXmlText = self.getXmlText();
     if (xmlText) {
-      var xml = Blockly.Xml.textToDom(xmlText);
-      self.workspace.clear()
-      Blockly.Xml.domToWorkspace(xml, self.workspace);
+      try {
+        var xml = Blockly.Xml.textToDom(xmlText);
+        self.workspace.clear();
+        Blockly.Xml.domToWorkspace(xml, self.workspace);
+      }
+      catch (err) {
+        toastMsg('Invalid Blocks');
+        self.loadXmlText(oldXmlText);
+      }
     }
   };
 
