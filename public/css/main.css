@@ -70,7 +70,7 @@ nav {
       user-select: none; }
     nav .menuBar .menuItem:hover {
       color: #4994FB; }
-    nav .menuBar ul.fileMenuDropDown {
+    nav .menuBar ul.menuDropDown {
       background: #E4F0FE;
       border: solid 1px #bbbbbb;
       position: absolute;
@@ -84,14 +84,16 @@ nav {
       border-radius: 0 0 0.5em 0.5em;
       overflow: hidden;
       box-shadow: 0px 10px 6px 0px rgba(0, 0, 0, 0.25); }
-      nav .menuBar ul.fileMenuDropDown li {
+      nav .menuBar ul.menuDropDown li {
         display: block;
         color: gray;
         padding: 0.5em; }
-      nav .menuBar ul.fileMenuDropDown li:hover {
+      nav .menuBar ul.menuDropDown li:hover {
         background: white; }
-      nav .menuBar ul.fileMenuDropDown li.underline {
+      nav .menuBar ul.menuDropDown li.underline {
         border-bottom: solid 1px #bbbbbb; }
+      nav .menuBar ul.menuDropDown .tick {
+        color: green; }
   nav .panelControlsArea {
     margin-left: auto; }
     nav .panelControlsArea .panelControls {

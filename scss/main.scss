@@ -90,7 +90,7 @@ nav {
       color: #4994FB;
     }
 
-    ul.fileMenuDropDown {
+    ul.menuDropDown {
       background: #E4F0FE;
       border: solid 1px #bbbbbb;
       position: absolute;
@@ -115,6 +115,9 @@ nav {
       }
       li.underline {
         border-bottom: solid 1px #bbbbbb;
+      }
+      .tick {
+        color: green;
       }
     }
   }

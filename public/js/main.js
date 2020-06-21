@@ -292,12 +292,47 @@ var main = new function() {
     self.$panelControls = $('.panelControlsArea .panelControls');
     self.$panels = $('.panels .panel');
     self.$fileMenu = $('.fileMenu');
+    self.$pythonMenu = $('.pythonMenu');
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
+    self.$pythonMenu.click(self.togglePythonMenu);
 
     window.addEventListener('beforeunload', self.checkUnsaved);
     blocklyPanel.onActive();
+  };
+
+  // Toggle python
+  this.togglePythonMenu = function(e) {
+    if ($('.pythonMenuDropDown').length == 0) {
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: 'Ev3dev Mode', line: false, callback: self.switchToEv3dev},
+        {html: 'Pybricks Mode', line: true, callback: self.switchToPybricks}
+      ];
+      var tickIndex;
+      if (blockly.generator == ev3dev2_generator) {
+        tickIndex = 0;
+      } else if (blockly.generator == pybricks_generator) {
+        tickIndex = 1;
+      }
+      menuItems[tickIndex].html = '<span class="tick">&#x2713;</span> ' + menuItems[tickIndex].html;
+
+      menuDropDown(self.$pythonMenu, menuItems, {className: 'pythonMenuDropDown'});
+    }
+  };
+
+  // switch to ev3dev
+  this.switchToEv3dev = function() {
+    blockly.generator = ev3dev2_generator;
+    blockly.generator.load();
+  };
+
+  // switch to pybricks
+  this.switchToPybricks = function() {
+    blockly.generator = pybricks_generator;
+    blockly.generator.load();
   };
 
   // Toggle filemenu
@@ -306,13 +341,13 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {text: 'Load blocks from your computer', line: false, callback: self.loadFromComputer},
-        {text: 'Save blocks to your computer', line: true, callback: self.saveToComputer},
-        {text: 'Load Python from your computer', line: false, callback: self.loadPythonFromComputer},
-        {text: 'Save Python to your computer', line: false, callback: self.savePythonToComputer},
+        {html: 'Load blocks from your computer', line: false, callback: self.loadFromComputer},
+        {html: 'Save blocks to your computer', line: true, callback: self.saveToComputer},
+        {html: 'Load Python from your computer', line: false, callback: self.loadPythonFromComputer},
+        {html: 'Save Python to your computer', line: false, callback: self.savePythonToComputer},
       ];
 
-      menuDropDown(self.$fileMenu, menuItems, {alignRight: true});
+      menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
     }
   };
 

@@ -1,12 +1,12 @@
 // File menu dropdown
 function menuDropDown($menuBtn, menuItems, options) {
   var $dropDown = $(
-    '<ul class="fileMenuDropDown"></ul>'
+    '<ul class="menuDropDown ' + options.className + '"></ul>'
   );
 
   menuItems.forEach(function(menuItem) {
     let $li = $('<li></li>');
-    $li.text(menuItem.text);
+    $li.html(menuItem.html);
     if (menuItem.line) {
       $li.addClass('underline');
     }
@@ -20,7 +20,7 @@ function menuDropDown($menuBtn, menuItems, options) {
   $dropDown.css('left', left);
 
   $(document).one('click', function(){
-    $('.fileMenuDropDown').remove();
+    $('.menuDropDown').remove();
   });
 
   $menuBtn.append($dropDown);

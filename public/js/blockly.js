@@ -24,7 +24,7 @@ var blockly = new function() {
   };
 
   this.unsaved = false;
-  this.generator = ev3dev2_generators;
+  this.generator = ev3dev2_generator;
 
   // Run on page load
   this.init = function() {
@@ -36,7 +36,7 @@ var blockly = new function() {
 
     self.loadCustomBlocks();
     self.loadToolBox();
-    self.generator.loadGenerators();
+    self.generator.load();
   };
 
   // Load toolbox
