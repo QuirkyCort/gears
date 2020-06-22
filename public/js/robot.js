@@ -338,6 +338,12 @@ var robot = new function() {
         type: 'GyroSensor',
         position: [0, 2.5, -5],
         options: null
+      },
+      {
+        type: 'magnetActuator',
+        position: [0, 0, -9],
+        rotation: [0, 0, 0],
+        options: null
       }
     ]
   };
@@ -466,6 +472,7 @@ var robot = new function() {
 
   // Load components
   this.loadComponents = function() {
+    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     self.components = [];
     self.sensorCount = 0;
     self.motorCount = 2;
@@ -500,6 +507,14 @@ var robot = new function() {
           self.body,
           component.position,
           component.rotation,
+          component.options));
+      } else if (component.type == 'magnetActuator') {
+        self.components.push(new MagnetActuator(
+          self.scene,
+          self.body,
+          component.position,
+          component.rotation,
+          'out' + PORT_LETTERS[(++self.motorCount)],
           component.options));
       } else {
         console.log('Unrecognized component type: ' + component.type);

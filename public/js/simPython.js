@@ -9,94 +9,97 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       if (address.v == 'outA') {
-        self.wheel = robot.leftWheel;
+        self.motor = robot.leftWheel;
       } else if (address.v == 'outB') {
-        self.wheel = robot.rightWheel;
+        self.motor = robot.rightWheel;
       } else {
-        throw new Sk.builtin.TypeError('No motor connected to ' + String(address.v));
+        self.motor = robot.getComponentByPort(address.v);
+        if (!self.motor) {
+          throw new Sk.builtin.TypeError('No motor connected to ' + String(address.v));
+        }
       }
     });
 
     $loc.command = new Sk.builtin.func(function(self, command) {
       if (command.v == 'run-timed') {
-        self.wheel.time_target = Date.now() + self.wheel.time_sp * 1000;
-        self.wheel.runTimed();
+        self.motor.time_target = Date.now() + self.motor.time_sp * 1000;
+        self.motor.runTimed();
 
       } else if (command.v == 'run-to-rel-pos') {
-        self.wheel.position_target = self.wheel.position + self.wheel.position_sp;
-        self.wheel.runToPosition();
+        self.motor.position_target = self.motor.position + self.motor.position_sp;
+        self.motor.runToPosition();
 
       } else if (command.v == 'run-to-abs-pos') {
-        self.wheel.position_target = self.wheel.position_sp;
-        self.wheel.runToPosition();
+        self.motor.position_target = self.motor.position_sp;
+        self.motor.runToPosition();
 
       } else if (command.v == 'run-forever') {
-        self.wheel.runForever();
+        self.motor.runForever();
 
       } else if (command.v == '') {
-        self.wheel.stop();
+        self.motor.stop();
       }
 
-      self.wheel.command = command.v;
+      self.motor.command = command.v;
     });
 
     $loc.stop_action = new Sk.builtin.func(function(self, stop_action) {
       if (typeof stop_action != 'undefined') {
-        self.wheel.stop_action = stop_action.v;
+        self.motor.stop_action = stop_action.v;
       } else {
-        return self.wheel.stop_action;
+        return self.motor.stop_action;
       }
     });
 
 
     $loc.state = new Sk.builtin.func(function(self) {
-      return self.wheel.state;
+      return self.motor.state;
     });
 
     $loc.speed_sp = new Sk.builtin.func(function(self, speed_sp) {
       if (typeof speed_sp != 'undefined') {
-        self.wheel.speed_sp = speed_sp.v;
+        self.motor.speed_sp = speed_sp.v;
       } else {
-        return self.wheel.speed_sp;
+        return self.motor.speed_sp;
       }
     });
 
     $loc.time_sp = new Sk.builtin.func(function(self, time_sp) {
       if (typeof time_sp != 'undefined') {
-        self.wheel.time_sp = time_sp.v;
+        self.motor.time_sp = time_sp.v;
       } else {
-        return self.wheel.time_sp;
+        return self.motor.time_sp;
       }
     });
 
     $loc.position = new Sk.builtin.func(function(self, pos) {
       if (typeof pos != 'undefined') {
-        self.wheel.positionAdjustment += self.wheel.position - pos.v;
-        self.wheel.position = pos.v;
-        self.wheel.prevPosition = pos.v % 360;
+        self.motor.positionAdjustment += self.motor.position - pos.v;
+        self.motor.position = pos.v;
+        self.motor.prevPosition = pos.v % 360;
       } else {
-        return self.wheel.position;
+        return self.motor.position;
       }
     });
 
     $loc.polarity = new Sk.builtin.func(function(self, polarity) {
       if (typeof polarity != 'undefined') {
-        self.wheel.polarity = polarity.v;
+        self.motor.polarity = polarity.v;
       } else {
-        return self.wheel.polarity;
+        return self.motor.polarity;
       }
     });
 
     $loc.position_sp = new Sk.builtin.func(function(self, position_sp) {
       if (typeof position_sp != 'undefined') {
-        self.wheel.position_sp = position_sp.v;
+        self.motor.position_sp = position_sp.v;
       } else {
-        return self.wheel.position_sp;
+        return self.motor.position_sp;
       }
     });
 
     $loc.speed = new Sk.builtin.func(function(self) {
-      return self.wheel.speed;
+      return self.motor.speed;
     });
 
   }, 'Motor', []);

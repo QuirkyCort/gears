@@ -1,6 +1,4 @@
-//
 // Color sensor. Uses a camera to capture image and extract average RGB values
-//
 function ColorSensor(scene, parent, pos, rot, port, options) {
   var self = this;
 
@@ -19,11 +17,25 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.setOptions(options);
 
     var bodyMat = new BABYLON.StandardMaterial('colorSensorBody', scene);
-    bodyMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+    // bodyMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+
+    var bodyTexture = new BABYLON.Texture('textures/robot/color.png', scene);
+    bodyMat.diffuseTexture = bodyTexture;
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+    faceUV[4] = new BABYLON.Vector4(0, 2/3, 1, 1);
+    faceUV[3] = new BABYLON.Vector4(1/2, 0, 1, 2/3);
+    faceUV[2] = new BABYLON.Vector4(0, 0, 1/2, 2/3);
+    faceUV[5] = new BABYLON.Vector4(0, 2/3, 1, 1);
+
     let bodyOptions = {
       height: 2,
       width: 2,
-      depth: 3
+      depth: 3,
+      faceUV: faceUV
     };
     var body = BABYLON.MeshBuilder.CreateBox('colorSensorBody', bodyOptions, scene);
     self.body = body;
@@ -167,9 +179,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
   this.init();
 }
 
-//
 // Just a dumb box with physics
-//
 function BoxBlock(scene, parent, pos, rot, options) {
   var self = this;
 
@@ -267,9 +277,25 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
     var bodyMat = new BABYLON.StandardMaterial('ultrasonicSensorBody', scene);
-    bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.5);
+    // bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.5);
 
-    var rearBody = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody', {height: 2, width: 5, depth: 2 }, scene);
+    var bodyTexture = new BABYLON.Texture('textures/robot/ultrasonic.png', scene);
+    bodyMat.diffuseTexture = bodyTexture;
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+    faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+
+    let bodyOptions = {
+      height: 2,
+      width: 5,
+      depth: 2,
+      faceUV: faceUV
+    };
+
+    var rearBody = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody', bodyOptions, scene);
     rearBody.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(rearBody);
     rearBody.position.z -= 0.25;
@@ -386,7 +412,7 @@ function GyroSensor(scene, parent, pos, port, options) {
     self.setOptions(options);
 
     var bodyMat = new BABYLON.StandardMaterial('gyroSensorBody', scene);
-    bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.4, 0.2);
+    // bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.4, 0.2);
 
     var bodyTexture = new BABYLON.Texture('textures/robot/gyro.png', scene);
     bodyMat.diffuseTexture = bodyTexture;
@@ -470,6 +496,160 @@ function GyroSensor(scene, parent, pos, port, options) {
 
   this.getRate = function() {
     return self.angularVelocity;
+  };
+
+  this.init();
+}
+
+// Magnet
+function MagnetActuator(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'MagnetActuator';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.power = 0;
+
+  // Used in Python
+  this.modes = {
+    STOP: 1,
+    RUN: 2,
+    RUN_TO_POS: 3,
+    RUN_TIL_TIME: 4
+  };
+  this.mode = this.modes.STOP;
+
+  this.state = '';
+  this.states = {
+    RUNNING: 'running',
+    RAMPING: 'ramping',
+    HOLDING: 'holding',
+    OVERLOADED: 'overloaded',
+    STATE_STALLED: 'stalled',
+    NONE: ''
+  };
+
+  this.speed_sp = 0;
+
+  this.runTimed = function() {
+    self.mode = self.modes.RUN_TIL_TIME;
+  };
+
+  this.runToPosition = function() {
+    self.mode = self.modes.RUN_TO_POS;
+  };
+
+  this.runForever = function() {
+    self.mode = self.modes.RUN;
+  };
+
+  this.stop = function() {
+    self.mode = self.modes.STOP;
+    self.setPower(0);
+  };
+
+  // Used in JS
+  this.init = function() {
+    self.setOptions(options);
+
+    var body = BABYLON.MeshBuilder.CreateBox('magnetActuatorBody', {height: 2.5, width: 2, depth: 2}, scene);
+    self.body = body;
+    body.visibility = false;
+    body.parent = parent;
+    body.position = self.position;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+
+    var attractorMat = new BABYLON.StandardMaterial('magnetActuatorAttractor', scene);
+    attractorMat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+
+    var attractor = BABYLON.MeshBuilder.CreateCylinder('magnetActuatorAttractor', { height: 1, diameter: 2, tessellation: 12}, scene);;
+    self.attractor = attractor;
+    attractor.material = attractorMat;
+    attractor.parent = body;
+    attractor.position.y = -0.75;
+    scene.shadowGenerator.addShadowCaster(attractor);
+
+    var rearBodyMat = new BABYLON.StandardMaterial('magnetActuatorRearBody', scene);
+    rearBodyMat.diffuseColor = new BABYLON.Color3(0.5, 0.2, 0.2);
+
+    var rearBody = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody',  {height: 2, width: 2, depth: 2}, scene);
+    rearBody.material = rearBodyMat;
+    scene.shadowGenerator.addShadowCaster(rearBody);
+    rearBody.position.y = 0.25;
+    rearBody.parent = body;
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      maxRange: 5,
+      maxPower: 4000
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.render = function(delta) {
+    if (self.mode == self.modes.RUN) {
+      self.setPower(self.speed_sp / 1050);
+    } else if (self.mode == self.modes.RUN_TIL_TIME) {
+      self.setPower(self.speed_sp / 1050);
+      if (Date.now() > self.time_target) {
+        self.stop();
+      }
+    } else if (self.mode == self.modes.RUN_TO_POS) {
+      self.setPower(self.speed_sp / 1050);
+    }
+    scene.meshes.forEach(self.applyMagneticForce);
+  };
+
+  this.applyMagneticForce = function(mesh) {
+    if (! mesh.isMagnetic) {
+      return;
+    }
+    if (self.power == 0) {
+      return;
+    }
+
+    let vec = self.attractor.absolutePosition.subtract(mesh.absolutePosition);
+    let distance = vec.length();
+
+    if (distance > self.options.maxRange) {
+      return;
+    }
+
+    let power = 1 / distance^2 * self.power;
+    vec.normalize();
+    mesh.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
+  };
+
+  this.setPower = function(fraction) {
+    if (fraction > 1) {
+      fraction = 1;
+    }
+    self.power = fraction * self.options.maxPower;
   };
 
   this.init();

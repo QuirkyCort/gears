@@ -99,7 +99,7 @@ var ev3dev2_generator = new function() {
       var brake = 'True';
     }
 
-    var code = 'steering_drive.stop(brake=' + brake + ')\n';
+    var code = 'tank_drive.stop(brake=' + brake + ')\n';
     return code;
   };
 

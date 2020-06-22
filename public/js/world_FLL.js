@@ -88,6 +88,25 @@ var world_FLL = new function() {
       wallRight.position.x = (options.length + options.wallThickness) / 2;
       wallRight.material = wallMat;
 
+      // magnet test
+      function addM (x, z, magnetic) {
+        var m1 = BABYLON.MeshBuilder.CreateBox('metal1', {height: 1, width: 1, depth: 1}, scene);
+        m1.isMagnetic = magnetic;
+        m1.position.x = x;
+        m1.position.z = z;
+        m1.physicsImpostor = new BABYLON.PhysicsImpostor(
+          m1,
+          BABYLON.PhysicsImpostor.BoxImpostor,
+          { mass: 10, friction: 0.5 },
+          scene
+        );
+        m1.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
+      }
+      addM(0, -19, true);
+      addM(3, -18, false);
+      addM(-3, -28, true);
+      addM(2, -25, true);
+
       // Physics
       ground.physicsImpostor = new BABYLON.PhysicsImpostor(
         ground,
