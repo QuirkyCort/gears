@@ -47,7 +47,19 @@ var pybricks_generator = new function() {
       i++;
     }
 
+    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var motorsCode = '';
+    i = 3;
+    var motor = null;
+    while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
+      if (motor.type == 'MagnetActuator') {
+        motorsCode += 'magnet_out' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ')\n';
+      }
+      i++;
+    }
+
     code += sensorsCode + '\n';
+    code += motorsCode + '\n';
 
     code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
     return code

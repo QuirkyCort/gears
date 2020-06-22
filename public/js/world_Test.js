@@ -103,6 +103,26 @@ var world_Test = new function() {
     self.buildKinematic(scene,[1,30,1.5],[-35,0.5,80],100,[0,-0.1,0]);
     self.buildKinematic(scene,[1,30,1.5],[-35,0.5,90],100,[0,0.2,0]);
     self.buildKinematic(scene,[1,30,1.5],[-35,0.5,100],100,[0,-0.2,0]);
+
+    self.buildMagnetic(scene, [1,1,1], [0, 0, -19]);
+    self.buildMagnetic(scene, [1,1,1], [-3, 0, -18]);
+    self.buildMagnetic(scene, [1,1,1], [-3, 0, -28]);
+    self.buildMagnetic(scene, [1,1,1], [2, 0, -25], 100);
+  };
+
+  this.buildMagnetic = function(scene, dim, pos, mass=10) {
+    var m1 = BABYLON.MeshBuilder.CreateBox('metal1', {height: dim[0], width: dim[1], depth: dim[2]}, scene);
+    m1.isMagnetic = true;
+    m1.position.x = pos[0];
+    m1.position.y = pos[1];
+    m1.position.z = pos[2];
+    m1.physicsImpostor = new BABYLON.PhysicsImpostor(
+      m1,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      { mass: mass, friction: 0.5 },
+      scene
+    );
+    m1.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
   };
 
   // static object builder

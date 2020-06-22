@@ -1,3 +1,33 @@
-- Prevent multiple starts before previous run was completed
-- Add stop button
-- Prevent hanging of tab using Sk.execLimits
+Playing field
+- more maps, more challenges
+- ideas are welcome
+- detailed designs and graphics are better
+- pull requests for completed code is best!
+
+Robot / pybricks
+- realism is not the main focus, but where practicable, I would like the simulator to behave at least close to a real robot
+- testing and measurements of physical robot parameters
+- testing / advice on API behavior, particularly for pybricks.
+
+Documentation
+- most blocks are undocumented
+- currently zero tutorials
+
+Blocks
+- Plan and code. These needs to be aligned to both the Pybricks and Ev3dev API.
+
+Coding (Interface)
+- Add autocomplete to the Ace editor
+- Add multiple pages for blockly editor
+
+Coding (Simulator)
+- Implement Pybricks support (...run, not just generate code)
+- Add in map configurator
+- Add in robot configurator
+- Save/load robot configuration
+- More components (arm, rotating platform, laser rangefinder, paint ball launcher)
+- Multi-robot arena
+
+Coding (Sharing)
+- Remote coach view of student's work
+- Spectator mode. Run code on one computer, but rendered and view on multiple.

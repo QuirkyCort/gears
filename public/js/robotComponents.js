@@ -587,9 +587,26 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     scene.shadowGenerator.addShadowCaster(attractor);
 
     var rearBodyMat = new BABYLON.StandardMaterial('magnetActuatorRearBody', scene);
-    rearBodyMat.diffuseColor = new BABYLON.Color3(0.5, 0.2, 0.2);
+    // rearBodyMat.diffuseColor = new BABYLON.Color3(0.5, 0.2, 0.2);
+    var rearBodyTexture = new BABYLON.Texture('textures/robot/magnet.png', scene);
+    rearBodyMat.diffuseTexture = rearBodyTexture;
 
-    var rearBody = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody',  {height: 2, width: 2, depth: 2}, scene);
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+    faceUV[1] = new BABYLON.Vector4(0, 0, 1/3, 1);
+    faceUV[2] = new BABYLON.Vector4(1/3, 0, 2/3, 1);
+    faceUV[3] = new BABYLON.Vector4(1/3, 0, 2/3, 1);
+    faceUV[0] = new BABYLON.Vector4(2/3, 0, 1, 1);
+    var bodyOptions = {
+      height: 2,
+      width: 2,
+      depth: 2,
+      faceUV: faceUV
+    }
+
+    var rearBody = BABYLON.MeshBuilder.CreateBox('magnetActuatorRearBody',  bodyOptions, scene);
     rearBody.material = rearBodyMat;
     scene.shadowGenerator.addShadowCaster(rearBody);
     rearBody.position.y = 0.25;

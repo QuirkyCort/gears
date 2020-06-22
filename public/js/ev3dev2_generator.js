@@ -41,15 +41,28 @@ var ev3dev2_generator = new function() {
     var sensor = null;
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
-        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n'
+        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n';
       } else if (sensor.type == 'UltrasonicSensor') {
-        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n'
+        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n';
       } else if (sensor.type == 'GyroSensor') {
-        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n'      }
+        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
+      }
+      i++;
+    }
+
+    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var motorsCode = '';
+    i = 3;
+    var motor = null;
+    while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
+      if (motor.type == 'MagnetActuator') {
+        motorsCode += 'magnet_out' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ')\n';
+      }
       i++;
     }
 
     code += sensorsCode + '\n';
+    code += motorsCode + '\n';
 
     code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
     return code
