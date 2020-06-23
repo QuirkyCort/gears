@@ -336,14 +336,28 @@ var robot = new function() {
       },
       {
         type: 'GyroSensor',
-        position: [0, 2.5, -5],
+        position: [0, 2.5, 5],
         options: null
       },
+      // {
+      //   type: 'magnetActuator',
+      //   position: [0, 0, -9],
+      //   rotation: [0, 0, 0],
+      //   options: null
+      // },
       {
-        type: 'magnetActuator',
-        position: [0, 0, -9],
-        rotation: [0, 0, 0],
-        options: null
+        type: 'armActuator',
+        position: [0, 3, 0],
+        rotation: [0, Math.PI, 0],
+        options: null,
+        components: [
+          {
+            type: 'magnetActuator',
+            position: [0, -1.5, 9],
+            rotation: [0, 0, 0],
+            options: null
+          }
+        ]
       }
     ]
   };
@@ -408,7 +422,10 @@ var robot = new function() {
       caster.parent = body;
 
       // Add components
-      self.loadComponents();
+      self.components = [];
+      self.sensorCount = 0;
+      self.motorCount = 2;
+      self.loadComponents(self.options.components, self.components, self.body);
 
       // Add Physics
       caster.physicsImpostor = new BABYLON.PhysicsImpostor(
@@ -431,6 +448,9 @@ var robot = new function() {
         },
         scene
       );
+
+      // Add joints
+      self.loadJoints(self.components);
 
       // Wheels
       self.leftWheel = new Wheel(scene, options);
@@ -470,54 +490,78 @@ var robot = new function() {
     });
   };
 
-  // Load components
-  this.loadComponents = function() {
-    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    self.components = [];
-    self.sensorCount = 0;
-    self.motorCount = 2;
+  // Add joints
+  this.loadJoints = function(components) {
+    components.forEach(function(component) {
+      if (typeof component.loadJoints == 'function') {
+        component.loadJoints(self.body);
+      }
+    });
+  };
 
-    self.options.components.forEach(function(component){
-      if (component.type == 'ColorSensor') {
-        self.components.push(new ColorSensor(
+  // Load components
+  this.loadComponents = function(componentsConfig, components, parent) {
+    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    componentsConfig.forEach(function(componentConfig){
+      let component = null;
+      if (componentConfig.type == 'ColorSensor') {
+        component = new ColorSensor(
           self.scene,
-          self.body,
-          component.position,
-          component.rotation,
-          'in' + (++self.sensorCount),
-          component.options));
-      } else if (component.type == 'UltrasonicSensor') {
-        self.components.push(new UltrasonicSensor(
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'in' + (++robot.sensorCount),
+          componentConfig.options);
+      } else if (componentConfig.type == 'UltrasonicSensor') {
+        component = new UltrasonicSensor(
           self.scene,
-          self.body,
-          component.position,
-          component.rotation,
-          'in' + (++self.sensorCount),
-          component.options));
-      } else if (component.type == 'GyroSensor') {
-        self.components.push(new GyroSensor(
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'in' + (++robot.sensorCount),
+          componentConfig.options);
+      } else if (componentConfig.type == 'GyroSensor') {
+        component = new GyroSensor(
           self.scene,
-          self.body,
-          component.position,
-          'in' + (++self.sensorCount),
-          component.options));
-      } else if (component.type == 'Box') {
-        self.components.push(new BoxBlock(
+          parent,
+          componentConfig.position,
+          'in' + (++robot.sensorCount),
+          componentConfig.options);
+      } else if (componentConfig.type == 'Box') {
+        component = new BoxBlock(
           self.scene,
-          self.body,
-          component.position,
-          component.rotation,
-          component.options));
-      } else if (component.type == 'magnetActuator') {
-        self.components.push(new MagnetActuator(
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          componentConfig.options);
+      } else if (componentConfig.type == 'magnetActuator') {
+        component = new MagnetActuator(
           self.scene,
-          self.body,
-          component.position,
-          component.rotation,
-          'out' + PORT_LETTERS[(++self.motorCount)],
-          component.options));
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'out' + PORT_LETTERS[(++robot.motorCount)],
+          componentConfig.options);
+      } else if (componentConfig.type == 'armActuator') {
+        component = new ArmActuator(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'out' + PORT_LETTERS[(++robot.motorCount)],
+          componentConfig.options);
       } else {
-        console.log('Unrecognized component type: ' + component.type);
+        console.log('Unrecognized component type: ' + componentConfig.type);
+      }
+      if (component) {
+        if (typeof componentConfig.components != 'undefined') {
+          self.loadComponents(componentConfig.components, component.components, component.end);
+        }
+        if (typeof component.loadImpostor == 'function') {
+          component.loadImpostor();
+        }
+        components.push(component);
       }
     });
   };
@@ -533,7 +577,20 @@ var robot = new function() {
 
   // Get component based on port name
   this.getComponentByPort = function(port) {
-    return self.components.find(sensor => sensor.port == port);
+    return self._getComponentByPort(port, self.components);
+  };
+
+  this._getComponentByPort = function(port, components) {
+    for (let i=0; i<components.length; i++) {
+      if (components[i].port == port) {
+        return components[i];
+      } else if (components[i].components) {
+        let result = self._getComponentByPort(port, components[i].components);
+        if (result) {
+          return result;
+        }
+      }
+    }
   };
 
   // Reset robot

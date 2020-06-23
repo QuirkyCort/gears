@@ -562,16 +562,16 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     body.visibility = false;
     body.parent = parent;
     body.position = self.position;
-    body.physicsImpostor = new BABYLON.PhysicsImpostor(
-      body,
-      BABYLON.PhysicsImpostor.BoxImpostor,
-      {
-        mass: 1,
-        restitution: 0.4,
-        friction: 0.1
-      },
-      scene
-    );
+    // body.physicsImpostor = new BABYLON.PhysicsImpostor(
+    //   body,
+    //   BABYLON.PhysicsImpostor.BoxImpostor,
+    //   {
+    //     mass: 1,
+    //     restitution: 0.4,
+    //     friction: 0.1
+    //   },
+    //   scene
+    // );
     body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
@@ -611,6 +611,19 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     scene.shadowGenerator.addShadowCaster(rearBody);
     rearBody.position.y = 0.25;
     rearBody.parent = body;
+  };
+
+  this.loadImpostor = function() {
+    self.body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
   };
 
   this.setOptions = function(options) {
@@ -667,6 +680,271 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
       fraction = 1;
     }
     self.power = fraction * self.options.maxPower;
+  };
+
+  this.init();
+}
+
+// Motorized Arm
+function ArmActuator(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'ArmActuator';
+  this.port = port;
+  this.options = null;
+
+  this.components = [];
+
+  this.bodyPosition = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  // Used in Python
+  this.modes = {
+    STOP: 1,
+    RUN: 2,
+    RUN_TO_POS: 3,
+    RUN_TIL_TIME: 4
+  };
+  this.mode = this.modes.STOP;
+
+  this.state = '';
+  this.states = {
+    RUNNING: 'running',
+    RAMPING: 'ramping',
+    HOLDING: 'holding',
+    OVERLOADED: 'overloaded',
+    STATE_STALLED: 'stalled',
+    NONE: ''
+  };
+
+  this.speed_sp = 30;
+  this.position_sp = 0;
+  this.position = 0;
+
+  this.runTimed = function() {
+    self.mode = self.modes.RUN_TIL_TIME;
+  };
+
+  this.runToPosition = function() {
+    self.mode = self.modes.RUN_TO_POS;
+  };
+
+  this.runForever = function() {
+    self.mode = self.modes.RUN;
+  };
+
+  this.stop = function() {
+    // self.mode = self.modes.STOP;
+    self.position_sp = self.position;
+    self.mode = self.modes.RUN_TO_POS;
+  };
+
+  // Used in JS
+  this.init = function() {
+    self.setOptions(options);
+
+    var body = BABYLON.MeshBuilder.CreateBox('armBody', {height: 3, width: 2, depth: 3}, scene);
+    self.body = body;
+    body.visibility = false;
+    body.parent = parent;
+    body.position = self.bodyPosition;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+    // body.physicsImpostor = new BABYLON.PhysicsImpostor(
+    //   body,
+    //   BABYLON.PhysicsImpostor.BoxImpostor,
+    //   {
+    //     mass: 1,
+    //     restitution: 0.4,
+    //     friction: 0.1
+    //   },
+    //   scene
+    // );
+
+    var armBaseMat = new BABYLON.StandardMaterial('armBase', scene);
+    armBaseMat.diffuseColor = new BABYLON.Color3(0.64, 0.61, 0.05);
+
+    var armBase = BABYLON.MeshBuilder.CreateBox('armBase', {height: 3, width: 0.5, depth: 3}, scene);
+    armBase.material = armBaseMat;
+    armBase.parent = body;
+    armBase.position.x = -0.75;
+    scene.shadowGenerator.addShadowCaster(armBase);
+
+    var armBase2 = BABYLON.MeshBuilder.CreateBox('armBase', {height: 3, width: 0.5, depth: 3}, scene);
+    armBase2.material = armBaseMat;
+    armBase2.parent = body;
+    armBase2.position.x = 0.75;
+    scene.shadowGenerator.addShadowCaster(armBase2);
+
+    var pivotMat = new BABYLON.StandardMaterial('pivot', scene);
+    pivotMat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+
+    var pivot = BABYLON.MeshBuilder.CreateBox('pivot', {height: 0.5, width: 2.4, depth: 0.5}, scene);;
+    self.pivot = pivot;
+    pivot.material = pivotMat;
+    pivot.position.y = 0.5;
+    scene.shadowGenerator.addShadowCaster(pivot);
+
+    var armMat = new BABYLON.StandardMaterial('arm', scene);
+    armMat.diffuseColor = new BABYLON.Color3(0.64, 0.81, 0.05);
+
+    var arm = BABYLON.MeshBuilder.CreateBox('arm', {height: 1, width: 1, depth: self.options.armLength}, scene);;
+    self.arm = arm;
+    self.end = arm;
+    arm.material = armMat;
+    scene.shadowGenerator.addShadowCaster(arm);
+    arm.position.z += (self.options.armLength / 2) - 1;
+
+    pivot.parent = parent;
+    pivot.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    pivot.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    pivot.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+    pivot.position = self.bodyPosition.clone();
+    pivot.position.y += 0.5;
+    parent.removeChild(pivot);
+    arm.parent = pivot;
+
+    // arm.physicsImpostor = new BABYLON.PhysicsImpostor(
+    //   arm,
+    //   BABYLON.PhysicsImpostor.BoxImpostor,
+    //   {
+    //     mass: 10,
+    //     restitution: 0.4,
+    //     friction: 0.1
+    //   },
+    //   scene
+    // );
+    // pivot.physicsImpostor = new BABYLON.PhysicsImpostor(
+    //   pivot,
+    //   BABYLON.PhysicsImpostor.BoxImpostor,
+    //   {
+    //     mass: 10,
+    //     restitution: 0.4,
+    //     friction: 0.1
+    //   },
+    //   scene
+    // );
+  };
+
+  this.loadImpostor = function() {
+    self.body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    self.arm.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.arm,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 10,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    self.pivot.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.pivot,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 100,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+  };
+
+  this.loadJoints = function(body) {
+    let mainPivot = BABYLON.Vector3.Zero().add(self.bodyPosition);
+    mainPivot.y += 0.5;
+    let connectedPivot = BABYLON.Vector3.Zero();
+    let axisVec = new BABYLON.Vector3(1, 0, 0);
+    let rotationQuaternion = BABYLON.Quaternion.FromEulerAngles(self.rotation.x, self.rotation.y, self.rotation.z);
+    axisVec.rotateByQuaternionAroundPointToRef(rotationQuaternion, BABYLON.Vector3.Zero(), axisVec);
+
+    self.joint = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
+      mainPivot: mainPivot,
+      connectedPivot: connectedPivot,
+      mainAxis: axisVec,
+      connectedAxis: new BABYLON.Vector3(1, 0, 0),
+    });
+    body.physicsImpostor.addJoint(self.pivot.physicsImpostor, self.joint);
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      armLength: 20,
+      minAngle: 0,
+      maxAngle: 180,
+      components: []
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.render = function(delta) {
+    if (self.mode == self.modes.RUN) {
+      let speed = self.speed_sp / 1000 * delta;
+      self.pivot.rotate(BABYLON.Axis.X, -speed / 180 * Math.PI, BABYLON.Space.LOCAL);
+    } else if (self.mode == self.modes.RUN_TIL_TIME) {
+      let speed = self.speed_sp / 1000 * delta;
+      self.pivot.rotate(BABYLON.Axis.X, -speed / 180 * Math.PI, BABYLON.Space.LOCAL);
+      if (Date.now() > self.time_target) {
+        self.stop();
+      }
+    } else if (self.mode == self.modes.RUN_TO_POS) {
+      if (self.position != self.position_sp) {
+        let speed = self.speed_sp / 1000 * delta;
+        let position_sp = self.position_sp;
+
+        if (position_sp > self.options.maxAngle) {
+          position_sp = self.options.maxAngle;
+        } else if (position_sp < self.options.minAngle) {
+          position_sp = self.options.minAngle;
+        }
+
+        if (self.position < position_sp) {
+          self.position += speed;
+          if (self.position > position_sp) {
+            speed -= self.position - position_sp;
+            self.position = position_sp;
+          }
+          self.pivot.rotate(BABYLON.Axis.X, -speed / 180 * Math.PI, BABYLON.Space.LOCAL);
+        } else if (self.position > self.position_sp) {
+          self.position -= speed;
+          if (self.position < position_sp) {
+            speed -= self.position - position_sp;
+            self.position = position_sp;
+          }
+          self.pivot.rotate(BABYLON.Axis.X, speed / 180 * Math.PI, BABYLON.Space.LOCAL);
+        }
+      } else {
+        self.stop();
+      }
+    }
+
+    self.components.forEach(function(component) {
+      if (typeof component.render == 'function') {
+        component.render(delta);
+      }
+    });
+  };
+
+  this.getPosition = function() {
+
   };
 
   this.init();

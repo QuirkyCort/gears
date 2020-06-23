@@ -54,6 +54,8 @@ var pybricks_generator = new function() {
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
         motorsCode += 'magnet_out' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ')\n';
+      } else if (motor.type == 'ArmActuator') {
+        motorsCode += 'arm_out' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ')\n';
       }
       i++;
     }
