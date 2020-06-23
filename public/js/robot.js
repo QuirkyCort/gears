@@ -347,13 +347,13 @@ var robot = new function() {
       // },
       {
         type: 'armActuator',
-        position: [0, 3, 0],
+        position: [0, 3, 2],
         rotation: [0, Math.PI, 0],
         options: null,
         components: [
           {
             type: 'magnetActuator',
-            position: [0, -1.5, 9],
+            position: [0, -1.75, 9],
             rotation: [0, 0, 0],
             options: null
           }

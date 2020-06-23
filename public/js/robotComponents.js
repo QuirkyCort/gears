@@ -896,6 +896,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   };
 
   this.render = function(delta) {
+    self.joint.setMotor(0);
     if (self.mode == self.modes.RUN) {
       let speed = self.speed_sp / 1000 * delta;
       self.pivot.rotate(BABYLON.Axis.X, -speed / 180 * Math.PI, BABYLON.Space.LOCAL);
