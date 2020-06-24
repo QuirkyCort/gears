@@ -562,16 +562,6 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     body.visibility = false;
     body.parent = parent;
     body.position = self.position;
-    // body.physicsImpostor = new BABYLON.PhysicsImpostor(
-    //   body,
-    //   BABYLON.PhysicsImpostor.BoxImpostor,
-    //   {
-    //     mass: 1,
-    //     restitution: 0.4,
-    //     friction: 0.1
-    //   },
-    //   scene
-    // );
     body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
@@ -628,7 +618,7 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
 
   this.setOptions = function(options) {
     self.options = {
-      maxRange: 5,
+      maxRange: 8,
       maxPower: 4000
     };
 
@@ -721,6 +711,8 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   this.speed_sp = 30;
   this.position_sp = 0;
   this.position = 0;
+  this.prevRotation = 0;
+  this.rotationRounds = 0;
 
   this.runTimed = function() {
     self.mode = self.modes.RUN_TIL_TIME;
@@ -857,8 +849,8 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
   this.setOptions = function(options) {
     self.options = {
-      armLength: 20,
-      minAngle: 0,
+      armLength: 18,
+      minAngle: -5,
       maxAngle: 180,
       components: []
     };
@@ -939,12 +931,16 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     normalVector.rotateByQuaternionAroundPointToRef(self.body.absoluteRotationQuaternion, zero, normalVector);
     armVector.rotateByQuaternionAroundPointToRef(self.pivot.absoluteRotationQuaternion, zero, armVector);
 
-    let position = -BABYLON.Vector3.GetAngleBetweenVectors(baseVector, armVector, normalVector) / Math.PI * 180;
-    if (position < 0) {
-      return 360 + position;
-    } else {
-      return position;
+    let rotation = -BABYLON.Vector3.GetAngleBetweenVectors(baseVector, armVector, normalVector) / Math.PI * 180;
+    console.log(rotation);
+    if (rotation < -90 && self.prevRotation > 90) {
+      self.rotationRounds += 1;
+    } else if (rotation > 90 && self.prevRotation < -90) {
+      self.rotationRounds -= 1;
     }
+    self.prevRotation = rotation;
+
+    return self.rotationRounds * 360 + rotation;
   };
 
   this.init();

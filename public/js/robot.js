@@ -353,7 +353,7 @@ var robot = new function() {
         components: [
           {
             type: 'magnetActuator',
-            position: [0, -1.75, 9],
+            position: [0, -1.75, 8],
             rotation: [0, 0, 0],
             options: null
           }
