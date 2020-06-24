@@ -724,20 +724,28 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
   this.runTimed = function() {
     self.mode = self.modes.RUN_TIL_TIME;
+    self.state = self.states.RUNNING;
   };
 
   this.runToPosition = function() {
+    if (self.position_target < self.position) {
+      self.positionDirectionReversed = true;
+    } else {
+      self.positionDirectionReversed = false;
+    }
     self.mode = self.modes.RUN_TO_POS;
+    self.state = self.states.RUNNING;
   };
 
   this.runForever = function() {
     self.mode = self.modes.RUN;
+    self.state = self.states.RUNNING;
   };
 
   this.stop = function() {
-    // self.mode = self.modes.STOP;
-    self.position_sp = self.position;
-    self.mode = self.modes.RUN_TO_POS;
+    self.mode = self.modes.STOP;
+    self.position_target = self.position;
+    self.state = self.states.HOLDING;
   };
 
   // Used in JS
@@ -752,16 +760,6 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
-    // body.physicsImpostor = new BABYLON.PhysicsImpostor(
-    //   body,
-    //   BABYLON.PhysicsImpostor.BoxImpostor,
-    //   {
-    //     mass: 1,
-    //     restitution: 0.4,
-    //     friction: 0.1
-    //   },
-    //   scene
-    // );
 
     var armBaseMat = new BABYLON.StandardMaterial('armBase', scene);
     armBaseMat.diffuseColor = new BABYLON.Color3(0.64, 0.61, 0.05);
@@ -805,27 +803,6 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     pivot.position.y += 0.5;
     parent.removeChild(pivot);
     arm.parent = pivot;
-
-    // arm.physicsImpostor = new BABYLON.PhysicsImpostor(
-    //   arm,
-    //   BABYLON.PhysicsImpostor.BoxImpostor,
-    //   {
-    //     mass: 10,
-    //     restitution: 0.4,
-    //     friction: 0.1
-    //   },
-    //   scene
-    // );
-    // pivot.physicsImpostor = new BABYLON.PhysicsImpostor(
-    //   pivot,
-    //   BABYLON.PhysicsImpostor.BoxImpostor,
-    //   {
-    //     mass: 10,
-    //     restitution: 0.4,
-    //     friction: 0.1
-    //   },
-    //   scene
-    // );
   };
 
   this.loadImpostor = function() {
@@ -866,7 +843,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     mainPivot.y += 0.5;
     let connectedPivot = BABYLON.Vector3.Zero();
     let axisVec = new BABYLON.Vector3(1, 0, 0);
-    let rotationQuaternion = BABYLON.Quaternion.FromEulerAngles(self.rotation.x, self.rotation.y, self.rotation.z);
+    let rotationQuaternion = BABYLON.Quaternion.FromEulerVector(self.rotation);
     axisVec.rotateByQuaternionAroundPointToRef(rotationQuaternion, BABYLON.Vector3.Zero(), axisVec);
 
     self.joint = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
@@ -896,45 +873,25 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   };
 
   this.render = function(delta) {
-    self.joint.setMotor(0);
+    self.position = self.getPosition();
+
     if (self.mode == self.modes.RUN) {
-      let speed = self.speed_sp / 1000 * delta;
-      self.pivot.rotate(BABYLON.Axis.X, -speed / 180 * Math.PI, BABYLON.Space.LOCAL);
+      self.setMotorSpeed();
     } else if (self.mode == self.modes.RUN_TIL_TIME) {
-      let speed = self.speed_sp / 1000 * delta;
-      self.pivot.rotate(BABYLON.Axis.X, -speed / 180 * Math.PI, BABYLON.Space.LOCAL);
+      self.setMotorSpeed();
       if (Date.now() > self.time_target) {
         self.stop();
       }
     } else if (self.mode == self.modes.RUN_TO_POS) {
-      if (self.position != self.position_sp) {
-        let speed = self.speed_sp / 1000 * delta;
-        let position_sp = self.position_sp;
-
-        if (position_sp > self.options.maxAngle) {
-          position_sp = self.options.maxAngle;
-        } else if (position_sp < self.options.minAngle) {
-          position_sp = self.options.minAngle;
-        }
-
-        if (self.position < position_sp) {
-          self.position += speed;
-          if (self.position > position_sp) {
-            speed -= self.position - position_sp;
-            self.position = position_sp;
-          }
-          self.pivot.rotate(BABYLON.Axis.X, -speed / 180 * Math.PI, BABYLON.Space.LOCAL);
-        } else if (self.position > self.position_sp) {
-          self.position -= speed;
-          if (self.position < position_sp) {
-            speed -= self.position - position_sp;
-            self.position = position_sp;
-          }
-          self.pivot.rotate(BABYLON.Axis.X, speed / 180 * Math.PI, BABYLON.Space.LOCAL);
-        }
-      } else {
+      self.setMotorSpeed();
+      if (
+        (self.positionDirectionReversed == false && self.position >= self.position_target) ||
+        (self.positionDirectionReversed && self.position <= self.position_target)
+      ) {
         self.stop();
       }
+    } else if (self.mode == self.modes.STOP) {
+      self.holdPosition();
     }
 
     self.components.forEach(function(component) {
@@ -944,8 +901,50 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     });
   };
 
-  this.getPosition = function() {
+  this.setMotorSpeed = function() {
+    let speed = self.speed_sp / 180 * Math.PI;
+    if (
+      (speed > 0 && self.position > self.options.maxAngle)
+      || (speed < 0 && self.position < self.options.minAngle)
+    ) {
+      self.joint.setMotor(0);
+    } else {
+      self.joint.setMotor(speed);
+    }
+  };
 
+  this.holdPosition = function(delta) {
+    const P_GAIN = 0.1;
+    const MAX_POSITION_CORRECTION_SPEED = 0.1;
+    let error = self.position_target - self.position;
+    let speed = error * P_GAIN;
+
+    if (speed > MAX_POSITION_CORRECTION_SPEED) {
+      speed = MAX_POSITION_CORRECTION_SPEED;
+    } else if (speed < -MAX_POSITION_CORRECTION_SPEED) {
+      speed = -MAX_POSITION_CORRECTION_SPEED;
+    } else if (speed < 1) {
+      // speed = 0;
+    }
+    self.joint.setMotor(speed);
+  };
+
+  this.getPosition = function() {
+    let baseVector = new BABYLON.Vector3(0, 0, 1);
+    let armVector = new BABYLON.Vector3(0, 0, 1);
+    let normalVector = new BABYLON.Vector3(1, 0, 0);
+    let zero = BABYLON.Vector3.Zero();
+
+    baseVector.rotateByQuaternionAroundPointToRef(self.body.absoluteRotationQuaternion, zero, baseVector);
+    normalVector.rotateByQuaternionAroundPointToRef(self.body.absoluteRotationQuaternion, zero, normalVector);
+    armVector.rotateByQuaternionAroundPointToRef(self.pivot.absoluteRotationQuaternion, zero, armVector);
+
+    let position = -BABYLON.Vector3.GetAngleBetweenVectors(baseVector, armVector, normalVector) / Math.PI * 180;
+    if (position < 0) {
+      return 360 + position;
+    } else {
+      return position;
+    }
   };
 
   this.init();
