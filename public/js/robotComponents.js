@@ -710,6 +710,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
   this.speed_sp = 30;
   this.position_sp = 0;
+  this.position_target = 0;
   this.position = 0;
   this.prevRotation = 0;
   this.rotationRounds = 0;
@@ -720,6 +721,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   };
 
   this.runToPosition = function() {
+    self.position_target = self.position_sp;
     if (self.position_target < self.position) {
       self.positionDirectionReversed = true;
     } else {
@@ -932,7 +934,6 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     armVector.rotateByQuaternionAroundPointToRef(self.pivot.absoluteRotationQuaternion, zero, armVector);
 
     let rotation = -BABYLON.Vector3.GetAngleBetweenVectors(baseVector, armVector, normalVector) / Math.PI * 180;
-    console.log(rotation);
     if (rotation < -90 && self.prevRotation > 90) {
       self.rotationRounds += 1;
     } else if (rotation > 90 && self.prevRotation < -90) {
