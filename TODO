@@ -15,6 +15,9 @@ Documentation
 
 Blocks
 - Plan and code. These needs to be aligned to both the Pybricks and Ev3dev API.
+  - LargeMotor
+  - Convenience blocks for arm and magnet
+  - Get drive to work!
 
 Coding (Interface)
 - Add autocomplete to the Ace editor
@@ -25,7 +28,7 @@ Coding (Simulator)
 - Add in map configurator
 - Add in robot configurator
 - Save/load robot configuration
-- More components (arm, rotating platform, laser rangefinder, paint ball launcher)
+- More components (rotating platform, laser rangefinder, paint ball launcher, gps, object of interest radar, claw)
 - Multi-robot arena
 
 Coding (Sharing)

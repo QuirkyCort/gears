@@ -134,6 +134,28 @@ function Wheel(scene, options) {
       scene
     );
 
+    // Hold position if speed is too low
+    var origin = self.mesh.physicsImpostor.physicsBody.getWorldTransform().getOrigin();
+    var lastOrigin = [
+        origin.x(),
+        origin.y(),
+        origin.z()
+    ];
+
+    self.mesh.physicsImpostor.registerBeforePhysicsStep(function(){
+      if (self.mesh.physicsImpostor.getLinearVelocity().lengthSquared() < 0.1) {
+        origin.setX(lastOrigin[0]);
+        origin.setY(lastOrigin[1]);
+        origin.setZ(lastOrigin[2]);
+      } else {
+        lastOrigin = [
+          origin.x(),
+          origin.y(),
+          origin.z()
+        ];
+      }
+    });
+
     self.joint = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
       mainPivot: pivot,
       connectedPivot: new BABYLON.Vector3(0, 0, 0),
@@ -449,6 +471,28 @@ var robot = new function() {
         },
         scene
       );
+
+      // Hold position if speed is too low
+      var origin = body.physicsImpostor.physicsBody.getWorldTransform().getOrigin();
+      var lastOrigin = [
+          origin.x(),
+          origin.y(),
+          origin.z()
+      ];
+
+      body.physicsImpostor.registerBeforePhysicsStep(function(){
+        if (body.physicsImpostor.getLinearVelocity().lengthSquared() < 0.1) {
+          origin.setX(lastOrigin[0]);
+          origin.setY(lastOrigin[1]);
+          origin.setZ(lastOrigin[2]);
+        } else {
+          lastOrigin = [
+            origin.x(),
+            origin.y(),
+            origin.z()
+          ];
+        }
+      });
 
       // Add joints
       self.loadJoints(self.components);
