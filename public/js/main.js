@@ -39,20 +39,33 @@ var simPanel = new function() {
 
   // Select world map
   this.selectWorld = function() {
+    let $body = $('<div class="selectWorld"></div>');
     let $select = $('<select></select>');
+    let $description = $('<div class="description"></div>');
+
     worlds.forEach(function(world){
       let $world = $('<option></option>');
       $world.prop('value', world.name);
       $world.text(world.shortDescription);
       if (world.name == babylon.world.name) {
         $world.attr('selected', 'selected');
+        $description.html(world.longDescription);
       }
       $select.append($world);
     });
 
+
+    $body.append($select);
+    $body.append($description);
+
+    $select.change(function(){
+      let world = worlds.find(world => world.name == $select.val());
+      $description.html(world.longDescription);
+    });
+
     let options = {
       title: 'Select World',
-      message: $select
+      message: $body
     };
     confirmDialog(options, function(){
       console.log($select.val());

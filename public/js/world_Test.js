@@ -3,6 +3,9 @@ var world_Test = new function() {
 
   this.name = 'test';
   this.shortDescription = 'Test Arena';
+  this.longDescription = 
+    '<p>A test arena mainly for testing physics.</p>' +
+    '<p>The small gray cubes are magnetic, and can be picked up using the robot magnet.</p>';
 
   this.options = {
     staticObjectFriction: 1,

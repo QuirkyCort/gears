@@ -72,31 +72,38 @@
   flex-direction: column; }
   .dialogScreen > .dialogWindow {
     animation-name: show;
-    animation-duration: 0.1s;
+    animation-duration: 0.2s;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
-    min-width: 30%;
+    width: 70%;
     top: 20%;
     position: absolute;
-    background: white;
+    background: #4994FB;
+    color: white;
     border-radius: 10px;
-    box-shadow: 5px 5px 10px;
     font-size: 130%;
     max-height: 80%;
     overflow-y: auto;
     margin: auto; }
     .dialogScreen > .dialogWindow > .dialogTitle {
-      padding: 2% 5%;
+      padding: 0.5em 1em;
       font-size: 130%;
-      font-weight: bold; }
+      font-weight: bold;
+      border-bottom: solid 2px #bbbbbb; }
     .dialogScreen > .dialogWindow > .dialogBody {
-      padding: 0% 5%; }
+      padding: 0.5em 1em; }
     .dialogScreen > .dialogWindow > .dialogButtonsRow {
       display: flex;
       justify-content: flex-end;
       width: 100%;
-      padding: 2% 5%;
+      padding: 0.5em 1em;
       box-sizing: border-box; }
       .dialogScreen > .dialogWindow > .dialogButtonsRow > button {
         margin-left: 5px;
         font-size: 100%; }
+    .dialogScreen > .dialogWindow select {
+      font-size: 100%;
+      width: 100%;
+      background: #4994FB;
+      color: white;
+      border-color: white; }

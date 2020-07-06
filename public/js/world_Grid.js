@@ -3,6 +3,9 @@ var world_Grid = new function() {
 
   this.name = 'grid';
   this.shortDescription = 'Grid Map (20cm)';
+  this.longDescription = 
+    '<p>This is a plain grid map.</p>' +
+    '<p>Each large square is 20cm, while each small square is 5cm.</p>';
 
   this.options = {
     image: 'textures/maps/grid.png',

@@ -3,6 +3,9 @@ var world_FLL = new function() {
 
   this.name = 'fll';
   this.shortDescription = 'FLL / WRO Table';
+  this.longDescription = 
+    '<p>This is the WRO 2019 game map</p>' +
+    '<p>The table dimensions is the same as that for First Lego League.</p>';
 
   this.options = {
     image: 'textures/maps/WRO-2019-Regular-Junior.jpg',
