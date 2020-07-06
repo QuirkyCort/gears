@@ -3,16 +3,11 @@ var world_Test = new function() {
 
   this.name = 'test';
   this.shortDescription = 'Test Arena';
-  this.longDescription = 
+  this.longDescription =
     '<p>A test arena mainly for testing physics.</p>' +
     '<p>The small gray cubes are magnetic, and can be picked up using the robot magnet.</p>';
 
-  this.options = {
-    staticObjectFriction: 1,
-    kinematicObjectFriction: .8,
-    staticObjectRestitution: 0.0,
-    kinematicObjectRestitution: 0.1
-  };
+  this.options = {};
   this.robotStart = {
     position: new BABYLON.Vector3(0, 0, 0) // Ramp 1, 18 degrees
     // position: new BABYLON.Vector3(35, 0, 0) // Ramp 2, 36 degrees
@@ -28,8 +23,33 @@ var world_Test = new function() {
     // position: new BABYLON.Vector3(-175, 0, 0) // Wall
   };
 
+  this.optionsConfigurations = [];
+
+  // Set options, including default
+  this.setOptions = function(options) {
+    self.options = {
+      staticObjectFriction: 1,
+      kinematicObjectFriction: .8,
+      staticObjectRestitution: 0.0,
+      kinematicObjectRestitution: 0.1
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+
+    return new Promise(function(resolve, reject) {
+      resolve();
+    });
+  };
+
   // Run on page load
   this.init = function() {
+    self.setOptions();
   };
 
   // Create the scene

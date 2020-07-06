@@ -66,7 +66,7 @@
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
-  font-size: 120%;
+  font-size: 100%;
   display: flex;
   align-items: center;
   flex-direction: column; }
@@ -75,23 +75,25 @@
     animation-duration: 0.2s;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
-    width: 70%;
-    top: 20%;
+    width: 40em;
+    max-width: 90%;
+    top: 10%;
     position: absolute;
     background: #4994FB;
     color: white;
     border-radius: 10px;
-    font-size: 130%;
+    font-size: 120%;
     max-height: 80%;
     overflow-y: auto;
-    margin: auto; }
+    margin: auto;
+    border: solid 2px white; }
     .dialogScreen > .dialogWindow > .dialogTitle {
-      padding: 0.5em 1em;
+      padding: 0.8rem 1.2rem;
       font-size: 130%;
       font-weight: bold;
       border-bottom: solid 2px #bbbbbb; }
     .dialogScreen > .dialogWindow > .dialogBody {
-      padding: 0.5em 1em; }
+      padding: 0.8rem 1.2rem; }
     .dialogScreen > .dialogWindow > .dialogButtonsRow {
       display: flex;
       justify-content: flex-end;
@@ -100,7 +102,17 @@
       box-sizing: border-box; }
       .dialogScreen > .dialogWindow > .dialogButtonsRow > button {
         margin-left: 5px;
-        font-size: 100%; }
+        font-size: 100%;
+        border: none;
+        border-radius: 0.3em;
+        padding: 0.2em 0.5em;
+        min-width: 4em;
+        border: solid 2px black; }
+      .dialogScreen > .dialogWindow > .dialogButtonsRow .btn-success {
+        color: white;
+        background-color: #28a745; }
+      .dialogScreen > .dialogWindow > .dialogButtonsRow .btn-light {
+        background-color: #f8f9fa; }
     .dialogScreen > .dialogWindow select {
       font-size: 100%;
       width: 100%;

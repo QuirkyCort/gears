@@ -9,7 +9,9 @@ var babylon = new function() {
     self.engine = new BABYLON.Engine(self.canvas, true);
 
     self.scene = self.createScene(); // Call the createScene function
-    self.loadMeshes(self.scene);
+    self.world.setOptions().then(function(){
+      self.loadMeshes(self.scene);
+    });
 
     // Register a render loop to repeatedly render the scene
     self.engine.runRenderLoop(function () {

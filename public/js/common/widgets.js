@@ -161,7 +161,7 @@ function confirmDialog(options, callback) {
   var bodyContent = options.message;
   var $buttons = $(
     '<button type="button" class="cancel btn btn-light">' + options.cancel + '</button>' +
-    '<button type="button" class="confirm btn btn-primary">' + options.confirm + '</button>'
+    '<button type="button" class="confirm btn btn-success">' + options.confirm + '</button>'
   );
 
   var $dialog = dialog(options.title, bodyContent, $buttons);
@@ -187,7 +187,7 @@ function acknowledgeDialog(options, callback) {
 
   var bodyContent = options.message;
   var $button = $(
-    '<button type="button" class="ok btn btn-primary">' + options.ok + '</button>'
+    '<button type="button" class="ok btn btn-success">' + options.ok + '</button>'
   );
 
   var $dialog = dialog(options.title, bodyContent, $button, options.className);
