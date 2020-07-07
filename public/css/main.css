@@ -290,6 +290,7 @@ nav {
   position: absolute;
   z-index: 1;
   opacity: 0;
+  visibility: hidden;
   transition: opacity 0.3s;
   max-width: 18em;
   width: max-content; }
