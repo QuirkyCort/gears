@@ -16,7 +16,7 @@ var world_Grid = new function() {
   this.optionsConfigurations = [
     {
       option: 'length',
-      title: 'Length of field',
+      title: 'Length of field (cm)',
       type: 'slider',
       min: '100',
       max: '1000',
@@ -25,7 +25,7 @@ var world_Grid = new function() {
     },
     {
       option: 'width',
-      title: 'Width of field',
+      title: 'Width of field (cm)',
       type: 'slider',
       min: '100',
       max: '1000',

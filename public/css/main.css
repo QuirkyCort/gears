@@ -265,7 +265,8 @@ nav {
       border: solid 1px white;
       color: white; }
     .dialogWindow .configurations .configuration .configurationTitle {
-      color: lightgray; }
+      color: lightgray;
+      margin-bottom: 0.1em; }
     .dialogWindow .configurations .configuration .slider {
       display: flex; }
       .dialogWindow .configurations .configuration .slider input[type=range] {
@@ -275,3 +276,50 @@ nav {
         text-align: right; }
     .dialogWindow .configurations .configuration .text input[type=text] {
       width: 100%; }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white; }
+
+.tooltip .tooltiptext {
+  background-color: white;
+  color: black;
+  border-radius: 6px;
+  padding: 0.2em 0.5em;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+  max-width: 18em;
+  width: max-content; }
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  border-width: 5px;
+  border-style: solid; }
+
+.tooltip.bottom .tooltiptext {
+  top: 125%;
+  left: 50%;
+  transform: translateX(-50%); }
+.tooltip.bottom .tooltiptext::after {
+  margin-left: -5px;
+  bottom: 100%;
+  left: 50%;
+  border-color: transparent transparent white transparent; }
+
+.tooltip.right .tooltiptext {
+  top: 50%;
+  left: 100%;
+  transform: translate(0.5em, -50%); }
+.tooltip.right .tooltiptext::after {
+  margin-top: -5px;
+  right: 100%;
+  top: 50%;
+  border-color: transparent white   transparent transparent; }
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1; }

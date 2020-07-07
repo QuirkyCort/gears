@@ -23,18 +23,21 @@ var world_Image = new function() {
         ['WRO 2018', 'textures/maps/WRO-2018-Regular-Junior.png'],
         ['FLL 2019', 'textures/maps/FLL2019.jpg'],
         ['FLL 2018', 'textures/maps/FLL2018.jpg']
-      ]
+      ],
+      help: 'You can override this by setting an image URL or uploading a file'
     },
     {
       option: 'imageURL',
       title: 'Image URL',
-      type: 'text'
+      type: 'text',
+      help: 'This will not work with many webhosts, as they block their images from being used in a different domain. Imgur will work.'
     },
     {
       option: 'imageFile',
       title: 'Upload Image',
       type: 'file',
-      accept: 'image/*'
+      accept: 'image/*',
+      help: 'This will override both "Select Image" and "Image URL"'
     },
     {
       option: 'wall',

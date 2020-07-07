@@ -48,7 +48,18 @@ var simPanel = new function() {
 
     function getTitle(opt) {
       let $title = $('<div class="configurationTitle"></div>');
+      let $toolTip = $('<span> </span><div class="tooltip">?<div class="tooltiptext"></div></div>');
       $title.text(opt.title);
+
+      if (opt.help) {
+        $toolTip.find('.tooltiptext').text(opt.help);
+        $title.append($toolTip);
+      }
+      if (opt.helpSide) {
+        $toolTip.addClass(opt.helpSide);
+      } else {
+        $toolTip.addClass('right');
+      }
 
       return $title;
     }
@@ -75,9 +86,10 @@ var simPanel = new function() {
     }
 
     function genCheckBox(opt) {
+      let id = Math.random().toString(36).substring(2, 6);
       let $div = $('<div class="configuration"></div>');
-      let $checkbox = $('<input type="checkbox">');
-      let $label = $('<label></label>');
+      let $checkbox = $('<input type="checkbox" id="' + id + '">');
+      let $label = $('<label for="' + id + '"></label>');
 
       $label.text(opt.label);
 
