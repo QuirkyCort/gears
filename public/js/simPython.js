@@ -270,6 +270,61 @@ var $builtinmodule = function(name) {
 
   }, 'UltrasonicSensor', []);
 
+  mod.Sound = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    this.playing = false;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.volume = 1.0;
+      self.audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
+      self.gainNode = self.audioCtx.createGain();
+
+      self.gainNode.connect(self.audioCtx.destination);
+    });
+
+    $loc.speak = new Sk.builtin.func(function(self, text) {
+      var utter = new SpeechSynthesisUtterance(text.v);
+      utter.volume = self.volume;
+      speechSynthesis.speak(utter);
+    });
+
+    $loc.set_volume = new Sk.builtin.func(function(self, volume) {
+      self.volume = parseFloat(volume.v) / 100;
+      self.gainNode.gain.value = self.volume;
+    });
+
+    $loc.get_volume = new Sk.builtin.func(function(self) {
+      return self.volume;
+    });
+
+    $loc.isSpeaking = new Sk.builtin.func(function(self) {
+      return speechSynthesis.speaking;
+    });
+
+    $loc.play_tone = new Sk.builtin.func(function(self, frequency, duration, delay) {
+      self.playing = true;
+      oscillator = self.audioCtx.createOscillator();
+
+      oscillator.type = 'sine';
+      oscillator.connect(self.gainNode);
+      oscillator.onended = function() {
+        if (delay.v > 0) {
+          setTimeout(function(){ self.playing = false; }, delay.v * 1000);
+        } else {
+          self.playing = false;
+        }
+      };
+      oscillator.frequency.value = frequency.v;
+
+      oscillator.start(self.audioCtx.currentTime);
+      oscillator.stop(self.audioCtx.currentTime + duration.v);
+    });
+
+    $loc.isPlaying = new Sk.builtin.func(function(self) {
+      return self.playing;
+    });
+  }, 'Sound', []);
 
   return mod;
 };
