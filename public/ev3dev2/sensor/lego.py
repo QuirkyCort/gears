@@ -162,6 +162,10 @@ class GyroSensor:
       angle_and_rate[i] = int(angle_and_rate[i])
     return angle_and_rate
 
+  def reset(self):
+    self.sensor.reset()
+    return
+
   def wait_until_angle_changed_by(self, delta, direction_sensitive=False):
     if delta == 0:
       return True

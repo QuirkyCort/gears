@@ -252,6 +252,10 @@ var $builtinmodule = function(name) {
       return gyro;
     });
 
+    $loc.reset = new Sk.builtin.func(function(self) {
+      self.sensor.reset();
+    });
+
   }, 'GyroSensor', []);
 
   mod.UltrasonicSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {

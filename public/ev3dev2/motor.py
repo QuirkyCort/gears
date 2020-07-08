@@ -319,7 +319,8 @@ class Motor:
 
   @property
   def speed(self):
-    return self.wheel.speed()
+    time.sleep(SENSOR_DELAY)
+    return int(self.wheel.speed())
 
   @property
   def speed_d(self):

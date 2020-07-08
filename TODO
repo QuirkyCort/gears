@@ -15,9 +15,7 @@ Documentation
 
 Blocks
 - Plan and code. These needs to be aligned to both the Pybricks and Ev3dev API.
-  - LargeMotor
   - Convenience blocks for arm and magnet
-  - Get drive to work!
 
 Coding (Python editor)
 - Add autocomplete to the Ace editor
@@ -35,7 +33,17 @@ Coding (Map configurator)
 
 Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
-- More components (rotating platform, laser rangefinder, paint ball launcher, gps, object of interest radar, claw)
+- More components
+  - rotating platform
+  - laser rangefinder (simplified ultrasonic)
+  - paint ball launcher
+  - gps (x, y coordinates)
+  - object of interest radar (direction and range of object)
+  - radio (communications between robots)
+  - claw
+  - linear actuator
+  - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
+  - touch sensor (simplified laser rangefinder with very short range)
 - Multi-robot arena
 
 Coding (Sharing)

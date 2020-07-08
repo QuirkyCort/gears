@@ -81,6 +81,81 @@
   "helpUrl": ""
 },
 {
+  "type": "stop_motor",
+  "message0": "stop motor on port %1 and %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "stop_action",
+      "options": [
+        [
+          "brake",
+          "BRAKE"
+        ],
+        [
+          "coast",
+          "COAST"
+        ],
+        [
+          "hold",
+          "HOLD"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "move_steering",
   "message0": "move steering with direction %1 and speed %2 %3",
   "args0": [
@@ -117,7 +192,77 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "direction ranges from -100 (left) to 0 (straight) to 100 (right)",
+  "helpUrl": ""
+},
+{
+  "type": "move_steering_for",
+  "message0": "move steering with direction %1 and speed %2 %3 %4 for %5 %6",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "steering",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "%",
+          "PERCENT"
+        ],
+        [
+          "degrees / s",
+          "DEGREES"
+        ],
+        [
+          "rotations / s",
+          "ROTATIONS"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "duration",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units2",
+      "options": [
+        [
+          "rotations",
+          "ROTATIONS"
+        ],
+        [
+          "degrees",
+          "DEGREES"
+        ],
+        [
+          "seconds",
+          "SECONDS"
+        ],
+        [
+          "milliseconds",
+          "MILLISECONDS"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "direction ranges from -100 (left) to 0 (straight) to 100 (right)",
   "helpUrl": ""
 },
 {
@@ -130,47 +275,167 @@
 },
 {
   "type": "position",
-  "message0": "position of  %1 in degrees",
+  "message0": "position of motor on port %1 in degrees",
   "args0": [
     {
       "type": "field_dropdown",
-      "name": "motor",
+      "name": "port",
       "options": [
         [
-          "left motor",
-          "LEFT"
+          "A",
+          "A"
         ],
         [
-          "right motor",
-          "RIGHT"
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
         ]
       ]
     }
   ],
-  "output": null,
+  "output": "Number",
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "speed",
+  "message0": "speed of motor on port %1 in degrees / s",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
+        ]
+      ]
+    }
+  ],
+  "output": "Number",
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
 },
 {
   "type": "reset_motor",
-  "message0": "reset position counter of  %1",
+  "message0": "reset position of motor on port  %1",
   "args0": [
     {
       "type": "field_dropdown",
-      "name": "motor",
+      "name": "port",
       "options": [
         [
-          "both motor",
+          "A + B (Both wheels)",
           "BOTH"
         ],
         [
-          "left motor",
-          "LEFT"
+          "A (Left wheel)",
+          "A"
         ],
         [
-          "right motor",
-          "RIGHT"
+          "B (Right wheel)",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
         ]
       ]
     }
@@ -183,7 +448,7 @@
 },
 {
   "type": "move_tank",
-  "message0": "move tank with left speed %1 and right speed %2",
+  "message0": "move tank with left speed %1 and right speed %2 %3",
   "args0": [
     {
       "type": "input_value",
@@ -194,6 +459,94 @@
       "type": "input_value",
       "name": "right",
       "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "%",
+          "PERCENT"
+        ],
+        [
+          "degrees / s",
+          "DEGREES"
+        ],
+        [
+          "rotations / s",
+          "ROTATIONS"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "move_tank_for",
+  "message0": "move tank with left speed %1 and right speed %2 %3 %4 for %5 %6",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "left",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "right",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "%",
+          "PERCENT"
+        ],
+        [
+          "degrees / s",
+          "DEGREES"
+        ],
+        [
+          "rotations / s",
+          "ROTATIONS"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "duration",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units2",
+      "options": [
+        [
+          "rotations",
+          "ROTATIONS"
+        ],
+        [
+          "degrees",
+          "DEGREES"
+        ],
+        [
+          "seconds",
+          "SECONDS"
+        ],
+        [
+          "milliseconds",
+          "MILLISECONDS"
+        ]
+      ]
     }
   ],
   "inputsInline": true,
@@ -238,9 +591,50 @@
       ]
     },
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "port",
-      "check": "Number"
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
     }
   ],
   "inputsInline": true,
@@ -251,12 +645,67 @@
 },
 {
   "type": "ultrasonic_sensor",
-  "message0": "ultrasonic distance in mm on port %1",
+  "message0": "ultrasonic distance on port %1 in %2",
   "args0": [
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "port",
-      "check": "Number"
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "cm",
+          "CM"
+        ],
+        [
+          "mm",
+          "MM"
+        ]
+      ]
     }
   ],
   "inputsInline": true,
@@ -284,9 +733,50 @@
       ]
     },
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "port",
-      "check": "Number"
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
     }
   ],
   "inputsInline": true,
@@ -300,9 +790,50 @@
   "message0": "reset gyro on port %1",
   "args0": [
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "port",
-      "check": "Number"
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
     }
   ],
   "inputsInline": true,
@@ -313,77 +844,369 @@
   "helpUrl": ""
 },
 {
-  "type": "initialize_drive",
-  "message0": "Initialize drive with wheels diameter (mm): %1 and distance between wheels (mm): %2",
+  "type": "run_motor",
+  "message0": "run motor on port %1 at %2 %3",
   "args0": [
     {
-      "type": "input_value",
-      "name": "diameter",
-      "check": "Number"
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
+        ]
+      ]
     },
-    {
-      "type": "input_value",
-      "name": "axle_distance",
-      "check": "Number"
-    }
-  ],
-  "inputsInline": true,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "drive_straight",
-  "message0": "drive straight for %1 mm",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "distance",
-      "check": "Number"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "drive_turn",
-  "message0": "turn for  %1 degrees",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "angle",
-      "check": "Number"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "drive_drive",
-  "message0": "drive at speed %1 mm/s while turning at rate %2 degrees/s",
-  "args0": [
     {
       "type": "input_value",
       "name": "speed",
       "check": "Number"
     },
     {
+      "type": "field_dropdown",
+      "name": "unit",
+      "options": [
+        [
+          "%",
+          "PERCENT"
+        ],
+        [
+          "degrees / s",
+          "DEGREES"
+        ],
+        [
+          "rotations / s",
+          "ROTATIONS"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "motor will continue running until given a different command",
+  "helpUrl": ""
+},
+{
+  "type": "run_motor_for",
+  "message0": "run motor on port %1 at %2 %3 %4 for %5 %6",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
+        ]
+      ]
+    },
+    {
       "type": "input_value",
-      "name": "rate",
+      "name": "speed",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "unit",
+      "options": [
+        [
+          "%",
+          "PERCENT"
+        ],
+        [
+          "degrees / s",
+          "DEGREES"
+        ],
+        [
+          "rotations / s",
+          "ROTATIONS"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "duration",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "unit2",
+      "options": [
+        [
+          "rotations",
+          "ROTATIONS"
+        ],
+        [
+          "degrees",
+          "DEGREES"
+        ],
+        [
+          "seconds",
+          "SECONDS"
+        ],
+        [
+          "milliseconds",
+          "MILLISECONDS"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "motor will continue running until given a different command",
+  "helpUrl": ""
+},
+{
+  "type": "run_motor_to",
+  "message0": "run motor on port %1 at %2 %3 %4 to position %5 degrees",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "unit",
+      "options": [
+        [
+          "%",
+          "PERCENT"
+        ],
+        [
+          "degrees / s",
+          "DEGREES"
+        ],
+        [
+          "rotations / s",
+          "ROTATIONS"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "degrees",
       "check": "Number"
     }
   ],
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
+  "tooltip": "motor will continue running until given a different command",
+  "helpUrl": ""
+},
+{
+  "type": "say",
+  "message0": "say %1 %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "text"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "block",
+      "options": [
+        [
+          "and don't wait",
+          "NO_BLOCK"
+        ],
+        [
+          "and wait for completion",
+          "BLOCK"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "Speak the string using text-to-speech",
+  "helpUrl": ""
+},
+{
+  "type": "beep",
+  "message0": "beep %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "block",
+      "options": [
+        [
+          "and don't wait",
+          "NO_BLOCK"
+        ],
+        [
+          "and wait for completion",
+          "BLOCK"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "play_tone",
+  "message0": "play tone at %1 Hz for %2 seconds %3",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "frequency",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "duration",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "block",
+      "options": [
+        [
+          "and don't wait",
+          "NO_BLOCK"
+        ],
+        [
+          "and wait for completion",
+          "BLOCK"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
   "tooltip": "",
   "helpUrl": ""
 }]
