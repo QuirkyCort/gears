@@ -241,6 +241,10 @@ nav {
   .console.open .content {
     overflow-y: scroll; }
 
+.dialogWindow .selectWorld {
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column; }
 .dialogWindow .description {
   display: flex;
   border: solid 1px white;

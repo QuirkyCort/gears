@@ -241,8 +241,12 @@ var simPanel = new function() {
 
     $buttons.siblings('.save').click(function() {
       let world = worlds.find(world => world.name == $select.val());
-      let saveObj = Object.assign({}, world.defaultOptions);
-      Object.assign(saveObj, worldOptionsSetting);
+      let saveObj = {
+        worldName: $select.val(),
+        options: {}
+      }
+      Object.assign(saveObj.options, world.defaultOptions);
+      Object.assign(saveObj.options, worldOptionsSetting);
 
       var hiddenElement = document.createElement('a');
       hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(saveObj));
@@ -258,10 +262,16 @@ var simPanel = new function() {
       hiddenElement.addEventListener('change', function(e){
         var reader = new FileReader();
         reader.onload = function() {
-          let world = worlds.find(world => world.name == $select.val());
-          let loadedOptions = JSON.parse(this.result);
-          displayWorldOptions(world, loadedOptions);
-          worldOptionsSetting = loadedOptions;
+          let loadedSave = JSON.parse(this.result);
+          let world = worlds.find(world => world.name == loadedSave.worldName);
+
+          if (typeof world == 'undefined') {
+            toastMsg('Invalid map configurations');
+            return;
+          }
+
+          displayWorldOptions(world, loadedSave.options);
+          worldOptionsSetting = loadedSave.options;
         };
         reader.readAsText(e.target.files[0]);
       });
