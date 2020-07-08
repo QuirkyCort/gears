@@ -20,8 +20,7 @@ var world_Grid = new function() {
       type: 'slider',
       min: '100',
       max: '1000',
-      step: '10',
-      default: '400'
+      step: '10'
     },
     {
       option: 'width',
@@ -29,15 +28,13 @@ var world_Grid = new function() {
       type: 'slider',
       min: '100',
       max: '1000',
-      step: '10',
-      default: '400'
+      step: '10'
     },
     {
       option: 'wall',
       title: 'Wall',
       type: 'checkbox',
-      label: 'Wall Present',
-      checked: true
+      label: 'Wall Present'
     },
     {
       option: 'wallHeight',
@@ -45,8 +42,7 @@ var world_Grid = new function() {
       type: 'slider',
       min: '0',
       max: '30',
-      step: '0.1',
-      default: '10'
+      step: '0.1'
     },
     {
       option: 'wallThickness',
@@ -54,8 +50,7 @@ var world_Grid = new function() {
       type: 'slider',
       min: '0',
       max: '30',
-      step: '0.1',
-      default: '5'
+      step: '0.1'
     },
     {
       option: 'startPos',
@@ -70,21 +65,23 @@ var world_Grid = new function() {
     }
   ];
 
+  this.defaultOptions = {
+    image: 'textures/maps/grid.png',
+    length: 400,
+    width: 400,
+    wall: true,
+    wallHeight: 10,
+    wallThickness: 5,
+    groundFriction: 1,
+    wallFriction: 0.1,
+    groundRestitution: 0.0,
+    wallRestitution: 0.1,
+    startPos: 'center'
+  };
+
   // Set options, including default
   this.setOptions = function(options) {
-    self.options = {
-      image: 'textures/maps/grid.png',
-      length: 400,
-      width: 400,
-      wall: true,
-      wallHeight: 10,
-      wallThickness: 5,
-      groundFriction: 1,
-      wallFriction: 0.1,
-      groundRestitution: 0.0,
-      wallRestitution: 0.1,
-      startPos: 'center'
-    };
+    Object.assign(self.options, self.defaultOptions);
 
     for (let name in options) {
       if (typeof self.options[name] == 'undefined') {

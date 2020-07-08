@@ -68,6 +68,7 @@ var skulpt = new function() {
     var externalLibs = {
       './ev3dev2/__init__.py': 'ev3dev2/__init__.py',
       './ev3dev2/motor.py': 'ev3dev2/motor.py',
+      './ev3dev2/sound.py': 'ev3dev2/sound.py',
       './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py',
       './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py',
       './simPython.js': 'js/simPython.js'

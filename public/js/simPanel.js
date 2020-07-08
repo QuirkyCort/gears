@@ -64,14 +64,19 @@ var simPanel = new function() {
       return $title;
     }
 
-    function genSelect(opt) {
+    function genSelect(opt, currentOptions) {
       let $div = $('<div class="configuration"></div>');
       let $select = $('<select></select>');
+      let currentVal = currentOptions[opt.option];
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
         $opt.prop('value', option[1]);
         $opt.text(option[0]);
+        if (option[1] == currentVal) {
+          $opt.attr('selected', true);
+        }
+
         $select.append($opt);
       });
 
@@ -85,15 +90,16 @@ var simPanel = new function() {
       return $div;
     }
 
-    function genCheckBox(opt) {
+    function genCheckBox(opt, currentOptions) {
       let id = Math.random().toString(36).substring(2, 6);
       let $div = $('<div class="configuration"></div>');
       let $checkbox = $('<input type="checkbox" id="' + id + '">');
       let $label = $('<label for="' + id + '"></label>');
+      let currentVal = currentOptions[opt.option];
 
       $label.text(opt.label);
 
-      if (opt.checked) {
+      if (currentVal) {
         $checkbox.prop('checked', true);
         worldOptionsSetting[opt.option] = true;
       } else {
@@ -110,7 +116,7 @@ var simPanel = new function() {
       return $div;
     }
 
-    function genSlider(opt) {
+    function genSlider(opt, currentOptions) {
       let $div = $('<div class="configuration"></div>');
       let $sliderBox = $(
         '<div class="slider">' +
@@ -120,12 +126,13 @@ var simPanel = new function() {
       );
       let $slider = $sliderBox.find('input[type=range]');
       let $input = $sliderBox.find('input[type=text]');
+      let currentVal = currentOptions[opt.option];
 
       $slider.attr('min', opt.min);
       $slider.attr('max', opt.max);
       $slider.attr('step', opt.step);
-      $slider.attr('value', opt.default);
-      $input.val(opt.default);
+      $slider.attr('value', currentVal);
+      $input.val(currentVal);
 
       $slider.on('input', function(){
         worldOptionsSetting[opt.option] = parseInt($slider.val());
@@ -142,12 +149,13 @@ var simPanel = new function() {
       return $div;
     }
 
-    function genText(opt) {
+    function genText(opt, currentOptions) {
       let $div = $('<div class="configuration"></div>');
       let $textBox = $('<div class="text"><input type="text"></div>');
       let $input = $textBox.find('input');
+      let currentVal = currentOptions[opt.option];
 
-      $input.val(opt.default);
+      $input.val(currentVal);
 
       $input.change(function(){
         worldOptionsSetting[opt.option] = $input.val();
@@ -159,7 +167,7 @@ var simPanel = new function() {
       return $div;
     }
 
-    function genFile(opt) {
+    function genFile(opt, currentOptions) {
       let $div = $('<div class="configuration"></div>');
       let $file = $('<input type="file">');
       $file.attr('accept', opt.accept);
@@ -176,7 +184,7 @@ var simPanel = new function() {
       return $div;
     }
 
-    function displayWorldOptions(world) {
+    function displayWorldOptions(world, worldOptions) {
       $description.find('.text').html(world.longDescription);
       if (world.thumbnail) {
         $description.find('.thumbnail').attr('src', world.thumbnail);
@@ -188,15 +196,15 @@ var simPanel = new function() {
       worldOptionsSetting = {};
       for (let optionConfiguration of world.optionsConfigurations) {
         if (optionConfiguration.type == 'select') {
-          $configurations.append(genSelect(optionConfiguration));
+          $configurations.append(genSelect(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'checkbox') {
-          $configurations.append(genCheckBox(optionConfiguration));
+          $configurations.append(genCheckBox(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'slider') {
-          $configurations.append(genSlider(optionConfiguration));
+          $configurations.append(genSlider(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'text') {
-          $configurations.append(genText(optionConfiguration));
+          $configurations.append(genText(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'file') {
-          $configurations.append(genFile(optionConfiguration));
+          $configurations.append(genFile(optionConfiguration, worldOptions));
         }
       }
     }
@@ -207,7 +215,7 @@ var simPanel = new function() {
       $world.text(world.shortDescription);
       if (world.name == babylon.world.name) {
         $world.attr('selected', 'selected');
-        displayWorldOptions(world);
+        displayWorldOptions(world, world.options);
       }
       $select.append($world);
     });
@@ -218,18 +226,57 @@ var simPanel = new function() {
 
     $select.change(function(){
       let world = worlds.find(world => world.name == $select.val());
-      displayWorldOptions(world);
+      displayWorldOptions(world, world.options);
     });
 
-    let options = {
-      title: 'Select World',
-      message: $body
-    };
-    confirmDialog(options, function(){
+    let $buttons = $(
+      '<button type="button" class="save btn-light">Save</button>' +
+      '<button type="button" class="load push-left btn-light">Load</button>' +
+      '<button type="button" class="default btn-light">Default</button>' +
+      '<button type="button" class="cancel btn-light">Cancel</button>' +
+      '<button type="button" class="confirm btn-success">Ok</button>'
+    );
+
+    let $dialog = dialog('Select World', $body, $buttons);
+
+    $buttons.siblings('.save').click(function() {
+      let world = worlds.find(world => world.name == $select.val());
+      let saveObj = Object.assign({}, world.defaultOptions);
+      Object.assign(saveObj, worldOptionsSetting);
+
+      var hiddenElement = document.createElement('a');
+      hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(saveObj));
+      hiddenElement.target = '_blank';
+      hiddenElement.download = $select.val() + 'Map_config.json';
+      hiddenElement.dispatchEvent(new MouseEvent('click'));
+    });
+    $buttons.siblings('.load').click(function() {
+      var hiddenElement = document.createElement('input');
+      hiddenElement.type = 'file';
+      hiddenElement.accept = 'application/json,.json';
+      hiddenElement.dispatchEvent(new MouseEvent('click'));
+      hiddenElement.addEventListener('change', function(e){
+        var reader = new FileReader();
+        reader.onload = function() {
+          let world = worlds.find(world => world.name == $select.val());
+          let loadedOptions = JSON.parse(this.result);
+          displayWorldOptions(world, loadedOptions);
+          worldOptionsSetting = loadedOptions;
+        };
+        reader.readAsText(e.target.files[0]);
+      });
+    });
+    $buttons.siblings('.default').click(function() {
+      let world = worlds.find(world => world.name == $select.val());
+      displayWorldOptions(world, world.defaultOptions);
+    });
+    $buttons.siblings('.cancel').click(function() { $dialog.close(); });
+    $buttons.siblings('.confirm').click(function(){
       babylon.world = worlds.find(world => world.name == $select.val());
       babylon.world.setOptions(worldOptionsSetting).then(function(){
         self.resetSim();
       });
+      $dialog.close();
     });
   };
 

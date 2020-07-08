@@ -20,8 +20,7 @@ var world_Maze = new function() {
       type: 'slider',
       min: '2',
       max: '20',
-      step: '1',
-      default: '8'
+      step: '1'
     },
     {
       option: 'rows',
@@ -29,8 +28,7 @@ var world_Maze = new function() {
       type: 'slider',
       min: '2',
       max: '20',
-      step: '1',
-      default: '8'
+      step: '1'
     },
     {
       option: 'size',
@@ -38,8 +36,7 @@ var world_Maze = new function() {
       type: 'slider',
       min: '20',
       max: '100',
-      step: '1',
-      default: '40'
+      step: '1'
     },
     {
       option: 'wallHeight',
@@ -47,8 +44,7 @@ var world_Maze = new function() {
       type: 'slider',
       min: '0',
       max: '30',
-      step: '0.1',
-      default: '15'
+      step: '0.1'
     },
     {
       option: 'seed',
@@ -58,21 +54,23 @@ var world_Maze = new function() {
     }
   ];
 
+  this.defaultOptions = {
+    columns: 8,
+    rows: 8,
+    size: 40,
+    seed: null,
+    wallHeight: 15,
+    wallThickness: 2,
+    groundFriction: 1,
+    wallFriction: 0.1,
+    groundRestitution: 0.0,
+    wallRestitution: 0.1,
+    startPos: 'center'
+  };
+
   // Set options, including default
   this.setOptions = function(options) {
-    self.options = {
-      columns: 8,
-      rows: 8,
-      size: 40,
-      seed: null,
-      wallHeight: 15,
-      wallThickness: 2,
-      groundFriction: 1,
-      wallFriction: 0.1,
-      groundRestitution: 0.0,
-      wallRestitution: 0.1,
-      startPos: 'center'
-    };
+    Object.assign(self.options, self.defaultOptions);
 
     for (let name in options) {
       if (typeof self.options[name] == 'undefined') {

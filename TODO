@@ -19,15 +19,22 @@ Blocks
   - Convenience blocks for arm and magnet
   - Get drive to work!
 
-Coding (Interface)
+Coding (Python editor)
 - Add autocomplete to the Ace editor
+- Documentation panel?
+
+Coding (Blockly)
 - Add multiple pages for blockly editor
+
+Coding (Robot configurator)
+- Add in robot configurator
+- Save/load robot configuration
+
+Coding (Map configurator)
+- Save / Load map configuration
 
 Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
-- Add in map configurator
-- Add in robot configurator
-- Save/load robot configuration
 - More components (rotating platform, laser rangefinder, paint ball launcher, gps, object of interest radar, claw)
 - Multi-robot arena
 
