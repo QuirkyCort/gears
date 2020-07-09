@@ -457,8 +457,11 @@ var robot = new function() {
   // Add joints
   this.loadJoints = function(components) {
     components.forEach(function(component) {
+      if (typeof component.components != 'undefined') {
+        self.loadJoints(component.components);
+      }
       if (typeof component.loadJoints == 'function') {
-        component.loadJoints(self.body);
+        component.loadJoints();
       }
     });
   };

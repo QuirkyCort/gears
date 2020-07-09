@@ -354,5 +354,133 @@ var robotTemplates = [
         ]
       }
     ]
+  },
+  {
+    name: 'crane',
+    shortDescription: 'Crane',
+    longDescription:
+      '<p>This robot is equipped with an electromagnet at the end of a two segments crane arm.</p>' +
+      '<p>It can reach higher and further than the other robots, ' +
+      'and a color sensor at the end of the arm allows it to identify what it is picking up.</p>' +
+      '<p>When using this robot, fold the arms to avoid obstructing the ultrasonic sensor.</p>',
+    longerDescription:
+      '<h3>Dimensions</h3>' +
+      '<ul>' +
+        '<li>Wheel Diameter: 5.6 cm</li>' +
+        '<li>Wheel Spacing: 15.2 cm</li>' +
+      '</ul>' +
+      '<h3>Actuators</h3>' +
+      '<ul>' +
+        '<li>Left Wheel: Port A</li>' +
+        '<li>Right Wheel: Port B</li>' +
+        '<li>Motorized Arm (1st Segment): Port C</li>' +
+        '<li>Motorized Arm (2nd Segment): Port D</li>' +
+        '<li>Electromagnet: Port E</li>' +
+      '</ul>' +
+      '<h3>Sensors</h3>' +
+      '<ul>' +
+        '<li>Color Sensor (Left): Port 1</li>' +
+        '<li>Color Sensor (Right): Port 2</li>' +
+        '<li>Ultrasonic Distance: Port 3</li>' +
+        '<li>Gyro: Port 4</li>' +
+        '<li>Color Sensor (Arm): Port 5</li>' +
+      '</ul>',
+    thumbnail: 'images/robots/crane.jpg',
+
+    bodyHeight: 4,
+    bodyWidth: 14,
+    bodyLength: 16,
+
+    wheelDiameter: 5.6,
+    wheelWidth: 0.8,
+    wheelToBodyOffset: 0.2,
+
+    bodyEdgeToWheelCenterY: 1,
+    bodyEdgeToWheelCenterZ: 2,
+
+    bodyMass: 1000,
+    wheelMass: 200,
+    casterMass: 0, // Warning: No effect due to parenting
+
+    wheelFriction: 10,
+    bodyFriction: 0,
+    casterFriction: 0, // Warning: No effect due to parenting
+
+    components: [
+      {
+        type: 'ColorSensor',
+        position: [-2, -1, 9],
+        rotation: [Math.PI/2, 0, 0],
+        options: null
+      },
+      {
+        type: 'ColorSensor',
+        position: [2, -1, 9],
+        rotation: [Math.PI/2, 0, 0],
+        options: null
+      },
+      {
+        type: 'UltrasonicSensor',
+        position: [0, 2.5, 8],
+        rotation: [0, 0, 0],
+        options: null
+      },
+      {
+        type: 'Box',
+        position: [-8.7, -1, 3],
+        rotation: [0, 0, 0],
+        options: {
+          height: 3,
+          width: 1,
+          depth: 14
+        }
+      },
+      {
+        type: 'Box',
+        position: [8.7, -1, 3],
+        rotation: [0, 0, 0],
+        options: {
+          height: 3,
+          width: 1,
+          depth: 14
+        }
+      },
+      {
+        type: 'GyroSensor',
+        position: [-4, 2.5, 5],
+        options: null
+      },
+      {
+        type: 'armActuator',
+        position: [0, 3, 4],
+        rotation: [0, 0, 0],
+        options: null,
+        components: [
+          {
+            type: 'armActuator',
+            position: [0, 0, 8],
+            rotation: [0, 0, 0],
+            options: {
+              minAngle: -160,
+              maxAngle: 160
+            },
+            components: [
+              {
+                type: 'magnetActuator',
+                position: [0, -1.75, 8],
+                rotation: [0, 0, 0],
+                options: null
+              },
+              {
+                type: 'ColorSensor',
+                position: [0, -1.25, 10],
+                rotation: [Math.PI/2, 0, 0],
+                options: null
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ];

@@ -856,8 +856,8 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     );
   };
 
-  this.loadJoints = function(body) {
-    let mainPivot = BABYLON.Vector3.Zero().add(self.bodyPosition);
+  this.loadJoints = function() {
+    let mainPivot = BABYLON.Vector3.Zero();
     mainPivot.y += 0.5;
     let connectedPivot = BABYLON.Vector3.Zero();
     let axisVec = new BABYLON.Vector3(1, 0, 0);
@@ -870,7 +870,13 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       mainAxis: axisVec,
       connectedAxis: new BABYLON.Vector3(1, 0, 0),
     });
-    body.physicsImpostor.addJoint(self.pivot.physicsImpostor, self.joint);
+
+    let targetBody = self.body;
+    while (targetBody.parent) {
+      mainPivot.addInPlace(targetBody.position);
+      targetBody = targetBody.parent;
+    }
+    targetBody.physicsImpostor.addJoint(self.pivot.physicsImpostor, self.joint);
   };
 
   this.setOptions = function(options) {
