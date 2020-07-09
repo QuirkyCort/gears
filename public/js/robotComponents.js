@@ -400,6 +400,7 @@ function GyroSensor(scene, parent, pos, port, options) {
 
   this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
   this.rotation = new BABYLON.Vector3(0, 0, 0);
+  this.angularVelocity = 0;
   this.actualRotation = 0;
   this.rotationRounds = 0;
   this.rotationAdjustment = 0;
@@ -478,7 +479,7 @@ function GyroSensor(scene, parent, pos, port, options) {
       self.prevRotation = rot;
 
       let rotation = self.rotationRounds * 360 + rot;
-      self.angularVelocity = (rotation - self.actualRotation) / delta * 1000;
+      self.angularVelocity = 0.8 * self.angularVelocity + 0.2 * ((rotation - self.actualRotation) / delta * 1000);
       self.actualRotation = rotation;
       self.rotation = rotation - self.rotationAdjustment;
     }
@@ -491,7 +492,7 @@ function GyroSensor(scene, parent, pos, port, options) {
   };
 
   this.getAngle = function() {
-    return self.actualRotation;
+    return self.rotation;
   };
 
   this.getRate = function() {
