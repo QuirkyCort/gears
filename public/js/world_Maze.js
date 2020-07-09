@@ -86,7 +86,7 @@ var world_Maze = new function() {
     self.robotStart.position = new BABYLON.Vector3(
       -(self.options.columns / 2 * self.options.size) + self.options.size / 2,
       0,
-      -(self.options.rows / 2 * self.options.size) + self.options.size / 2 + 6,
+      -(self.options.rows / 2 * self.options.size) + self.options.size / 2,
     );
 
     return new Promise(function(resolve, reject) {
