@@ -249,7 +249,7 @@ var simPanel = new function() {
       Object.assign(saveObj.options, worldOptionsSetting);
 
       var hiddenElement = document.createElement('a');
-      hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(saveObj));
+      hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(saveObj, null, 2));
       hiddenElement.target = '_blank';
       hiddenElement.download = $select.val() + 'Map_config.json';
       hiddenElement.dispatchEvent(new MouseEvent('click'));

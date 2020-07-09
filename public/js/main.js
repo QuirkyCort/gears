@@ -19,6 +19,34 @@ var main = new function() {
     blocklyPanel.onActive();
   };
 
+  // Save robot to json file
+  this.saveRobot = function() {
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(robot.options, null, 2));
+    hiddenElement.target = '_blank';
+    hiddenElement.download = robot.options.name + 'Robot.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
+  // Load robot from json file
+  this.loadRobot = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'application/json,.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        robot.options = JSON.parse(this.result);
+        babylon.removeMeshes(babylon.scene);
+        babylon.loadMeshes(babylon.scene);
+        skulpt.hardInterrupt = true;
+        simPanel.setRunIcon('run');
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+  };
+
   // Select robot from templates
   this.selectRobot = function() {
     let $body = $('<div class="selectRobot"></div>');
