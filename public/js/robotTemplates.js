@@ -249,8 +249,8 @@ var robotTemplates = [
     ]
   },
   {
-    name: 'crane',
-    shortDescription: 'Crane Truck',
+    name: 'tow',
+    shortDescription: 'Tow Truck',
     longDescription:
       '<p>This robot is equipped with an arm mounted magnet.</p>' +
       '<p>It can pick up or tow magnetic objects. Just be careful not to knock the object away when turning around!</p>',
@@ -274,7 +274,7 @@ var robotTemplates = [
         '<li>Ultrasonic Distance: Port 3</li>' +
         '<li>Gyro: Port 4</li>' +
       '</ul>',
-    thumbnail: 'images/robots/crane.jpg',
+    thumbnail: 'images/robots/tow.jpg',
 
     bodyHeight: 4,
     bodyWidth: 14,
