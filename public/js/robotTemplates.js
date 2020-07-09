@@ -86,7 +86,7 @@ var robotTemplates = [
       '<h3>Sensors</h3>' +
       '<ul>' +
         '<li>Port 1 : Color Sensor</li>' +
-        '<li>Port 2 : Color Sensor/li>' +
+        '<li>Port 2 : Color Sensor</li>' +
         '<li>Port 3 : Ultrasonic Distance</li>' +
         '<li>Port 4 : Gyro</li>' +
       '</ul>',
