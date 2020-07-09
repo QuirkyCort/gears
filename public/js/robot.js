@@ -535,11 +535,17 @@ var robot = new function() {
 
   // Load meshes for components that needs it
   this.loadMeshes = function(meshes) {
-    self.components.forEach(function(component) {
-      if (typeof component.loadMeshes == 'function') {
-        component.loadMeshes(meshes);
-      }
-    });
+    function loadMeshes(components) {
+      components.forEach(function(component) {
+        if (component.components) {
+          loadMeshes(component.components);
+        }
+        if (typeof component.loadMeshes == 'function') {
+          component.loadMeshes(meshes);
+        }
+      });
+    }
+    loadMeshes(self.components);
   };
 
   // Get component based on port name

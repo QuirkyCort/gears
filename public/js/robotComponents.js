@@ -90,6 +90,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var noEmissive = new BABYLON.Color3(0,0,0);
 
     self.renderTarget.onBeforeRender = function() {
+      scene.clearColor = BABYLON.Color3.Black();
       self.renderTarget.renderList.forEach(function(mesh) {
         if (mesh.material) {
           mesh.material.disableLighting = true;
@@ -102,6 +103,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
       });
     };
     self.renderTarget.onAfterRender = function() {
+      scene.clearColor = new BABYLON.Color3(0.2, 0.2, 0.3);
       self.renderTarget.renderList.forEach(function(mesh) {
         if (mesh.material) {
           mesh.material.disableLighting = false;

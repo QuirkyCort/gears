@@ -125,7 +125,7 @@ var babylon = new function() {
 
       // RTT test
       // var mat = new BABYLON.StandardMaterial("RTT mat", scene);
-      // mat.diffuseTexture = robot.components[0].renderTarget;
+      // mat.diffuseTexture = robot.getComponentByPort('in5').renderTarget;
       // mat.emissiveColor = new BABYLON.Color3(1,1,1);
       // mat.disableLighting = true;
 
