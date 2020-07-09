@@ -14,14 +14,14 @@ var robotTemplates = [
       '</ul>' +
       '<h3>Actuators</h3>' +
       '<ul>' +
-        '<li>Left Wheel: Port A</li>' +
-        '<li>Right Wheel: Port B</li>' +
-        '<li>Electromagnet: Port C</li>' +
+        '<li>Port A : Left Wheel</li>' +
+        '<li>Port B : Right Wheel</li>' +
+        '<li>Port C : Electromagnet</li>' +
       '</ul>' +
       '<h3>Sensors</h3>' +
       '<ul>' +
-        '<li>Color Sensor: Port 1</li>' +
-        '<li>Ultrasonic Distance: Port 2</li>' +
+        '<li>Port 1 : Color Sensor</li>' +
+        '<li>Port 2 : Ultrasonic Distance</li>' +
       '</ul>',
     thumbnail: 'images/robots/singleFollower.jpg',
 
@@ -79,16 +79,16 @@ var robotTemplates = [
       '</ul>' +
       '<h3>Actuators</h3>' +
       '<ul>' +
-        '<li>Left Wheel: Port A</li>' +
-        '<li>Right Wheel: Port B</li>' +
-        '<li>Electromagnet: Port C</li>' +
+        '<li>Port A : Left Wheel: Port A</li>' +
+        '<li>Port B : Right Wheel: Port B</li>' +
+        '<li>Port C : Electromagnet: Port C</li>' +
       '</ul>' +
       '<h3>Sensors</h3>' +
       '<ul>' +
-        '<li>Color Sensor: Port 1</li>' +
-        '<li>Color Sensor: Port 2</li>' +
-        '<li>Ultrasonic Distance: Port 3</li>' +
-        '<li>Gyro: Port 4</li>' +
+        '<li>Port 1 : Color Sensor</li>' +
+        '<li>Port 2 : Color Sensor/li>' +
+        '<li>Port 3 : Ultrasonic Distance</li>' +
+        '<li>Port 4 : Gyro</li>' +
       '</ul>',
     thumbnail: 'images/robots/doubleFollower.jpg',
 
@@ -157,17 +157,17 @@ var robotTemplates = [
       '</ul>' +
       '<h3>Actuators</h3>' +
       '<ul>' +
-        '<li>Left Wheel: Port A</li>' +
-        '<li>Right Wheel: Port B</li>' +
-        '<li>Electromagnet: Port C</li>' +
+        '<li>Port A : Left Wheel</li>' +
+        '<li>Port B : Right Wheel</li>' +
+        '<li>Port C : Electromagnet</li>' +
       '</ul>' +
       '<h3>Sensors</h3>' +
       '<ul>' +
-        '<li>Color Sensor: Port 1</li>' +
-        '<li>Ultrasonic Distance (Front): Port 2</li>' +
-        '<li>Ultrasonic Distance (Left): Port 3</li>' +
-        '<li>Ultrasonic Distance (Right): Port 4</li>' +
-        '<li>Gyro: Port 5</li>' +
+        '<li>Port 1 : Color Sensor</li>' +
+        '<li>Port 2 : Ultrasonic Distance (Front)</li>' +
+        '<li>Port 3 : Ultrasonic Distance (Left)</li>' +
+        '<li>Port 4 : Ultrasonic Distance (Right)</li>' +
+        '<li>Port 5 : Gyro</li>' +
       '</ul>',
     thumbnail: 'images/robots/maze.jpg',
 
@@ -262,17 +262,17 @@ var robotTemplates = [
       '</ul>' +
       '<h3>Actuators</h3>' +
       '<ul>' +
-        '<li>Left Wheel: Port A</li>' +
-        '<li>Right Wheel: Port B</li>' +
-        '<li>Motorized Arm: Port C</li>' +
-        '<li>Electromagnet: Port D</li>' +
+        '<li>Port A : Left Wheel</li>' +
+        '<li>Port B : Right Wheel</li>' +
+        '<li>Port C : Motorized Arm</li>' +
+        '<li>Port D : Electromagnet</li>' +
       '</ul>' +
       '<h3>Sensors</h3>' +
       '<ul>' +
-        '<li>Color Sensor (Left): Port 1</li>' +
-        '<li>Color Sensor (Right): Port 2</li>' +
-        '<li>Ultrasonic Distance: Port 3</li>' +
-        '<li>Gyro: Port 4</li>' +
+        '<li>Port 1 : Color Sensor (Left)</li>' +
+        '<li>Port 2 : Color Sensor (Right)</li>' +
+        '<li>Port 3 : Ultrasonic Distance</li>' +
+        '<li>Port 4 : Gyro</li>' +
       '</ul>',
     thumbnail: 'images/robots/tow.jpg',
 
@@ -371,19 +371,19 @@ var robotTemplates = [
       '</ul>' +
       '<h3>Actuators</h3>' +
       '<ul>' +
-        '<li>Left Wheel: Port A</li>' +
-        '<li>Right Wheel: Port B</li>' +
-        '<li>Motorized Arm (1st Segment): Port C</li>' +
-        '<li>Motorized Arm (2nd Segment): Port D</li>' +
-        '<li>Electromagnet: Port E</li>' +
+        '<li>Port A : Left Wheel</li>' +
+        '<li>Port B : Right Wheel</li>' +
+        '<li>Port C : Motorized Arm (1st Segment)</li>' +
+        '<li>Port D : Motorized Arm (2nd Segment)</li>' +
+        '<li>Port E : Electromagnet</li>' +
       '</ul>' +
       '<h3>Sensors</h3>' +
       '<ul>' +
-        '<li>Color Sensor (Left): Port 1</li>' +
-        '<li>Color Sensor (Right): Port 2</li>' +
-        '<li>Ultrasonic Distance: Port 3</li>' +
-        '<li>Gyro: Port 4</li>' +
-        '<li>Color Sensor (Arm): Port 5</li>' +
+        '<li>Port 1 : Color Sensor (Left)</li>' +
+        '<li>Port 2 : Color Sensor (Right)</li>' +
+        '<li>Port 3 : Ultrasonic Distance</li>' +
+        '<li>Port 4 : Gyro</li>' +
+        '<li>Port 5 : Color Sensor (Arm)</li>' +
       '</ul>',
     thumbnail: 'images/robots/crane.jpg',
 
