@@ -1,173 +1,3 @@
-var blocklyPanel = new function() {
-  var self = this;
-
-  // Run on page load
-  this.init = function() {
-    self.$panel = $('.blocklyEditor');
-    self.$save = $('.saveBlockly');
-
-    self.$save.click(self.save);
-
-    setInterval(blockly.saveLocalStorage, 30 * 1000);
-  };
-
-  // Run when panel made active
-  this.onActive = function() {
-    if (pythonPanel.modified) {
-      self.setDisable(true);
-    } else {
-      self.setDisable(false);
-    }
-  };
-
-  // Run when panel is inactive
-  this.onInActive = function() {
-    Blockly.DropDownDiv.hide()
-    Blockly.WidgetDiv.hide()
-  };
-
-  // Disable blockly by covering with blank div
-  this.setDisable = function(state) {
-    if (state == true) {
-      if (self.$panel.find('.disable').length < 1) {
-        self.$panel.append('<div class="disable"><div class="enable">Enable Blocks Mode</div></div>');
-        if (Blockly.selected) {
-          Blockly.selected.unselect();
-        }
-        Blockly.clipboardSource_ = null;
-        Blockly.clipboardTypeCounts_ = null;
-        Blockly.clipboardXml_ = null;
-
-        self.$panel.find('.enable').click(self.enableBlocks);
-      }
-    } else {
-      self.$panel.find('.disable').remove();
-    }
-  };
-
-  // Re-enable blocks mode
-  this.enableBlocks = function(){
-    confirmDialog('Enabling blocks mode will cause all Python changes to be lost.', function(){
-      pythonPanel.modified = false;
-      localStorage.setItem('pythonModified', false);
-      self.setDisable(false);
-    });
-  }
-
-  // Save
-  this.save = function() {
-    blockly.saveLocalStorage();
-  };
-
-  // Hide save button
-  this.hideSave = function() {
-    self.$save.addClass('hide');
-  };
-
-  // Show save button
-  this.showSave = function() {
-    self.$save.removeClass('hide');
-  };
-}
-
-var pythonPanel = new function() {
-  var self = this;
-
-  this.unsaved = false;
-  this.modified = false;
-  this.blocklyModified = false;
-
-  // Run on page load
-  this.init = function() {
-    self.$save = $('.savePython');
-
-    self.$save.click(self.save);
-
-    self.loadPythonEditor();
-  };
-
-  // Runs when panel is made active
-  this.onActive = function() {
-    if (self.modified == false) {
-      self.loadPythonFromBlockly();
-    }
-  };
-
-  // Load ace editor
-  this.loadPythonEditor = function() {
-    self.editor = ace.edit('pythonCode');
-    self.editor.setTheme('ace/theme/monokai');
-    self.editor.session.setMode('ace/mode/python');
-
-    self.loadLocalStorage();
-
-    self.editor.on('change', self.warnModify);
-
-    setInterval(self.saveLocalStorage, 30 * 1000);
-  };
-
-  // Warn when changing python code
-  this.warnModify = function() {
-    if (self.blocklyModified) {
-      return;
-    }
-    self.unsaved = true;
-    self.showSave();
-
-    if (! self.modified) {
-      acknowledgeDialog({
-        title: 'Warning!',
-        message: 'Changes to Python code cannot be converted back into blocks!'
-      });
-      self.modified = true;
-    }
-  };
-
-  // Load Python code from blockly
-  this.loadPythonFromBlockly = function() {
-    self.blocklyModified = true;
-    let code = blockly.generator.genCode();
-    self.editor.setValue(code);
-    self.blocklyModified = false;
-  };
-
-  // Save to local storage
-  this.saveLocalStorage = function() {
-    if (self.unsaved) {
-      self.unsaved = false;
-      self.hideSave();
-      localStorage.setItem('pythonCode', self.editor.getValue());
-      localStorage.setItem('pythonModified', self.modified);
-    }
-  };
-
-  // Load from local storage
-  this.loadLocalStorage = function() {
-    var code = localStorage.getItem('pythonCode');
-    if (code) {
-      self.editor.setValue(code);
-    }
-    if (localStorage.getItem('pythonModified') == 'true') {
-      self.modified = true;
-    }
-  };
-
-  // Save
-  this.save = function() {
-    self.saveLocalStorage();
-  };
-
-  // Hide save button
-  this.hideSave = function() {
-    self.$save.addClass('hide');
-  };
-
-  // Show save button
-  this.showSave = function() {
-    self.$save.removeClass('hide');
-  };
-}
-
 var main = new function() {
   var self = this;
 
@@ -178,13 +8,87 @@ var main = new function() {
     self.$panels = $('.panels .panel');
     self.$fileMenu = $('.fileMenu');
     self.$pythonMenu = $('.pythonMenu');
+    self.$robotMenu = $('.robotMenu');
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
     self.$pythonMenu.click(self.togglePythonMenu);
+    self.$robotMenu.click(self.toggleRobotMenu);
 
     window.addEventListener('beforeunload', self.checkUnsaved);
     blocklyPanel.onActive();
+  };
+
+  // Select robot from templates
+  this.selectRobot = function() {
+    let $body = $('<div class="selectRobot"></div>');
+    let $select = $('<select></select>');
+    let $description = $('<div class="description"><img class="thumbnail"><div class="text"></div></div>');
+    let $configurations = $('<div class="configurations"></div>');
+
+    function displayRobotDescriptions(robot) {
+      $description.find('.text').html(robot.longDescription);
+      if (robot.thumbnail) {
+        $description.find('.thumbnail').attr('src', robot.thumbnail);
+      } else {
+        $description.find('.thumbnail').attr('src', 'images/robots/default_thumbnail.png');
+      }
+
+      $configurations.html(robot.longerDescription);
+    }
+
+    robotTemplates.forEach(function(robotTemplate){
+      let $robot = $('<option></option>');
+      $robot.prop('value', robotTemplate.name);
+      $robot.text(robotTemplate.shortDescription);
+      if (robotTemplate.name == robot.options.name) {
+        $robot.attr('selected', 'selected');
+        displayRobotDescriptions(robotTemplate);
+      }
+      $select.append($robot);
+    });
+
+    $body.append($select);
+    $body.append($description);
+    $body.append($configurations);
+
+    $select.change(function(){
+      let robotTemplate = robotTemplates.find(robotTemplate => robotTemplate.name == $select.val());
+      displayRobotDescriptions(robotTemplate);
+    });
+
+    let $buttons = $(
+      '<button type="button" class="cancel btn-light">Cancel</button>' +
+      '<button type="button" class="confirm btn-success">Ok</button>'
+    );
+
+    let $dialog = dialog('Select Robot', $body, $buttons);
+
+    $buttons.siblings('.cancel').click(function() { $dialog.close(); });
+    $buttons.siblings('.confirm').click(function(){
+      robot.options = robotTemplates.find(robotTemplate => robotTemplate.name == $select.val());
+      babylon.removeMeshes(babylon.scene);
+      babylon.loadMeshes(babylon.scene);
+      skulpt.hardInterrupt = true;
+      simPanel.setRunIcon('run');
+      $dialog.close();
+    });
+  };
+
+  // Toggle robot
+  this.toggleRobotMenu = function(e) {
+    if ($('.robotMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: 'Select Robot', line: true, callback: self.selectRobot},
+        {html: 'Load from file', line: false, callback: self.loadRobot},
+        {html: 'Save to file', line: false, callback: self.saveRobot}
+      ];
+
+      menuDropDown(self.$robotMenu, menuItems, {className: 'robotMenuDropDown'});
+    }
   };
 
   // Toggle python
@@ -195,7 +99,7 @@ var main = new function() {
 
       let menuItems = [
         {html: 'Ev3dev Mode', line: false, callback: self.switchToEv3dev},
-        {html: 'Pybricks Mode (Currently not working with simulator)', line: true, callback: self.switchToPybricks}
+        {html: 'Pybricks Mode (Currently not working with simulator)', line: false, callback: self.switchToPybricks}
       ];
       var tickIndex;
       if (blockly.generator == ev3dev2_generator) {
@@ -337,6 +241,4 @@ var main = new function() {
 }
 
 // Init class
-blocklyPanel.init();
-pythonPanel.init();
 main.init();

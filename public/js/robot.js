@@ -301,92 +301,7 @@ function Wheel(scene, options) {
 var robot = new function() {
   var self = this;
 
-  this.options = {
-    bodyHeight: 4,
-    bodyWidth: 10,
-    bodyLength: 16,
-
-    wheelDiameter: 5.6,
-    wheelWidth: 0.8,
-    wheelToBodyOffset: 0.2,
-
-    bodyEdgeToWheelCenterY: 1,
-    bodyEdgeToWheelCenterZ: 2,
-
-    bodyMass: 1000,
-    wheelMass: 200,
-    casterMass: 0, // Warning: No effect due to parenting
-
-    wheelFriction: 10,
-    bodyFriction: 0,
-    casterFriction: 0, // Warning: No effect due to parenting
-
-    components: [
-      {
-        type: 'ColorSensor',
-        position: [-2.5, -1, 9],
-        rotation: [Math.PI/2, 0, 0],
-        options: null
-      },
-      {
-        type: 'ColorSensor',
-        position: [2.5, -1, 9],
-        rotation: [Math.PI/2, 0, 0],
-        options: null
-      },
-      {
-        type: 'UltrasonicSensor',
-        position: [0, 2.5, 8],
-        rotation: [0, 0, 0],
-        options: null
-      },
-      {
-        type: 'Box',
-        position: [-7, -1, 3],
-        rotation: [0, 0, 0],
-        options: {
-          height: 3,
-          width: 1,
-          depth: 14
-        }
-      },
-      {
-        type: 'Box',
-        position: [7, -1, 3],
-        rotation: [0, 0, 0],
-        options: {
-          height: 3,
-          width: 1,
-          depth: 14
-        }
-      },
-      {
-        type: 'GyroSensor',
-        position: [0, 2.5, 5],
-        options: null
-      },
-      // {
-      //   type: 'magnetActuator',
-      //   position: [0, 0, -9],
-      //   rotation: [0, 0, 0],
-      //   options: null
-      // },
-      {
-        type: 'armActuator',
-        position: [0, 3, 2],
-        rotation: [0, Math.PI, 0],
-        options: null,
-        components: [
-          {
-            type: 'magnetActuator',
-            position: [0, -1.75, 8],
-            rotation: [0, 0, 0],
-            options: null
-          }
-        ]
-      }
-    ]
-  };
+  this.options = {};
 
   this.body = null;
   this.leftWheel = null;
@@ -398,6 +313,7 @@ var robot = new function() {
 
   // Run on page load
   this.init = function() {
+    self.options = robotTemplates[0];
   };
 
   // Create the scene
