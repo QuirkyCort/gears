@@ -538,19 +538,29 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
 
   this.runTimed = function() {
     self.mode = self.modes.RUN_TIL_TIME;
+    self.state = self.states.RUNNING;
   };
 
   this.runToPosition = function() {
     self.mode = self.modes.RUN_TO_POS;
+    self.state = self.states.RUNNING;
   };
 
   this.runForever = function() {
     self.mode = self.modes.RUN;
+    self.state = self.states.RUNNING;
   };
 
   this.stop = function() {
     self.mode = self.modes.STOP;
     self.setPower(0);
+    self.state = self.states.HOLDING;
+  };
+
+  this.reset = function() {
+    self.setPower(0);
+    self.mode = self.modes.STOP;
+    self.state = self.states.HOLDING;
   };
 
   // Used in JS
@@ -749,7 +759,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     self.position_target = 0;
     self.mode = self.modes.STOP;
     self.state = self.states.HOLDING;
-  }
+  };
 
   // Used in JS
   this.init = function() {
