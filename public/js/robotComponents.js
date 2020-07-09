@@ -723,6 +723,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   this.position_sp = 0;
   this.position_target = 0;
   this.position = 0;
+  this.prevPosition = 0;
   this.positionAdjustment = 0;
   this.prevRotation = 0;
   this.rotationRounds = 0;
@@ -756,6 +757,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   this.reset = function() {
     self.positionAdjustment += self.position;
     self.position = 0;
+    self.prevPosition = 0;
     self.position_target = 0;
     self.mode = self.modes.STOP;
     self.state = self.states.HOLDING;
@@ -887,6 +889,8 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
   this.render = function(delta) {
     self.position = self.getPosition();
+    self.speed = (self.position - self.prevPosition) / delta * 1000;
+    self.prevPosition = self.position;
 
     if (self.mode == self.modes.RUN) {
       self.setMotorSpeed();
@@ -927,7 +931,6 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     } else {
       self.joint.setMotor(speed);
     }
-    self.speed = speed / Math.PI * 180;
   };
 
   this.holdPosition = function(delta) {
