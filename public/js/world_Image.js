@@ -76,6 +76,7 @@ var world_Image = new function() {
 
   this.defaultOptions = {
     image: 'textures/maps/WRO-2019-Regular-Junior.jpg',
+    imageURL: '',
     length: 100,
     width: 100,
     wall: true,
