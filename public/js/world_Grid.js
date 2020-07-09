@@ -62,6 +62,12 @@ var world_Grid = new function() {
         ['Bottom Center', 'bottomCenter'],
         ['Bottom Right', 'bottomRight']
       ]
+    },
+    {
+      option: 'startPosXY',
+      title: 'Starting Position (x, y)',
+      type: 'text',
+      help: 'Enter using this format "x, y" (without quotes) and it will override the above. Center of image is "0, 0".'
     }
   ];
 
@@ -76,7 +82,8 @@ var world_Grid = new function() {
     wallFriction: 0.1,
     groundRestitution: 0.0,
     wallRestitution: 0.1,
-    startPos: 'center'
+    startPos: 'center',
+    startPosXY: ''
   };
 
   // Set options, including default
@@ -107,6 +114,15 @@ var world_Grid = new function() {
       let x = (self.options.length / 2 - 12.5);
       let z = -(self.options.width / 2 - 12.5) + 9;
       self.robotStart.position = new BABYLON.Vector3(x, 0, z);
+    }
+
+    if (
+      typeof options != 'undefined'
+      && typeof options.startPosXY != 'undefined'
+      && options.startPosXY.trim() != ''
+    ) {
+      let xy = options.startPosXY.split(',');
+      self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), 0, parseFloat(xy[1]));
     }
 
     return new Promise(function(resolve, reject) {
