@@ -53,7 +53,6 @@ function Wheel(scene, options) {
   };
 
   this.runToPosition = function() {
-    self.position_target = self.position_sp;
     if (self.position_target < self.position) {
       self.positionDirectionReversed = true;
     } else {
@@ -82,7 +81,6 @@ function Wheel(scene, options) {
     self.positionAdjustment += self.position;
     self.position = 0;
     self.position_target = 0;
-    self.prevPosition = 0;
     self.mode = self.modes.STOP;
     self.state = self.states.HOLDING;
   };

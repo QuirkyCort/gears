@@ -713,6 +713,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   this.position_sp = 0;
   this.position_target = 0;
   this.position = 0;
+  this.positionAdjustment = 0;
   this.prevRotation = 0;
   this.rotationRounds = 0;
 
@@ -741,6 +742,14 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     self.position_target = self.position;
     self.state = self.states.HOLDING;
   };
+
+  this.reset = function() {
+    self.positionAdjustment += self.position;
+    self.position = 0;
+    self.position_target = 0;
+    self.mode = self.modes.STOP;
+    self.state = self.states.HOLDING;
+  }
 
   // Used in JS
   this.init = function() {
@@ -945,7 +954,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     }
     self.prevRotation = rotation;
 
-    return self.rotationRounds * 360 + rotation;
+    return self.rotationRounds * 360 + rotation - self.positionAdjustment;
   };
 
   this.init();

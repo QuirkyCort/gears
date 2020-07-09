@@ -26,11 +26,7 @@ var $builtinmodule = function(name) {
         self.motor.runTimed();
 
       } else if (command.v == 'run-to-rel-pos') {
-        console.log('rel');
-        console.log(self.motor.position);
-        console.log(self.motor.position_sp);
         self.motor.position_target = self.motor.position + self.motor.position_sp;
-        console.log(self.motor.position_target);
         self.motor.runToPosition();
 
       } else if (command.v == 'run-to-abs-pos') {
