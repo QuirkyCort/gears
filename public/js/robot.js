@@ -32,7 +32,9 @@ function Wheel(scene, options) {
   this._speed_sp = 0;
   this.stop_action = 'hold';
   this.position = 0;
+  this.speed = 0;
 
+  this.prevPosition = 0;
   this.mode = this.modes.STOP;
   this.actualPosition = 0;
   this.positionAdjustment = 0;
@@ -183,7 +185,10 @@ function Wheel(scene, options) {
     } else if (self.state == self.states.HOLDING) {
       self.holdPosition(delta);
     }
+
     self.updatePosition(delta);
+    self.speed = 0.8 * self.speed + 0.2 * ((self.position - self.prevPosition) / delta * 1000);
+    self.prevPosition = self.position;
   };
 
   this.holdPosition = function(delta) {

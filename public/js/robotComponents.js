@@ -889,7 +889,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
   this.render = function(delta) {
     self.position = self.getPosition();
-    self.speed = (self.position - self.prevPosition) / delta * 1000;
+    self.speed = 0.8 * self.speed + 0.2 * ((self.position - self.prevPosition) / delta * 1000);
     self.prevPosition = self.position;
 
     if (self.mode == self.modes.RUN) {
