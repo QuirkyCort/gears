@@ -708,6 +708,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     NONE: ''
   };
 
+  this.speed = 0;
   this.speed_sp = 30;
   this.position_sp = 0;
   this.position_target = 0;
@@ -721,7 +722,6 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   };
 
   this.runToPosition = function() {
-    self.position_target = self.position_sp;
     if (self.position_target < self.position) {
       self.positionDirectionReversed = true;
     } else {
@@ -897,6 +897,9 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
   this.setMotorSpeed = function() {
     let speed = self.speed_sp / 180 * Math.PI;
+    if (self.positionDirectionReversed) {
+      speed = -speed;
+    }
     if (
       (speed > 0 && self.position > self.options.maxAngle)
       || (speed < 0 && self.position < self.options.minAngle)
@@ -905,6 +908,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     } else {
       self.joint.setMotor(speed);
     }
+    self.speed = speed / Math.PI * 180;
   };
 
   this.holdPosition = function(delta) {

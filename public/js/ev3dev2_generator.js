@@ -39,8 +39,10 @@ var ev3dev2_generator = new function() {
       'from ev3dev2.sensor import *\n' +
       'from ev3dev2.sensor.lego import *\n' +
       '\n' +
-      'left_motor = LargeMotor(OUTPUT_A)\n' +
-      'right_motor = LargeMotor(OUTPUT_B)\n' +
+      'motorA = LargeMotor(OUTPUT_A)\n' +
+      'motorB = LargeMotor(OUTPUT_B)\n' +
+      'left_motor = motorA\n' +
+      'right_motor = motorB\n' +
       'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
       'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
       '\n' +
@@ -66,9 +68,9 @@ var ev3dev2_generator = new function() {
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
-        motorsCode += 'magnet_out' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ')\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Magnet\n';
       } else if (motor.type == 'ArmActuator') {
-        motorsCode += 'arm_out' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ')\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Arm\n';
       }
       i++;
     }
@@ -236,15 +238,7 @@ var ev3dev2_generator = new function() {
       var speedStr = 'SpeedRPS(' + value_speed + ')';
     }
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
-    var code = motorStr + '.on(' + speedStr + ')\n';
+    var code = 'motor' + dropdown_port + '.on(' + speedStr + ')\n';
 
     return code;
   }
@@ -265,14 +259,6 @@ var ev3dev2_generator = new function() {
       var speedStr = 'SpeedRPS(' + value_speed + ')';
     }
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
     if (dropdown_unit2 == 'ROTATIONS') {
       var cmdStr = 'on_for_rotations';
       var durationStr = value_duration;
@@ -287,7 +273,7 @@ var ev3dev2_generator = new function() {
       var durationStr = value_duration + ' / 1000';
     }
 
-    var code = motorStr + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + ')\n';
+    var code = 'motor' + dropdown_port + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + ')\n';
 
     return code;
   }
@@ -307,15 +293,7 @@ var ev3dev2_generator = new function() {
       var speedStr = 'SpeedRPS(' + value_speed + ')';
     }
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
-    var code = motorStr + '.on_to_position(' + speedStr + ', ' + value_degrees + ')\n';
+    var code = 'motor' + dropdown_port + '.on_to_position(' + speedStr + ', ' + value_degrees + ')\n';
 
     return code;
   }
@@ -325,14 +303,6 @@ var ev3dev2_generator = new function() {
     var dropdown_port = block.getFieldValue('port');
     var dropdown_stop_action = block.getFieldValue('stop_action');
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
     if (dropdown_stop_action == 'BRAKE') {
       var brake = 'True';
     } else if (dropdown_stop_action == 'COAST') {
@@ -341,7 +311,7 @@ var ev3dev2_generator = new function() {
       var brake = 'True';
     }
 
-    var code = motorStr + '.stop(brake=' + brake + ')\n';
+    var code = 'motor' + dropdown_port + '.stop(brake=' + brake + ')\n';
 
     return code;
   };
@@ -350,15 +320,7 @@ var ev3dev2_generator = new function() {
   this.speed = function(block) {
     var dropdown_port = block.getFieldValue('port');
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
-    var code = motorStr + '.speed';
+    var code = 'motor' + dropdown_port + '.speed';
 
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
@@ -367,15 +329,7 @@ var ev3dev2_generator = new function() {
   this.position = function(block) {
     var dropdown_port = block.getFieldValue('port');
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
-    var code = motorStr + '.position';
+    var code = 'motor' + dropdown_port + '.position';
 
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
@@ -388,10 +342,6 @@ var ev3dev2_generator = new function() {
       var code =
         'left_motor.position = 0\n' +
         'right_motor.position = 0\n';
-    } else if (dropdown_port == 'A') {
-      var code = 'left_motor.position = 0\n';
-    } else if (dropdown_port == 'B') {
-      var code = 'right_motor.position = 0\n';
     } else {
       var code = 'motor' + dropdown_port + '.position = 0\n';
     }

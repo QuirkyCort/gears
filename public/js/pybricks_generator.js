@@ -39,8 +39,10 @@ var pybricks_generator = new function() {
       '\n' +
       'ev3 = EV3Brick()\n' +
       '\n' +
-      'left_motor = Motor(PORT.A)\n' +
-      'right_motor = Motor(PORT.B)\n' +
+      'motorA = Motor(PORT.A)\n' +
+      'motorB = Motor(PORT.B)\n' +
+      'left_motor = motorA\n' +
+      'right_motor = motorB\n' +
       '\n' +
       '# Pybricks lacks move_tank and move_steering,\n' +
       '# so we\'ll need to add in our own equivalent functions\n' +
@@ -106,9 +108,9 @@ var pybricks_generator = new function() {
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
-        motorsCode += 'magnet_out' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ')\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Magnet\n';
       } else if (motor.type == 'ArmActuator') {
-        motorsCode += 'arm_out' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ')\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Arm\n';
       }
       i++;
     }
@@ -280,15 +282,7 @@ var pybricks_generator = new function() {
       var speedStr = value_speed + ' * 360';
     }
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
-    var code = motorStr + '.run(' + speedStr + ')\n';
+    var code = 'motor' + dropdown_port + '.run(' + speedStr + ')\n';
 
     return code;
   }
@@ -309,14 +303,6 @@ var pybricks_generator = new function() {
       var speedStr = value_speed + ' * 360';
     }
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
     if (dropdown_unit2 == 'ROTATIONS') {
       var cmdStr = 'run_angle';
       var durationStr = value_duration + ' * 360';
@@ -331,7 +317,7 @@ var pybricks_generator = new function() {
       var durationStr = value_duration;
     }
 
-    var code = motorStr + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + ')\n';
+    var code = 'motor' + dropdown_port + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + ')\n';
 
     return code;
   }
@@ -351,15 +337,7 @@ var pybricks_generator = new function() {
       var speedStr = value_speed + ' * 360';
     }
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
-    var code = motorStr + '.run_target(' + speedStr + ', ' + value_degrees + ')\n';
+    var code = 'motor' + dropdown_port + '.run_target(' + speedStr + ', ' + value_degrees + ')\n';
 
     return code;
   }
@@ -369,14 +347,6 @@ var pybricks_generator = new function() {
     var dropdown_port = block.getFieldValue('port');
     var dropdown_stop_action = block.getFieldValue('stop_action');
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
     if (dropdown_stop_action == 'BRAKE') {
       var cmd = 'brake';
     } else if (dropdown_stop_action == 'COAST') {
@@ -385,7 +355,7 @@ var pybricks_generator = new function() {
       var cmd = 'hold';
     }
 
-    var code = motorStr + '.' + cmd + '()\n';
+    var code = 'motor' + dropdown_port + '.' + cmd + '()\n';
 
     return code;
   };
@@ -394,15 +364,7 @@ var pybricks_generator = new function() {
   this.speed = function(block) {
     var dropdown_port = block.getFieldValue('port');
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
-    var code = motorStr + '.speed()';
+    var code = 'motor' + dropdown_port + '.speed()';
 
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
@@ -411,15 +373,7 @@ var pybricks_generator = new function() {
   this.position = function(block) {
     var dropdown_port = block.getFieldValue('port');
 
-    if (dropdown_port == 'A') {
-      motorStr = 'left_motor';
-    } else if (dropdown_port == 'B') {
-      motorStr = 'right_motor';
-    } else {
-      motorStr = 'motor' + dropdown_port;
-    }
-
-    var code = motorStr + '.angle()';
+    var code = 'motor' + dropdown_port + '.angle()';
 
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
@@ -432,10 +386,6 @@ var pybricks_generator = new function() {
       var code =
         'left_motor.reset_angle()\n' +
         'right_motor.reset_angle()\n';
-    } else if (dropdown_port == 'A') {
-      var code = 'left_motor.reset_angle()\n';
-    } else if (dropdown_port == 'B') {
-      var code = 'right_motor.reset_angle()\n';
     } else {
       var code = 'motor' + dropdown_port + '.reset_angle()\n';
     }
