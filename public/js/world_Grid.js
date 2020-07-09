@@ -81,7 +81,10 @@ var world_Grid = new function() {
 
   // Set options, including default
   this.setOptions = function(options) {
-    Object.assign(self.options, self.defaultOptions);
+    let tmpOptions = {};
+    Object.assign(tmpOptions, self.defaultOptions);
+    Object.assign(tmpOptions, self.options);
+    Object.assign(self.options, tmpOptions);
 
     for (let name in options) {
       if (typeof self.options[name] == 'undefined') {

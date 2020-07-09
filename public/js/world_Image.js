@@ -90,7 +90,10 @@ var world_Image = new function() {
 
   // Set options, including default
   this.setOptions = function(options) {
-    Object.assign(self.options, self.defaultOptions);
+    let tmpOptions = {};
+    Object.assign(tmpOptions, self.defaultOptions);
+    Object.assign(tmpOptions, self.options);
+    Object.assign(self.options, tmpOptions);
 
     for (let name in options) {
       if (typeof self.options[name] == 'undefined') {
@@ -126,14 +129,14 @@ var world_Image = new function() {
           self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
         } else if (self.options.startPos == 'bottomLeft') {
           let x = -(self.options.length / 2 - 12.5);
-          let z = -(self.options.width / 2 - 12.5) + 9;
+          let z = -(self.options.width / 2 - 12.5) + 7;
           self.robotStart.position = new BABYLON.Vector3(x, 0, z);
         } else if (self.options.startPos == 'bottomCenter') {
-          let z = -(self.options.width / 2 - 12.5) + 9;
+          let z = -(self.options.width / 2 - 12.5) + 7;
           self.robotStart.position = new BABYLON.Vector3(0, 0, z);
         } else if (self.options.startPos == 'bottomRight') {
           let x = (self.options.length / 2 - 12.5);
-          let z = -(self.options.width / 2 - 12.5) + 9;
+          let z = -(self.options.width / 2 - 12.5) + 7;
           self.robotStart.position = new BABYLON.Vector3(x, 0, z);
         }
 
