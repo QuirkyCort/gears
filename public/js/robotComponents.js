@@ -90,6 +90,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var noEmissive = new BABYLON.Color3(0,0,0);
 
     self.renderTarget.onBeforeRender = function() {
+      scene.blockMaterialDirtyMechanism = true;
       scene.clearColor = BABYLON.Color3.Black();
       self.renderTarget.renderList.forEach(function(mesh) {
         if (mesh.material) {
@@ -101,8 +102,10 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
           }
         }
       });
+      scene.blockMaterialDirtyMechanism = false;
     };
     self.renderTarget.onAfterRender = function() {
+      scene.blockMaterialDirtyMechanism = true;
       scene.clearColor = new BABYLON.Color3(0.2, 0.2, 0.3);
       self.renderTarget.renderList.forEach(function(mesh) {
         if (mesh.material) {
@@ -110,6 +113,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
           mesh.material.emissiveColor = noEmissive;
         }
       });
+      scene.blockMaterialDirtyMechanism = false;
     };
 
     self.buildMask();

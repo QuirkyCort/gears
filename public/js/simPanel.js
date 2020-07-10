@@ -316,6 +316,7 @@ var simPanel = new function() {
 
   // Reset simulator
   this.resetSim = function() {
+    babylon.removeRTTCameras(babylon.scene);
     babylon.removeMeshes(babylon.scene);
     babylon.loadMeshes(babylon.scene);
     skulpt.hardInterrupt = true;

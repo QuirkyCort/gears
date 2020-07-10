@@ -91,6 +91,13 @@ var babylon = new function() {
     }
   }
 
+  // Remove all RTT cameras
+  this.removeRTTCameras = function(scene) {
+    for (let i=scene.cameras.length-1; i>0; i--) {
+      scene.cameras[i].dispose();
+    }
+  };
+
   // Remove all meshes
   this.removeMeshes = function(scene) {
     scene.actionManager.actions = [];
