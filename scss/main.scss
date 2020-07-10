@@ -138,6 +138,7 @@ nav {
 .panels {
   flex-grow: 1;
   position: relative;
+  overflow: hidden;
 
   .panel {
     height: 100%;

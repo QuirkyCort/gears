@@ -103,7 +103,8 @@ nav {
 
 .panels {
   flex-grow: 1;
-  position: relative; }
+  position: relative;
+  overflow: hidden; }
   .panels .panel {
     height: 100%;
     width: 100%;
