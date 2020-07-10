@@ -38,9 +38,7 @@ var main = new function() {
       var reader = new FileReader();
       reader.onload = function() {
         robot.options = JSON.parse(this.result);
-        babylon.removeRTTCameras(babylon.scene);
-        babylon.removeMeshes(babylon.scene);
-        babylon.loadMeshes(babylon.scene);
+        babylon.resetScene();
         skulpt.hardInterrupt = true;
         simPanel.setRunIcon('run');
       };
@@ -96,9 +94,7 @@ var main = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       robot.options = robotTemplates.find(robotTemplate => robotTemplate.name == $select.val());
-      babylon.removeRTTCameras(babylon.scene);
-      babylon.removeMeshes(babylon.scene);
-      babylon.loadMeshes(babylon.scene);
+      babylon.resetScene();
       skulpt.hardInterrupt = true;
       simPanel.setRunIcon('run');
       $dialog.close();

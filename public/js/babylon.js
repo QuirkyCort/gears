@@ -9,6 +9,8 @@ var babylon = new function() {
     self.engine = new BABYLON.Engine(self.canvas, true);
 
     self.scene = self.createScene(); // Call the createScene function
+    // self.scene.debugLayer.show();
+
     self.world.setOptions().then(function(){
       self.loadMeshes(self.scene);
     });
@@ -91,38 +93,57 @@ var babylon = new function() {
     }
   }
 
+  // Reset scene
+  this.resetScene = function() {
+    // Save camera position and rotations
+    let pos = self.cameraArc.position;
+    let rot = self.cameraArc.absoluteRotation;
+    let up = self.cameraArc.upVector;
+    let mode = self.cameraMode;
+
+    self.engine.stopRenderLoop(self.engine._activeRenderLoops[0]);
+    self.scene.dispose();
+    
+    self.scene = self.createScene();
+    // self.scene.debugLayer.show();
+
+    // Restore camera
+    self.setCameraMode(mode);
+    self.cameraArc.position = pos;
+    self.cameraArc.absoluteRotation = rot;
+    self.cameraArc.upVector = up;
+
+    self.loadMeshes(self.scene);
+    self.engine.runRenderLoop(function () {
+      self.scene.render();
+    });
+  };
+
   // Remove all RTT cameras
-  this.removeRTTCameras = function(scene) {
-    for (let i=scene.cameras.length-1; i>0; i--) {
-      scene.cameras[i].dispose();
+  this.removeRTTCameras = function() {
+    for (let i=self.scene.cameras.length-1; i>0; i--) {
+      self.scene.cameras[i].dispose();
     }
   };
 
   // Remove all meshes
-  this.removeMeshes = function(scene) {
-    scene.actionManager.actions = [];
-    scene.actionManager.dispose();
+  this.removeMeshes = function() {
+    self.scene.actionManager.actions = [];
+    self.scene.actionManager.dispose();
 
-    for (let i=scene.meshes.length-1; i>=0; i--) {
-      scene.meshes[i].dispose(false, true);
+    for (let i=self.scene.meshes.length-1; i>=0; i--) {
+      self.scene.meshes[i].dispose(false, true);
     }
   };
 
   // Load meshes
-  this.loadMeshes = function(scene) {
+  this.loadMeshes = function() {
     // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
-    Promise.all([self.world.load(scene), robot.load(scene, self.world.robotStart)]).then(function() {
-      self.setCameraMode();
-      // Debug physics
-      // pv = new BABYLON.PhysicsViewer(scene);
-      // scene.meshes.forEach(function(mesh){
-      //   if (mesh.physicsImpostor) {
-      //     pv.showImpostor(mesh.physicsImpostor);
-      //   }
-      // });
+    Promise.all([self.world.load(self.scene), robot.load(self.scene, self.world.robotStart)]).then(function() {
+      self.setCameraMode(); // Set after loading mesh as camera may be locked to mesh
 
-      scene.actionManager = new BABYLON.ActionManager(scene);
-      scene.actionManager.registerAction(
+      self.scene.actionManager = new BABYLON.ActionManager(self.scene);
+      self.scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction({
             trigger: BABYLON.ActionManager.OnEveryFrameTrigger
           },
@@ -131,18 +152,36 @@ var babylon = new function() {
       );
 
       // RTT test
-      // var mat = new BABYLON.StandardMaterial("RTT mat", scene);
+      // var mat = new BABYLON.StandardMaterial("RTT mat", self.scene);
       // mat.diffuseTexture = robot.getComponentByPort('in5').renderTarget;
       // mat.emissiveColor = new BABYLON.Color3(1,1,1);
       // mat.disableLighting = true;
 
-      // var ground = BABYLON.MeshBuilder.CreateGround("RTT", {width: 10, height: 10}, scene);
+      // var ground = BABYLON.MeshBuilder.CreateGround("RTT", {width: 10, height: 10}, self.scene);
       // ground.rotation.x = -Math.PI / 2;
       // ground.position.y = 20;
       // ground.material = mat;
 
       // Some components in the robot may need to see the fully loaded meshes
-      robot.loadMeshes(scene.meshes.filter(mesh => mesh.id != 'RTT'));
+      robot.loadMeshes(self.scene.meshes.filter(mesh => mesh.id != 'RTT'));
+
+      // We should also pre-build the RTT materials for performance
+      let FULL_EMMISSIVE = new BABYLON.Color3(1,1,1);
+  
+      self.scene.meshes.forEach(function(mesh) {
+        mesh.origMaterial = mesh.material;
+        if (mesh.material == null) {
+          mesh.rttMaterial == null;
+        } else {
+          mesh.rttMaterial = mesh.material.clone();
+          mesh.rttMaterial.disableLighting = true;
+          if (mesh.diffuseTexture) {
+            mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
+          } else {
+            mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
+          }  
+        }
+      });
 
       // self.engine.hideLoadingUI();
     });

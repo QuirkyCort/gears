@@ -9,18 +9,7 @@ var world_Test = new function() {
 
   this.options = {};
   this.robotStart = {
-    position: new BABYLON.Vector3(0, 0, 0) // Ramp 1, 18 degrees
-    // position: new BABYLON.Vector3(35, 0, 0) // Ramp 2, 36 degrees
-    // position: new BABYLON.Vector3(70, 0, 0) // Ramp 3, 45 degrees
-    // position: new BABYLON.Vector3(105, 0, 0) // Ramp 3, 18 degrees, 0.1 friction
-
-    // position: new BABYLON.Vector3(140, 0, 0) // static bumps
-    // position: new BABYLON.Vector3(-35, 0, 0) // kinematic bumps
-
-    // position: new BABYLON.Vector3(-70, 0, 0) // Object 1, weight 800
-    // position: new BABYLON.Vector3(-105, 0, 0) // Object 2, weight 1600
-    // position: new BABYLON.Vector3(-140, 0, 0) // Tower
-    // position: new BABYLON.Vector3(-175, 0, 0) // Wall
+    position: new BABYLON.Vector3(0, 0, 0)
   };
 
   this.optionsConfigurations = [
@@ -119,22 +108,24 @@ var world_Test = new function() {
 
   // Create the scene
   this.load = function (scene) {
+    self.loadMaterials(scene);
+
     return new Promise(function(resolve, reject) {
       world_Grid.loadBaseMap(scene);
-      self.loadStatic(scene);
-      self.loadKinematic(scene);
+      self.loadObjects(scene);
       resolve();
     });
   };
 
-  // Additional static objects
-  this.loadStatic = function (scene) {
+  // Objects
+  this.loadObjects = function (scene) {
+    // Ramp
     self.buildStatic(scene,[40,30,20],[0,-5,20],[Math.PI*0.4,0,0]);
     self.buildStatic(scene,[40,30,20],[35,-5,20],[Math.PI*0.3,0,0]);
     self.buildStatic(scene,[40,30,20],[70,-5,20],[Math.PI*0.25,0,0]);
-    self.buildStatic(scene,[40,30,20],[105,-5,20],[Math.PI*0.4,0,0],0.1);
+    self.buildStatic(scene,[40,30,20],[105,-5,20],[Math.PI*0.4,0,0],0.01);
 
-    // bumps
+    // Bumps
     self.buildStatic(scene,[1,30,1],[140,0.5,15]);
     self.buildStatic(scene,[1,30,1],[140,0.5,20]);
     self.buildStatic(scene,[1,30,1],[140,0.5,25]);
@@ -149,10 +140,8 @@ var world_Test = new function() {
     self.buildStatic(scene,[1,30,1.5],[140,0.5,80],[0,-0.1,0]);
     self.buildStatic(scene,[1,30,1.5],[140,0.5,90],[0,0.2,0]);
     self.buildStatic(scene,[1,30,1.5],[140,0.5,100],[0,-0.2,0]);
-  };
 
-  // Additional kinematic objects
-  this.loadKinematic = function (scene) {
+    // Boxes for pushing
     self.buildKinematic(scene,[8,8,8],[-70,4,20],800);
     self.buildKinematic(scene,[8,8,8],[-105,4,20],1600);
 
@@ -178,7 +167,7 @@ var world_Test = new function() {
     self.buildKinematic(scene,[10,10,10],[-170,15,-40],200);
     self.buildKinematic(scene,[10,10,10],[-170,25,-40],200);
 
-    // bumps
+    // Bumps
     self.buildKinematic(scene,[1,30,1],[-35,0.5,15],100);
     self.buildKinematic(scene,[1,30,1],[-35,0.5,20],100);
     self.buildKinematic(scene,[1,30,1],[-35,0.5,25],100);
@@ -225,27 +214,26 @@ var world_Test = new function() {
     self.buildMagnetic(scene, [0.5,2,2], [-51, 13, -155]);
     self.buildMagnetic(scene, [0.5,2,2], [-48, 13, -167]);
     self.buildMagnetic(scene, [0.5,2,2], [-53, 13, -165]);
-
   };
 
   this.loadMaterials = function(scene) {
-    self.kinematicMat = new BABYLON.StandardMaterial('kinematicMat', self.scene);
-    kinematicMat.diffuseColor = new BABYLON.Color3(0.64, 0.2, 0.64);
-    kinematicMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    self.kinematicMat = new BABYLON.StandardMaterial('kinematicMat', scene);
+    self.kinematicMat.diffuseColor = new BABYLON.Color3(0.64, 0.2, 0.64);
+    self.kinematicMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
     self.staticMat = new BABYLON.StandardMaterial('staticMat', scene);
-    staticMat.diffuseColor = new BABYLON.Color3(0.64, 0.64, 0.20);
-    staticMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    self.staticMat.diffuseColor = new BABYLON.Color3(0.64, 0.64, 0.20);
+    self.staticMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
     self.magneticMat = new BABYLON.StandardMaterial('magneticMat', scene);
-    magneticMat.diffuseColor = new BABYLON.Color3(0, 0, 0.80);
-    magneticMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    self.magneticMat.diffuseColor = new BABYLON.Color3(0, 0, 0.80);
+    self.magneticMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
   }
 
   this.buildMagnetic = function(scene, dim, pos, mass=10) {
     var m1 = BABYLON.MeshBuilder.CreateBox('metal1', {height: dim[0], width: dim[1], depth: dim[2]}, scene);
     m1.isMagnetic = true;
-    m1.material = magneticMat;
+    m1.material = self.magneticMat;
     m1.position.x = pos[0];
     m1.position.y = pos[1];
     m1.position.z = pos[2];
@@ -267,7 +255,7 @@ var world_Test = new function() {
     ramp.rotation.x = rot[0];
     ramp.rotation.y = rot[1];
     ramp.rotation.z = rot[2];
-    ramp.material = staticMat;
+    ramp.material = self.staticMat;
 
     ramp.physicsImpostor = new BABYLON.PhysicsImpostor(
       ramp,
@@ -290,7 +278,7 @@ var world_Test = new function() {
     block.rotation.x = rot[0];
     block.rotation.y = rot[1];
     block.rotation.z = rot[2];
-    block.material = kinematicMat;
+    block.material = self.kinematicMat;
 
     block.physicsImpostor = new BABYLON.PhysicsImpostor(
       block,

@@ -81,26 +81,20 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
       self.options.sensorResolution, // texture size
       scene,
       false, // generateMipMaps
-      false // doNotChangeAspectRatio
+      false, // doNotChangeAspectRatio
+      BABYLON.Constants.TEXTURETYPE_UNSIGNED_INT,
+      false,
+      BABYLON.Texture.NEAREST_NEAREST
     );
     scene.customRenderTargets.push(self.renderTarget);
     self.renderTarget.activeCamera = self.rttCam;
-
-    var fullEmissive = new BABYLON.Color3(1,1,1);
-    var noEmissive = new BABYLON.Color3(0,0,0);
+    self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
 
     self.renderTarget.onBeforeRender = function() {
       scene.blockMaterialDirtyMechanism = true;
       scene.clearColor = BABYLON.Color3.Black();
       self.renderTarget.renderList.forEach(function(mesh) {
-        if (mesh.material) {
-          mesh.material.disableLighting = true;
-          if (mesh.diffuseTexture) {
-            mesh.material.emissiveColor = fullEmissive;
-          } else {
-            mesh.material.emissiveColor = mesh.material.diffuseColor;
-          }
-        }
+        mesh.material = mesh.rttMaterial;
       });
       scene.blockMaterialDirtyMechanism = false;
     };
@@ -108,10 +102,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
       scene.blockMaterialDirtyMechanism = true;
       scene.clearColor = new BABYLON.Color3(0.2, 0.2, 0.3);
       self.renderTarget.renderList.forEach(function(mesh) {
-        if (mesh.material) {
-          mesh.material.disableLighting = false;
-          mesh.material.emissiveColor = noEmissive;
-        }
+        mesh.material = mesh.origMaterial;
       });
       scene.blockMaterialDirtyMechanism = false;
     };
@@ -166,6 +157,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var g = 0;
     var b = 0;
 
+    self.renderTarget.resetRefreshCounter();
     let pixels = self.renderTarget.readPixels();
     self.pixels = pixels;
     for (let i=0; i<pixels.length; i+=4) {
