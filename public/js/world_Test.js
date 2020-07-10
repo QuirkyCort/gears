@@ -131,10 +131,10 @@ var world_Test = new function() {
     self.buildStatic(scene,[1,30,1],[140,0.5,25]);
     self.buildStatic(scene,[1,30,1],[140,0.5,30]);
 
-    self.buildStatic(scene,[1.5,30,1.5],[140,0.75,40]);
-    self.buildStatic(scene,[1.5,30,1.5],[140,0.75,46]);
-    self.buildStatic(scene,[1.5,30,1.5],[140,0.75,50]);
-    self.buildStatic(scene,[1.5,30,1.5],[140,0.75,55]);
+    self.buildStatic(scene,[1,30,1.5],[140,0.5,40]);
+    self.buildStatic(scene,[1,30,1.5],[140,0.5,46]);
+    self.buildStatic(scene,[1,30,1.5],[140,0.5,50]);
+    self.buildStatic(scene,[1,30,1.5],[140,0.5,55]);
 
     self.buildStatic(scene,[1,30,1.5],[140,0.5,70],[0,0.1,0]);
     self.buildStatic(scene,[1,30,1.5],[140,0.5,80],[0,-0.1,0]);
@@ -173,10 +173,10 @@ var world_Test = new function() {
     self.buildKinematic(scene,[1,30,1],[-35,0.5,25],100);
     self.buildKinematic(scene,[1,30,1],[-35,0.5,30],100);
 
-    self.buildKinematic(scene,[1.5,30,1.5],[-35,0.75,40],100);
-    self.buildKinematic(scene,[1.5,30,1.5],[-35,0.75,46],100);
-    self.buildKinematic(scene,[1.5,30,1.5],[-35,0.75,50],100);
-    self.buildKinematic(scene,[1.5,30,1.5],[-35,0.75,55],100);
+    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,40],100);
+    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,46],100);
+    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,50],100);
+    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,55],100);
 
     self.buildKinematic(scene,[1,30,1.5],[-35,0.5,70],100,[0,0.1,0]);
     self.buildKinematic(scene,[1,30,1.5],[-35,0.5,80],100,[0,-0.1,0]);
