@@ -946,7 +946,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
   this.holdPosition = function(delta) {
     const P_GAIN = 0.1;
-    const MAX_POSITION_CORRECTION_SPEED = 0.1;
+    const MAX_POSITION_CORRECTION_SPEED = 0.2;
     let error = self.position_target - self.position;
     let speed = error * P_GAIN;
 
@@ -954,8 +954,6 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       speed = MAX_POSITION_CORRECTION_SPEED;
     } else if (speed < -MAX_POSITION_CORRECTION_SPEED) {
       speed = -MAX_POSITION_CORRECTION_SPEED;
-    } else if (speed < 1) {
-      // speed = 0;
     }
     self.joint.setMotor(speed);
   };
