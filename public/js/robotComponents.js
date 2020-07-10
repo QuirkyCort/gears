@@ -711,7 +711,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   };
   this.mode = this.modes.STOP;
 
-  this.state = '';
+  this.state = 'holding';
   this.states = {
     RUNNING: 'running',
     RAMPING: 'ramping',
@@ -946,7 +946,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
   this.holdPosition = function(delta) {
     const P_GAIN = 0.1;
-    const MAX_POSITION_CORRECTION_SPEED = 0.2;
+    const MAX_POSITION_CORRECTION_SPEED = 0.5;
     let error = self.position_target - self.position;
     let speed = error * P_GAIN;
 
