@@ -34,8 +34,8 @@ var blockly = new function() {
       return constants;
     };
 
-    self.loadCustomBlocks();
-    self.loadToolBox();
+    self.loadCustomBlocks()
+      .then(self.loadToolBox);
     self.generator.load();
     Blockly.Python['math_change'] = self.math_change;
   };
@@ -110,6 +110,7 @@ var blockly = new function() {
         Blockly.Xml.domToWorkspace(xml, self.workspace);
       }
       catch (err) {
+        console.log(err);
         toastMsg('Invalid Blocks');
         self.loadXmlText(oldXmlText);
       }
