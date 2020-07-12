@@ -91,20 +91,54 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
 
     self.renderTarget.onBeforeRender = function() {
-      scene.blockMaterialDirtyMechanism = true;
       scene.clearColor = BABYLON.Color3.Black();
-      self.renderTarget.renderList.forEach(function(mesh) {
+      self.renderTarget.renderList.forEach((mesh) => {
+        if (mesh.getClassName() === 'InstancedMesh') {
+            return;
+        }
+        if (mesh.material && !mesh.isFrozen && ('isReady' in mesh) && mesh.isReady(true)) { 
+            const _orig_subMeshEffects = [];
+            mesh.subMeshes.forEach((submesh) => {
+                _orig_subMeshEffects.push([submesh.effect, submesh.materialDefines]);
+            });
+            mesh.isFrozen = true;
+            mesh.material.freeze();
+            mesh._saved_orig_material = mesh.material;
+            mesh._orig_subMeshEffects = _orig_subMeshEffects;
+        }
+        if (!mesh._orig_subMeshEffects) {
+            return;
+        }
+
         mesh.material = mesh.rttMaterial;
+        if (mesh._rtt_subMeshEffects) {
+            for (let s = 0; s < mesh.subMeshes.length; ++s) {
+                mesh.subMeshes[s].setEffect(...mesh._rtt_subMeshEffects[s]);
+            }
+        }
       });
-      scene.blockMaterialDirtyMechanism = false;
     };
     self.renderTarget.onAfterRender = function() {
-      scene.blockMaterialDirtyMechanism = true;
       scene.clearColor = new BABYLON.Color3(0.2, 0.2, 0.3);
-      self.renderTarget.renderList.forEach(function(mesh) {
-        mesh.material = mesh.origMaterial;
-      });
-      scene.blockMaterialDirtyMechanism = false;
+      self.renderTarget.renderList.forEach((mesh) => {
+        if (mesh.getClassName() === 'InstancedMesh') {
+            return;
+        }
+        if (!mesh._orig_subMeshEffects) {
+            return;
+        }
+        if (!mesh._rtt_subMeshEffects) {
+            mesh._rtt_subMeshEffects = [];
+            mesh.subMeshes.forEach((submesh) => {
+                mesh._rtt_subMeshEffects.push([submesh.effect, submesh.materialDefines]);
+            });
+        }
+
+        mesh.material = mesh._saved_orig_material;
+        for (let s = 0; s < mesh.subMeshes.length; ++s) {
+            mesh.subMeshes[s].setEffect(...mesh._orig_subMeshEffects[s]);
+        }
+    });
     };
 
     self.buildMask();
