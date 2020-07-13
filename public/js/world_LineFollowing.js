@@ -24,7 +24,8 @@ var world_LineFollowing = new function() {
         ['Gaps 2', 'gaps2'],
         ['Obstacles 1', 'obstacles1'],
         ['Obstacles 2', 'obstacles2'],
-        ['Obstacles 3', 'obstacles3']
+        ['Obstacles 3', 'obstacles3'],
+        ['Obstacles 4', 'obstacles4']
       ],
       optionsHTML: {
         simple:
@@ -50,7 +51,12 @@ var world_LineFollowing = new function() {
         obstacles3:
           '<p class="bold">Obstacles and world edge.</p>' +
           '<p>Obstacles are not the only things that can block your path.</p>' +
-          '<p class="bold">This world randomizes on reset!<p>'
+          '<p class="bold">This world randomizes on reset!<p>',
+        obstacles4:
+          '<p class="bold">Different obstacles and lines.</p>' +
+          '<p>Obstacles are not always the same size, the exit point isn\'t always opposite of the entry point either.</p>' +
+          '<p>Hint: The maze runner robot can be useful for this world, but isn\'t absolutely necessary.</p>' +
+          '<p class="bold">The obstacle sizes randomizes on reset!<p>',
       }
     }
   ];
@@ -62,7 +68,8 @@ var world_LineFollowing = new function() {
     gaps2: 'textures/maps/Line Following/Gaps 2.png',
     obstacles1: 'textures/maps/Line Following/Obstacles 1.png',
     obstacles2: 'textures/maps/Line Following/Obstacles 2.png',
-    obstacles3: null
+    obstacles3: null,
+    obstacles4: 'textures/maps/Line Following/Obstacles 4.png'
   };
 
   this.robotStarts = {
@@ -72,7 +79,8 @@ var world_LineFollowing = new function() {
     gaps2: new BABYLON.Vector3(15, 0, -85),
     obstacles1: new BABYLON.Vector3(0, 0, -85),
     obstacles2: new BABYLON.Vector3(0, 0, -135),
-    obstacles3: new BABYLON.Vector3(0, 0, -135)
+    obstacles3: new BABYLON.Vector3(0, 0, -135),
+    obstacles4: new BABYLON.Vector3(75, 0, -85)
   }
 
   this.defaultOptions = {
@@ -167,6 +175,36 @@ var world_LineFollowing = new function() {
     );
   };
 
+  // Obstacles 2
+  this.loadObstacles2 = function(scene) {
+    self.loadImageTile(
+      scene,
+      self.imagesURL[self.options.image],
+      [self.options.width, self.options.length]
+    );
+
+    self.addBox(scene, [20,20,20], [0, -98]);
+    if (Math.random() > 0.5) {
+      self.addBox(scene, [20,30,20], [30, -123]);
+    } else {
+      self.addBox(scene, [20,30,20], [-30, -123]);
+    }
+
+    self.addBox(scene, [20,20,20], [0, -2]);
+    if (Math.random() > 0.5) {
+      self.addBox(scene, [20,30,20], [30, -2]);
+    } else {
+      self.addBox(scene, [20,30,20], [-30, -2]);
+    }
+
+    self.addBox(scene, [20,20,20], [0, 90]);
+    if (Math.random() > 0.5) {
+      self.addBox(scene, [20,30,20], [30, 115]);
+    } else {
+      self.addBox(scene, [20,30,20], [-30, 115]);
+    }
+  };
+
   // Obstacles 3
   this.loadObstacles3 = function(scene) {
     function loadCenter(y, length) {
@@ -207,6 +245,28 @@ var world_LineFollowing = new function() {
     self.addBox(scene, [20,20,20], [0, 100]);
   };
 
+  // Obstacles 4
+  this.loadObstacles4 = function(scene) {
+    function randomSizedBox(x, y) {
+      let width = Math.random() * 30 + 10;
+      let depth = Math.random() * 30 + 10;
+
+      self.addBox(scene, [20,width,depth], [x, y]);
+    }
+
+    self.loadImageTile(
+      scene,
+      self.imagesURL[self.options.image],
+      [self.options.width, self.options.length]
+    );
+
+    randomSizedBox(75.0, -36.9);
+    randomSizedBox(-68.9, -36.9);
+    randomSizedBox(-68.9, 74.6);
+    randomSizedBox(-9.6, 15.3);
+    randomSizedBox(73.1, 15.3);
+  };
+
   // Create the scene
   this.load = function (scene) {
     return new Promise(function(resolve, reject) {
@@ -223,34 +283,11 @@ var world_LineFollowing = new function() {
         self.addBox(scene, [20,20,20], [0, -48]);
         self.addBox(scene, [20,20,20], [0, 48]);
       } else if (self.options.image == 'obstacles2') {
-        self.loadImageTile(
-          scene,
-          self.imagesURL[self.options.image],
-          [self.options.width, self.options.length]
-        );
-
-        self.addBox(scene, [20,20,20], [0, -98]);
-        if (Math.random() > 0.5) {
-          self.addBox(scene, [20,30,20], [30, -123]);
-        } else {
-          self.addBox(scene, [20,30,20], [-30, -123]);
-        }
-
-        self.addBox(scene, [20,20,20], [0, -2]);
-        if (Math.random() > 0.5) {
-          self.addBox(scene, [20,30,20], [30, -2]);
-        } else {
-          self.addBox(scene, [20,30,20], [-30, -2]);
-        }
-
-        self.addBox(scene, [20,20,20], [0, 90]);
-        if (Math.random() > 0.5) {
-          self.addBox(scene, [20,30,20], [30, 115]);
-        } else {
-          self.addBox(scene, [20,30,20], [-30, 115]);
-        }
+        self.loadObstacles2(scene);
       } else if (self.options.image == 'obstacles3') {
         self.loadObstacles3(scene);
+      } else if (self.options.image == 'obstacles4') {
+        self.loadObstacles4(scene);
       } else {
 
         self.loadImageTile(
