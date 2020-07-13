@@ -5,7 +5,7 @@ var world_LineFollowing = new function() {
   this.shortDescription = 'Line Following Challenges';
   this.longDescription =
     '<p>A series of challenges relating to line following.</p>';
-  // this.thumbnail = 'images/worlds/fll.jpg';
+  this.thumbnail = 'images/worlds/lineFollowing.jpg';
 
   this.options = {};
   this.robotStart = {
