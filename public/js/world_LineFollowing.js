@@ -23,7 +23,8 @@ var world_LineFollowing = new function() {
         ['Gaps 1', 'gaps1'],
         ['Gaps 2', 'gaps2'],
         ['Obstacles 1', 'obstacles1'],
-        ['Obstacles 2', 'obstacles2']
+        ['Obstacles 2', 'obstacles2'],
+        ['Obstacles 3', 'obstacles3']
       ],
       optionsHTML: {
         simple:
@@ -45,6 +46,10 @@ var world_LineFollowing = new function() {
         obstacles2:
           '<p class="bold">Obstacles and blocked path.</p>' +
           '<p>Sometimes, there\'s only one way to navigate around the obstacle.</p>' +
+          '<p class="bold">This world randomizes on reset!<p>',
+        obstacles3:
+          '<p class="bold">Obstacles and world edge.</p>' +
+          '<p>Obstacles are not the only things that can block your path.</p>' +
           '<p class="bold">This world randomizes on reset!<p>'
       }
     }
@@ -56,7 +61,8 @@ var world_LineFollowing = new function() {
     gaps1: 'textures/maps/Line Following/Gaps 1.png',
     gaps2: 'textures/maps/Line Following/Gaps 2.png',
     obstacles1: 'textures/maps/Line Following/Obstacles 1.png',
-    obstacles2: 'textures/maps/Line Following/Obstacles 2.png'
+    obstacles2: 'textures/maps/Line Following/Obstacles 2.png',
+    obstacles3: null
   };
 
   this.robotStarts = {
@@ -65,7 +71,8 @@ var world_LineFollowing = new function() {
     gaps1: new BABYLON.Vector3(0, 0, -85),
     gaps2: new BABYLON.Vector3(15, 0, -85),
     obstacles1: new BABYLON.Vector3(0, 0, -85),
-    obstacles2: new BABYLON.Vector3(0, 0, -135)
+    obstacles2: new BABYLON.Vector3(0, 0, -135),
+    obstacles3: new BABYLON.Vector3(0, 0, -135)
   }
 
   this.defaultOptions = {
@@ -96,6 +103,11 @@ var world_LineFollowing = new function() {
     self.robotStart.position = self.robotStarts[self.options.image];
 
     return new Promise(function(resolve, reject) {
+      if (! self.imagesURL[self.options.image]) {
+        resolve();
+        return;
+      }
+
       var img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = function() {
@@ -113,11 +125,12 @@ var world_LineFollowing = new function() {
     self.setOptions();
   };
 
-  // Load image into map
-  this.loadImageMap = function (scene) {
+  // Load image into ground tile
+  this.loadImageTile = function (scene, imageSrc, size, pos=[0,0], rot=Math.PI/2) {
     var groundMat = new BABYLON.StandardMaterial('ground', scene);
-    var groundTexture = new BABYLON.Texture(self.imagesURL[self.options.image], scene);
+    var groundTexture = new BABYLON.Texture(imageSrc, scene);
     groundMat.diffuseTexture = groundTexture;
+    groundMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
     groundMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
     var faceUV = new Array(6);
@@ -127,9 +140,9 @@ var world_LineFollowing = new function() {
     faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
 
     var boxOptions = {
-        width: self.options.width,
+        width: size[0],
         height: 10,
-        depth: self.options.length,
+        depth: size[1],
         faceUV: faceUV
     };
 
@@ -137,7 +150,9 @@ var world_LineFollowing = new function() {
     ground.material = groundMat;
     ground.receiveShadows = true;
     ground.position.y = -5;
-    ground.rotation.y = Math.PI / 2;
+    ground.position.x = pos[0];
+    ground.position.z = pos[1];
+    ground.rotation.y = rot;
 
     // Physics
     ground.physicsImpostor = new BABYLON.PhysicsImpostor(
@@ -152,6 +167,46 @@ var world_LineFollowing = new function() {
     );
   };
 
+  // Obstacles 3
+  this.loadObstacles3 = function(scene) {
+    function loadCenter(y, length) {
+      self.loadImageTile(
+        scene,
+        'textures/maps/Line Following/Obstacles 3 Center.png',
+        [length, 100],
+        [0, y]
+      );
+    }
+
+    function loadLeftRight(y, length) {
+      let posAndRot = [];
+      if (Math.random() > 0.5) {
+        posAndRot = [35, Math.PI/2]
+      } else {
+        posAndRot = [-35, -Math.PI/2]
+      }
+      self.loadImageTile(
+        scene,
+        'textures/maps/Line Following/Obstacles 3 Left.png',
+        [length, 100],
+        [posAndRot[0], y],
+        posAndRot[1]
+      );
+    }
+
+    loadCenter(-135, 30);
+    loadLeftRight(-110, 20);
+    self.addBox(scene, [20,20,20], [0, -110]);
+
+    loadCenter(-70, 60);
+    loadLeftRight(-30, 20);
+    loadCenter(45, 130);
+    self.addBox(scene, [20,20,20], [0, -10]);
+
+    loadLeftRight(155, 90);
+    self.addBox(scene, [20,20,20], [0, 100]);
+  };
+
   // Create the scene
   this.load = function (scene) {
     return new Promise(function(resolve, reject) {
@@ -159,12 +214,20 @@ var world_LineFollowing = new function() {
       self.obstacleMat.diffuseColor = new BABYLON.Color3(0.8, 0.1, 0.8);
 
       if (self.options.image == 'obstacles1') {
-        self.loadImageMap(scene);
+        self.loadImageTile(
+          scene,
+          self.imagesURL[self.options.image],
+          [self.options.width, self.options.length]
+        );
 
         self.addBox(scene, [20,20,20], [0, -48]);
         self.addBox(scene, [20,20,20], [0, 48]);
       } else if (self.options.image == 'obstacles2') {
-        self.loadImageMap(scene);
+        self.loadImageTile(
+          scene,
+          self.imagesURL[self.options.image],
+          [self.options.width, self.options.length]
+        );
 
         self.addBox(scene, [20,20,20], [0, -98]);
         if (Math.random() > 0.5) {
@@ -186,8 +249,15 @@ var world_LineFollowing = new function() {
         } else {
           self.addBox(scene, [20,30,20], [-30, 115]);
         }
+      } else if (self.options.image == 'obstacles3') {
+        self.loadObstacles3(scene);
       } else {
-        self.loadImageMap(scene);
+
+        self.loadImageTile(
+          scene,
+          self.imagesURL[self.options.image],
+          [self.options.width, self.options.length]
+        );
       }
       resolve();
     });
