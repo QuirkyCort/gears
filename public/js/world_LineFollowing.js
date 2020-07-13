@@ -25,7 +25,8 @@ var world_LineFollowing = new function() {
         ['Obstacles 1', 'obstacles1'],
         ['Obstacles 2', 'obstacles2'],
         ['Obstacles 3', 'obstacles3'],
-        ['Obstacles 4', 'obstacles4']
+        ['Obstacles 4', 'obstacles4'],
+        ['Junctions', 'junctions1'],
       ],
       optionsHTML: {
         simple:
@@ -42,7 +43,7 @@ var world_LineFollowing = new function() {
           '<p>These gaps are wider and have only a short straight section between them.<p>',
         obstacles1:
           '<p class="bold">Line following map with obstacles.</p>' +
-          '<p>The obstacles are immovable and are 20cm x 20cm.' +
+          '<p>The obstacles are immovable and are 20cm x 20cm. ' +
           'You\'ll need to leave the line to navigate around them.<p>',
         obstacles2:
           '<p class="bold">Obstacles and blocked path.</p>' +
@@ -57,6 +58,13 @@ var world_LineFollowing = new function() {
           '<p>Obstacles are not always the same size, the exit point isn\'t always opposite of the entry point either.</p>' +
           '<p>Hint: The maze runner robot can be useful for this world, but isn\'t absolutely necessary.</p>' +
           '<p class="bold">The obstacle sizes randomizes on reset!<p>',
+        junctions1:
+          '<p class="bold">Handling junctions.</p>' +
+          '<p>Junctions are not difficult to handle, but can be tedious to program for unless you have prepared suitable functions.</p>' +
+          '<p>Task 1: Pick a random point (eg. "D") and program your robot to go there and stop.</p>' +
+          '<p>Task 2: Pick a series of random points (eg. "C, L, A, Q, J,") and program your robot to go to each end point in turn. ' +
+          'Beep at each point and stop at the last.</p>' +
+          '<p>You\'ll need a double sensor line follower robot for this world.</p>'
       }
     }
   ];
@@ -69,7 +77,8 @@ var world_LineFollowing = new function() {
     obstacles1: 'textures/maps/Line Following/Obstacles 1.png',
     obstacles2: 'textures/maps/Line Following/Obstacles 2.png',
     obstacles3: null,
-    obstacles4: 'textures/maps/Line Following/Obstacles 4.png'
+    obstacles4: 'textures/maps/Line Following/Obstacles 4.png',
+    junctions1: 'textures/maps/Line Following/Junctions 1.png'
   };
 
   this.robotStarts = {
@@ -80,7 +89,8 @@ var world_LineFollowing = new function() {
     obstacles1: new BABYLON.Vector3(0, 0, -85),
     obstacles2: new BABYLON.Vector3(0, 0, -135),
     obstacles3: new BABYLON.Vector3(0, 0, -135),
-    obstacles4: new BABYLON.Vector3(75, 0, -85)
+    obstacles4: new BABYLON.Vector3(75, 0, -85),
+    junctions1: new BABYLON.Vector3(0, 0, 0)
   }
 
   this.defaultOptions = {
