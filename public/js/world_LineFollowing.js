@@ -27,6 +27,7 @@ var world_LineFollowing = new function() {
         ['Obstacles 3', 'obstacles3'],
         ['Obstacles 4', 'obstacles4'],
         ['Junctions', 'junctions1'],
+        ['Junctions 2', 'junctions2'],
       ],
       optionsHTML: {
         simple:
@@ -64,6 +65,12 @@ var world_LineFollowing = new function() {
           '<p>Task 1: Pick a random point (eg. "D") and program your robot to go there and stop.</p>' +
           '<p>Task 2: Pick a series of random points (eg. "C, L, A, Q, J,") and program your robot to go to each end point in turn. ' +
           'Beep at each point and stop at the last.</p>' +
+          '<p>You\'ll need a double sensor line follower robot for this world.</p>',
+        junctions2:
+          '<p class="bold">Turn Indicators.</p>' +
+          '<p>At each junction, turn in the direction marked by the green indicator. ' +
+          'Load the world to see an illustrated guide.</p>' +
+          '<p>Follow the indicated turns and get to the end point.</p>' +
           '<p>You\'ll need a double sensor line follower robot for this world.</p>'
       }
     }
@@ -78,7 +85,8 @@ var world_LineFollowing = new function() {
     obstacles2: 'textures/maps/Line Following/Obstacles 2.png',
     obstacles3: null,
     obstacles4: 'textures/maps/Line Following/Obstacles 4.png',
-    junctions1: 'textures/maps/Line Following/Junctions 1.png'
+    junctions1: 'textures/maps/Line Following/Junctions 1.png',
+    junctions2: 'textures/maps/Line Following/Junctions 2.png',
   };
 
   this.robotStarts = {
@@ -90,7 +98,8 @@ var world_LineFollowing = new function() {
     obstacles2: new BABYLON.Vector3(0, 0, -135),
     obstacles3: new BABYLON.Vector3(0, 0, -135),
     obstacles4: new BABYLON.Vector3(75, 0, -85),
-    junctions1: new BABYLON.Vector3(0, 0, 0)
+    junctions1: new BABYLON.Vector3(0, 0, 0),
+    junctions2: new BABYLON.Vector3(0, 0, -85),
   }
 
   this.defaultOptions = {
