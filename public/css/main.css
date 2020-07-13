@@ -25,6 +25,9 @@ header {
     margin-top: -0.3em;
     margin-bottom: -0.3em; }
 
+.bold {
+  font-weight: bold; }
+
 main {
   flex-grow: 1;
   display: flex;
