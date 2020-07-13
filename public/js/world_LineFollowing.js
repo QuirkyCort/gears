@@ -155,15 +155,16 @@ var world_LineFollowing = new function() {
   // Create the scene
   this.load = function (scene) {
     return new Promise(function(resolve, reject) {
+      self.obstacleMat = new BABYLON.StandardMaterial('obstacle', scene);
+      self.obstacleMat.diffuseColor = new BABYLON.Color3(0.8, 0.1, 0.8);
+
       if (self.options.image == 'obstacles1') {
         self.loadImageMap(scene);
+
         self.addBox(scene, [20,20,20], [0, -48]);
         self.addBox(scene, [20,20,20], [0, 48]);
       } else if (self.options.image == 'obstacles2') {
         self.loadImageMap(scene);
-
-        self.obstacleMat = new BABYLON.StandardMaterial('obstacle', scene);
-        self.obstacleMat.diffuseColor = new BABYLON.Color3(0.8, 0.1, 0.8);
 
         self.addBox(scene, [20,20,20], [0, -98]);
         if (Math.random() > 0.5) {
