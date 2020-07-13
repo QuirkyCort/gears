@@ -96,7 +96,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
         if (mesh.getClassName() === 'InstancedMesh') {
             return;
         }
-        if (mesh.material && !mesh.isFrozen && ('isReady' in mesh) && mesh.isReady(true)) { 
+        if (mesh.material && !mesh.isFrozen && ('isReady' in mesh) && mesh.isReady(true)) {
             const _orig_subMeshEffects = [];
             mesh.subMeshes.forEach((submesh) => {
                 _orig_subMeshEffects.push([submesh.effect, submesh.materialDefines]);

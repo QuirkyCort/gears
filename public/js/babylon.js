@@ -47,7 +47,7 @@ var babylon = new function() {
     cameraArc.angularSensibilityY = 2000;
     cameraArc.attachControl(self.canvas, true);
     self.cameraArc = cameraArc;
-    self.setCameraMode('arc');
+    self.setCameraMode('follow');
 
     // Add lights to the scene
     var lightHemi = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
@@ -103,7 +103,7 @@ var babylon = new function() {
 
     self.engine.stopRenderLoop(self.engine._activeRenderLoops[0]);
     self.scene.dispose();
-    
+
     self.scene = self.createScene();
     // self.scene.debugLayer.show();
 
@@ -167,7 +167,7 @@ var babylon = new function() {
 
       // We should also pre-build the RTT materials for performance
       let FULL_EMMISSIVE = new BABYLON.Color3(1,1,1);
-  
+
       self.scene.meshes.forEach(function(mesh) {
         mesh.origMaterial = mesh.material;
         if (mesh.material == null) {
@@ -179,7 +179,7 @@ var babylon = new function() {
             mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
           } else {
             mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
-          }  
+          }
         }
       });
 

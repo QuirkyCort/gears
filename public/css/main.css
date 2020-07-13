@@ -161,7 +161,8 @@ nav {
       height: 200px; }
     .dialogWindow .selectRobot .description .text {
       border-left: solid 1px white;
-      padding: 0 1em; }
+      padding: 0 1em;
+      flex-shrink: 1; }
   .dialogWindow .selectRobot .configurations {
     border: solid 1px white;
     margin-top: 0.5em;
@@ -276,7 +277,8 @@ nav {
       height: 200px; }
     .dialogWindow .selectWorld .description .text {
       border-left: solid 1px white;
-      padding: 0 1em; }
+      padding: 0 1em;
+      flex-shrink: 1; }
   .dialogWindow .selectWorld .configurations {
     border: solid 1px white;
     margin-top: 0.5em;

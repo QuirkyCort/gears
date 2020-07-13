@@ -51,7 +51,6 @@ var $builtinmodule = function(name) {
       }
     });
 
-
     $loc.state = new Sk.builtin.func(function(self) {
       return self.motor.state;
     });

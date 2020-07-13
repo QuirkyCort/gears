@@ -90,6 +90,36 @@ var simPanel = new function() {
       return $div;
     }
 
+    function genSelectWithHTML(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $select = $('<select></select>');
+      let $html = $('<div></div>');
+      let currentVal = currentOptions[opt.option];
+
+      opt.options.forEach(function(option){
+        let $opt = $('<option></option>');
+        $opt.prop('value', option[1]);
+        $opt.text(option[0]);
+        if (option[1] == currentVal) {
+          $opt.attr('selected', true);
+          $html.html(opt.optionsHTML[currentVal]);
+        }
+
+        $select.append($opt);
+      });
+
+      $select.change(function(){
+        worldOptionsSetting[opt.option] = $select.val();
+        $html.html(opt.optionsHTML[$select.val()]);
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($select);
+      $div.append($html);
+
+      return $div;
+    }
+
     function genCheckBox(opt, currentOptions) {
       let id = Math.random().toString(36).substring(2, 6);
       let $div = $('<div class="configuration"></div>');
@@ -197,6 +227,8 @@ var simPanel = new function() {
       for (let optionConfiguration of world.optionsConfigurations) {
         if (optionConfiguration.type == 'select') {
           $configurations.append(genSelect(optionConfiguration, worldOptions));
+        } else if (optionConfiguration.type == 'selectWithHTML') {
+          $configurations.append(genSelectWithHTML(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'checkbox') {
           $configurations.append(genCheckBox(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'slider') {
