@@ -534,6 +534,81 @@ function GyroSensor(scene, parent, pos, port, options) {
   this.init();
 }
 
+
+// GPS sensor
+function GPSSensor(scene, parent, pos, port, options) {
+  var self = this;
+
+  this.type = 'GPSSensor';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(0, 0, 0);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = new BABYLON.StandardMaterial('gpsSensorBody', scene);
+    // bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.4, 0.2);
+
+    var bodyTexture = new BABYLON.Texture('textures/robot/gps.png', scene);
+    bodyMat.diffuseTexture = bodyTexture;
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+    faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+
+    var boxOptions = {
+        height: 1,
+        width: 2,
+        depth: 2,
+        faceUV: faceUV
+    };
+
+    var body = BABYLON.MeshBuilder.CreateBox('gpsSensorBody', boxOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    body.parent = parent;
+    body.position = self.position;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.getPosition = function() {
+    return [
+      self.body.absolutePosition.x,
+      self.body.absolutePosition.y,
+      self.body.absolutePosition.z
+    ];
+  };
+
+  this.init();
+}
+
 // Magnet
 function MagnetActuator(scene, parent, pos, rot, port, options) {
   var self = this;
