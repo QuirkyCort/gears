@@ -257,6 +257,30 @@ var $builtinmodule = function(name) {
 
   }, 'GyroSensor', []);
 
+  mod.GPSSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor) {
+        throw new Sk.builtin.TypeError('No GPS sensor connected to ' + String(address.v));
+      }
+    });
+
+    $loc.position = new Sk.builtin.func(function(self) {
+      var position = [];
+
+      position = self.sensor.getPosition();
+
+      return position;
+    });
+
+    $loc.reset = new Sk.builtin.func(function(self) {
+      self.sensor.reset();
+    });
+
+  }, 'GPSSensor', []);
+
   mod.UltrasonicSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 

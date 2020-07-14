@@ -71,6 +71,7 @@ var skulpt = new function() {
       './ev3dev2/sound.py': 'ev3dev2/sound.py',
       './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py',
       './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py',
+      './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py',
       './simPython.js': 'js/simPython.js'
     }
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][filename] === undefined) {

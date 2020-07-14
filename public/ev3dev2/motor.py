@@ -1,7 +1,7 @@
 import simPython, time
 
 # Needed to prevent loops from locking up the javascript thread
-SENSOR_DELAY = 0.01
+SENSOR_DELAY = 0.001
 
 WAIT_RUNNING_TIMEOUT = 100
 
