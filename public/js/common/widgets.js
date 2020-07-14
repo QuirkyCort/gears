@@ -10,14 +10,23 @@ function menuDropDown($menuBtn, menuItems, options) {
     if (menuItem.line) {
       $li.addClass('underline');
     }
-    $li.click(menuItem.callback);
+    $li.click(function() { menuItem.callback($li); });
     $dropDown.append($li);
   });
 
   let top = $menuBtn[0].offsetTop + $menuBtn[0].offsetHeight;
-  let left = $menuBtn[0].offsetLeft;
+  if (options.parentIsAbsolute) {
+    top = $menuBtn[0].offsetHeight;
+  }
   $dropDown.css('top', top);
-  $dropDown.css('left', left);
+
+  if (options.align == 'right') {
+    $dropDown.css('left', 'auto');
+    $dropDown.css('right', '0');
+  } else {
+    let left = $menuBtn[0].offsetLeft;
+    $dropDown.css('left', left);
+  }
 
   $(document).one('click', function(e){
     $('.menuDropDown').remove();

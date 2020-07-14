@@ -5,10 +5,74 @@ var blocklyPanel = new function() {
   this.init = function() {
     self.$panel = $('.blocklyEditor');
     self.$save = $('.saveBlockly');
+    self.$pagesMenu = $('#blocklyPages');
+    self.currentPage = 'Main';
+    self.pages = ['Main'];
 
     self.$save.click(self.save);
+    self.$pagesMenu.click(self.togglePagesMenu);
 
     setInterval(blockly.saveLocalStorage, 30 * 1000);
+  };
+
+  // Toggle pages menu
+  this.togglePagesMenu = function(e) {
+    if ($('.pagesMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: 'Add Page', line: false, callback: self.addPage},
+        {html: 'Delete Current Page', line: true, callback: self.deletePage},
+      ];
+
+      for (let i=0; i<self.pages.length; i++) {
+        menuItems.push({html: self.pages[i], line: false, callback: self.loadPageCB});
+      }
+
+      menuDropDown(self.$pagesMenu, menuItems, {className: 'pagesMenuDropDown', align: 'right', parentIsAbsolute: true});
+    }
+  };
+
+  // Add a new page
+  this.addPage = function($li) {
+    var newPage = prompt('New page name');
+
+    if (newPage.trim() == '') {
+      return;
+    }
+
+    if (self.pages.filter(page => page == newPage).length > 0) {
+      toastMsg('Page name "' + newPage + '" is already in use.');
+      return;
+    }
+    self.pages.push(newPage);
+    self.loadPage(newPage);
+    toastMsg('Page "' + newPage + '" added.');
+  };
+
+  // Delete current page
+  this.deletePage = function($li) {
+    if (self.currentPage == 'Main') {
+      toastMsg('Cannot delete Main page');
+      return;
+    }
+
+    confirmDialog('Delete "' + self.currentPage + '" page?', function(){
+      self.pages = self.pages.filter(page => page != self.currentPage);
+      self.loadPage('Main');
+    });
+  };
+
+  // Load selected page
+  this.loadPageCB = function($li) {
+    self.loadPage($li.text());
+  };
+
+  // Load selected page
+  this.loadPage = function(page) {
+    self.currentPage = page;
+    self.$pagesMenu.find('span.currentPage').text(page);
   };
 
   // Run when panel made active
