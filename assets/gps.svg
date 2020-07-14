@@ -9,16 +9,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 744.09448819 1052.3622047"
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 708.66142 708.66141"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="gps.svg"
-   inkscape:export-filename="/home/cort/g4170.png"
-   inkscape:export-xdpi="82.495651"
-   inkscape:export-ydpi="82.495651">
+   inkscape:export-filename="/home/cort/gps.png"
+   inkscape:export-xdpi="25.4"
+   inkscape:export-ydpi="25.4">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="319.50224"
-     inkscape:cy="692.89454"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="244.31813"
+     inkscape:cy="460.31763"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -54,10 +54,11 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-343.70079)">
     <g
        id="g4170"
-       transform="matrix(0.13322389,0,0,0.13322389,142.35893,51.379257)">
+       transform="matrix(0,0.23681806,-0.23681806,0,752.8238,484.16675)">
       <path
          inkscape:connector-curvature="0"
          id="path4136"

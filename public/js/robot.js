@@ -495,6 +495,13 @@ var robot = new function() {
           componentConfig.position,
           'in' + (++robot.sensorCount),
           componentConfig.options);
+      } else if (componentConfig.type == 'GPSSensor') {
+        component = new GPSSensor(
+          self.scene,
+          parent,
+          componentConfig.position,
+          'in' + (++robot.sensorCount),
+          componentConfig.options);
       } else if (componentConfig.type == 'Box') {
         component = new BoxBlock(
           self.scene,
