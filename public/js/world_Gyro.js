@@ -33,7 +33,8 @@ var world_Gyro = new function() {
           '<p>Task 2: Complete as many loops as you can without falling off.<p>',
         randomDirection:
           '<p class="bold">Detect and drive down the path</p>' +
-          '<p>Use your ultrasonic and gyro to find the wall, then drive straight down the path.<p>',
+          '<p>Use your ultrasonic and gyro to find the wall, then drive straight down the path.<p>' +
+          '<p class="bold">This world randomizes on reset!<p>',
       }
     }
   ];
