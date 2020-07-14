@@ -219,7 +219,7 @@ var ev3dev2_generator = new function() {
       var brake = 'True';
     }
 
-    var code = 'tank_drive.stop(brake=' + brake + ')\n';
+    var code = 'tank_drive.off(brake=' + brake + ')\n';
 
     return code;
   };
@@ -311,7 +311,7 @@ var ev3dev2_generator = new function() {
       var brake = 'True';
     }
 
-    var code = 'motor' + dropdown_port + '.stop(brake=' + brake + ')\n';
+    var code = 'motor' + dropdown_port + '.off(brake=' + brake + ')\n';
 
     return code;
   };
