@@ -406,7 +406,7 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
 
       var hit = scene.pickWithRay(self.rays[i]);
       if (hit.hit && hit.distance < shortestDistance) {
-        let hitVector = hit.getNormal();
+        let hitVector = hit.getNormal(true);
         if (hitVector) {
           var incidentAngle = Math.abs(BABYLON.Vector3.Dot(hitVector, self.rays[i].direction));
           if (incidentAngle > self.options.rayIncidentLimit && incidentAngle < (Math.PI - self.options.rayIncidentLimit)) {

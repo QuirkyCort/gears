@@ -41,6 +41,10 @@ var world_Sumo = new function() {
   ];
 
   this.robotStarts = {
+    fixedDummies: new BABYLON.Vector3(0, 0, 0),
+    randomDummies: new BABYLON.Vector3(0, 0, 0),
+    randomNoRed: new BABYLON.Vector3(0, 0, 0),
+    fixedPillars: new BABYLON.Vector3(0, 0, 0),
   }
 
   this.defaultOptions = {
@@ -68,9 +72,7 @@ var world_Sumo = new function() {
       }
     }
 
-    if (self.robotStarts[self.options.image]) {
-      self.robotStart.position = self.robotStarts[self.options.image];
-    }
+    self.robotStart.position = self.robotStarts[self.options.image];
 
     return new Promise(function(resolve, reject) {
       resolve();

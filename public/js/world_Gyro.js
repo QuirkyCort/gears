@@ -19,7 +19,8 @@ var world_Gyro = new function() {
       type: 'selectWithHTML',
       options: [
         ['Straight Run', 'straight'],
-        ['Square Loops', 'square']
+        ['Square Loops', 'square'],
+        ['Random Direction', 'randomDirection'],
       ],
       optionsHTML: {
         straight:
@@ -30,6 +31,9 @@ var world_Gyro = new function() {
           '<p>The black area can be used to help you align your turns.<p>' +
           '<p>Task 1: Drive around the loop without falling off.<p>' +
           '<p>Task 2: Complete as many loops as you can without falling off.<p>',
+        randomDirection:
+          '<p class="bold">Detect and drive down the path</p>' +
+          '<p>Use your ultrasonic and gyro to find the wall, then drive straight down the path.<p>',
       }
     }
   ];
@@ -37,11 +41,13 @@ var world_Gyro = new function() {
   this.imagesURL = {
     straight: 'textures/maps/Gyro/Straight.png',
     square: 'textures/maps/Gyro/Square.png',
+    randomDirection: 'textures/maps/Gyro/Square.png',
   };
 
   this.robotStarts = {
     straight: new BABYLON.Vector3(0, 0, -500),
     square: new BABYLON.Vector3(-100, 0, -90),
+    randomDirection: new BABYLON.Vector3(0, 0, 0),
   }
 
   this.defaultOptions = {
@@ -97,8 +103,10 @@ var world_Gyro = new function() {
   // Load image into ground tile
   this.loadImageTile = function (scene, imageSrc, size, pos=[0,0], rot=Math.PI/2) {
     var groundMat = new BABYLON.StandardMaterial('ground', scene);
-    var groundTexture = new BABYLON.Texture(imageSrc, scene);
-    groundMat.diffuseTexture = groundTexture;
+    if (imageSrc) {
+      var groundTexture = new BABYLON.Texture(imageSrc, scene);
+      groundMat.diffuseTexture = groundTexture;
+    }
     groundMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
     groundMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
@@ -139,6 +147,9 @@ var world_Gyro = new function() {
   // Create the scene
   this.load = function (scene) {
     return new Promise(function(resolve, reject) {
+      self.obstacleMat = new BABYLON.StandardMaterial('obstacle', scene);
+      self.obstacleMat.diffuseColor = new BABYLON.Color3(0.8, 0.1, 0.8);
+
       if (self.options.image == 'square') {
         self.loadImageTile(
           scene,
@@ -168,7 +179,28 @@ var world_Gyro = new function() {
           [-self.options.length/2, -self.options.width/2],
           0
         );
+      } else if (self.options.image == 'randomDirection') {
+        let theta = Math.random() * 360;
+        theta = Math.round(theta);
+        theta = theta / 180 * Math.PI;
+        let x = 100 * Math.cos(theta);
+        let y = 100 * Math.sin(theta);
 
+        self.loadImageTile(
+          scene,
+          null,
+          [50, 50],
+          [0, 0],
+          0
+        );
+        self.loadImageTile(
+          scene,
+          self.imagesURL[self.options.image],
+          [self.options.width, self.options.length],
+          [x, y],
+          -(theta - Math.PI)
+        );
+        self.addBox(scene, [25,18,18], [x*2,y*2], -(theta - Math.PI), 0, self.obstacleMat)
       } else {
         self.loadImageTile(
           scene,
@@ -179,6 +211,33 @@ var world_Gyro = new function() {
 
       resolve();
     });
+  };
+
+  // Add static box
+  this.addBox = function(scene, size, pos, rot, mass, mat, friction=0.1, restitution=0.1) {
+    var boxOptions = {
+      height: size[0],
+      width: size[1],
+      depth: size[2]
+    };
+
+    var box = BABYLON.MeshBuilder.CreateBox('obstacle', boxOptions, scene);
+    box.material = mat;
+    box.position.y = size[0] / 2;
+    box.position.x = pos[0];
+    box.position.z = pos[1];
+    box.rotation.y = rot;
+
+    box.physicsImpostor = new BABYLON.PhysicsImpostor(
+      box,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: mass,
+        friction: friction,
+        restitution: restitution
+      },
+      scene
+    );
   };
 }
 
