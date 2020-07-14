@@ -137,6 +137,10 @@
     <block type="reset_gyro">
       <field name="port">1</field>
     </block>
+    <block type="gps_sensor">
+      <field name="type">X</field>
+      <field name="port">1</field>
+    </block>
   </category>
   <category name="Sound" colour="#a5745b">
     <block type="say">

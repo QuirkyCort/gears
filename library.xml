@@ -1652,4 +1652,83 @@
         <field name="HUE">65</field>
       </block>
     </value>
+  </block><block type="factory_base" id="rrzG~1kH7e=85ybLY+,~" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">gps_sensor</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="Yda:zonNXX}#3)e[FZ0g">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="s:G}guV7wuY`Ky2bsrCt">
+            <field name="TEXT">gps</field>
+            <next>
+              <block type="field_dropdown" id="w,+[MKV+:m{nFk``VvXT">
+                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                <field name="FIELDNAME">type</field>
+                <field name="USER0">x</field>
+                <field name="CPU0">X</field>
+                <field name="USER1">y</field>
+                <field name="CPU1">Y</field>
+                <field name="USER2">altitude</field>
+                <field name="CPU2">ALTITUDE</field>
+                <field name="USER3">position (list)</field>
+                <field name="CPU3">POSITION</field>
+                <next>
+                  <block type="field_static" id="Z8?!VR0ji+*b^TYN1dF,">
+                    <field name="TEXT">on port</field>
+                    <next>
+                      <block type="field_dropdown" id="VVA_Y7TXOq?bg6A=9Zc,">
+                        <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                        <field name="FIELDNAME">port</field>
+                        <field name="USER0">1</field>
+                        <field name="CPU0">1</field>
+                        <field name="USER1">2</field>
+                        <field name="CPU1">2</field>
+                        <field name="USER2">3</field>
+                        <field name="CPU2">3</field>
+                        <field name="USER3">4</field>
+                        <field name="CPU3">4</field>
+                        <field name="USER4">5</field>
+                        <field name="CPU4">5</field>
+                        <field name="USER5">6</field>
+                        <field name="CPU5">6</field>
+                        <field name="USER6">7</field>
+                        <field name="CPU6">7</field>
+                        <field name="USER7">8</field>
+                        <field name="CPU7">8</field>
+                        <field name="USER8">9</field>
+                        <field name="CPU8">9</field>
+                        <field name="USER9">10</field>
+                        <field name="CPU9">10</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="!nRwcAJA|N9w:cS|?gH6" deletable="false" movable="false">
+        <field name="TEXT">Virtual sensor that provides the robot's position</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="a69o(.4r]BhaiBe^NGl!" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="+zAktRy-eK3h_4eo=~$d"></shadow>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="qD:rW]?m:[Dc+}HFy^-d">
+        <mutation colour="#5ba58c"></mutation>
+        <field name="HUE">160</field>
+      </block>
+    </value>
   </block></xml>

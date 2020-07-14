@@ -26,6 +26,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['sleep'] = self.sleep;
     Blockly.Python['exit'] = self.exit;
     Blockly.Python['time'] = self.time;
+    Blockly.Python['gps_sensor'] = self.gps_sensor;
   };
 
   // Generate python code
@@ -38,6 +39,7 @@ var ev3dev2_generator = new function() {
       'from ev3dev2.sound import Sound\n' +
       'from ev3dev2.sensor import *\n' +
       'from ev3dev2.sensor.lego import *\n' +
+      'from ev3dev2.sensor.virtual import *\n' +
       '\n' +
       'motorA = LargeMotor(OUTPUT_A)\n' +
       'motorB = LargeMotor(OUTPUT_B)\n' +
@@ -58,6 +60,8 @@ var ev3dev2_generator = new function() {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n';
       } else if (sensor.type == 'GyroSensor') {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
+      } else if (sensor.type == 'GPSSensor') {
+        sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(INPUT_' + i + ')\n';
       }
       i++;
     }
@@ -483,6 +487,26 @@ var ev3dev2_generator = new function() {
 
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
+
+  // gps
+  this.gps_sensor = function(block) {
+    var dropdown_type = block.getFieldValue('type');
+    var dropdown_port = block.getFieldValue('port');
+
+    if (dropdown_type == 'X') {
+      var typeStr = 'x';
+    } else if (dropdown_type == 'Y') {
+      var typeStr = 'y';
+    } else if (dropdown_type == 'ALTITUDE') {
+      var typeStr = 'altitude';
+    } else if (dropdown_type == 'POSITION') {
+      var typeStr = 'position';
+    }
+
+    var code = 'gps_sensor_in' + dropdown_port + '.' + typeStr;
+
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  }
 
 }
 

@@ -22,6 +22,7 @@ var robotTemplates = [
       '<ul>' +
         '<li>Port 1 : Color Sensor</li>' +
         '<li>Port 2 : Ultrasonic Distance</li>' +
+        '<li>Port 3 : GPS Sensor</li>' +
       '</ul>',
     thumbnail: 'images/robots/singleFollower.jpg',
 
@@ -55,6 +56,11 @@ var robotTemplates = [
         type: 'UltrasonicSensor',
         position: [0, 2.5, 8],
         rotation: [0, 0, 0],
+        options: null
+      },
+      {
+        type: 'GPSSensor',
+        position: [0, 2.5, 5],
         options: null
       },
       {

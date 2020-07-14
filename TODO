@@ -29,7 +29,6 @@ Coding (Simulator)
   - rotating platform
   - laser rangefinder (simplified ultrasonic)
   - paint ball launcher
-  - gps (x, y coordinates)
   - object of interest radar (direction and range of object)
   - radio (communications between robots)
   - claw

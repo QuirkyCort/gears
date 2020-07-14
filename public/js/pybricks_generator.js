@@ -26,6 +26,7 @@ var pybricks_generator = new function() {
     Blockly.Python['sleep'] = self.sleep;
     Blockly.Python['exit'] = self.exit;
     Blockly.Python['time'] = self.time;
+    Blockly.Python['gps_sensor'] = self.gps_sensor;
   };
 
   // Generate python code
@@ -36,6 +37,7 @@ var pybricks_generator = new function() {
       'from pybricks.parameters import Port\n' +
       'from pybricks.tools import wait\n' +
       'from pybricks.robotics import DriveBase\n' +
+      'from pybricks.virtual import *\n' +
       '\n' +
       'ev3 = EV3Brick()\n' +
       '\n' +
@@ -94,11 +96,14 @@ var pybricks_generator = new function() {
     var sensor = null;
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
-        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(PORT.S' + i + ')\n'
+        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(PORT.S' + i + ')\n';
       } else if (sensor.type == 'UltrasonicSensor') {
-        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(PORT.S' + i + ')\n'
+        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(PORT.S' + i + ')\n';
       } else if (sensor.type == 'GyroSensor') {
-        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(PORT.S' + i + ')\n'      }
+        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(PORT.S' + i + ')\n';
+      } else if (sensor.type == 'GPSSensor') {
+        sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(port.s' + i + ')\n';
+      }
       i++;
     }
 
@@ -504,11 +509,31 @@ var pybricks_generator = new function() {
     return code;
   };
 
-  // Print
-  this.print = function(block) {
+  // time
+  this.time = function(block) {
     var code = 'time.time()';
 
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
+
+  // gps
+  this.gps_sensor = function(block) {
+    var dropdown_type = block.getFieldValue('type');
+    var dropdown_port = block.getFieldValue('port');
+
+    if (dropdown_type == 'X') {
+      var typeStr = 'x';
+    } else if (dropdown_type == 'Y') {
+      var typeStr = 'y';
+    } else if (dropdown_type == 'ALTITUDE') {
+      var typeStr = 'altitude';
+    } else if (dropdown_type == 'POSITION') {
+      var typeStr = 'position';
+    }
+
+    var code = 'gps_sensor_in' + dropdown_port + '.' + typeStr;
+
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  }
 }
 

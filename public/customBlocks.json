@@ -1202,4 +1202,82 @@
   "colour": 65,
   "tooltip": "Current Unix time in seconds",
   "helpUrl": ""
+},
+{
+  "type": "gps_sensor",
+  "message0": "gps %1 on port %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "x",
+          "X"
+        ],
+        [
+          "y",
+          "Y"
+        ],
+        [
+          "altitude",
+          "ALTITUDE"
+        ],
+        [
+          "position (list)",
+          "POSITION"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "output": null,
+  "colour": 160,
+  "tooltip": "Virtual sensor that provides the robot's position",
+  "helpUrl": ""
 }]
