@@ -26,6 +26,8 @@ var blockly = new function() {
   this.unsaved = false;
   this.generator = ev3dev2_generator;
 
+  this.pagesWorkspace = [];
+
   // Run on page load
   this.init = function() {
     Blockly.geras.Renderer.prototype.makeConstants_ = function() {
@@ -121,6 +123,25 @@ var blockly = new function() {
   this.loadLocalStorage = function() {
     self.loadXmlText(localStorage.getItem('blocklyXML'));
   };
+
+  // New workspace page
+  this.addWorkspacePage = function(pageName) {
+    self.workspacePages.push({
+      name: pageName,
+      XML: ''
+    })
+  };
+
+  // load workspace page
+  this.loadWorkspacePage = function(pageName) {
+    self.currentPage.XML = Blockly.Xml.workspaceToDom(self.workspace);
+
+    self.currentPage = self.workspacePages.find(page => page.name == pageName);
+
+    let dom = Blockly.Xml.textToDom(self.currentPage.XML);
+    self.workspace.clear();
+    Blockly.Xml.domToWorkspace(dom, self.workspace);
+  }
 
   //
   // Special generators
