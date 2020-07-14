@@ -20,7 +20,7 @@ var world_Sumo = new function() {
       options: [
         ['Fixed Dummies', 'fixedDummies'],
         ['Random Dummies', 'randomDummies'],
-        // ['No Border', 'randomNoRed'],
+        ['No Border', 'randomNoRed'],
         ['Pillars', 'fixedPillars'],
       ],
       optionsHTML: {
@@ -32,7 +32,7 @@ var world_Sumo = new function() {
           '<p>The dummies are randomly placed. Can your robot find them all?<p>',
         randomNoRed:
           '<p class="bold">Borderless ring.</p>' +
-          '<p>How to avoid falling off without a border? The dummies are randomly placed.<p>',
+          '<p>How to avoid falling off without a border?<p>',
         fixedPillars:
           '<p class="bold">Ring with pillars.</p>' +
           '<p>This sumo ring has pillars?<p>',
