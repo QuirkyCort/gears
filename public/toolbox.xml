@@ -173,6 +173,7 @@
         </shadow>
       </value>
     </block>
+    <block type="time"></block>
     <block type="exit"></block>
   </category>
   <category name="Logic" colour="#5b80a5">
@@ -329,13 +330,6 @@
   <category name="Text" colour="#5ba58c">
     <block type="text">
       <field name="TEXT"></field>
-    </block>
-    <block type="print">
-      <value name="text">
-        <shadow type="text">
-          <field name="TEXT">Hi</field>
-        </shadow>
-      </value>
     </block>
     <block type="text_join">
       <mutation items="2"></mutation>

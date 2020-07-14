@@ -25,7 +25,7 @@ var pybricks_generator = new function() {
     Blockly.Python['play_tone'] = self.play_tone;
     Blockly.Python['sleep'] = self.sleep;
     Blockly.Python['exit'] = self.exit;
-    Blockly.Python['print'] = self.print;
+    Blockly.Python['time'] = self.time;
   };
 
   // Generate python code
@@ -506,10 +506,9 @@ var pybricks_generator = new function() {
 
   // Print
   this.print = function(block) {
-    var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
+    var code = 'time.time()';
 
-    var code = 'print(' + value_text + ')\n';
-    return code;
+    return [code, Blockly.Python.ORDER_ATOMIC];
   };
 }
 

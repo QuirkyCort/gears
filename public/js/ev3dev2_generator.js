@@ -25,7 +25,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['play_tone'] = self.play_tone;
     Blockly.Python['sleep'] = self.sleep;
     Blockly.Python['exit'] = self.exit;
-    Blockly.Python['print'] = self.print;
+    Blockly.Python['time'] = self.time;
   };
 
   // Generate python code
@@ -477,12 +477,11 @@ var ev3dev2_generator = new function() {
     return code;
   };
 
-  // Print
-  this.print = function(block) {
-    var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
+  // time
+  this.time = function(block) {
+    var code = 'time.time()';
 
-    var code = 'print(' + value_text + ')\n';
-    return code;
+    return [code, Blockly.Python.ORDER_ATOMIC];
   };
 
 }

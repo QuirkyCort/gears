@@ -1,19 +1,4 @@
 [{
-  "type": "print",
-  "message0": "print %1",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "text"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 160,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
   "type": "when_started",
   "message0": "When Started",
   "nextStatement": null,
@@ -1208,5 +1193,13 @@
   "nextStatement": null,
   "colour": 20,
   "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "time",
+  "message0": "time",
+  "output": null,
+  "colour": 65,
+  "tooltip": "Current Unix time in seconds",
   "helpUrl": ""
 }]
