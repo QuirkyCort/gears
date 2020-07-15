@@ -493,6 +493,6 @@
       <field name="DIRECTION">1</field>
     </block>
   </category>
-  <category name="Variables" colour="#a55b80" custom="VARIABLE2"></category>
-  <category name="Functions" colour="#995ba5" custom="PROCEDURE2"></category>
+  <category name="Variables" colour="#a55b80" custom="VARIABLE"></category>
+  <category name="Functions" colour="#995ba5" custom="PROCEDURE"></category>
 </xml>
