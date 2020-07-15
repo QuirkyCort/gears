@@ -49,10 +49,7 @@ var blockly = new function() {
       .then(function(response) {
         var xml = (new DOMParser()).parseFromString(response, "text/xml");
         options.toolbox = xml.getElementById('toolbox');
-        self.workspace = Blockly.inject('blocklyHiddenDiv', options);
-        self.displayedWorkspace = Blockly.inject('blocklyDiv', options);
-        self.displayedWorkspace.addChangeListener(self.mirrorEvent);
-        self.registerCustomToolboxes();
+        self.workspace = Blockly.inject('blocklyDiv', options);
 
         self.loadDefaultWorkspace();
 
@@ -60,55 +57,15 @@ var blockly = new function() {
         self.loadLocalStorage();
         setTimeout(function(){
           self.workspace.addChangeListener(self.checkModified);
-        }, 2000);
+        }, 1000);
       });
-  };
-
-  // Register variables and procedures toolboxes callbacks
-  this.registerCustomToolboxes = function() {
-    self.displayedWorkspace.registerToolboxCategoryCallback('VARIABLE2', function(workspace) {
-      var xmlList = [];
-      var button = document.createElement('button');
-      button.setAttribute('text', '%{BKY_NEW_VARIABLE}');
-      button.setAttribute('callbackKey', 'CREATE_VARIABLE');
-
-      workspace.registerButtonCallback('CREATE_VARIABLE', function(button) {
-        Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace());
-        setTimeout(function(){
-          self.displayedWorkspace.toolbox_.refreshSelection()
-        }, 100);
-      });
-
-      xmlList.push(button);
-
-      var blockList = Blockly.Variables.flyoutCategoryBlocks(self.workspace);
-      xmlList = xmlList.concat(blockList);
-      return xmlList;
-    });
-
-    self.displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function(workspace){
-      return self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
-    });
-  };
-
-  // mirror from displayed to actual (hidden) workspace
-  this.mirrorEvent = function(primaryEvent) {
-    if (self.mirror == false) {
-      return;
-    }
-    if (primaryEvent instanceof Blockly.Events.Ui) {
-      return;
-    }
-    var json = primaryEvent.toJson();
-    var secondaryEvent = Blockly.Events.fromJson(json, self.workspace);
-    secondaryEvent.run(true);
   };
 
   // Load default workspace
   this.loadDefaultWorkspace = function() {
     let xmlText =
       '<xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">' +
-        '<block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38" deletable="false"><data>Main</data></block>' +
+        '<block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38" deletable="false"></block>' +
       '</xml>';
     self.loadXmlText(xmlText);
   };
@@ -167,53 +124,6 @@ var blockly = new function() {
     self.loadXmlText(localStorage.getItem('blocklyXML'));
   };
 
-  // Clear all blocks from displayed workspace
-  this.clearDisplayedWorkspace = function() {
-    self.mirror = false;
-    self.displayedWorkspace.clear();
-    setTimeout(function() {
-      self.mirror = true;
-    }, 200);
-  };
-
-  // Delete all blocks in page
-  this.deleteAllInPage = function(page) {
-    let blocks = self.workspace.getAllBlocks();
-    blocks.forEach(function(block){
-      if (block.data == page) {
-        block.dispose();
-      }
-    });
-  };
-
-  // Copy blocks of specified page into displayed workspace
-  this.showPage = function(page) {
-    self.mirror = false;
-    self.displayedWorkspace.clear();
-    self.workspace.getAllBlocks().forEach(function(block){
-      if (block.parentBlock_ == null && block.data == page) {
-        let dom = Blockly.Xml.blockToDomWithXY(block);
-        let xy = block.getRelativeToSurfaceXY();
-        let newBlock = Blockly.Xml.domToBlock(dom, self.displayedWorkspace);
-        newBlock.moveBy(xy.x, xy.y);
-      }
-    });
-    setTimeout(function() {
-      self.mirror = true;
-    }, 200);
-  };
-
-  // Assign orphen blocks to current page
-  this.assignOrphenToPage = function(page) {
-    let blocks = self.workspace.getAllBlocks();
-    blocks.forEach(function(block){
-      console.log(block.data)
-      if (typeof block.data == 'undefined' || ! block.data) {
-        block.data = page;
-      }
-    });
-  };
-
   //
   // Special generators
   //
@@ -224,8 +134,6 @@ var blockly = new function() {
         Blockly.VARIABLE_CATEGORY_NAME);
     return varName + ' += ' + argument0 + '\n';
   };
-
-
 }
 
 // Init class
