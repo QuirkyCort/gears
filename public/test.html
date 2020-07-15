@@ -107,11 +107,17 @@
       mirror = false;
       displayedWorkspace.clear();
       actualHiddenWorkspace.getAllBlocks().forEach(function(block){
-        if (block.data == page && block.parent == null) {
+        if (block.data == page && block.parentBlock_ == null) {
           let dom = Blockly.Xml.blockToDom(block);
           let displayedBlock = Blockly.Xml.domToBlock(dom, displayedWorkspace);
           let xy = block.getRelativeToSurfaceXY();
           displayedBlock.moveBy(xy.x, xy.y);
+        } else if (block.type == 'procedures_defnoreturn' || block.type == 'procedures_defreturn') {
+          let dom = Blockly.Xml.blockToDom(block);
+          let displayedBlock = Blockly.Xml.domToBlock(dom, displayedWorkspace);
+          displayedBlock.setMovable(false);
+          displayedBlock.setCollapsed(true);
+          displayedBlock.svgGroup_.style.display = 'none';
         }
       });
       setTimeout(function() {mirror = true;}, 200);
