@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Blockly Demo: Mirrored Blockly</title>
+  <title>Multi-page Blockly</title>
 
   <script src="blockly/3.20200402.1/blockly.js"></script>
   <script src="blockly/3.20200402.1/blocks.js"></script>
@@ -20,25 +20,25 @@
   </style>
 </head>
 <body>
-  <h1><a href="https://developers.google.com/blockly/">Blockly</a> &gt;
-    <a href="../index.html">Demos</a> &gt; Mirrored Blockly</h1>
-
-  <p>This is a simple demo of a primary Blockly instance that controls a secondary Blockly instance with events.
-  Open the JavaScript console to see the event passing.</p>
-
-  <p>&rarr; More info on <a href="https://developers.google.com/blockly/guides/configure/web/events">events</a>&hellip;</p>
+  <p>
+    The workspace on the left is displayed, while the one on the right is meant to be hidden (shown here for debugging).
+    When generating code, the right workspace is used.
+  </p>
 
   <table width="100%">
     <tr>
       <td>
         <div id="primaryDiv" style="height: 480px; width: 600px;"></div>
-        <div id="secondaryDiv" style="height: 480px; width: 1430px; position: absolute; top: -10000;"></div>
       </td>
       <td>
-        <!-- <div id="secondaryDiv" style="height: 480px; width: 430px;"></div> -->
+        <div id="secondaryDiv" style="height: 480px; width: 430px;"></div>
       </td>
     </tr>
   </table>
+  <select id="page">
+    <option>Main</option>
+    <option>Foobar</option>
+  </select>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
     <category name="Logic" categorystyle="logic_category">
@@ -56,19 +56,17 @@
   </xml>
 
   <script>
-    // Inject primary workspace.
-    var primaryWorkspace = Blockly.inject('primaryDiv',
-        {media: '../../media/',
+    // Inject workspaces.
+    var displayedWorkspace = Blockly.inject('primaryDiv',
+        {media: 'blockly/3.20200402.1/media/',
          toolbox: document.getElementById('toolbox')});
-    // Inject secondary workspace.
-    var secondaryWorkspace = Blockly.inject('secondaryDiv',
-        {media: '../../media/'});
-    // Listen to events on primary workspace.
-    primaryWorkspace.addChangeListener(mirrorEvent);
+    var actualHiddenWorkspace = Blockly.inject('secondaryDiv',
+        {media: 'blockly/3.20200402.1/media/'});
+    // Listen to events on displayed workspace.
+    displayedWorkspace.addChangeListener(mirrorEvent);
 
-    // Call back to duplicate secondary
-    // primaryWorkspace.registerToolboxCategoryCallback('VARIABLE2', secondaryWorkspace.toolboxCategoryCallbacks_.VARIABLE);
-    primaryWorkspace.registerToolboxCategoryCallback('VARIABLE2', function(workspace) {
+    // Display the variables and functions category based on the actual hidden workspace
+    displayedWorkspace.registerToolboxCategoryCallback('VARIABLE2', function(workspace) {
       var xmlList = [];
       var button = document.createElement('button');
       button.setAttribute('text', '%{BKY_NEW_VARIABLE}');
@@ -76,53 +74,60 @@
 
       workspace.registerButtonCallback('CREATE_VARIABLE', function(button) {
         Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace());
-        setTimeout(function(){primaryWorkspace.toolbox_.refreshSelection()}, 100);
+        setTimeout(function(){displayedWorkspace.toolbox_.refreshSelection()}, 100);
       });
 
       xmlList.push(button);
 
-      var blockList = Blockly.Variables.flyoutCategoryBlocks(secondaryWorkspace);
+      var blockList = Blockly.Variables.flyoutCategoryBlocks(actualHiddenWorkspace);
       xmlList = xmlList.concat(blockList);
       return xmlList;
     });
-    primaryWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function() {
-      return secondaryWorkspace.toolboxCategoryCallbacks_.PROCEDURE(secondaryWorkspace);
+    displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function() {
+      return actualHiddenWorkspace.toolboxCategoryCallbacks_.PROCEDURE(actualHiddenWorkspace);
     });
 
+    // Only mirror events if mirror is true.
+    // This let us clear the displayed workspace without clearing the actual hidden workspace.
     var mirror = true;
     function mirrorEvent(primaryEvent) {
       if (mirror == false) {
         return;
       }
-      // console.log(primaryEvent);
       if (primaryEvent instanceof Blockly.Events.Ui) {
         return;  // Don't mirror UI events.
       }
-      // Convert event to JSON.  This could then be transmitted across the net.
       var json = primaryEvent.toJson();
-      // Convert JSON back into an event, then execute it.
-      var secondaryEvent = Blockly.Events.fromJson(json, secondaryWorkspace);
+      var secondaryEvent = Blockly.Events.fromJson(json, actualHiddenWorkspace);
       secondaryEvent.run(true);
     }
 
     function clearPrimary() {
       mirror = false;
-      primaryWorkspace.clear();
+      displayedWorkspace.clear();
       setTimeout(function() {mirror = true;}, 200);
     }
 
-    function secToPri() {
+    function hiddenToDisplayed() {
       mirror = false;
-      secondaryWorkspace.getAllBlocks().forEach(function(block){
+      actualHiddenWorkspace.getAllBlocks().forEach(function(block){
         if (block.parentBlock_ == null) {
           let dom = Blockly.Xml.blockToDomWithXY(block);
           let xy = block.getRelativeToSurfaceXY();
-          newBlock = Blockly.Xml.domToBlock(dom, primaryWorkspace);
+          newBlock = Blockly.Xml.domToBlock(dom, displayedWorkspace);
           newBlock.moveBy(xy.x, xy.y);
         }
       });
       setTimeout(function() {mirror = true;}, 200);
     }
+
+    // Handle page changes
+    var currentPage = 'Main';
+
+    document.getElementById('page').onchange = function(evt){
+      assignPageless();
+      currentPage = document.getElementById('page').value;
+    };
 </script>
 
 </body>
