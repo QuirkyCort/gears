@@ -102,31 +102,37 @@
       secondaryEvent.run(true);
     }
 
-    function clearPrimary() {
+    // Clear display workspace and copy from actual workspace all blocks with data == page
+    function showPage(page) {
       mirror = false;
       displayedWorkspace.clear();
-      setTimeout(function() {mirror = true;}, 200);
-    }
-
-    function hiddenToDisplayed() {
-      mirror = false;
       actualHiddenWorkspace.getAllBlocks().forEach(function(block){
-        if (block.parentBlock_ == null) {
-          let dom = Blockly.Xml.blockToDomWithXY(block);
+        if (block.data == page && block.parent == null) {
+          let dom = Blockly.Xml.blockToDom(block);
+          let displayedBlock = Blockly.Xml.domToBlock(dom, displayedWorkspace);
           let xy = block.getRelativeToSurfaceXY();
-          newBlock = Blockly.Xml.domToBlock(dom, displayedWorkspace);
-          newBlock.moveBy(xy.x, xy.y);
+          displayedBlock.moveBy(xy.x, xy.y);
         }
       });
       setTimeout(function() {mirror = true;}, 200);
     }
 
+    // Assign blocks without a page to current page
+    function assignPageless() {
+      actualHiddenWorkspace.getAllBlocks().forEach(function(block){
+        if (! block.data) {
+          block.data = currentPage;
+        }
+      });
+    }
+
     // Handle page changes
     var currentPage = 'Main';
 
-    document.getElementById('page').onchange = function(evt){
+    document.getElementById('page').onchange = function(){
       assignPageless();
       currentPage = document.getElementById('page').value;
+      showPage(currentPage);
     };
 </script>
 
