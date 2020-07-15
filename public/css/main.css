@@ -133,8 +133,6 @@ ul.menuDropDown {
   background: #E4F0FE;
   border: solid 1px #bbbbbb;
   position: absolute;
-  top: 71px;
-  left: 272px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -153,6 +151,9 @@ ul.menuDropDown {
     border-bottom: solid 1px #bbbbbb; }
   ul.menuDropDown .tick {
     color: green; }
+
+ul.menuDropDownRightAlign {
+  top: 100%; }
 
 .blocklyEditor .disable {
   position: absolute;

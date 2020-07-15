@@ -14,11 +14,12 @@ function menuDropDown($menuBtn, menuItems, options) {
     $dropDown.append($li);
   });
 
-  let top = $menuBtn[0].offsetTop + $menuBtn[0].offsetHeight;
   if (options.parentIsAbsolute) {
-    top = $menuBtn[0].offsetHeight;
+    $dropDown.addClass('menuDropDownRightAlign')
+  } else {
+    let top = $menuBtn[0].offsetTop + $menuBtn[0].offsetHeight;
+    $dropDown.css('top', top);
   }
-  $dropDown.css('top', top);
 
   if (options.align == 'right') {
     $dropDown.css('left', 'auto');

@@ -60,6 +60,8 @@ var blocklyPanel = new function() {
 
     confirmDialog('Delete "' + self.currentPage + '" page?', function(){
       self.pages = self.pages.filter(page => page != self.currentPage);
+      blockly.assignOrphenToPage(self.currentPage);
+      blockly.deleteAllInPage(self.currentPage);
       self.loadPage('Main');
     });
   };
@@ -71,8 +73,10 @@ var blocklyPanel = new function() {
 
   // Load selected page
   this.loadPage = function(page) {
+    blockly.assignOrphenToPage(self.currentPage);
     self.currentPage = page;
     self.$pagesMenu.find('span.currentPage').text(page);
+    blockly.showPage(self.currentPage);
   };
 
   // Run when panel made active

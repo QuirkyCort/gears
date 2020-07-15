@@ -26,7 +26,7 @@ var blockly = new function() {
   this.unsaved = false;
   this.generator = ev3dev2_generator;
 
-  this.pagesWorkspace = [];
+  this.mirror = true;
 
   // Run on page load
   this.init = function() {
@@ -49,7 +49,10 @@ var blockly = new function() {
       .then(function(response) {
         var xml = (new DOMParser()).parseFromString(response, "text/xml");
         options.toolbox = xml.getElementById('toolbox');
-        self.workspace = Blockly.inject('blocklyDiv', options);
+        self.workspace = Blockly.inject('blocklyHiddenDiv', options);
+        self.displayedWorkspace = Blockly.inject('blocklyDiv', options);
+        self.displayedWorkspace.addChangeListener(self.mirrorEvent);
+        self.registerCustomToolboxes();
 
         self.loadDefaultWorkspace();
 
@@ -61,11 +64,51 @@ var blockly = new function() {
       });
   };
 
+  // Register variables and procedures toolboxes callbacks
+  this.registerCustomToolboxes = function() {
+    self.displayedWorkspace.registerToolboxCategoryCallback('VARIABLE2', function(workspace) {
+      var xmlList = [];
+      var button = document.createElement('button');
+      button.setAttribute('text', '%{BKY_NEW_VARIABLE}');
+      button.setAttribute('callbackKey', 'CREATE_VARIABLE');
+
+      workspace.registerButtonCallback('CREATE_VARIABLE', function(button) {
+        Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace());
+        setTimeout(function(){
+          self.displayedWorkspace.toolbox_.refreshSelection()
+        }, 100);
+      });
+
+      xmlList.push(button);
+
+      var blockList = Blockly.Variables.flyoutCategoryBlocks(self.workspace);
+      xmlList = xmlList.concat(blockList);
+      return xmlList;
+    });
+
+    self.displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function(workspace){
+      return self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
+    });
+  };
+
+  // mirror from displayed to actual (hidden) workspace
+  this.mirrorEvent = function(primaryEvent) {
+    if (self.mirror == false) {
+      return;
+    }
+    if (primaryEvent instanceof Blockly.Events.Ui) {
+      return;
+    }
+    var json = primaryEvent.toJson();
+    var secondaryEvent = Blockly.Events.fromJson(json, self.workspace);
+    secondaryEvent.run(true);
+  };
+
   // Load default workspace
   this.loadDefaultWorkspace = function() {
     let xmlText =
       '<xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">' +
-        '<block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38" deletable="false"></block>' +
+        '<block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38" deletable="false"><data>Main</data></block>' +
       '</xml>';
     self.loadXmlText(xmlText);
   };
@@ -124,24 +167,52 @@ var blockly = new function() {
     self.loadXmlText(localStorage.getItem('blocklyXML'));
   };
 
-  // New workspace page
-  this.addWorkspacePage = function(pageName) {
-    self.workspacePages.push({
-      name: pageName,
-      XML: ''
-    })
+  // Clear all blocks from displayed workspace
+  this.clearDisplayedWorkspace = function() {
+    self.mirror = false;
+    self.displayedWorkspace.clear();
+    setTimeout(function() {
+      self.mirror = true;
+    }, 200);
   };
 
-  // load workspace page
-  this.loadWorkspacePage = function(pageName) {
-    self.currentPage.XML = Blockly.Xml.workspaceToDom(self.workspace);
+  // Delete all blocks in page
+  this.deleteAllInPage = function(page) {
+    let blocks = self.workspace.getAllBlocks();
+    blocks.forEach(function(block){
+      if (block.data == page) {
+        block.dispose();
+      }
+    });
+  };
 
-    self.currentPage = self.workspacePages.find(page => page.name == pageName);
+  // Copy blocks of specified page into displayed workspace
+  this.showPage = function(page) {
+    self.mirror = false;
+    self.displayedWorkspace.clear();
+    self.workspace.getAllBlocks().forEach(function(block){
+      if (block.parentBlock_ == null && block.data == page) {
+        let dom = Blockly.Xml.blockToDomWithXY(block);
+        let xy = block.getRelativeToSurfaceXY();
+        let newBlock = Blockly.Xml.domToBlock(dom, self.displayedWorkspace);
+        newBlock.moveBy(xy.x, xy.y);
+      }
+    });
+    setTimeout(function() {
+      self.mirror = true;
+    }, 200);
+  };
 
-    let dom = Blockly.Xml.textToDom(self.currentPage.XML);
-    self.workspace.clear();
-    Blockly.Xml.domToWorkspace(dom, self.workspace);
-  }
+  // Assign orphen blocks to current page
+  this.assignOrphenToPage = function(page) {
+    let blocks = self.workspace.getAllBlocks();
+    blocks.forEach(function(block){
+      console.log(block.data)
+      if (typeof block.data == 'undefined' || ! block.data) {
+        block.data = page;
+      }
+    });
+  };
 
   //
   // Special generators
