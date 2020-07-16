@@ -109,7 +109,7 @@ var blockly = new function() {
   this.loadDefaultWorkspace = function() {
     let xmlText =
       '<xml xmlns="https://developers.google.com/blockly/xml">' +
-        '<block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38" deletable="false"></block>' +
+        '<block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38" deletable="false"><data>Main</data></block>' +
       '</xml>';
     self.loadXmlText(xmlText);
   };

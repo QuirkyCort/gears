@@ -188,6 +188,7 @@ var main = new function() {
       var reader = new FileReader();
       reader.onload = function() {
         blockly.importXmlTextFunctions(this.result);
+        toastMsg('Functions imported');
       };
       reader.readAsText(e.target.files[0]);
     });

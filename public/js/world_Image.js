@@ -76,7 +76,7 @@ var world_Image = new function() {
       option: 'startPosXY',
       title: 'Starting Position (x, y)',
       type: 'text',
-      help: 'Enter using this format "x, y" (without quotes) and it will override the above. Center of image is "0, 0".'
+      help: 'Enter using this format "x, y" (in cm, without quotes) and it will override the above. Center of image is "0, 0".'
     }
   ];
 
