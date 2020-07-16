@@ -244,15 +244,26 @@ var blockly = new function() {
   this.showPage = function(page) {
     self.mirror = false;
     self.displayedWorkspace.clear();
+
+    let xy = null;
     self.workspace.getAllBlocks().forEach(function(block){
       if (block.parentBlock_ == null && block.data == page) {
         let dom = Blockly.Xml.blockToDomWithXY(block);
-        let xy = block.getRelativeToSurfaceXY();
+        xy = block.getRelativeToSurfaceXY();
         let displayedBlock = Blockly.Xml.domToBlock(dom, self.displayedWorkspace);
         displayedBlock.moveBy(xy.x, xy.y);
-      } else if (block.type == 'procedures_defnoreturn' || block.type == 'procedures_defreturn') {
+      }
+    });
+    self.workspace.getAllBlocks().forEach(function(block){
+      if (
+        block.data != page
+        && (block.type == 'procedures_defnoreturn' || block.type == 'procedures_defreturn')
+      ) {
         let dom = Blockly.Xml.blockToDom(block);
         let displayedBlock = Blockly.Xml.domToBlock(dom, self.displayedWorkspace);
+        if (xy) {
+          displayedBlock.moveBy(xy.x, xy.y);
+        }
         displayedBlock.setMovable(false);
         displayedBlock.setCollapsed(true);
         displayedBlock.setDeletable(false);
