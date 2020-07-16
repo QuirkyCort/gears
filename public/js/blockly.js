@@ -57,6 +57,7 @@ var blockly = new function() {
         self.loadDefaultWorkspace();
 
         self.workspace.addChangeListener(Blockly.Events.disableOrphans);
+        self.displayedWorkspace.addChangeListener(Blockly.Events.disableOrphans);
         self.loadLocalStorage();
         setTimeout(function(){
           self.workspace.addChangeListener(self.checkModified);
@@ -107,7 +108,7 @@ var blockly = new function() {
   // Load default workspace
   this.loadDefaultWorkspace = function() {
     let xmlText =
-      '<xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">' +
+      '<xml xmlns="https://developers.google.com/blockly/xml">' +
         '<block type="when_started" id="Q!^ZqS4/(a/0XL$cIi-~" x="63" y="38" deletable="false"></block>' +
       '</xml>';
     self.loadXmlText(xmlText);
@@ -150,9 +151,9 @@ var blockly = new function() {
     let oldXmlText = self.getXmlText();
     if (xmlText) {
       try {
-        var xml = Blockly.Xml.textToDom(xmlText);
+        let dom = Blockly.Xml.textToDom(xmlText);
         self.workspace.clear();
-        Blockly.Xml.domToWorkspace(xml, self.workspace);
+        Blockly.Xml.domToWorkspace(dom, self.workspace);
         self.assignOrphenToPage('Main');
         self.showPage('Main');
 
@@ -168,6 +169,47 @@ var blockly = new function() {
         console.log(err);
         toastMsg('Invalid Blocks');
         self.loadXmlText(oldXmlText);
+      }
+    }
+  };
+
+  // import functions from xmlText to workspace
+  this.importXmlTextFunctions = function(xmlText) {
+    if (xmlText) {
+      try {
+        let procs = [];
+        let dom = Blockly.Xml.textToDom(xmlText);
+
+        // Save all functions
+        dom.querySelectorAll('[type="procedures_defnoreturn"]').forEach(function(block){
+          procs.push(block);
+        });
+        dom.querySelectorAll('[type="procedures_defreturn"]').forEach(function(block){
+          procs.push(block);
+        });
+
+        // Empty dom
+        dom = Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
+        procs.forEach(function(block){
+          dom.append(block);
+        });
+
+        Blockly.Xml.domToWorkspace(dom, self.workspace);
+        self.assignOrphenToPage('Main');
+
+        let pages = [];
+        self.workspace.getAllBlocks().forEach(function(block){
+          if (pages.indexOf(block.data) == -1) {
+            pages.push(block.data);
+          }
+        });
+        blocklyPanel.loadPagesOptions(pages);
+
+        self.showPage('Main');
+      }
+      catch (err) {
+        console.log(err);
+        toastMsg('Invalid Blocks');
       }
     }
   };
@@ -213,6 +255,7 @@ var blockly = new function() {
         let displayedBlock = Blockly.Xml.domToBlock(dom, self.displayedWorkspace);
         displayedBlock.setMovable(false);
         displayedBlock.setCollapsed(true);
+        displayedBlock.setDeletable(false);
         displayedBlock.svgGroup_.style.display = 'none';
       }
     });
@@ -237,6 +280,23 @@ var blockly = new function() {
     blocks.forEach(function(block){
       if (block.data == from) {
         block.data = to;
+      }
+    });
+    self.unsaved = true;
+    blocklyPanel.showSave();
+  };
+
+  // Copy page
+  this.copyPage = function(from, to) {
+    let blocks = self.workspace.getAllBlocks();
+    blocks.forEach(function(block){
+      if (block.parentBlock_ == null && block.data == from && block.type != 'when_started') {
+        let dom = Blockly.Xml.blockToDom(block);
+        let newBlock = Blockly.Xml.domToBlock(dom, self.workspace);
+        newBlock.data = to;
+        newBlock.getDescendants().forEach(function(desc){
+          desc.data = to;
+        })
       }
     });
     self.unsaved = true;

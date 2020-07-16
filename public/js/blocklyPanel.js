@@ -22,6 +22,15 @@ var blocklyPanel = new function() {
     } else {
       self.pages = pages;
     }
+    self.pages.sort(function(a,b) {
+      if (a == 'Main') {
+        return -1;
+      } else if (b == 'Main') {
+        return 1;
+      } else {
+        return a > b;
+      }
+    });
 
     if (typeof currentPage == 'undefined') {
       self.currentPage = 'Main';
@@ -38,6 +47,7 @@ var blocklyPanel = new function() {
 
       let menuItems = [
         {html: 'Add Page', line: false, callback: self.addPage},
+        {html: 'Copy Current Page', line: false, callback: self.copyCurrentPage},
         {html: 'Rename Current Page', line: false, callback: self.renameCurrentPage},
         {html: 'Delete Current Page', line: true, callback: self.deleteCurrentPage}
       ];
@@ -71,6 +81,27 @@ var blocklyPanel = new function() {
     toastMsg('Page "' + newPage + '" added.');
   };
 
+  // Copy page
+  this.copyCurrentPage = function() {
+    var destinationName = prompt('Copy to page name', self.currentPage);
+    if (!destinationName) {
+      return;
+    }
+
+    destinationName = destinationName.trim();
+    if (destinationName == '') {
+      return;
+    }
+
+    if (self.pages.filter(page => page == destinationName).length == 0) {
+      self.pages.push(destinationName);
+    }
+    blockly.assignOrphenToPage(self.currentPage);
+    blockly.copyPage(self.currentPage, destinationName);
+    toastMsg('Page "' + self.currentPage + '" copied to "' + destinationName + '".');
+    self.loadPage(destinationName);
+  };
+
   // Rename page
   this.renameCurrentPage = function() {
     if (self.currentPage == 'Main') {
@@ -87,12 +118,15 @@ var blocklyPanel = new function() {
     if (newName == '') {
       return;
     }
+    if (self.pages.filter(page => page == newPage).length > 0) {
+      toastMsg('Page name "' + newPage + '" is already in use.');
+      return;
+    }
 
     let i = self.pages.indexOf(self.currentPage);
     self.pages[i] = newName;
     blockly.changePageName(self.currentPage, newName);
-    self.currentPage = newName;
-    self.loadPage(self.currentPage);
+    self.loadPage(newName);
   };
 
   // Delete current page

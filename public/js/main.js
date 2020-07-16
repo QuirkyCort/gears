@@ -159,6 +159,7 @@ var main = new function() {
 
       let menuItems = [
         {html: 'Load blocks from your computer', line: false, callback: self.loadFromComputer},
+        {html: 'Import functions from blocks file', line: false, callback: self.importFunctionsFromFile},
         {html: 'Save blocks to your computer', line: true, callback: self.saveToComputer},
         {html: 'Load Python from your computer', line: false, callback: self.loadPythonFromComputer},
         {html: 'Save Python to your computer', line: false, callback: self.savePythonToComputer},
@@ -175,6 +176,21 @@ var main = new function() {
     hiddenElement.target = '_blank';
     hiddenElement.download = 'gearsBot.xml';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
+  // import functions from file
+  this.importFunctionsFromFile = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'application/xml,.xml';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        blockly.importXmlTextFunctions(this.result);
+      };
+      reader.readAsText(e.target.files[0]);
+    });
   };
 
   // load from computer
