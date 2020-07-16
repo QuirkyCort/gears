@@ -117,6 +117,7 @@
           let displayedBlock = Blockly.Xml.domToBlock(dom, displayedWorkspace);
           displayedBlock.setMovable(false);
           displayedBlock.setCollapsed(true);
+          displayedBlock.setDeletable(false);
           displayedBlock.svgGroup_.style.display = 'none';
         }
       });

@@ -118,8 +118,8 @@ var blocklyPanel = new function() {
     if (newName == '') {
       return;
     }
-    if (self.pages.filter(page => page == newPage).length > 0) {
-      toastMsg('Page name "' + newPage + '" is already in use.');
+    if (self.pages.filter(page => page == newName).length > 0) {
+      toastMsg('Page name "' + newName + '" is already in use.');
       return;
     }
 
