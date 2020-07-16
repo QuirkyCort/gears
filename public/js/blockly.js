@@ -49,7 +49,10 @@ var blockly = new function() {
       .then(function(response) {
         var xml = (new DOMParser()).parseFromString(response, "text/xml");
         options.toolbox = xml.getElementById('toolbox');
-        self.workspace = Blockly.inject('blocklyDiv', options);
+        self.workspace = Blockly.inject('blocklyHiddenDiv', options);
+        self.displayedWorkspace = Blockly.inject('blocklyDiv', options);
+        self.displayedWorkspace.addChangeListener(self.mirrorEvent);
+        self.registerCustomToolboxes();
 
         self.loadDefaultWorkspace();
 
@@ -59,6 +62,46 @@ var blockly = new function() {
           self.workspace.addChangeListener(self.checkModified);
         }, 1000);
       });
+  };
+
+  // Register variables and procedures toolboxes callbacks
+  this.registerCustomToolboxes = function() {
+    self.displayedWorkspace.registerToolboxCategoryCallback('VARIABLE2', function(workspace) {
+      var xmlList = [];
+      var button = document.createElement('button');
+      button.setAttribute('text', '%{BKY_NEW_VARIABLE}');
+      button.setAttribute('callbackKey', 'CREATE_VARIABLE');
+
+      workspace.registerButtonCallback('CREATE_VARIABLE', function(button) {
+        Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace());
+        setTimeout(function(){
+          self.displayedWorkspace.toolbox_.refreshSelection()
+        }, 100);
+      });
+
+      xmlList.push(button);
+
+      var blockList = Blockly.Variables.flyoutCategoryBlocks(self.workspace);
+      xmlList = xmlList.concat(blockList);
+      return xmlList;
+    });
+
+    self.displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function(workspace){
+      return self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
+    });
+  };
+
+  // mirror from displayed to actual (hidden) workspace
+  this.mirrorEvent = function(primaryEvent) {
+    if (self.mirror == false) {
+      return;
+    }
+    if (primaryEvent instanceof Blockly.Events.Ui) {
+      return;
+    }
+    var json = primaryEvent.toJson();
+    var secondaryEvent = Blockly.Events.fromJson(json, self.workspace);
+    secondaryEvent.run(true);
   };
 
   // Load default workspace
@@ -110,6 +153,16 @@ var blockly = new function() {
         var xml = Blockly.Xml.textToDom(xmlText);
         self.workspace.clear();
         Blockly.Xml.domToWorkspace(xml, self.workspace);
+        self.assignOrphenToPage('Main');
+        self.showPage('Main');
+
+        let pages = [];
+        self.workspace.getAllBlocks().forEach(function(block){
+          if (pages.indexOf(block.data) == -1) {
+            pages.push(block.data);
+          }
+        });
+        blocklyPanel.loadPagesOptions(pages);
       }
       catch (err) {
         console.log(err);
@@ -122,6 +175,72 @@ var blockly = new function() {
   // Load from local storage
   this.loadLocalStorage = function() {
     self.loadXmlText(localStorage.getItem('blocklyXML'));
+  };
+
+  // Clear all blocks from displayed workspace
+  this.clearDisplayedWorkspace = function() {
+    self.mirror = false;
+    self.displayedWorkspace.clear();
+    setTimeout(function() {
+      self.mirror = true;
+    }, 200);
+  };
+
+  // Delete all blocks in page
+  this.deleteAllInPage = function(page) {
+    let blocks = self.workspace.getAllBlocks();
+    blocks.forEach(function(block){
+      if (block.data == page) {
+        block.dispose();
+      }
+    });
+    self.unsaved = true;
+    blocklyPanel.showSave();
+  };
+
+  // Copy blocks of specified page into displayed workspace
+  this.showPage = function(page) {
+    self.mirror = false;
+    self.displayedWorkspace.clear();
+    self.workspace.getAllBlocks().forEach(function(block){
+      if (block.parentBlock_ == null && block.data == page) {
+        let dom = Blockly.Xml.blockToDomWithXY(block);
+        let xy = block.getRelativeToSurfaceXY();
+        let displayedBlock = Blockly.Xml.domToBlock(dom, self.displayedWorkspace);
+        displayedBlock.moveBy(xy.x, xy.y);
+      } else if (block.type == 'procedures_defnoreturn' || block.type == 'procedures_defreturn') {
+        let dom = Blockly.Xml.blockToDom(block);
+        let displayedBlock = Blockly.Xml.domToBlock(dom, self.displayedWorkspace);
+        displayedBlock.setMovable(false);
+        displayedBlock.setCollapsed(true);
+        displayedBlock.svgGroup_.style.display = 'none';
+      }
+    });
+    setTimeout(function() {
+      self.mirror = true;
+    }, 200);
+  };
+
+  // Assign orphen blocks to current page
+  this.assignOrphenToPage = function(page) {
+    let blocks = self.workspace.getAllBlocks();
+    blocks.forEach(function(block){
+      if (typeof block.data == 'undefined' || ! block.data) {
+        block.data = page;
+      }
+    });
+  };
+
+  // Change page name
+  this.changePageName = function(from, to) {
+    let blocks = self.workspace.getAllBlocks();
+    blocks.forEach(function(block){
+      if (block.data == from) {
+        block.data = to;
+      }
+    });
+    self.unsaved = true;
+    blocklyPanel.showSave();
   };
 
   //

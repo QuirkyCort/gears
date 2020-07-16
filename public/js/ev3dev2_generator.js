@@ -32,7 +32,9 @@ var ev3dev2_generator = new function() {
   // Generate python code
   this.genCode = function() {
     let code =
-      '#!/usr/bin/env python3\n\n' +
+      '#!/usr/bin/env python3\n' +
+      `\n` +
+      '# Import the necessary libraries\n' +
       'import time\n' +
       'import math\n' +
       'from ev3dev2.motor import *\n' +
@@ -41,6 +43,7 @@ var ev3dev2_generator = new function() {
       'from ev3dev2.sensor.lego import *\n' +
       'from ev3dev2.sensor.virtual import *\n' +
       '\n' +
+      '# Create the sensors and motors objects\n' +
       'motorA = LargeMotor(OUTPUT_A)\n' +
       'motorB = LargeMotor(OUTPUT_B)\n' +
       'left_motor = motorA\n' +
@@ -48,7 +51,8 @@ var ev3dev2_generator = new function() {
       'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
       'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
       '\n' +
-      'spkr = Sound()\n\n';
+      'spkr = Sound()\n' +
+      '\n';
 
     var sensorsCode = '';
     var i = 1;
@@ -82,7 +86,9 @@ var ev3dev2_generator = new function() {
     code += sensorsCode + '\n';
     code += motorsCode + '\n';
 
-    code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
+    code += '# Here is where your code starts\n\n';
+
+    code += Blockly.Python.workspaceToCode(blockly.workspace);
     return code
   };
 

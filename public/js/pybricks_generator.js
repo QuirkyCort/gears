@@ -32,22 +32,58 @@ var pybricks_generator = new function() {
   // Generate python code
   this.genCode = function() {
     let code =
-      '#!/usr/bin/env pybricks-micropython\n\n' +
+      '#!/usr/bin/env pybricks-micropython\n' +
+      '\n' +
+      '# Import the necessary libraries\n' +
       'from pybricks.ev3devices import *\n' +
       'from pybricks.parameters import Port\n' +
       'from pybricks.tools import wait\n' +
       'from pybricks.robotics import DriveBase\n' +
       'from pybricks.virtual import *\n' +
       '\n' +
+      '# Create the sensors and motors objects\n' +
       'ev3 = EV3Brick()\n' +
       '\n' +
       'motorA = Motor(PORT.A)\n' +
       'motorB = Motor(PORT.B)\n' +
       'left_motor = motorA\n' +
       'right_motor = motorB\n' +
-      '\n' +
-      '# Pybricks lacks move_tank and move_steering,\n' +
-      '# so we\'ll need to add in our own equivalent functions\n' +
+      '\n';
+
+    var sensorsCode = '';
+    var i = 1;
+    var sensor = null;
+    while (sensor = robot.getComponentByPort('in' + i)) {
+      if (sensor.type == 'ColorSensor') {
+        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(PORT.S' + i + ')\n';
+      } else if (sensor.type == 'UltrasonicSensor') {
+        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(PORT.S' + i + ')\n';
+      } else if (sensor.type == 'GyroSensor') {
+        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(PORT.S' + i + ')\n';
+      } else if (sensor.type == 'GPSSensor') {
+        sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(port.s' + i + ')\n';
+      }
+      i++;
+    }
+
+    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var motorsCode = '';
+    i = 3;
+    var motor = null;
+    while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
+      if (motor.type == 'MagnetActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Magnet\n';
+      } else if (motor.type == 'ArmActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Arm\n';
+      }
+      i++;
+    }
+
+    code += sensorsCode + '\n';
+    code += motorsCode + '\n';
+
+    code +=
+      '# Pybricks lacks move_tank and move_steering, so we\'ll add in our own\n' +
       'def move_tank(left, right):\n' +
       '  left_motor.run(left)\n' +
       '  right_motor.run(right)\n' +
@@ -91,39 +127,9 @@ var pybricks_generator = new function() {
       '  (left_speed, right_speed) = get_speed_steering(steering, speed)\n' +
       '  move_tank_for_degrees(left_speed, right_speed, milliseconds)\n\n';
 
-    var sensorsCode = '';
-    var i = 1;
-    var sensor = null;
-    while (sensor = robot.getComponentByPort('in' + i)) {
-      if (sensor.type == 'ColorSensor') {
-        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(PORT.S' + i + ')\n';
-      } else if (sensor.type == 'UltrasonicSensor') {
-        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(PORT.S' + i + ')\n';
-      } else if (sensor.type == 'GyroSensor') {
-        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(PORT.S' + i + ')\n';
-      } else if (sensor.type == 'GPSSensor') {
-        sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(port.s' + i + ')\n';
-      }
-      i++;
-    }
+    code += '# Here is where your code starts\n\n';
 
-    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var motorsCode = '';
-    i = 3;
-    var motor = null;
-    while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
-      if (motor.type == 'MagnetActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Magnet\n';
-      } else if (motor.type == 'ArmActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Arm\n';
-      }
-      i++;
-    }
-
-    code += sensorsCode + '\n';
-    code += motorsCode + '\n';
-
-    code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
+    code += Blockly.Python.workspaceToCode(blockly.workspace);
     return code
   };
 
