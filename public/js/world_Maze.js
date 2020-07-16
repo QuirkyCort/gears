@@ -15,6 +15,26 @@ var world_Maze = new function() {
 
   this.optionsConfigurations = [
     {
+      option: 'mazeType',
+      title: 'Maze Type',
+      type: 'selectWithHTML',
+      options: [
+        ['Perfect', 'perfect'],
+        ['Imperfect', 'imperfect']
+      ],
+      optionsHTML: {
+        perfect:
+          '<p>Perfect mazes have no loops or isolated walls. ' +
+          'For this maze, your robot will always start at the bottom left corner.<p>',
+        imperfect:
+          '<p>Imperfect mazes may have loops and isolated wall segments. ' +
+          'This may make it slightly easier for a human to solve, but can also make it harder for a computer.</p>' +
+          '<p>When generating an imperfect maze, the columns and rows must always be an odd number. ' +
+          'It\'s also preferable to generate a large maze. ' +
+          'Your robot will start at the center of the maze.</p>',
+      }
+    },
+    {
       option: 'columns',
       title: 'Number of columns',
       type: 'slider',
@@ -55,6 +75,7 @@ var world_Maze = new function() {
   ];
 
   this.defaultOptions = {
+    mazeType: 'perfect',
     columns: 8,
     rows: 8,
     size: 40,
@@ -65,6 +86,7 @@ var world_Maze = new function() {
     wallFriction: 0.1,
     groundRestitution: 0.0,
     wallRestitution: 0.1,
+    wallRemovalLimit: 0.05,
     startPos: 'center'
   };
 
@@ -83,11 +105,20 @@ var world_Maze = new function() {
       }
     }
 
-    self.robotStart.position = new BABYLON.Vector3(
-      -(self.options.columns / 2 * self.options.size) + self.options.size / 2,
-      0,
-      -(self.options.rows / 2 * self.options.size) + self.options.size / 2,
-    );
+    if (self.options.mazeType == 'perfect') {
+      self.robotStart.position = new BABYLON.Vector3(
+        -(self.options.columns / 2 * self.options.size) + self.options.size / 2,
+        0,
+        -(self.options.rows / 2 * self.options.size) + self.options.size / 2,
+      );
+    } else if (self.options.mazeType == 'imperfect') {
+      self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
+    }
+
+    if (self.options.mazeType == 'imperfect') {
+      if (self.options.columns % 2 == 0) self.options.columns++;
+      if (self.options.rows % 2 == 0) self.options.rows++;
+    }
 
     return new Promise(function(resolve, reject) {
       resolve();
@@ -101,7 +132,13 @@ var world_Maze = new function() {
 
   // Create the scene
   this.load = function (scene) {
+    self.setSeed(self.options.seed);
     let walls = self.buildMazeArray();
+
+    if (self.options.mazeType == 'imperfect') {
+      console.log('rem')
+      walls = self.removeRandomWalls(walls, self.options.wallRemovalLimit);
+    }
 
     return new Promise(function(resolve, reject) {
       self.loadBaseMap(scene, walls.colWalls, walls.rowWalls);
@@ -315,7 +352,42 @@ var world_Maze = new function() {
         }
       }
     }
-  }
+  };
+
+  // Remove random walls
+  this.removeRandomWalls = function(walls, limit=0.05) {
+    for (let i=0; i<walls.colWalls.length; i++) {
+      if (self.mulberry32() < limit) {
+        walls.colWalls[i] = false;
+      }
+    }
+    for (let i=0; i<walls.rowWalls.length; i++) {
+      if (self.mulberry32() < limit) {
+        walls.rowWalls[i] = false;
+      }
+    }
+
+    return walls;
+  };
+
+  // Set the random number seed
+  this.setSeed = function(seed) {
+    if (typeof seed == 'undefined' || seed == null) {
+      self.seed = Date.now();
+    } else {
+      self.seed = parseFloat(seed);
+    }
+  };
+
+  // Generate random number
+  this.mulberry32 = function() {
+    var t = self.seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    let result = ((t ^ t >>> 14) >>> 0) / 4294967296;
+    self.seed = result * 4294967296;
+    return result;
+  };
 
   // Build a maze array
   this.buildMazeArray = function() {
@@ -334,20 +406,6 @@ var world_Maze = new function() {
     var current = { r: 0, c: 0 };
     var count = 1;
     visited[0][0] = true;
-
-    let seed = Date.now();
-    if (self.options.seed !== null) {
-      seed = parseFloat(self.options.seed);
-    }
-
-    function mulberry32() {
-      var t = seed += 0x6D2B79F5;
-      t = Math.imul(t ^ t >>> 15, t | 1);
-      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-      let result = ((t ^ t >>> 14) >>> 0) / 4294967296;
-      seed = result * 4294967296;
-      return result;
-    }
 
     function isVisited(dr, dc) {
       let r = current.r + dr;
@@ -382,7 +440,7 @@ var world_Maze = new function() {
       if (unvisited.length == 0) {
         return null;
       } else {
-        let selected = unvisited[Math.floor(mulberry32() * unvisited.length)];
+        let selected = unvisited[Math.floor(self.mulberry32() * unvisited.length)];
         return {
           r: current.r + selected[0],
           c: current.c + selected[1]
