@@ -22,7 +22,8 @@ var robotTemplates = [
       '<ul>' +
         '<li>Port 1 : Color Sensor</li>' +
         '<li>Port 2 : Ultrasonic Distance</li>' +
-        '<li>Port 3 : GPS Sensor</li>' +
+        '<li>Port 3 : Gyro</li>' +
+        '<li>Port 4 : GPS Sensor</li>' +
       '</ul>',
     thumbnail: 'images/robots/singleFollower.jpg',
 
@@ -59,6 +60,11 @@ var robotTemplates = [
         options: null
       },
       {
+        type: 'GyroSensor',
+        position: [0, 2.5, 2.5],
+        options: null
+      },
+      {
         type: 'GPSSensor',
         position: [0, 2.5, 5],
         options: null
@@ -76,7 +82,7 @@ var robotTemplates = [
     shortDescription: 'Double Sensor Line Follower',
     longDescription:
       '<p>This robot is equipped with two color sensor for line following.</p>' +
-      '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro allows accurate movements even when the robot is off the line.</p>',
+      '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro and GPS allows accurate movements even when the robot is off the line.</p>',
     longerDescription:
       '<h3>Dimensions</h3>' +
       '<ul>' +
@@ -95,6 +101,7 @@ var robotTemplates = [
         '<li>Port 2 : Color Sensor</li>' +
         '<li>Port 3 : Ultrasonic Distance</li>' +
         '<li>Port 4 : Gyro</li>' +
+        '<li>Port 5 : GPS Sensor</li>' +
       '</ul>',
     thumbnail: 'images/robots/doubleFollower.jpg',
 
@@ -138,6 +145,11 @@ var robotTemplates = [
       },
       {
         type: 'GyroSensor',
+        position: [0, 2.5, 2.5],
+        options: null
+      },
+      {
+        type: 'GPSSensor',
         position: [0, 2.5, 5],
         options: null
       },

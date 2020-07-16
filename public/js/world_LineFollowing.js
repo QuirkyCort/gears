@@ -4,7 +4,8 @@ var world_LineFollowing = new function() {
   this.name = 'lineFollowing';
   this.shortDescription = 'Line Following Challenges';
   this.longDescription =
-    '<p>A series of challenges relating to line following.</p>';
+    '<p>A series of challenges relating to line following.</p>' +
+    '<p>Meta challenge: Write a single program that can complete all of the challenges except "Junctions 1".</p>';
   this.thumbnail = 'images/worlds/lineFollowing.jpg';
 
   this.options = {};
@@ -26,7 +27,7 @@ var world_LineFollowing = new function() {
         ['Obstacles 2', 'obstacles2'],
         ['Obstacles 3', 'obstacles3'],
         ['Obstacles 4', 'obstacles4'],
-        ['Junctions', 'junctions1'],
+        ['Junctions 1', 'junctions1'],
         ['Junctions 2', 'junctions2'],
       ],
       optionsHTML: {

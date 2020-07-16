@@ -227,7 +227,7 @@ var main = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        pythonPanel.editor.setValue(this.result);
+        pythonPanel.editor.setValue(this.result, 1);
         self.tabClicked('navPython');
         pythonPanel.warnModify();
       };

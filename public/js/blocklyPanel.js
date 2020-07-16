@@ -12,7 +12,7 @@ var blocklyPanel = new function() {
 
     self.loadPagesOptions();
 
-    setInterval(blockly.saveLocalStorage, 30 * 1000);
+    setInterval(blockly.saveLocalStorage, 15 * 1000);
   };
 
   // Load pages options menu. This is used here and by blockly.js when loading a save.

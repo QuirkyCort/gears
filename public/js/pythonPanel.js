@@ -31,7 +31,7 @@ var pythonPanel = new function() {
 
     self.editor.on('change', self.warnModify);
 
-    setInterval(self.saveLocalStorage, 30 * 1000);
+    setInterval(self.saveLocalStorage, 15 * 1000);
   };
 
   // Warn when changing python code
@@ -55,7 +55,7 @@ var pythonPanel = new function() {
   this.loadPythonFromBlockly = function() {
     self.blocklyModified = true;
     let code = blockly.generator.genCode();
-    self.editor.setValue(code);
+    self.editor.setValue(code, 1);
     self.blocklyModified = false;
   };
 
