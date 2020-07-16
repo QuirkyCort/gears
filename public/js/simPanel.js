@@ -81,10 +81,10 @@ var simPanel = new function() {
       i++;
     }
 
-    let tmp = genDiv('outA: Left Motor', ['Position']);
+    let tmp = genDiv('outA: Left Motor', ['Position (degrees)']);
     self.$sensorsPanel.append(tmp[0]);
     self.sensors.push([robot.leftWheel, tmp[1]]);
-    tmp = genDiv('outA: Left Motor', ['Position']);
+    tmp = genDiv('outA: Left Motor', ['Position (degrees)']);
     self.$sensorsPanel.append(tmp[0]);
     self.sensors.push([robot.rightWheel, tmp[1]]);
 

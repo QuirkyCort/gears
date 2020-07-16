@@ -262,6 +262,7 @@ var blockly = new function() {
         displayedBlock.svgGroup_.style.display = 'none';
       }
     });
+    self.displayedWorkspace.scrollCenter();
     setTimeout(function() {
       self.mirror = true;
     }, 200);
