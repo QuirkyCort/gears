@@ -13,9 +13,6 @@ Documentation
 - most blocks are undocumented
 - currently zero tutorials
 
-Blockly
-- Fix blocks position when copying
-
 Coding (Python editor)
 - Add autocomplete to the Ace editor
 - Documentation panel?
@@ -24,7 +21,6 @@ Coding (Robot configurator)
 - Add in robot configurator
 
 Coding (Simulator)
-- Add in a port view
 - Implement Pybricks support (...run, not just generate code)
 - More components
   - rotating platform

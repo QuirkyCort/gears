@@ -183,6 +183,11 @@ var babylon = new function() {
         }
       });
 
+      // Reset the world if needed
+      if (self.world.reset) {
+        setTimeout(function(){self.world.reset();}, 500);
+      }
+
       // self.engine.hideLoadingUI();
     });
   };
@@ -191,9 +196,10 @@ var babylon = new function() {
   this.render = function() {
     var delta = self.scene.getEngine().getDeltaTime();
 
-    // console.log(1000/delta);
-
     robot.render(delta);
+    if (self.world.render) {
+      self.world.render(delta);
+    }
   };
 }
 
