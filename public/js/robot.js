@@ -12,6 +12,7 @@ function Wheel(scene, options) {
   this.MAX_ACCELERATION = 2;  // degrees / msec^2
   this.TIRE_DOWNWARDS_FORCE = new BABYLON.Vector3(0, -4000, 0);
 
+  this.type = 'wheel';
   this.modes = {
     STOP: 1,
     RUN: 2,

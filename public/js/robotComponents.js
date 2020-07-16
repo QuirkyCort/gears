@@ -88,7 +88,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     );
     scene.customRenderTargets.push(self.renderTarget);
     self.renderTarget.activeCamera = self.rttCam;
-    // self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
+    self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
 
     self.renderTarget.onBeforeRender = function() {
       scene.clearColor = BABYLON.Color3.Black();
@@ -191,7 +191,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var g = 0;
     var b = 0;
 
-    // self.renderTarget.resetRefreshCounter();
+    self.renderTarget.resetRefreshCounter();
     let pixels = self.renderTarget.readPixels();
     self.pixels = pixels;
     for (let i=0; i<pixels.length; i+=4) {
@@ -533,7 +533,6 @@ function GyroSensor(scene, parent, pos, port, options) {
 
   this.init();
 }
-
 
 // GPS sensor
 function GPSSensor(scene, parent, pos, port, options) {

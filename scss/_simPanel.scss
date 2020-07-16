@@ -264,7 +264,9 @@
   top: 9em;
   right: 4em;
   font-size: 100%;
-  width: 12em;
+  width: 13em;
+  max-height: 70%;
+  overflow-y: auto;
 
   .sensorReading {
     margin-bottom: 0.5em;
@@ -283,6 +285,7 @@
 
       td.sensorValue {
         text-align: right;
+        width: 30%;
       }
     }
   }

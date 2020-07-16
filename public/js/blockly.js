@@ -300,6 +300,8 @@ var blockly = new function() {
         newBlock.getDescendants().forEach(function(desc){
           desc.data = to;
         })
+        let xy = block.getRelativeToSurfaceXY();
+        newBlock.moveBy(xy.x, xy.y);
       }
     });
     self.unsaved = true;

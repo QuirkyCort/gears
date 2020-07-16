@@ -28,7 +28,7 @@ var simPanel = new function() {
 
     self.initSensorsPanel();
 
-    self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 200);
+    self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
   };
 
   // reset
@@ -63,13 +63,42 @@ var simPanel = new function() {
     self.$sensorsPanel.empty();
     self.sensors = [];
     while (sensor = robot.getComponentByPort('in' + i)) {
+      let tmp = null;
       if (sensor.type == 'ColorSensor') {
-        let tmp = genDiv(sensor.port + ': Color Sensor', ['Red', 'Green', 'Blue', 'Intensity']);
+        tmp = genDiv(sensor.port + ': Color Sensor', ['Red', 'Green', 'Blue', 'Intensity']);
+      } else if (sensor.type == 'UltrasonicSensor') {
+        tmp = genDiv(sensor.port + ': Ultrasonic Sensor', ['Distance (cm)']);
+      } else if (sensor.type == 'GyroSensor') {
+        tmp = genDiv(sensor.port + ': Gyro Sensor', ['Angle (degrees)']);
+      } else if (sensor.type == 'GPSSensor') {
+        tmp = genDiv(sensor.port + ': GPS Sensor', ['X (cm)', 'Y (cm)', 'Altitude (cm)']);
+      } else {console.log(sensor)}
+
+      if (tmp) {
         self.$sensorsPanel.append(tmp[0]);
         self.sensors.push([sensor, tmp[1]]);
-      } else if (sensor.type == 'UltrasonicSensor') {
-      } else if (sensor.type == 'GyroSensor') {
-      } else if (sensor.type == 'GPSSensor') {
+      }
+      i++;
+    }
+
+    let tmp = genDiv('outA: Left Motor', ['Position']);
+    self.$sensorsPanel.append(tmp[0]);
+    self.sensors.push([robot.leftWheel, tmp[1]]);
+    tmp = genDiv('outA: Left Motor', ['Position']);
+    self.$sensorsPanel.append(tmp[0]);
+    self.sensors.push([robot.rightWheel, tmp[1]]);
+
+    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    i = 3;
+    var motor = null;
+    while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
+      if (motor.type == 'ArmActuator') {
+        tmp = genDiv(motor.port + ': Arm Actuator', ['Position (degrees)']);
+      }
+
+      if (tmp) {
+        self.$sensorsPanel.append(tmp[0]);
+        self.sensors.push([motor, tmp[1]]);
       }
       i++;
     }
@@ -77,6 +106,10 @@ var simPanel = new function() {
 
   // update sensor panel
   this.updateSensorsPanel = function() {
+    if (self.$sensorsPanel.hasClass('hide')) {
+      return;
+    }
+
     self.sensors.forEach(function(sensor) {
       if (sensor[0].type == 'ColorSensor') {
         let rgb = sensor[0].getRGB();
@@ -84,9 +117,19 @@ var simPanel = new function() {
         sensor[1][1].text(Math.round(rgb[1]));
         sensor[1][2].text(Math.round(rgb[2]));
         sensor[1][3].text(Math.round((rgb[0]+rgb[1]+rgb[2])/3));
-      } else if (sensor.type == 'UltrasonicSensor') {
-      } else if (sensor.type == 'GyroSensor') {
-      } else if (sensor.type == 'GPSSensor') {
+      } else if (sensor[0].type == 'UltrasonicSensor') {
+        sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
+      } else if (sensor[0].type == 'GyroSensor') {
+        sensor[1][0].text(Math.round(sensor[0].getAngle()));
+      } else if (sensor[0].type == 'GPSSensor') {
+        let position = sensor[0].getPosition();
+        sensor[1][0].text(Math.round(position[0] * 10) / 10);
+        sensor[1][1].text(Math.round(position[2] * 10) / 10);
+        sensor[1][2].text(Math.round(position[1] * 10) / 10);
+      } else if (sensor[0].type == 'wheel') {
+        sensor[1][0].text(Math.round(sensor[0].position));
+      } else if (sensor[0].type == 'ArmActuator') {
+        sensor[1][0].text(Math.round(sensor[0].position));
       }
     });
   };

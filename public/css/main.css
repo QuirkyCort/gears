@@ -390,7 +390,9 @@ ul.menuDropDownRightAlign {
   top: 9em;
   right: 4em;
   font-size: 100%;
-  width: 12em; }
+  width: 13em;
+  max-height: 70%;
+  overflow-y: auto; }
   .sensorReadings .sensorReading {
     margin-bottom: 0.5em; }
     .sensorReadings .sensorReading .sensorType {
@@ -401,7 +403,8 @@ ul.menuDropDownRightAlign {
       .sensorReadings .sensorReading table.sensorValues td {
         border: solid 2px #bbbbbb; }
       .sensorReadings .sensorReading table.sensorValues td.sensorValue {
-        text-align: right; }
+        text-align: right;
+        width: 30%; }
 
 .sensorReadings.hide {
   display: none; }
