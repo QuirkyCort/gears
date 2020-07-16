@@ -256,6 +256,9 @@ var blockly = new function() {
         displayedBlock.setMovable(false);
         displayedBlock.setCollapsed(true);
         displayedBlock.setDeletable(false);
+        displayedBlock.getDescendants().forEach(function(desc){
+          desc.setDeletable(false);
+        });
         displayedBlock.svgGroup_.style.display = 'none';
       }
     });
