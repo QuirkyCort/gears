@@ -1,6 +1,8 @@
 var simPanel = new function() {
   var self = this;
 
+  this.sensors = [];
+
   // Run on page load
   this.init = function() {
     self.$console = $('.console');
@@ -11,6 +13,9 @@ var simPanel = new function() {
     self.$world = $('.world');
     self.$reset = $('.reset');
     self.$camera = $('.camera');
+    self.$sensors = $('.sensors');
+
+    self.$sensorsPanel = $('.sensorReadings');
 
     self.$consoleBtn.click(self.toggleConsole);
     self.$console.on('transitionend', self.scrollConsoleToBottom);
@@ -19,6 +24,76 @@ var simPanel = new function() {
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
     self.$camera.click(self.switchCamera);
+    self.$sensors.click(self.toggleSensorsPanel);
+
+    self.initSensorsPanel();
+
+    self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 200);
+  };
+
+  // reset
+  this.reset = function() {
+    self.initSensorsPanel();
+  };
+
+  // init sensor panel
+  this.initSensorsPanel = function() {
+    function genDiv(sensorType, values) {
+      let $div = $(
+        '<div class="sensorReading">' +
+          '<div class="sensorType"></div>' +
+          '<table class="sensorValues"></table>' +
+        '</div>'
+      );
+
+      $div.find('.sensorType').text(sensorType);
+      let $table = $div.find('.sensorValues');
+      valuesElements = [];
+      values.forEach(function(value) {
+        let $line = $('<tr><td class="sensorValueName">' + value + '</td><td class="sensorValue">-</td></tr>');
+        valuesElements.push($line.find('.sensorValue'));
+        $table.append($line);
+      });
+
+      return [$div, valuesElements];
+    }
+
+    var i = 1;
+    var sensor = null;
+    self.$sensorsPanel.empty();
+    self.sensors = [];
+    while (sensor = robot.getComponentByPort('in' + i)) {
+      if (sensor.type == 'ColorSensor') {
+        let tmp = genDiv(sensor.port + ': Color Sensor', ['Red', 'Green', 'Blue', 'Intensity']);
+        self.$sensorsPanel.append(tmp[0]);
+        self.sensors.push([sensor, tmp[1]]);
+      } else if (sensor.type == 'UltrasonicSensor') {
+      } else if (sensor.type == 'GyroSensor') {
+      } else if (sensor.type == 'GPSSensor') {
+      }
+      i++;
+    }
+  };
+
+  // update sensor panel
+  this.updateSensorsPanel = function() {
+    self.sensors.forEach(function(sensor) {
+      if (sensor[0].type == 'ColorSensor') {
+        let rgb = sensor[0].getRGB();
+        sensor[1][0].text(Math.round(rgb[0]));
+        sensor[1][1].text(Math.round(rgb[1]));
+        sensor[1][2].text(Math.round(rgb[2]));
+        sensor[1][3].text(Math.round((rgb[0]+rgb[1]+rgb[2])/3));
+      } else if (sensor.type == 'UltrasonicSensor') {
+      } else if (sensor.type == 'GyroSensor') {
+      } else if (sensor.type == 'GPSSensor') {
+      }
+    });
+  };
+
+  // toggle sensors panel
+  this.toggleSensorsPanel = function() {
+    self.$sensorsPanel.toggleClass('hide');
   };
 
   // switch camera
@@ -351,6 +426,7 @@ var simPanel = new function() {
     babylon.resetScene();
     skulpt.hardInterrupt = true;
     self.setRunIcon('run');
+    self.initSensorsPanel();
   };
 
   // Strip html tags

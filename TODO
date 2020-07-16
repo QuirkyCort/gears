@@ -13,6 +13,9 @@ Documentation
 - most blocks are undocumented
 - currently zero tutorials
 
+Blockly
+- Fix blocks position when copying
+
 Coding (Python editor)
 - Add autocomplete to the Ace editor
 - Documentation panel?

@@ -370,3 +370,38 @@ ul.menuDropDownRightAlign {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1; }
+
+.sensors {
+  position: absolute;
+  color: white;
+  opacity: 0.8;
+  top: 2em;
+  right: 8em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none; }
+
+.sensorReadings {
+  position: absolute;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5em;
+  padding: 0.5em;
+  top: 9em;
+  right: 4em;
+  font-size: 100%;
+  width: 12em; }
+  .sensorReadings .sensorReading {
+    margin-bottom: 0.5em; }
+    .sensorReadings .sensorReading .sensorType {
+      text-align: center; }
+    .sensorReadings .sensorReading table.sensorValues {
+      width: 100%;
+      border-collapse: collapse; }
+      .sensorReadings .sensorReading table.sensorValues td {
+        border: solid 2px #bbbbbb; }
+      .sensorReadings .sensorReading table.sensorValues td.sensorValue {
+        text-align: right; }
+
+.sensorReadings.hide {
+  display: none; }

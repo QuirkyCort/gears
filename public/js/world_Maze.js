@@ -136,7 +136,6 @@ var world_Maze = new function() {
     let walls = self.buildMazeArray();
 
     if (self.options.mazeType == 'imperfect') {
-      console.log('rem')
       walls = self.removeRandomWalls(walls, self.options.wallRemovalLimit);
     }
 

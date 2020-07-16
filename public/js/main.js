@@ -41,6 +41,7 @@ var main = new function() {
         babylon.resetScene();
         skulpt.hardInterrupt = true;
         simPanel.setRunIcon('run');
+        simPanel.initSensorsPanel();
       };
       reader.readAsText(e.target.files[0]);
     });
@@ -97,6 +98,7 @@ var main = new function() {
       babylon.resetScene();
       skulpt.hardInterrupt = true;
       simPanel.setRunIcon('run');
+      simPanel.initSensorsPanel();
       $dialog.close();
     });
   };
