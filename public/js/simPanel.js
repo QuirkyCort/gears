@@ -46,7 +46,7 @@ var simPanel = new function() {
 
   // draw world info
   this.drawWorldInfo = function(html) {
-    self.$worldInfoPanel.html(html);
+    self.$worldInfoPanel.append(html);
   };
 
   // show world info

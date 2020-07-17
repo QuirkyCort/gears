@@ -289,31 +289,55 @@ var world_FireRescue = new function() {
     };
 
     // Set the function for drawing scores
-    self.drawWorldInfo = function() {
+    self.drawWorldInfo = function(rebuild) {
+      if (rebuild) {
+        simPanel.clearWorldInfoPanel();
+        let $info = $(
+          '<div class="mono row">' +
+            '<div class="center time"></div>' +
+          '</div>' +
+          '<div class="mono row">' +
+            '<div class="red"></div>' +
+            '<div class="green"></div>' +
+            '<div class="score"></div>' +
+          '</div>'
+        );
+        simPanel.drawWorldInfo($info);
+
+        self.infoPanel = {
+          $time: $info.find('.time'),
+          $red: $info.find('.red'),
+          $green: $info.find('.green'),
+          $score: $info.find('.score')
+        };
+        self.infoPanel.$red.on('animationend', function() {this.classList.remove('animate')});
+        self.infoPanel.$green.on('animationend', function() {this.classList.remove('animate')});
+        self.infoPanel.$score.on('animationend', function() {this.classList.remove('animate')});
+      }
+
       let time = TIME_LIMIT;
       if (self.game.startTime != null) {
         time -= (Date.now() - self.game.startTime);
       }
       time = Math.round(time / 1000);
-      time = Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
+      time = 'Time: ' + Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
 
-      let html =
-        '<div class="mono row">' +
-          '<div class="center">Time ' + time + '</div>' +
-        '</div>' +
-        '<div class="mono row">' +
-          '<div class="">Red: ' + self.game.red + '</div>' +
-          '<div class="">Green: ' + self.game.green + '</div>' +
-          '<div class="">Score: ' + self.game.score + '</div>' +
-        '</div>';
-
-      if (html != self.cachedHtml) {
-        simPanel.drawWorldInfo(html);
-        self.cachedHtml = html;
+      let red = 'Red: ' + self.game.red;
+      let green = 'Green: ' + self.game.green;
+      let score = 'Score: ' + self.game.score;
+      function updateIfChanged(text, $dom) {
+        if (text != $dom.text()) {
+          $dom.text(text);
+          $dom.addClass('animate');
+        }
       }
+      updateIfChanged(time, self.infoPanel.$time);
+      updateIfChanged(red, self.infoPanel.$red);
+      updateIfChanged(green, self.infoPanel.$green);
+      updateIfChanged(score, self.infoPanel.$score);
     }
 
-    self.drawWorldInfo();
+    self.drawWorldInfo(true);
   };
 
   // Create the scene

@@ -295,6 +295,12 @@
   display: none;
 }
 
+@keyframes flash {
+  0%   {transform: scale(1);}
+  50%  {transform: scale(1.5);}
+  100%  {transform: scale(1);}
+}
+
 .worldInfo {
   position: absolute;
   color: white;
@@ -307,7 +313,7 @@
   margin-left: -7em;
   font-size: 200%;
   max-height: 20%;
-  overflow-y: auto;
+  overflow: hidden;
 
   .row {
     display: flex;
@@ -321,6 +327,19 @@
   .center {
     width: 100%;
     text-align: center;
+  }
+
+  .animate {
+    animation-name: flash;
+    animation-duration: 0.5s;
+  }
+
+  .red.animate {
+    color: #ff0000;
+  }
+
+  .green.animate {
+    color: #00ff00;
   }
 }
 
