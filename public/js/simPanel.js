@@ -33,11 +33,11 @@ var simPanel = new function() {
   };
 
   // reset
-  this.reset = function() {
-    self.initSensorsPanel();
-    self.clearWorldInfoPanel();
-    self.hideWorldInfoPanel();
-  };
+  // this.reset = function() {
+  //   self.initSensorsPanel();
+  //   self.clearWorldInfoPanel();
+  //   self.hideWorldInfoPanel();
+  // };
 
   // clear world info
   this.clearWorldInfoPanel = function() {
@@ -489,6 +489,8 @@ var simPanel = new function() {
 
   // Reset simulator
   this.resetSim = function() {
+    self.clearWorldInfoPanel();
+    self.hideWorldInfoPanel();
     babylon.resetScene();
     skulpt.hardInterrupt = true;
     self.setRunIcon('run');

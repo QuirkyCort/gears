@@ -7,9 +7,9 @@ function Wheel(scene, options) {
   this.STOP_ACTION_BRAKE_FORCE = 2000;
   this.STOP_ACTION_COAST_FORCE = 1000;
   this.STOP_ACTION_HOLD_FORCE = 30000;
-  this.MOTOR_POWER_DEFAULT = 3000;
+  this.MOTOR_POWER_DEFAULT = 30000;
   this.MAX_SPEED = 800 / 180 * Math.PI;
-  this.MAX_ACCELERATION = 2;  // degrees / msec^2
+  this.MAX_ACCELERATION = 20;  // degrees / msec^2
   this.TIRE_DOWNWARDS_FORCE = new BABYLON.Vector3(0, -4000, 0);
 
   this.type = 'wheel';
