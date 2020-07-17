@@ -131,8 +131,8 @@ var world_FireRescue = new function() {
     );
   };
 
-  // Add fire at position
-  this.addFire = function(scene, fires, pos) {
+  // Add particlefire at position. SLOW!
+  this.addParticleFire = function(scene, fires, pos) {
     BABYLON.ParticleHelper.CreateAsync("fire", scene).then((set) => {
       fires.push(set);
       set.systems.forEach(function(sys){
@@ -143,6 +143,26 @@ var world_FireRescue = new function() {
     });
   };
 
+  // Add fire using sprite manager
+  this.addSpriteFire = function(scene, positions, size) {
+    var spriteManagerFire = new BABYLON.SpriteManager('FireManager', 'textures/maps/Fire Rescue/fire.png', 10, {width: 15, height: 20}, scene);
+
+    let fires = [];
+    positions.forEach(function(position){
+      let fire = new BABYLON.Sprite('fire', spriteManagerFire);
+      fire.position.x = position[0];
+      fire.position.y = position[1] + size / 2;
+      fire.position.z = position[2];
+      fire.size = size;
+      setTimeout(function(){
+        fire.playAnimation(0, 3, true, 100);
+      }, Math.random() * 400);
+      fires.push(fire);
+    });
+
+    return fires;
+  }
+
   // Grocers challenge
   this.loadGrocers = function(scene) {
     self.loadImageTile(
@@ -151,18 +171,14 @@ var world_FireRescue = new function() {
       [300, 300]
     );
 
-    // Disable due to performance penalty
-    // self.fires = [];
-    // let fires = [
-    //   [-85,3.5],
-    //   [40.7,1.9],
-    //   [-47.4,126.3],
-    //   [78.9,127.9],
-    //   [120.3,40.7],
-    // ];
-    // fires.forEach(function(fire) {
-    //   self.addFire(scene, self.fires, [fire[0], 0, fire[1]]);
-    // });
+    let fires = [
+      [-85,0,3.5],
+      [40.7,0,1.9],
+      [-47.4,0,126.3],
+      [78.9,0,127.9],
+      [120.3,0,40.7],
+    ];
+    self.addSpriteFire(scene, fires, 30);
 
     let wallMat = new BABYLON.StandardMaterial('wall', scene);
     wallMat.diffuseColor = new BABYLON.Color3(0.72, 0.45, 0.40);
@@ -316,7 +332,7 @@ var world_FireRescue = new function() {
       simPanel.showWorldInfoPanel();
 
       if (self.options.challenge == 'grocers') {
-        self.loadGrocers();
+        self.loadGrocers(scene);
       }
 
       resolve();

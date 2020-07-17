@@ -185,7 +185,7 @@ var babylon = new function() {
 
       // Reset the world if needed
       if (self.world.reset) {
-        setTimeout(function(){self.world.reset();}, 500);
+        self.world.reset();
       }
 
       // self.engine.hideLoadingUI();

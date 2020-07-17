@@ -38,3 +38,7 @@ Coding (Simulator)
 Coding (Sharing)
 - Remote coach view of student's work
 - Spectator mode. Run code on one computer, but rendered and view on multiple.
+
+Bugs
+- skupt interrupt messages looks scary.
+- page should be set for blocks as soon as it is added
