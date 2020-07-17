@@ -67,10 +67,9 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     eye.position.z = 1.5;
     eye.parent = body;
 
-
     // Create camera and RTT
     self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
-    self.rttCam.fov = 1.0;
+    self.rttCam.fov = 1.3;
     self.rttCam.minZ = 0.1;
     self.rttCam.maxZ = 5;
     self.rttCam.updateUpVectorFromRotation = true;
