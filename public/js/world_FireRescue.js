@@ -124,8 +124,11 @@ var world_FireRescue = new function() {
     return new Promise(function(resolve, reject) {
       // Set standby game state
       self.game = {
-        state: 'standby'
+        state: 'standby',
+        startTime: null
       };
+      self.drawWorldInfo();
+      simPanel.showWorldInfoPanel();
 
       if (self.options.challenge == 'grocers') {
         self.loadImageTile(
@@ -164,17 +167,15 @@ var world_FireRescue = new function() {
         red = self.shuffleArray(red);
         for (let i=0; i<victims.length; i++) {
           if (red[i]) {
-            let victim = self.addBox(scene, redMat, [0.5, 3, 3], victims[i]);
+            let victim = self.addBox(scene, redMat, [0.5, 5, 5], victims[i], true);
             victim.color = 'red';
-            victim.magnetic = true;
           } else {
-            let victim = self.addBox(scene, greenMat, [0.5, 3, 3], victims[i]);
+            let victim = self.addBox(scene, greenMat, [0.5, 5, 5], victims[i], true);
             victim.color = 'green';
-            victim.magnetic = true;
           }
         }
 
-        self.game.startMesh = self.addBox(scene, null, [30, 27, 27], [0, -136.5], false, false);
+        self.game.startMesh = self.addBox(scene, null, [30, 27, 27], [0, -136.5], false, false, false);
         self.game.startMesh.isPickable = false;
       }
       resolve();
@@ -194,11 +195,32 @@ var world_FireRescue = new function() {
         self.game.startTime = Date.now();
       }
     } else if (self.game.state == 'started') {
-      console.log(Math.round((Date.now() - self.game.startTime)/1000));
+      self.drawWorldInfo();
     }
   };
 
-  //
+  // Draw world info panel
+  this.drawWorldInfo = function() {
+    let time = 4 * 60;
+    if (self.game.startTime != null) {
+      time -= Math.round((Date.now() - self.game.startTime)/1000);
+    }
+    time = Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
+
+    let html =
+      '<div class="mono row">' +
+        '<div class="center">Time ' + time + '</div>' +
+      '</div>' +
+      '<div class="mono row">' +
+        // '<div class="">Red: 0</div>' +
+        // '<div class="">Green: 0</div>' +
+      '</div>';
+
+    if (html != self.cachedHtml) {
+      simPanel.drawWorldInfo(html);
+      self.cachedHtml = html;
+    }
+  };
 
   // shuffle array
   this.shuffleArray = function(arr) {
@@ -213,7 +235,7 @@ var world_FireRescue = new function() {
   };
 
   // Add static box
-  this.addBox = function(scene, material, size, pos, physics=true, visible=true) {
+  this.addBox = function(scene, material, size, pos, magnetic=false, physics=true, visible=true) {
     var boxOptions = {
       height: size[0],
       width: size[1],
@@ -230,17 +252,26 @@ var world_FireRescue = new function() {
     box.position.x = pos[0];
     box.position.z = pos[1];
 
+    let mass = 0;
+    if (magnetic) {
+      mass = 10;
+      box.isMagnetic = true;
+    }
+
     if (physics) {
       box.physicsImpostor = new BABYLON.PhysicsImpostor(
         box,
         BABYLON.PhysicsImpostor.BoxImpostor,
         {
-          mass: 0,
+          mass: mass,
           friction: self.options.wallFriction,
           restitution: self.options.wallRestitution
         },
         scene
       );
+      if (magnetic) {
+        box.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
+      }
     }
 
     return box;

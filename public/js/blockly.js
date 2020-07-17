@@ -291,6 +291,7 @@ var blockly = new function() {
 
   // Change page name
   this.changePageName = function(from, to) {
+    self.assignOrphenToPage(from);
     let blocks = self.workspace.getAllBlocks();
     blocks.forEach(function(block){
       if (block.data == from) {

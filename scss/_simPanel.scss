@@ -294,3 +294,36 @@
 .sensorReadings.hide {
   display: none;
 }
+
+.worldInfo {
+  position: absolute;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.25em;
+  padding: 0.5em;
+  top: 2em;
+  left: 50%;
+  width: 14em;
+  margin-left: -7em;
+  font-size: 200%;
+  max-height: 20%;
+  overflow-y: auto;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .mono {
+    font-family: monospace;
+  }
+
+  .center {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.worldInfo.hide {
+  display: none;
+}

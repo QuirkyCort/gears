@@ -16,6 +16,7 @@ var simPanel = new function() {
     self.$sensors = $('.sensors');
 
     self.$sensorsPanel = $('.sensorReadings');
+    self.$worldInfoPanel = $('.worldInfo');
 
     self.$consoleBtn.click(self.toggleConsole);
     self.$console.on('transitionend', self.scrollConsoleToBottom);
@@ -34,6 +35,28 @@ var simPanel = new function() {
   // reset
   this.reset = function() {
     self.initSensorsPanel();
+    self.clearWorldInfoPanel();
+    self.hideWorldInfoPanel();
+  };
+
+  // clear world info
+  this.clearWorldInfoPanel = function() {
+    self.$worldInfoPanel.empty();
+  };
+
+  // draw world info
+  this.drawWorldInfo = function(html) {
+    self.$worldInfoPanel.html(html);
+  };
+
+  // show world info
+  this.showWorldInfoPanel = function() {
+    self.$worldInfoPanel.removeClass('hide');
+  };
+
+  // hide world info
+  this.hideWorldInfoPanel = function() {
+    self.$worldInfoPanel.addClass('hide');
   };
 
   // init sensor panel
