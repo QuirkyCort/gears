@@ -23,7 +23,7 @@ Do not close the window with the Python command running.
 
 Credits
 ---
-Created by A Posteriori.
+Created by A Posteriori (https://aposteriori.com.sg).
 
 This simulator would not have been possible without the great people behind:
 
@@ -36,12 +36,15 @@ License
 ---
 GNU General Public License v3.0
 
-Babylon.js is included here for convenience.
-Please refer to the Ace website for license information.
+The following Open Source software are included here for convenience.
+Please refer to their respective websites for license information.
 
-Ace is included here for convenience.
-Please refer to the Ace website for license information.
-
-Skulpt is included here for convenience.
-Please refer to the Skulpt website
-for license information.
+Babylon.js
+Blockly
+Ace Editor
+Skulpt
+Ammo.js
+Cannon.js
+Oimo.js
+Pep
+Jquery
