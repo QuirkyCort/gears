@@ -103,6 +103,10 @@ var blockly = new function() {
     var json = primaryEvent.toJson();
     var secondaryEvent = Blockly.Events.fromJson(json, self.workspace);
     secondaryEvent.run(true);
+
+    if (primaryEvent instanceof Blockly.Events.Create) {
+      self.assignOrphenToPage(blocklyPanel.currentPage);
+    }
   };
 
   // Load default workspace
@@ -273,7 +277,7 @@ var blockly = new function() {
         displayedBlock.svgGroup_.style.display = 'none';
       }
     });
-    self.displayedWorkspace.scrollCenter();
+    // self.displayedWorkspace.scrollCenter();
     setTimeout(function() {
       self.mirror = true;
     }, 200);

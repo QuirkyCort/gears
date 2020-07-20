@@ -160,6 +160,7 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
+        {html: 'New Program', line: true, callback: self.newProgram},
         {html: 'Load blocks from your computer', line: false, callback: self.loadFromComputer},
         {html: 'Import functions from blocks file', line: false, callback: self.importFunctionsFromFile},
         {html: 'Save blocks to your computer', line: true, callback: self.saveToComputer},
@@ -169,6 +170,16 @@ var main = new function() {
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
     }
+  };
+
+  // New program
+  this.newProgram = function() {
+    confirmDialog('Starting a new program will cause all unsaved work to be lost.', function() {
+      blockly.loadDefaultWorkspace();
+      pythonPanel.modified = false;
+      localStorage.setItem('pythonModified', false);
+      blocklyPanel.setDisable(false);
+    });
   };
 
   // save to computer
