@@ -23,12 +23,22 @@ var world_FireRescue = new function() {
       type: 'selectWithHTML',
       options: [
         ['Fire at the Grocers', 'grocers'],
+        ['Warehouse Fire', 'warehouse'],
       ],
       optionsHTML: {
         grocers:
           '<p>The grocery store is on fire, and there are 7 victims inside. ' +
           'Bring the red victims to the red rescue point within the first 4 mins, and the green victims to the green rescue point.<p>' +
-          '<p>You have 8 mins to rescue everyone!</p>'
+          '<p>You have 8 mins to rescue everyone!</p>',
+        warehouse:
+          '<p>Rescue the victims from the warehouse1 ' +
+          'Bring the red victims to the red rescue point within the first 5 mins, and the green victims to the green rescue point.<p>' +
+          '<p>There are many special features in this world:</p>' +
+          '<ul><li>Drop the victims in the white ambulance for a 5 points bonus each.</li>' +
+          '<li>The oil barrel near the entrance is too close to the fire. Move it out of the way before it explodes and block the exit.</li>' +
+          '<li>The door to the inner room will open when the blue sensor panel detects an object above it.</li>' +
+          '<li>Are there more secrets? Find them on your own!</li></ul>' +
+          '<p>You have 10 mins to rescue everyone!</p>'
       }
     },
     {
@@ -45,14 +55,17 @@ var world_FireRescue = new function() {
 
   this.imagesURL = {
     grocers: 'textures/maps/Fire Rescue/grocers.png',
+    warehouse: 'textures/maps/Fire Rescue/warehouse.png',
   };
 
   this.robotStarts = {
     grocers: new BABYLON.Vector3(0, 0, -136.5 + 3),
+    warehouse: new BABYLON.Vector3(-75, 0, 100),
+    // warehouse: new BABYLON.Vector3(179.5, 0, -132 + 3),
   }
 
   this.defaultOptions = {
-    challenge: 'grocers',
+    challenge: 'warehouse',
     random: 'fixed',
     length: 100,
     width: 100,
@@ -89,114 +102,201 @@ var world_FireRescue = new function() {
     self.setOptions();
   };
 
-  // Load image into ground tile
-  this.loadImageTile = function (scene, imageSrc, size, pos=[0,0], rot=Math.PI/2) {
-    var groundMat = new BABYLON.StandardMaterial('ground', scene);
-    var groundTexture = new BABYLON.Texture(imageSrc, scene);
-    groundMat.diffuseTexture = groundTexture;
-    groundMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
-    groundMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+  // Warehouse challenge
+  this.loadWarehouse = function(scene) {
+    self.loadImageTile(
+      scene,
+      self.imagesURL[self.options.challenge],
+      [300, 400, 10],
+      [0, 0, -10]
+    );
 
-    var faceUV = new Array(6);
-    for (var i = 0; i < 6; i++) {
-        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
-    }
-    faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+    // Raised floor
+    self.loadImageTile(
+      scene,
+      'textures/maps/Fire Rescue/warehouse_raisedFloor.png',
+      [278, 91.4, 2],
+      [-141.3, -2, 0]
+    );
 
-    var boxOptions = {
-        width: size[0],
-        height: 10,
-        depth: size[1],
-        faceUV: faceUV
-    };
+    // Walkway
+    let walkway = self.loadImageTile(
+      scene,
+      'textures/maps/Fire Rescue/warehouse_walkway.png',
+      [200, 26, 2],
+      [-74.6, 37, 40]
+    );
 
-    var ground = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
-    ground.material = groundMat;
-    ground.receiveShadows = true;
-    ground.position.y = -5;
-    ground.position.x = pos[0];
-    ground.position.z = pos[1];
-    ground.rotation.y = rot;
-
-    // Physics
-    ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-      ground,
-      BABYLON.PhysicsImpostor.BoxImpostor,
+    // Ramp
+    let ramp = self.loadImageTile(
+      scene,
+      'textures/maps/Fire Rescue/ramp.png',
+      [30, 109.8, 1],
+      [-6.5,-48, 41],
       {
-        mass: 0,
+        mass: 10,
         friction: self.options.groundFriction,
         restitution: self.options.groundRestitution
-      },
-      scene
+      }
     );
-  };
-
-  // Add particlefire at position. SLOW!
-  this.addParticleFire = function(scene, fires, pos) {
-    BABYLON.ParticleHelper.CreateAsync("fire", scene).then((set) => {
-      fires.push(set);
-      set.systems.forEach(function(sys){
-        sys.maxSize = 50;
-        sys.worldOffset = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
-      })
-      set.start();
+    var joint = new BABYLON.PhysicsJoint(BABYLON.PhysicsJoint.HingeJoint, {
+      mainPivot: new BABYLON.Vector3(85, 0, 13),
+      connectedPivot: new BABYLON.Vector3(0, -0.5, -54.9),
+      mainAxis: new BABYLON.Vector3(1, 0, 0),
+      connectedAxis: new BABYLON.Vector3(1, 0, 0),
     });
+    walkway.physicsImpostor.addJoint(ramp.physicsImpostor, joint);
+
+    // Crates
+    let crates = [
+      [15, [48.5,-48, 0]],
+      [15, [127.5,93.5, 0]]
+    ];
+    let cratesMeshes = self.addCubeCrates(scene, 'textures/maps/Fire Rescue/woodenCrate.png', crates);
+
+    // Auto-door
+    let sensorMat = new BABYLON.StandardMaterial('doorSensor', scene);
+    sensorMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.8);
+    sensorMat.alpha = 0.3;
+    var animateSensor = new BABYLON.Animation('doorSensor', 'scaling.y', 10, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+    animateSensor.setKeys([
+      { frame: 0, value: 1.0 },
+      { frame: 5, value: 1.5 },
+      { frame: 10, value: 1.0 },
+    ]);
+    let doorSensor = self.addBox(scene, sensorMat, [25, 25, 20], [-75.1,124.5], false, false);
+    doorSensor.isPickable = false;
+    doorSensor.animations = [animateSensor];
+    scene.beginAnimation(doorSensor, 0, 10, true);
+
+    let doorMat = new BABYLON.StandardMaterial('wall', scene);
+    doorMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.8);
+    let doors = [
+      [[5,30,38], [-98.2,75.3,2]],
+    ];
+    let doorMeshes = self.addWalls(scene, doorMat, doors);
+
+    // let fires = [
+    //   [-85,0,3.5],
+    //   [40.7,0,1.9],
+    //   [-47.4,0,126.3],
+    //   [78.9,0,127.9],
+    //   [120.3,0,40.7],
+    // ];
+    // self.addSpriteFire(scene, fires, 30);
+
+    // shelves
+    let shelfMat = new BABYLON.StandardMaterial('shelf', scene);
+    shelfMat.diffuseColor = new BABYLON.Color3(0.78, 0.56, 0.38);
+    let shelves = [
+      [[149,16,2], [102,128,3]],
+      [[65,16,2], [60,128,15]],
+    ];
+    self.addWalls(scene, shelfMat, shelves);
+
+    let wallMat = new BABYLON.StandardMaterial('wall', scene);
+    wallMat.diffuseColor = new BABYLON.Color3(0.47, 0.48, 0.49);
+    let walls = [
+      [[390,8,55], [0,141,0]],
+      [[8,278,55], [-191,-2,0]],
+      [[8,48.8,40], [-91.6,112.6,0]],
+      [[8,166,55], [191,54,0]],
+      [[8,149.2,40], [-91.6,-12.4,0]],
+      [[252,8,40], [35,-25,0]],
+      [[107.4,8,55], [-141.3,-145,0]],
+    ];
+    self.addWalls(scene, wallMat, walls);
+
+    let pillarMat = new BABYLON.StandardMaterial('pillar', scene);
+    pillarMat.diffuseColor = new BABYLON.Color3(0.235, 0.24, 0.245);
+    let pillars = [
+      [[10,10,40], [8.3,91.7,0]],
+      [[10,10,40], [108.3,91.7,0]],
+      [[10,10,40], [8.3,-8.3,0]],
+      [[10,10,40], [108.3,-8.3,0]],
+    ];
+    self.addWalls(scene, pillarMat, pillars);
+
+    let victims = [
+      [-74.6,126.3, 42],
+      [59.1,131.1, 17],
+      [161.8,126.8, 5],
+      [-42.9,-11.3, 0],
+      [55.3,-11.9, 0],
+      [Math.random() * -68 - 110, Math.random() * 123, 2],
+      [Math.random() * -68 - 110, Math.random() * 125 - 127, 2]
+    ];
+    let colors = [1,1,1,0,0,0,0];
+    self.addVictims(scene, victims, colors);
+
+    self.game.startMesh = self.addBox(scene, null, [27, 27, 30], [179.5, -132], false, false, false);
+    self.game.startMesh.isPickable = false;
+
+    self.game.redRescueMesh = self.addBox(scene, null, [70, 30, 0.4], [32, -132], false, false, false);
+    self.game.redRescueMesh.isPickable = false;
+
+    self.game.greenRescueMesh = self.addBox(scene, null, [70, 30, 0.4], [119, -132], false, false, false);
+    self.game.greenRescueMesh.isPickable = false;
+
+    // set time limits
+    self.game.RED_EXPIRY = 5 * 60 * 1000;
+    self.game.TIME_LIMIT = 10 * 60 * 1000;
+
+    // set the render and score drawing functions
+    self.render = function(delta){
+      self.renderDefault(delta);
+
+      const DOOR_SPEED = 0.005;
+      if (
+        doorSensor.intersectsPoint(robot.body.absolutePosition)
+        || doorSensor.intersectsPoint(cratesMeshes[0].absolutePosition)
+        || doorSensor.intersectsPoint(cratesMeshes[1].absolutePosition)
+      ) {
+        console.log('op')
+        if (doorMeshes[0].absolutePosition.z < 121.5) {
+          console.log('m')
+          doorMeshes[0].position.z += delta * DOOR_SPEED;
+        }
+      } else {
+        if (doorMeshes[0].absolutePosition.z > 75.3) {
+          doorMeshes[0].position.z -= delta * DOOR_SPEED;
+        }
+      }
+    };
+    self.drawWorldInfo = self.drawWorldInfoDefault;
+
+    self.drawWorldInfo(true);
   };
-
-  // Add fire using sprite manager
-  this.addSpriteFire = function(scene, positions, size) {
-    var spriteManagerFire = new BABYLON.SpriteManager('FireManager', 'textures/maps/Fire Rescue/fire.png', 10, {width: 15, height: 20}, scene);
-
-    let fires = [];
-    positions.forEach(function(position){
-      let fire = new BABYLON.Sprite('fire', spriteManagerFire);
-      fire.position.x = position[0];
-      fire.position.y = position[1] + size / 2;
-      fire.position.z = position[2];
-      fire.size = size;
-      setTimeout(function(){
-        fire.playAnimation(0, 3, true, 100);
-      }, Math.random() * 400);
-      fires.push(fire);
-    });
-
-    return fires;
-  }
 
   // Grocers challenge
   this.loadGrocers = function(scene) {
     self.loadImageTile(
       scene,
       self.imagesURL[self.options.challenge],
-      [300, 300]
+      [300, 300, 10],
+      [0, 0, -10]
     );
 
     let fires = [
-      [-85,0,3.5],
-      [40.7,0,1.9],
-      [-47.4,0,126.3],
-      [78.9,0,127.9],
-      [120.3,0,40.7],
+      [-85,3.5, 0],
+      [40.7,1.9, 0],
+      [-47.4,126.3, 0],
+      [78.9,127.9, 0],
+      [120.3,40.7, 0],
     ];
     self.addSpriteFire(scene, fires, 30);
 
     let wallMat = new BABYLON.StandardMaterial('wall', scene);
     wallMat.diffuseColor = new BABYLON.Color3(0.72, 0.45, 0.40);
     let walls = [
-      [0.15,140.1,286.7,8],
-      [-139.2,76.05,8,120.1],
-      [139.5,76.05,8,120.1],
-      [-81,12,124.6,8],
-      [81,12,124.6,8],
+      [[286.7,8,20], [0.15,140.1,0]],
+      [[8,120.1,20], [-139.2,76.05,0]],
+      [[8,120.1,20], [139.5,76.05,0]],
+      [[124.6,8,20], [-81,12,0]],
+      [[124.5,8,20], [80.95,12,0]],
     ];
-    walls.forEach(function(wall){
-      self.addBox(scene, wallMat, [20, wall[2], wall[3]], [wall[0], wall[1]]);
-    })
+    self.addWalls(scene, wallMat, walls);
 
-    let redMat = new BABYLON.StandardMaterial('red', scene);
-    redMat.diffuseColor = new BABYLON.Color3(0.9, 0.1, 0.1);
-    let greenMat = new BABYLON.StandardMaterial('green', scene);
-    greenMat.diffuseColor = new BABYLON.Color3(0.1, 0.9, 0.1);
     let victims = [
       [-85.7,120.9],
       [-0.1,120.4],
@@ -206,136 +306,25 @@ var world_FireRescue = new function() {
       [-85.7,26.9],
       [84.6,28],
     ];
-    let red = [1,1,1,0,0,0,0];
-    if (self.options.random == 'random') {
-      red = self.shuffleArray(red);
-    }
-    self.game.victims = [];
-    for (let i=0; i<victims.length; i++) {
-      let victim = null;
-      if (red[i]) {
-        victim = self.addBox(scene, redMat, [0.5, 5, 5], victims[i], true);
-        victim.color = 'red';
-      } else {
-        victim = self.addBox(scene, greenMat, [0.5, 5, 5], victims[i], true);
-        victim.color = 'green';
-      }
-      self.game.victims.push(victim);
-    }
+    let colors = [1,1,1,0,0,0,0];
+    self.addVictims(scene, victims, colors);
 
-    self.game.startMesh = self.addBox(scene, null, [30, 27, 27], [0, -136.5], false, false, false);
+    self.game.startMesh = self.addBox(scene, null, [27, 27, 30], [0, -136.5], false, false, false);
     self.game.startMesh.isPickable = false;
 
-    self.game.redRescueMesh = self.addBox(scene, null, [0.4, 70, 30], [-85, -120], false, false, false);
+    self.game.redRescueMesh = self.addBox(scene, null, [70, 30, 0.4], [-85, -120], false, false, false);
     self.game.redRescueMesh.isPickable = false;
 
-    self.game.greenRescueMesh = self.addBox(scene, null, [0.4, 70, 30], [85, -120], false, false, false);
+    self.game.greenRescueMesh = self.addBox(scene, null, [70, 30, 0.4], [85, -120], false, false, false);
     self.game.greenRescueMesh.isPickable = false;
 
     // set time limits
-    const RED_EXPIRY = 4 * 60 * 1000;
-    const TIME_LIMIT = 8 * 60 * 1000;
+    self.game.RED_EXPIRY = 4 * 60 * 1000;
+    self.game.TIME_LIMIT = 8 * 60 * 1000;
 
-    // set the render function
-    self.render = function(delta) {
-      // Run every 200ms
-      self.game.renderTimeout += delta;
-      if (self.game.renderTimeout > 200) {
-        self.game.renderTimeout = 0;
-      } else {
-        return;
-      }
-
-      if (self.game.state == 'ready') {
-        if (self.game.startMesh.intersectsPoint(robot.body.absolutePosition) == false) {
-          self.game.state = 'started';
-          self.game.startTime = Date.now();
-        }
-      } else if (self.game.state == 'started') {
-        if (self.game.redExpired == false) {
-          if ((Date.now() - self.game.startTime) > RED_EXPIRY) {
-            self.game.victims.forEach(function(victim, i, victims){
-              if (victim.color == 'red') {
-                victim.dispose();
-                victims[i].null;
-              }
-            });
-            self.game.redExpired = true;
-          }
-        }
-
-        self.game.victims.forEach(function(victim, i, victims){
-          if (victim == null) {
-            return;
-          } else if (self.game.redRescueMesh.intersectsPoint(victim.absolutePosition)) {
-            if (victim.color == 'red') {
-              self.game.red += 1;
-              self.game.score += 10;
-              victim.dispose();
-              victims[i] = null;
-            }
-          } else if (self.game.greenRescueMesh.intersectsPoint(victim.absolutePosition)) {
-            if (victim.color == 'green') {
-              self.game.green += 1;
-              self.game.score += 5;
-              victim.dispose();
-              victims[i] = null;
-            }
-          }
-        });
-
-        self.drawWorldInfo();
-      }
-    };
-
-    // Set the function for drawing scores
-    self.drawWorldInfo = function(rebuild) {
-      if (rebuild) {
-        simPanel.clearWorldInfoPanel();
-        let $info = $(
-          '<div class="mono row">' +
-            '<div class="center time"></div>' +
-          '</div>' +
-          '<div class="mono row">' +
-            '<div class="red"></div>' +
-            '<div class="green"></div>' +
-            '<div class="score"></div>' +
-          '</div>'
-        );
-        simPanel.drawWorldInfo($info);
-
-        self.infoPanel = {
-          $time: $info.find('.time'),
-          $red: $info.find('.red'),
-          $green: $info.find('.green'),
-          $score: $info.find('.score')
-        };
-        self.infoPanel.$red.on('animationend', function() {this.classList.remove('animate')});
-        self.infoPanel.$green.on('animationend', function() {this.classList.remove('animate')});
-        self.infoPanel.$score.on('animationend', function() {this.classList.remove('animate')});
-      }
-
-      let time = TIME_LIMIT;
-      if (self.game.startTime != null) {
-        time -= (Date.now() - self.game.startTime);
-      }
-      time = Math.round(time / 1000);
-      time = 'Time: ' + Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
-
-      let red = 'Red: ' + self.game.red;
-      let green = 'Green: ' + self.game.green;
-      let score = 'Score: ' + self.game.score;
-      function updateIfChanged(text, $dom) {
-        if (text != $dom.text()) {
-          $dom.text(text);
-          $dom.addClass('animate');
-        }
-      }
-      updateIfChanged(time, self.infoPanel.$time);
-      updateIfChanged(red, self.infoPanel.$red);
-      updateIfChanged(green, self.infoPanel.$green);
-      updateIfChanged(score, self.infoPanel.$score);
-    }
+    // set the render and score drawing functions
+    self.render = self.renderDefault;
+    self.drawWorldInfo = self.drawWorldInfoDefault;
 
     self.drawWorldInfo(true);
   };
@@ -357,11 +346,114 @@ var world_FireRescue = new function() {
 
       if (self.options.challenge == 'grocers') {
         self.loadGrocers(scene);
+      } else if (self.options.challenge == 'warehouse') {
+        self.loadWarehouse(scene);
       }
 
       resolve();
     });
   };
+
+  // set the render function
+  this.renderDefault = function(delta) {
+    // Run every 200ms
+    self.game.renderTimeout += delta;
+    if (self.game.renderTimeout > 200) {
+      self.game.renderTimeout = 0;
+    } else {
+      return;
+    }
+
+    if (self.game.state == 'ready') {
+      if (self.game.startMesh.intersectsPoint(robot.body.absolutePosition) == false) {
+        self.game.state = 'started';
+        self.game.startTime = Date.now();
+      }
+    } else if (self.game.state == 'started') {
+      if (self.game.redExpired == false) {
+        if ((Date.now() - self.game.startTime) > self.game.RED_EXPIRY) {
+          self.game.victims.forEach(function(victim, i, victims){
+            if (victim.color == 'red') {
+              victim.dispose();
+              victims[i].null;
+            }
+          });
+          self.game.redExpired = true;
+        }
+      }
+
+      self.game.victims.forEach(function(victim, i, victims){
+        if (victim == null) {
+          return;
+        } else if (self.game.redRescueMesh.intersectsPoint(victim.absolutePosition)) {
+          if (victim.color == 'red') {
+            self.game.red += 1;
+            self.game.score += 10;
+            victim.dispose();
+            victims[i] = null;
+          }
+        } else if (self.game.greenRescueMesh.intersectsPoint(victim.absolutePosition)) {
+          if (victim.color == 'green') {
+            self.game.green += 1;
+            self.game.score += 5;
+            victim.dispose();
+            victims[i] = null;
+          }
+        }
+      });
+
+      self.drawWorldInfo();
+    }
+  };
+
+  // Set the function for drawing scores
+  this.drawWorldInfoDefault = function(rebuild) {
+    if (rebuild) {
+      simPanel.clearWorldInfoPanel();
+      let $info = $(
+        '<div class="mono row">' +
+          '<div class="center time"></div>' +
+        '</div>' +
+        '<div class="mono row">' +
+          '<div class="red"></div>' +
+          '<div class="green"></div>' +
+          '<div class="score"></div>' +
+        '</div>'
+      );
+      simPanel.drawWorldInfo($info);
+
+      self.infoPanel = {
+        $time: $info.find('.time'),
+        $red: $info.find('.red'),
+        $green: $info.find('.green'),
+        $score: $info.find('.score')
+      };
+      self.infoPanel.$red.on('animationend', function() {this.classList.remove('animate')});
+      self.infoPanel.$green.on('animationend', function() {this.classList.remove('animate')});
+      self.infoPanel.$score.on('animationend', function() {this.classList.remove('animate')});
+    }
+
+    let time = self.game.TIME_LIMIT;
+    if (self.game.startTime != null) {
+      time -= (Date.now() - self.game.startTime);
+    }
+    time = Math.round(time / 1000);
+    time = 'Time: ' + Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
+
+    let red = 'Red: ' + self.game.red;
+    let green = 'Green: ' + self.game.green;
+    let score = 'Score: ' + self.game.score;
+    function updateIfChanged(text, $dom) {
+      if (text != $dom.text()) {
+        $dom.text(text);
+        $dom.addClass('animate');
+      }
+    }
+    updateIfChanged(time, self.infoPanel.$time);
+    updateIfChanged(red, self.infoPanel.$red);
+    updateIfChanged(green, self.infoPanel.$green);
+    updateIfChanged(score, self.infoPanel.$score);
+  }
 
   // Reset game state
   this.reset = function() {
@@ -386,13 +478,156 @@ var world_FireRescue = new function() {
     return arr;
   };
 
-  // Add static box
-  this.addBox = function(scene, material, size, pos, magnetic=false, physics=true, visible=true) {
-    var boxOptions = {
-      height: size[0],
-      width: size[1],
-      depth: size[2]
+  // Add particlefire at position. SLOW!
+  this.addParticleFire = function(scene, fires, pos) {
+    BABYLON.ParticleHelper.CreateAsync("fire", scene).then((set) => {
+      fires.push(set);
+      set.systems.forEach(function(sys){
+        sys.maxSize = 50;
+        sys.worldOffset = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+      })
+      set.start();
+    });
+  };
+
+  // Add fire using sprite manager
+  this.addSpriteFire = function(scene, positions, size) {
+    var spriteManagerFire = new BABYLON.SpriteManager('FireManager', 'textures/maps/Fire Rescue/fire.png', 10, {width: 15, height: 20}, scene);
+
+    let fires = [];
+    positions.forEach(function(position){
+      let fire = new BABYLON.Sprite('fire', spriteManagerFire);
+      fire.position.x = position[0];
+      fire.position.y = position[2] + size / 2;
+      fire.position.z = position[1];
+      fire.size = size;
+      setTimeout(function(){
+        fire.playAnimation(0, 3, true, 100);
+      }, Math.random() * 400);
+      fires.push(fire);
+    });
+
+    return fires;
+  }
+
+  // Add walls
+  this.addWalls = function(scene, wallMat, walls) {
+    let meshes = [];
+
+    walls.forEach(function(wall) {
+      if (wall[0].length < 3) {
+        wall[0].push(20);
+      }
+      let size = wall[0];
+
+      if (wall[1].length < 3) {
+        wall[1].push(0);
+      }
+      let pos = wall[1];
+
+      meshes.push(self.addBox(scene, wallMat, size, pos));
+    })
+
+    return meshes;
+  }
+
+  // Add victims
+  this.addVictims = function(scene, victims, colors) {
+    let redMat = new BABYLON.StandardMaterial('red', scene);
+    redMat.diffuseColor = new BABYLON.Color3(0.9, 0.1, 0.1);
+    let greenMat = new BABYLON.StandardMaterial('green', scene);
+    greenMat.diffuseColor = new BABYLON.Color3(0.1, 0.9, 0.1);
+
+    let physicsOptions = {
+      mass: 10,
+      friction: 0.5
     };
+
+    if (self.options.random == 'random') {
+      colors = self.shuffleArray(colors);
+    }
+    self.game.victims = [];
+    for (let i=0; i<victims.length; i++) {
+      let victim = null;
+      if (colors[i] == 1) {
+        victim = self.addBox(scene, redMat, [5, 5, 0.5], victims[i], true, physicsOptions);
+        victim.color = 'red';
+      } else {
+        victim = self.addBox(scene, greenMat, [5, 5, 0.5], victims[i], true, physicsOptions);
+        victim.color = 'green';
+      }
+      self.game.victims.push(victim);
+    }
+  }
+
+  // Load crate with provide image
+  this.addCubeCrates = function (scene, imageSrc, crates) {
+    var mat = new BABYLON.StandardMaterial('crate', scene);
+    var texture = new BABYLON.Texture(imageSrc, scene);
+    mat.diffuseTexture = texture;
+    mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+    mat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 1, 1);
+    }
+
+    physicsOptions = {
+      mass: 100,
+      friction: 0.1
+    };
+
+    let meshes = [];
+    crates.forEach(function(crate) {
+      size = [crate[0], crate[0], crate[0]];
+      meshes.push(self.addBox(scene, mat, size, crate[1], false, physicsOptions, true, [0, 0, 0], faceUV));
+    });
+
+    return meshes;
+  };
+
+
+  // Load image into tile
+  this.loadImageTile = function (scene, imageSrc, size, pos=[0,0,0], physicsOptions=null) {
+    var mat = new BABYLON.StandardMaterial('image', scene);
+    var texture = new BABYLON.Texture(imageSrc, scene);
+    mat.diffuseTexture = texture;
+    mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+    mat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+    faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+
+    if (! physicsOptions) {
+      physicsOptions = {
+        mass: 0,
+        friction: self.options.groundFriction,
+        restitution: self.options.groundRestitution
+      };
+    }
+    let tile = self.addBox(scene, mat, size, pos, false, physicsOptions, true, [0, Math.PI/2, 0], faceUV);
+    tile.receiveShadows = true;
+
+    return tile;
+  };
+
+  // Add static box
+  this.addBox = function(scene, material, size, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null) {
+    var boxOptions = {
+      width: size[0],
+      depth: size[1],
+      height: size[2],
+    };
+    if (pos.length < 3) {
+      pos.push(0);
+    }
+    if (faceUV) {
+      boxOptions.faceUV = faceUV;
+    }
 
     var box = BABYLON.MeshBuilder.CreateBox('obstacle', boxOptions, scene);
     if (visible) {
@@ -400,9 +635,12 @@ var world_FireRescue = new function() {
     } else {
       box.visibility = 0;
     }
-    box.position.y = size[0] / 2;
     box.position.x = pos[0];
+    box.position.y = pos[2] + size[2] / 2;
     box.position.z = pos[1];
+    box.rotation.x = rot[0];
+    box.rotation.y = rot[1];
+    box.rotation.z = rot[2];
 
     let mass = 0;
     if (magnetic) {
@@ -410,15 +648,19 @@ var world_FireRescue = new function() {
       box.isMagnetic = true;
     }
 
-    if (physics) {
-      box.physicsImpostor = new BABYLON.PhysicsImpostor(
-        box,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        {
+    if (physicsOptions !== false) {
+      if (physicsOptions === true) {
+        physicsOptions = {
           mass: mass,
           friction: self.options.wallFriction,
           restitution: self.options.wallRestitution
-        },
+        };
+      }
+
+      box.physicsImpostor = new BABYLON.PhysicsImpostor(
+        box,
+        BABYLON.PhysicsImpostor.BoxImpostor,
+        physicsOptions,
         scene
       );
       if (magnetic) {
