@@ -443,6 +443,7 @@ var simPanel = new function() {
             return;
           }
 
+          $select.val(loadedSave.worldName);
           displayWorldOptions(world, loadedSave.options);
           worldOptionsSetting = loadedSave.options;
         };
