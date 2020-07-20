@@ -41,7 +41,11 @@ var skulpt = new function() {
       },
       function(err) {
         self.running = false;
-        simPanel.consoleWriteErrors(err.toString());
+        if (err instanceof Sk.builtin.ExternalError) {
+          console.log(err.toString());
+        } else {
+          simPanel.consoleWriteErrors(err.toString());
+        }
         clearInterval(resetExecStart);
         simPanel.setRunIcon('run');
       }
