@@ -9,7 +9,7 @@ var babylon = new function() {
     self.engine = new BABYLON.Engine(self.canvas, true);
 
     self.scene = self.createScene(); // Call the createScene function
-    self.scene.debugLayer.show();
+    // self.scene.debugLayer.show();
 
     self.world.setOptions().then(function(){
       self.loadMeshes(self.scene);
@@ -105,7 +105,7 @@ var babylon = new function() {
     self.scene.dispose();
 
     self.scene = self.createScene();
-    self.scene.debugLayer.show();
+    // self.scene.debugLayer.show();
 
     // Restore camera
     self.setCameraMode(mode);
@@ -141,15 +141,6 @@ var babylon = new function() {
     // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
     Promise.all([self.world.load(self.scene), robot.load(self.scene, self.world.robotStart)]).then(function() {
       self.setCameraMode(); // Set after loading mesh as camera may be locked to mesh
-
-      self.scene.actionManager = new BABYLON.ActionManager(self.scene);
-      self.scene.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction({
-            trigger: BABYLON.ActionManager.OnEveryFrameTrigger
-          },
-          self.render
-        )
-      );
 
       // RTT test
       // var mat = new BABYLON.StandardMaterial("RTT mat", self.scene);
@@ -187,6 +178,15 @@ var babylon = new function() {
       if (self.world.reset) {
         self.world.reset();
       }
+
+      self.scene.actionManager = new BABYLON.ActionManager(self.scene);
+      self.scene.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction({
+            trigger: BABYLON.ActionManager.OnEveryFrameTrigger
+          },
+          self.render
+        )
+      );
 
       // self.engine.hideLoadingUI();
     });

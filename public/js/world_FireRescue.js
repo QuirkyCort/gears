@@ -60,8 +60,8 @@ var world_FireRescue = new function() {
 
   this.robotStarts = {
     grocers: new BABYLON.Vector3(0, 0, -136.5 + 3),
-    warehouse: new BABYLON.Vector3(-75, 0, 100),
-    // warehouse: new BABYLON.Vector3(179.5, 0, -132 + 3),
+    // warehouse: new BABYLON.Vector3(-75, 0, 100),
+    warehouse: new BABYLON.Vector3(179.5, 0, -132 + 3),
   }
 
   this.defaultOptions = {
@@ -217,6 +217,10 @@ var world_FireRescue = new function() {
     ];
     self.addWalls(scene, pillarMat, pillars);
 
+    let rampMat = new BABYLON.StandardMaterial('ramp', scene);
+    rampMat.diffuseColor = new BABYLON.Color3(0.47, 0.48, 0.49);
+    self.addRampX(scene, rampMat, 8, 2, 20, [200, -150,0], 2);
+
     let victims = [
       [-74.6,126.3, 42],
       [59.1,131.1, 17],
@@ -252,9 +256,7 @@ var world_FireRescue = new function() {
         || doorSensor.intersectsPoint(cratesMeshes[0].absolutePosition)
         || doorSensor.intersectsPoint(cratesMeshes[1].absolutePosition)
       ) {
-        console.log('op')
         if (doorMeshes[0].absolutePosition.z < 121.5) {
-          console.log('m')
           doorMeshes[0].position.z += delta * DOOR_SPEED;
         }
       } else {
@@ -457,7 +459,9 @@ var world_FireRescue = new function() {
 
   // Reset game state
   this.reset = function() {
-    self.game.state = 'ready';
+    setTimeout(function(){
+      self.game.state = 'ready';
+    }, 500);
   };
 
   // Called by babylon and filled by individual challenges
@@ -560,6 +564,46 @@ var world_FireRescue = new function() {
     }
   }
 
+  // Add a ramp in the z direction
+  this.addRampZ = function (scene, mat, rampBase, rampHeight, width, pos, thickness=1) {
+    let rot = Math.atan(rampHeight / rampBase);
+    let boxLength = Math.sqrt(rampBase**2 + rampHeight**2);
+    let size = [
+      width,
+      boxLength,
+      thickness
+    ];
+    pos[2] = pos[2] - thickness / 2;
+    pos[2] = pos[2] + rampHeight / 2;
+    pos[2] = pos[2] - Math.cos(rot) * thickness / 2;
+    pos[1] = pos[1] + rampBase / 2;
+    pos[1] = pos[1] - Math.sin(rot) * thickness / 2;
+
+    let mesh = self.addBox(scene, mat, size, pos, false, true, true, [rot, 0, 0]);
+
+    return mesh;
+  };
+
+  // Add a ramp in the x direction
+  this.addRampX = function (scene, mat, rampBase, rampHeight, width, pos, thickness=1) {
+    let rot = Math.atan(rampHeight / rampBase);
+    let boxLength = Math.sqrt(rampBase**2 + rampHeight**2);
+    let size = [
+      boxLength,
+      width,
+      thickness
+    ];
+    pos[2] = pos[2] - thickness / 2;
+    pos[2] = pos[2] + rampHeight / 2;
+    pos[2] = pos[2] - Math.cos(rot) * thickness / 2;
+    pos[0] = pos[0] + rampBase / 2;
+    pos[0] = pos[0] - Math.sin(rot) * thickness / 2;
+
+    let mesh = self.addBox(scene, mat, size, pos, false, true, true, [0, 0, rot]);
+
+    return mesh;
+  };
+
   // Load crate with provide image
   this.addCubeCrates = function (scene, imageSrc, crates) {
     var mat = new BABYLON.StandardMaterial('crate', scene);
@@ -586,7 +630,6 @@ var world_FireRescue = new function() {
 
     return meshes;
   };
-
 
   // Load image into tile
   this.loadImageTile = function (scene, imageSrc, size, pos=[0,0,0], physicsOptions=null) {
