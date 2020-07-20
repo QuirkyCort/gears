@@ -31,12 +31,12 @@ var world_FireRescue = new function() {
           'Bring the red victims to the red rescue point within the first 4 mins, and the green victims to the green rescue point.<p>' +
           '<p>You have 8 mins to rescue everyone!</p>',
         warehouse:
-          '<p>Rescue the victims from the warehouse1 ' +
+          '<p>Rescue the victims from the warehouse! ' +
           'Bring the red victims to the red rescue point within the first 5 mins, and the green victims to the green rescue point.<p>' +
           '<p>There are many special features in this world:</p>' +
           '<ul><li>Drop the victims in the white ambulance for a 5 points bonus each.</li>' +
-          '<li>The oil barrel near the entrance is too close to the fire. Move it out of the way before it explodes and block the exit.</li>' +
-          '<li>The door to the inner room will open when the blue sensor panel detects an object above it.</li>' +
+          // '<li>The oil barrel near the entrance is too close to the fire. Move it out of the way before it explodes and block the exit.</li>' +
+          '<li>The blue door to the inner room will open when the blue sensor area nearby detects an object inside it.</li>' +
           '<li>Are there more secrets? Find them on your own!</li></ul>' +
           '<p>You have 10 mins to rescue everyone!</p>'
       }
@@ -60,12 +60,18 @@ var world_FireRescue = new function() {
 
   this.robotStarts = {
     grocers: new BABYLON.Vector3(0, 0, -136.5 + 3),
-    // warehouse: new BABYLON.Vector3(-75, 0, 100),
+    // warehouse: new BABYLON.Vector3(-75, 0, 100), // Test autodoor
+    // warehouse: new BABYLON.Vector3(-120, 0, -114), // Test breakable wall from inside
+    // warehouse: new BABYLON.Vector3(-50, 0, -114), // Test breakable wall from outside
+    // warehouse: new BABYLON.Vector3(30, 0, -48), // Test ramp
+    // warehouse: new BABYLON.Vector3(59, 0, 80), // Test crane
+    // warehouse: new BABYLON.Vector3(162, 0, 100), // Test tow
+    // warehouse: new BABYLON.Vector3(15.5, 0, -90), // Test tow drop off
     warehouse: new BABYLON.Vector3(179.5, 0, -132 + 3),
   }
 
   this.defaultOptions = {
-    challenge: 'warehouse',
+    challenge: 'grocers',
     random: 'fixed',
     length: 100,
     width: 100,
@@ -134,7 +140,7 @@ var world_FireRescue = new function() {
       [30, 109.8, 1],
       [-6.5,-48, 41],
       {
-        mass: 10,
+        mass: 200,
         friction: self.options.groundFriction,
         restitution: self.options.groundRestitution
       }
@@ -150,7 +156,7 @@ var world_FireRescue = new function() {
     // Crates
     let crates = [
       [15, [48.5,-48, 0]],
-      [15, [127.5,93.5, 0]]
+      [15, [127.5,89.5, 0]]
     ];
     let cratesMeshes = self.addCubeCrates(scene, 'textures/maps/Fire Rescue/woodenCrate.png', crates);
 
@@ -176,16 +182,21 @@ var world_FireRescue = new function() {
     ];
     let doorMeshes = self.addWalls(scene, doorMat, doors);
 
-    // let fires = [
-    //   [-85,0,3.5],
-    //   [40.7,0,1.9],
-    //   [-47.4,0,126.3],
-    //   [78.9,0,127.9],
-    //   [120.3,0,40.7],
-    // ];
-    // self.addSpriteFire(scene, fires, 30);
+    // Fire
+    let fires = [
+      [4.5,126.6, 0],
+      [105.6,127.8, 5],
+      [83.3,81.6, 0],
+      [179.6,78, 0],
+      [-85.3,28.7, 0],
+      [-9.2,-1.2, 0],
+      [150,15, 0],
+      [120,-38.5, 0],
+      [-83.2,-76.7, 0]
+    ];
+    self.addSpriteFire(scene, fires, 30);
 
-    // shelves
+    // Shelves
     let shelfMat = new BABYLON.StandardMaterial('shelf', scene);
     shelfMat.diffuseColor = new BABYLON.Color3(0.78, 0.56, 0.38);
     let shelves = [
@@ -194,6 +205,7 @@ var world_FireRescue = new function() {
     ];
     self.addWalls(scene, shelfMat, shelves);
 
+    // Walls
     let wallMat = new BABYLON.StandardMaterial('wall', scene);
     wallMat.diffuseColor = new BABYLON.Color3(0.47, 0.48, 0.49);
     let walls = [
@@ -207,6 +219,23 @@ var world_FireRescue = new function() {
     ];
     self.addWalls(scene, wallMat, walls);
 
+    // Breakable walls
+    let breakableWalls = [
+      [[8,17.9,13], [-91.6,-96,0]],
+      [[8,17.9,13], [-91.6,-114,0]],
+      [[8,17.9,13], [-91.6,-132,0]],
+      [[8,17.9,13], [-91.6,-96,13]],
+      [[8,17.9,13], [-91.6,-114,13]],
+      [[8,17.9,13], [-91.6,-132,13]],
+      [[8,17.9,14], [-91.6,-96,26]],
+      [[8,17.9,14], [-91.6,-114,26]],
+      [[8,17.9,14], [-91.6,-132,26]],
+    ];
+    breakableWalls.forEach(function(breakableWall){
+      self.addBox(scene, wallMat, breakableWall[0], breakableWall[1], false, { mass: 200 });
+    });
+
+    // Pillar
     let pillarMat = new BABYLON.StandardMaterial('pillar', scene);
     pillarMat.diffuseColor = new BABYLON.Color3(0.235, 0.24, 0.245);
     let pillars = [
@@ -217,10 +246,23 @@ var world_FireRescue = new function() {
     ];
     self.addWalls(scene, pillarMat, pillars);
 
+    // Ramp (at autodoor)
     let rampMat = new BABYLON.StandardMaterial('ramp', scene);
-    rampMat.diffuseColor = new BABYLON.Color3(0.47, 0.48, 0.49);
-    self.addRampX(scene, rampMat, 8, 2, 20, [200, -150,0], 2);
+    rampMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    self.addRampX(scene, rampMat, 8, -2, 26, [-95.6,75.2,2], 2);
 
+    // Obstructions
+    let obstructionMat = new BABYLON.StandardMaterial('obstruction', scene);
+    obstructionMat.diffuseColor = new BABYLON.Color3(0.235, 0.24, 0.245);
+    let obstructions = [
+      [[10,40,10], [16,29.25,0], -0.5],
+      [[10,40,10], [105.5,61.05,0], 0.2],
+    ];
+    obstructions.forEach(function(obstruction){
+      self.addBox(scene, obstructionMat, obstruction[0], obstruction[1], false, true, true, [0, obstruction[2], 0]);
+    });
+
+    // Victims
     let victims = [
       [-74.6,126.3, 42],
       [59.1,131.1, 17],
@@ -228,7 +270,7 @@ var world_FireRescue = new function() {
       [-42.9,-11.3, 0],
       [55.3,-11.9, 0],
       [Math.random() * -68 - 110, Math.random() * 123, 2],
-      [Math.random() * -68 - 110, Math.random() * 125 - 127, 2]
+      [Math.random() * -68 - 110, Math.random() * 125 - 127, 2],
     ];
     let colors = [1,1,1,0,0,0,0];
     self.addVictims(scene, victims, colors);
@@ -236,11 +278,14 @@ var world_FireRescue = new function() {
     self.game.startMesh = self.addBox(scene, null, [27, 27, 30], [179.5, -132], false, false, false);
     self.game.startMesh.isPickable = false;
 
-    self.game.redRescueMesh = self.addBox(scene, null, [70, 30, 0.4], [32, -132], false, false, false);
+    self.game.redRescueMesh = self.addBox(scene, null, [35, 30, 0.4], [49.5, -132], false, false, false);
     self.game.redRescueMesh.isPickable = false;
 
-    self.game.greenRescueMesh = self.addBox(scene, null, [70, 30, 0.4], [119, -132], false, false, false);
+    self.game.greenRescueMesh = self.addBox(scene, null, [35, 30, 0.4], [136.5, -132], false, false, false);
     self.game.greenRescueMesh.isPickable = false;
+
+    self.addAmbulance(scene, [15.5,-132, 0], 'red');
+    self.addAmbulance(scene, [102.5,-132, 0], 'green');
 
     // set time limits
     self.game.RED_EXPIRY = 5 * 60 * 1000;
@@ -401,6 +446,20 @@ var world_FireRescue = new function() {
             victim.dispose();
             victims[i] = null;
           }
+        } else if (self.game.redAmbulanceMesh.intersectsPoint(victim.absolutePosition)) {
+          if (victim.color == 'red') {
+            self.game.red += 1;
+            self.game.score += 15;
+            victim.dispose();
+            victims[i] = null;
+          }
+        } else if (self.game.greenAmbulanceMesh.intersectsPoint(victim.absolutePosition)) {
+          if (victim.color == 'green') {
+            self.game.green += 1;
+            self.game.score += 10;
+            victim.dispose();
+            victims[i] = null;
+          }
         }
       });
 
@@ -508,11 +567,41 @@ var world_FireRescue = new function() {
       setTimeout(function(){
         fire.playAnimation(0, 3, true, 100);
       }, Math.random() * 400);
+
+      fire.mesh = BABYLON.MeshBuilder.CreateCylinder('fire',  { height: 20, diameter: size / 3 }, scene);
+      fire.mesh.visibility = 0;
+      fire.mesh.position.x = position[0];
+      fire.mesh.position.y = position[2] + 5;
+      fire.mesh.position.z = position[1];
+      fire.mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+        fire.mesh,
+        BABYLON.PhysicsImpostor.CylinderImpostor,
+        { mass: 0 },
+        scene
+      );
+
       fires.push(fire);
     });
 
     return fires;
-  }
+  };
+
+  // Add ambulance
+  this.addAmbulance = function(scene, pos, type) {
+    self.addBox(scene, null, [7, 23, 8], [pos[0]-13, pos[1], pos[2]])
+    self.addBox(scene, null, [1, 23, 8], [pos[0]+16, pos[1], pos[2]])
+    self.addBox(scene, null, [33, 1, 8], [pos[0], pos[1]-12, pos[2]])
+    self.addBox(scene, null, [33, 1, 8], [pos[0], pos[1]+12, pos[2]])
+
+    let mesh = self.addBox(scene, null, [25, 23, 0.4], [pos[0]+3, pos[1]], false, false, false);
+    mesh.isPickable = false;
+
+    if (type == 'red') {
+      self.game.redAmbulanceMesh = mesh;
+    } else if (type == 'green') {
+      self.game.greenAmbulanceMesh = mesh;
+    }
+  };
 
   // Add walls
   this.addWalls = function(scene, wallMat, walls) {
@@ -533,7 +622,7 @@ var world_FireRescue = new function() {
     })
 
     return meshes;
-  }
+  };
 
   // Add victims
   this.addVictims = function(scene, victims, colors) {
@@ -562,7 +651,7 @@ var world_FireRescue = new function() {
       }
       self.game.victims.push(victim);
     }
-  }
+  };
 
   // Add a ramp in the z direction
   this.addRampZ = function (scene, mat, rampBase, rampHeight, width, pos, thickness=1) {
