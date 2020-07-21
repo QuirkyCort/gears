@@ -62,16 +62,16 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
 
     var eyeMat = new BABYLON.StandardMaterial('colorSensorEye', scene);
     eyeMat.diffuseColor = new BABYLON.Color3(0.9, 0.0, 0.0);
-    var eye = new BABYLON.MeshBuilder.CreateSphere("eye", {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
+    var eye = new BABYLON.MeshBuilder.CreateSphere('eye', {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
     eye.material = eyeMat;
     eye.position.z = 1.5;
     eye.parent = body;
 
     // Create camera and RTT
     self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
-    self.rttCam.fov = 1.3;
-    self.rttCam.minZ = 0.1;
-    self.rttCam.maxZ = 5;
+    self.rttCam.fov = self.options.sensorFov;
+    self.rttCam.minZ = self.options.sensorMinRange;
+    self.rttCam.maxZ = self.options.sensorMaxRange;
     self.rttCam.updateUpVectorFromRotation = true;
     self.rttCam.position = eye.absolutePosition;
 
@@ -151,7 +151,10 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
 
   this.setOptions = function(options) {
     self.options = {
-      sensorResolution: 8
+      sensorResolution: 8,
+      sensorMinRange: 0.1,
+      sensorMaxRange: 5,
+      sensorFov: 1.3
     };
 
     for (let name in options) {
