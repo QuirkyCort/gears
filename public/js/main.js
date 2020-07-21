@@ -9,11 +9,13 @@ var main = new function() {
     self.$fileMenu = $('.fileMenu');
     self.$pythonMenu = $('.pythonMenu');
     self.$robotMenu = $('.robotMenu');
+    self.$helpMenu = $('.helpMenu');
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
     self.$pythonMenu.click(self.togglePythonMenu);
     self.$robotMenu.click(self.toggleRobotMenu);
+    self.$helpMenu.click(self.toggleHelpMenu);
 
     window.addEventListener('beforeunload', self.checkUnsaved);
     blocklyPanel.onActive();
@@ -46,6 +48,63 @@ var main = new function() {
       reader.readAsText(e.target.files[0]);
     });
   };
+
+  // About page
+  this.openAbout = function() {
+    let $body = $(
+      '<div class="about">' +
+        '<div></div>' +
+        '<h3>Credits</h3>' +
+        '<p>Created by Cort @ A Posteriori.</p>' +
+        '<p>This simulator would not have been possible without the great people behind:</p>' +
+        '<ul>' +
+          '<li><a href="https://www.babylonjs.com/">Babylon.js</a></li>' +
+          '<li><a href="https://developers.google.com/blockly">Blockly</a></li>' +
+          '<li><a href="https://ace.c9.io/">Ace Editor</a></li>' +
+          '<li><a href="https://skulpt.org/">Skulpt</a></li>' +
+          '<li><a href="https://github.com/kripken/ammo.js/">Ammo.js</a> (port of <a href="https://pybullet.org/wordpress/">Bullet</a>)</li>' +
+        '</ul>' +
+        '<p>Complaints / Requests for improvements</p>' +
+        '<p>Please direct all requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +
+        '<h3>License</h3>' +
+        '<p>GNU General Public License v3.0</p>' +
+        '<p>Gears is a Free and Open Source Software</p>' +
+      '</div>'
+    );
+
+    let $buttons = $(
+      '<button type="button" class="confirm btn-success">Ok</button>'
+    );
+
+    let $dialog = dialog('About', $body, $buttons);
+
+    $buttons.click(function(){
+      console.log('f')
+      $dialog.close();
+    });
+  };
+
+  // Open page in new tab
+  this.openPage = function(url) {
+    window.open(url, '_blank');
+  };
+
+  // Toggle help
+  this.toggleHelpMenu = function(e) {
+    if ($('.helpMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: 'Wiki', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears/wiki'); }},
+        {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
+        {html: 'About', line: false, callback: self.openAbout }
+      ];
+
+      menuDropDown(self.$helpMenu, menuItems, {className: 'helpMenuDropDown'});
+    }
+  };
+
 
   // Select robot from templates
   this.selectRobot = function() {

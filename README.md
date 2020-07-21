@@ -39,12 +39,12 @@ GNU General Public License v3.0
 The following Open Source software are included here for convenience.
 Please refer to their respective websites for license information.
 
-Babylon.js
-Blockly
-Ace Editor
-Skulpt
-Ammo.js
-Cannon.js
-Oimo.js
-Pep
-Jquery
+* Babylon.js
+* Blockly
+* Ace Editor
+* Skulpt
+* Ammo.js
+* Cannon.js
+* Oimo.js
+* Pep
+* Jquery
