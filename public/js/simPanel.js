@@ -452,7 +452,10 @@ var simPanel = new function() {
     });
     $buttons.siblings('.default').click(function() {
       let world = worlds.find(world => world.name == $select.val());
-      displayWorldOptions(world, world.defaultOptions);
+      world.options = {};
+      Object.assign(world.options, world.defaultOptions);
+      displayWorldOptions(world, world.options);
+      // displayWorldOptions(world, world.defaultOptions);
     });
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
