@@ -157,6 +157,8 @@ var simPanel = new function() {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'ArmActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
+      } else if (sensor[0].type == 'LaserRangeSensor') {
+        sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
       }
     });
   };

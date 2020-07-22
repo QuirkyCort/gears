@@ -85,12 +85,15 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
       false,
       BABYLON.Texture.NEAREST_NEAREST
     );
+    self.renderTarget.clearColor = BABYLON.Color3.Black();
     scene.customRenderTargets.push(self.renderTarget);
     self.renderTarget.activeCamera = self.rttCam;
     // self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
 
+    self.pixels = new Uint8Array(self.options.sensorResolution ** 2 * 4);
+
     self.renderTarget.onBeforeRender = function() {
-      scene.clearColor = BABYLON.Color3.Black();
+      // scene.clearColor = BABYLON.Color3.Black();
       self.renderTarget.renderList.forEach((mesh) => {
         if (mesh.getClassName() === 'InstancedMesh') {
             return;
@@ -118,7 +121,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
       });
     };
     self.renderTarget.onAfterRender = function() {
-      scene.clearColor = new BABYLON.Color3(0.2, 0.2, 0.3);
+      // scene.clearColor = new BABYLON.Color3(0.2, 0.2, 0.3);
       self.renderTarget.renderList.forEach((mesh) => {
         if (mesh.getClassName() === 'InstancedMesh') {
             return;
@@ -137,7 +140,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
         for (let s = 0; s < mesh.subMeshes.length; ++s) {
             mesh.subMeshes[s].setEffect(...mesh._orig_subMeshEffects[s]);
         }
-    });
+      });
     };
 
     self.buildMask();
@@ -194,14 +197,12 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var b = 0;
 
     // self.renderTarget.resetRefreshCounter();
-    let pixels = self.renderTarget.readPixels();
-    self.pixels = pixels;
-    for (let i=0; i<pixels.length; i+=4) {
-
+    self.renderTarget.readPixels(0, 0, self.pixels);
+    for (let i=0; i<self.pixels.length; i+=4) {
       if (self.mask[i/4]) {
-        r += pixels[i];
-        g += pixels[i+1];
-        b += pixels[i+2];
+        r += self.pixels[i];
+        g += self.pixels[i+1];
+        b += self.pixels[i+2];
       }
     }
     self.r = r;
@@ -1088,8 +1089,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   this.init();
 }
 
-
-// Ultrasonic distance sensor
+// Laser distance sensor
 function LaserRangeSensor(scene, parent, pos, rot, port, options) {
   var self = this;
 
@@ -1159,7 +1159,7 @@ function LaserRangeSensor(scene, parent, pos, rot, port, options) {
       var ray = new BABYLON.Ray(origin, new BABYLON.Vector3(0,-1,0), self.options.rayLength);
       self.rays.push(ray);
 
-      BABYLON.RayHelper.CreateAndShow(ray, scene, new BABYLON.Color3(1, 1, 1));
+      // BABYLON.RayHelper.CreateAndShow(ray, scene, new BABYLON.Color3(1, 1, 1));
     });
   };
 
@@ -1180,7 +1180,7 @@ function LaserRangeSensor(scene, parent, pos, rot, port, options) {
   };
 
   this.getDistance = function() {
-    var shortestDistance = 255;
+    var shortestDistance = self.options.rayLength;
 
     var rayOffset = new BABYLON.Vector3(0,0,0);
     self.options.rayOrigin.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, rayOffset);
