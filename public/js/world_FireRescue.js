@@ -234,7 +234,7 @@ var world_FireRescue = new function() {
       [[8,17.9,14], [-91.6,-132,26]],
     ];
     breakableWalls.forEach(function(breakableWall){
-      self.addBox(scene, wallMat, breakableWall[0], breakableWall[1], false, { mass: 200 });
+      self.addBox(scene, wallMat, breakableWall[0], breakableWall[1], false, { mass: 200, friction: 0.5 });
     });
 
     // Pillar
