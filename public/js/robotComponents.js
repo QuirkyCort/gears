@@ -776,18 +776,19 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     rearBodyMat.diffuseTexture = rearBodyTexture;
 
     var faceUV = new Array(6);
-    for (var i = 0; i < 6; i++) {
-        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
-    }
-    faceUV[1] = new BABYLON.Vector4(0, 0, 1/3, 1);
-    faceUV[2] = new BABYLON.Vector4(1/3, 0, 2/3, 1);
-    faceUV[3] = new BABYLON.Vector4(1/3, 0, 2/3, 1);
-    faceUV[0] = new BABYLON.Vector4(2/3, 0, 1, 1);
+    faceUV[0] = new BABYLON.Vector4(0, 0, 1, 1);
+    faceUV[1] = new BABYLON.Vector4(0, 0, 1, 1);
+    faceUV[2] = new BABYLON.Vector4(0, 0, 1, 1);
+    faceUV[3] = new BABYLON.Vector4(0, 0, 1, 1);
+    faceUV[4] = new BABYLON.Vector4(0, 0, 0, 0);
+    faceUV[5] = new BABYLON.Vector4(0, 0, 0, 0);
+
     var bodyOptions = {
       height: 2,
       width: 2,
       depth: 2,
-      faceUV: faceUV
+      faceUV: faceUV,
+      wrap: true
     }
 
     var rearBody = BABYLON.MeshBuilder.CreateBox('magnetActuatorRearBody',  bodyOptions, scene);
