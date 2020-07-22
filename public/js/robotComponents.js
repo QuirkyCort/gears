@@ -238,7 +238,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
         gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, self.pixels);
         gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
         gl.deleteBuffer(buf);
-        gl.bindFramebuffer(gl.FRAMEBUFFER, this._currentFramebuffer);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, engine._currentFramebuffer);
     });
   };
 
