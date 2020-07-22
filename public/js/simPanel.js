@@ -88,7 +88,7 @@ var simPanel = new function() {
     while (sensor = robot.getComponentByPort('in' + i)) {
       let tmp = null;
       if (sensor.type == 'ColorSensor') {
-        tmp = genDiv(sensor.port + ': Color Sensor', ['Red', 'Green', 'Blue', 'Intensity']);
+        tmp = genDiv(sensor.port + ': Color Sensor', ['Red', 'Green', 'Blue', 'Intensity (%)']);
       } else if (sensor.type == 'UltrasonicSensor') {
         tmp = genDiv(sensor.port + ': Ultrasonic Sensor', ['Distance (cm)']);
       } else if (sensor.type == 'GyroSensor') {
@@ -139,7 +139,7 @@ var simPanel = new function() {
         sensor[1][0].text(Math.round(rgb[0]));
         sensor[1][1].text(Math.round(rgb[1]));
         sensor[1][2].text(Math.round(rgb[2]));
-        sensor[1][3].text(Math.round((rgb[0]+rgb[1]+rgb[2])/3));
+        sensor[1][3].text(Math.round(rgb[0] / 2.55));
       } else if (sensor[0].type == 'UltrasonicSensor') {
         sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
       } else if (sensor[0].type == 'GyroSensor') {

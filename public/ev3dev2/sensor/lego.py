@@ -38,7 +38,7 @@ class ColorSensor:
   @property
   def reflected_light_intensity(self):
     time.sleep(SENSOR_DELAY)
-    return int(list(self.sensor.value())[0])
+    return int(list(self.sensor.value())[0] / 2.55)
 
   @property
   def ambient_light_intensity(self):
