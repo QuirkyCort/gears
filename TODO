@@ -24,7 +24,6 @@ Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
 - More components
   - rotating platform
-  - laser rangefinder (simplified ultrasonic)
   - paint ball launcher
   - pen
   - object of interest radar (direction and range of object)

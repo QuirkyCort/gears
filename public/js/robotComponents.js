@@ -91,9 +91,9 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     // self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
 
     self.pixels = new Uint8Array(self.options.sensorResolution ** 2 * 4);
+    self.waitingSync = false;
 
     self.renderTarget.onBeforeRender = function() {
-      // scene.clearColor = BABYLON.Color3.Black();
       self.renderTarget.renderList.forEach((mesh) => {
         if (mesh.getClassName() === 'InstancedMesh') {
             return;
@@ -121,7 +121,6 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
       });
     };
     self.renderTarget.onAfterRender = function() {
-      // scene.clearColor = new BABYLON.Color3(0.2, 0.2, 0.3);
       self.renderTarget.renderList.forEach((mesh) => {
         if (mesh.getClassName() === 'InstancedMesh') {
             return;
@@ -171,6 +170,9 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
 
   this.render = function(delta) {
     self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
+    if (! self.waitingSync) {
+      self.readPixelsAsync();
+    }
   };
 
   this.buildMask = function() {
@@ -191,13 +193,85 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     }
   };
 
+  this.readPixelsAsync = function() {
+    let texture = self.renderTarget._texture;
+    let width = self.options.sensorResolution;
+    let height = self.options.sensorResolution;
+
+    const engine = babylon.engine;
+
+    let gl = engine._gl;
+    let dummy = babylon.engine._gl.createFramebuffer();
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, dummy);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture._webGLTexture, 0);
+
+    let readType = (texture.type !== undefined) ? engine._getWebGLTextureType(texture.type) : gl.UNSIGNED_BYTE;
+
+    switch (readType) {
+      case gl.UNSIGNED_BYTE:
+        readType = gl.UNSIGNED_BYTE;
+        break;
+      default:
+        readType = gl.FLOAT;
+        break;
+    }
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buf);
+    gl.bufferData(gl.PIXEL_PACK_BUFFER, self.pixels.byteLength, gl.STREAM_READ);
+    gl.readPixels(0, 0, width, height, gl.RGBA, readType, 0);
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+
+    const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+    if (!sync) {
+      return null;
+    }
+
+    gl.flush();
+
+    self.waitingSync = true;
+
+    return self._clientWaitAsync(sync, 0, 5).then(() => {
+        gl.deleteSync(sync);
+        gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buf);
+        gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, self.pixels);
+        gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+        gl.deleteBuffer(buf);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this._currentFramebuffer);
+    });
+  };
+
+  this._clientWaitAsync = function(sync, flags = 0, interval_ms = 10) {
+    let gl = babylon.engine._gl;
+    return new Promise((resolve, reject) => {
+      let check = () => {
+        const res = gl.clientWaitSync(sync, flags, 0);
+        if (res == gl.WAIT_FAILED) {
+          self.waitingSync = false;
+          reject();
+          return;
+        }
+        if (res == gl.TIMEOUT_EXPIRED) {
+          setTimeout(check, interval_ms);
+          return;
+        }
+        self.waitingSync = false;
+        resolve();
+      };
+
+      check();
+    });
+  }
+
   this.getRGB = function() {
     var r = 0;
     var g = 0;
     var b = 0;
 
     // self.renderTarget.resetRefreshCounter();
-    self.renderTarget.readPixels(0, 0, self.pixels);
+    // self.renderTarget.readPixels(0, 0, self.pixels);
+    // self.readPixelsAsync();
     for (let i=0; i<self.pixels.length; i+=4) {
       if (self.mask[i/4]) {
         r += self.pixels[i];
