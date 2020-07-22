@@ -526,6 +526,14 @@ var robot = new function() {
           componentConfig.rotation,
           'out' + PORT_LETTERS[(++robot.motorCount)],
           componentConfig.options);
+      } else if (componentConfig.type == 'LaserRangeSensor') {
+        component = new LaserRangeSensor(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'in' + (++robot.sensorCount),
+          componentConfig.options);
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
       }

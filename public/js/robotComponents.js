@@ -396,7 +396,7 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
   };
 
   this.getDistance = function() {
-    var shortestDistance = 255;
+    var shortestDistance = self.options.rayLength;
 
     var rayOffset = new BABYLON.Vector3(0,0,0);
     self.options.rayOrigin.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, rayOffset);
@@ -1083,6 +1083,120 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     self.prevRotation = rotation;
 
     return self.rotationRounds * 360 + rotation - self.positionAdjustment;
+  };
+
+  this.init();
+}
+
+
+// Ultrasonic distance sensor
+function LaserRangeSensor(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'LaserRangeSensor';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = new BABYLON.StandardMaterial('laserRangeSensorBody', scene);
+    var bodyTexture = new BABYLON.Texture('textures/robot/laserRange.png', scene);
+    bodyMat.diffuseTexture = bodyTexture;
+
+    var faceUV = new Array(6);
+    faceUV[0] = new BABYLON.Vector4(0, 0.375, 1, 1);
+    faceUV[1] = new BABYLON.Vector4(0, 0.375, 1, 1);
+    faceUV[2] = new BABYLON.Vector4(0, 0.375, 1, 1);
+    faceUV[3] = new BABYLON.Vector4(0, 0.375, 1, 1);
+    faceUV[4] = new BABYLON.Vector4(0, 0, 0, 0);
+    faceUV[5] = new BABYLON.Vector4(0, 0, 1, 0.375);
+
+    let bodyOptions = {
+      height: 2.5,
+      width: 1.5,
+      depth: 1.5,
+      faceUV: faceUV,
+      wrap: true
+    };
+
+    var body = BABYLON.MeshBuilder.CreateBox('laserRangeSensorBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    body.parent = parent;
+    body.position = self.position;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+
+    // Prep rays
+    self.rays = [];
+    self.rayVectors = [];
+    var straightVector = new BABYLON.Vector3(0,-1,0);
+    let origin = new BABYLON.Vector3(0,0,0);
+
+    self.options.rayRotations.forEach(function(rayRotation){
+      var matrixX = BABYLON.Matrix.RotationAxis(BABYLON.Axis.X, rayRotation[0]);
+      var matrixY = BABYLON.Matrix.RotationAxis(BABYLON.Axis.Y, rayRotation[1]);
+      var vec = BABYLON.Vector3.TransformCoordinates(straightVector, matrixX);
+      vec = BABYLON.Vector3.TransformCoordinates(vec, matrixY);
+
+      self.rayVectors.push(vec);
+      var ray = new BABYLON.Ray(origin, new BABYLON.Vector3(0,-1,0), self.options.rayLength);
+      self.rays.push(ray);
+
+      BABYLON.RayHelper.CreateAndShow(ray, scene, new BABYLON.Color3(1, 1, 1));
+    });
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      rayOrigin:  new BABYLON.Vector3(0,-1.26,0),
+      rayRotations: [ [0, 0] ],
+      rayLength: 400
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.getDistance = function() {
+    var shortestDistance = 255;
+
+    var rayOffset = new BABYLON.Vector3(0,0,0);
+    self.options.rayOrigin.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, rayOffset);
+    self.rays[0].origin.copyFrom(self.body.absolutePosition);
+    self.rays[0].origin.addInPlace(rayOffset);
+
+    self.rayVectors.forEach(function(rayVector, i){
+      rayVector.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, self.rays[i].direction);
+
+      var hit = scene.pickWithRay(self.rays[i]);
+      if (hit.hit && hit.distance < shortestDistance) {
+        shortestDistance = hit.distance;
+      }
+    });
+
+    return shortestDistance;
   };
 
   this.init();

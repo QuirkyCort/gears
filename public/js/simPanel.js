@@ -95,7 +95,11 @@ var simPanel = new function() {
         tmp = genDiv(sensor.port + ': Gyro Sensor', ['Angle (degrees)']);
       } else if (sensor.type == 'GPSSensor') {
         tmp = genDiv(sensor.port + ': GPS Sensor', ['X (cm)', 'Y (cm)', 'Altitude (cm)']);
-      } else {console.log(sensor)}
+      } else if (sensor.type == 'LaserRangeSensor') {
+        tmp = genDiv(sensor.port + ': Laser Range Sensor', ['Distance (cm)']);
+      } else {
+        console.log(sensor);
+      }
 
       if (tmp) {
         self.$sensorsPanel.append(tmp[0]);
