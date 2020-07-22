@@ -164,16 +164,18 @@ var world_FireRescue = new function() {
     let sensorMat = new BABYLON.StandardMaterial('doorSensor', scene);
     sensorMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.8);
     sensorMat.alpha = 0.3;
-    var animateSensor = new BABYLON.Animation('doorSensor', 'scaling.y', 10, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
-    animateSensor.setKeys([
-      { frame: 0, value: 1.0 },
-      { frame: 5, value: 1.5 },
-      { frame: 10, value: 1.0 },
-    ]);
     let doorSensor = self.addBox(scene, sensorMat, [25, 25, 20], [-75.1,124.5], false, false);
     doorSensor.isPickable = false;
-    doorSensor.animations = [animateSensor];
-    scene.beginAnimation(doorSensor, 0, 10, true);
+    let doorSensorIndicator = self.addBox(scene, sensorMat, [25, 25, 2], [-75.1,124.5], false, false);
+    doorSensorIndicator.isPickable = false;
+    var animateSensor = new BABYLON.Animation('doorSensor', 'position.y', 10, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+    animateSensor.setKeys([
+      { frame: 0, value: 2 },
+      { frame: 5, value: 18},
+      { frame: 10, value: 2 },
+    ]);
+    doorSensorIndicator.animations = [animateSensor];
+    scene.beginAnimation(doorSensorIndicator, 0, 10, true);
 
     let doorMat = new BABYLON.StandardMaterial('wall', scene);
     doorMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.8);
