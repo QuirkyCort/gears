@@ -369,6 +369,8 @@ var ev3dev2_generator = new function() {
       typeStr = 'reflected_light_intensity';
     } else if (dropdown_type == 'COLOR') {
       typeStr = 'color';
+    } else if (dropdown_type == 'COLOR_NAME') {
+      typeStr = 'color_name';
     } else if (dropdown_type == 'RED') {
       typeStr = 'rgb[0]';
     } else if (dropdown_type == 'GREEN') {

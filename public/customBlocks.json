@@ -558,6 +558,10 @@
           "COLOR"
         ],
         [
+          "color name",
+          "COLOR_NAME"
+        ],
+        [
           "red",
           "RED"
         ],

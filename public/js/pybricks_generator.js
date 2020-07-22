@@ -414,6 +414,8 @@ var pybricks_generator = new function() {
       typeStr = 'reflection()';
     } else if (dropdown_type == 'COLOR') {
       typeStr = 'color()';
+    } else if (dropdown_type == 'COLOR_NAME') {
+      typeStr = 'color()';
     } else if (dropdown_type == 'RED') {
       typeStr = 'rgb()[0]';
     } else if (dropdown_type == 'GREEN') {
