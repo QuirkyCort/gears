@@ -510,7 +510,7 @@ var robot = new function() {
           componentConfig.position,
           componentConfig.rotation,
           componentConfig.options);
-      } else if (componentConfig.type == 'magnetActuator') {
+      } else if (componentConfig.type == 'MagnetActuator') {
         component = new MagnetActuator(
           self.scene,
           parent,
@@ -518,7 +518,7 @@ var robot = new function() {
           componentConfig.rotation,
           'out' + PORT_LETTERS[(++robot.motorCount)],
           componentConfig.options);
-      } else if (componentConfig.type == 'armActuator') {
+      } else if (componentConfig.type == 'ArmActuator') {
         component = new ArmActuator(
           self.scene,
           parent,
@@ -533,6 +533,14 @@ var robot = new function() {
           componentConfig.position,
           componentConfig.rotation,
           'in' + (++robot.sensorCount),
+          componentConfig.options);
+      } else if (componentConfig.type == 'SwivelActuator') {
+        component = new SwivelActuator(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'out' + PORT_LETTERS[(++robot.motorCount)],
           componentConfig.options);
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);

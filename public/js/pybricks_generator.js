@@ -75,6 +75,8 @@ var pybricks_generator = new function() {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Magnet\n';
       } else if (motor.type == 'ArmActuator') {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Arm\n';
+      } else if (motor.type == 'SwivelActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Swivel\n';
       }
       i++;
     }

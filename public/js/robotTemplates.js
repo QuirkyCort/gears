@@ -70,7 +70,7 @@ var robotTemplates = [
         options: null
       },
       {
-        type: 'magnetActuator',
+        type: 'MagnetActuator',
         position: [0, -1, 3],
         rotation: [0, 0, 0],
         options: null
@@ -154,7 +154,7 @@ var robotTemplates = [
         options: null
       },
       {
-        type: 'magnetActuator',
+        type: 'MagnetActuator',
         position: [0, -1, 3],
         rotation: [0, 0, 0],
         options: null
@@ -259,7 +259,7 @@ var robotTemplates = [
         options: null
       },
       {
-        type: 'magnetActuator',
+        type: 'MagnetActuator',
         position: [0, -1, 3],
         rotation: [0, 0, 0],
         options: null
@@ -358,13 +358,13 @@ var robotTemplates = [
         options: null
       },
       {
-        type: 'armActuator',
+        type: 'ArmActuator',
         position: [0, 3, 4],
         rotation: [0, Math.PI, 0],
         options: null,
         components: [
           {
-            type: 'magnetActuator',
+            type: 'MagnetActuator',
             position: [0, -1.75, 8],
             rotation: [0, 0, 0],
             options: null
@@ -469,13 +469,13 @@ var robotTemplates = [
         options: null
       },
       {
-        type: 'armActuator',
+        type: 'ArmActuator',
         position: [0, 3, 4],
         rotation: [0, 0, 0],
         options: null,
         components: [
           {
-            type: 'armActuator',
+            type: 'ArmActuator',
             position: [0, 0, 8],
             rotation: [0, 0, 0],
             options: {
@@ -484,7 +484,7 @@ var robotTemplates = [
             },
             components: [
               {
-                type: 'magnetActuator',
+                type: 'MagnetActuator',
                 position: [0, -1.75, 8],
                 rotation: [0, 0, 0],
                 options: null

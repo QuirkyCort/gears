@@ -111,7 +111,7 @@ var simPanel = new function() {
     let tmp = genDiv('outA: Left Motor', ['Position (degrees)']);
     self.$sensorsPanel.append(tmp[0]);
     self.sensors.push([robot.leftWheel, tmp[1]]);
-    tmp = genDiv('outA: Left Motor', ['Position (degrees)']);
+    tmp = genDiv('outB: Right Motor', ['Position (degrees)']);
     self.$sensorsPanel.append(tmp[0]);
     self.sensors.push([robot.rightWheel, tmp[1]]);
 
@@ -121,6 +121,8 @@ var simPanel = new function() {
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'ArmActuator') {
         tmp = genDiv(motor.port + ': Arm Actuator', ['Position (degrees)']);
+      } else if (motor.type == 'SwivelActuator') {
+        tmp = genDiv(motor.port + ': Swivel Actuator', ['Position (degrees)']);
       }
 
       if (tmp) {
@@ -159,6 +161,8 @@ var simPanel = new function() {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'LaserRangeSensor') {
         sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
+      } else if (sensor[0].type == 'SwivelActuator') {
+        sensor[1][0].text(Math.round(sensor[0].position));
       }
     });
   };
