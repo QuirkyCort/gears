@@ -826,20 +826,22 @@
             <field name="TEXT">color sensor</field>
             <next>
               <block type="field_dropdown" id="?+Iw3ygr=bJ?7{2^4b|)">
-                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
                 <field name="FIELDNAME">type</field>
                 <field name="USER0">reflected light intensity</field>
                 <field name="CPU0">INTENSITY</field>
                 <field name="USER1">color</field>
                 <field name="CPU1">COLOR</field>
-                <field name="USER2">red</field>
-                <field name="CPU2">RED</field>
-                <field name="USER3">green</field>
-                <field name="CPU3">GREEN</field>
-                <field name="USER4">blue</field>
-                <field name="CPU4">BLUE</field>
-                <field name="USER5">rgb (list)</field>
-                <field name="CPU5">RGB</field>
+                <field name="USER2">color name</field>
+                <field name="CPU2">COLOR_NAME</field>
+                <field name="USER3">red</field>
+                <field name="CPU3">RED</field>
+                <field name="USER4">green</field>
+                <field name="CPU4">GREEN</field>
+                <field name="USER5">blue</field>
+                <field name="CPU5">BLUE</field>
+                <field name="USER6">rgb (list)</field>
+                <field name="CPU6">RGB</field>
                 <next>
                   <block type="field_static" id="TL{ED#,_oR[j$jbuF9Xd">
                     <field name="TEXT">on port</field>

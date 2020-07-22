@@ -27,10 +27,10 @@ Created by A Posteriori (https://aposteriori.com.sg).
 
 This simulator would not have been possible without the great people behind:
 
-Babylon.js https://babylonjs.org
-Skulpt https://skulpt.org
-Ace https://ace.c9.io
-EV3DEV https://ev3dev.org
+* Babylon.js https://babylonjs.org
+* Skulpt https://skulpt.org
+* Ace https://ace.c9.io
+* EV3DEV https://ev3dev.org
 
 License
 ---

@@ -55,18 +55,18 @@ var main = new function() {
       '<div class="about">' +
         '<div></div>' +
         '<h3>Credits</h3>' +
-        '<p>Created by Cort @ <a href="https://aposteriori.com.sg">A Posteriori</a>.</p>' +
+        '<p>Created by Cort @ <a href="https://aposteriori.com.sg" target="_blank">A Posteriori</a>.</p>' +
         '<p>This simulator would not have been possible without the great people behind:</p>' +
         '<ul>' +
-          '<li><a href="https://www.babylonjs.com/">Babylon.js</a></li>' +
-          '<li><a href="https://developers.google.com/blockly">Blockly</a></li>' +
-          '<li><a href="https://ace.c9.io/">Ace Editor</a></li>' +
-          '<li><a href="https://skulpt.org/">Skulpt</a></li>' +
-          '<li><a href="https://github.com/kripken/ammo.js/">Ammo.js</a> (port of <a href="https://pybullet.org/wordpress/">Bullet</a>)</li>' +
+          '<li><a href="https://www.babylonjs.com/" target="_blank">Babylon.js</a></li>' +
+          '<li><a href="https://developers.google.com/blockly" target="_blank">Blockly</a></li>' +
+          '<li><a href="https://ace.c9.io/" target="_blank">Ace Editor</a></li>' +
+          '<li><a href="https://skulpt.org/" target="_blank">Skulpt</a></li>' +
+          '<li><a href="https://github.com/kripken/ammo.js/" target="_blank">Ammo.js</a> (port of <a href="https://pybullet.org/wordpress/" target="_blank">Bullet</a>)</li>' +
         '</ul>' +
         '<h3>Contact</h3>' +
         '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +
-        '<p>If you\'re in the market for STEM training, do consider <a href="https://aposteriori.com.sg">A Posteriori</a>.</p>' +
+        '<p>If you\'re in the market for STEM training, do consider <a href="https://aposteriori.com.sg" target="_blank">A Posteriori</a>.</p>' +
         '<h3>License</h3>' +
         '<p>GNU General Public License v3.0</p>' +
         '<p>Gears is a Free and Open Source Software</p>' +
