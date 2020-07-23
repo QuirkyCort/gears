@@ -23,7 +23,6 @@ Coding (Robot configurator)
 Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
 - More components
-  - rotating platform
   - paint ball launcher
   - pen
   - object of interest radar (direction and range of object)
