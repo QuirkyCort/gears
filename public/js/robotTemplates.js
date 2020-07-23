@@ -270,7 +270,8 @@ var robotTemplates = [
     name: 'maze2',
     shortDescription: 'Maze Runner MkII',
     longDescription:
-      '<p>This is an advanced maze runner robot that replaces the original\'s three ultrasonic sensor with a single laser range finder mounted on a swivel platform.</p>',
+      '<p>This is an advanced maze runner robot that replaces the original\'s three ultrasonic sensor with a single laser range finder and a foward facing color sensor mounted on a swivel platform.</p>' +
+      '<p>The forward facing color sensor is specially configured for long range (30cm) and narrow view (30 degrees).</p>',
     longerDescription:
       '<h3>Dimensions</h3>' +
       '<ul>' +
@@ -289,6 +290,7 @@ var robotTemplates = [
         '<li>Port 1 : Color Sensor</li>' +
         '<li>Port 2 : Gyro</li>' +
         '<li>Port 3 : Laser Range Sensor</li>' +
+        '<li>Port 4 : Color Sensor (Forward)</li>' +
       '</ul>',
     thumbnail: 'images/robots/maze2.jpg',
 
@@ -366,7 +368,8 @@ var robotTemplates = [
             position: [1, 1.25, 0],
             rotation: [0, 0, 0],
             options: {
-              maxRange: 30
+              sensorMaxRange: 30,
+              sensorFov: 0.524
             }
           },
         ]
