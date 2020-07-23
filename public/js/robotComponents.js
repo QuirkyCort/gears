@@ -232,14 +232,20 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
 
     self.waitingSync = true;
 
-    return self._clientWaitAsync(sync, 0, 5).then(() => {
+    return self._clientWaitAsync(sync, 0, 5).then(
+      () => {
         gl.deleteSync(sync);
         gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buf);
         gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, self.pixels);
         gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
         gl.deleteBuffer(buf);
         gl.bindFramebuffer(gl.FRAMEBUFFER, engine._currentFramebuffer);
-    });
+        self.waitingSync = false;
+      },
+      () => {
+        self.waitingSync = false;
+      }
+    );
   };
 
   this._clientWaitAsync = function(sync, flags = 0, interval_ms = 10) {
@@ -248,15 +254,14 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
       let check = () => {
         const res = gl.clientWaitSync(sync, flags, 0);
         if (res == gl.WAIT_FAILED) {
-          self.waitingSync = false;
-          reject();
+          // reject();
+          resolve();
           return;
         }
         if (res == gl.TIMEOUT_EXPIRED) {
           setTimeout(check, interval_ms);
           return;
         }
-        self.waitingSync = false;
         resolve();
       };
 
