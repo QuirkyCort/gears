@@ -1714,7 +1714,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
   this.setOptions = function(options) {
     self.options = {
       drawBackLimit: -1000,
-      powerScale: 1,
+      powerScale: 2,
       maxSpeed: 600,
       color: 0,
       ttl: 10000
