@@ -91,9 +91,9 @@ var robotTemplates = [
       '</ul>' +
       '<h3>Actuators</h3>' +
       '<ul>' +
-        '<li>Port A : Left Wheel: Port A</li>' +
-        '<li>Port B : Right Wheel: Port B</li>' +
-        '<li>Port C : Electromagnet: Port C</li>' +
+        '<li>Port A : Left Wheel</li>' +
+        '<li>Port B : Right Wheel</li>' +
+        '<li>Port C : Electromagnet</li>' +
       '</ul>' +
       '<h3>Sensors</h3>' +
       '<ul>' +
@@ -158,6 +158,109 @@ var robotTemplates = [
         position: [0, -1, 3],
         rotation: [0, 0, 0],
         options: null
+      }
+    ]
+  },
+  {
+    name: 'paintball',
+    shortDescription: 'Paintball Launcher',
+    longDescription:
+      '<p>This robot is similar to the double sensor line follower, but with the addition of a paintball launcher mounted on an motorized arm.</p>' +
+      '<p>Read the <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball Launcher documentations</a> to learn how to launch a paintball.</p>',
+    longerDescription:
+      '<h3>Dimensions</h3>' +
+      '<ul>' +
+        '<li>Wheel Diameter: 5.6 cm</li>' +
+        '<li>Wheel Spacing: 15.2 cm</li>' +
+      '</ul>' +
+      '<h3>Actuators</h3>' +
+      '<ul>' +
+        '<li>Port A : Left Wheel</li>' +
+        '<li>Port B : Right Wheel</li>' +
+        '<li>Port C : Electromagnet</li>' +
+        '<li>Port D : Motorized Arm</li>' +
+        '<li>Port E : Paintball Launcher</li>' +
+      '</ul>' +
+      '<h3>Sensors</h3>' +
+      '<ul>' +
+        '<li>Port 1 : Color Sensor</li>' +
+        '<li>Port 2 : Color Sensor</li>' +
+        '<li>Port 3 : Ultrasonic Distance</li>' +
+        '<li>Port 4 : Gyro</li>' +
+        '<li>Port 5 : GPS Sensor</li>' +
+      '</ul>',
+    thumbnail: 'images/robots/paintball.jpg',
+
+    bodyHeight: 4,
+    bodyWidth: 14,
+    bodyLength: 16,
+
+    wheelDiameter: 5.6,
+    wheelWidth: 0.8,
+    wheelToBodyOffset: 0.2,
+
+    bodyEdgeToWheelCenterY: 1,
+    bodyEdgeToWheelCenterZ: 2,
+
+    bodyMass: 1000,
+    wheelMass: 200,
+    casterMass: 0, // Warning: No effect due to parenting
+
+    wheelFriction: 10,
+    bodyFriction: 0,
+    casterFriction: 0, // Warning: No effect due to parenting
+
+    components: [
+      {
+        type: 'ColorSensor',
+        position: [-2, -1, 9],
+        rotation: [Math.PI/2, 0, 0],
+        options: null
+      },
+      {
+        type: 'ColorSensor',
+        position: [2, -1, 9],
+        rotation: [Math.PI/2, 0, 0],
+        options: null
+      },
+      {
+        type: 'UltrasonicSensor',
+        position: [0, 2.5, 8],
+        rotation: [0, 0, 0],
+        options: null
+      },
+      {
+        type: 'GyroSensor',
+        position: [2.5, 2.5, 5],
+        options: null
+      },
+      {
+        type: 'GPSSensor',
+        position: [0, 2.5, 5],
+        options: null
+      },
+      {
+        type: 'MagnetActuator',
+        position: [0, -1, 3],
+        rotation: [0, 0, 0],
+        options: null
+      },
+      {
+        type: 'ArmActuator',
+        position: [0, 3, 1],
+        rotation: [0, 0, 0],
+        options: {
+          armLength: 3,
+          maxAngle: 90
+        },
+        components: [
+          {
+            type: 'PaintballLauncherActuator',
+            position: [0, 2.3, 2],
+            rotation: [0, 0, 0],
+            options: null
+          }
+        ]
       }
     ]
   },
