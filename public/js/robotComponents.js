@@ -1716,7 +1716,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       drawBackLimit: -1000,
       powerScale: 1,
       maxSpeed: 600,
-      color: 1,
+      color: 0,
       ttl: 10000
     };
 
@@ -1786,6 +1786,10 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     let position = BABYLON.Vector3.TransformCoordinates(hit.pickedPoint, m);
     decal.position = position;
 
+    if (typeof otherImpostor.paintballCollide == 'function') {
+      otherImpostor.paintballCollide(ownImpostor.object);
+    }
+
     ownImpostor.object.dispose();
     ownImpostor.dispose();
   }
@@ -1793,6 +1797,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
   this.createPaintball = function(power) {
     let paintball = new BABYLON.MeshBuilder.CreateSphere('paintball', {diameter: 1, segments: 3}, scene);
     paintball.material = self.paintballColors[self.options.color];
+    paintball.color = self.options.color;
     paintball.parent = self.body;
     paintball.position.y = 0.25;
     paintball.position.z = 5.2;
