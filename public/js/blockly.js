@@ -171,8 +171,10 @@ var blockly = new function() {
       }
       catch (err) {
         console.log(err);
-        toastMsg('Invalid Blocks');
-        self.loadXmlText(oldXmlText);
+        if (err.name == 'Error') {
+          toastMsg('Invalid Blocks');
+          self.loadXmlText(oldXmlText);
+        }
       }
     }
   };
