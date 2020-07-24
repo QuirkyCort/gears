@@ -542,6 +542,14 @@ var robot = new function() {
           componentConfig.rotation,
           'out' + PORT_LETTERS[(++robot.motorCount)],
           componentConfig.options);
+      } else if (componentConfig.type == 'PaintballLauncherActuator') {
+        component = new PaintballLauncherActuator(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'out' + PORT_LETTERS[(++robot.motorCount)],
+          componentConfig.options);
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
       }

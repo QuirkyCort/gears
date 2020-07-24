@@ -123,6 +123,8 @@ var simPanel = new function() {
         tmp = genDiv(motor.port + ': Arm Actuator', ['Position (degrees)']);
       } else if (motor.type == 'SwivelActuator') {
         tmp = genDiv(motor.port + ': Swivel Actuator', ['Position (degrees)']);
+      } else if (motor.type == 'PaintballLauncherActuator') {
+        tmp = genDiv(motor.port + ': Paintball Launcher Actuator', ['Position (degrees)']);
       }
 
       if (tmp) {
@@ -162,6 +164,8 @@ var simPanel = new function() {
       } else if (sensor[0].type == 'LaserRangeSensor') {
         sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
       } else if (sensor[0].type == 'SwivelActuator') {
+        sensor[1][0].text(Math.round(sensor[0].position));
+      } else if (sensor[0].type == 'PaintballLauncherActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
       }
     });

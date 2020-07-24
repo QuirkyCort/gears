@@ -1542,3 +1542,328 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
 
   this.init();
 }
+
+// Paintball launcher
+function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'PaintballLauncherActuator';
+  this.port = port;
+  this.options = null;
+
+  this.components = [];
+
+  this.bodyPosition = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  // Used in Python
+  this.modes = {
+    STOP: 1,
+    RUN: 2,
+    RUN_TO_POS: 3,
+    RUN_TIL_TIME: 4
+  };
+  this.mode = this.modes.STOP;
+
+  this.state = 'holding';
+  this.states = {
+    RUNNING: 'running',
+    RAMPING: 'ramping',
+    HOLDING: 'holding',
+    OVERLOADED: 'overloaded',
+    STATE_STALLED: 'stalled',
+    NONE: ''
+  };
+
+  this.speed = 0;
+  this.speed_sp = 30;
+  this.position_sp = 0;
+  this.position_target = 0;
+  this.position = 0;
+  this.prevPosition = 0;
+  this.positionAdjustment = 0;
+  this.prevRotation = 0;
+  this.rotationRounds = 0;
+
+  this.runTimed = function() {
+    self.positionDirectionReversed = false;
+    self.mode = self.modes.RUN_TIL_TIME;
+    self.state = self.states.RUNNING;
+  };
+
+  this.runToPosition = function() {
+    if (self.position_target < self.position) {
+      self.positionDirectionReversed = true;
+    } else {
+      self.positionDirectionReversed = false;
+    }
+    self.mode = self.modes.RUN_TO_POS;
+    self.state = self.states.RUNNING;
+  };
+
+  this.runForever = function() {
+    self.positionDirectionReversed = false;
+    self.mode = self.modes.RUN;
+    self.state = self.states.RUNNING;
+  };
+
+  this.stop = function() {
+    self.mode = self.modes.STOP;
+    self.position_target = self.position;
+    self.state = self.states.HOLDING;
+  };
+
+  this.reset = function() {
+    self.positionAdjustment += self.position;
+    self.position = 0;
+    self.prevPosition = 0;
+    self.position_target = 0;
+    self.mode = self.modes.STOP;
+    self.state = self.states.HOLDING;
+  };
+
+  // Used in JS
+  this.init = function() {
+    self.setOptions(options);
+
+    var launcherBodyMat = new BABYLON.StandardMaterial('launcherBody', scene);
+    launcherBodyMat.diffuseColor = new BABYLON.Color3(0.8, 0.5, 0);
+
+    var launcherTubeMat = new BABYLON.StandardMaterial('launcherTube', scene);
+    launcherTubeMat.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+    var body = BABYLON.MeshBuilder.CreateBox('launcherBody', {height: 2.5, width: 2, depth: 9}, scene);
+    self.body = body;
+    self.body.visibility = 0;
+    body.parent = parent;
+    body.position = self.bodyPosition;
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+    scene.shadowGenerator.addShadowCaster(body);
+
+    var base = BABYLON.MeshBuilder.CreateBox('launcherBase', {height: 0.5, width: 2, depth: 9}, scene);
+    base.parent = body;
+    base.position.y = -1;
+    base.material = launcherBodyMat;
+
+    var back = BABYLON.MeshBuilder.CreateBox('launcherBack', {height: 2.5, width: 2, depth: 1}, scene);
+    back.parent = body;
+    back.position.z = -4;
+    back.material = launcherBodyMat;
+
+    let a = BABYLON.MeshBuilder.CreateCylinder('launcherBarrelA', {height: 7.8, diameter: 2, tessellation:12}, scene);
+    let b = BABYLON.MeshBuilder.CreateCylinder('launcherBarrelb', {height: 7.8, diameter: 1.4, tessellation:12}, scene);
+    a.visibility = 0;
+    b.visibility = 0;
+    b.position.y = 1;
+    let aCSG = BABYLON.CSG.FromMesh(a);
+    let bCSG = BABYLON.CSG.FromMesh(b);
+    var subCSG = aCSG.subtract(bCSG);
+    var barrel = subCSG.toMesh('launcherBarrel', launcherTubeMat, scene);
+    barrel.parent = body;
+    barrel.rotation.x = Math.PI / 2;
+    barrel.position.z = 0.4;
+    barrel.position.y = 0.25;
+
+    var barrelTip = BABYLON.MeshBuilder.CreateBox('launcherBarrelTip', {height: 0.8, width: 0.2, depth: 0.4}, scene);;
+    barrelTip.parent = barrel;
+    barrelTip.position.y = 3.4;
+    barrelTip.position.z = -1.1;
+    barrelTip.material = launcherTubeMat;
+
+    // Paintball colors
+    self.paintballColors = []
+    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
+    self.paintballColors[0].diffuseColor = new BABYLON.Color3(0, 0, 1);
+    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
+    self.paintballColors[1].diffuseColor = new BABYLON.Color3(0, 1, 1);
+    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
+    self.paintballColors[2].diffuseColor = new BABYLON.Color3(0, 1, 0);
+    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
+    self.paintballColors[3].diffuseColor = new BABYLON.Color3(1, 1, 0);
+    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
+    self.paintballColors[4].diffuseColor = new BABYLON.Color3(1, 0, 0);
+    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
+    self.paintballColors[5].diffuseColor = new BABYLON.Color3(1, 0, 1);
+
+    // Paint splatter material
+    self.splatterColors = [];
+    for (let i=0; i<6; i++) {
+      self.splatterColors.push(new BABYLON.StandardMaterial('paintSplatter', scene));
+      self.splatterColors[i].diffuseTexture = new BABYLON.Texture('textures/robot/splatter' + i + '.png', scene);
+      self.splatterColors[i].diffuseTexture.hasAlpha = true;
+      self.splatterColors[i].zOffset = -1;
+    }
+  };
+
+  this.loadImpostor = function() {
+    self.body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      drawBackLimit: -1000,
+      powerScale: 1,
+      maxSpeed: 600,
+      color: 1,
+      ttl: 10000
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.render = function(delta) {
+    self.speed = 0.8 * self.speed + 0.2 * ((self.position - self.prevPosition) / delta * 1000);
+    self.prevPosition = self.position;
+
+    if (self.mode == self.modes.RUN) {
+      self.setMotorSpeed(delta);
+    } else if (self.mode == self.modes.RUN_TIL_TIME) {
+      self.setMotorSpeed(delta);
+      if (Date.now() > self.time_target) {
+        self.stop();
+      }
+    } else if (self.mode == self.modes.RUN_TO_POS) {
+      self.setMotorSpeed(delta);
+      if (
+        (self.positionDirectionReversed == false && self.position >= self.position_target) ||
+        (self.positionDirectionReversed && self.position <= self.position_target)
+      ) {
+        self.stop();
+      }
+    } else if (self.mode == self.modes.STOP) {
+      // Do nothing
+    }
+  };
+
+  self.paintballCollide = function(ownImpostor, otherImpostor) {
+    let start = ownImpostor.object.absolutePosition;
+    let direction = ownImpostor.getLinearVelocity();
+    start.subtractInPlace(direction);
+    let length = direction.length * 2;
+    direction.normalize();
+
+    var ray = new BABYLON.Ray(start, direction, length);
+    var hit = scene.pickWithRay(ray, function(mesh){
+      if (mesh != otherImpostor.object){
+        return false;
+      }
+      return true;
+    });
+
+    let decal = BABYLON.MeshBuilder.CreateDecal(
+      'splatter',
+      otherImpostor.object,
+      {
+        position: hit.pickedPoint,
+        normal: hit.getNormal(true),
+        size: new BABYLON.Vector3(7, 7, 7)
+      },
+      scene
+    );
+    decal.material = self.splatterColors[self.options.color];
+
+    decal.parent = otherImpostor.object;
+    var m = new BABYLON.Matrix();
+    otherImpostor.object.getWorldMatrix().invertToRef(m);
+    let position = BABYLON.Vector3.TransformCoordinates(hit.pickedPoint, m);
+    decal.position = position;
+
+    ownImpostor.object.dispose();
+    ownImpostor.dispose();
+  }
+
+  this.createPaintball = function(power) {
+    let paintball = new BABYLON.MeshBuilder.CreateSphere('paintball', {diameter: 1, segments: 3}, scene);
+    paintball.material = self.paintballColors[self.options.color];
+    paintball.parent = self.body;
+    paintball.position.y = 0.25;
+    paintball.position.z = 5.2;
+    self.body.removeChild(paintball);
+
+    paintball.physicsImpostor = new BABYLON.PhysicsImpostor(
+      paintball,
+      BABYLON.PhysicsImpostor.SphereImpostor,
+      {
+        mass: 10
+      },
+      scene
+    );
+
+    scene.meshes.forEach(function(mesh){
+      if (mesh.id == 'paintball' || mesh.parent != null) return;
+      if (mesh.physicsImpostor) {
+        paintball.physicsImpostor.registerOnPhysicsCollide(mesh.physicsImpostor, self.paintballCollide);
+      }
+    })
+
+    let impulseVector = new BABYLON.Vector3(0, 0, self.options.powerScale);
+    impulseVector.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, impulseVector);
+    impulseVector.scaleInPlace(power);
+    paintball.physicsImpostor.applyImpulse(impulseVector, paintball.getAbsolutePosition());
+
+    return paintball;
+  };
+
+  this.firePaintball = function() {
+    let power = self.position * -1;
+    self.position = 0;
+    self.state = self.states.HOLDING;
+
+    let paintball = self.createPaintball(power);
+    setTimeout(function(){
+      paintball.dispose();
+    }, self.options.ttl)
+    // self.paintballs.push(paintball);
+  };
+
+  this.setMotorSpeed = function(delta) {
+    let speed = self.speed_sp;
+
+    if (speed > self.options.maxSpeed) {
+      speed = self.options.maxSpeed;
+    } else if (speed < -self.options.maxSpeed) {
+      speed = -self.options.maxSpeed;
+    }
+
+    if (self.positionDirectionReversed) {
+      speed = -speed;
+    }
+
+    if (speed > 0) {
+      self.firePaintball();
+    }
+
+    let position = self.position;
+    position += speed * delta / 1000;
+
+    if (position > 0) {
+      position = 0;
+      self.state = self.states.STATE_STALLED;
+    } else if (position < self.options.drawBackLimit) {
+      position = self.options.drawBackLimit;
+      self.state = self.states.STATE_STALLED;
+    }
+
+    self.position = position;
+  };
+
+  this.init();
+}
