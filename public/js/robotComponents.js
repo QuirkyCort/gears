@@ -1768,7 +1768,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       return true;
     });
 
-    let decal = BABYLON.MeshBuilder.CreateDecal(
+    decal = BABYLON.MeshBuilder.CreateDecal(
       'splatter',
       otherImpostor.object,
       {
@@ -1785,6 +1785,14 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     otherImpostor.object.getWorldMatrix().invertToRef(m);
     let position = BABYLON.Vector3.TransformCoordinates(hit.pickedPoint, m);
     decal.position = position;
+
+    decal.rotationQuaternion = BABYLON.Quaternion.FromEulerAngles(
+      decal.rotation.x,
+      decal.rotation.y,
+      decal.rotation.z
+    );
+    let rotationQuaternion = BABYLON.Quaternion.Inverse(otherImpostor.object.absoluteRotationQuaternion);
+    decal.rotationQuaternion = rotationQuaternion.multiply(decal.rotationQuaternion);
 
     if (typeof otherImpostor.paintballCollide == 'function') {
       otherImpostor.paintballCollide(ownImpostor.object);
