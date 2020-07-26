@@ -1557,6 +1557,8 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
   this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
   this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
 
+  this.ammo = -1;
+
   // Used in Python
   this.modes = {
     STOP: 1,
@@ -1626,6 +1628,8 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
   // Used in JS
   this.init = function() {
     self.setOptions(options);
+
+    self.ammo = self.options.ammo;
 
     var launcherBodyMat = new BABYLON.StandardMaterial('launcherBody', scene);
     launcherBodyMat.diffuseColor = new BABYLON.Color3(0.8, 0.5, 0);
@@ -1717,7 +1721,8 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       powerScale: 2,
       maxSpeed: 600,
       color: 0,
-      ttl: 10000
+      ttl: 10000,
+      ammo: -1
     };
 
     for (let name in options) {
@@ -1754,19 +1759,26 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
   };
 
   self.paintballCollide = function(ownImpostor, otherImpostor) {
+    let delta = scene.getEngine().getDeltaTime();
+
     let start = ownImpostor.object.absolutePosition;
     let direction = ownImpostor.getLinearVelocity();
+    direction.scaleInPlace(delta / 1000);
     start.subtractInPlace(direction);
-    let length = direction.length * 2;
+    let length = direction.length() * 2;
     direction.normalize();
 
     var ray = new BABYLON.Ray(start, direction, length);
-    var hit = scene.pickWithRay(ray, function(mesh){
-      if (mesh != otherImpostor.object){
-        return false;
+    var hit = ray.intersectsMesh(otherImpostor.object, false);
+
+    if (hit.hit == false) {
+      direction = otherImpostor.object.absolutePosition.subtract(ownImpostor.object.absolutePosition);
+      ray = new BABYLON.Ray(start, direction, direction.length());
+      var hit = ray.intersectsMesh(otherImpostor.object, false);
+      if (hit.hit == false) {
+        console.log('Cannot find intersect');
       }
-      return true;
-    });
+    }
 
     decal = BABYLON.MeshBuilder.CreateDecal(
       'splatter',
@@ -1840,6 +1852,12 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     self.position = 0;
     self.state = self.states.HOLDING;
 
+    if (self.ammo == 0) {
+      return;
+    } else if (self.ammo > 0) {
+      self.ammo--;
+    }
+    
     let paintball = self.createPaintball(power);
     setTimeout(function(){
       paintball.dispose();
