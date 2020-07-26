@@ -693,7 +693,8 @@ var robotTemplates = [
             rotation: [0, 0, 0],
             options: {
               minAngle: -160,
-              maxAngle: 160
+              maxAngle: 160,
+              mass: 50
             },
             components: [
               {
