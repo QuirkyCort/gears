@@ -448,14 +448,14 @@ var world_FireRescue = new function() {
             victim.dispose();
             victims[i] = null;
           }
-        } else if (self.game.redAmbulanceMesh.intersectsPoint(victim.absolutePosition)) {
+        } else if (self.game.redAmbulanceMesh && self.game.redAmbulanceMesh.intersectsPoint(victim.absolutePosition)) {
           if (victim.color == 'red') {
             self.game.red += 1;
             self.game.score += 15;
             victim.dispose();
             victims[i] = null;
           }
-        } else if (self.game.greenAmbulanceMesh.intersectsPoint(victim.absolutePosition)) {
+        } else if (self.game.greenAmbulanceMesh && self.game.greenAmbulanceMesh.intersectsPoint(victim.absolutePosition)) {
           if (victim.color == 'green') {
             self.game.green += 1;
             self.game.score += 10;

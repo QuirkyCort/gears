@@ -33,7 +33,7 @@ var babylon = new function() {
       self.scene.dispose()
     }
     var scene = new BABYLON.Scene(self.engine);
-    var gravityVector = new BABYLON.Vector3(0,-98.1, 0);
+    var gravityVector = new BABYLON.Vector3(0,-981, 0);
     // var physicsPlugin = new BABYLON.CannonJSPlugin();
     // var physicsPlugin = new BABYLON.OimoJSPlugin();
     var physicsPlugin = new BABYLON.AmmoJSPlugin();
