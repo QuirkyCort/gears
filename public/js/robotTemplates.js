@@ -165,7 +165,8 @@ var robotTemplates = [
     name: 'paintball',
     shortDescription: 'Paintball Launcher',
     longDescription:
-      '<p>This robot is similar to the double sensor line follower, but with the addition of a paintball launcher mounted on an motorized arm.</p>' +
+      '<p>This robot is similar to the double sensor line follower, but with the addition of a paintball launcher mounted on an motorized arm. ' +
+      'The ultrasonic distance sensor is also replaced with a long range (5m) laser range sensor.</p>'  +
       '<p>Read the <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball Launcher documentations</a> to learn how to launch a paintball.</p>',
     longerDescription:
       '<h3>Dimensions</h3>' +
@@ -185,7 +186,7 @@ var robotTemplates = [
       '<ul>' +
         '<li>Port 1 : Color Sensor</li>' +
         '<li>Port 2 : Color Sensor</li>' +
-        '<li>Port 3 : Ultrasonic Distance</li>' +
+        '<li>Port 3 : Laser Range Sensor</li>' +
         '<li>Port 4 : Gyro</li>' +
         '<li>Port 5 : GPS Sensor</li>' +
       '</ul>',
@@ -224,10 +225,12 @@ var robotTemplates = [
         options: null
       },
       {
-        type: 'UltrasonicSensor',
-        position: [0, 2.5, 8],
-        rotation: [0, 0, 0],
-        options: null
+        type: 'LaserRangeSensor',
+        position: [0, 2.5, 7.5],
+        rotation: [-Math.PI/2, 0, 0],
+        options: {
+          rayLength: 500
+        }
       },
       {
         type: 'GyroSensor',
