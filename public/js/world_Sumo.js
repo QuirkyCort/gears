@@ -101,10 +101,10 @@ var world_Sumo = new function() {
     faceUV[2] = new BABYLON.Vector4(0, 0, 1, 1);
 
     var cylinderOptions = {
-        height: 10,
-        diameter: size,
-        tessellation: 48,
-        faceUV: faceUV
+      height: 10,
+      diameter: size,
+      tessellation: 48,
+      faceUV: faceUV
     };
 
     var ground = BABYLON.MeshBuilder.CreateCylinder('cylinder', cylinderOptions, scene);

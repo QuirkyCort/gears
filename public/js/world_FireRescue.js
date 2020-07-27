@@ -391,7 +391,14 @@ var world_FireRescue = new function() {
         score: 0,
         redExpired: false
       };
-      simPanel.showWorldInfoPanel();
+      function showWorldInfoPanel() {
+        if (simPanel) {
+          simPanel.showWorldInfoPanel();
+        } else {
+          setTimeout(showWorldInfoPanel, 1000);
+        }
+      }
+      showWorldInfoPanel();
 
       if (self.options.challenge == 'grocers') {
         self.loadGrocers(scene);
@@ -708,14 +715,14 @@ var world_FireRescue = new function() {
         faceUV[i] = new BABYLON.Vector4(0, 0, 1, 1);
     }
 
-    physicsOptions = {
+    let physicsOptions = {
       mass: 100,
       friction: 0.1
     };
 
     let meshes = [];
     crates.forEach(function(crate) {
-      size = [crate[0], crate[0], crate[0]];
+      let size = [crate[0], crate[0], crate[0]];
       meshes.push(self.addBox(scene, mat, size, crate[1], false, physicsOptions, true, [0, 0, 0], faceUV));
     });
 
@@ -749,7 +756,7 @@ var world_FireRescue = new function() {
     return tile;
   };
 
-  // Add static box
+  // Add box
   this.addBox = function(scene, material, size, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null) {
     var boxOptions = {
       width: size[0],
@@ -763,7 +770,7 @@ var world_FireRescue = new function() {
       boxOptions.faceUV = faceUV;
     }
 
-    var box = BABYLON.MeshBuilder.CreateBox('obstacle', boxOptions, scene);
+    var box = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
     if (visible) {
       box.material = material;
     } else {
