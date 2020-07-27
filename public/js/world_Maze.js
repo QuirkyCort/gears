@@ -5,6 +5,7 @@ var world_Maze = new function() {
   this.shortDescription = 'Maze Map';
   this.longDescription =
     '<p>This generates a maze of configurable size.</p>' +
+    '<p>See the <a href="https://github.com/QuirkyCort/gears/wiki/Maze-Map" target="_blank">wiki page</a> for some challenges to try out.</p>' +
     '<p>By default, the generated maze is randomized unless you set a random seed.</p>';
   this.thumbnail = 'images/worlds/maze.jpg';
 
