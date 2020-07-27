@@ -1807,8 +1807,8 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     let rotationQuaternion = BABYLON.Quaternion.Inverse(otherImpostor.object.absoluteRotationQuaternion);
     decal.rotationQuaternion = rotationQuaternion.multiply(decal.rotationQuaternion);
 
-    if (typeof otherImpostor.paintballCollide == 'function') {
-      otherImpostor.paintballCollide(ownImpostor.object);
+    if (typeof otherImpostor.object.paintballCollide == 'function') {
+      otherImpostor.object.paintballCollide(otherImpostor, ownImpostor, hit);
     }
 
     ownImpostor.object.dispose();

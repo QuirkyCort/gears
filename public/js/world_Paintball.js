@@ -220,6 +220,14 @@ var world_Paintball = new function() {
     ]
     self.targetMeshes = self.addTargets(scene, 'textures/maps/Paintball/target.png', targets);
 
+    function paintballCollide(ownImpostor, otherImpostor, hit) {
+      let impulseVector = otherImpostor.getLinearVelocity().scale(50);
+      ownImpostor.applyImpulse(impulseVector, hit.pickedPoint);
+    }
+
+    self.targetMeshes.forEach(function(mesh){
+      mesh.paintballCollide = paintballCollide;
+    })
   };
 
   // Moving target 1 challenge
