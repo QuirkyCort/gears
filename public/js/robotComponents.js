@@ -170,7 +170,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
 
   this.render = function(delta) {
     self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
-    if (! self.waitingSync) {
+    if (! self.waitingSync && babylon.engine._webGLVersion >= 2) {
       self.readPixelsAsync();
     }
   };
@@ -275,8 +275,9 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var b = 0;
 
     // self.renderTarget.resetRefreshCounter();
-    // self.renderTarget.readPixels(0, 0, self.pixels);
-    // self.readPixelsAsync();
+    if (babylon.engine._webGLVersion < 2) {
+      self.renderTarget.readPixels(0, 0, self.pixels);
+    }
     for (let i=0; i<self.pixels.length; i+=4) {
       if (self.mask[i/4]) {
         r += self.pixels[i];
@@ -1857,7 +1858,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     } else if (self.ammo > 0) {
       self.ammo--;
     }
-    
+
     let paintball = self.createPaintball(power);
     setTimeout(function(){
       paintball.dispose();
