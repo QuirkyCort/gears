@@ -1811,8 +1811,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       otherImpostor.object.paintballCollide(otherImpostor, ownImpostor, hit);
     }
 
-    ownImpostor.object.dispose();
-    ownImpostor.dispose();
+    ownImpostor.toBeDisposed = true;
   }
 
   this.createPaintball = function(power) {
@@ -1839,6 +1838,13 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
         paintball.physicsImpostor.registerOnPhysicsCollide(mesh.physicsImpostor, self.paintballCollide);
       }
     })
+    paintball.physicsImpostor.toBeDisposed = false;
+    paintball.physicsImpostor.registerBeforePhysicsStep(function(impostor){
+      if (impostor.toBeDisposed) {
+        impostor.object.dispose();
+        impostor.dispose();
+      }
+    })
 
     let impulseVector = new BABYLON.Vector3(0, 0, self.options.powerScale);
     impulseVector.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, impulseVector);
@@ -1861,7 +1867,9 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
 
     let paintball = self.createPaintball(power);
     setTimeout(function(){
-      paintball.dispose();
+      if (paintball.physicsImpostor) {
+        paintball.physicsImpostor.toBeDisposed = true;
+      }
     }, self.options.ttl)
     // self.paintballs.push(paintball);
   };
