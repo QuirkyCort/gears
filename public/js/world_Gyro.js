@@ -9,7 +9,7 @@ var world_Gyro = new function() {
 
   this.options = {};
   this.robotStart = {
-    position: new BABYLON.Vector3(0, 0, 0)
+    position: new BABYLON.Vector3(0, 0, -6)
   };
 
   this.optionsConfigurations = [
@@ -46,9 +46,9 @@ var world_Gyro = new function() {
   };
 
   this.robotStarts = {
-    straight: new BABYLON.Vector3(0, 0, -500),
-    square: new BABYLON.Vector3(-100, 0, -90),
-    randomDirection: new BABYLON.Vector3(0, 0, 0),
+    straight: new BABYLON.Vector3(0, 0, -504),
+    square: new BABYLON.Vector3(-100, 0, -100),
+    randomDirection: new BABYLON.Vector3(0, 0, -6),
   }
 
   this.defaultOptions = {

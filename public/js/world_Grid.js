@@ -10,7 +10,8 @@ var world_Grid = new function() {
 
   this.options = {};
   this.robotStart = {
-    position: new BABYLON.Vector3(0, 0, 0)
+    position: new BABYLON.Vector3(0, 0, 0), // Overridden by position setting below
+    rotation: new BABYLON.Vector3(0, 0, 0)
   };
 
   this.optionsConfigurations = [
@@ -68,6 +69,12 @@ var world_Grid = new function() {
       title: 'Starting Position (x, y)',
       type: 'text',
       help: 'Enter using this format "x, y" (without quotes) and it will override the above. Center of image is "0, 0".'
+    },
+    {
+      option: 'startRot',
+      title: 'Starting Rotation (degrees)',
+      type: 'text',
+      help: 'Set the starting rotation in degrees. Positive rotation is clockwise.'
     }
   ];
 
@@ -83,7 +90,8 @@ var world_Grid = new function() {
     groundRestitution: 0.0,
     wallRestitution: 0.1,
     startPos: 'center',
-    startPosXY: ''
+    startPosXY: '',
+    startRot: ''
   };
 
   // Set options, including default
@@ -102,27 +110,28 @@ var world_Grid = new function() {
     }
 
     if (self.options.startPos == 'center') {
-      self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
     } else if (self.options.startPos == 'bottomLeft') {
       let x = -(self.options.length / 2 - 12.5);
-      let z = -(self.options.width / 2 - 12.5) + 9;
+      let z = -(self.options.width / 2 - 12.5) + 3;
       self.robotStart.position = new BABYLON.Vector3(x, 0, z);
     } else if (self.options.startPos == 'bottomCenter') {
-      let z = -(self.options.width / 2 - 12.5) + 9;
+      let z = -(self.options.width / 2 - 12.5) + 3;
       self.robotStart.position = new BABYLON.Vector3(0, 0, z);
     } else if (self.options.startPos == 'bottomRight') {
       let x = (self.options.length / 2 - 12.5);
-      let z = -(self.options.width / 2 - 12.5) + 9;
+      let z = -(self.options.width / 2 - 12.5) + 3;
       self.robotStart.position = new BABYLON.Vector3(x, 0, z);
     }
 
-    if (
-      typeof options != 'undefined'
-      && typeof options.startPosXY != 'undefined'
-      && options.startPosXY.trim() != ''
-    ) {
-      let xy = options.startPosXY.split(',');
+    if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
+      let xy = self.options.startPosXY.split(',');
       self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), 0, parseFloat(xy[1]));
+    }
+    if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
+      self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
+    } else {
+      self.robotStart.rotation.y = 0;
     }
 
     return new Promise(function(resolve, reject) {

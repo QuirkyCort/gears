@@ -81,12 +81,12 @@ var world_Paintball = new function() {
   };
 
   this.robotStarts = {
-    firingRange: new BABYLON.Vector3(0, 0, -239),
-    variableRange: new BABYLON.Vector3(0, 0, -239),
-    findTarget:  new BABYLON.Vector3(0, 0, 0),
-    highLow:  new BABYLON.Vector3(0, 0, 0),
-    movingTarget1: new BABYLON.Vector3(0, 0, -239),
-    movingTarget2: new BABYLON.Vector3(0, 0, 0),
+    firingRange: new BABYLON.Vector3(0, 0, -245),
+    variableRange: new BABYLON.Vector3(0, 0, -245),
+    findTarget:  new BABYLON.Vector3(0, 0, -6),
+    highLow:  new BABYLON.Vector3(0, 0, -6),
+    movingTarget1: new BABYLON.Vector3(0, 0, -245),
+    movingTarget2: new BABYLON.Vector3(0, 0, -6),
   }
 
   this.defaultOptions = {

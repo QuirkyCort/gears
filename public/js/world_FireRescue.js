@@ -59,15 +59,15 @@ var world_FireRescue = new function() {
   };
 
   this.robotStarts = {
-    grocers: new BABYLON.Vector3(0, 0, -136.5 + 3),
-    // warehouse: new BABYLON.Vector3(-75, 0, 100), // Test autodoor
-    // warehouse: new BABYLON.Vector3(-120, 0, -114), // Test breakable wall from inside
-    // warehouse: new BABYLON.Vector3(-50, 0, -114), // Test breakable wall from outside
-    // warehouse: new BABYLON.Vector3(30, 0, -48), // Test ramp
-    // warehouse: new BABYLON.Vector3(59, 0, 80), // Test crane
-    // warehouse: new BABYLON.Vector3(162, 0, 100), // Test tow
-    // warehouse: new BABYLON.Vector3(15.5, 0, -90), // Test tow drop off
-    warehouse: new BABYLON.Vector3(179.5, 0, -132 + 3),
+    grocers: new BABYLON.Vector3(0, 0, -142.5 + 5),
+    // warehouse: new BABYLON.Vector3(-75, 0, 94), // Test autodoor
+    // warehouse: new BABYLON.Vector3(-120, 0, -120), // Test breakable wall from inside
+    // warehouse: new BABYLON.Vector3(-50, 0, -120), // Test breakable wall from outside
+    // warehouse: new BABYLON.Vector3(30, 0, -54), // Test ramp
+    // warehouse: new BABYLON.Vector3(59, 0, 74), // Test crane
+    // warehouse: new BABYLON.Vector3(162, 0, 94), // Test tow
+    // warehouse: new BABYLON.Vector3(15.5, 0, -96), // Test tow drop off
+    warehouse: new BABYLON.Vector3(179.5, 0, -138 + 5),
   }
 
   this.defaultOptions = {

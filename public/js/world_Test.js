@@ -64,25 +64,25 @@ var world_Test = new function() {
     }
 
     if (self.options.startPos == 'ramp18') {
-      self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
     } else if (self.options.startPos == 'ramp36') {
-      self.robotStart.position = new BABYLON.Vector3(35, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(35, 0, -6);
     } else if (self.options.startPos == 'ramp45') {
-      self.robotStart.position = new BABYLON.Vector3(70, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(70, 0, -6);
     } else if (self.options.startPos == 'ramp18LowFriction') {
-      self.robotStart.position = new BABYLON.Vector3(105, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(105, 0, -6);
     } else if (self.options.startPos == 'staticHumps') {
-      self.robotStart.position = new BABYLON.Vector3(140, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(140, 0, -6);
     } else if (self.options.startPos == 'kinematicHumps') {
-      self.robotStart.position = new BABYLON.Vector3(-35, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(-35, 0, -6);
     } else if (self.options.startPos == 'box800') {
-      self.robotStart.position = new BABYLON.Vector3(-70, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(-70, 0, -6);
     } else if (self.options.startPos == 'box1600') {
-      self.robotStart.position = new BABYLON.Vector3(-105, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(-105, 0, -6);
     } else if (self.options.startPos == 'tower') {
-      self.robotStart.position = new BABYLON.Vector3(-140, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(-140, 0, -6);
     } else if (self.options.startPos == 'wall') {
-      self.robotStart.position = new BABYLON.Vector3(-175, 0, 0);
+      self.robotStart.position = new BABYLON.Vector3(-175, 0, -6);
     } else if (self.options.startPos == 'magnet') {
       self.robotStart.position = new BABYLON.Vector3(0, 0, -110);
     }

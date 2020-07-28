@@ -91,7 +91,7 @@ function Wheel(scene, options) {
   //
   // Used in JS
   //
-  this.load = function(pos, startPos, body, pivot) {
+  this.load = function(pos, startPos, startRot, body, pivot) {
     var wheelMat = new BABYLON.StandardMaterial('wheel', scene);
     var wheelTexture = new BABYLON.Texture('textures/robot/wheel.png', scene);
     wheelMat.diffuseTexture = wheelTexture;
@@ -108,14 +108,22 @@ function Wheel(scene, options) {
       faceUV: faceUV
     };
 
-    self.mesh = BABYLON.MeshBuilder.CreateCylinder("wheel", wheelOptions, scene);
+    self.mesh = BABYLON.MeshBuilder.CreateCylinder('wheel', wheelOptions, scene);
     self.mesh.material = wheelMat;
     self.mesh.rotation.z = -Math.PI / 2;
     self.mesh.position.x = pos[0];
     self.mesh.position.y = pos[1];
     self.mesh.position.z = pos[2];
     scene.shadowGenerator.addShadowCaster(self.mesh);
-    self.mesh.position.addInPlace(startPos);
+
+    let transformNode = BABYLON.MeshBuilder.CreateBox('root', {width:1,depth:1,height:1}, scene);
+    self.mesh.parent = transformNode;
+    transformNode.rotate(BABYLON.Axis.Y, startRot.y, BABYLON.Space.LOCAL);
+    transformNode.rotate(BABYLON.Axis.X, startRot.x, BABYLON.Space.LOCAL);
+    transformNode.rotate(BABYLON.Axis.Z, startRot.z, BABYLON.Space.LOCAL);
+    transformNode.position.addInPlace(startPos);
+    transformNode.removeChild(self.mesh);
+    transformNode.dispose();
 
     self.s = new BABYLON.Quaternion.FromEulerAngles(0,0,self.mesh.rotation.z);
     self.s_i = BABYLON.Quaternion.Inverse(self.s);
@@ -324,9 +332,13 @@ var robot = new function() {
 
     return new Promise(function(resolve, reject) {
       var startPos = new BABYLON.Vector3(0,0,0);
+      var startRot = new BABYLON.Vector3(0,0,0);
       if (typeof robotStart != 'undefined') {
         if (typeof robotStart.position != 'undefined') {
           startPos = robotStart.position;
+        }
+        if (typeof robotStart.rotation != 'undefined') {
+          startRot = robotStart.rotation;
         }
       }
 
@@ -345,9 +357,12 @@ var robot = new function() {
       body.visibility = 1;
       body.position.x = 0;
       body.position.y = (options.bodyHeight / 2) + (options.wheelDiameter / 2) - options.bodyEdgeToWheelCenterY;
-      body.position.z = -(options.bodyLength / 2) + options.bodyEdgeToWheelCenterZ;
+      body.position.z = 0;
       scene.shadowGenerator.addShadowCaster(body);
       body.position.addInPlace(startPos);
+      body.rotate(BABYLON.Axis.Y, startRot.y, BABYLON.Space.LOCAL);
+      body.rotate(BABYLON.Axis.X, startRot.x, BABYLON.Space.LOCAL);
+      body.rotate(BABYLON.Axis.Z, startRot.z, BABYLON.Space.LOCAL);
 
       // Rear caster
       var casterMat = new BABYLON.StandardMaterial('caster', scene);
@@ -424,9 +439,10 @@ var robot = new function() {
         [
           -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset,
           options.wheelDiameter / 2,
-          0
+          (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
         ],
         startPos,
+        startRot,
         body,
         new BABYLON.Vector3(
           -(options.bodyWidth / 2) - options.wheelToBodyOffset - options.wheelWidth / 2,
@@ -438,9 +454,10 @@ var robot = new function() {
         [
           (options.wheelWidth + options.bodyWidth) / 2 + options.wheelToBodyOffset,
           options.wheelDiameter / 2,
-          0
+          (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
         ],
         startPos,
+        startRot,
         body,
         new BABYLON.Vector3(
           (options.bodyWidth / 2) + options.wheelToBodyOffset + options.wheelWidth / 2,

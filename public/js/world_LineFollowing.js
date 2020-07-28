@@ -91,16 +91,16 @@ var world_LineFollowing = new function() {
   };
 
   this.robotStarts = {
-    simple: new BABYLON.Vector3(0, 0, -85),
-    sharp: new BABYLON.Vector3(15, 0, -85),
-    gaps1: new BABYLON.Vector3(0, 0, -85),
-    gaps2: new BABYLON.Vector3(15, 0, -85),
-    obstacles1: new BABYLON.Vector3(0, 0, -85),
-    obstacles2: new BABYLON.Vector3(0, 0, -135),
-    obstacles3: new BABYLON.Vector3(0, 0, -135),
-    obstacles4: new BABYLON.Vector3(75, 0, -85),
-    junctions1: new BABYLON.Vector3(0, 0, 0),
-    junctions2: new BABYLON.Vector3(0, 0, -85),
+    simple: new BABYLON.Vector3(0, 0, -91),
+    sharp: new BABYLON.Vector3(15, 0, -91),
+    gaps1: new BABYLON.Vector3(0, 0, -91),
+    gaps2: new BABYLON.Vector3(15, 0, -91),
+    obstacles1: new BABYLON.Vector3(0, 0, -91),
+    obstacles2: new BABYLON.Vector3(0, 0, -141),
+    obstacles3: new BABYLON.Vector3(0, 0, -141),
+    obstacles4: new BABYLON.Vector3(75, 0, -91),
+    junctions1: new BABYLON.Vector3(0, 0, -6),
+    junctions2: new BABYLON.Vector3(0, 0, -91),
   }
 
   this.defaultOptions = {
