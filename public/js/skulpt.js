@@ -70,13 +70,13 @@ var skulpt = new function() {
   // File loader
   this.builtinRead = function (filename) {
     var externalLibs = {
-      './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=1595913819',
-      './ev3dev2/motor.py': 'ev3dev2/motor.py?v=1595913819',
-      './ev3dev2/sound.py': 'ev3dev2/sound.py?v=1595913819',
-      './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=1595913819',
-      './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=1595913819',
-      './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=1595913819',
-      './simPython.js': 'js/simPython.js?v=1595913819'
+      './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=1595915194',
+      './ev3dev2/motor.py': 'ev3dev2/motor.py?v=1595915194',
+      './ev3dev2/sound.py': 'ev3dev2/sound.py?v=1595915194',
+      './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=1595915194',
+      './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=1595915194',
+      './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=1595915194',
+      './simPython.js': 'js/simPython.js?v=1595915194'
     }
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][filename] === undefined) {
       if (filename in externalLibs) {

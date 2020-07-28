@@ -89,6 +89,7 @@ var babylon = new function() {
       // self.cameraArc.lockedTarget = new BABYLON.Vector3(0, 0, 0);
       // self.cameraArc.alpha = -Math.PI / 2;
       // self.cameraArc.beta = Math.PI / 5;
+      self.cameraArc.lockedTarget = null;
       self.cameraArc._panningMouseButton = 1;
     }
   }
@@ -97,6 +98,7 @@ var babylon = new function() {
   this.resetScene = function() {
     // Save camera position and rotations
     let pos = self.cameraArc.position;
+    let target = self.cameraArc.target;
     let rot = self.cameraArc.absoluteRotation;
     let up = self.cameraArc.upVector;
     let mode = self.cameraMode;
@@ -112,6 +114,7 @@ var babylon = new function() {
     self.cameraArc.position = pos;
     self.cameraArc.absoluteRotation = rot;
     self.cameraArc.upVector = up;
+    self.cameraArc.target = target;
 
     self.loadMeshes(self.scene);
     self.engine.runRenderLoop(function () {
