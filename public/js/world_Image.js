@@ -100,7 +100,8 @@ var world_Image = new function() {
     groundRestitution: 0.0,
     wallRestitution: 0.1,
     startPos: 'center',
-    startPosXY: ''
+    startPosXY: '',
+    startRot: ''
   };
 
   // Set options, including default

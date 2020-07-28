@@ -178,6 +178,39 @@ var main = new function() {
     })
   };
 
+  // Save current position
+  this.savePosition = function() {
+    let x = Math.round(robot.body.position.x * 10) / 10;
+    let y = Math.round(robot.body.position.z * 10) / 10;
+    let angles = robot.body.absoluteRotationQuaternion.toEulerAngles();
+    let rot = Math.round(angles.y / Math.PI * 1800) / 10;
+
+    if (typeof babylon.world.defaultOptions.startPosXY != 'undefined') {
+      babylon.world.options.startPosXY = x + ',' +y;
+    } else {
+      toastMsg('Current world doesn\'t allow saving of position');
+      return;
+    }
+    if (typeof babylon.world.defaultOptions.startRot != 'undefined') {
+      babylon.world.options.startRot = rot.toString();
+    } else {
+      toastMsg('Current world doesn\'t allow saving of rotation');
+    }
+    babylon.world.setOptions();
+  };
+
+  // Clear current position
+  this.clearPosition = function() {
+    if (babylon.world.options.startPosXY) {
+      babylon.world.options.startPosXY = '';
+    }
+    if (babylon.world.options.startRot) {
+      babylon.world.options.startRot = '';
+    }
+    babylon.world.setOptions();
+  };
+
+
   // Toggle robot
   this.toggleRobotMenu = function(e) {
     if ($('.robotMenuDropDown').length == 0) {
@@ -188,7 +221,9 @@ var main = new function() {
         {html: 'Select Robot', line: true, callback: self.selectRobot},
         {html: 'Load from file', line: false, callback: self.loadRobot},
         {html: 'Save to file', line: true, callback: self.saveRobot},
-        {html: 'Display Current Position', line: false, callback: self.displayPosition},
+        {html: 'Display current position', line: false, callback: self.displayPosition},
+        {html: 'Save current position to settings', line: false, callback: self.savePosition},
+        {html: 'Clear position in settings', line: false, callback: self.clearPosition},
       ];
 
       menuDropDown(self.$robotMenu, menuItems, {className: 'robotMenuDropDown'});

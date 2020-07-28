@@ -13,7 +13,8 @@ var world_FireRescue = new function() {
 
   this.options = {};
   this.robotStart = {
-    position: new BABYLON.Vector3(0, 0, 0)
+    position: new BABYLON.Vector3(0, 0, 0),
+    rotation: new BABYLON.Vector3(0, 0, 0)
   };
 
   this.optionsConfigurations = [
@@ -78,7 +79,9 @@ var world_FireRescue = new function() {
     groundFriction: 1,
     wallFriction: 0.1,
     groundRestitution: 0.0,
-    wallRestitution: 0.1
+    wallRestitution: 0.1,
+    startPosXY: '',
+    startRot: ''
   };
 
   // Set options, including default
@@ -97,6 +100,16 @@ var world_FireRescue = new function() {
     }
 
     self.robotStart.position = self.robotStarts[self.options.challenge];
+
+    if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
+      let xy = self.options.startPosXY.split(',');
+      self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), 0, parseFloat(xy[1]));
+    }
+    if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
+      self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
+    } else {
+      self.robotStart.rotation.y = 0;
+    }
 
     return new Promise(function(resolve, reject) {
       resolve();
