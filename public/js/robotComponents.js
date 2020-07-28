@@ -1879,7 +1879,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       speed = -speed;
     }
 
-    if (speed > 0) {
+    if (speed > 0 && self.position < 0) {
       self.firePaintball();
     }
 
