@@ -520,8 +520,13 @@ var world_FireRescue = new function() {
     if (self.game.startTime != null) {
       time -= (Date.now() - self.game.startTime);
     }
+    let sign = '';
+    if (time < 0) {
+      sign = '-';
+      time = -time;
+    }
     time = Math.round(time / 1000);
-    time = 'Time: ' + Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
+    time = 'Time: ' + sign + Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
 
     let red = 'Red: ' + self.game.red;
     let green = 'Green: ' + self.game.green;
