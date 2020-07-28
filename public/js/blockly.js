@@ -44,7 +44,7 @@ var blockly = new function() {
 
   // Load toolbox
   this.loadToolBox = function() {
-    return fetch('toolbox.xml?v=1595888353')
+    return fetch('toolbox.xml?v=1595913819')
       .then(response => response.text())
       .then(function(response) {
         var xml = (new DOMParser()).parseFromString(response, "text/xml");
@@ -120,7 +120,7 @@ var blockly = new function() {
 
   // Load custom blocks
   this.loadCustomBlocks = function() {
-    return fetch('customBlocks.json?v=1595888353')
+    return fetch('customBlocks.json?v=1595913819')
       .then(response => response.json())
       .then(function(response) {
         Blockly.defineBlocksWithJsonArray(response);
@@ -239,6 +239,7 @@ var blockly = new function() {
     let blocks = self.workspace.getAllBlocks();
     blocks.forEach(function(block){
       if (block.data == page) {
+        block.data = '';
         block.dispose();
       }
     });
@@ -279,7 +280,7 @@ var blockly = new function() {
         displayedBlock.svgGroup_.style.display = 'none';
       }
     });
-    // self.displayedWorkspace.scrollCenter();
+    self.displayedWorkspace.scrollCenter();
     setTimeout(function() {
       self.mirror = true;
     }, 200);
