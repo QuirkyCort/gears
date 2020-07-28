@@ -106,7 +106,6 @@ var main = new function() {
     }
   };
 
-
   // Select robot from templates
   this.selectRobot = function() {
     let $body = $('<div class="selectRobot"></div>');
@@ -163,6 +162,22 @@ var main = new function() {
     });
   };
 
+  // Display current position
+  this.displayPosition = function() {
+    let x = Math.round(robot.body.position.x * 10) / 10;
+    let y = Math.round(robot.body.position.z * 10) / 10;
+    let angles = robot.body.absoluteRotationQuaternion.toEulerAngles();
+    let rot = Math.round(angles.y / Math.PI * 1800) / 10;
+
+    acknowledgeDialog({
+      title: 'Robot Position',
+      message: $(
+        '<p>Position: ' + x + ', ' + y + '</p>' +
+        '<p>Rotation: ' + rot + ' degrees</p>'
+      )
+    })
+  };
+
   // Toggle robot
   this.toggleRobotMenu = function(e) {
     if ($('.robotMenuDropDown').length == 0) {
@@ -172,7 +187,8 @@ var main = new function() {
       let menuItems = [
         {html: 'Select Robot', line: true, callback: self.selectRobot},
         {html: 'Load from file', line: false, callback: self.loadRobot},
-        {html: 'Save to file', line: false, callback: self.saveRobot}
+        {html: 'Save to file', line: true, callback: self.saveRobot},
+        {html: 'Display Current Position', line: false, callback: self.displayPosition},
       ];
 
       menuDropDown(self.$robotMenu, menuItems, {className: 'robotMenuDropDown'});
