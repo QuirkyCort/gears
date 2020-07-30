@@ -142,7 +142,17 @@ var babylon = new function() {
   // Load meshes
   this.loadMeshes = function() {
     // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
-    Promise.all([self.world.load(self.scene), robot.load(self.scene, self.world.robotStart)]).then(function() {
+    let loader = [];
+    loader.push(self.world.load(self.scene));
+    robots.forEach(function(robot){
+      if (robot.player == 'single') {
+        loader.push(robot.load(self.scene, self.world.robotStart));
+      } else {
+        loader.push(robot.load(self.scene, self.world.robotStarts[robot.player]));
+      }
+    });
+
+    Promise.all(loader).then(function() {
       self.setCameraMode(); // Set after loading mesh as camera may be locked to mesh
 
       // RTT test
@@ -157,7 +167,9 @@ var babylon = new function() {
       // ground.material = mat;
 
       // Some components in the robot may need to see the fully loaded meshes
-      robot.loadMeshes(self.scene.meshes.filter(mesh => mesh.id != 'RTT'));
+      robots.forEach(function(robot){
+        robot.loadMeshes(self.scene.meshes.filter(mesh => mesh.id != 'RTT'));
+      })
 
       // We should also pre-build the RTT materials for performance
       let FULL_EMMISSIVE = new BABYLON.Color3(1,1,1);
@@ -199,7 +211,10 @@ var babylon = new function() {
   this.render = function() {
     var delta = self.scene.getEngine().getDeltaTime();
 
-    robot.render(delta);
+    robots.forEach(function(robot){
+      robot.render(delta);
+    });
+
     if (self.world.render) {
       self.world.render(delta);
     }
