@@ -99,6 +99,7 @@ var world_Image = new function() {
     wallFriction: 0.1,
     groundRestitution: 0.0,
     wallRestitution: 0.1,
+    obstacles: [],
     startPos: 'center',
     startPosXY: '',
     startRot: ''
@@ -288,8 +289,85 @@ var world_Image = new function() {
         );
       }
 
+      //obstacles
+      if (self.options.obstacles.length > 0) {
+        self.addObstacles(scene, self.options.obstacles);
+      }
+
       resolve();
     });
+  };
+
+  // Add obstacles
+  this.addObstacles = function(scene, obstacles) {
+    let obstacleMat = new BABYLON.StandardMaterial('obstacle', scene);
+    obstacleMat.diffuseColor = new BABYLON.Color3(0.9, 0.5, 0.5);
+    obstacleMat.alpha = 0.5;
+
+    let obstacleMeshes = [];
+    for (let i=0; i<obstacles.length; i++) {
+      let size = obstacles[i][0];
+      let pos = obstacles[i][1];
+      let obstacle = self.addBox(scene, obstacleMat, size, pos);
+      obstacleMeshes.push(obstacle);
+    }
+    return obstacleMeshes;
+  };
+
+  // Add box
+  this.addBox = function(scene, material, size, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null) {
+    var boxOptions = {
+      width: size[0],
+      depth: size[1],
+      height: size[2],
+    };
+    if (pos.length < 3) {
+      pos.push(0);
+    }
+    if (faceUV) {
+      boxOptions.faceUV = faceUV;
+    }
+
+    var box = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
+    if (visible) {
+      box.material = material;
+    } else {
+      box.visibility = 0;
+    }
+    box.position.x = pos[0];
+    box.position.y = pos[2] + size[2] / 2;
+    box.position.z = pos[1];
+    box.rotation.x = rot[0];
+    box.rotation.y = rot[1];
+    box.rotation.z = rot[2];
+
+    let mass = 0;
+    if (magnetic) {
+      mass = 10;
+      box.isMagnetic = true;
+    }
+
+    if (physicsOptions !== false) {
+      if (physicsOptions === true) {
+        physicsOptions = {
+          mass: mass,
+          friction: self.options.wallFriction,
+          restitution: self.options.wallRestitution
+        };
+      }
+
+      box.physicsImpostor = new BABYLON.PhysicsImpostor(
+        box,
+        BABYLON.PhysicsImpostor.BoxImpostor,
+        physicsOptions,
+        scene
+      );
+      if (magnetic) {
+        box.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
+      }
+    }
+
+    return box;
   };
 }
 
