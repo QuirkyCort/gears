@@ -63,6 +63,11 @@ var world_Image = new function() {
       step: '0.1'
     },
     {
+      option: 'obstacles',
+      type: 'set',
+      value: []
+    },
+    {
       option: 'startPos',
       title: 'Starting Position',
       type: 'select',
@@ -306,8 +311,8 @@ var world_Image = new function() {
 
     let obstacleMeshes = [];
     for (let i=0; i<obstacles.length; i++) {
-      let size = obstacles[i][0];
-      let pos = obstacles[i][1];
+      let pos = obstacles[i][0];
+      let size = obstacles[i][1];
       let obstacle = self.addBox(scene, obstacleMat, size, pos);
       obstacleMeshes.push(obstacle);
     }

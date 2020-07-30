@@ -392,6 +392,8 @@ var simPanel = new function() {
           $configurations.append(genText(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'file') {
           $configurations.append(genFile(optionConfiguration, worldOptions));
+        } else if (optionConfiguration.type == 'set') {
+          worldOptionsSetting[optionConfiguration.option] = optionConfiguration.value;
         }
       }
     }
