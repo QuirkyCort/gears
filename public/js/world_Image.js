@@ -68,6 +68,11 @@ var world_Image = new function() {
       value: []
     },
     {
+      option: 'magnetics',
+      type: 'set',
+      value: []
+    },
+    {
       option: 'startPos',
       title: 'Starting Position',
       type: 'select',
@@ -105,6 +110,7 @@ var world_Image = new function() {
     groundRestitution: 0.0,
     wallRestitution: 0.1,
     obstacles: [],
+    magnetics: [],
     startPos: 'center',
     startPosXY: '',
     startRot: ''
@@ -294,9 +300,14 @@ var world_Image = new function() {
         );
       }
 
-      //obstacles
+      // obstacles
       if (self.options.obstacles.length > 0) {
         self.addObstacles(scene, self.options.obstacles);
+      }
+
+      // magnetic objects
+      if (self.options.magnetics.length > 0) {
+        self.addMagnetics(scene, self.options.magnetics);
       }
 
       resolve();
@@ -312,11 +323,37 @@ var world_Image = new function() {
     let obstacleMeshes = [];
     for (let i=0; i<obstacles.length; i++) {
       let pos = obstacles[i][0];
-      let size = obstacles[i][1];
+      let size = [10, 10, 10];
+      if (obstacles[i][1]) {
+        size = obstacles[i][1];
+      }
       let obstacle = self.addBox(scene, obstacleMat, size, pos);
       obstacleMeshes.push(obstacle);
     }
     return obstacleMeshes;
+  };
+
+  // Add magnetic
+  this.addMagnetics = function(scene, magnetics) {
+    let magneticMat = new BABYLON.StandardMaterial('magnetic', scene);
+    magneticMat.diffuseColor = new BABYLON.Color3(0.1, 0.9, 0.1);
+
+    let physicsOptions = {
+      mass: 10,
+      friction: 0.5
+    };
+
+    let magneticMeshes = [];
+    for (let i=0; i<magnetics.length; i++) {
+      let pos = magnetics[i][0];
+      let size = [5, 5, 0.5];
+      if (magnetics[i][1]) {
+        size = magnetics[i][1];
+      }
+      let magnetic = self.addBox(scene, magneticMat, size, pos, true, physicsOptions);
+      magneticMeshes.push(magnetic);
+    }
+    return magneticMeshes;
   };
 
   // Add box
