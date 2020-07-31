@@ -357,7 +357,7 @@ var world_Image = new function() {
       }
       let rot = [0, 0, 0];
       if (magnetics[i][2]) {
-        size = magnetics[i][2];
+        rot = magnetics[i][2];
       }
 
       let magnetic = self.addBox(scene, magneticMat, size, pos, true, physicsOptions, true, rot);
