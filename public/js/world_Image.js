@@ -327,7 +327,12 @@ var world_Image = new function() {
       if (obstacles[i][1]) {
         size = obstacles[i][1];
       }
-      let obstacle = self.addBox(scene, obstacleMat, size, pos);
+      let rot = [0, 0, 0];
+      if (obstacles[i][2]) {
+        rot = obstacles[i][2];
+      }
+
+      let obstacle = self.addBox(scene, obstacleMat, size, pos, false, true, true, rot);
       obstacleMeshes.push(obstacle);
     }
     return obstacleMeshes;
@@ -350,7 +355,12 @@ var world_Image = new function() {
       if (magnetics[i][1]) {
         size = magnetics[i][1];
       }
-      let magnetic = self.addBox(scene, magneticMat, size, pos, true, physicsOptions);
+      let rot = [0, 0, 0];
+      if (magnetics[i][2]) {
+        size = magnetics[i][2];
+      }
+
+      let magnetic = self.addBox(scene, magneticMat, size, pos, true, physicsOptions, true, rot);
       magneticMeshes.push(magnetic);
     }
     return magneticMeshes;
