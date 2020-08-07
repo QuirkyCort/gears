@@ -58,6 +58,8 @@ var pybricks_generator = new function() {
         sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(PORT.S' + i + ')\n';
       } else if (sensor.type == 'UltrasonicSensor') {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(PORT.S' + i + ')\n';
+      } else if (sensor.type == 'LaserRangeSensor') {
+        sensorsCode += 'laserRange_sensor_in' + i + ' = UltrasonicSensor(PORT.S' + i + ') # Laser Range Sensor\n';
       } else if (sensor.type == 'GyroSensor') {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(PORT.S' + i + ')\n';
       } else if (sensor.type == 'GPSSensor') {

@@ -199,13 +199,11 @@ class UltrasonicSensor:
 
   @property
   def distance_centimeters_continuous(self):
-    time.sleep(SENSOR_DELAY)
-    return self.sensor.dist()
+    return self.distance_centimeters
 
   @property
   def distance_centimeters_ping(self):
-    time.sleep(SENSOR_DELAY)
-    return self.sensor.dist()
+    return self.distance_centimeters
 
   @property
   def distance_centimeters(self):

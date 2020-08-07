@@ -251,6 +251,7 @@ var world_Paintball = new function() {
     self.targetMeshes[0].speed = 30 / 1000;
     self.targetMeshes[0].animate = function(delta, mesh) {
       mesh.position.z += mesh.speed * delta;
+      mesh.position.x = 0;
       if (mesh.position.z > mesh.endZ) {
         mesh.position.z = mesh.endZ;
         mesh.speed = -mesh.speed;
@@ -290,6 +291,7 @@ var world_Paintball = new function() {
     self.targetMeshes[0].speed = 30 / 1000;
     self.targetMeshes[0].animate = function(delta, mesh) {
       mesh.position.x += mesh.speed * delta;
+      mesh.position.z = 200;
       if (mesh.position.x > mesh.endX) {
         mesh.position.x = mesh.endX;
         mesh.speed = -mesh.speed;

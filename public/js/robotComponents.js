@@ -1721,7 +1721,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       drawBackLimit: -1000,
       powerScale: 2,
       maxSpeed: 600,
-      color: 0,
+      color: 1,
       ttl: 10000,
       ammo: -1
     };
