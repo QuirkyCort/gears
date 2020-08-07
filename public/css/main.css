@@ -448,11 +448,65 @@ ul.menuDropDownRightAlign {
 .worldInfo.hide {
   display: none; }
 
+#arenaFrame {
+  background-color: white;
+  border: solid 40px; }
+  #arenaFrame .row {
+    padding: 1em;
+    display: flex;
+    align-items: center; }
+  #arenaFrame .row.header {
+    background-color: lightgray; }
+  #arenaFrame #enable {
+    margin-right: 1.5em; }
+  #arenaFrame #player {
+    font-size: 200%;
+    font-weight: bold; }
+
+#arenaFrame.bot0 {
+  border-color: #00FFFF; }
+
+#arenaFrame.bot1 {
+  border-color: #00FF00; }
+
+#arenaFrame.bot2 {
+  border-color: #FFFF00; }
+
+#arenaFrame.bot3 {
+  border-color: #FF0000; }
+
+#arenaFrame.bot0.disabled {
+  border-color: #006666; }
+  #arenaFrame.bot0.disabled #player {
+    color: gray; }
+
+#arenaFrame.bot1.disabled {
+  border-color: #006600; }
+  #arenaFrame.bot1.disabled #player {
+    color: gray; }
+
+#arenaFrame.bot2.disabled {
+  border-color: #666600; }
+  #arenaFrame.bot2.disabled #player {
+    color: gray; }
+
+#arenaFrame.bot3.disabled {
+  border-color: #660000; }
+  #arenaFrame.bot3.disabled #player {
+    color: gray; }
+
 .botsPanel {
   background: white; }
   .botsPanel .botsRow {
     display: flex;
-    width: 100%; }
+    width: 100%;
+    height: 50%; }
+    .botsPanel .botsRow .bot {
+      width: 50%; }
+      .botsPanel .botsRow .bot iframe {
+        border: none;
+        width: 100%;
+        height: 100%; }
 
 .console .player0 {
   color: #00FFFF; }

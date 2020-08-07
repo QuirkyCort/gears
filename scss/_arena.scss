@@ -1,9 +1,51 @@
+#arenaFrame {
+  background-color: white;
+  border: solid 40px;
+
+  .row {
+    padding: 1em;
+    display: flex;
+    align-items: center;
+  }
+  .row.header {
+    background-color: lightgray;
+  }
+  #enable {
+    margin-right: 1.5em;
+  }
+  #player {
+    font-size: 200%;
+    font-weight: bold;
+  }
+}
+
+#arenaFrame.bot0 { border-color: #00FFFF; }
+#arenaFrame.bot1 { border-color: #00FF00; }
+#arenaFrame.bot2 { border-color: #FFFF00; }
+#arenaFrame.bot3 { border-color: #FF0000; }
+
+#arenaFrame.bot0.disabled { border-color: #006666; #player { color: gray; } }
+#arenaFrame.bot1.disabled { border-color: #006600; #player { color: gray; } }
+#arenaFrame.bot2.disabled { border-color: #666600; #player { color: gray; } }
+#arenaFrame.bot3.disabled { border-color: #660000; #player { color: gray; } }
+
 .botsPanel {
   background: white;
 
   .botsRow {
     display: flex;
     width: 100%;
+    height: 50%;
+
+    .bot {
+      width: 50%;
+
+      iframe {
+        border: none;
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 }
 

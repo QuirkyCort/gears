@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="css/main.css?v=1596123904">
-  <link rel="stylesheet" href="css/widgets.css?v=1596123904">
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
 
@@ -17,13 +16,16 @@
 </head>
 
 <body>
-  <main>
-    <div>
+  <main id="arenaFrame" class="disabled">
+    <div class="row header">
       <input type="checkbox" id="enable">
-      <label for="enable"> Enable Bot</label><br>
-
-      <label for="python">Upload your Python program:</label>
-      <input type="file" id="python" accept="text/x-python,.py">
+      <span id="player"></span>
+    </div>
+    <div class="row">
+      <div>
+        <label for="python">Upload your Python program:</label><br>
+        <input type="file" id="python" accept="text/x-python,.py">
+      </div>
     </div>
   </main>
 
@@ -50,6 +52,16 @@
     var player = parseInt(readGET('player'));
     var pythonProgram = null;
     var robot = parent.robots[player];
+
+    document.getElementById('player').innerText = 'Player ' + player;
+    document.getElementById('arenaFrame').classList.add('bot' + player);
+    document.getElementById('enable').onclick = function(){
+      if (document.getElementById('enable').checked) {
+        document.getElementById('arenaFrame').classList.remove('disabled');
+      } else {
+        document.getElementById('arenaFrame').classList.add('disabled');
+      }
+    };
 
     var simPanel = new function() {
       playerIndicator = '<span class="player' + player + '">Player ' + player + ' : </span>';
