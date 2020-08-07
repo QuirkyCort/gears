@@ -13,7 +13,7 @@ var skulpt = new function() {
   };
 
   // Run program
-  this.runPython = function() {
+  this.runPython = function(prog) {
     if (typeof self.hardInterrupt != 'undefined') {
       delete self.hardInterrupt;
     }
@@ -21,8 +21,6 @@ var skulpt = new function() {
       return;
     }
     self.running = true;
-
-    var prog = pythonPanel.editor.getValue();
 
     var myPromise = Sk.misceval.asyncToPromise(
       function() {

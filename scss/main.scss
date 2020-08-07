@@ -212,5 +212,7 @@ ul.menuDropDownRightAlign {
   top: 100%;
 }
 
-@import '_simBlockly.scss';
+@import '_blocklyPanel.scss';
 @import '_simPanel.scss';
+
+@import '_arena.scss';

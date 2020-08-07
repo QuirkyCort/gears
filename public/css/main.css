@@ -447,3 +447,18 @@ ul.menuDropDownRightAlign {
 
 .worldInfo.hide {
   display: none; }
+
+.botsPanel {
+  background: white; }
+  .botsPanel .botsRow {
+    display: flex;
+    width: 100%; }
+
+.console .player0 {
+  color: #00FFFF; }
+.console .player1 {
+  color: #00FF00; }
+.console .player2 {
+  color: #FFFF00; }
+.console .player3 {
+  color: #FF0000; }

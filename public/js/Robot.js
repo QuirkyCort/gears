@@ -186,7 +186,7 @@ function Robot() {
           parent,
           componentConfig.position,
           componentConfig.rotation,
-          'in' + (++robot.sensorCount),
+          'in' + (++self.sensorCount),
           componentConfig.options);
       } else if (componentConfig.type == 'UltrasonicSensor') {
         component = new UltrasonicSensor(
@@ -194,21 +194,21 @@ function Robot() {
           parent,
           componentConfig.position,
           componentConfig.rotation,
-          'in' + (++robot.sensorCount),
+          'in' + (++self.sensorCount),
           componentConfig.options);
       } else if (componentConfig.type == 'GyroSensor') {
         component = new GyroSensor(
           self.scene,
           parent,
           componentConfig.position,
-          'in' + (++robot.sensorCount),
+          'in' + (++self.sensorCount),
           componentConfig.options);
       } else if (componentConfig.type == 'GPSSensor') {
         component = new GPSSensor(
           self.scene,
           parent,
           componentConfig.position,
-          'in' + (++robot.sensorCount),
+          'in' + (++self.sensorCount),
           componentConfig.options);
       } else if (componentConfig.type == 'Box') {
         component = new BoxBlock(
@@ -223,7 +223,7 @@ function Robot() {
           parent,
           componentConfig.position,
           componentConfig.rotation,
-          'out' + PORT_LETTERS[(++robot.motorCount)],
+          'out' + PORT_LETTERS[(++self.motorCount)],
           componentConfig.options);
       } else if (componentConfig.type == 'ArmActuator') {
         component = new ArmActuator(
@@ -231,7 +231,7 @@ function Robot() {
           parent,
           componentConfig.position,
           componentConfig.rotation,
-          'out' + PORT_LETTERS[(++robot.motorCount)],
+          'out' + PORT_LETTERS[(++self.motorCount)],
           componentConfig.options);
       } else if (componentConfig.type == 'LaserRangeSensor') {
         component = new LaserRangeSensor(
@@ -239,7 +239,7 @@ function Robot() {
           parent,
           componentConfig.position,
           componentConfig.rotation,
-          'in' + (++robot.sensorCount),
+          'in' + (++self.sensorCount),
           componentConfig.options);
       } else if (componentConfig.type == 'SwivelActuator') {
         component = new SwivelActuator(
@@ -247,7 +247,7 @@ function Robot() {
           parent,
           componentConfig.position,
           componentConfig.rotation,
-          'out' + PORT_LETTERS[(++robot.motorCount)],
+          'out' + PORT_LETTERS[(++self.motorCount)],
           componentConfig.options);
       } else if (componentConfig.type == 'PaintballLauncherActuator') {
         component = new PaintballLauncherActuator(
@@ -255,7 +255,7 @@ function Robot() {
           parent,
           componentConfig.position,
           componentConfig.rotation,
-          'out' + PORT_LETTERS[(++robot.motorCount)],
+          'out' + PORT_LETTERS[(++self.motorCount)],
           componentConfig.options);
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);

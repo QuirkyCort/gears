@@ -41,7 +41,7 @@ var babylon = new function() {
 
     var cameraArc = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2, Math.PI / 5, 200, new BABYLON.Vector3(0, 0, 0), scene);
     cameraArc.panningAxis = new BABYLON.Vector3(1, 1, 0);
-    cameraArc.wheelPrecision = 5;
+    cameraArc.wheelPrecision = 3;
     cameraArc.panningSensibility = 100;
     cameraArc.angularSensibilityX = 2000;
     cameraArc.angularSensibilityY = 2000;

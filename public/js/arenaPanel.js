@@ -1,4 +1,4 @@
-var simPanel = new function() {
+var arenaPanel = new function() {
   var self = this;
 
   this.sensors = [];
@@ -13,9 +13,7 @@ var simPanel = new function() {
     self.$world = $('.world');
     self.$reset = $('.reset');
     self.$camera = $('.camera');
-    self.$sensors = $('.sensors');
 
-    self.$sensorsPanel = $('.sensorReadings');
     self.$worldInfoPanel = $('.worldInfo');
 
     self.$consoleBtn.click(self.toggleConsole);
@@ -25,19 +23,9 @@ var simPanel = new function() {
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
     self.$camera.click(self.switchCamera);
-    self.$sensors.click(self.toggleSensorsPanel);
 
-    self.initSensorsPanel();
-
-    self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
+    babylon.setCameraMode('arc');
   };
-
-  // reset
-  // this.reset = function() {
-  //   self.initSensorsPanel();
-  //   self.clearWorldInfoPanel();
-  //   self.hideWorldInfoPanel();
-  // };
 
   // clear world info
   this.clearWorldInfoPanel = function() {
@@ -59,130 +47,9 @@ var simPanel = new function() {
     self.$worldInfoPanel.addClass('hide');
   };
 
-  // init sensor panel
-  this.initSensorsPanel = function() {
-    function genDiv(sensorType, values) {
-      let $div = $(
-        '<div class="sensorReading">' +
-          '<div class="sensorType"></div>' +
-          '<table class="sensorValues"></table>' +
-        '</div>'
-      );
-
-      $div.find('.sensorType').text(sensorType);
-      let $table = $div.find('.sensorValues');
-      valuesElements = [];
-      values.forEach(function(value) {
-        let $line = $('<tr><td class="sensorValueName">' + value + '</td><td class="sensorValue">-</td></tr>');
-        valuesElements.push($line.find('.sensorValue'));
-        $table.append($line);
-      });
-
-      return [$div, valuesElements];
-    }
-
-    var i = 1;
-    var sensor = null;
-    self.$sensorsPanel.empty();
-    self.sensors = [];
-    while (sensor = robot.getComponentByPort('in' + i)) {
-      let tmp = null;
-      if (sensor.type == 'ColorSensor') {
-        tmp = genDiv(sensor.port + ': Color Sensor', ['Red', 'Green', 'Blue', 'Intensity (%)']);
-      } else if (sensor.type == 'UltrasonicSensor') {
-        tmp = genDiv(sensor.port + ': Ultrasonic Sensor', ['Distance (cm)']);
-      } else if (sensor.type == 'GyroSensor') {
-        tmp = genDiv(sensor.port + ': Gyro Sensor', ['Angle (degrees)']);
-      } else if (sensor.type == 'GPSSensor') {
-        tmp = genDiv(sensor.port + ': GPS Sensor', ['X (cm)', 'Y (cm)', 'Altitude (cm)']);
-      } else if (sensor.type == 'LaserRangeSensor') {
-        tmp = genDiv(sensor.port + ': Laser Range Sensor', ['Distance (cm)']);
-      } else {
-        console.log(sensor);
-      }
-
-      if (tmp) {
-        self.$sensorsPanel.append(tmp[0]);
-        self.sensors.push([sensor, tmp[1]]);
-      }
-      i++;
-    }
-
-    let tmp = genDiv('outA: Left Motor', ['Position (degrees)']);
-    self.$sensorsPanel.append(tmp[0]);
-    self.sensors.push([robot.leftWheel, tmp[1]]);
-    tmp = genDiv('outB: Right Motor', ['Position (degrees)']);
-    self.$sensorsPanel.append(tmp[0]);
-    self.sensors.push([robot.rightWheel, tmp[1]]);
-
-    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    i = 3;
-    var motor = null;
-    while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
-      if (motor.type == 'ArmActuator') {
-        tmp = genDiv(motor.port + ': Arm Actuator', ['Position (degrees)']);
-      } else if (motor.type == 'SwivelActuator') {
-        tmp = genDiv(motor.port + ': Swivel Actuator', ['Position (degrees)']);
-      } else if (motor.type == 'PaintballLauncherActuator') {
-        tmp = genDiv(motor.port + ': Paintball Launcher Actuator', ['Position (degrees)']);
-      }
-
-      if (tmp) {
-        self.$sensorsPanel.append(tmp[0]);
-        self.sensors.push([motor, tmp[1]]);
-      }
-      i++;
-    }
-  };
-
-  // update sensor panel
-  this.updateSensorsPanel = function() {
-    if (self.$sensorsPanel.hasClass('hide')) {
-      return;
-    }
-
-    self.sensors.forEach(function(sensor) {
-      if (sensor[0].type == 'ColorSensor') {
-        let rgb = sensor[0].getRGB();
-        sensor[1][0].text(Math.round(rgb[0]));
-        sensor[1][1].text(Math.round(rgb[1]));
-        sensor[1][2].text(Math.round(rgb[2]));
-        sensor[1][3].text(Math.round(rgb[0] / 2.55));
-      } else if (sensor[0].type == 'UltrasonicSensor') {
-        sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
-      } else if (sensor[0].type == 'GyroSensor') {
-        sensor[1][0].text(Math.round(sensor[0].getAngle()));
-      } else if (sensor[0].type == 'GPSSensor') {
-        let position = sensor[0].getPosition();
-        sensor[1][0].text(Math.round(position[0] * 10) / 10);
-        sensor[1][1].text(Math.round(position[2] * 10) / 10);
-        sensor[1][2].text(Math.round(position[1] * 10) / 10);
-      } else if (sensor[0].type == 'wheel') {
-        sensor[1][0].text(Math.round(sensor[0].position));
-      } else if (sensor[0].type == 'ArmActuator') {
-        sensor[1][0].text(Math.round(sensor[0].position));
-      } else if (sensor[0].type == 'LaserRangeSensor') {
-        sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
-      } else if (sensor[0].type == 'SwivelActuator') {
-        sensor[1][0].text(Math.round(sensor[0].position));
-      } else if (sensor[0].type == 'PaintballLauncherActuator') {
-        sensor[1][0].text(Math.round(sensor[0].position));
-      }
-    });
-  };
-
-  // toggle sensors panel
-  this.toggleSensorsPanel = function() {
-    self.$sensorsPanel.toggleClass('hide');
-  };
-
   // switch camera
   this.switchCamera = function() {
     if (babylon.cameraMode == 'arc') {
-      babylon.setCameraMode('follow');
-      self.$camera.html('&#x1f4f9; Follow');
-
-    } else if (babylon.cameraMode == 'follow') {
       babylon.setCameraMode('orthoTop');
       self.$camera.html('&#x1f4f9; Top');
 
@@ -485,17 +352,16 @@ var simPanel = new function() {
 
   // Run the simulator
   this.runSim = function() {
-    if (skulpt.running) {
-      skulpt.hardInterrupt = true;
-      self.setRunIcon('run');
-    } else {
-      if (! pythonPanel.modified) {
-        pythonPanel.loadPythonFromBlockly();
+    playerFrames.forEach(function(playerFrame){
+      if (playerFrame.skulpt.running) {
+        playerFrame.skulpt.hardInterrupt = true;
+        self.setRunIcon('run');
+      } else {
+        robot.reset();
+        playerFrame.runPython();
+        self.setRunIcon('stop');
       }
-      robot.reset();
-      skulpt.runPython(pythonPanel.editor.getValue());
-      self.setRunIcon('stop');
-    }
+    });
   };
 
   // Set run icon
@@ -512,9 +378,10 @@ var simPanel = new function() {
     self.clearWorldInfoPanel();
     self.hideWorldInfoPanel();
     babylon.resetScene();
-    skulpt.hardInterrupt = true;
+    playerFrames.forEach(function(playerFrame){
+      playerFrame.skulpt.hardInterrupt = true;
+    });
     self.setRunIcon('run');
-    self.initSensorsPanel();
   };
 
   // Strip html tags
@@ -556,4 +423,4 @@ var simPanel = new function() {
   };
 }
 
-simPanel.init();
+arenaPanel.init();

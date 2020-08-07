@@ -1,0 +1,23 @@
+.botsPanel {
+  background: white;
+
+  .botsRow {
+    display: flex;
+    width: 100%;
+  }
+}
+
+.console {
+  .player0 {
+    color: #00FFFF;
+  }
+  .player1 {
+    color: #00FF00;
+  }
+  .player2 {
+    color: #FFFF00;
+  }
+  .player3 {
+    color: #FF0000;
+  }
+}

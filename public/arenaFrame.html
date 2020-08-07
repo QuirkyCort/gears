@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="css/main.css?v=1596123904">
+  <link rel="stylesheet" href="css/widgets.css?v=1596123904">
+
+  <script src="jquery/jquery-3.5.1.slim.min.js"></script>
+
+  <script src="skulpt/0.11.0/skulpt.min.js"></script>
+  <script src="skulpt/0.11.0/skulpt-stdlib.js"></script>
+
+  <title>GearsBot Arena iFrame</title>
+</head>
+
+<body>
+  <main>
+    <div>
+      <input type="checkbox" id="enable">
+      <label for="enable"> Enable Bot</label><br>
+
+      <label for="python">Upload your Python program:</label>
+      <input type="file" id="python" accept="text/x-python,.py">
+    </div>
+  </main>
+
+  <script src="blockly/3.20200402.1/blockly.js"></script>
+  <script src="blockly/3.20200402.1/blocks.js"></script>
+  <script src="blockly/3.20200402.1/python.js"></script>
+  <script src="blockly/3.20200402.1/msg/en.js"></script>
+
+  <script src="js/ev3dev2_generator.js?v=1596123904"></script>
+  <script src="js/pybricks_generator.js?v=1596123904"></script>
+  <script src="js/blockly.js?v=1596123904"></script>
+  <script src="js/skulpt.js?v=1596123904"></script>
+  <script>
+    function readGET(name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results==null){
+        return null;
+      } else {
+        return decodeURI(results[1]);
+      }
+    }
+
+    var parent = window.parent;
+    var player = parseInt(readGET('player'));
+    var pythonProgram = null;
+    var robot = parent.robots[player];
+
+    var simPanel = new function() {
+      playerIndicator = '<span class="player' + player + '">Player ' + player + ' : </span>';
+
+      this.setRunIcon = function(type) {
+        parent.arenaPanel.setRunIcon(type);
+      };
+
+      this.consoleWrite = function(text) {
+        text = playerIndicator + parent.arenaPanel.stripHTML(text);
+        text = parent.arenaPanel.$consoleContent.html() + text;
+        parent.arenaPanel.$consoleContent.html(text);
+        parent.arenaPanel.scrollConsoleToBottom();
+      };
+
+      this.consoleWriteErrors = function(text) {
+        text = '<span class="error">' + parent.arenaPanel.stripHTML(text) + '</span>\n';
+        text = playerIndicator + text;
+        text = parent.arenaPanel.$consoleContent.html() + text;
+        parent.arenaPanel.$consoleContent.html(text);
+        parent.arenaPanel.scrollConsoleToBottom();
+      };
+    };
+
+    document.getElementById('python').addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        pythonProgram = this.result;
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+
+    function runPython() {
+      let enable = document.getElementById('enable').checked;
+      if (! enable) {
+        return;
+      }
+
+      if (pythonProgram) {
+        skulpt.runPython(pythonProgram);
+      }
+    };
+  </script>
+</body>
+</html>
