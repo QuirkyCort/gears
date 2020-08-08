@@ -11,6 +11,15 @@ function Robot() {
   this.sensorCount = 0;
   this.actuatorCount = 2;
 
+  this.playerColors =[
+    new BABYLON.Color3(0.2, 0.94, 0.94),
+    new BABYLON.Color3(0.2, 0.94, 0.2),
+    new BABYLON.Color3(0.94, 0.94, 0.2),
+    new BABYLON.Color3(0.94, 0.2, 0.2),
+    new BABYLON.Color3(0.94, 0.2, 0.94),
+    new BABYLON.Color3(0.2, 0.2, 0.94)
+  ]
+
   // Run on page load
   this.init = function() {
   };
@@ -34,7 +43,11 @@ function Robot() {
 
       // Body
       var bodyMat = new BABYLON.StandardMaterial('body', scene);
-      bodyMat.diffuseColor = new BABYLON.Color3(0.94, 0.61, 0.05);
+      if (self.player == 'single') {
+        bodyMat.diffuseColor = new BABYLON.Color3(0.94, 0.61, 0.05);
+      } else {
+        bodyMat.diffuseColor = self.playerColors[self.player];
+      }
       bodyMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
       let bodyOptions = {
         height: options.bodyHeight,

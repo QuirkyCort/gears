@@ -476,22 +476,22 @@ ul.menuDropDownRightAlign {
   border-color: #FF0000; }
 
 #arenaFrame.bot0.disabled {
-  border-color: #006666; }
+  border-color: #446666; }
   #arenaFrame.bot0.disabled #player {
     color: gray; }
 
 #arenaFrame.bot1.disabled {
-  border-color: #006600; }
+  border-color: #446644; }
   #arenaFrame.bot1.disabled #player {
     color: gray; }
 
 #arenaFrame.bot2.disabled {
-  border-color: #666600; }
+  border-color: #666644; }
   #arenaFrame.bot2.disabled #player {
     color: gray; }
 
 #arenaFrame.bot3.disabled {
-  border-color: #660000; }
+  border-color: #664444; }
   #arenaFrame.bot3.disabled #player {
     color: gray; }
 

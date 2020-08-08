@@ -12,6 +12,8 @@
   <script src="skulpt/0.11.0/skulpt.min.js"></script>
   <script src="skulpt/0.11.0/skulpt-stdlib.js"></script>
 
+  <script src="jszip/3.5.0/jszip.min.js"></script>
+
   <title>GearsBot Arena iFrame</title>
 </head>
 
@@ -22,10 +24,8 @@
       <span id="player"></span>
     </div>
     <div class="row">
-      <div>
-        <label for="python">Upload your Python program:</label><br>
-        <input type="file" id="python" accept="text/x-python,.py">
-      </div>
+      <label for="zip">Upload your zip package:&nbsp;</label>
+      <input type="file" id="zip" accept="application/zip,.zip">
     </div>
   </main>
 
@@ -89,13 +89,21 @@
       };
     };
 
-    document.getElementById('python').addEventListener('change', function(e){
-      var reader = new FileReader();
-      reader.onload = function() {
-        pythonProgram = this.result;
-      };
-      reader.readAsText(e.target.files[0]);
+    document.getElementById('zip').addEventListener('change', function(e){
+      JSZip.loadAsync(e.target.files[0])
+        .then(function(zip){
+          zip.file('gearsPython.py').async('string')
+            .then(function(content){
+              pythonProgram = content;
+            });
+          zip.file('gearsRobot.json').async('string')
+            .then(function(content){
+              robot.options = JSON.parse(content);
+              parent.arenaPanel.resetSim();
+            });
+        })
     });
+
 
     function runPython() {
       let enable = document.getElementById('enable').checked;

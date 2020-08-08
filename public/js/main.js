@@ -276,7 +276,8 @@ var main = new function() {
         {html: 'Import functions from blocks file', line: false, callback: self.importFunctionsFromFile},
         {html: 'Save blocks to your computer', line: true, callback: self.saveToComputer},
         {html: 'Load Python from your computer', line: false, callback: self.loadPythonFromComputer},
-        {html: 'Save Python to your computer', line: false, callback: self.savePythonToComputer},
+        {html: 'Save Python to your computer', line: true, callback: self.savePythonToComputer},
+        {html: 'Export zip package to your computer', line: true, callback: self.saveZipToComputer},
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
@@ -290,6 +291,27 @@ var main = new function() {
       pythonPanel.modified = false;
       localStorage.setItem('pythonModified', false);
       blocklyPanel.setDisable(false);
+    });
+  };
+
+  // save Zip to computer
+  this.saveZipToComputer = function() {
+    var zip = new JSZip();
+    zip.file('gearsBlocks.xml', blockly.getXmlText());
+    if (pythonPanel.modified) {
+      zip.file('gearsPython.py', pythonPanel.editor.getValue());
+    } else {
+      zip.file('gearsPython.py', blockly.generator.genCode());
+    }
+    zip.file('gearsRobot.json', JSON.stringify(robot.options, null, 2));
+
+    zip.generateAsync({type:'base64'})
+    .then(function(content) {
+      var hiddenElement = document.createElement('a');
+      hiddenElement.href = 'data:application/xml;base64,' + content;
+      hiddenElement.target = '_blank';
+      hiddenElement.download = 'gearsBot.zip';
+      hiddenElement.dispatchEvent(new MouseEvent('click'));
     });
   };
 
