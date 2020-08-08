@@ -10,15 +10,30 @@ var main = new function() {
     self.$pythonMenu = $('.pythonMenu');
     self.$robotMenu = $('.robotMenu');
     self.$helpMenu = $('.helpMenu');
+    self.$projectName = $('#projectName');
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
     self.$pythonMenu.click(self.togglePythonMenu);
     self.$robotMenu.click(self.toggleRobotMenu);
     self.$helpMenu.click(self.toggleHelpMenu);
+    self.$projectName.change(self.saveProjectName);
 
     window.addEventListener('beforeunload', self.checkUnsaved);
     blocklyPanel.onActive();
+    self.loadProjectName();
+  };
+
+  // Load project name from local storage
+  this.loadProjectName = function() {
+    self.$projectName.val(localStorage.getItem('projectName'));
+  };
+
+  // Remove problematic characters then save project name
+  this.saveProjectName = function() {
+    let filtered = self.$projectName.val().replace(/[^0-9a-zA-Z_\- ]/g, '');
+    self.$projectName.val(filtered);
+    localStorage.setItem('projectName', filtered);
   };
 
   // Save robot to json file
@@ -310,7 +325,7 @@ var main = new function() {
       var hiddenElement = document.createElement('a');
       hiddenElement.href = 'data:application/xml;base64,' + content;
       hiddenElement.target = '_blank';
-      hiddenElement.download = 'gearsBot.zip';
+      hiddenElement.download = self.$projectName.val() + '.zip';
       hiddenElement.dispatchEvent(new MouseEvent('click'));
     });
   };
@@ -320,7 +335,7 @@ var main = new function() {
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:application/xml;base64,' + btoa(blockly.getXmlText());
     hiddenElement.target = '_blank';
-    hiddenElement.download = 'gearsBot.xml';
+    hiddenElement.download = self.$projectName.val() + '.xml';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
   };
 
@@ -352,6 +367,9 @@ var main = new function() {
         blockly.loadXmlText(this.result);
       };
       reader.readAsText(e.target.files[0]);
+      let filename = e.target.files[0].name.replace(/.xml/, '');
+      self.$projectName.val(filename);
+      self.saveProjectName();
     });
   };
 
@@ -366,7 +384,7 @@ var main = new function() {
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/x-python;base64,' + btoa(code);
     hiddenElement.target = '_blank';
-    hiddenElement.download = 'gearsBot.py';
+    hiddenElement.download = self.$projectName.val() + '.py';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
   };
 
@@ -384,6 +402,9 @@ var main = new function() {
         pythonPanel.warnModify();
       };
       reader.readAsText(e.target.files[0]);
+      let filename = e.target.files[0].name.replace(/.py/, '');
+      self.$projectName.val(filename);
+      self.saveProjectName();
     });
   };
 
