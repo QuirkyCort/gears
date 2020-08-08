@@ -148,6 +148,9 @@ var babylon = new function() {
       if (robot.player == 'single') {
         loader.push(robot.load(self.scene, self.world.robotStart));
       } else {
+        if (robot.disabled == true) {
+          return;
+        }
         loader.push(robot.load(self.scene, self.world.robotStarts[robot.player]));
       }
     });
@@ -168,6 +171,9 @@ var babylon = new function() {
 
       // Some components in the robot may need to see the fully loaded meshes
       robots.forEach(function(robot){
+        if (robot.disabled == true) {
+          return;
+        }
         robot.loadMeshes(self.scene.meshes.filter(mesh => mesh.id != 'RTT'));
       })
 
@@ -212,6 +218,9 @@ var babylon = new function() {
     var delta = self.scene.getEngine().getDeltaTime();
 
     robots.forEach(function(robot){
+      if (robot.disabled == true) {
+        return;
+      }
       robot.render(delta);
     });
 
