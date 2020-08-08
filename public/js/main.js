@@ -357,8 +357,14 @@ var main = new function() {
 
   // save to computer
   this.savePythonToComputer = function() {
+    let code = null;
+    if (pythonPanel.modified) {
+      code = pythonPanel.editor.getValue();
+    } else {
+      code = blockly.generator.genCode();
+    }
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/x-python;base64,' + btoa(pythonPanel.editor.getValue());
+    hiddenElement.href = 'data:text/x-python;base64,' + btoa(code);
     hiddenElement.target = '_blank';
     hiddenElement.download = 'gearsBot.py';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
