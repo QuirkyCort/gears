@@ -99,8 +99,8 @@ var world_Arena = new function() {
       option: 'timeLimit',
       title: 'Time Limit',
       type: 'checkbox',
-      label: 'Enforce',
-      help: 'If enforced, the robots will be automatically stopped when time is up.'
+      label: 'Stop robots when time is up',
+      help: 'Only works in the arena. Stop all robot motors when time is up.'
     },
     {
       option: 'startPos',
@@ -154,7 +154,7 @@ var world_Arena = new function() {
     }
 
     self.arenaStart = self.arenaStarts[self.options.challenge];
-    self.robotStart = self.arenaStarts[parseInt(self.options.startPos)];
+    self.robotStart = self.arenaStart[parseInt(self.options.startPos)];
 
     return new Promise(function(resolve, reject) {
       resolve();

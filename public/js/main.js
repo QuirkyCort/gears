@@ -9,6 +9,7 @@ var main = new function() {
     self.$fileMenu = $('.fileMenu');
     self.$pythonMenu = $('.pythonMenu');
     self.$robotMenu = $('.robotMenu');
+    self.$arenaButton = $('.arenaButton');
     self.$helpMenu = $('.helpMenu');
     self.$projectName = $('#projectName');
 
@@ -16,12 +17,28 @@ var main = new function() {
     self.$fileMenu.click(self.toggleFileMenu);
     self.$pythonMenu.click(self.togglePythonMenu);
     self.$robotMenu.click(self.toggleRobotMenu);
+    self.$arenaButton.click(self.arenaWindow);
     self.$helpMenu.click(self.toggleHelpMenu);
     self.$projectName.change(self.saveProjectName);
 
     window.addEventListener('beforeunload', self.checkUnsaved);
     blocklyPanel.onActive();
     self.loadProjectName();
+  };
+
+  // Open a window with a link to the arena page
+  this.arenaWindow = function() {
+    let options = {
+      title: 'GearsBot Arena',
+      message:
+        '<p>The GearsBot Arena allows up to 4 robots to compete or coorporate with each other.</p>' +
+        '<p>Program your robot using the normal GearsBot page (...where you are now), and export your program and robot as a zip package (Files -> Export Zip...). ' +
+        'You can then load the zip package into the GearsBot Arena and run it against other players.</p>',
+      confirm: 'Go to Arena'
+    };
+    confirmDialog(options, function(){
+      self.openPage('arena.html');
+    });
   };
 
   // Load project name from local storage

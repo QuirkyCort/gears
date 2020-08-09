@@ -29,7 +29,6 @@ Coding (Simulator)
   - linear actuator
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
   - touch sensor (simplified laser rangefinder with very short range)
-- Multi-robot arena
 - Measurement tool
 
 Coding (Sharing)
