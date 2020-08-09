@@ -67,6 +67,9 @@ function Robot() {
       body.rotate(BABYLON.Axis.X, startRot.x, BABYLON.Space.LOCAL);
       body.rotate(BABYLON.Axis.Z, startRot.z, BABYLON.Space.LOCAL);
 
+      // Add a paintballCollide function
+      body.paintballCollide = self.paintballCollide;
+
       // Rear caster
       var casterMat = new BABYLON.StandardMaterial('caster', scene);
       casterMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.6);
@@ -173,6 +176,13 @@ function Robot() {
 
       resolve();
     });
+  };
+
+  // Paintball collide function. Used to notify world of hit for score keeping.
+  this.paintballCollide = function(thisImpostor, otherImpostor, hit) {
+    if (typeof babylon.world.paintBallHit == 'function'){
+      babylon.world.paintBallHit(self, otherImpostor, hit);
+    }
   };
 
   // Add joints
@@ -339,6 +349,21 @@ function Robot() {
         component.render(delta);
       }
     });
+  };
+
+  // Force all motors to stop
+  this.stopAll = function() {
+    if (self.leftWheel) {
+      self.leftWheel.stop();
+    }
+    if (self.rightWheel) {
+      self.rightWheel.stop();
+    }
+    self.components.forEach(function(component){
+      if (typeof component.stop == 'function') {
+        component.stop();
+      }
+    })
   };
 
   // Init class

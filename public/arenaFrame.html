@@ -70,7 +70,6 @@
       playerIndicator = '<span class="player' + player + '">Player ' + player + ' : </span>';
 
       this.setRunIcon = function(type) {
-        parent.arenaPanel.setRunIcon(type);
       };
 
       this.consoleWrite = function(text) {
@@ -99,6 +98,22 @@
           zip.file('gearsRobot.json').async('string')
             .then(function(content){
               robot.options = JSON.parse(content);
+
+              function setColor(components) {
+                components.forEach(function(component) {
+                  if (component.type == 'PaintballLauncherActuator') {
+                    if (component.options == null) {
+                      component.options = {};
+                    }
+                    component.options.color = player;
+                  }
+                  if (typeof component.components != 'undefined') {
+                    setColor(component.components);
+                  }
+                });
+              }
+              setColor(robot.options.components);
+
               parent.arenaPanel.resetSim();
             });
         })

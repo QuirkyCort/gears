@@ -151,7 +151,7 @@ var babylon = new function() {
         if (robot.disabled == true) {
           return;
         }
-        loader.push(robot.load(self.scene, self.world.robotStarts[robot.player]));
+        loader.push(robot.load(self.scene, self.world.arenaStart[robot.player]));
       }
     });
 

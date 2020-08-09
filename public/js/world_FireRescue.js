@@ -405,7 +405,7 @@ var world_FireRescue = new function() {
         redExpired: false
       };
       function showWorldInfoPanel() {
-        if (simPanel) {
+        if (typeof simPanel != 'undefined') {
           simPanel.showWorldInfoPanel();
         } else {
           setTimeout(showWorldInfoPanel, 1000);

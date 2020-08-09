@@ -213,6 +213,26 @@ ul.menuDropDownRightAlign {
   cursor: pointer;
   user-select: none; }
 
+.startSim {
+  position: absolute;
+  color: white;
+  opacity: 0.8;
+  top: 2em;
+  left: 1.5em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none; }
+
+.stopSim {
+  position: absolute;
+  color: white;
+  opacity: 0.8;
+  top: 2em;
+  left: 2.5em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none; }
+
 .world {
   position: absolute;
   color: white;
@@ -455,6 +475,14 @@ ul.menuDropDownRightAlign {
     color: #ff0000; }
   .worldInfo .green.animate {
     color: #00ff00; }
+  .worldInfo .p0.animate {
+    color: #00ffff; }
+  .worldInfo .p1.animate {
+    color: #00ff00; }
+  .worldInfo .p2.animate {
+    color: #ffff00; }
+  .worldInfo .p3.animate {
+    color: #ff0000; }
 
 .worldInfo.hide {
   display: none; }

@@ -9,7 +9,8 @@ var arenaPanel = new function() {
     self.$consoleBtn = $('.console .chevron');
     self.$consoleContent = $('.console .content');
     self.$consoleClear = $('.console .clear');
-    self.$runSim = $('.runSim');
+    self.$startSim = $('.startSim');
+    self.$stopSim = $('.stopSim');
     self.$world = $('.world');
     self.$reset = $('.reset');
     self.$camera = $('.camera');
@@ -19,7 +20,8 @@ var arenaPanel = new function() {
     self.$consoleBtn.click(self.toggleConsole);
     self.$console.on('transitionend', self.scrollConsoleToBottom);
     self.$consoleClear.click(self.clearConsole);
-    self.$runSim.click(self.runSim);
+    self.$startSim.click(self.startSim);
+    self.$stopSim.click(self.stopSim);
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
     self.$camera.click(self.switchCamera);
@@ -351,26 +353,30 @@ var arenaPanel = new function() {
   };
 
   // Run the simulator
-  this.runSim = function() {
+  this.startSim = function() {
+    playerFrames.forEach(function(playerFrame){
+      playerFrame.runPython();
+    });
+
+    if (typeof babylon.world.startSim == 'function') {
+      babylon.world.startSim();
+    }
+  };
+  // stop the simulator
+  this.stopSim = function() {
     playerFrames.forEach(function(playerFrame){
       if (playerFrame.skulpt.running) {
         playerFrame.skulpt.hardInterrupt = true;
-        self.setRunIcon('run');
-      } else {
-        robot.reset();
-        playerFrame.runPython();
-        self.setRunIcon('stop');
       }
     });
-  };
 
-  // Set run icon
-  this.setRunIcon = function(type) {
-    if (type == 'run') {
-      self.$runSim.html('&#x25b6;');
-    } else {
-      self.$runSim.html('&#x23f9;');
+    if (typeof babylon.world.stopSim == 'function') {
+      babylon.world.stopSim();
     }
+
+    robots.forEach(function(robot){
+      robot.stopAll();
+    });
   };
 
   // Reset simulator
@@ -381,7 +387,6 @@ var arenaPanel = new function() {
     playerFrames.forEach(function(playerFrame){
       playerFrame.skulpt.hardInterrupt = true;
     });
-    self.setRunIcon('run');
   };
 
   // Strip html tags

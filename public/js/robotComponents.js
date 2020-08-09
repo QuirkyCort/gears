@@ -1681,17 +1681,17 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     // Paintball colors
     self.paintballColors = []
     self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[0].diffuseColor = new BABYLON.Color3(0, 0, 1);
+    self.paintballColors[0].diffuseColor = new BABYLON.Color3(0, 1, 1);
     self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[1].diffuseColor = new BABYLON.Color3(0, 1, 1);
+    self.paintballColors[1].diffuseColor = new BABYLON.Color3(0, 1, 0);
     self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[2].diffuseColor = new BABYLON.Color3(0, 1, 0);
+    self.paintballColors[2].diffuseColor = new BABYLON.Color3(1, 1, 0);
     self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[3].diffuseColor = new BABYLON.Color3(1, 1, 0);
+    self.paintballColors[3].diffuseColor = new BABYLON.Color3(1, 0, 0);
     self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[4].diffuseColor = new BABYLON.Color3(1, 0, 0);
+    self.paintballColors[4].diffuseColor = new BABYLON.Color3(1, 0, 1);
     self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[5].diffuseColor = new BABYLON.Color3(1, 0, 1);
+    self.paintballColors[5].diffuseColor = new BABYLON.Color3(0, 0, 1);
 
     // Paint splatter material
     self.splatterColors = [];
@@ -1721,7 +1721,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       drawBackLimit: -1000,
       powerScale: 2,
       maxSpeed: 600,
-      color: 1,
+      color: 0,
       ttl: 10000,
       ammo: -1
     };

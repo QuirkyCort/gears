@@ -87,7 +87,7 @@ var world_Paintball = new function() {
     highLow:  new BABYLON.Vector3(0, 0, -6),
     movingTarget1: new BABYLON.Vector3(0, 0, -245),
     movingTarget2: new BABYLON.Vector3(0, 0, -6),
-  }
+  };
 
   this.defaultOptions = {
     challenge: 'firingRange',
