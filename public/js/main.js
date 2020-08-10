@@ -488,7 +488,12 @@ var main = new function() {
           '<ul><li>Write your program in the normal GearsBot page (...where you are now)</li>' +
           '<li>Test it out using the new "Arena" world.</li>' +
           '<li>Export your program and robot as a zip package (Files -> Export Zip...)</li>' +
-          '<li>Load the zip package in the GearsBot Arena, and run it against other players.</li></ul>'
+          '<li>Load the zip package in the GearsBot Arena, and run it against other players.</li></ul>' +
+          '<p>Other new stuff...</p>' +
+          '<ul><li>Added FLL 2020-2021 (RePLAY) to image world</li>' +
+          '<li>Added WRO 2020 Junior to image world</li>' +
+          '<li>Set project name (optional, but it helps name your save file)</li>' +
+          '<li>Lots of bug fixes</li></ul>'
       }
       acknowledgeDialog(options, function(){
         localStorage.setItem('whatsNew', current);
