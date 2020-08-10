@@ -100,7 +100,7 @@ var world_Image = new function() {
   ];
 
   this.defaultOptions = {
-    image: 'textures/maps/WRO-2019-Regular-Junior.jpg',
+    image: 'textures/maps/FLL2020.jpg',
     imageURL: '',
     length: 100,
     width: 100,
