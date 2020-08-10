@@ -50,7 +50,7 @@ var main = new function() {
 
   // Remove problematic characters then save project name
   this.saveProjectName = function() {
-    let filtered = self.$projectName.val().replace(/[^0-9a-zA-Z_\- ]/g, '');
+    let filtered = self.$projectName.val().replace(/[^0-9a-zA-Z_\- ]/g, '').trim();
     self.$projectName.val(filtered);
     localStorage.setItem('projectName', filtered);
   };
@@ -330,6 +330,11 @@ var main = new function() {
 
   // save Zip to computer
   this.saveZipToComputer = function() {
+    let filename = self.$projectName.val();
+    if (filename.trim() == '') {
+      filename = 'gearsBot';
+    }
+
     var zip = new JSZip();
     zip.file('gearsBlocks.xml', blockly.getXmlText());
     if (pythonPanel.modified) {
@@ -344,17 +349,22 @@ var main = new function() {
       var hiddenElement = document.createElement('a');
       hiddenElement.href = 'data:application/xml;base64,' + content;
       hiddenElement.target = '_blank';
-      hiddenElement.download = self.$projectName.val() + '.zip';
+      hiddenElement.download = filename + '.zip';
       hiddenElement.dispatchEvent(new MouseEvent('click'));
     });
   };
 
   // save to computer
   this.saveToComputer = function() {
+    let filename = self.$projectName.val();
+    if (filename.trim() == '') {
+      filename = 'gearsBot';
+    }
+
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:application/xml;base64,' + btoa(blockly.getXmlText());
     hiddenElement.target = '_blank';
-    hiddenElement.download = self.$projectName.val() + '.xml';
+    hiddenElement.download = filename + '.xml';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
   };
 
@@ -394,6 +404,11 @@ var main = new function() {
 
   // save to computer
   this.savePythonToComputer = function() {
+    let filename = self.$projectName.val();
+    if (filename.trim() == '') {
+      filename = 'gearsBot';
+    }
+
     let code = null;
     if (pythonPanel.modified) {
       code = pythonPanel.editor.getValue();
@@ -403,7 +418,7 @@ var main = new function() {
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/x-python;base64,' + btoa(code);
     hiddenElement.target = '_blank';
-    hiddenElement.download = self.$projectName.val() + '.py';
+    hiddenElement.download = filename + '.py';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
   };
 
