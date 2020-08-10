@@ -633,32 +633,34 @@ var world_Arena = new function() {
     }
 
     if (self.game.state == 'started') {
-      self.game.scoreZones.forEach(function(scoreZone){
-        self.game.magnetics.forEach(function(magnetic){
-          if (scoreZone.intersectsPoint(magnetic.absolutePosition)) {
-            if (scoreZone.color == magnetic.color) {
-              self.game['team' + scoreZone.team] += 2;
-            } else {
-              self.game['team' + scoreZone.team] += 1;
-            }
-            magnetic.position.y = -10;
-            magnetic.physicsImpostor.setMass = 0;
-            setTimeout(function(){
-              magnetic.physicsImpostor.setMass = 10;
-              if (magnetic.originalPosition == 'random') {
-                magnetic.position.y = 0.25;
-                magnetic.position.x = self.mulberry32() * 44 - 22;
-                magnetic.position.z = self.mulberry32() * 120 - 60;
+      if (self.options.challenge == 'collector') {
+        self.game.scoreZones.forEach(function(scoreZone){
+          self.game.magnetics.forEach(function(magnetic){
+            if (scoreZone.intersectsPoint(magnetic.absolutePosition)) {
+              if (scoreZone.color == magnetic.color) {
+                self.game['team' + scoreZone.team] += 2;
               } else {
-                magnetic.position.copyFrom(magnetic.originalPosition);
+                self.game['team' + scoreZone.team] += 1;
               }
-              magnetic.rotationQuaternion.copyFrom(magnetic.originalRotationQuaternion);
-              magnetic.physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
-              magnetic.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
-            }, magnetic.timeout);
-          }
+              magnetic.position.y = -10;
+              magnetic.physicsImpostor.setMass = 0;
+              setTimeout(function(){
+                magnetic.physicsImpostor.setMass = 10;
+                if (magnetic.originalPosition == 'random') {
+                  magnetic.position.y = 0.25;
+                  magnetic.position.x = self.mulberry32() * 44 - 22;
+                  magnetic.position.z = self.mulberry32() * 120 - 60;
+                } else {
+                  magnetic.position.copyFrom(magnetic.originalPosition);
+                }
+                magnetic.rotationQuaternion.copyFrom(magnetic.originalRotationQuaternion);
+                magnetic.physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
+                magnetic.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+              }, magnetic.timeout);
+            }
+          });
         });
-      });
+      }
 
       self.drawWorldInfo();
     }

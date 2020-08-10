@@ -333,6 +333,7 @@ ul.menuDropDownRightAlign {
     margin-top: 0.5em;
     padding: 0 0.5em;
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 20em; }
     .dialogWindow .selectWorld .configurations .configuration {
       padding: 0.5em 0em; }
