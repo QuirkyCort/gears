@@ -20,10 +20,12 @@ var world_Image = new function() {
       title: 'Select Image',
       type: 'select',
       options: [
+        ['FLL 2020', 'textures/maps/FLL2020.jpg'],
+        ['FLL 2019', 'textures/maps/FLL2019.jpg'],
+        ['FLL 2018', 'textures/maps/FLL2018.jpg'],
+        ['WRO 2020', 'textures/maps/WRO-2020-Regular-Junior.jpg'],
         ['WRO 2019', 'textures/maps/WRO-2019-Regular-Junior.jpg'],
         ['WRO 2018', 'textures/maps/WRO-2018-Regular-Junior.png'],
-        ['FLL 2019', 'textures/maps/FLL2019.jpg'],
-        ['FLL 2018', 'textures/maps/FLL2018.jpg']
       ],
       help: 'You can override this by setting an image URL or uploading a file'
     },
