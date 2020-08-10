@@ -24,6 +24,8 @@ var main = new function() {
     window.addEventListener('beforeunload', self.checkUnsaved);
     blocklyPanel.onActive();
     self.loadProjectName();
+
+    self.showWhatsNew();
   };
 
   // Open a window with a link to the arena page
@@ -469,6 +471,28 @@ var main = new function() {
     }
     if (typeof active.onActive == 'function') {
       active.onActive();
+    }
+  };
+
+  // Display what's new if not seen before
+  this.showWhatsNew = function() {
+    let current = 20200811;
+    let lastShown = parseInt(localStorage.getItem('whatsNew'));
+    if (lastShown == null || lastShown < current) {
+      let options = {
+        title: 'What\'s New',
+        message:
+          '<h3>20 Aug 2020</h3>' +
+          '<p>Biggest new addition is the GearsBot arena, which lets you run up to 4 robots simultaneously, either competing or coorporating with each other to complete a mission.</p>' +
+          '<p>To use the GearsBot arena...</p>' +
+          '<ul><li>Write your program in the normal GearsBot page (...where you are now)</li>' +
+          '<li>Test it out using the new "Arena" world.</li>' +
+          '<li>Export your program and robot as a zip package (Files -> Export Zip...)</li>' +
+          '<li>Load the zip package in the GearsBot Arena, and run it against other players.</li></ul>'
+      }
+      acknowledgeDialog(options, function(){
+        localStorage.setItem('whatsNew', current);
+      });
     }
   };
 }

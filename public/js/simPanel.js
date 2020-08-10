@@ -495,6 +495,9 @@ var simPanel = new function() {
       robot.reset();
       skulpt.runPython(pythonPanel.editor.getValue());
       self.setRunIcon('stop');
+      if (typeof babylon.world.startSim == 'function') {
+        babylon.world.startSim();
+      }
     }
   };
 
