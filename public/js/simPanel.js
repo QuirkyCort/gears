@@ -196,7 +196,7 @@ var simPanel = new function() {
   this.selectWorld = function() {
     let $body = $('<div class="selectWorld"></div>');
     let $select = $('<select></select>');
-    let $description = $('<div class="description"><img class="thumbnail"><div class="text"></div></div>');
+    let $description = $('<div class="description"><img class="thumbnail" width="200" height="200"><div class="text"></div></div>');
     let $configurations = $('<div class="configurations"></div>');
 
     let worldOptionsSetting = {};

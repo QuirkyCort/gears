@@ -117,7 +117,7 @@ var world_Arena = new function() {
           '<ul><li>Tokens can be picked up using the electromagnet</li>' +
           '<li>Tokens are worth 2 points if dropped in a matching colored zone, 1 point if dropped in a non-matching colored zone.</li>' +
           '<li>Blue tokens respawn in 60 seconds, while red and green tokens respawn in 120 seconds.</li>' +
-          '<li>The doors to the center area will open when their respective colored sensors detect an robot or crate in it.</li></ul>',
+          '<li>The doors to the center area will open when their respective colored sensors detect a robot or crate in it.</li></ul>',
         sumo:
           '<p>Push the opponent off the platform, but be careful not to fall off yourself!</p>',
       }

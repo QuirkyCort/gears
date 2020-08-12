@@ -30,9 +30,12 @@ Coding (Simulator)
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
   - touch sensor (simplified laser rangefinder with very short range)
 - Measurement tool
+- Increase wall friction to prevent jumping over wall when backing up
+- Set duty_cycle_sp. Useful for aligning to wall.
 
 Coding (Sharing)
 - Remote coach view of student's work
 - Spectator mode. Run code on one computer, but rendered and view on multiple.
+- Host an arena match and allow others to submit code/robots
 
 Bugs
