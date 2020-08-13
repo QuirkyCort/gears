@@ -263,6 +263,43 @@ ul.menuDropDownRightAlign {
   cursor: pointer;
   user-select: none; }
 
+.ruler {
+  position: absolute;
+  color: black;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 4em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  width: 12em;
+  overflow: hidden;
+  transition: 0.5s width; }
+  .ruler .icon {
+    margin-right: 0.5em;
+    font-size: 120%; }
+  .ruler .row1, .ruler .row2 {
+    font-size: 50%;
+    white-space: nowrap; }
+  .ruler .measurements {
+    font-size: 50%;
+    white-space: nowrap;
+    flex-grow: 1; }
+    .ruler .measurements table {
+      width: 100%; }
+    .ruler .measurements td {
+      width: 33%; }
+
+.ruler.closed {
+  color: white;
+  background: none;
+  width: 1.3em; }
+
 .console {
   position: absolute;
   bottom: 0;
@@ -487,6 +524,29 @@ ul.menuDropDownRightAlign {
 
 .worldInfo.hide {
   display: none; }
+
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon.eot?98sozz");
+  src: url("../fonts/icomoon.eot?98sozz#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?98sozz") format("truetype"), url("../fonts/icomoon.woff?98sozz") format("woff"), url("../fonts/icomoon.svg?98sozz#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block; }
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-ruler:before {
+  content: "\e900"; }
 
 #arenaFrame {
   background-color: white;

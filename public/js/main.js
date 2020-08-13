@@ -491,13 +491,15 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function() {
-    let current = 20200811;
+    let current = 20200813;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>20 Aug 2020</h3>' +
+          '<h3>13 Aug 2020</h3>' +
+          '<p>Added a ruler for measuring distance, angle, and position.</p>' +
+          '<h3>11 Aug 2020</h3>' +
           '<p>Biggest new addition is the GearsBot arena, which lets you run up to 4 robots simultaneously, either competing or coorperating with each other to complete a mission.</p>' +
           '<p>To use the GearsBot arena...</p>' +
           '<ul><li>Write your program in the normal GearsBot page (...where you are now)</li>' +

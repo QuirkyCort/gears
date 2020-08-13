@@ -69,6 +69,54 @@
   user-select: none;
 }
 
+.ruler {
+  position: absolute;
+  color: black;
+  background: rgba(255,255,255,0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 4em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  width: 12em;
+  overflow: hidden;
+  transition: 0.5s width;
+
+  .icon {
+    margin-right: 0.5em;
+    font-size: 120%;
+  }
+
+  .row1, .row2 {
+    font-size: 50%;
+    white-space: nowrap;
+  }
+
+  .measurements {
+    font-size: 50%;
+    white-space: nowrap;
+    flex-grow: 1;
+
+    table {
+      width: 100%;
+    }
+    td {
+      width: 33%;
+    }
+  }
+}
+
+.ruler.closed {
+  color: white;
+  background: none;
+  width: 1.3em;
+}
+
 .console {
   position: absolute;
   bottom: 0;

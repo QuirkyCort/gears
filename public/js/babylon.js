@@ -142,6 +142,30 @@ var babylon = new function() {
   // Load meshes
   this.loadMeshes = function() {
     // self.engine.displayLoadingUI(); // Turns transparent, but doesn't disappear in some circumstances
+
+    // Load ruler markers
+    let markerOptions = {
+      height: 4,
+      diameterTop: 2,
+      diameterBottom: 0.01,
+      tessellation: 3
+    };
+
+    let greenMat = new BABYLON.StandardMaterial('greenMarker', self.scene);
+    greenMat.diffuseColor = new BABYLON.Color3(0, 1, 0);
+    self.marker1 = new BABYLON.MeshBuilder.CreateCylinder('marker1', markerOptions, self.scene);
+    self.marker1.material = greenMat;
+    self.marker1.isPickable = false;
+    self.marker1.isVisible = false;
+
+    let redMat = new BABYLON.StandardMaterial('redMarker', self.scene);
+    redMat.diffuseColor = new BABYLON.Color3(1, 0, 0);
+    self.marker2 = new BABYLON.MeshBuilder.CreateCylinder('marker2', markerOptions, self.scene);
+    self.marker2.material = redMat;
+    self.marker2.isPickable = false;
+    self.marker2.isVisible = false;
+
+    // Load world and robot
     let loader = [];
     loader.push(self.world.load(self.scene));
     robots.forEach(function(robot){

@@ -3,6 +3,11 @@ var simPanel = new function() {
 
   this.sensors = [];
 
+  self.rulerState = 0;
+  self.pickedPoints = [null, null];
+  self.touchDevice = false;
+  self.drag = false;
+
   // Run on page load
   this.init = function() {
     self.$console = $('.console');
@@ -14,6 +19,7 @@ var simPanel = new function() {
     self.$reset = $('.reset');
     self.$camera = $('.camera');
     self.$sensors = $('.sensors');
+    self.$ruler = $('.ruler');
 
     self.$sensorsPanel = $('.sensorReadings');
     self.$worldInfoPanel = $('.worldInfo');
@@ -29,15 +35,153 @@ var simPanel = new function() {
 
     self.initSensorsPanel();
 
+    self.$ruler[0].addEventListener('touchstart', function(e){
+      self.touchDevice = true;
+      self.toggleRuler();
+      e.preventDefault();
+    });
+    self.$ruler[0].addEventListener('mousedown', function(e){
+      self.touchDevice = false;
+      babylon.marker1.isVisible = true;
+      self.toggleRuler();
+    });
+    window.addEventListener('pointerdown', function(){
+      self.drag = false;
+    });
+    window.addEventListener('pointermove', function(){
+      self.drag = true;
+    });
+    window.addEventListener('pointerup', function(e){
+      if (self.drag == false) {
+        self.recordMeasurements();
+      }
+    });
+    setInterval(self.displayMeasurements, 50);
+
     self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
   };
 
-  // reset
-  // this.reset = function() {
-  //   self.initSensorsPanel();
-  //   self.clearWorldInfoPanel();
-  //   self.hideWorldInfoPanel();
-  // };
+  // toggle ruler
+  this.toggleRuler = function() {
+    if (self.$ruler.hasClass('closed')) {
+      self.$ruler.removeClass('closed');
+      setTimeout(function() {
+        self.rulerState = 1;
+      }, 200);
+    } else {
+      self.$ruler.addClass('closed');
+      babylon.marker1.isVisible = false;
+      babylon.marker2.isVisible = false;
+      self.rulerState = 0;
+    }
+  };
+
+  // display ruler measurements
+  this.displayMeasurements = function(point) {
+    if (self.rulerState == 0 || self.rulerState == 3) {
+      return;
+    }
+
+    if (typeof point == 'undefined') {
+      if (self.touchDevice) {
+        return;
+      }
+      point = babylon.scene.pick(babylon.scene.pointerX, babylon.scene.pointerY);
+    }
+    if (!point.pickedPoint) {
+      return;
+    }
+
+    if (self.touchDevice == false) {
+      if (self.rulerState == 1) {
+        babylon.marker1.position.x = point.pickedPoint.x;
+        babylon.marker1.position.y = point.pickedPoint.y + 2;
+        babylon.marker1.position.z = point.pickedPoint.z;
+      } else if (self.rulerState == 2) {
+        babylon.marker2.position.x = point.pickedPoint.x;
+        babylon.marker2.position.y = point.pickedPoint.y + 2;
+        babylon.marker2.position.z = point.pickedPoint.z;
+      }
+    }
+
+    let prevPoint = null;
+    if (self.rulerState == 1) {
+      prevPoint = robot.body.absolutePosition;
+    } else if (self.rulerState == 2) {
+      prevPoint = self.pickedPoints[0];
+    }
+
+    let x = Math.round(point.pickedPoint.x * 10) / 10;
+    let y = Math.round(point.pickedPoint.y * 10) / 10;
+    let z = Math.round(point.pickedPoint.z * 10) / 10;
+    let dist = Math.round(point.pickedPoint.subtract(prevPoint).length() * 10) / 10;
+    let dx = point.pickedPoint.x - prevPoint.x;
+    let dy = point.pickedPoint.z - prevPoint.z;
+    let angle = Math.atan(dx / dy);
+    if (dy < 0) {
+      if (dx < 0) {
+        angle = angle - Math.PI;
+      } else {
+        angle = Math.PI + angle;
+      }
+    }
+    angle = Math.round(angle / Math.PI * 180 * 10) / 10;
+
+    self.$ruler.find('.x').text('X: ' + x + ' cm');
+    self.$ruler.find('.y').text('Y: ' + z + ' cm');
+    self.$ruler.find('.alt').text('Alt: ' + y + ' cm');
+    self.$ruler.find('.dist').text('Distance: ' + dist + ' cm');
+    self.$ruler.find('.angle').text('Angle: ' + angle + '°');
+  };
+
+  // Record ruler measurements
+  this.recordMeasurements = function() {
+    if (self.rulerState == 0) {
+      return;
+    }
+
+    if (self.rulerState == 1) {
+      let point = babylon.scene.pick(babylon.scene.pointerX, babylon.scene.pointerY);
+      if (point.pickedPoint) {
+        babylon.marker1.position.x = point.pickedPoint.x;
+        babylon.marker1.position.y = point.pickedPoint.y + 2;
+        babylon.marker1.position.z = point.pickedPoint.z;
+        babylon.marker1.isVisible = true;
+
+        if (self.touchDevice) {
+          self.displayMeasurements(point);
+        } else {
+          babylon.marker2.position.x = point.pickedPoint.x;
+          babylon.marker2.position.y = point.pickedPoint.y + 2;
+          babylon.marker2.position.z = point.pickedPoint.z;
+          babylon.marker2.isVisible = true;
+        }
+        self.rulerState = 2;
+        self.pickedPoints[0] = point.pickedPoint;
+      }
+    } else if (self.rulerState == 2) {
+      let point = babylon.scene.pick(babylon.scene.pointerX, babylon.scene.pointerY);
+      if (point.pickedPoint) {
+        babylon.marker2.position.x = point.pickedPoint.x;
+        babylon.marker2.position.y = point.pickedPoint.y + 2;
+        babylon.marker2.position.z = point.pickedPoint.z;
+        babylon.marker2.isVisible = true;
+
+        self.displayMeasurements(point);
+        self.rulerState = 3;
+        self.pickedPoints[1] = point.pickedPoint;
+      }
+    } else if (self.rulerState == 3) {
+      self.rulerState = 2;
+      self.pickedPoints[0] = self.pickedPoints[1];
+      babylon.marker1.position.x = self.pickedPoints[0].x;
+      babylon.marker1.position.y = self.pickedPoints[0].y + 2;
+      babylon.marker1.position.z = self.pickedPoints[0].z;
+      if (self.touchDevice) {
+        babylon.marker2.isVisible = false;
+      }
+    }
+  };
 
   // clear world info
   this.clearWorldInfoPanel = function() {
