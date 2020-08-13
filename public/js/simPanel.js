@@ -35,15 +35,20 @@ var simPanel = new function() {
 
     self.initSensorsPanel();
 
-    self.$ruler[0].addEventListener('touchstart', function(e){
+    self.$ruler[0].addEventListener('touchend', function(e){
       self.touchDevice = true;
       self.toggleRuler();
       e.preventDefault();
+      e.stopPropagation();
+      console.log('t')
     });
-    self.$ruler[0].addEventListener('mousedown', function(e){
+    self.$ruler[0].addEventListener('pointerup', function(e){
       self.touchDevice = false;
       babylon.marker1.isVisible = true;
       self.toggleRuler();
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('p')
     });
     window.addEventListener('pointerdown', function(){
       self.drag = false;
@@ -52,6 +57,7 @@ var simPanel = new function() {
       self.drag = true;
     });
     window.addEventListener('pointerup', function(e){
+      console.log('p2')
       if (self.drag == false) {
         self.recordMeasurements();
       }
@@ -65,9 +71,7 @@ var simPanel = new function() {
   this.toggleRuler = function() {
     if (self.$ruler.hasClass('closed')) {
       self.$ruler.removeClass('closed');
-      setTimeout(function() {
-        self.rulerState = 1;
-      }, 200);
+      self.rulerState = 1;
     } else {
       self.$ruler.addClass('closed');
       babylon.marker1.isVisible = false;
