@@ -648,9 +648,9 @@ var simPanel = new function() {
   // Set run icon
   this.setRunIcon = function(type) {
     if (type == 'run') {
-      self.$runSim.html('&#x25b6;');
+      self.$runSim.html('<span class="icon-play"></span>');
     } else {
-      self.$runSim.html('&#x23f9;');
+      self.$runSim.html('<span class="icon-stop"></span>');
     }
   };
 
