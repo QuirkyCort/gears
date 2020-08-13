@@ -133,7 +133,7 @@ var main = new function() {
       let menuItems = [
         {html: 'Wiki', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears/wiki'); }},
         {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
-        {html: 'What\s New', line: false, callback: function() { self.showWhatsNew(true); }},
+        {html: 'What\'s New', line: false, callback: function() { self.showWhatsNew(true); }},
         {html: 'About', line: false, callback: self.openAbout }
       ];
 
