@@ -324,15 +324,15 @@ var simPanel = new function() {
   this.switchCamera = function() {
     if (babylon.cameraMode == 'arc') {
       babylon.setCameraMode('follow');
-      self.$camera.html('&#x1f4f9; Follow');
+      self.$camera.html('<span class="icon-camera"></span> Follow');
 
     } else if (babylon.cameraMode == 'follow') {
       babylon.setCameraMode('orthoTop');
-      self.$camera.html('&#x1f4f9; Top');
+      self.$camera.html('<span class="icon-camera"></span> Top');
 
     } else if (babylon.cameraMode == 'orthoTop') {
       babylon.setCameraMode('arc');
-      self.$camera.html('&#x1f4f9; Arc');
+      self.$camera.html('<span class="icon-camera"></span> Arc');
     }
   };
 

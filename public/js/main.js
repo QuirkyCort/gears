@@ -133,6 +133,7 @@ var main = new function() {
       let menuItems = [
         {html: 'Wiki', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears/wiki'); }},
         {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
+        {html: 'What\s New', line: false, callback: function() { self.showWhatsNew(true); }},
         {html: 'About', line: false, callback: self.openAbout }
       ];
 
@@ -490,10 +491,10 @@ var main = new function() {
   };
 
   // Display what's new if not seen before
-  this.showWhatsNew = function() {
+  this.showWhatsNew = function(forceShow=false) {
     let current = 20200813;
     let lastShown = localStorage.getItem('whatsNew');
-    if (lastShown == null || parseInt(lastShown) < current) {
+    if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:

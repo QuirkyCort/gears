@@ -527,8 +527,8 @@ ul.menuDropDownRightAlign {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?98sozz");
-  src: url("../fonts/icomoon.eot?98sozz#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?98sozz") format("truetype"), url("../fonts/icomoon.woff?98sozz") format("woff"), url("../fonts/icomoon.svg?98sozz#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?bj2vy0");
+  src: url("../fonts/icomoon.eot?bj2vy0#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?bj2vy0") format("truetype"), url("../fonts/icomoon.woff?bj2vy0") format("woff"), url("../fonts/icomoon.svg?bj2vy0#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
@@ -544,6 +544,9 @@ ul.menuDropDownRightAlign {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-camera:before {
+  content: "\e901"; }
 
 .icon-ruler:before {
   content: "\e900"; }
