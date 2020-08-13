@@ -53,11 +53,11 @@ var arenaPanel = new function() {
   this.switchCamera = function() {
     if (babylon.cameraMode == 'arc') {
       babylon.setCameraMode('orthoTop');
-      self.$camera.html('&#x1f4f9; Top');
+      self.$camera.html('<span class="icon-camera"></span> Top');
 
     } else if (babylon.cameraMode == 'orthoTop') {
       babylon.setCameraMode('arc');
-      self.$camera.html('&#x1f4f9; Arc');
+      self.$camera.html('<span class="icon-camera"></span> Arc');
     }
   };
 
