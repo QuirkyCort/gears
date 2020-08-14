@@ -13,6 +13,7 @@ var world_Image = new function() {
     position: new BABYLON.Vector3(0, 0, 0), // Overridden by position setting,
     rotation: new BABYLON.Vector3(0, 0, 0)
   };
+  this.arenaStart = null;
 
   this.optionsConfigurations = [
     {
@@ -41,6 +42,12 @@ var world_Image = new function() {
       type: 'file',
       accept: 'image/*',
       help: 'This will override both "Select Image" and "Image URL"'
+    },
+    {
+      option: 'imageScale',
+      title: 'Image Scale Factor',
+      type: 'text',
+      help: 'Scales the image (eg. when set to 2, each pixel will equal 2mm). Default to 1.'
     },
     {
       option: 'wall',
@@ -104,6 +111,7 @@ var world_Image = new function() {
     imageURL: '',
     length: 100,
     width: 100,
+    imageScale: '1',
     wall: true,
     wallHeight: 7.7,
     wallThickness: 4.5,
@@ -152,8 +160,13 @@ var world_Image = new function() {
       var img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = function() {
-        self.options.length = this.width / 10.0;
-        self.options.width = this.height / 10.0;
+        let scale = 1;
+        if (self.options.imageScale.trim()) {
+          scale = parseFloat(self.options.imageScale);
+        }
+
+        self.options.length = this.width / 10.0 * scale;
+        self.options.width = this.height / 10.0 * scale;
 
         if (self.options.startPos == 'center') {
           self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
@@ -179,6 +192,27 @@ var world_Image = new function() {
         } else {
           self.robotStart.rotation.y = 0;
         }
+
+        let xPos = self.options.length / 2 - 12;
+        let yPos = self.options.width / 2 - 12;
+        self.arenaStart = [
+          {
+            position: new BABYLON.Vector3(-xPos, 0, yPos),
+            rotation: new BABYLON.Vector3(0, Math.PI, 0)
+          },
+          {
+            position: new BABYLON.Vector3(-xPos, 0, -yPos),
+            rotation: new BABYLON.Vector3(0, 0, 0)
+          },
+          {
+            position: new BABYLON.Vector3(xPos, 0, yPos),
+            rotation: new BABYLON.Vector3(0, Math.PI, 0)
+          },
+          {
+            position: new BABYLON.Vector3(xPos, 0, -yPos),
+            rotation: new BABYLON.Vector3(0, 0, 0)
+          },
+        ];
 
         resolve();
       }

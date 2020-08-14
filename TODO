@@ -29,7 +29,7 @@ Coding (Simulator)
   - linear actuator
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
   - touch sensor (simplified laser rangefinder with very short range)
-- Increase wall friction to prevent jumping over wall when backing up
+- Prevent jumping over wall when backing up. (Increasing wall friction doesn't work...)
 - Set duty_cycle_sp. Useful for aligning to wall.
 
 Coding (Sharing)
