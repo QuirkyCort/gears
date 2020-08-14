@@ -350,12 +350,51 @@ var world_Image = new function() {
     });
   };
 
+  // Get material from rgba string, creating new if not existing
+  this.getMaterial = function(scene, rgba, defaultRgba=null) {
+    rgba = rgba.replace(/^#/g, '');
+    let color = new Array(4);
+
+    let existing = scene.getMaterialByID(rgba);
+    if (existing) {
+      return existing;
+    }
+
+    if (rgba.length == 3 || rgba.length == 4) {
+      color[0] = parseInt(rgba[0]+rgba[0], 16) / 255;
+      color[1] = parseInt(rgba[1]+rgba[1], 16) / 255;
+      color[2] = parseInt(rgba[2]+rgba[2], 16) / 255;
+    }
+
+    if (rgba.length == 6 || rgba.length == 8) {
+      color[0] = parseInt(rgba[0]+rgba[1], 16) / 255;
+      color[1] = parseInt(rgba[2]+rgba[3], 16) / 255;
+      color[2] = parseInt(rgba[4]+rgba[5], 16) / 255;
+    }
+
+    if (rgba.length == 4) {
+      color[3] = parseInt(rgba[3]+rgba[3], 16) / 255;
+    } else if (rgba.length == 8) {
+      color[3] = parseInt(rgba[6]+rgba[7], 16) / 255;
+    } else {
+      color[3] = 1;
+    }
+
+    for (tmp of color) {
+      if (! (tmp >= 0 && tmp <= 1)) {
+        return self.getMaterial(scene, defaultRgba);
+      }
+    }
+
+    let mat = new BABYLON.StandardMaterial(rgba, scene);
+    mat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
+    mat.alpha = color[3];
+
+    return mat;
+  };
+
   // Add obstacles
   this.addObstacles = function(scene, obstacles) {
-    let obstacleMat = new BABYLON.StandardMaterial('obstacle', scene);
-    obstacleMat.diffuseColor = new BABYLON.Color3(0.9, 0.5, 0.5);
-    obstacleMat.alpha = 0.5;
-
     let obstacleMeshes = [];
     for (let i=0; i<obstacles.length; i++) {
       let pos = obstacles[i][0];
@@ -367,6 +406,12 @@ var world_Image = new function() {
       if (obstacles[i][2]) {
         rot = obstacles[i][2];
       }
+      let defaultColor = '#E6808080';
+      let color = defaultColor;
+      if (obstacles[i][3]) {
+        color = obstacles[i][3];
+      }
+      let obstacleMat = self.getMaterial(scene, color, defaultColor);
 
       let obstacle = self.addBox(scene, obstacleMat, size, pos, false, true, true, rot);
       obstacleMeshes.push(obstacle);
@@ -395,6 +440,12 @@ var world_Image = new function() {
       if (magnetics[i][2]) {
         rot = magnetics[i][2];
       }
+      let defaultColor = '#1AE61AFF';
+      let color = defaultColor;
+      if (magnetics[i][3]) {
+        color = magnetics[i][3];
+      }
+      let magneticMat = self.getMaterial(scene, color, defaultColor);
 
       let magnetic = self.addBox(scene, magneticMat, size, pos, true, physicsOptions, true, rot);
       magneticMeshes.push(magnetic);
