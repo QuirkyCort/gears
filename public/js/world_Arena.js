@@ -13,24 +13,6 @@ var world_Arena = new function() {
   this.robotStart = null;
   this.arenaStart = null;
   this.arenaStarts = {
-    plain: [
-      {
-        position: new BABYLON.Vector3(-100, 0, 100),
-        rotation: new BABYLON.Vector3(0, 3/4 * Math.PI, 0)
-      },
-      {
-        position: new BABYLON.Vector3(-100, 0, -100),
-        rotation: new BABYLON.Vector3(0, 1/4 * Math.PI, 0)
-      },
-      {
-        position: new BABYLON.Vector3(100, 0, 100),
-        rotation: new BABYLON.Vector3(0, -3/4 * Math.PI, 0)
-      },
-      {
-        position: new BABYLON.Vector3(100, 0, -100),
-        rotation: new BABYLON.Vector3(0, -1/4 * Math.PI, 0)
-      },
-    ],
     island: [
       {
         position: new BABYLON.Vector3(-100, 0, 100),
@@ -93,17 +75,11 @@ var world_Arena = new function() {
       title: 'Select Challenge',
       type: 'selectWithHTML',
       options: [
-        ['Plain', 'plain'],
         ['Paintball Islands', 'island'],
         ['Color Collector', 'collector'],
         ['Sumo', 'sumo']
       ],
       optionsHTML: {
-        plain:
-          '<p>Just a plain arena.</p>' +
-          '<p>There are no missions or objectives here. ' +
-          'It is up to you to decide what to do. ' +
-          'You can use it for a synchronized robot dance, shoot paintballs at each other, or just ram each other for fun.</p>',
         island:
           '<p>Every robot is on its own island. ' +
           'You have 2 mins to hit your opponent with your paintballs, while avoiding being hit yourself. ' +
@@ -150,15 +126,14 @@ var world_Arena = new function() {
   ];
 
   this.imagesURL = {
-    plain: 'textures/maps/grid.png',
     island: 'textures/maps/Arena/island.png',
     collector: 'textures/maps/Arena/collector.png',
     sumo: 'textures/maps/Sumo/Red Circle.png',
   };
 
   this.defaultOptions = {
-    challenge: 'plain',
-    image: 'textures/maps/grid.png',
+    challenge: 'sumo',
+    image: 'textures/maps/Sumo/Red Circle.png',
     length: 400,
     width: 400,
     wall: true,
@@ -206,9 +181,7 @@ var world_Arena = new function() {
     self.setSeed(self.options.seed);
 
     return new Promise(function(resolve, reject) {
-      if (self.options.challenge == 'plain') {
-        self.loadPlain(scene);
-      } else if (self.options.challenge == 'island') {
+      if (self.options.challenge == 'island') {
         self.loadIsland(scene);
       } else if (self.options.challenge == 'collector') {
         self.loadCollector(scene);
@@ -277,9 +250,11 @@ var world_Arena = new function() {
     let sensorBlue = new BABYLON.StandardMaterial('doorSensorBlue', scene);
     sensorBlue.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.8);
     sensorBlue.alpha = 0.3;
+    sensorBlue.backFaceCulling = false;
     let sensorYellow = new BABYLON.StandardMaterial('doorSensorYellow', scene);
     sensorYellow.diffuseColor = new BABYLON.Color3(0.8, 0.8, 0.1);
     sensorYellow.alpha = 0.3;
+    sensorYellow.backFaceCulling = false;
 
     function addSensor(size, pos, mat, door) {
       let doorSensor = self.addBox(scene, mat, [size[0],size[1],16], pos, false, false);
@@ -301,10 +276,10 @@ var world_Arena = new function() {
     }
 
     let doorSensors = [];
-    doorSensors.push(addSensor([20,20],[-50,-65], sensorBlue, blueDoors[0]));
-    doorSensors.push(addSensor([16,16],[48,-67], sensorBlue, blueDoors[0]));
-    doorSensors.push(addSensor([20,20],[50,65], sensorYellow, yellowDoors[0]));
-    doorSensors.push(addSensor([16,16],[-48,67], sensorYellow, yellowDoors[0]));
+    doorSensors.push(addSensor([19.9,19.9],[-50,-65,-0.1], sensorBlue, blueDoors[0]));
+    doorSensors.push(addSensor([15.9,15.9],[48,-67,-0.1], sensorBlue, blueDoors[0]));
+    doorSensors.push(addSensor([19.9,19.9],[50,65,-0.1], sensorYellow, yellowDoors[0]));
+    doorSensors.push(addSensor([15.9,15.9],[-48,67,-0.1], sensorYellow, yellowDoors[0]));
 
     // Crates
     let crates = [
@@ -480,139 +455,6 @@ var world_Arena = new function() {
 
     // set time limits
     self.game.TIME_LIMIT = 2 * 60 * 1000;
-
-    // set the render and score drawing functions
-    self.render = self.renderDefault;
-    self.drawWorldInfo = self.drawWorldInfoDefault;
-
-    self.buildFourPlayerInfoPanel();
-    self.drawWorldInfo();
-  };
-
-  // Plain grid map
-  this.loadPlain = function(scene) {
-    // Set standby game state
-    self.game = {
-      state: 'standby',
-      startTime: null,
-      renderTimeout: 0,
-      p0: 0,
-      p1: 0,
-      p2: 0,
-      p3: 0,
-    };
-
-    var options = self.options;
-
-    var groundMat = new BABYLON.StandardMaterial('ground', scene);
-    var groundTexture = new BABYLON.Texture(options.image, scene);
-    groundMat.diffuseTexture = groundTexture;
-    groundMat.diffuseTexture.uScale = options.width / 20;
-    groundMat.diffuseTexture.vScale = options.length / 20;
-    groundMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-
-    var faceUV = new Array(6);
-    for (var i = 0; i < 6; i++) {
-        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
-    }
-    faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
-
-    var boxOptions = {
-        width: options.length,
-        height: 10,
-        depth: options.width,
-        faceUV: faceUV
-    };
-
-    var ground = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
-    ground.material = groundMat;
-    ground.receiveShadows = true;
-    ground.position.y = -5;
-
-    if (options.wall) {
-      var wallMat = new BABYLON.StandardMaterial('wallMat', scene);
-      wallMat.diffuseColor = new BABYLON.Color3(0.64, 0.64, 0.64);
-      wallMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-
-      let wall1 = {
-        height: options.wallHeight + 10,
-        width: options.length + options.wallThickness * 2,
-        depth: options.wallThickness
-      }
-
-      var wallTop = BABYLON.MeshBuilder.CreateBox('wallTop', wall1, scene);
-      wallTop.position.y = wall1.height / 2 - 10;
-      wallTop.position.z = (options.width + options.wallThickness) / 2;
-      wallTop.material = wallMat;
-
-      var wallBottom = BABYLON.MeshBuilder.CreateBox('wallBottom', wall1, scene);
-      wallBottom.position.y = wall1.height / 2 - 10;
-      wallBottom.position.z = -(options.width + options.wallThickness) / 2;
-      wallBottom.material = wallMat;
-
-      let wall2 = {
-        height: options.wallHeight + 10,
-        width: options.wallThickness,
-        depth: options.width
-      }
-
-      var wallLeft = BABYLON.MeshBuilder.CreateBox('wallLeft', wall2, scene);
-      wallLeft.position.y = wall1.height / 2 - 10;
-      wallLeft.position.x = -(options.length + options.wallThickness) / 2;
-      wallLeft.material = wallMat;
-
-      var wallRight = BABYLON.MeshBuilder.CreateBox('wallRight', wall2, scene);
-      wallRight.position.y = wall1.height / 2 - 10;
-      wallRight.position.x = (options.length + options.wallThickness) / 2;
-      wallRight.material = wallMat;
-    }
-
-    // Physics
-    ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-      ground,
-      BABYLON.PhysicsImpostor.BoxImpostor,
-      {
-        mass: 0,
-        friction: options.groundFriction,
-        restitution: options.groundRestitution
-      },
-      scene
-    );
-
-    if (options.wall) {
-      var wallOptions = {
-        mass: 0,
-        friction: options.wallFriction,
-        restitution: options.wallRestitution
-      };
-      wallTop.physicsImpostor = new BABYLON.PhysicsImpostor(
-        wallTop,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        wallOptions,
-        scene
-      );
-      wallBottom.physicsImpostor = new BABYLON.PhysicsImpostor(
-        wallBottom,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        wallOptions,
-        scene
-      );
-      wallLeft.physicsImpostor = new BABYLON.PhysicsImpostor(
-        wallLeft,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        wallOptions,
-        scene
-      );
-      wallRight.physicsImpostor = new BABYLON.PhysicsImpostor(
-        wallRight,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        wallOptions,
-        scene
-      );
-    }
-
-    // set time limits
-    self.game.TIME_LIMIT = Infinity;
 
     // set the render and score drawing functions
     self.render = self.renderDefault;
@@ -810,9 +652,7 @@ var world_Arena = new function() {
 
   // Notify world of paintball hit. Used by robot.
   this.paintBallHit = function(robot, paintballImpostor, hit) {
-    if (self.options.challenge == 'plain') {
-      self.game['p'+paintballImpostor.object.color] += 1;
-    } else if (self.options.challenge == 'island') {
+    if (self.options.challenge == 'island') {
       self.game['p'+robot.player] -= 1;
       self.game['p'+paintballImpostor.object.color] += 2;
     }

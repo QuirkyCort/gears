@@ -10,8 +10,8 @@ var world_Grid = new function() {
 
   this.options = {};
   this.robotStart = {
-    position: new BABYLON.Vector3(0, 0, 0), // Overridden by position setting below
-    rotation: new BABYLON.Vector3(0, 0, 0)
+    position: null,
+    rotation: null
   };
 
   this.optionsConfigurations = [
@@ -61,7 +61,11 @@ var world_Grid = new function() {
         ['Center', 'center'],
         ['Bottom Left', 'bottomLeft'],
         ['Bottom Center', 'bottomCenter'],
-        ['Bottom Right', 'bottomRight']
+        ['Bottom Right', 'bottomRight'],
+        ['Player 0', 'P0'],
+        ['Player 1', 'P1'],
+        ['Player 2', 'P2'],
+        ['Player 3', 'P3'],
       ]
     },
     {
@@ -109,6 +113,32 @@ var world_Grid = new function() {
       }
     }
 
+    let xPos = self.options.length / 2 - 20;
+    let yPos = self.options.width / 2 - 20;
+    self.arenaStart = [
+      {
+        position: new BABYLON.Vector3(-xPos, 0, yPos),
+        rotation: new BABYLON.Vector3(0, Math.PI, 0)
+      },
+      {
+        position: new BABYLON.Vector3(-xPos, 0, -yPos),
+        rotation: new BABYLON.Vector3(0, 0, 0)
+      },
+      {
+        position: new BABYLON.Vector3(xPos, 0, yPos),
+        rotation: new BABYLON.Vector3(0, Math.PI, 0)
+      },
+      {
+        position: new BABYLON.Vector3(xPos, 0, -yPos),
+        rotation: new BABYLON.Vector3(0, 0, 0)
+      },
+    ];
+
+    self.robotStart = {
+      position: new BABYLON.Vector3(0, 0, 0),
+      rotation: new BABYLON.Vector3(0, 0, 0)
+    };
+
     if (self.options.startPos == 'center') {
       self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
     } else if (self.options.startPos == 'bottomLeft') {
@@ -122,6 +152,14 @@ var world_Grid = new function() {
       let x = (self.options.length / 2 - 12.5);
       let z = -(self.options.width / 2 - 12.5) + 3;
       self.robotStart.position = new BABYLON.Vector3(x, 0, z);
+    } else if (self.options.startPos == 'P0') {
+      self.robotStart = self.arenaStart[0];
+    } else if (self.options.startPos == 'P1') {
+      self.robotStart = self.arenaStart[1];
+    } else if (self.options.startPos == 'P2') {
+      self.robotStart = self.arenaStart[2];
+    } else if (self.options.startPos == 'P3') {
+      self.robotStart = self.arenaStart[3];
     }
 
     if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
@@ -130,8 +168,6 @@ var world_Grid = new function() {
     }
     if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
       self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
-    } else {
-      self.robotStart.rotation.y = 0;
     }
 
     return new Promise(function(resolve, reject) {
