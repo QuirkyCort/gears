@@ -10,7 +10,8 @@ var world_LineFollowing = new function() {
 
   this.options = {};
   this.robotStart = {
-    position: new BABYLON.Vector3(0, 0, 0)
+    position: new BABYLON.Vector3(0, 0, 0),
+    rotation: new BABYLON.Vector3(0, 0, 0)
   };
 
   this.optionsConfigurations = [
@@ -74,6 +75,18 @@ var world_LineFollowing = new function() {
           '<p>Follow the indicated turns and get to the end point.</p>' +
           '<p>You\'ll need a double sensor line follower robot for this world.</p>'
       }
+    },
+    {
+      option: 'startPosXY',
+      title: 'Starting Position (x, y)',
+      type: 'text',
+      help: 'Enter using this format "x, y" (in cm, without quotes) and it will override the above. Center of image is "0, 0".'
+    },
+    {
+      option: 'startRot',
+      title: 'Starting Rotation (degrees)',
+      type: 'text',
+      help: 'Set the starting rotation in degrees. Positive rotation is clockwise.'
     }
   ];
 
@@ -110,7 +123,9 @@ var world_LineFollowing = new function() {
     groundFriction: 1,
     wallFriction: 0.1,
     groundRestitution: 0.0,
-    wallRestitution: 0.1
+    wallRestitution: 0.1,
+    startPosXY: '',
+    startRot: ''
   };
 
   // Set options, including default
@@ -129,6 +144,14 @@ var world_LineFollowing = new function() {
     }
 
     self.robotStart.position = self.robotStarts[self.options.image];
+
+    if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
+      let xy = self.options.startPosXY.split(',');
+      self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), 0, parseFloat(xy[1]));
+    }
+    if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
+      self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
+    }
 
     return new Promise(function(resolve, reject) {
       if (! self.imagesURL[self.options.image]) {
