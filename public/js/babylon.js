@@ -9,7 +9,7 @@ var babylon = new function() {
     self.engine = new BABYLON.Engine(self.canvas, true);
 
     self.scene = self.createScene(); // Call the createScene function
-    self.scene.debugLayer.show();
+    // self.scene.debugLayer.show();
 
     self.world.setOptions().then(function(){
       self.loadMeshes(self.scene);
@@ -108,7 +108,7 @@ var babylon = new function() {
     self.scene.dispose();
 
     self.scene = self.createScene();
-    self.scene.debugLayer.show();
+    // self.scene.debugLayer.show();
 
     // Restore camera
     self.setCameraMode(mode);

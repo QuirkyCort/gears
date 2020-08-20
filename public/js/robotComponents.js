@@ -47,9 +47,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
       body,
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
-        mass: 1,
-        restitution: 0.4,
-        friction: 0.1
+        mass: 0
       },
       scene
     );
@@ -381,9 +379,7 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
       body,
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
-        mass: 1,
-        restitution: 0.4,
-        friction: 0.1
+        mass: 0
       },
       scene
     );
@@ -555,9 +551,7 @@ function GyroSensor(scene, parent, pos, port, options) {
       body,
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
-        mass: 1,
-        restitution: 0.4,
-        friction: 0.1
+        mass: 0
       },
       scene
     );
@@ -659,9 +653,7 @@ function GPSSensor(scene, parent, pos, port, options) {
       body,
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
-        mass: 1,
-        restitution: 0.4,
-        friction: 0.1
+        mass: 0
       },
       scene
     );
@@ -809,9 +801,7 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
       self.body,
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
-        mass: 1,
-        restitution: 0.4,
-        friction: 0.1
+        mass: 0
       },
       scene
     );
@@ -1218,9 +1208,7 @@ function LaserRangeSensor(scene, parent, pos, rot, port, options) {
       body,
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
-        mass: 1,
-        restitution: 0.4,
-        friction: 0.1
+        mass: 0
       },
       scene
     );
