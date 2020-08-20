@@ -76,8 +76,7 @@ class ColorSensor:
 
   @property
   def raw(self):
-    time.sleep(SENSOR_DELAY)
-    return list(self.sensor.value())
+    return self.rgb
 
   @property
   def calibrate_white(self):

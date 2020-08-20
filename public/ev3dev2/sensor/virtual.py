@@ -12,19 +12,17 @@ class GPSSensor:
   @property
   def position(self):
     time.sleep(SENSOR_DELAY)
-    return list(self.sensor.position())
+    pos = tuple(self.sensor.position())
+    return (float(pos[0]), float(pos[2]), float(pos[1]))
 
   @property
   def x(self):
-    time.sleep(SENSOR_DELAY)
-    return list(self.sensor.position())[0]
+    return self.position[0]
 
   @property
   def y(self):
-    time.sleep(SENSOR_DELAY)
-    return list(self.sensor.position())[2]
+    return self.position[1]
 
   @property
   def altitude(self):
-    time.sleep(SENSOR_DELAY)
-    return list(self.sensor.position())[1]
+    return self.position[2]
