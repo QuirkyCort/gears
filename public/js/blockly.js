@@ -100,6 +100,36 @@ var blockly = new function() {
     if (primaryEvent instanceof Blockly.Events.Ui) {
       return;
     }
+    if (
+      primaryEvent instanceof Blockly.Events.Create
+      && primaryEvent.xml.tagName == 'shadow'
+    ) {
+      let id1 = primaryEvent.blockId;
+      let parentId = self.displayedWorkspace.getBlockById(id1).parentBlock_.id;
+      let blockIds = [];
+      self.displayedWorkspace.getAllBlocks().forEach(function(block){
+        blockIds.push(block.id);
+      });
+
+      let block2 = null;
+      self.workspace.getAllBlocks().forEach(function(block){
+        if (
+          block.isShadow_
+          && block.parentBlock_.id == parentId
+          && blockIds.indexOf(block.id) == -1
+        ) {
+          block2 = block;
+        }
+      });
+
+      let id2 = block2.id;
+
+      block2.id = id1;
+      self.workspace.blockDB_[id1] = self.workspace.blockDB_[id2];
+      delete self.workspace.blockDB_[id2];
+
+      return;
+    }
     var json = primaryEvent.toJson();
     var secondaryEvent = Blockly.Events.fromJson(json, self.workspace);
     secondaryEvent.run(true);
