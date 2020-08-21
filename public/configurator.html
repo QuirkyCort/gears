@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" href="favicon-32.png" sizes="32x32">
+  <link rel="icon" href="favicon-128.png" sizes="128x128">
+  <link rel="icon" href="favicon-167.png" sizes="167x167">
+  <link rel="icon" href="favicon-192.png" sizes="192x192">
+
+  <link rel="stylesheet" href="css/main.css?v=1597894660">
+  <link rel="stylesheet" href="css/widgets.css?v=1597894660">
+
+  <script src="jquery/jquery-3.5.1.slim.min.js"></script>
+
+  <script src="ammo/ammo-20200613.js"></script>
+  <!-- <script src="ammo/ammo-20200724.wasm.js"></script> -->
+
+  <script src="babylon/4.1.0/babylon-physicsFix.js"></script>
+  <!-- <script src="babylon/4.1.0/babylon.js"></script> -->
+  <!-- <script src="babylon/4.1.0/babylonjs.loaders.min.js"></script>
+  <script src="babylon/4.1.0/babylon.gui.min.js"></script> -->
+  <script src="pep/0.4.3/pep.min.js"></script>
+
+  <script src="js/common/widgets.js"></script>
+
+  <title>GearsBot Robot Configurator</title>
+</head>
+
+<body>
+  <header>
+    <img class="gearsIcon" src="favicon-32.png">
+    <div>GearsBot Robot Configurator</div>
+    <input type="text" id="robotName" placeholder="Robot Name">
+  </header>
+
+  <main>
+    <nav>
+      <ul class="panelTabs">
+        <li id="navRobot" class="active">Robot</li>
+      </ul>
+      <div class="menuBar">
+        <div class="menuItem fileMenu">File</div>
+      </div>
+    </nav>
+    <div class="panels">
+      <div class="panel active" aria-labelledby="navRobot">
+        <canvas id="renderCanvas" touch-action="none"></canvas>
+        <div class="componentsWindow">
+          <div class="buttons">
+            <div class="addComponent">Add</div>
+            <div class="deleteComponent">Delete</div>
+          </div>
+          <div class="componentsList"></div>
+        </div>
+        <div class="settingsWindow">
+
+        </div>
+        <div class="ruler closed" style="top: 1em; left: 10em;">
+          <div class="icon">
+            <span class="icon-ruler"></span>
+          </div>
+          <div class="measurements">
+            <table>
+              <tr>
+                <td class="x">X:</td>
+                <td class="y">Y:</td>
+                <td class="alt">Alt:</td>
+              </tr>
+              <tr>
+                <td class="dist" colspan="2">Distance:</td>
+                <td class="angle">Angle:</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/world_Configurator.js?v=1597894660"></script>
+  <script src="js/robotComponents.js?v=1597894660"></script>
+  <script src="js/robotTemplates.js?v=1597894660"></script>
+  <script src="js/Wheel.js?v=1597894660"></script>
+  <script src="js/Robot.js?v=1597894660"></script>
+  <script>
+    var robots = [];
+
+    var robot = new Robot();
+    robot.options = robotTemplates[0];
+    robot.player = 'single';
+    robots.push(robot);
+  </script>
+  <script src="js/babylon.js?v=1597894660"></script>
+  <script src="js/simPanel.js?v=1597894660"></script>
+  <script src="js/configurator.js?v=1597894660"></script>
+
+  <script>
+    // Disable physics
+    babylon.scene.physicsEnabled = false;
+  </script>
+</body>
+</html>

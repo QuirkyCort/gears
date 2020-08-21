@@ -30,7 +30,7 @@ header {
     margin-bottom: -0.3em;
   }
 
-  #projectName {
+  #projectName, #robotName {
     margin-left: 1em;
     background: #76AFFC;
     border: dashed 1px #5781BA;
@@ -59,7 +59,6 @@ nav {
   margin-top: 0.5em;
   display: flex;
   border-bottom: solid 1px #bbbbbb;
-  justify-content: space-between;
   align-items: center;
 
   ul.panelTabs {
@@ -231,3 +230,4 @@ ul.menuDropDownRightAlign {
 @import '_simPanel.scss';
 @import '_font.scss';
 @import '_arena.scss';
+@import '_configurator.scss';
