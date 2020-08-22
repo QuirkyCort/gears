@@ -306,9 +306,25 @@
     margin-top: -5px;
     right: 100%;
     top: 50%;
-    border-color: transparent white   transparent transparent;
+    border-color: transparent white transparent transparent;
   }
 }
+
+.tooltip.left {
+  .tooltiptext {
+    top: 50%;
+    right: 100%;
+    transform: translate(-0.5em,-50%);
+  }
+
+  .tooltiptext::after {
+    margin-top: -5px;
+    left: 100%;
+    top: 50%;
+    border-color: transparent transparent transparent white;
+  }
+}
+
 
 .tooltip:hover .tooltiptext {
   visibility: visible;

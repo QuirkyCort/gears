@@ -245,6 +245,19 @@ var main = new function() {
     babylon.world.setOptions();
   };
 
+  // Open a window with a link to the robot configurator page
+  this.configuratorWindow = function() {
+    let options = {
+      title: 'GearsBot Robot Configurator',
+      message:
+        '<p>The GearsBot Robot Configurator allows you to customize an existing robot or create a new robot design.</p>' +
+        '<p>After you have completed your customization, save your creation to file and return here to load it.</p>',
+      confirm: 'Go to Configurator'
+    };
+    confirmDialog(options, function(){
+      self.openPage('configurator.html');
+    });
+  };
 
   // Toggle robot
   this.toggleRobotMenu = function(e) {
@@ -253,7 +266,8 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'Select Robot', line: true, callback: self.selectRobot},
+        {html: 'Select Robot', line: false, callback: self.selectRobot},
+        {html: 'Robot Configurator (experimental)', line: true, callback: self.configuratorWindow},
         {html: 'Load from file', line: false, callback: self.loadRobot},
         {html: 'Save to file', line: true, callback: self.saveRobot},
         {html: 'Display current position', line: false, callback: self.displayPosition},

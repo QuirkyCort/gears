@@ -72,4 +72,26 @@
   height: 80%;
   display: flex;
   flex-direction: column;
+  // overflow: auto;
+
+  .configuration {
+    padding: 0.5em 0;
+  }
+
+  .configurationTitle {
+    color: lightgray;
+    margin-bottom: 0.1em;
+  }
+
+  .slider {
+    display: flex;
+
+    input[type=range] {
+      flex-grow: 1;
+    }
+    input[type=text] {
+      width: 3em;
+      text-align: right;
+    }
+  }
 }
