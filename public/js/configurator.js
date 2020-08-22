@@ -3,13 +3,32 @@ var configurator = new function() {
 
   this.componentTemplates = [
     {
-      name: 'Color Sensor',
-      config: {
+      name: 'ColorSensor',
+      shortDescription: 'Color Sensor',
+      defaultConfig: {
         type: 'ColorSensor',
         position: [0, 5, 0],
         rotation: [0, 0, 0],
         options: null
-      }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          title: 'Position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1'
+        },
+        {
+          option: 'rotation',
+          title: 'Rotation',
+          type: 'vector3',
+          min: '-180',
+          max: '180',
+          step: '5'
+        },
+      ]
     }
   ];
 
@@ -24,6 +43,7 @@ var configurator = new function() {
     self.$addComponent = $('.addComponent');
     self.$deleteComponent = $('.deleteComponent');
     self.$componentList = $('.componentsList');
+    self.$settingsWindow = $('.settingsWindow');
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
@@ -34,6 +54,79 @@ var configurator = new function() {
     window.addEventListener('beforeunload', self.checkUnsaved);
 
     self.resetScene();
+  };
+
+  // Show options
+  this.showComponentOptions = function(component) {
+    self.$settingsWindow.empty();
+
+    function genVector3(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+
+      function getTitle(opt) {
+        let $title = $('<div class="configurationTitle"></div>');
+        let $toolTip = $('<span> </span><div class="tooltip">?<div class="tooltiptext"></div></div>');
+        $title.text(opt.title);
+  
+        if (opt.help) {
+          $toolTip.find('.tooltiptext').text(opt.help);
+          $title.append($toolTip);
+        }
+        if (opt.helpSide) {
+          $toolTip.addClass(opt.helpSide);
+        } else {
+          $toolTip.addClass('right');
+        }
+  
+        return $title;
+      }  
+
+      function sliderBox(opt, currentValue, callback) {
+        let $sliderBox = $(
+          '<div class="slider">' +
+            '<input type="range">' +
+            '<input type="text">' +
+          '</div>'
+        );
+        let $slider = $sliderBox.find('input[type=range]');
+        let $input = $sliderBox.find('input[type=text]');
+  
+        $slider.attr('min', opt.min);
+        $slider.attr('max', opt.max);
+        $slider.attr('step', opt.step);
+        $slider.attr('value', currentValue);
+        $input.val(currentValue);
+  
+        $slider.on('input', function(){
+          callback($slider.val());
+          $input.val($slider.val());
+        });
+        $input.change(function(){
+          callback($slider.val());
+          $slider.val($input.val());
+        });
+
+        return $sliderBox;
+      }
+
+      $div.append(getTitle(opt));
+      currentOptions.forEach(function(currentOption, i){
+        $div.append(
+          sliderBox(opt, currentOption, function(val) {
+            currentOptions[i] = val;
+          })
+        );  
+      })
+
+      return $div;
+    }
+
+    let componentTemplate = self.componentTemplates.find(componentTemplate => componentTemplate.name == component.type);
+    componentTemplate.optionsConfigurations.forEach(function(option){
+      if (option.type == 'vector3') {
+        self.$settingsWindow.append(genVector3(option, component[option.option]));
+      }
+    });
   };
 
   // Reset scene
@@ -89,7 +182,7 @@ var configurator = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       let component = self.componentTemplates.find(componentTemplate => componentTemplate.name == $select.val())
-      $selected[0].component.components.push(component.config);
+      $selected[0].component.components.push(component.defaultConfig);
       self.resetScene();
       $dialog.close();
     });
@@ -118,6 +211,8 @@ var configurator = new function() {
     self.$componentList.find('li').removeClass('selected');
     e.target.classList.add('selected');
     e.stopPropagation();
+
+    self.showComponentOptions(e.target.component);
   };
 
   // Load robot into components window
