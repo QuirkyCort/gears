@@ -78,10 +78,17 @@ function Robot() {
         diameter: options.wheelDiameter,
         segments: 5
       }
+      if (typeof options.casterDiameter != 'undefined' && options.casterDiameter > 0) {
+        casterOptions.diameter = options.casterDiameter;
+      }
       var caster = BABYLON.MeshBuilder.CreateSphere("sphere", casterOptions, scene);
       caster.material = casterMat;
-      caster.position.y = -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY;
-      caster.position.z = -(options.bodyLength / 2) + (options.wheelDiameter / 2);
+      caster.position.y = -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY - options.wheelDiameter / 2 + casterOptions.diameter / 2;
+      caster.position.z = -(options.bodyLength / 2) + (casterOptions.diameter / 2);
+      if (typeof options.casterOffsetZ != 'undefined') {
+        caster.position.z += options.casterOffsetZ;
+      }
+
       scene.shadowGenerator.addShadowCaster(caster);
       caster.parent = body;
 

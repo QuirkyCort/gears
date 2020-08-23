@@ -11,12 +11,14 @@ var configurator = new function() {
       wheelToBodyOffset: 0.2,
       bodyEdgeToWheelCenterY: 1,
       bodyEdgeToWheelCenterZ: 2,
+      casterDiameter: 0,
       bodyMass: 1000,
       wheelMass: 200,
       casterMass: 0,
       wheelFriction: 10,
       bodyFriction: 0,
       casterFriction: 0,
+      casterOffsetZ: 0,
     },
     optionsConfigurations: [
       {
@@ -82,6 +84,23 @@ var configurator = new function() {
         max: '20',
         step: '0.1',
         reset: true
+      },
+      {
+        option: 'casterDiameter',
+        type: 'slider',
+        min: '0',
+        max: '10',
+        step: '0.1',
+        reset: true,
+        help: 'Set to 0 to use wheel diameter'
+      },
+      {
+        option: 'casterOffsetZ',
+        type: 'slider',
+        min: '0',
+        max: '20',
+        step: '0.5',
+        reset: true,
       },
     ]
   };

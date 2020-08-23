@@ -13,11 +13,12 @@ Documentation
 - most blocks are undocumented
 
 Coding (Python editor)
-- Add autocomplete to the Ace editor
 - Documentation panel?
 
 Coding (Robot configurator)
-- Add in robot configurator
+- Save / Cancel for configuration changes
+- Warn on delete
+- Help menu
 
 Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
