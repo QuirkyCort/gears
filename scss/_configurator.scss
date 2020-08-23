@@ -74,6 +74,26 @@
   flex-direction: column;
   // overflow: auto;
 
+  .settingsArea {
+    flex-grow: 1;
+  }
+
+  .buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
+    font-size: 120%;
+
+    div {
+      border: solid 2px #bbbbbb;
+      padding: 0.3em 0.5em;
+      border-radius: 0.5em;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
   .componentName {
     text-align: center;
     font-size: 120%;

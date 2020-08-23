@@ -1,6 +1,8 @@
 var configurator = new function() {
   var self = this;
 
+  this.savedRobot = null;
+
   this.bodyTemplate = {
     defaultConfig: {
       bodyHeight: 4,
@@ -489,19 +491,35 @@ var configurator = new function() {
     self.$addComponent = $('.addComponent');
     self.$deleteComponent = $('.deleteComponent');
     self.$componentList = $('.componentsList');
-    self.$settingsWindow = $('.settingsWindow');
+    self.$settingsArea = $('.settingsArea');
+    self.$revert = $('.revert');
+    self.$save = $('.save');
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
 
     self.$addComponent.click(self.addComponent);
     self.$deleteComponent.click(self.deleteComponent);
+    self.$revert.click(self.loadRobotOptions);
+    self.$save.click(self.saveRobotOptions);
 
     self.$robotName.change(self.setRobotName);
 
     window.addEventListener('beforeunload', self.checkUnsaved);
 
     self.resetScene();
+    self.saveRobotOptions();
+  };
+
+  // Save robot options
+  this.saveRobotOptions = function() {
+    self.savedRobot = JSON.parse(JSON.stringify(robot.options));
+  };
+
+  // Load robot options
+  this.loadRobotOptions = function() {
+    Object.assign(robot.options, self.savedRobot);
+    self.resetScene(false);
   };
 
   // Set the robot name
@@ -511,7 +529,7 @@ var configurator = new function() {
 
   // Show options
   this.showComponentOptions = function(component) {
-    self.$settingsWindow.empty();
+    self.$settingsArea.empty();
 
     function getTitle(opt) {
       let $title = $('<div class="configurationTitle"></div>');
@@ -659,7 +677,7 @@ var configurator = new function() {
     } else {
       $componentName.text(component.type);
     }
-    self.$settingsWindow.append($componentName);
+    self.$settingsArea.append($componentName);
 
     if (typeof component.options == 'undefined' || component.options == null) {
       component.options = {};
@@ -669,24 +687,24 @@ var configurator = new function() {
       let bodyTemplate = self.bodyTemplate;
       bodyTemplate.optionsConfigurations.forEach(function(optionConfiguration){
         if (optionConfiguration.type == 'slider') {
-          self.$settingsWindow.append(genSlider(optionConfiguration, component));
+          self.$settingsArea.append(genSlider(optionConfiguration, component));
         } else if (optionConfiguration.type == 'floatText') {
-          self.$settingsWindow.append(genFloatText(optionConfiguration, component));
+          self.$settingsArea.append(genFloatText(optionConfiguration, component));
         } else if (optionConfiguration.type == 'intText') {
-          self.$settingsWindow.append(genIntText(optionConfiguration, component));
+          self.$settingsArea.append(genIntText(optionConfiguration, component));
         }
       });
     } else {
       let componentTemplate = self.componentTemplates.find(componentTemplate => componentTemplate.name == component.type);
       componentTemplate.optionsConfigurations.forEach(function(optionConfiguration){
         if (optionConfiguration.type == 'vector3') {
-          self.$settingsWindow.append(genVector3(optionConfiguration, component[optionConfiguration.option]));
+          self.$settingsArea.append(genVector3(optionConfiguration, component[optionConfiguration.option]));
         } else if (optionConfiguration.type == 'slider') {
-          self.$settingsWindow.append(genSlider(optionConfiguration, component.options));
+          self.$settingsArea.append(genSlider(optionConfiguration, component.options));
         } else if (optionConfiguration.type == 'floatText') {
-          self.$settingsWindow.append(genFloatText(optionConfiguration, component.options));
+          self.$settingsArea.append(genFloatText(optionConfiguration, component.options));
         } else if (optionConfiguration.type == 'intText') {
-          self.$settingsWindow.append(genIntText(optionConfiguration, component.options));
+          self.$settingsArea.append(genIntText(optionConfiguration, component.options));
         }
       });
       }
@@ -896,7 +914,7 @@ var configurator = new function() {
 
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
-      robot.options = robotTemplates.find(robotTemplate => robotTemplate.name == $select.val());
+      robot.options = JSON.parse(JSON.stringify(robotTemplates.find(robotTemplate => robotTemplate.name == $select.val())));
       self.resetScene();
       $dialog.close();
     });
