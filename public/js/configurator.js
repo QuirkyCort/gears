@@ -507,6 +507,8 @@ var configurator = new function() {
 
     window.addEventListener('beforeunload', self.checkUnsaved);
 
+    babylon.setCameraMode('arc')
+
     self.resetScene();
     self.saveRobotOptions();
   };
