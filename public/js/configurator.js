@@ -529,7 +529,7 @@ var configurator = new function() {
       }
 
       return $title;
-    }  
+    }
 
     function genSliderBox(opt, currentValue, callback) {
       let $sliderBox = $(
@@ -578,13 +578,13 @@ var configurator = new function() {
         if (opt.option == 'rotation') {
           slider = genSliderBox(opt, currentOption / Math.PI * 180, function(val) {
             currentOptions[i] = val / 180 * Math.PI;
-          });  
+          });
         } else {
           slider = genSliderBox(opt, currentOption, function(val) {
             currentOptions[i] = val;
-          });  
+          });
         }
-        $div.append(slider);  
+        $div.append(slider);
       })
 
       return $div;
@@ -665,7 +665,7 @@ var configurator = new function() {
       component.options = {};
     }
 
-    if (typeof component.bodyMass != 'undefined') {
+    if (typeof component.bodyMass != 'undefined') { // main body
       let bodyTemplate = self.bodyTemplate;
       bodyTemplate.optionsConfigurations.forEach(function(optionConfiguration){
         if (optionConfiguration.type == 'slider') {
@@ -720,10 +720,6 @@ var configurator = new function() {
     let $select = $('<select></select>');
     let $description = $('<div class="description"><div class="text"></div></div>');
 
-    function displayRobotDescriptions(component) {
-      $description.find('.text').html(component.name);
-    }
-
     self.componentTemplates.forEach(function(componentTemplate){
       let $component = $('<option></option>');
       $component.prop('value', componentTemplate.name);
@@ -744,7 +740,7 @@ var configurator = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       let component = self.componentTemplates.find(componentTemplate => componentTemplate.name == $select.val())
-      $selected[0].component.components.push(component.defaultConfig);
+      $selected[0].component.components.push(JSON.parse(JSON.stringify(component.defaultConfig)));
       self.resetScene();
       $dialog.close();
     });
