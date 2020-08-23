@@ -32,6 +32,25 @@ var world_Configurator = new function() {
   // Create the scene
   this.load = function (scene) {
     return new Promise(function(resolve, reject) {
+      let size = 100;
+      var groundMat = new BABYLON.StandardMaterial('ground', scene);
+      var groundTexture = new BABYLON.Texture('textures/maps/configurator.png', scene);
+      groundMat.diffuseTexture = groundTexture;
+      groundMat.diffuseTexture.uScale = size / 20;
+      groundMat.diffuseTexture.vScale = size / 20;
+      groundMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+
+      var faceUV = new BABYLON.Vector4(0, 0, 1, 1);
+
+      var planeOptions = {
+          size: size,
+          frontUVs: faceUV
+      };
+
+      var ground = BABYLON.MeshBuilder.CreatePlane('plane', planeOptions, scene);
+      ground.material = groundMat;
+      ground.rotation.x = Math.PI / 2;
+
       resolve();
     });
   };

@@ -302,6 +302,7 @@ var configurator = new function() {
         type: 'ArmActuator',
         position: [0, 5, 0],
         rotation: [0, 0, 0],
+        components: [],
         options: null
       },
       optionsConfigurations: [
@@ -377,6 +378,7 @@ var configurator = new function() {
         type: 'SwivelActuator',
         position: [0, 5, 0],
         rotation: [0, 0, 0],
+        components: [],
         options: null
       },
       optionsConfigurations: [
@@ -632,6 +634,14 @@ var configurator = new function() {
       return $div;
     }
 
+    let $componentName = $('<div class="componentName"></div>');
+    if (typeof component.bodyMass != 'undefined') {
+      $componentName.text('Body');
+    } else {
+      $componentName.text(component.type);
+    }
+    self.$settingsWindow.append($componentName);
+
     if (typeof component.options == 'undefined' || component.options == null) {
       component.options = {};
     }
@@ -683,7 +693,7 @@ var configurator = new function() {
       && $selected[0].component.type != 'ArmActuator'
       && $selected[0].component.type != 'SwivelActuator'
     ) {
-      toastMsg('Cannot add to this component');
+      toastMsg('Components can only be added to Body, ArmActuators, and SwivelActuators.');
       return;
     }
 
@@ -704,11 +714,6 @@ var configurator = new function() {
 
     $body.append($select);
     $body.append($description);
-
-    $select.change(function(){
-      let componentTemplate = componentTemplates.find(componentTemplate => componentTemplate.name == $select.val());
-      displayRobotDescriptions(componentTemplate);
-    });
 
     let $buttons = $(
       '<button type="button" class="cancel btn-light">Cancel</button>' +
