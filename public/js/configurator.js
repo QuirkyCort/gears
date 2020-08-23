@@ -518,8 +518,8 @@ var configurator = new function() {
 
   // Load robot options
   this.loadRobotOptions = function() {
-    Object.assign(robot.options, self.savedRobot);
-    self.resetScene(false);
+    robot.options = JSON.parse(JSON.stringify(self.savedRobot));
+    self.resetScene();
   };
 
   // Set the robot name
