@@ -712,9 +712,14 @@ var configurator = new function() {
 
   // Reset scene
   this.resetScene = function(reloadComponents=true) {
+    if (typeof self.cameraRadius == 'undefined') {
+      self.cameraRadius = 40;
+    } else {
+      self.cameraRadius = babylon.scene.cameras[0].radius;
+    }
     babylon.resetScene();
     babylon.scene.physicsEnabled = false;
-    babylon.scene.cameras[0].radius = 40;
+    babylon.scene.cameras[0].radius = self.cameraRadius;
     if (reloadComponents) {
       self.$robotName.val(robot.options.name);
       self.loadIntoComponentsWindow(robot.options);
