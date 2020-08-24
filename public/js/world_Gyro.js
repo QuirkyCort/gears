@@ -19,7 +19,6 @@ var world_Gyro = new function() {
       type: 'selectWithHTML',
       options: [
         ['Straight Run', 'straight'],
-        ['Straight Run (Hard)', 'straightHard'],
         ['Square Loops', 'square'],
         ['Random Direction', 'randomDirection'],
       ],
@@ -40,19 +39,25 @@ var world_Gyro = new function() {
           '<p>Use your ultrasonic and gyro to find the wall, then drive straight down the path.<p>' +
           '<p class="bold">This world randomizes on reset!<p>',
       }
-    }
+    },
+    {
+      option: 'straightRunWidth',
+      title: 'Width of Straight Run challenge',
+      type: 'slider',
+      min: '18',
+      max: '40',
+      step: '1'
+    },
   ];
 
   this.imagesURL = {
     straight: 'textures/maps/Gyro/Straight.png',
-    straightHard: 'textures/maps/Gyro/Straight.png',
     square: 'textures/maps/Gyro/Square.png',
     randomDirection: 'textures/maps/Gyro/Square.png',
   };
 
   this.robotStarts = {
     straight: new BABYLON.Vector3(0, 0, -504),
-    straightHard: new BABYLON.Vector3(0, 0, -504),
     square: new BABYLON.Vector3(-100, 0, -100),
     randomDirection: new BABYLON.Vector3(0, 0, -6),
   }
@@ -64,7 +69,8 @@ var world_Gyro = new function() {
     groundFriction: 1,
     wallFriction: 0.1,
     groundRestitution: 0.0,
-    wallRestitution: 0.1
+    wallRestitution: 0.1,
+    straightRunWidth: 18
   };
 
   // Set options, including default
@@ -161,13 +167,7 @@ var world_Gyro = new function() {
         self.loadImageTile(
           scene,
           self.imagesURL[self.options.image],
-          [self.options.width*5, self.options.length*1.4]
-        );
-      } else if (self.options.image == 'straightHard') {
-        self.loadImageTile(
-          scene,
-          self.imagesURL[self.options.image],
-          [self.options.width*5, self.options.length]
+          [self.options.width*5, self.options.straightRunWidth]
         );
       } else if (self.options.image == 'square') {
         self.loadImageTile(
