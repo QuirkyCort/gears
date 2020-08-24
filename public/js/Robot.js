@@ -10,6 +10,7 @@ function Robot() {
 
   this.sensorCount = 0;
   this.actuatorCount = 2;
+  this.componentIndex = 0;
 
   this.playerColors =[
     new BABYLON.Color3(0.2, 0.94, 0.94),
@@ -96,6 +97,7 @@ function Robot() {
       self.components = [];
       self.sensorCount = 0;
       self.motorCount = 2;
+      self.componentIndex = 0;
       self.loadComponents(self.options.components, self.components, self.body);
 
       // Add Physics
@@ -290,6 +292,9 @@ function Robot() {
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
       }
+      if (component != null) {
+        component.componentIndex = self.componentIndex++;
+      }
       if (component) {
         if (typeof componentConfig.components != 'undefined') {
           self.loadComponents(componentConfig.components, component.components, component.end);
@@ -328,6 +333,24 @@ function Robot() {
         return components[i];
       } else if (components[i].components) {
         let result = self._getComponentByPort(port, components[i].components);
+        if (result) {
+          return result;
+        }
+      }
+    }
+  };
+
+  // Get component based on componentIndex
+  this.getComponentByIndex = function(index) {
+    return self._getComponentByIndex(index, self.components);
+  };
+
+  this._getComponentByIndex = function(index, components) {
+    for (let i=0; i<components.length; i++) {
+      if (components[i].componentIndex == index) {
+        return components[i];
+      } else if (components[i].components) {
+        let result = self._getComponentByIndex(index, components[i].components);
         if (result) {
           return result;
         }

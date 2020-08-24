@@ -505,8 +505,6 @@ var configurator = new function() {
 
     self.$robotName.change(self.setRobotName);
 
-    window.addEventListener('beforeunload', self.checkUnsaved);
-
     babylon.setCameraMode('arc')
 
     self.resetScene();
@@ -722,6 +720,7 @@ var configurator = new function() {
       self.loadIntoComponentsWindow(robot.options);
       self.showComponentOptions(robot.options);
     }
+    self.highlightSelected();
   }
 
   // Add a new component to selected
@@ -791,7 +790,67 @@ var configurator = new function() {
     e.stopPropagation();
 
     self.showComponentOptions(e.target.component);
+    self.highlightSelected();
   };
+
+  // Highlight selected component
+  this.highlightSelected = function() {
+    let $selected = self.$componentList.find('li.selected');
+    if ($selected.length < 1) {
+      return;
+    }
+
+    let index = $selected[0].componentIndex;
+    if (typeof index != 'undefined') {
+      let body = robot.getComponentByIndex(index).body;
+      let size = body.getBoundingInfo().boundingBox.extendSize;
+      let options = {
+        height: size.y * 2,
+        width: size.x * 2,
+        depth: size.z * 2
+      };
+      let wireframeMat = babylon.scene.getMaterialByID('wireframeComponentSelector');
+      if (wireframeMat == null) {
+        wireframeMat = new BABYLON.StandardMaterial('wireframeComponentSelector', babylon.scene);
+        wireframeMat.alpha = 0;
+      }
+
+      let wireframe = babylon.scene.getMeshByID('wireframeComponentSelector');
+      if (wireframe != null) {
+        wireframe.dispose();
+      }
+
+      wireframe = BABYLON.MeshBuilder.CreateBox('wireframeComponentSelector', options, babylon.scene);
+      wireframe.material = wireframeMat;
+      wireframe.position = body.absolutePosition;
+      wireframe.rotationQuaternion = body.absoluteRotationQuaternion;
+      wireframe.enableEdgesRendering();
+      wireframe.edgesWidth = 10;
+      let wireframeAnimation = new BABYLON.Animation(
+        'wireframeAnimation',
+        'edgesColor',
+        30,
+        BABYLON.Animation.ANIMATIONTYPE_COLOR4,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+      );
+      var keys = [];
+      keys.push({
+        frame: 0,
+        value: new BABYLON.Color4(0, 0, 1, 1)
+      });
+      keys.push({
+        frame: 15,
+        value: new BABYLON.Color4(1, 0, 0, 1)
+      });
+      keys.push({
+        frame: 30,
+        value: new BABYLON.Color4(0, 0, 1, 1)
+      });
+      wireframeAnimation.setKeys(keys);
+      wireframe.animations.push(wireframeAnimation);
+      babylon.scene.beginAnimation(wireframe, 0, 30, true);
+    }
+  }
 
   // Load robot into components window
   this.loadIntoComponentsWindow = function(options) {
@@ -799,6 +858,7 @@ var configurator = new function() {
     let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'PaintballLauncherActuator'];
     let motorCount = 2;
     let sensorCount = 0;
+    let componentIndex = 0;
 
     let $ul = $('<ul><ul>');
     let $li = $('<li class="selected">Body</li>');
@@ -822,6 +882,7 @@ var configurator = new function() {
         $item.text(text);
         $item[0].componentParent = components;
         $item[0].component = component;
+        $item[0].componentIndex = componentIndex++;
         $list.append($item);
 
         if (component.components instanceof Array) {
@@ -983,14 +1044,6 @@ var configurator = new function() {
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
-    }
-  };
-
-  // Check for unsaved changes
-  this.checkUnsaved = function (event) {
-    if (false) {
-      event.preventDefault();
-      event.returnValue = '';
     }
   };
 

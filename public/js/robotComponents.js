@@ -1008,9 +1008,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       self.body,
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
-        mass: 1,
-        restitution: 0.4,
-        friction: 0.1
+        mass: 0
       },
       scene
     );
@@ -1018,9 +1016,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       self.arm,
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
-        mass: 10,
-        restitution: 0.4,
-        friction: 0.1
+        mass: 0
       },
       scene
     );
