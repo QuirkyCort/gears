@@ -19,11 +19,15 @@ var world_Gyro = new function() {
       type: 'selectWithHTML',
       options: [
         ['Straight Run', 'straight'],
+        ['Straight Run (Hard)', 'straightHard'],
         ['Square Loops', 'square'],
         ['Random Direction', 'randomDirection'],
       ],
       optionsHTML: {
         straight:
+          '<p class="bold">A simple straight run.</p>' +
+          '<p>You just have to drive straight to the end. Easy right?<p>',
+        straightHard:
           '<p class="bold">A simple straight run.</p>' +
           '<p>You just have to drive straight to the end. Easy right?<p>',
         square:
@@ -41,12 +45,14 @@ var world_Gyro = new function() {
 
   this.imagesURL = {
     straight: 'textures/maps/Gyro/Straight.png',
+    straightHard: 'textures/maps/Gyro/Straight.png',
     square: 'textures/maps/Gyro/Square.png',
     randomDirection: 'textures/maps/Gyro/Square.png',
   };
 
   this.robotStarts = {
     straight: new BABYLON.Vector3(0, 0, -504),
+    straightHard: new BABYLON.Vector3(0, 0, -504),
     square: new BABYLON.Vector3(-100, 0, -100),
     randomDirection: new BABYLON.Vector3(0, 0, -6),
   }
@@ -151,7 +157,19 @@ var world_Gyro = new function() {
       self.obstacleMat = new BABYLON.StandardMaterial('obstacle', scene);
       self.obstacleMat.diffuseColor = new BABYLON.Color3(0.8, 0.1, 0.8);
 
-      if (self.options.image == 'square') {
+      if (self.options.image == 'straight') {
+        self.loadImageTile(
+          scene,
+          self.imagesURL[self.options.image],
+          [self.options.width*5, self.options.length*1.4]
+        );
+      } else if (self.options.image == 'straightHard') {
+        self.loadImageTile(
+          scene,
+          self.imagesURL[self.options.image],
+          [self.options.width*5, self.options.length]
+        );
+      } else if (self.options.image == 'square') {
         self.loadImageTile(
           scene,
           self.imagesURL[self.options.image],
@@ -202,12 +220,6 @@ var world_Gyro = new function() {
           -(theta - Math.PI)
         );
         self.addBox(scene, [25,18,18], [x*2,y*2], -(theta - Math.PI), 0, self.obstacleMat)
-      } else {
-        self.loadImageTile(
-          scene,
-          self.imagesURL[self.options.image],
-          [self.options.width*5, self.options.length]
-        );
       }
 
       resolve();
