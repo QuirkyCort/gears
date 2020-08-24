@@ -168,7 +168,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
 
   this.render = function(delta) {
     self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
-    if (! self.waitingSync && babylon.engine._webGLVersion >= 2) {
+    if (! self.waitingSync && babylon.engine._webGLVersion >= 2 && babylon.DISABLE_ASYNC == false) {
       self.readPixelsAsync();
     }
   };
@@ -273,7 +273,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     var b = 0;
 
     // self.renderTarget.resetRefreshCounter();
-    if (babylon.engine._webGLVersion < 2) {
+    if (babylon.engine._webGLVersion < 2 || babylon.DISABLE_ASYNC) {
       self.renderTarget.readPixels(0, 0, self.pixels);
     }
     for (let i=0; i<self.pixels.length; i+=4) {

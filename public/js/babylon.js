@@ -1,6 +1,8 @@
 var babylon = new function() {
   var self = this;
 
+  this.DISABLE_ASYNC = false;
+
   this.world = worlds[0];
 
   // Run on page load
