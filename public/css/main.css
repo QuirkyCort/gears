@@ -665,7 +665,8 @@ ul.menuDropDownRightAlign {
     font-size: 120%;
     overflow: auto;
     flex-grow: 1;
-    white-space: nowrap; }
+    white-space: nowrap;
+    margin-bottom: 1em; }
     .componentsWindow .componentsList ul {
       list-style-type: none;
       padding-inline-start: 0; }
