@@ -25,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-globe:before {
+  content: "\e904";
+}
 .icon-ruler:before {
   content: "\e900";
 }

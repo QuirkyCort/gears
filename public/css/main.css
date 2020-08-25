@@ -36,6 +36,8 @@ header {
     color: white; }
   header #projectName::placeholder {
     color: #95989A; }
+  header .language {
+    margin-left: auto; }
 
 .bold {
   font-weight: bold; }
@@ -554,6 +556,9 @@ ul.menuDropDownRightAlign {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-globe:before {
+  content: "\e904"; }
 
 .icon-ruler:before {
   content: "\e900"; }

@@ -36,15 +36,26 @@ var blockly = new function() {
       return constants;
     };
 
-    self.loadCustomBlocks()
-      .then(self.loadToolBox);
-    self.generator.load();
-    Blockly.Python['math_change'] = self.math_change;
+    let lang = readGET('lang');
+    if (!lang) {
+      lang = 'en';
+    }
+
+    const script = document.createElement('script');
+    script.src = 'blockly/3.20200402.1/msg/' + lang + '.js';
+    script.addEventListener('load', function() {
+      self.loadCustomBlocks()
+        .then(self.loadToolBox)
+        .then(self.generator.load());
+      Blockly.Python['math_change'] = self.math_change;
+
+    });
+    document.head.appendChild(script);
   };
 
   // Load toolbox
   this.loadToolBox = function() {
-    return fetch('toolbox.xml?v=1598238523')
+    return fetch('toolbox.xml?v=1598361165')
       .then(response => response.text())
       .then(function(response) {
         var xml = (new DOMParser()).parseFromString(response, "text/xml");
@@ -150,7 +161,7 @@ var blockly = new function() {
 
   // Load custom blocks
   this.loadCustomBlocks = function() {
-    return fetch('customBlocks.json?v=1598238523')
+    return fetch('customBlocks.json?v=1598361165')
       .then(response => response.json())
       .then(function(response) {
         Blockly.defineBlocksWithJsonArray(response);

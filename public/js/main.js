@@ -12,6 +12,7 @@ var main = new function() {
     self.$arenaButton = $('.arenaButton');
     self.$helpMenu = $('.helpMenu');
     self.$projectName = $('#projectName');
+    self.$languageMenu = $('.language');
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
@@ -19,6 +20,8 @@ var main = new function() {
     self.$robotMenu.click(self.toggleRobotMenu);
     self.$arenaButton.click(self.arenaWindow);
     self.$helpMenu.click(self.toggleHelpMenu);
+    self.$languageMenu.click(self.toggleLanguageMenu);
+
     self.$projectName.change(self.saveProjectName);
 
     window.addEventListener('beforeunload', self.checkUnsaved);
@@ -26,6 +29,32 @@ var main = new function() {
     self.loadProjectName();
 
     self.showWhatsNew();
+  };
+
+  // Toggle language menu
+  this.toggleLanguageMenu = function(e) {
+    if ($('.languageMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      const baseURL = window.location.href.split('?')[0];
+
+      function pageInLang(lang) {
+        if (typeof lang == 'undefined') {
+          window.location.href = baseURL;
+        } else {
+          window.location.href = baseURL + '?lang=' + lang;
+        }
+      }
+
+      let menuItems = [
+        {html: 'English', line: false, callback: function() { pageInLang(); }},
+        {html: 'Español', line: false, callback: function() { pageInLang('es'); }},
+        {html: 'Français', line: false, callback: function() { pageInLang('fr'); }},
+      ];
+
+      menuDropDown(self.$languageMenu, menuItems, {className: 'languageMenuDropDown', align: 'right'});
+    }
   };
 
   // Open a window with a link to the arena page
