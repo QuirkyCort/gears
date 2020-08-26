@@ -50,7 +50,7 @@ const MSGS = {
 };
 const MSGS_KEYS = Object.keys(MSGS);
 
-const LANG = localStorage.getItem('LANG');
+let LANG = localStorage.getItem('LANG');
 if (!LANG || LANG == '' || LANG == 'undefined') {
   LANG = 'en';
 }

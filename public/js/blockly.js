@@ -129,13 +129,20 @@ var blockly = new function() {
         }
       });
 
-      let id2 = block2.id;
+      if (block2 != null) {
+        let id2 = block2.id;
 
-      block2.id = id1;
-      self.workspace.blockDB_[id1] = self.workspace.blockDB_[id2];
-      delete self.workspace.blockDB_[id2];
+        block2.id = id1;
+        self.workspace.blockDB_[id1] = self.workspace.blockDB_[id2];
+        delete self.workspace.blockDB_[id2];
 
-      return;
+        return;  
+      } else {
+        console.log('Cannot find shadow equivalent in workspace');
+        console.log(self.workspace);
+        console.log(blockIds);
+        console.log(parentId);
+      }
     }
     var json = primaryEvent.toJson();
     var secondaryEvent = Blockly.Events.fromJson(json, self.workspace);
