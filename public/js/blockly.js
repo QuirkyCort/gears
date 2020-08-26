@@ -137,11 +137,6 @@ var blockly = new function() {
         delete self.workspace.blockDB_[id2];
 
         return;  
-      } else {
-        console.log('Cannot find shadow equivalent in workspace');
-        console.log(self.workspace);
-        console.log(blockIds);
-        console.log(parentId);
       }
     }
     var json = primaryEvent.toJson();
