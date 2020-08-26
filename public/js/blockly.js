@@ -160,9 +160,10 @@ var blockly = new function() {
   // Load custom blocks
   this.loadCustomBlocks = function() {
     return fetch('customBlocks.json?v=1598361165')
-      .then(response => response.json())
+      .then(response => response.text())
       .then(function(response) {
-        Blockly.defineBlocksWithJsonArray(response);
+        let json = JSON.parse(i18n.replace(response));
+        Blockly.defineBlocksWithJsonArray(json);
       });
   };
 
