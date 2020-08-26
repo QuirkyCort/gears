@@ -174,9 +174,7 @@ var world_FireRescue = new function() {
     let cratesMeshes = self.addCubeCrates(scene, 'textures/maps/Fire Rescue/woodenCrate.png', crates);
 
     // Auto-door
-    let sensorMat = new BABYLON.StandardMaterial('doorSensor', scene);
-    sensorMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.8);
-    sensorMat.alpha = 0.3;
+    let sensorMat = babylon.getMaterial(scene, '2626CC4D');
     let doorSensor = self.addBox(scene, sensorMat, [25, 25, 20], [-75.1,124.5], false, false);
     doorSensor.isPickable = false;
     let doorSensorIndicator = self.addBox(scene, sensorMat, [25, 25, 2], [-75.1,124.5], false, false);
@@ -190,8 +188,7 @@ var world_FireRescue = new function() {
     doorSensorIndicator.animations = [animateSensor];
     scene.beginAnimation(doorSensorIndicator, 0, 10, true);
 
-    let doorMat = new BABYLON.StandardMaterial('wall', scene);
-    doorMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.8);
+    let doorMat = babylon.getMaterial(scene, '2626CC');
     let doors = [
       [[5,30,38], [-98.2,75.3,2]],
     ];
@@ -212,8 +209,7 @@ var world_FireRescue = new function() {
     self.addSpriteFire(scene, fires, 30);
 
     // Shelves
-    let shelfMat = new BABYLON.StandardMaterial('shelf', scene);
-    shelfMat.diffuseColor = new BABYLON.Color3(0.78, 0.56, 0.38);
+    let shelfMat = babylon.getMaterial(scene, 'C68E60');
     let shelves = [
       [[149,16,2], [102,128,3]],
       [[65,16,2], [60,128,15]],
@@ -221,8 +217,7 @@ var world_FireRescue = new function() {
     self.addWalls(scene, shelfMat, shelves);
 
     // Walls
-    let wallMat = new BABYLON.StandardMaterial('wall', scene);
-    wallMat.diffuseColor = new BABYLON.Color3(0.47, 0.48, 0.49);
+    let wallMat = babylon.getMaterial(scene, '777A7C');
     let walls = [
       [[390,8,55], [0,141,0]],
       [[8,278,55], [-191,-2,0]],
@@ -251,8 +246,7 @@ var world_FireRescue = new function() {
     });
 
     // Pillar
-    let pillarMat = new BABYLON.StandardMaterial('pillar', scene);
-    pillarMat.diffuseColor = new BABYLON.Color3(0.235, 0.24, 0.245);
+    let pillarMat = babylon.getMaterial(scene, '3B3D3E');
     let pillars = [
       [[10,10,40], [8.3,91.7,0]],
       [[10,10,40], [108.3,91.7,0]],
@@ -262,13 +256,11 @@ var world_FireRescue = new function() {
     self.addWalls(scene, pillarMat, pillars);
 
     // Ramp (at autodoor)
-    let rampMat = new BABYLON.StandardMaterial('ramp', scene);
-    rampMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    let rampMat = babylon.getMaterial(scene, '191919');
     self.addRampX(scene, rampMat, 8, -2, 26, [-95.6,75.2,2], 2);
 
     // Obstructions
-    let obstructionMat = new BABYLON.StandardMaterial('obstruction', scene);
-    obstructionMat.diffuseColor = new BABYLON.Color3(0.235, 0.24, 0.245);
+    let obstructionMat = babylon.getMaterial(scene, '3B3D3E');
     let obstructions = [
       [[10,40,10], [16,29.25,0], -0.5],
       [[10,40,10], [105.5,61.05,0], 0.2],
@@ -348,8 +340,7 @@ var world_FireRescue = new function() {
     ];
     self.addSpriteFire(scene, fires, 30);
 
-    let wallMat = new BABYLON.StandardMaterial('wall', scene);
-    wallMat.diffuseColor = new BABYLON.Color3(0.72, 0.45, 0.40);
+    let wallMat = babylon.getMaterial(scene, 'B77266');
     let walls = [
       [[286.7,8,20], [0.15,140.1,0]],
       [[8,120.1,20], [-139.2,76.05,0]],
@@ -653,10 +644,8 @@ var world_FireRescue = new function() {
 
   // Add victims
   this.addVictims = function(scene, victims, colors) {
-    let redMat = new BABYLON.StandardMaterial('red', scene);
-    redMat.diffuseColor = new BABYLON.Color3(0.9, 0.1, 0.1);
-    let greenMat = new BABYLON.StandardMaterial('green', scene);
-    greenMat.diffuseColor = new BABYLON.Color3(0.1, 0.9, 0.1);
+    let redMat = babylon.getMaterial(scene, 'E51919');
+    let greenMat = babylon.getMaterial(scene, '19E519');
 
     let physicsOptions = {
       mass: 10,

@@ -50,6 +50,8 @@ function Robot() {
         bodyMat.diffuseColor = self.playerColors[self.player];
       }
       bodyMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+      bodyMat.freeze();
+
       let bodyOptions = {
         height: options.bodyHeight,
         width: options.bodyWidth,
@@ -75,6 +77,8 @@ function Robot() {
       var casterMat = new BABYLON.StandardMaterial('caster', scene);
       casterMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.6);
       casterMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+      casterMat.freeze();
+
       let casterOptions = {
         diameter: options.wheelDiameter,
         segments: 5

@@ -156,15 +156,13 @@ var babylon = new function() {
       tessellation: 3
     };
 
-    let greenMat = new BABYLON.StandardMaterial('greenMarker', self.scene);
-    greenMat.diffuseColor = new BABYLON.Color3(0, 1, 0);
+    let greenMat = self.getMaterial(self.scene, '00ff00');
     self.marker1 = new BABYLON.MeshBuilder.CreateCylinder('marker1', markerOptions, self.scene);
     self.marker1.material = greenMat;
     self.marker1.isPickable = false;
     self.marker1.isVisible = false;
 
-    let redMat = new BABYLON.StandardMaterial('redMarker', self.scene);
-    redMat.diffuseColor = new BABYLON.Color3(1, 0, 0);
+    let redMat = self.getMaterial(self.scene, 'ff0000');
     self.marker2 = new BABYLON.MeshBuilder.CreateCylinder('marker2', markerOptions, self.scene);
     self.marker2.material = redMat;
     self.marker2.isPickable = false;
@@ -214,12 +212,18 @@ var babylon = new function() {
         if (mesh.material == null) {
           mesh.rttMaterial == null;
         } else {
-          mesh.rttMaterial = mesh.material.clone();
-          mesh.rttMaterial.disableLighting = true;
-          if (mesh.diffuseTexture) {
-            mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
-          } else {
-            mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
+          let rttID = 'RTT_' + mesh.material.id;
+          let mat = self.scene.getMaterialByID(rttID);
+          if (mat == null) {
+            mesh.rttMaterial = mesh.material.clone();
+            mesh.rttMaterial.id = rttID;
+            mesh.rttMaterial.disableLighting = true;
+            if (mesh.diffuseTexture) {
+              mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
+            } else {
+              mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
+            }
+            mesh.rttMaterial.freeze();
           }
         }
       });
@@ -240,6 +244,57 @@ var babylon = new function() {
 
       // self.engine.hideLoadingUI();
     });
+  };
+
+  // Get color3 from hex
+  this.hexToColor3 = function(rgba) {
+    let color = '#';
+
+    if (rgba.length == 3) {
+      color += rgba[0] + rgba[0];
+      color += rgba[1] + rgba[1];
+      color += rgba[2] + rgba[2];
+    } else if (rgba.length == 6) {
+      color += rgba[0] + rgba[1];
+      color += rgba[2] + rgba[3];
+      color += rgba[4] + rgba[5];
+    }
+
+    return new BABYLON.Color3.FromHexString(color);
+  };
+
+  // Get material from rgba string, creating new if not existing
+  this.getMaterial = function(scene, rgba) {
+    rgba = rgba.replace(/^#/g, '');
+    let color = new Array(4);
+
+    let existing = scene.getMaterialByID(rgba);
+    if (existing) {
+      return existing;
+    }
+
+    let mat = new BABYLON.StandardMaterial(rgba, scene);
+
+    if (rgba.length == 3 || rgba.length == 4) {
+      mat.diffuseColor = self.hexToColor3(rgba.slice(0,3));
+    }
+
+    if (rgba.length == 6 || rgba.length == 8) {
+      mat.diffuseColor = self.hexToColor3(rgba.slice(0,6));
+    }
+
+    if (rgba.length == 4) {
+      color[3] = parseInt(rgba[3]+rgba[3], 16) / 255;
+    } else if (rgba.length == 8) {
+      color[3] = parseInt(rgba[6]+rgba[7], 16) / 255;
+    } else {
+      color[3] = 1;
+    }
+
+    mat.alpha = color[3];
+    mat.freeze();
+
+    return mat;
   };
 
   // Render loop

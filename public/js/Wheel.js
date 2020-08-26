@@ -92,10 +92,14 @@ function Wheel(scene, options) {
   // Used in JS
   //
   this.load = function(pos, startPos, startRot, body, pivot) {
-    var wheelMat = new BABYLON.StandardMaterial('wheel', scene);
-    var wheelTexture = new BABYLON.Texture('textures/robot/wheel.png', scene);
-    wheelMat.diffuseTexture = wheelTexture;
-    wheelMat.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    var wheelMat = scene.getMaterialByID('wheel');
+    if (wheelMat == null) {
+      var wheelMat = new BABYLON.StandardMaterial('wheel', scene);
+      var wheelTexture = new BABYLON.Texture('textures/robot/wheel.png', scene);
+      wheelMat.diffuseTexture = wheelTexture;
+      wheelMat.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+      wheelMat.freeze();
+    }
 
     var faceUV = new Array(3);
     faceUV[0] = new BABYLON.Vector4(0, 0, 200/828, 1);

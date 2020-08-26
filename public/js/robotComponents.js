@@ -17,8 +17,6 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.setOptions(options);
 
     var bodyMat = new BABYLON.StandardMaterial('colorSensorBody', scene);
-    // bodyMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
-
     var bodyTexture = new BABYLON.Texture('textures/robot/color.png', scene);
     bodyMat.diffuseTexture = bodyTexture;
 
@@ -58,8 +56,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
-    var eyeMat = new BABYLON.StandardMaterial('colorSensorEye', scene);
-    eyeMat.diffuseColor = new BABYLON.Color3(0.9, 0.0, 0.0);
+    var eyeMat = babylon.getMaterial(scene, 'E60000');
     var eye = new BABYLON.MeshBuilder.CreateSphere('eye', {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
     eye.material = eyeMat;
     eye.position.z = 1.5;
@@ -305,8 +302,7 @@ function BoxBlock(scene, parent, pos, rot, options) {
   this.init = function() {
     self.setOptions(options);
 
-    var bodyMat = new BABYLON.StandardMaterial('boxBody', scene);
-    bodyMat.diffuseColor = new BABYLON.Color3(0.64, 0.81, 0.05);
+    var bodyMat = babylon.getMaterial(scene, 'A3CF0D');
     let bodyOptions = {
       height: self.options.height,
       width: self.options.width,
@@ -388,8 +384,6 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
     var bodyMat = new BABYLON.StandardMaterial('ultrasonicSensorBody', scene);
-    // bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.5);
-
     var bodyTexture = new BABYLON.Texture('textures/robot/ultrasonic.png', scene);
     bodyMat.diffuseTexture = bodyTexture;
 
@@ -412,8 +406,7 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     rearBody.position.z -= 0.25;
     rearBody.parent = body;
 
-    var eyeMat = new BABYLON.StandardMaterial('colorSensorEye', scene);
-    eyeMat.diffuseColor = new BABYLON.Color3(0.9, 0.0, 0.9);
+    var eyeMat = babylon.getMaterial(scene, 'E600E6');
 
     var eyeL = BABYLON.MeshBuilder.CreateCylinder('eyeL', { height: 0.5, diameter: 2, tessellation: 12}, scene);
     eyeL.material = eyeMat;
@@ -524,8 +517,6 @@ function GyroSensor(scene, parent, pos, port, options) {
     self.setOptions(options);
 
     var bodyMat = new BABYLON.StandardMaterial('gyroSensorBody', scene);
-    // bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.4, 0.2);
-
     var bodyTexture = new BABYLON.Texture('textures/robot/gyro.png', scene);
     bodyMat.diffuseTexture = bodyTexture;
 
@@ -626,8 +617,6 @@ function GPSSensor(scene, parent, pos, port, options) {
     self.setOptions(options);
 
     var bodyMat = new BABYLON.StandardMaterial('gpsSensorBody', scene);
-    // bodyMat.diffuseColor = new BABYLON.Color3(0.2, 0.4, 0.2);
-
     var bodyTexture = new BABYLON.Texture('textures/robot/gps.png', scene);
     bodyMat.diffuseTexture = bodyTexture;
 
@@ -758,8 +747,7 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
-    var attractorMat = new BABYLON.StandardMaterial('magnetActuatorAttractor', scene);
-    attractorMat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+    var attractorMat = babylon.getMaterial(scene, '808080');
 
     var attractor = BABYLON.MeshBuilder.CreateCylinder('magnetActuatorAttractor', { height: 1, diameter: 2, tessellation: 12}, scene);;
     self.attractor = attractor;
@@ -769,7 +757,6 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     scene.shadowGenerator.addShadowCaster(attractor);
 
     var rearBodyMat = new BABYLON.StandardMaterial('magnetActuatorRearBody', scene);
-    // rearBodyMat.diffuseColor = new BABYLON.Color3(0.5, 0.2, 0.2);
     var rearBodyTexture = new BABYLON.Texture('textures/robot/magnet.png', scene);
     rearBodyMat.diffuseTexture = rearBodyTexture;
 
@@ -959,8 +946,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
-    var armBaseMat = new BABYLON.StandardMaterial('armBase', scene);
-    armBaseMat.diffuseColor = new BABYLON.Color3(0.64, 0.61, 0.05);
+    var armBaseMat = babylon.getMaterial(scene, 'A39C0D')
 
     var armBase = BABYLON.MeshBuilder.CreateBox('armBase', {height: 3, width: 0.5, depth: 3}, scene);
     armBase.material = armBaseMat;
@@ -974,8 +960,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     armBase2.position.x = 0.75;
     scene.shadowGenerator.addShadowCaster(armBase2);
 
-    var pivotMat = new BABYLON.StandardMaterial('pivot', scene);
-    pivotMat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+    var pivotMat = babylon.getMaterial(scene, '808080');
 
     var pivot = BABYLON.MeshBuilder.CreateBox('pivot', {height: 0.5, width: 2.4, depth: 0.5}, scene);;
     self.pivot = pivot;
@@ -983,8 +968,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     pivot.position.y = 0.5;
     scene.shadowGenerator.addShadowCaster(pivot);
 
-    var armMat = new BABYLON.StandardMaterial('arm', scene);
-    armMat.diffuseColor = new BABYLON.Color3(0.64, 0.81, 0.05);
+    var armMat = babylon.getMaterial(scene, 'A3CF0D');
 
     var arm = BABYLON.MeshBuilder.CreateBox('arm', {height: 1, width: 1, depth: self.options.armLength}, scene);;
     self.arm = arm;
@@ -1356,8 +1340,7 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
   this.init = function() {
     self.setOptions(options);
 
-    var swivelBodyMat = new BABYLON.StandardMaterial('swivelBody', scene);
-    swivelBodyMat.diffuseColor = new BABYLON.Color3(0.64, 0.61, 0.05);
+    var swivelBodyMat = babylon.getMaterial(scene, 'A39C0D');
 
     var body = BABYLON.MeshBuilder.CreateBox('swivelBody', {height: 1, width: 3, depth: 3}, scene);
     self.body = body;
@@ -1368,8 +1351,7 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
-    var platformMat = new BABYLON.StandardMaterial('platform', scene);
-    platformMat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+    var platformMat = babylon.getMaterial(scene, '808080');
 
     var platform = BABYLON.MeshBuilder.CreateCylinder('platform', {height: 0.5, diameter: 2.5, tessellation:12}, scene);;
     self.platform = platform;
@@ -1616,11 +1598,8 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
 
     self.ammo = self.options.ammo;
 
-    var launcherBodyMat = new BABYLON.StandardMaterial('launcherBody', scene);
-    launcherBodyMat.diffuseColor = new BABYLON.Color3(0.8, 0.5, 0);
-
-    var launcherTubeMat = new BABYLON.StandardMaterial('launcherTube', scene);
-    launcherTubeMat.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    var launcherBodyMat = babylon.getMaterial(scene, 'CC8000');
+    var launcherTubeMat = babylon.getMaterial(scene, '333333');
 
     var body = BABYLON.MeshBuilder.CreateBox('launcherBody', {height: 2.5, width: 2, depth: 9}, scene);
     self.body = body;
@@ -1664,18 +1643,12 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
 
     // Paintball colors
     self.paintballColors = []
-    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[0].diffuseColor = new BABYLON.Color3(0, 1, 1);
-    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[1].diffuseColor = new BABYLON.Color3(0, 1, 0);
-    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[2].diffuseColor = new BABYLON.Color3(1, 1, 0);
-    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[3].diffuseColor = new BABYLON.Color3(1, 0, 0);
-    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[4].diffuseColor = new BABYLON.Color3(1, 0, 1);
-    self.paintballColors.push(new BABYLON.StandardMaterial('paintball', scene));
-    self.paintballColors[5].diffuseColor = new BABYLON.Color3(0, 0, 1);
+    self.paintballColors.push(babylon.getMaterial(scene, '0ff'));
+    self.paintballColors.push(babylon.getMaterial(scene, '0f0'));
+    self.paintballColors.push(babylon.getMaterial(scene, 'ff0'));
+    self.paintballColors.push(babylon.getMaterial(scene, 'f00'));
+    self.paintballColors.push(babylon.getMaterial(scene, 'f0f'));
+    self.paintballColors.push(babylon.getMaterial(scene, '00f'));
 
     // Paint splatter material
     self.splatterColors = [];

@@ -270,9 +270,7 @@ var world_Image = new function() {
       ground.rotation.y = Math.PI / 2;
 
       if (options.wall) {
-        var wallMat = new BABYLON.StandardMaterial('wallMat', scene);
-        wallMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-        wallMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+        var wallMat = babylon.getMaterial(scene, '1A1A1A');
 
         let wall1 = {
           height: options.wallHeight + 10,
@@ -365,49 +363,6 @@ var world_Image = new function() {
     });
   };
 
-  // Get material from rgba string, creating new if not existing
-  this.getMaterial = function(scene, rgba, defaultRgba=null) {
-    rgba = rgba.replace(/^#/g, '');
-    let color = new Array(4);
-
-    let existing = scene.getMaterialByID(rgba);
-    if (existing) {
-      return existing;
-    }
-
-    if (rgba.length == 3 || rgba.length == 4) {
-      color[0] = parseInt(rgba[0]+rgba[0], 16) / 255;
-      color[1] = parseInt(rgba[1]+rgba[1], 16) / 255;
-      color[2] = parseInt(rgba[2]+rgba[2], 16) / 255;
-    }
-
-    if (rgba.length == 6 || rgba.length == 8) {
-      color[0] = parseInt(rgba[0]+rgba[1], 16) / 255;
-      color[1] = parseInt(rgba[2]+rgba[3], 16) / 255;
-      color[2] = parseInt(rgba[4]+rgba[5], 16) / 255;
-    }
-
-    if (rgba.length == 4) {
-      color[3] = parseInt(rgba[3]+rgba[3], 16) / 255;
-    } else if (rgba.length == 8) {
-      color[3] = parseInt(rgba[6]+rgba[7], 16) / 255;
-    } else {
-      color[3] = 1;
-    }
-
-    for (tmp of color) {
-      if (! (tmp >= 0 && tmp <= 1)) {
-        return self.getMaterial(scene, defaultRgba);
-      }
-    }
-
-    let mat = new BABYLON.StandardMaterial(rgba, scene);
-    mat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
-    mat.alpha = color[3];
-
-    return mat;
-  };
-
   // Add obstacles
   this.addObstacles = function(scene, obstacles) {
     let obstacleMeshes = [];
@@ -426,7 +381,7 @@ var world_Image = new function() {
       if (obstacles[i][3]) {
         color = obstacles[i][3];
       }
-      let obstacleMat = self.getMaterial(scene, color, defaultColor);
+      let obstacleMat = babylon.getMaterial(scene, color);
 
       let obstacle = self.addBox(scene, obstacleMat, size, pos, false, true, true, rot);
       obstacleMeshes.push(obstacle);
@@ -460,7 +415,7 @@ var world_Image = new function() {
       if (magnetics[i][3]) {
         color = magnetics[i][3];
       }
-      let magneticMat = self.getMaterial(scene, color, defaultColor);
+      let magneticMat = babylon.getMaterial(scene, color);
 
       let magnetic = self.addBox(scene, magneticMat, size, pos, true, physicsOptions, true, rot);
       magneticMeshes.push(magnetic);
