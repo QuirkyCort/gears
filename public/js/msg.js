@@ -2,6 +2,8 @@ const MSGS = {
   '#blk-motion': {
     en: 'Motion',
     tlh: 'mo\'Qoq',
+    es: 'Movimiento',
+    fr: 'Mouvement',
   },
   '#blk-motor': {
     en: 'Motor',
