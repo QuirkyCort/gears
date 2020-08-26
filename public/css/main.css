@@ -37,7 +37,8 @@ header {
   header #projectName::placeholder {
     color: #95989A; }
   header .language {
-    margin-left: auto; }
+    margin-left: auto;
+    cursor: pointer; }
 
 .bold {
   font-weight: bold; }
