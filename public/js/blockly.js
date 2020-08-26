@@ -36,8 +36,8 @@ var blockly = new function() {
       return constants;
     };
 
-    let lang = readGET('lang');
-    if (!lang) {
+    let lang = localStorage.getItem('LANG');
+    if (!lang || lang == '' || lang == 'undefined') {
       lang = 'en';
     }
 

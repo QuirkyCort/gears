@@ -108,7 +108,7 @@ function Wheel(scene, options) {
     let wheelOptions = {
       height: options.wheelWidth,
       diameter: options.wheelDiameter,
-      tessellation: 12,
+      tessellation: 24,
       faceUV: faceUV
     };
 

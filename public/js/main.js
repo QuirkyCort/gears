@@ -37,20 +37,15 @@ var main = new function() {
       $('.menuDropDown').remove();
       e.stopPropagation();
 
-      const baseURL = window.location.href.split('?')[0];
-
-      function pageInLang(lang) {
-        if (typeof lang == 'undefined') {
-          window.location.href = baseURL;
-        } else {
-          window.location.href = baseURL + '?lang=' + lang;
-        }
+      function setLang(lang) {
+        localStorage.setItem('LANG', lang);
+        window.location.reload();
       }
 
       let menuItems = [
-        {html: 'English', line: false, callback: function() { pageInLang(); }},
-        {html: 'Español', line: false, callback: function() { pageInLang('es'); }},
-        {html: 'Français', line: false, callback: function() { pageInLang('fr'); }},
+        {html: 'English', line: false, callback: function() { setLang('en'); }},
+        {html: 'Español', line: false, callback: function() { setLang('es'); }},
+        {html: 'Français', line: false, callback: function() { setLang('fr'); }},
       ];
 
       menuDropDown(self.$languageMenu, menuItems, {className: 'languageMenuDropDown', align: 'right'});
