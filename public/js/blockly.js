@@ -36,13 +36,8 @@ var blockly = new function() {
       return constants;
     };
 
-    let lang = localStorage.getItem('LANG');
-    if (!lang || lang == '' || lang == 'undefined') {
-      lang = 'en';
-    }
-
     const script = document.createElement('script');
-    script.src = 'blockly/3.20200402.1/msg/' + lang + '.js';
+    script.src = 'blockly/3.20200402.1/msg/' + LANG + '.js';
     script.addEventListener('load', function() {
       self.loadCustomBlocks()
         .then(self.loadToolBox)
@@ -58,6 +53,7 @@ var blockly = new function() {
     return fetch('toolbox.xml?v=1598361165')
       .then(response => response.text())
       .then(function(response) {
+        response = i18n.replace(response);
         var xml = (new DOMParser()).parseFromString(response, "text/xml");
         options.toolbox = xml.getElementById('toolbox');
         self.workspace = Blockly.inject('blocklyHiddenDiv', options);
