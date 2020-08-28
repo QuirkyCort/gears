@@ -1,7 +1,7 @@
 var babylon = new function() {
   var self = this;
 
-  this.DISABLE_ASYNC = false;
+  this.DISABLE_ASYNC = true;
 
   this.world = worlds[0];
 
