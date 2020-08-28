@@ -8,95 +8,114 @@ const MSGS = {
   '#blk-motor': {
     en: 'Motor',
     tlh: 'nguSDI\'',
+    es: 'Motor',
     fr: 'Moteur',
   },
   '#blk-sensors': {
     en: 'Sensors',
     tlh: 'ghe\'\'or',
+    es: 'Sensores',
     fr: 'Capteurs',
   },
   '#blk-sound': {
     en: 'Sound',
     tlh: 'wab',
+    es: 'Sonido',
     fr: 'Sons',
   },
   '#blk-control': {
     en: 'Control',
     tlh: 'SeH',
+    es: 'Control',
     fr: 'Contrôle',
   },
   '#blk-logic': {
     en: 'Logic',
     tlh: 'wanl\'',
+    es: 'Logica',
     fr: 'Logique',
   },
   '#blk-loops': {
     en: 'Loops',
     tlh: 'QoQ',
+    es: 'Bucles',
     fr: 'Boucles',
   },
   '#blk-math': {
     en: 'Math',
     tlh: 'ma\'rIch',
+    es: 'Matematica',
     fr: 'Maths',
   },
   '#blk-text': {
     en: 'Text',
     tlh: 'wej',
+    es: 'Texto',
     fr: 'Texte',
   },
   '#blk-lists': {
     en: 'Lists',
     tlh: 'tlhegh',
+    es: 'Listas',
     fr: 'Listes',
   },
   '#blk-variables': {
     en: 'Variables',
     tlh: 'qeylIS',
+    es: 'Variables',
     fr: 'Variables',
   },
   '#blk-functions': {
     en: 'Functions',
     tlh: 'tlhaw\'DIyuS',
+    es: 'Funciones',
     fr: 'Fonctions',
   },
   '#blk-when_started': {
     en: 'When Started',
+    es: 'Al comenzar',
     fr: 'Au démarrage',
   },
   '#main-blocks': {
     en: 'Blocks',
     tlh: 'Porgh',
+    es: 'Bloques',
     fr: 'Blocs',
   },
   '#main-sim': {
     en: 'Simulator',
     tlh: 'ghertlhuD',
+    es: 'Simulador',
     fr: 'Simulateur',
   },
   '#main-file': {
     en: 'File',
     tlh: 'teywI\'',
+    es: 'Archivo',
     fr: 'Fichier',
   },
   '#main-robot': {
     en: 'Robot',
     tlh: 'qoq',
+    es: 'Robot',
     fr: 'Robot',
   },
   '#main-arena': {
     en: 'Arena',
     tlh: '\'anSa\'',
+    es: 'Pista',
     fr: 'Arène',
   },
   '#main-help': {
     en: 'Help',
     tlh: 'QaH',
+    es: 'Ayuda',
     fr: 'Aide',
   },
   '#main-arenaTitle': {
     en: 'GearsBot Arena',
     tlh: 'GearsBot \'anSa\'',
+    es: 'Pista GearsBot',
     fr: 'Arène GearsBot',
   },
   '#main-arenaDescription': {
@@ -108,6 +127,10 @@ const MSGS = {
       '<p>veSDuj Data\' \'e\' vIQoy.</p>' +
       '<p>tugh tlhIHtaHghach chutmey pabnIS. chol *ma\'rIgharet*, qaSpa\' je tlhIH.' +
       'tIqDu\'lIjDaq yIlan.</p>',
+    es:
+      '<p>La Pista GearsBot permite hasta 4 robots para competir o colaborar uno con el otro.</p>' +
+      '<p>Programa tu robot usando la página principal de GearsBot (...donde te encuentras ahora), y exporta tu programa y robot como un archivo zip. (Archivo -> Exportar Zip...).' +
+      'Entonces puedes cargar el archivo zip en la Pista GearsBot y ejecutarlo contra otros jugadores.</p>',
     fr:
       '<p>L\'arène GearsBot permet de faire collaborer ou de s\'affronter jusqu\'à 4 robots simultanément.</p>' +
       '<p>Programmez votre robot depuis la page principale (...celle-ci donc), et expoertez votre programme et votre robot comme un paquet zip (Fichier -> Export Zip...).' +
@@ -116,6 +139,7 @@ const MSGS = {
   '#main-arenaGo': {
     en: 'Go to Arena',
     tlh: 'yIghoS',
+    es: 'Ir a la Pista',
     fr: 'En route pour l\'arène',
   }
 };
