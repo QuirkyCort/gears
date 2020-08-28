@@ -38,7 +38,8 @@ header {
     color: #95989A; }
   header .language {
     margin-left: auto;
-    cursor: pointer; }
+    cursor: pointer;
+    user-select: none; }
 
 .bold {
   font-weight: bold; }
