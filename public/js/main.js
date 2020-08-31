@@ -35,12 +35,12 @@ var main = new function() {
 
   // Update text already in html
   this.updateTextLanguage = function() {
-    $('#navBlocks').text(i18n.get('#main-blocks'));
-    $('#navSim').text(i18n.get('#main-sim'));
-    self.$fileMenu.text(i18n.get('#main-file'));
-    self.$robotMenu.text(i18n.get('#main-robot'));
-    self.$arenaButton.text(i18n.get('#main-arena'));
-    self.$helpMenu.text(i18n.get('#main-help'));
+    $('#navBlocks').text(i18n.get('#main-blocks#'));
+    $('#navSim').text(i18n.get('#main-sim#'));
+    self.$fileMenu.text(i18n.get('#main-file#'));
+    self.$robotMenu.text(i18n.get('#main-robot#'));
+    self.$arenaButton.text(i18n.get('#main-arena#'));
+    self.$helpMenu.text(i18n.get('#main-help#'));
   };
 
   // Toggle language menu
@@ -68,9 +68,9 @@ var main = new function() {
   // Open a window with a link to the arena page
   this.arenaWindow = function() {
     let options = {
-      title: i18n.get('#main-arenaTitle'),
-      message: i18n.get('#main-arenaDescription'),
-      confirm: i18n.get('#main-arenaGo')
+      title: i18n.get('#main-arenaTitle#'),
+      message: i18n.get('#main-arenaDescription#'),
+      confirm: i18n.get('#main-arenaGo#')
     };
     confirmDialog(options, function(){
       self.openPage('arena.html');
@@ -168,7 +168,7 @@ var main = new function() {
         {html: 'Wiki', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears/wiki'); }},
         {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
         {html: 'What\'s New', line: false, callback: function() { self.showWhatsNew(true); }},
-        {html: 'About', line: false, callback: self.openAbout }
+        {html: i18n.get('#main-about#'), line: false, callback: self.openAbout }
       ];
 
       menuDropDown(self.$helpMenu, menuItems, {className: 'helpMenuDropDown'});
@@ -218,7 +218,7 @@ var main = new function() {
       '<button type="button" class="confirm btn-success">Ok</button>'
     );
 
-    let $dialog = dialog('Select Robot', $body, $buttons);
+    let $dialog = dialog(i18n.get('#main-select_robot#'), $body, $buttons);
 
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
@@ -239,10 +239,10 @@ var main = new function() {
     let rot = Math.round(angles.y / Math.PI * 1800) / 10;
 
     acknowledgeDialog({
-      title: 'Robot Position',
+      title: i18n.get('#main-robot_position#'),
       message: $(
-        '<p>Position: ' + x + ', ' + y + '</p>' +
-        '<p>Rotation: ' + rot + ' degrees</p>'
+        '<p>' + i18n.get('#main-position#') + ': ' + x + ', ' + y + '</p>' +
+        '<p>' + i18n.get('#main-rotation#') + ': ' + rot + ' ' + i18n.get('#main-degrees#') + '</p>'
       )
     })
   };
@@ -257,13 +257,13 @@ var main = new function() {
     if (typeof babylon.world.defaultOptions.startPosXY != 'undefined') {
       babylon.world.options.startPosXY = x + ',' +y;
     } else {
-      toastMsg('Current world doesn\'t allow saving of position');
+      toastMsg(i18n.get('#main-cannot_save_position#'));
       return;
     }
     if (typeof babylon.world.defaultOptions.startRot != 'undefined') {
       babylon.world.options.startRot = rot.toString();
     } else {
-      toastMsg('Current world doesn\'t allow saving of rotation');
+      toastMsg(i18n.get('#main-cannot_save_rotation#'));
     }
     babylon.world.setOptions();
   };
@@ -282,11 +282,9 @@ var main = new function() {
   // Open a window with a link to the robot configurator page
   this.configuratorWindow = function() {
     let options = {
-      title: 'GearsBot Robot Configurator',
-      message:
-        '<p>The GearsBot Robot Configurator allows you to customize an existing robot or create a new robot design.</p>' +
-        '<p>After you have completed your customization, save your creation to file and return here to load it.</p>',
-      confirm: 'Go to Configurator'
+      title: i18n.get('#main-configurator_title#'),
+      message: i18n.get('#main-configurator_description#'),
+      confirm: i18n.get('#main-configurator_go#')
     };
     confirmDialog(options, function(){
       self.openPage('configurator.html');
@@ -300,13 +298,13 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'Select Robot', line: false, callback: self.selectRobot},
-        {html: 'Robot Configurator (experimental)', line: true, callback: self.configuratorWindow},
-        {html: 'Load from file', line: false, callback: self.loadRobot},
-        {html: 'Save to file', line: true, callback: self.saveRobot},
-        {html: 'Display current position', line: false, callback: self.displayPosition},
-        {html: 'Save current position to settings', line: false, callback: self.savePosition},
-        {html: 'Clear position in settings', line: false, callback: self.clearPosition},
+        {html: i18n.get('#main-select_robot#'), line: false, callback: self.selectRobot},
+        {html: i18n.get('#main-robot_configurator#'), line: true, callback: self.configuratorWindow},
+        {html: i18n.get('#main-robot_load_file#'), line: false, callback: self.loadRobot},
+        {html: i18n.get('#main-robot_save_file#'), line: true, callback: self.saveRobot},
+        {html: i18n.get('#main-display_position#'), line: false, callback: self.displayPosition},
+        {html: i18n.get('#main-save_position#'), line: false, callback: self.savePosition},
+        {html: i18n.get('#main-clear_position#'), line: false, callback: self.clearPosition},
       ];
 
       menuDropDown(self.$robotMenu, menuItems, {className: 'robotMenuDropDown'});
@@ -354,13 +352,13 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'New Program', line: true, callback: self.newProgram},
-        {html: 'Load blocks from your computer', line: false, callback: self.loadFromComputer},
-        {html: 'Import functions from blocks file', line: false, callback: self.importFunctionsFromFile},
-        {html: 'Save blocks to your computer', line: true, callback: self.saveToComputer},
-        {html: 'Load Python from your computer', line: false, callback: self.loadPythonFromComputer},
-        {html: 'Save Python to your computer', line: true, callback: self.savePythonToComputer},
-        {html: 'Export zip package to your computer', line: true, callback: self.saveZipToComputer},
+        {html: i18n.get('#main-new_program#'), line: true, callback: self.newProgram},
+        {html: i18n.get('#main-load_blocks#'), line: false, callback: self.loadFromComputer},
+        {html: i18n.get('#main-import_functions#'), line: false, callback: self.importFunctionsFromFile},
+        {html: i18n.get('#main-save_blocks#'), line: true, callback: self.saveToComputer},
+        {html: i18n.get('#main-load_python#'), line: false, callback: self.loadPythonFromComputer},
+        {html: i18n.get('#main-save_python#'), line: true, callback: self.savePythonToComputer},
+        {html: i18n.get('#main-export_zip#'), line: true, callback: self.saveZipToComputer},
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
@@ -369,7 +367,7 @@ var main = new function() {
 
   // New program
   this.newProgram = function() {
-    confirmDialog('Starting a new program will cause all unsaved work to be lost.', function() {
+    confirmDialog(i18n.get('#main-start_new_warning#'), function() {
       blockly.loadDefaultWorkspace();
       pythonPanel.modified = false;
       localStorage.setItem('pythonModified', false);
@@ -427,7 +425,7 @@ var main = new function() {
       var reader = new FileReader();
       reader.onload = function() {
         blockly.importXmlTextFunctions(this.result);
-        toastMsg('Functions imported');
+        toastMsg(i18n.get('#main-functions_imported'));
       };
       reader.readAsText(e.target.files[0]);
     });
