@@ -259,11 +259,77 @@ let MSGS = {
     es: 'Archivo',
     fr: 'Fichier',
   },
+  '#main-new_program#': {
+    en: 'New Program',
+  },
+  '#main-load_blocks#': {
+    en: 'Load blocks from your computer',
+  },
+  '#main-import_functions#': {
+    en: 'Import functions from blocks file',
+  },
+  '#main-save_blocks#': {
+    en: 'Save blocks to your computer',
+  },
+  '#main-load_python#': {
+    en: 'Load Python from your computer',
+  },
+  '#main-save_python#': {
+    en: 'Save Python to your computer',
+  },
+  '#main-export_zip#': {
+    en: 'Export zip package to your computer',
+  },
+  '#main-start_new_warning#': {
+    en: 'Starting a new program will cause all unsaved work to be lost.',
+  },
+  '#main-functions_imported': {
+    en: 'Functions imported',
+  },
   '#main-robot#': {
     en: 'Robot',
     tlh: 'qoq',
     es: 'Robot',
     fr: 'Robot',
+  },
+  '#main-select_robot#': {
+    en: 'Select Robot',
+  },
+  '#main-robot_configurator#': {
+    en: 'Robot Configurator (experimental)',
+  },
+  '#main-robot_load_file#': {
+    en: 'Load from file',
+  },
+  '#main-robot_save_file#': {
+    en: 'Save to file',
+  },
+  '#main-display_position#': {
+    en: 'Display current position',
+  },
+  '#main-save_position#': {
+    en: 'Save current position to settings',
+  },
+  '#main-clear_position#': {
+    en: 'Clear position in settings',
+  },
+  '#main-robot_position#': {
+    en: 'Robot Position',
+  },
+  '#main-position#': {
+    en: 'Position',
+  },
+  '#main-rotation#': {
+    en: 'Rotation',
+  },
+  '#main-degrees#': {
+    en: 'degrees',
+  },
+  '#main-cannot_save_position#': {
+    en: 'Current world doesn\'t allow saving of position',
+  },
+  '#main-cannot_save_rotation#': {
+    en: 'Current world doesn\'t allow saving of rotation',
   },
   '#main-arena#': {
     en: 'Arena',
@@ -276,6 +342,9 @@ let MSGS = {
     tlh: 'QaH',
     es: 'Ayuda',
     fr: 'Aide',
+  },
+  '#main-about#': {
+    en: 'About',
   },
   '#main-arenaTitle#': {
     en: 'GearsBot Arena',
@@ -306,7 +375,202 @@ let MSGS = {
     tlh: 'yIghoS',
     es: 'Ir a la Pista',
     fr: 'En route pour l\'arène',
-  }
+  },
+  '#main-configurator_title#': {
+    en: 'GearsBot Robot Configurator'
+  },
+  '#main-configurator_description#': {
+    en:
+      '<p>The GearsBot Robot Configurator allows you to customize an existing robot or create a new robot design.</p>' +
+      '<p>After you have completed your customization, save your creation to file and return here to load it.</p>',
+  },
+  '#main-configurator_go#': {
+    en: 'Go to Configurator',
+  },
+  '#sim-world#': {
+    en: 'World',
+  },
+  '#sim-reset#': {
+    en: 'Reset',
+  },
+  '#sim-sensors#': {
+    en: 'Sensors',
+  },
+  '#sim-follow#': {
+    en: 'Follow',
+  },
+  '#sim-top#': {
+    en: 'Top',
+  },
+  '#sim-arc#': {
+    en: 'Arc',
+  },
+  '#sim-alt#': {
+    en: 'Alt', // Short for altitude
+  },
+  '#sim-distance#': {
+    en: 'Distance',
+  },
+  '#sim-angle#': {
+    en: 'Angle',
+  },
+  '#sim-color_sensor#': {
+    en: 'Color Sensor',
+  },
+  '#sim-red#': {
+    en: 'Red',
+  },
+  '#sim-green#': {
+    en: 'Green',
+  },
+  '#sim-blue#': {
+    en: 'Blue',
+  },
+  '#sim-intensity#': {
+    en: 'Intensity (%)',
+  },
+  '#sim-ultrasonic#': {
+    en: 'Ultrasonic Sensor',
+  },
+  '#sim-distance#': {
+    en: 'Distance',
+  },
+  '#sim-gyro#': {
+    en: 'Gyro Sensor',
+  },
+  '#sim-angle#': {
+    en: 'Angle (degrees)',
+  },
+  '#sim-gps#': {
+    en: 'GPS Sensor',
+  },
+  '#sim-altitude#': {
+    en: 'Altitude (cm)',
+  },
+  '#sim-laser#': {
+    en: 'Laser Range Sensor',
+  },
+  '#sim-left_motor#': {
+    en: 'Left Motor',
+  },
+  '#sim-position#': {
+    en: 'Position (degrees)',
+  },
+  '#sim-right_motor#': {
+    en: 'Right Motor',
+  },
+  '#sim-arm#': {
+    en: 'Arm Actuator',
+  },
+  '#sim-swivel#': {
+    en: 'Swivel Actuator',
+  },
+  '#sim-paintball#': {
+    en: 'Paintball Launcher Actuator',
+  },
+  '#sim-save#': {
+    en: 'Save',
+  },
+  '#sim-load#': {
+    en: 'Load',
+  },
+  '#sim-default#': {
+    en: 'Default',
+  },
+  '#sim-cancel#': {
+    en: 'Cancel',
+  },
+  '#sim-ok#': {
+    en: 'Ok',
+  },
+  '#sim-select_world#': {
+    en: 'Select World',
+  },
+  '#sim-invalid_map#': {
+    en: 'Invalid map configurations',
+  },
+  '#blockly-save#': {
+    en: 'Save Now',
+  },
+  '#blockly-add_page#': {
+    en: 'Add Page',
+  },
+  '#blockly-copy_page#': {
+    en: 'Copy Current Page',
+  },
+  '#blockly-rename_page#': {
+    en: 'Rename Current Page',
+  },
+  '#blockly-delete_page#': {
+    en: 'Delete Current Page',
+  },
+  '#blockly-new_page_name#': {
+    en: 'New page name',
+  },
+  '#blockly-page_name#': {
+    en: 'Page name',
+  },
+  '#blockly-is_in_use#': {
+    en: 'is already in use',
+  },
+  '#blockly-page#': {
+    en: 'Page',
+  },
+  '#blockly-added#': {
+    en: 'added',
+  },
+  '#blockly-copy_to_page_name#': {
+    en: 'Copy to page name',
+  },
+  '#blockly-copied_to#': {
+    en: 'copied to',
+  },
+  '#blockly-cannot_rename_main#': {
+    en: 'Cannot rename Main page',
+  },
+  '#blockly-new_page_name#': {
+    en: 'New page name',
+  },
+  '#blockly-is_in_use#': {
+    en: 'is already in use',
+  },
+  '#blockly-cannot_delete_main#': {
+    en: 'Cannot delete Main page',
+  },
+  '#blockly-delete#': {
+    en: 'Delete',
+  },
+  '#blockly-all_blocks_lost_warning#': {
+    en: 'All blocks on page will be lost.',
+  },
+  '#blockly-enable_blocks#': {
+    en: 'Enable Blocks Mode',
+  },
+  '#blockly-python_lost_warning#': {
+    en: 'Enabling blocks mode will cause all Python changes to be lost.',
+  },
+  '#python-save#': {
+    en: 'Save Now',
+  },
+  '#python-warning#': {
+    en: 'Warning!',
+  },
+  '#python-cannot_change_back_warning#': {
+    en: 'Changes to Python code cannot be converted back into blocks!',
+  },
+  '#python-#': {
+    en: '',
+  },
+  '#python-#': {
+    en: '',
+  },
+  '#python-#': {
+    en: '',
+  },
+  '#python-#': {
+    en: '',
+  },
+  
 };
 const MSGS_KEYS = Object.keys(MSGS);
 

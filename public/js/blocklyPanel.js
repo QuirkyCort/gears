@@ -7,12 +7,19 @@ var blocklyPanel = new function() {
     self.$save = $('.saveBlockly');
     self.$pagesMenu = $('#blocklyPages');
 
+    self.updateTextLanguage();
+
     self.$save.click(self.save);
     self.$pagesMenu.click(self.togglePagesMenu);
 
     self.loadPagesOptions();
 
     setInterval(blockly.saveLocalStorage, 15 * 1000);
+  };
+
+  // Update text already in html
+  this.updateTextLanguage = function() {
+    self.$save.text(i18n.get('#blockly-save#'));
   };
 
   // Load pages options menu. This is used here and by blockly.js when loading a save.
@@ -46,10 +53,10 @@ var blocklyPanel = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'Add Page', line: false, callback: self.addPage},
-        {html: 'Copy Current Page', line: false, callback: self.copyCurrentPage},
-        {html: 'Rename Current Page', line: false, callback: self.renameCurrentPage},
-        {html: 'Delete Current Page', line: true, callback: self.deleteCurrentPage}
+        {html: i18n.get('#blockly-add_page#'), line: false, callback: self.addPage},
+        {html: i18n.get('#blockly-copy_page#'), line: false, callback: self.copyCurrentPage},
+        {html: i18n.get('#blockly-rename_page#'), line: false, callback: self.renameCurrentPage},
+        {html: i18n.get('#blockly-delete_page#'), line: true, callback: self.deleteCurrentPage}
       ];
 
       for (let i=0; i<self.pages.length; i++) {
@@ -62,7 +69,7 @@ var blocklyPanel = new function() {
 
   // Add a new page
   this.addPage = function($li) {
-    var newPage = prompt('New page name');
+    var newPage = prompt(i18n.get('#blockly-new_page_name#'));
     if (!newPage) {
       return;
     }
@@ -73,17 +80,17 @@ var blocklyPanel = new function() {
     }
 
     if (self.pages.filter(page => page == newPage).length > 0) {
-      toastMsg('Page name "' + newPage + '" is already in use.');
+      toastMsg(i18n.get('#blockly-page_name#') + ' "' + newPage + '" ' + i18n.get('#blockly-is_in_use#'));
       return;
     }
     self.pages.push(newPage);
     self.loadPage(newPage);
-    toastMsg('Page "' + newPage + '" added.');
+    toastMsg(i18n.get('#blockly-page#') + ' "' + newPage + '" ' + i18n.get('#blockly-added#'));
   };
 
   // Copy page
   this.copyCurrentPage = function() {
-    var destinationName = prompt('Copy to page name', self.currentPage);
+    var destinationName = prompt(i18n.get('#blockly-copy_to_page_name#'), self.currentPage);
     if (!destinationName) {
       return;
     }
@@ -98,18 +105,18 @@ var blocklyPanel = new function() {
     }
     blockly.assignOrphenToPage(self.currentPage);
     blockly.copyPage(self.currentPage, destinationName);
-    toastMsg('Page "' + self.currentPage + '" copied to "' + destinationName + '".');
+    toastMsg(i18n.get('#blockly-page#') + ' "' + self.currentPage + '" ' + i18n.get('#blockly-copied_to#') + ' "' + destinationName + '".');
     self.loadPage(destinationName);
   };
 
   // Rename page
   this.renameCurrentPage = function() {
     if (self.currentPage == 'Main') {
-      toastMsg('Cannot rename Main page');
+      toastMsg(i18n.get('#blockly-cannot_rename_main#'));
       return;
     }
 
-    var newName = prompt('New page name', self.currentPage);
+    var newName = prompt(i18n.get('#blockly-new_page_name#'), self.currentPage);
     if (!newName) {
       return;
     }
@@ -119,7 +126,7 @@ var blocklyPanel = new function() {
       return;
     }
     if (self.pages.filter(page => page == newName).length > 0) {
-      toastMsg('Page name "' + newName + '" is already in use.');
+      toastMsg(i18n.get('#blockly-page_name#') + ' "' + newName + '" ' + i18n.get('#blockly-is_in_use#'));
       return;
     }
 
@@ -132,11 +139,11 @@ var blocklyPanel = new function() {
   // Delete current page
   this.deleteCurrentPage = function() {
     if (self.currentPage == 'Main') {
-      toastMsg('Cannot delete Main page');
+      toastMsg(i18n.get('#blockly-cannot_delete_main#'));
       return;
     }
 
-    confirmDialog('Delete "' + self.currentPage + '" page? All blocks on page will be lost.', function(){
+    confirmDialog(i18n.get('#blockly-delete#') + ' "' + self.currentPage + '"? ' + i18n.get('#blockly-all_blocks_lost_warning#'), function(){
       self.pages = self.pages.filter(page => page != self.currentPage);
       blockly.assignOrphenToPage(self.currentPage);
       blockly.deleteAllInPage(self.currentPage);
@@ -176,7 +183,7 @@ var blocklyPanel = new function() {
   this.setDisable = function(state) {
     if (state == true) {
       if (self.$panel.find('.disable').length < 1) {
-        self.$panel.append('<div class="disable"><div class="enable">Enable Blocks Mode</div></div>');
+        self.$panel.append('<div class="disable"><div class="enable">' + i18n.get('#blockly-enable_blocks#') + '</div></div>');
         if (Blockly.selected) {
           Blockly.selected.unselect();
         }
@@ -193,7 +200,7 @@ var blocklyPanel = new function() {
 
   // Re-enable blocks mode
   this.enableBlocks = function(){
-    confirmDialog('Enabling blocks mode will cause all Python changes to be lost.', function(){
+    confirmDialog(i18n.get('#blockly-python_lost_warning#'), function(){
       pythonPanel.modified = false;
       localStorage.setItem('pythonModified', false);
       self.setDisable(false);

@@ -9,11 +9,18 @@ var pythonPanel = new function() {
   this.init = function() {
     self.$save = $('.savePython');
 
+    self.updateTextLanguage();
+
     self.$save.click(self.save);
 
     self.loadPythonEditor();
   };
 
+  // Update text already in html
+  this.updateTextLanguage = function() {
+    self.$save.text(i18n.get('#python-save#'));
+  };
+  
   // Runs when panel is made active
   this.onActive = function() {
     if (self.modified == false) {
@@ -71,8 +78,8 @@ var pythonPanel = new function() {
 
     if (! self.modified) {
       acknowledgeDialog({
-        title: 'Warning!',
-        message: 'Changes to Python code cannot be converted back into blocks!'
+        title: i18n.get('#python-warning#'),
+        message: i18n.get('#python-cannot_change_back_warning#')
       });
       self.modified = true;
     }

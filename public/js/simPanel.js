@@ -33,6 +33,8 @@ var simPanel = new function() {
     self.$camera.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
 
+    self.updateTextLanguage();
+
     self.initSensorsPanel();
 
     self.$ruler[0].addEventListener('pointerup', function(e){
@@ -60,6 +62,14 @@ var simPanel = new function() {
     setInterval(self.displayMeasurements, 50);
 
     self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
+  };
+
+  // Update text already in html
+  this.updateTextLanguage = function() {
+    self.$world.text(i18n.get('#sim-world#'));
+    self.$reset.text(i18n.get('#sim-reset#'));
+    self.$sensors.text(i18n.get('#sim-sensors#'));
+    self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-follow#'));
   };
 
   // toggle ruler
@@ -128,9 +138,9 @@ var simPanel = new function() {
 
     self.$ruler.find('.x').text('X: ' + x + ' cm');
     self.$ruler.find('.y').text('Y: ' + z + ' cm');
-    self.$ruler.find('.alt').text('Alt: ' + y + ' cm');
-    self.$ruler.find('.dist').text('Distance: ' + dist + ' cm');
-    self.$ruler.find('.angle').text('Angle: ' + angle + '°');
+    self.$ruler.find('.alt').text(i18n.get('#sim-alt#') + ': ' + y + ' cm');
+    self.$ruler.find('.dist').text(i18n.get('#sim-distance#') + ': ' + dist + ' cm');
+    self.$ruler.find('.angle').text(i18n.get('#sim-angle#') + ': ' + angle + '°');
   };
 
   // Record ruler measurements
@@ -231,15 +241,30 @@ var simPanel = new function() {
     while (sensor = robot.getComponentByPort('in' + i)) {
       let tmp = null;
       if (sensor.type == 'ColorSensor') {
-        tmp = genDiv(sensor.port + ': Color Sensor', ['Red', 'Green', 'Blue', 'Intensity (%)']);
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-color_sensor#'),
+          [i18n.get('#sim-red#'), i18n.get('#sim-green#'), i18n.get('#sim-blue#'), i18n.get('#sim-intensity#')]
+        );
       } else if (sensor.type == 'UltrasonicSensor') {
-        tmp = genDiv(sensor.port + ': Ultrasonic Sensor', ['Distance (cm)']);
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-ultrasonic#'), 
+          [i18n.get('#sim-distance#') + ' (cm)']
+        );
       } else if (sensor.type == 'GyroSensor') {
-        tmp = genDiv(sensor.port + ': Gyro Sensor', ['Angle (degrees)']);
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-gyro#'), 
+          [i18n.get('#sim-angle#')]
+        );
       } else if (sensor.type == 'GPSSensor') {
-        tmp = genDiv(sensor.port + ': GPS Sensor', ['X (cm)', 'Y (cm)', 'Altitude (cm)']);
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-gps#'),
+          ['X (cm)', 'Y (cm)', i18n.get('#sim-altitude#')]
+        );
       } else if (sensor.type == 'LaserRangeSensor') {
-        tmp = genDiv(sensor.port + ': Laser Range Sensor', ['Distance (cm)']);
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-laser#'),
+          [i18n.get('#sim-distance#') + ' (cm)']
+        );
       } else {
         console.log(sensor);
       }
@@ -251,10 +276,16 @@ var simPanel = new function() {
       i++;
     }
 
-    let tmp = genDiv('outA: Left Motor', ['Position (degrees)']);
+    let tmp = genDiv(
+      'outA: ' + i18n.get('#sim-left_motor#'), 
+      [i18n.get('#sim-position#')]
+    );
     self.$sensorsPanel.append(tmp[0]);
     self.sensors.push([robot.leftWheel, tmp[1]]);
-    tmp = genDiv('outB: Right Motor', ['Position (degrees)']);
+    tmp = genDiv(
+      'outB: ' + i18n.get('#sim-right_motor#'),
+      [i18n.get('#sim-position#')]
+    );
     self.$sensorsPanel.append(tmp[0]);
     self.sensors.push([robot.rightWheel, tmp[1]]);
 
@@ -263,11 +294,20 @@ var simPanel = new function() {
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'ArmActuator') {
-        tmp = genDiv(motor.port + ': Arm Actuator', ['Position (degrees)']);
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-arm#'), 
+          [i18n.get('#sim-position#')]
+          );
       } else if (motor.type == 'SwivelActuator') {
-        tmp = genDiv(motor.port + ': Swivel Actuator', ['Position (degrees)']);
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-swivel#'), 
+          [i18n.get('#sim-position#')]
+          );
       } else if (motor.type == 'PaintballLauncherActuator') {
-        tmp = genDiv(motor.port + ': Paintball Launcher Actuator', ['Position (degrees)']);
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-paintball#'), 
+          [i18n.get('#sim-position#')]
+          );
       }
 
       if (tmp) {
@@ -323,15 +363,15 @@ var simPanel = new function() {
   this.switchCamera = function() {
     if (babylon.cameraMode == 'arc') {
       babylon.setCameraMode('follow');
-      self.$camera.html('<span class="icon-camera"></span> Follow');
+      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-follow#'));
 
     } else if (babylon.cameraMode == 'follow') {
       babylon.setCameraMode('orthoTop');
-      self.$camera.html('<span class="icon-camera"></span> Top');
+      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-top#'));
 
     } else if (babylon.cameraMode == 'orthoTop') {
       babylon.setCameraMode('arc');
-      self.$camera.html('<span class="icon-camera"></span> Arc');
+      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-arc#'));
     }
   };
 
@@ -562,14 +602,14 @@ var simPanel = new function() {
     });
 
     let $buttons = $(
-      '<button type="button" class="save btn-light">Save</button>' +
-      '<button type="button" class="load push-left btn-light">Load</button>' +
-      '<button type="button" class="default btn-light">Default</button>' +
-      '<button type="button" class="cancel btn-light">Cancel</button>' +
-      '<button type="button" class="confirm btn-success">Ok</button>'
+      '<button type="button" class="save btn-light">' + i18n.get('#sim-save#') + '</button>' +
+      '<button type="button" class="load push-left btn-light">' + i18n.get('#sim-load#') + '</button>' +
+      '<button type="button" class="default btn-light">' + i18n.get('#sim-default#') + '</button>' +
+      '<button type="button" class="cancel btn-light">' + i18n.get('#sim-cancel#') + '</button>' +
+      '<button type="button" class="confirm btn-success">' + i18n.get('#sim-ok#') + '</button>'
     );
 
-    let $dialog = dialog('Select World', $body, $buttons);
+    let $dialog = dialog(i18n.get('#sim-select_world#'), $body, $buttons);
 
     $buttons.siblings('.save').click(function() {
       let world = worlds.find(world => world.name == $select.val());
@@ -598,7 +638,7 @@ var simPanel = new function() {
           let world = worlds.find(world => world.name == loadedSave.worldName);
 
           if (typeof world == 'undefined') {
-            toastMsg('Invalid map configurations');
+            toastMsg(i18n.get('#sim-invalid_map#'));
             return;
           }
 
