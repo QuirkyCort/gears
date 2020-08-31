@@ -1,226 +1,289 @@
-const MSGS = {
-  '#blk-motion': {
+let MSGS = {
+  '#blk-motion#': {
     en: 'Motion',
     tlh: 'mo\'Qoq',
     es: 'Movimiento',
     fr: 'Mouvement',
   },
-  '#blk-motor': {
+  '#blk-motor#': {
     en: 'Motor',
     tlh: 'nguSDI\'',
     es: 'Motor',
     fr: 'Moteur',
   },
-  '#blk-sensors': {
+  '#blk-sensors#': {
     en: 'Sensors',
     tlh: 'ghe\'\'or',
     es: 'Sensores',
     fr: 'Capteurs',
   },
-  '#blk-sound': {
+  '#blk-sound#': {
     en: 'Sound',
     tlh: 'wab',
     es: 'Sonido',
     fr: 'Sons',
   },
-  '#blk-control': {
+  '#blk-control#': {
     en: 'Control',
     tlh: 'SeH',
     es: 'Control',
     fr: 'Contrôle',
   },
-  '#blk-logic': {
+  '#blk-logic#': {
     en: 'Logic',
     tlh: 'wanl\'',
     es: 'Logica',
     fr: 'Logique',
   },
-  '#blk-loops': {
+  '#blk-loops#': {
     en: 'Loops',
     tlh: 'QoQ',
     es: 'Bucles',
     fr: 'Boucles',
   },
-  '#blk-math': {
+  '#blk-math#': {
     en: 'Math',
     tlh: 'ma\'rIch',
     es: 'Matematica',
     fr: 'Maths',
   },
-  '#blk-text': {
+  '#blk-text#': {
     en: 'Text',
     tlh: 'wej',
     es: 'Texto',
     fr: 'Texte',
   },
-  '#blk-lists': {
+  '#blk-lists#': {
     en: 'Lists',
     tlh: 'tlhegh',
     es: 'Listas',
     fr: 'Listes',
   },
-  '#blk-variables': {
+  '#blk-variables#': {
     en: 'Variables',
     tlh: 'qeylIS',
     es: 'Variables',
     fr: 'Variables',
   },
-  '#blk-functions': {
+  '#blk-functions#': {
     en: 'Functions',
     tlh: 'tlhaw\'DIyuS',
     es: 'Funciones',
     fr: 'Fonctions',
   },
-  '#blk-when_started': {
+  '#blk-when_started#': {
     en: 'When Started',
     es: 'Al comenzar',
     fr: 'Au démarrage',
   },
-  '#blk-sleep_for': {
+  '#blk-sleep_for#': {
     en: 'sleep for',
   },
-  '#blk-seconds': {
+  '#blk-seconds#': {
     en: 'seconds',
   },
-  '#blk-milliseconds': {
+  '#blk-milliseconds#': {
     en: 'milliseconds',
   },
-  '#blk-stop_moving_and': {
+  '#blk-stop_moving_and#': {
     en: 'stop moving and',
   },
-  '#blk-brake': {
+  '#blk-brake#': {
     en: 'brake',
   },
-  '#blk-coast': {
+  '#blk-coast#': {
     en: 'coast',
   },
-  '#blk-hold': {
+  '#blk-hold#': {
     en: 'hold',
   },
-  '#blk-stop_motor_on_port': {
+  '#blk-stop_motor_on_port#': {
     en: 'stop motor on port',
   },
-  '#blk-and': {
+  '#blk-and#': {
     en: 'and',
   },
-  '#blk-move_steering_with_direction': {
+  '#blk-move_steering_with_direction#': {
     en: 'move steering with direction',
   },
-  '#blk-and_speed': {
+  '#blk-and_speed#': {
     en: 'and speed',
   },
-  '#blk-degrees': {
+  '#blk-degrees#': {
     en: 'degrees',
   },
-  '#blk-rotations': {
+  '#blk-rotations#': {
     en: 'rotations',
   },
-  '#blk-move_steering_tooltip': {
+  '#blk-move_steering_tooltip#': {
     en: 'direction ranges from -100 (left) to 0 (straight) to 100 (right)',
   },
-  '#blk-for': {
+  '#blk-for#': {
     en: 'for',
   },
-  '#blk-exit_program': {
+  '#blk-exit_program#': {
     en: 'exit program',
   },
-  '#blk-position_of_motor_on_port': {
+  '#blk-position_of_motor_on_port#': {
     en: 'position of motor on port',
   },
-  '#blk-in_degrees': {
+  '#blk-in_degrees#': {
     en: 'in degrees',
   },
-  '#blk-speed_of_motor_on_port': {
+  '#blk-speed_of_motor_on_port#': {
     en: 'speed of motor on port',
   },
-  '#blk-reset_position_of_motor_on_port': {
+  '#blk-reset_position_of_motor_on_port#': {
     en: 'reset position of motor on port',
   },
-  '#blk-both_wheels': {
+  '#blk-both_wheels#': {
     en: 'Both wheels',
   },
-  '#blk-left_wheel': {
+  '#blk-left_wheel#': {
     en: 'Left Wheel',
   },
-  '#blk-right_wheel': {
+  '#blk-right_wheel#': {
     en: 'Right Wheel',
   },
-  '#blk-move_tank_with_left_speed': {
+  '#blk-move_tank_with_left_speed#': {
     en: 'move tank with left speed',
   },
-  '#blk-and_right_speed': {
+  '#blk-and_right_speed#': {
     en: 'and right speed',
   },
-  '#blk-color_sensor': {
+  '#blk-color_sensor#': {
     en: 'color_sensor',
   },
-  '#blk-on_port': {
+  '#blk-on_port#': {
     en: 'on port',
   },
-  '#blk-reflected_light_intensity': {
+  '#blk-reflected_light_intensity#': {
     en: 'reflected light intensity',
   },
-  '#blk-color': {
+  '#blk-color#': {
     en: 'color',
   },
-  '#blk-color_name': {
+  '#blk-color_name#': {
     en: 'color name',
   },
-  '#blk-red': {
+  '#blk-red#': {
     en: 'red',
   },
-  '#blk-green': {
+  '#blk-green#': {
     en: 'green',
   },
-  '#blk-blue': {
+  '#blk-blue#': {
     en: 'blue',
   },
-  '#blk-rgb': {
+  '#blk-rgb#': {
     en: 'rgb (list)',
   },
-  '#main-blocks': {
+  '#blk-ultrasonic_distance_on_port#': {
+    en: 'ultrasonic distance on port',
+  },
+  '#blk-in#': {
+    en: 'in',
+  },
+  '#blk-gyro#': {
+    en: 'gyro',
+  },
+  '#blk-angle#': {
+    en: 'angle',
+  },
+  '#blk-rate#': {
+    en: 'rate',
+  },
+  '#blk-reset_gyro_on_port#': {
+    en: 'reset gyro on port',
+  },
+  '#blk-run_motor_on_port#': {
+    en: 'run motor on port',
+  },
+  '#blk-at#': {
+    en: 'at',
+  },
+  '#blk-run_motor_tooltip#': {
+    en: 'motor will continue running until given a different command',
+  },
+  '#blk-to_position#': {
+    en: 'to position',
+  },
+  '#blk-say#': {
+    en: 'say',
+  },
+  '#blk-and_dont_wait#': {
+    en: 'and don\'t wait',
+  },
+  '#blk-and_wait#': {
+    en: 'and wait for completion',
+  },
+  '#blk-say_tooltip#': {
+    en: 'Speak the string using text-to-speech',
+  },
+  '#blk-beep#': {
+    en: 'beep',
+  },
+  '#blk-play_tone_at#': {
+    en: 'play tone at',
+  },
+  '#blk-time#': {
+    en: 'time',
+  },
+  '#blk-time_tooltip#': {
+    en: 'Current Unix time in seconds',
+  },
+  '#blk-altitude#': {
+    en: 'altitude',
+  },
+  '#blk-position#': {
+    en: 'position (list)',
+  },
+  '#blk-gps_tooltip#': {
+    en: 'Virtual sensor that provides the robot\'s position',
+  },
+  '#main-blocks#': {
     en: 'Blocks',
     tlh: 'Porgh',
     es: 'Bloques',
     fr: 'Blocs',
   },
-  '#main-sim': {
+  '#main-sim#': {
     en: 'Simulator',
     tlh: 'ghertlhuD',
     es: 'Simulador',
     fr: 'Simulateur',
   },
-  '#main-file': {
+  '#main-file#': {
     en: 'File',
     tlh: 'teywI\'',
     es: 'Archivo',
     fr: 'Fichier',
   },
-  '#main-robot': {
+  '#main-robot#': {
     en: 'Robot',
     tlh: 'qoq',
     es: 'Robot',
     fr: 'Robot',
   },
-  '#main-arena': {
+  '#main-arena#': {
     en: 'Arena',
     tlh: '\'anSa\'',
     es: 'Pista',
     fr: 'Arène',
   },
-  '#main-help': {
+  '#main-help#': {
     en: 'Help',
     tlh: 'QaH',
     es: 'Ayuda',
     fr: 'Aide',
   },
-  '#main-arenaTitle': {
+  '#main-arenaTitle#': {
     en: 'GearsBot Arena',
     tlh: 'GearsBot \'anSa\'',
     es: 'Pista GearsBot',
     fr: 'Arène GearsBot',
   },
-  '#main-arenaDescription': {
+  '#main-arenaDescription#': {
     en:
       '<p>The GearsBot Arena allows up to 4 robots to compete or cooperate with each other.</p>' +
       '<p>Program your robot using the normal GearsBot page (...where you are now), and export your program and robot as a zip package (Files -> Export Zip...).' +
@@ -238,7 +301,7 @@ const MSGS = {
       '<p>Programmez votre robot depuis la page principale (...celle-ci donc), et expoertez votre programme et votre robot comme un paquet zip (Fichier -> Export Zip...).' +
       'Vous pouvez charger le paquet zip dans l\'arène GearsBot et le lancer contre les autres joueurs.</p>',
   },
-  '#main-arenaGo': {
+  '#main-arenaGo#': {
     en: 'Go to Arena',
     tlh: 'yIghoS',
     es: 'Ir a la Pista',
@@ -272,10 +335,14 @@ var i18n = new function() {
 
   // Change all keys in provided string
   this.replace = function(input) {
+    let regEx = '';
     for (key of MSGS_KEYS) {
-      let regEx = new RegExp(key, 'g');
-      input = input.replace(regEx, self.get(key));
+      regEx += key + '|';
     }
-    return input;
-  };
+    regEx = regEx.slice(0, regEx.length - 1);
+    regEx = new RegExp(regEx, 'g');
+    return input.replace(regEx, function(key){
+      return self.get(key);
+    })
+  }
 }

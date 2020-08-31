@@ -35,12 +35,12 @@ var main = new function() {
 
   // Update text already in html
   this.updateTextLanguage = function() {
-    $('#navBlocks').text(i18n.get('#main-blocks'));
-    $('#navSim').text(i18n.get('#main-sim'));
-    self.$fileMenu.text(i18n.get('#main-file'));
-    self.$robotMenu.text(i18n.get('#main-robot'));
-    self.$arenaButton.text(i18n.get('#main-arena'));
-    self.$helpMenu.text(i18n.get('#main-help'));
+    $('#navBlocks').text(i18n.get('#main-blocks#'));
+    $('#navSim').text(i18n.get('#main-sim#'));
+    self.$fileMenu.text(i18n.get('#main-file#'));
+    self.$robotMenu.text(i18n.get('#main-robot#'));
+    self.$arenaButton.text(i18n.get('#main-arena#'));
+    self.$helpMenu.text(i18n.get('#main-help#'));
   };
 
   // Toggle language menu
@@ -68,9 +68,9 @@ var main = new function() {
   // Open a window with a link to the arena page
   this.arenaWindow = function() {
     let options = {
-      title: i18n.get('#main-arenaTitle'),
-      message: i18n.get('#main-arenaDescription'),
-      confirm: i18n.get('#main-arenaGo')
+      title: i18n.get('#main-arenaTitle#'),
+      message: i18n.get('#main-arenaDescription#'),
+      confirm: i18n.get('#main-arenaGo#')
     };
     confirmDialog(options, function(){
       self.openPage('arena.html');
