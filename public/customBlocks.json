@@ -8,7 +8,7 @@
 },
 {
   "type": "sleep",
-  "message0": "sleep for %1 %2",
+  "message0": "#blk-sleep_for %1 %2",
   "args0": [
     {
       "type": "input_value",
@@ -20,11 +20,11 @@
       "name": "units",
       "options": [
         [
-          "seconds",
+          "#blk-seconds",
           "SECONDS"
         ],
         [
-          "milliseconds",
+          "#blk-milliseconds",
           "MILLISECONDS"
         ]
       ]
@@ -38,22 +38,22 @@
 },
 {
   "type": "stop",
-  "message0": "stop moving and %1",
+  "message0": "#blk-stop_moving_and %1",
   "args0": [
     {
       "type": "field_dropdown",
       "name": "stop_action",
       "options": [
         [
-          "brake",
+          "#blk-brake",
           "BRAKE"
         ],
         [
-          "coast",
+          "#blk-coast",
           "COAST"
         ],
         [
-          "hold",
+          "#blk-hold",
           "HOLD"
         ]
       ]
@@ -67,7 +67,7 @@
 },
 {
   "type": "stop_motor",
-  "message0": "stop motor on port %1 and %2",
+  "message0": "#blk-stop_motor_on_port %1 #blk-and %2",
   "args0": [
     {
       "type": "field_dropdown",
@@ -120,15 +120,15 @@
       "name": "stop_action",
       "options": [
         [
-          "brake",
+          "#blk-brake",
           "BRAKE"
         ],
         [
-          "coast",
+          "#blk-coast",
           "COAST"
         ],
         [
-          "hold",
+          "#blk-hold",
           "HOLD"
         ]
       ]
@@ -142,7 +142,7 @@
 },
 {
   "type": "move_steering",
-  "message0": "move steering with direction %1 and speed %2 %3",
+  "message0": "#blk-move_steering_with_direction %1 #blk-and_speed %2 %3",
   "args0": [
     {
       "type": "input_value",
@@ -163,11 +163,11 @@
           "PERCENT"
         ],
         [
-          "degrees / s",
+          "#blk-degrees / s",
           "DEGREES"
         ],
         [
-          "rotations / s",
+          "#blk-rotations / s",
           "ROTATIONS"
         ]
       ]
@@ -177,12 +177,12 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "direction ranges from -100 (left) to 0 (straight) to 100 (right)",
+  "tooltip": "#blk-move_steering_tooltip",
   "helpUrl": ""
 },
 {
   "type": "move_steering_for",
-  "message0": "move steering with direction %1 and speed %2 %3 %4 for %5 %6",
+  "message0": "#blk-move_steering_with_direction %1 #blk-and_speed %2 %3 %4 #blk-for %5 %6",
   "args0": [
     {
       "type": "input_value",
@@ -203,11 +203,11 @@
           "PERCENT"
         ],
         [
-          "degrees / s",
+          "#blk-degrees / s",
           "DEGREES"
         ],
         [
-          "rotations / s",
+          "#blk-rotations / s",
           "ROTATIONS"
         ]
       ]
@@ -225,19 +225,19 @@
       "name": "units2",
       "options": [
         [
-          "rotations",
+          "#blk-rotations",
           "ROTATIONS"
         ],
         [
-          "degrees",
+          "#blk-degrees",
           "DEGREES"
         ],
         [
-          "seconds",
+          "#blk-seconds",
           "SECONDS"
         ],
         [
-          "milliseconds",
+          "#blk-milliseconds",
           "MILLISECONDS"
         ]
       ]
@@ -247,12 +247,12 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "direction ranges from -100 (left) to 0 (straight) to 100 (right)",
+  "tooltip": "#blk-move_steering_tooltip",
   "helpUrl": ""
 },
 {
   "type": "exit",
-  "message0": "exit program",
+  "message0": "#blk-exit_program",
   "previousStatement": null,
   "colour": 65,
   "tooltip": "",
@@ -260,7 +260,7 @@
 },
 {
   "type": "position",
-  "message0": "position of motor on port %1 in degrees",
+  "message0": "#blk-position_of_motor_on_port %1 #blk-in_degrees",
   "args0": [
     {
       "type": "field_dropdown",
@@ -316,7 +316,7 @@
 },
 {
   "type": "speed",
-  "message0": "speed of motor on port %1 in degrees / s",
+  "message0": "#blk-speed_of_motor_on_port %1 #blk-in_degrees / s",
   "args0": [
     {
       "type": "field_dropdown",
@@ -372,22 +372,22 @@
 },
 {
   "type": "reset_motor",
-  "message0": "reset position of motor on port  %1",
+  "message0": "#blk-reset_position_of_motor_on_port %1",
   "args0": [
     {
       "type": "field_dropdown",
       "name": "port",
       "options": [
         [
-          "A + B (Both wheels)",
+          "A + B (#blk-both_wheels)",
           "BOTH"
         ],
         [
-          "A (Left wheel)",
+          "A (#blk-left_wheel)",
           "A"
         ],
         [
-          "B (Right wheel)",
+          "B (#blk-right_wheel)",
           "B"
         ],
         [
@@ -433,7 +433,7 @@
 },
 {
   "type": "move_tank",
-  "message0": "move tank with left speed %1 and right speed %2 %3",
+  "message0": "#blk-move_tank_with_left_speed %1 #blk-and_right_speed %2 %3",
   "args0": [
     {
       "type": "input_value",
@@ -454,11 +454,11 @@
           "PERCENT"
         ],
         [
-          "degrees / s",
+          "#blk-degrees / s",
           "DEGREES"
         ],
         [
-          "rotations / s",
+          "#blk-rotations / s",
           "ROTATIONS"
         ]
       ]
@@ -473,7 +473,7 @@
 },
 {
   "type": "move_tank_for",
-  "message0": "move tank with left speed %1 and right speed %2 %3 %4 for %5 %6",
+  "message0": "#blk-move_tank_with_left_speed  %1 #blk-and_right_speed %2 %3 %4 #blk-for %5 %6",
   "args0": [
     {
       "type": "input_value",
@@ -494,11 +494,11 @@
           "PERCENT"
         ],
         [
-          "degrees / s",
+          "#blk-degrees / s",
           "DEGREES"
         ],
         [
-          "rotations / s",
+          "#blk-rotations / s",
           "ROTATIONS"
         ]
       ]
@@ -516,19 +516,19 @@
       "name": "units2",
       "options": [
         [
-          "rotations",
+          "#blk-rotations",
           "ROTATIONS"
         ],
         [
-          "degrees",
+          "#blk-degrees",
           "DEGREES"
         ],
         [
-          "seconds",
+          "#blk-seconds",
           "SECONDS"
         ],
         [
-          "milliseconds",
+          "#blk-milliseconds",
           "MILLISECONDS"
         ]
       ]
@@ -543,38 +543,38 @@
 },
 {
   "type": "color_sensor",
-  "message0": "color sensor %1 on port %2",
+  "message0": "#blk-color_sensor %1 #blk-on_port %2",
   "args0": [
     {
       "type": "field_dropdown",
       "name": "type",
       "options": [
         [
-          "reflected light intensity",
+          "#blk-reflected_light_intensity",
           "INTENSITY"
         ],
         [
-          "color",
+          "#blk-color",
           "COLOR"
         ],
         [
-          "color name",
+          "#blk-color_name",
           "COLOR_NAME"
         ],
         [
-          "red",
+          "#blk-red",
           "RED"
         ],
         [
-          "green",
+          "#blk-green",
           "GREEN"
         ],
         [
-          "blue",
+          "#blk-blue",
           "BLUE"
         ],
         [
-          "rgb (list)",
+          "#blk-rgb",
           "RGB"
         ]
       ]

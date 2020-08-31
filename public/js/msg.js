@@ -76,6 +76,108 @@ const MSGS = {
     es: 'Al comenzar',
     fr: 'Au démarrage',
   },
+  '#blk-sleep_for': {
+    en: 'sleep for',
+  },
+  '#blk-seconds': {
+    en: 'seconds',
+  },
+  '#blk-milliseconds': {
+    en: 'milliseconds',
+  },
+  '#blk-stop_moving_and': {
+    en: 'stop moving and',
+  },
+  '#blk-brake': {
+    en: 'brake',
+  },
+  '#blk-coast': {
+    en: 'coast',
+  },
+  '#blk-hold': {
+    en: 'hold',
+  },
+  '#blk-stop_motor_on_port': {
+    en: 'stop motor on port',
+  },
+  '#blk-and': {
+    en: 'and',
+  },
+  '#blk-move_steering_with_direction': {
+    en: 'move steering with direction',
+  },
+  '#blk-and_speed': {
+    en: 'and speed',
+  },
+  '#blk-degrees': {
+    en: 'degrees',
+  },
+  '#blk-rotations': {
+    en: 'rotations',
+  },
+  '#blk-move_steering_tooltip': {
+    en: 'direction ranges from -100 (left) to 0 (straight) to 100 (right)',
+  },
+  '#blk-for': {
+    en: 'for',
+  },
+  '#blk-exit_program': {
+    en: 'exit program',
+  },
+  '#blk-position_of_motor_on_port': {
+    en: 'position of motor on port',
+  },
+  '#blk-in_degrees': {
+    en: 'in degrees',
+  },
+  '#blk-speed_of_motor_on_port': {
+    en: 'speed of motor on port',
+  },
+  '#blk-reset_position_of_motor_on_port': {
+    en: 'reset position of motor on port',
+  },
+  '#blk-both_wheels': {
+    en: 'Both wheels',
+  },
+  '#blk-left_wheel': {
+    en: 'Left Wheel',
+  },
+  '#blk-right_wheel': {
+    en: 'Right Wheel',
+  },
+  '#blk-move_tank_with_left_speed': {
+    en: 'move tank with left speed',
+  },
+  '#blk-and_right_speed': {
+    en: 'and right speed',
+  },
+  '#blk-color_sensor': {
+    en: 'color_sensor',
+  },
+  '#blk-on_port': {
+    en: 'on port',
+  },
+  '#blk-reflected_light_intensity': {
+    en: 'reflected light intensity',
+  },
+  '#blk-color': {
+    en: 'color',
+  },
+  '#blk-color_name': {
+    en: 'color name',
+  },
+  '#blk-red': {
+    en: 'red',
+  },
+  '#blk-green': {
+    en: 'green',
+  },
+  '#blk-blue': {
+    en: 'blue',
+  },
+  '#blk-rgb': {
+    en: 'rgb (list)',
+  },
   '#main-blocks': {
     en: 'Blocks',
     tlh: 'Porgh',
@@ -171,7 +273,8 @@ var i18n = new function() {
   // Change all keys in provided string
   this.replace = function(input) {
     for (key of MSGS_KEYS) {
-      input = input.replace(key, self.get(key));
+      let regEx = new RegExp(key, 'g');
+      input = input.replace(regEx, self.get(key));
     }
     return input;
   };
