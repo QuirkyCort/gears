@@ -183,20 +183,20 @@ var main = new function() {
     let $configurations = $('<div class="configurations"></div>');
 
     function displayRobotDescriptions(robot) {
-      $description.find('.text').html(robot.longDescription);
+      $description.find('.text').html(i18n.get(robot.longDescription));
       if (robot.thumbnail) {
         $description.find('.thumbnail').attr('src', robot.thumbnail);
       } else {
         $description.find('.thumbnail').attr('src', 'images/robots/default_thumbnail.png');
       }
 
-      $configurations.html(robot.longerDescription);
+      $configurations.html(i18n.replace(robot.longerDescription));
     }
 
     robotTemplates.forEach(function(robotTemplate){
       let $robot = $('<option></option>');
       $robot.prop('value', robotTemplate.name);
-      $robot.text(robotTemplate.shortDescription);
+      $robot.text(i18n.get(robotTemplate.shortDescription));
       if (robotTemplate.name == robot.options.name) {
         $robot.attr('selected', 'selected');
         displayRobotDescriptions(robotTemplate);

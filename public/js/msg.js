@@ -570,9 +570,8 @@ let MSGS = {
   '#python-#': {
     en: '',
   },
-  
 };
-const MSGS_KEYS = Object.keys(MSGS);
+let MSGS_KEYS = Object.keys(MSGS);
 
 let LANG = localStorage.getItem('LANG');
 if (!LANG || LANG == '' || LANG == 'undefined') {
@@ -582,19 +581,27 @@ if (!LANG || LANG == '' || LANG == 'undefined') {
 var i18n = new function() {
   var self = this;
 
+  // Append to messages
+  this.append = function(msgs) {
+    MSGS = Object.assign(MSGS, msgs);
+    MSGS_KEYS = Object.keys(MSGS);
+  };
+
   // Get a single string
   this.get = function(requestedKey) {
-    for (key of MSGS_KEYS) {
-      if (key == requestedKey) {
-        let msg = MSGS[key][LANG];
-        if (msg == null) {
-          msg = MSGS[key]['en'];
-        }
-        return msg;
+    let messages = MSGS[requestedKey];
+    if (typeof messages == 'undefined') {
+      return requestedKey;
+    }
+    let message = messages[LANG]
+    if (typeof message == 'undefined') {
+      if (typeof message['en'] == 'undefined') {
+        return requestedKey;
+      } else {
+        return message['en'];
       }
     }
-
-    return requestedKey;
+    return message;
   };
 
   // Change all keys in provided string

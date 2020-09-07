@@ -1,29 +1,152 @@
-var robotTemplates = [
-  {
-    name: 'singleFollower',
-    shortDescription: 'Single Sensor Line Follower',
-    longDescription:
+i18n.append({
+  '#robot-dimensions#': {
+    en: 'Dimensions',
+  },
+  '#robot-wheelDiameter#': {
+    en: 'Wheel Diameter',
+  },
+  '#robot-wheelSpacing#': {
+    en: 'Wheel Spacing',
+  },
+  '#robot-actuators#': {
+    en: 'Actuators',
+  },
+  '#robot-port#': {
+    en: 'Port',
+  },
+  '#robot-leftWheel#': {
+    en: 'Left Wheel',
+  },
+  '#robot-rightWheel#': {
+    en: 'Right Wheel',
+  },
+  '#robot-electromagnet#': {
+    en: 'Electromagnet',
+  },
+  '#robot-motorizedArm#': {
+    en: 'Motorized Arm',
+  },
+  '#robot-swivel#': {
+    en: 'Swivel Platform',
+  },
+  '#robot-paintball#': {
+    en: 'Paintball Launcher',
+  },
+  '#robot-sensors#': {
+    en: 'Sensors',
+  },
+  '#robot-color#': {
+    en: 'Color Sensor',
+  },
+  '#robot-front#': {
+    en: 'Front',
+  },
+  '#robot-left#': {
+    en: 'Left',
+  },
+  '#robot-right#': {
+    en: 'Right',
+  },
+  '#robot-arm#': {
+    en: 'Arm',
+  },
+  '#robot-ultrasonic#': {
+    en: 'Ultrasonic Distance',
+  },
+  '#robot-gyro#': {
+    en: 'Gyro',
+  },
+  '#robot-laser#': {
+    en: 'Laser Range Sensor',
+  },
+
+
+  '#robot-singleFollowerShort#': {
+    en: 'Single Sensor Line Follower',
+  },
+  '#robot-singleFollowerLong#': {
+    en:
       '<p>This robot is equipped with a single color sensor for line following.</p>' +
       '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects.</p>' +
       '<p>It\'s good for learning the basics of line following, but some line following maps will require double sensors.</p>',
+  },
+  '#robot-doubleFollowerShort#': {
+    en: 'Double Sensor Line Follower',
+  },
+  '#robot-doubleFollowerLong#': {
+    en:
+      '<p>This robot is equipped with two color sensor for line following.</p>' +
+      '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro and GPS allows accurate movements even when the robot is off the line.</p>',
+  },
+  '#robot-paintballShort#': {
+    en: 'Paintball ',
+  },
+  '#robot-paintballLong#': {
+    en:
+      '<p>This robot is similar to the double sensor line follower, but with the addition of a paintball launcher mounted on an motorized arm. ' +
+      'The ultrasonic distance sensor is also replaced with a long range (5m) laser range sensor.</p>'  +
+      '<p>Read the <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball Launcher documentations</a> to learn how to launch a paintball.</p>',
+  },
+  '#robot-mazeShort#': {
+    en: 'Maze Runner',
+  },
+  '#robot-mazeLong#': {
+    en:
+      '<p>This robot is equipped with three ultrasonic sensor to facilitate maze navigation, and a color sensor to detect the end point.</p>' +
+      '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro helps the robot move straight.</p>',
+  },
+  '#robot-maze2Short#': {
+    en: 'Maze Runner MkII',
+  },
+  '#robot-maze2Long#': {
+    en:
+      '<p>This is an advanced maze runner robot that replaces the original\'s three ultrasonic sensor with a single laser range finder and a foward facing color sensor mounted on a swivel platform.</p>' +
+      '<p>The forward facing color sensor is specially configured for long range (30cm) and narrow view (30 degrees).</p>',
+  },
+  '#robot-towShort#': {
+    en: 'Tow Truck',
+  },
+  '#robot-towLong#': {
+    en:
+      '<p>This robot is equipped with an arm mounted magnet.</p>' +
+      '<p>It can pick up or tow magnetic objects. Just be careful not to knock the object away when turning around!</p>',
+  },
+  '#robot-craneShort#': {
+    en: 'Crane',
+  },
+  '#robot-craneLong#': {
+    en:
+      '<p>This robot is equipped with an electromagnet at the end of a two segments crane arm.</p>' +
+      '<p>It can reach higher and further than the other robots, ' +
+      'and a color sensor at the end of the arm allows it to identify what it is picking up.</p>' +
+      '<p>When using this robot, fold the arms to avoid obstructing the ultrasonic sensor.</p>',
+  },
+});
+
+
+var robotTemplates = [
+  {
+    name: 'singleFollower',
+    shortDescription: '#robot-singleFollowerShort#',
+    longDescription: '#robot-singleFollowerLong#',
     longerDescription:
-      '<h3>Dimensions</h3>' +
+      '<h3>#robot-dimensions#</h3>' +
       '<ul>' +
-        '<li>Wheel Diameter: 5.6 cm</li>' +
-        '<li>Wheel Spacing: 15.2 cm</li>' +
+        '<li>#robot-wheelDiameter#: 5.6 cm</li>' +
+        '<li>#robot-wheelSpacing#: 15.2 cm</li>' +
       '</ul>' +
-      '<h3>Actuators</h3>' +
+      '<h3>#robot-actuators#</h3>' +
       '<ul>' +
-        '<li>Port A : Left Wheel</li>' +
-        '<li>Port B : Right Wheel</li>' +
-        '<li>Port C : Electromagnet</li>' +
+        '<li>#robot-port# A : #robot-leftWheel#</li>' +
+        '<li>#robot-port# B : #robot-rightWheel#</li>' +
+        '<li>#robot-port# C : #robot-electromagnet#</li>' +
       '</ul>' +
-      '<h3>Sensors</h3>' +
+      '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>Port 1 : Color Sensor</li>' +
-        '<li>Port 2 : Ultrasonic Distance</li>' +
-        '<li>Port 3 : Gyro</li>' +
-        '<li>Port 4 : GPS Sensor</li>' +
+        '<li>#robot-port# 1 : #robot-color#</li>' +
+        '<li>#robot-port# 2 : #robot-ultrasonic#</li>' +
+        '<li>#robot-port# 3 : #robot-gyro#</li>' +
+        '<li>#robot-port# 4 : GPS</li>' +
       '</ul>',
     thumbnail: 'images/robots/singleFollower.jpg',
 
@@ -79,29 +202,27 @@ var robotTemplates = [
   },
   {
     name: 'doubleFollower',
-    shortDescription: 'Double Sensor Line Follower',
-    longDescription:
-      '<p>This robot is equipped with two color sensor for line following.</p>' +
-      '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro and GPS allows accurate movements even when the robot is off the line.</p>',
+    shortDescription: '#robot-doubleFollowerShort#',
+    longDescription: '#robot-doubleFollowerLong#',
     longerDescription:
-      '<h3>Dimensions</h3>' +
+      '<h3>#robot-dimensions#</h3>' +
       '<ul>' +
-        '<li>Wheel Diameter: 5.6 cm</li>' +
-        '<li>Wheel Spacing: 15.2 cm</li>' +
+        '<li>#robot-wheelDiameter#: 5.6 cm</li>' +
+        '<li>#robot-wheelSpacing#: 15.2 cm</li>' +
       '</ul>' +
-      '<h3>Actuators</h3>' +
+      '<h3>#robot-actuators#</h3>' +
       '<ul>' +
-        '<li>Port A : Left Wheel</li>' +
-        '<li>Port B : Right Wheel</li>' +
-        '<li>Port C : Electromagnet</li>' +
+        '<li>#robot-port# A : #robot-leftWheel#</li>' +
+        '<li>#robot-port# B : #robot-rightWheel#</li>' +
+        '<li>#robot-port# C : #robot-electromagnet#</li>' +
       '</ul>' +
-      '<h3>Sensors</h3>' +
+      '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>Port 1 : Color Sensor</li>' +
-        '<li>Port 2 : Color Sensor</li>' +
-        '<li>Port 3 : Ultrasonic Distance</li>' +
-        '<li>Port 4 : Gyro</li>' +
-        '<li>Port 5 : GPS Sensor</li>' +
+        '<li>#robot-port# 1 : #robot-color#</li>' +
+        '<li>#robot-port# 2 : #robot-color#</li>' +
+        '<li>#robot-port# 3 : #robot-ultrasonic#</li>' +
+        '<li>#robot-port# 4 : #robot-gyro#</li>' +
+        '<li>#robot-port# 5 : GPS</li>' +
       '</ul>',
     thumbnail: 'images/robots/doubleFollower.jpg',
 
@@ -163,32 +284,29 @@ var robotTemplates = [
   },
   {
     name: 'paintball',
-    shortDescription: 'Paintball Launcher',
-    longDescription:
-      '<p>This robot is similar to the double sensor line follower, but with the addition of a paintball launcher mounted on an motorized arm. ' +
-      'The ultrasonic distance sensor is also replaced with a long range (5m) laser range sensor.</p>'  +
-      '<p>Read the <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball Launcher documentations</a> to learn how to launch a paintball.</p>',
+    shortDescription: '#robot-paintballShort#',
+    longDescription: '#robot-paintballLong#',
     longerDescription:
-      '<h3>Dimensions</h3>' +
+      '<h3>#robot-dimensions#</h3>' +
       '<ul>' +
-        '<li>Wheel Diameter: 5.6 cm</li>' +
-        '<li>Wheel Spacing: 15.2 cm</li>' +
+        '<li>#robot-wheelDiameter#: 5.6 cm</li>' +
+        '<li>#robot-wheelSpacing#: 15.2 cm</li>' +
       '</ul>' +
-      '<h3>Actuators</h3>' +
+      '<h3>#robot-actuators#</h3>' +
       '<ul>' +
-        '<li>Port A : Left Wheel</li>' +
-        '<li>Port B : Right Wheel</li>' +
-        '<li>Port C : Electromagnet</li>' +
-        '<li>Port D : Motorized Arm</li>' +
-        '<li>Port E : Paintball Launcher</li>' +
+        '<li>#robot-port# A : #robot-leftWheel#</li>' +
+        '<li>#robot-port# B : #robot-rightWheel#</li>' +
+        '<li>#robot-port# C : #robot-electromagnet#</li>' +
+        '<li>#robot-port# D : #robot-motorizedArm#</li>' +
+        '<li>#robot-port# E : #robot-paintball#</li>' +
       '</ul>' +
-      '<h3>Sensors</h3>' +
+      '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>Port 1 : Color Sensor</li>' +
-        '<li>Port 2 : Color Sensor</li>' +
-        '<li>Port 3 : Laser Range Sensor</li>' +
-        '<li>Port 4 : Gyro</li>' +
-        '<li>Port 5 : GPS Sensor</li>' +
+        '<li>#robot-port# 1 : #robot-color#</li>' +
+        '<li>#robot-port# 2 : #robot-color#</li>' +
+        '<li>#robot-port# 3 : #robot-laser#</li>' +
+        '<li>#robot-port# 4 : #robot-gyro#</li>' +
+        '<li>#robot-port# 5 : GPS</li>' +
       '</ul>',
     thumbnail: 'images/robots/paintball.jpg',
 
@@ -269,29 +387,27 @@ var robotTemplates = [
   },
   {
     name: 'maze',
-    shortDescription: 'Maze Runner',
-    longDescription:
-      '<p>This robot is equipped with three ultrasonic sensor to facilitate maze navigation, and a color sensor to detect the end point.</p>' +
-      '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro helps the robot move straight.</p>',
+    shortDescription: '#robot-mazeShort#',
+    longDescription: '#robot-mazeLong#',
     longerDescription:
-      '<h3>Dimensions</h3>' +
+      '<h3>#robot-dimensions#</h3>' +
       '<ul>' +
-        '<li>Wheel Diameter: 5.6 cm</li>' +
-        '<li>Wheel Spacing: 15.2 cm</li>' +
+        '<li>#robot-wheelDiameter#: 5.6 cm</li>' +
+        '<li>#robot-wheelSpacing#: 15.2 cm</li>' +
       '</ul>' +
-      '<h3>Actuators</h3>' +
+      '<h3>#robot-actuators#</h3>' +
       '<ul>' +
-        '<li>Port A : Left Wheel</li>' +
-        '<li>Port B : Right Wheel</li>' +
-        '<li>Port C : Electromagnet</li>' +
+        '<li>#robot-port# A : #robot-leftWheel#</li>' +
+        '<li>#robot-port# B : #robot-rightWheel#</li>' +
+        '<li>#robot-port# C : #robot-electromagnet#</li>' +
       '</ul>' +
-      '<h3>Sensors</h3>' +
+      '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>Port 1 : Color Sensor</li>' +
-        '<li>Port 2 : Ultrasonic Distance (Front)</li>' +
-        '<li>Port 3 : Ultrasonic Distance (Left)</li>' +
-        '<li>Port 4 : Ultrasonic Distance (Right)</li>' +
-        '<li>Port 5 : Gyro</li>' +
+        '<li>#robot-port# 1 : #robot-color#</li>' +
+        '<li>#robot-port# 2 : #robot-ultrasonic# (#robot-front#)</li>' +
+        '<li>#robot-port# 3 : #robot-ultrasonic# (#robot-left#)</li>' +
+        '<li>#robot-port# 4 : #robot-ultrasonic# (#robot-right#)</li>' +
+        '<li>#robot-port# 5 : #robot-gyro#</li>' +
       '</ul>',
     thumbnail: 'images/robots/maze.jpg',
 
@@ -374,29 +490,27 @@ var robotTemplates = [
   },
   {
     name: 'maze2',
-    shortDescription: 'Maze Runner MkII',
-    longDescription:
-      '<p>This is an advanced maze runner robot that replaces the original\'s three ultrasonic sensor with a single laser range finder and a foward facing color sensor mounted on a swivel platform.</p>' +
-      '<p>The forward facing color sensor is specially configured for long range (30cm) and narrow view (30 degrees).</p>',
+    shortDescription: '#robot-maze2Short#',
+    longDescription: '#robot-maze2Long#',
     longerDescription:
-      '<h3>Dimensions</h3>' +
+      '<h3>#robot-dimensions#</h3>' +
       '<ul>' +
-        '<li>Wheel Diameter: 5.6 cm</li>' +
-        '<li>Wheel Spacing: 15.2 cm</li>' +
+        '<li>#robot-wheelDiameter#: 5.6 cm</li>' +
+        '<li>#robot-wheelSpacing#: 15.2 cm</li>' +
       '</ul>' +
-      '<h3>Actuators</h3>' +
+      '<h3>#robot-actuators#</h3>' +
       '<ul>' +
-        '<li>Port A : Left Wheel</li>' +
-        '<li>Port B : Right Wheel</li>' +
-        '<li>Port C : Electromagnet</li>' +
-        '<li>Port D : Swivel Platform</li>' +
+        '<li>#robot-port# A : #robot-leftWheel#</li>' +
+        '<li>#robot-port# B : #robot-rightWheel#</li>' +
+        '<li>#robot-port# C : #robot-electromagnet#</li>' +
+        '<li>#robot-port# D : #robot-swivel#</li>' +
       '</ul>' +
-      '<h3>Sensors</h3>' +
+      '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>Port 1 : Color Sensor</li>' +
-        '<li>Port 2 : Gyro</li>' +
-        '<li>Port 3 : Laser Range Sensor</li>' +
-        '<li>Port 4 : Color Sensor (Forward)</li>' +
+        '<li>#robot-port# 1 : #robot-color#</li>' +
+        '<li>#robot-port# 2 : #robot-gyro#</li>' +
+        '<li>#robot-port# 3 : #robot-laser#</li>' +
+        '<li>#robot-port# 4 : #robot-color# (#robot-swivel#)</li>' +
       '</ul>',
     thumbnail: 'images/robots/maze2.jpg',
 
@@ -484,29 +598,27 @@ var robotTemplates = [
   },
   {
     name: 'tow',
-    shortDescription: 'Tow Truck',
-    longDescription:
-      '<p>This robot is equipped with an arm mounted magnet.</p>' +
-      '<p>It can pick up or tow magnetic objects. Just be careful not to knock the object away when turning around!</p>',
+    shortDescription: '#robot-towShort#',
+    longDescription: '#robot-towLong#',
     longerDescription:
-      '<h3>Dimensions</h3>' +
+      '<h3>#robot-dimensions#</h3>' +
       '<ul>' +
-        '<li>Wheel Diameter: 5.6 cm</li>' +
-        '<li>Wheel Spacing: 15.2 cm</li>' +
+        '<li>#robot-wheelDiameter#: 5.6 cm</li>' +
+        '<li>#robot-wheelSpacing#: 15.2 cm</li>' +
       '</ul>' +
-      '<h3>Actuators</h3>' +
+      '<h3>#robot-actuators#</h3>' +
       '<ul>' +
-        '<li>Port A : Left Wheel</li>' +
-        '<li>Port B : Right Wheel</li>' +
-        '<li>Port C : Motorized Arm</li>' +
-        '<li>Port D : Electromagnet</li>' +
+        '<li>#robot-port# A : #robot-leftWheel#</li>' +
+        '<li>#robot-port# B : #robot-rightWheel#</li>' +
+        '<li>#robot-port# C : #robot-motorizedArm#</li>' +
+        '<li>#robot-port# D : #robot-electromagnet#</li>' +
       '</ul>' +
-      '<h3>Sensors</h3>' +
+      '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>Port 1 : Color Sensor (Left)</li>' +
-        '<li>Port 2 : Color Sensor (Right)</li>' +
-        '<li>Port 3 : Ultrasonic Distance</li>' +
-        '<li>Port 4 : Gyro</li>' +
+        '<li>#robot-port# 1 : #robot-color# (#robot-left#)</li>' +
+        '<li>#robot-port# 2 : #robot-color# (#robot-right#)</li>' +
+        '<li>#robot-port# 3 : #robot-ultrasonic#</li>' +
+        '<li>#robot-port# 4 : #robot-gyro#</li>' +
       '</ul>',
     thumbnail: 'images/robots/tow.jpg',
 
@@ -591,33 +703,29 @@ var robotTemplates = [
   },
   {
     name: 'crane',
-    shortDescription: 'Crane',
-    longDescription:
-      '<p>This robot is equipped with an electromagnet at the end of a two segments crane arm.</p>' +
-      '<p>It can reach higher and further than the other robots, ' +
-      'and a color sensor at the end of the arm allows it to identify what it is picking up.</p>' +
-      '<p>When using this robot, fold the arms to avoid obstructing the ultrasonic sensor.</p>',
+    shortDescription: '#robot-craneShort#',
+    longDescription: '#robot-craneLong#',
     longerDescription:
-      '<h3>Dimensions</h3>' +
+      '<h3>#robot-dimensions#</h3>' +
       '<ul>' +
-        '<li>Wheel Diameter: 5.6 cm</li>' +
-        '<li>Wheel Spacing: 15.2 cm</li>' +
+        '<li>#robot-wheelDiameter#: 5.6 cm</li>' +
+        '<li>#robot-wheelSpacing#: 15.2 cm</li>' +
       '</ul>' +
-      '<h3>Actuators</h3>' +
+      '<h3>#robot-actuators#</h3>' +
       '<ul>' +
-        '<li>Port A : Left Wheel</li>' +
-        '<li>Port B : Right Wheel</li>' +
-        '<li>Port C : Motorized Arm (1st Segment)</li>' +
-        '<li>Port D : Motorized Arm (2nd Segment)</li>' +
-        '<li>Port E : Electromagnet</li>' +
+        '<li>#robot-port# A : #robot-leftWheel#</li>' +
+        '<li>#robot-port# B : #robot-rightWheel#</li>' +
+        '<li>#robot-port# C : #robot-motorizedArm# 1</li>' +
+        '<li>#robot-port# D : #robot-motorizedArm# 2</li>' +
+        '<li>#robot-port# E : #robot-electromagnet#</li>' +
       '</ul>' +
-      '<h3>Sensors</h3>' +
+      '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>Port 1 : Color Sensor (Left)</li>' +
-        '<li>Port 2 : Color Sensor (Right)</li>' +
-        '<li>Port 3 : Ultrasonic Distance</li>' +
-        '<li>Port 4 : Gyro</li>' +
-        '<li>Port 5 : Color Sensor (Arm)</li>' +
+        '<li>#robot-port# 1 : #robot-color# (#robot-left#)</li>' +
+        '<li>#robot-port# 2 : #robot-color# (#robot-right#)</li>' +
+        '<li>#robot-port# 3 : #robot-ultrasonic#</li>' +
+        '<li>#robot-port# 4 : #robot-gyro#</li>' +
+        '<li>#robot-port# 5 : #robot-color# (#robot-arm#)</li>' +
       '</ul>',
     thumbnail: 'images/robots/crane.jpg',
 
