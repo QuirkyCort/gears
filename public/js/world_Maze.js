@@ -13,6 +13,7 @@ var world_Maze = new function() {
   this.robotStart = {
     position: new BABYLON.Vector3(0, 0, 0)
   };
+  this.arenaStart = null;
 
   this.optionsConfigurations = [
     {
@@ -106,15 +107,32 @@ var world_Maze = new function() {
       }
     }
 
+    let xPos = (self.options.columns / 2 * self.options.size) - self.options.size / 2;
+    let yPos = (self.options.rows / 2 * self.options.size) - self.options.size / 2;
     if (self.options.mazeType == 'perfect') {
-      self.robotStart.position = new BABYLON.Vector3(
-        -(self.options.columns / 2 * self.options.size) + self.options.size / 2,
-        0,
-        -(self.options.rows / 2 * self.options.size) + self.options.size / 2,
-      );
+      self.robotStart.position = new BABYLON.Vector3(-xPos, 0, -yPos);
     } else if (self.options.mazeType == 'imperfect') {
       self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
     }
+
+    self.arenaStart = [
+      {
+        position: new BABYLON.Vector3(-xPos, 0, yPos),
+        rotation: new BABYLON.Vector3(0, Math.PI/2, 0)
+      },
+      {
+        position: new BABYLON.Vector3(-xPos, 0, -yPos),
+        rotation: new BABYLON.Vector3(0, 0, 0)
+      },
+      {
+        position: new BABYLON.Vector3(xPos, 0, yPos),
+        rotation: new BABYLON.Vector3(0, Math.PI, 0)
+      },
+      {
+        position: new BABYLON.Vector3(xPos, 0, -yPos),
+        rotation: new BABYLON.Vector3(0, -Math.PI/2, 0)
+      },
+    ];
 
     if (self.options.mazeType == 'imperfect') {
       if (self.options.columns % 2 == 0) self.options.columns++;
