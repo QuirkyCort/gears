@@ -912,6 +912,9 @@ var configurator = new function() {
 
   // Save robot to json file
   this.saveRobot = function() {
+    robot.options.shortDescription = robot.options.name;
+    robot.options.longDescription = '';
+    robot.options.thumbnail = '';
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(robot.options, null, 2));
     hiddenElement.target = '_blank';
