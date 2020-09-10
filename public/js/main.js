@@ -108,6 +108,12 @@ var main = new function() {
       var reader = new FileReader();
       reader.onload = function() {
         robot.options = JSON.parse(this.result);
+        let i = robotTemplates.findIndex(r => r.name == robot.options.name);
+        if (i == -1) {
+          robotTemplates.push(JSON.parse(this.result));
+        } else {
+          robotTemplates[i] = JSON.parse(this.result);
+        }
         babylon.resetScene();
         skulpt.hardInterrupt = true;
         simPanel.setRunIcon('run');
@@ -222,7 +228,7 @@ var main = new function() {
 
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
-      robot.options = robotTemplates.find(robotTemplate => robotTemplate.name == $select.val());
+      Object.assign(robot.options, robotTemplates.find(robotTemplate => robotTemplate.name == $select.val()));
       babylon.resetScene();
       skulpt.hardInterrupt = true;
       simPanel.setRunIcon('run');
