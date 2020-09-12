@@ -140,3 +140,8 @@
     }
   }
 }
+
+.animateClick {
+  transform: scale(0.95);
+  transition: all 0.1s;
+}

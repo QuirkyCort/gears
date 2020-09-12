@@ -121,3 +121,7 @@
       background: #4994FB;
       color: white;
       border-color: white; }
+
+.animateClick {
+  transform: scale(0.95);
+  transition: all 0.1s; }

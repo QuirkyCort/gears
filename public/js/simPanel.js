@@ -21,6 +21,8 @@ var simPanel = new function() {
     self.$sensors = $('.sensors');
     self.$ruler = $('.ruler');
 
+    setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors]);
+
     self.$sensorsPanel = $('.sensorReadings');
     self.$worldInfoPanel = $('.worldInfo');
 
@@ -247,12 +249,12 @@ var simPanel = new function() {
         );
       } else if (sensor.type == 'UltrasonicSensor') {
         tmp = genDiv(
-          sensor.port + ': ' + i18n.get('#sim-ultrasonic#'), 
+          sensor.port + ': ' + i18n.get('#sim-ultrasonic#'),
           [i18n.get('#sim-distance#') + ' (cm)']
         );
       } else if (sensor.type == 'GyroSensor') {
         tmp = genDiv(
-          sensor.port + ': ' + i18n.get('#sim-gyro#'), 
+          sensor.port + ': ' + i18n.get('#sim-gyro#'),
           [i18n.get('#sim-angle#')]
         );
       } else if (sensor.type == 'GPSSensor') {
@@ -277,7 +279,7 @@ var simPanel = new function() {
     }
 
     let tmp = genDiv(
-      'outA: ' + i18n.get('#sim-left_motor#'), 
+      'outA: ' + i18n.get('#sim-left_motor#'),
       [i18n.get('#sim-position#')]
     );
     self.$sensorsPanel.append(tmp[0]);
@@ -295,17 +297,17 @@ var simPanel = new function() {
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'ArmActuator') {
         tmp = genDiv(
-          motor.port + ': ' + i18n.get('#sim-arm#'), 
+          motor.port + ': ' + i18n.get('#sim-arm#'),
           [i18n.get('#sim-position#')]
           );
       } else if (motor.type == 'SwivelActuator') {
         tmp = genDiv(
-          motor.port + ': ' + i18n.get('#sim-swivel#'), 
+          motor.port + ': ' + i18n.get('#sim-swivel#'),
           [i18n.get('#sim-position#')]
           );
       } else if (motor.type == 'PaintballLauncherActuator') {
         tmp = genDiv(
-          motor.port + ': ' + i18n.get('#sim-paintball#'), 
+          motor.port + ': ' + i18n.get('#sim-paintball#'),
           [i18n.get('#sim-position#')]
           );
       }

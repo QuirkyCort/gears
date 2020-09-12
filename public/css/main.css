@@ -281,7 +281,7 @@ ul.menuDropDownRightAlign {
   user-select: none;
   display: flex;
   align-items: center;
-  width: 12em;
+  width: 13em;
   overflow: hidden;
   transition: 0.5s width; }
   .ruler .icon {
