@@ -595,10 +595,10 @@ var i18n = new function() {
     }
     let message = messages[LANG]
     if (typeof message == 'undefined') {
-      if (typeof message['en'] == 'undefined') {
+      if (typeof messages['en'] == 'undefined') {
         return requestedKey;
       } else {
-        return message['en'];
+        return messages['en'];
       }
     }
     return message;
