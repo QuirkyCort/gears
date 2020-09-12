@@ -197,7 +197,8 @@ ul.menuDropDownRightAlign {
   border-radius: 0.5em;
   padding: 0.5em;
   color: gray;
-  user-select: none; }
+  user-select: none;
+  cursor: pointer; }
   .blocklyEditor #blocklyPages ul.menuDropDown {
     right: 0;
     left: auto;
