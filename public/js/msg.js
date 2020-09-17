@@ -344,7 +344,7 @@ let MSGS = {
   },
   '#main-start_new_warning#': {
     en: 'Starting a new program will cause all unsaved work to be lost.',
-    en: 'Commencer un nouveau programme fera perdre tout le travail non sauvegardé.',
+    fr: 'Commencer un nouveau programme fera perdre tout le travail non sauvegardé.',
   },
   '#main-functions_imported': {
     en: 'Functions imported',
@@ -386,7 +386,7 @@ let MSGS = {
   },
   '#main-robot_position#': {
     en: 'Robot Position',
-    en: 'Position du robot',
+    fr: 'Position du robot',
   },
   '#main-position#': {
     en: 'Position',
@@ -456,7 +456,7 @@ let MSGS = {
   },
   '#main-configurator_title#': {
     en: 'GearsBot Robot Configurator',
-    en: 'GearsBot configurateur de robot'
+    fr: 'GearsBot configurateur de robot'
   },
   '#main-configurator_description#': {
     en:
@@ -697,22 +697,6 @@ let MSGS = {
   '#python-cannot_change_back_warning#': {
     en: 'Changes to Python code cannot be converted back into blocks!',
     fr: 'Les modifications faites dans le code Python ne pourront pas être converties en blocs !',
-  },
-  '#python-#': {
-    en: '',
-    fr: '',
-  },
-  '#python-#': {
-    en: '',
-    fr: '',
-  },
-  '#python-#': {
-    en: '',
-    fr: '',
-  },
-  '#python-#': {
-    en: '',
-    fr: '',
   },
 };
 let MSGS_KEYS = Object.keys(MSGS);
