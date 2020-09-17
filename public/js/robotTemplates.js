@@ -1,118 +1,165 @@
 i18n.append({
   '#robot-dimensions#': {
     en: 'Dimensions',
+    fr: 'Dimensions',
   },
   '#robot-wheelDiameter#': {
     en: 'Wheel Diameter',
+    fr: 'Diamètre des roues',
   },
   '#robot-wheelSpacing#': {
     en: 'Wheel Spacing',
+    fr: 'Espace entre les roues',
   },
   '#robot-actuators#': {
     en: 'Actuators',
+    fr: 'Actionneurs',
   },
   '#robot-port#': {
     en: 'Port',
+    fr: 'Port',
   },
   '#robot-leftWheel#': {
     en: 'Left Wheel',
+    fr: 'roue gauche',
   },
   '#robot-rightWheel#': {
     en: 'Right Wheel',
+    fr: 'roue droite',
   },
   '#robot-electromagnet#': {
     en: 'Electromagnet',
+    fr: 'électroaimant',
   },
   '#robot-motorizedArm#': {
     en: 'Motorized Arm',
+    fr: 'bras motorisé',
   },
   '#robot-swivel#': {
     en: 'Swivel Platform',
+    fr: 'tourelle',
   },
   '#robot-paintball#': {
     en: 'Paintball Launcher',
+    fr: 'lanceur de paintball',
   },
   '#robot-sensors#': {
     en: 'Sensors',
+    fr: 'Capteurs',
   },
   '#robot-color#': {
     en: 'Color Sensor',
+    fr: 'capteur de couleurs',
   },
   '#robot-front#': {
     en: 'Front',
+    fr: 'avant',
   },
   '#robot-left#': {
     en: 'Left',
+    fr: 'gauche',
   },
   '#robot-right#': {
     en: 'Right',
+    fr: 'droite',
   },
   '#robot-arm#': {
     en: 'Arm',
+    fr: 'bras',
   },
   '#robot-ultrasonic#': {
     en: 'Ultrasonic Distance',
+    fr: 'télémètre à ultrasons',
   },
   '#robot-gyro#': {
     en: 'Gyro',
+    fr: 'gyroscope',
   },
   '#robot-laser#': {
     en: 'Laser Range Sensor',
+    fr: 'télémètre laser',
   },
 
 
   '#robot-singleFollowerShort#': {
     en: 'Single Sensor Line Follower',
+    fr: 'Suiveur de ligne à un capteur (Single Sensor Line Follower)',
   },
   '#robot-singleFollowerLong#': {
     en:
       '<p>This robot is equipped with a single color sensor for line following.</p>' +
       '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects.</p>' +
       '<p>It\'s good for learning the basics of line following, but some line following maps will require double sensors.</p>',
+    fr:
+      '<p>Ce robot n\'est équipé que d\'un capteur de couleurs pour suivre la ligne.</p>' +
+      '<p>Un électroaimant sous le robot permet de ramasser des objets magnétiques.</p>' +
+      '<p>C\'est un bon début pour apprendre les bases des suiveurs de ligne, mais pour certaines cartes plus complexes il faudra deux capteurs.</p>',
   },
   '#robot-doubleFollowerShort#': {
     en: 'Double Sensor Line Follower',
+    fr: 'Suiveur de ligne à deux capteurs (Double Sensor Line Follower)',
   },
   '#robot-doubleFollowerLong#': {
     en:
       '<p>This robot is equipped with two color sensor for line following.</p>' +
       '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro and GPS allows accurate movements even when the robot is off the line.</p>',
+    fr:
+      '<p>Ce robot est équipé de deux capteurs de couleurs pour suivre des lignes au sol.</p>' +
+      '<p>Un électroaimant sous le robot permet de ramasser des objets magnétiques, et un gyroscope et un GPS permet de gérer ses mouvements même s\'il sort de la ligne.</p>',
   },
   '#robot-paintballShort#': {
     en: 'Paintball ',
+    fr: 'Lanceur de paintball (Paintball)',
   },
   '#robot-paintballLong#': {
     en:
       '<p>This robot is similar to the double sensor line follower, but with the addition of a paintball launcher mounted on an motorized arm. ' +
       'The ultrasonic distance sensor is also replaced with a long range (5m) laser range sensor.</p>'  +
       '<p>Read the <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball Launcher documentations</a> to learn how to launch a paintball.</p>',
+    fr:
+      '<p>Ce robot est identique au suiveur de ligne à deux capteurs, avec en plus un bras motorisé équipé d\'un lanceur de paintball.' +
+      'Le télémètre à ultrasons est remplacé par un télémètre laser de plus grande portée (5m).</p>'  +
+      '<p>Lire la <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">documentation du lanceur de paintball</a> pour apprendre à l\'utiliser.</p>',
   },
   '#robot-mazeShort#': {
     en: 'Maze Runner',
+    fr: 'Coureur de labyrinthe (Maze Runner)',
   },
   '#robot-mazeLong#': {
     en:
       '<p>This robot is equipped with three ultrasonic sensor to facilitate maze navigation, and a color sensor to detect the end point.</p>' +
       '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro helps the robot move straight.</p>',
+    fr:
+      '<p>Ce robot est équipé de 3 télémètres à ultrasons pour naviguer facilement dans des labyrinthes, ainsi que d\'un capteur de couleurs pour détecter le point de fin.</p>' +
+      '<p>Un électroaimant sous le robot permet de ramasser des objets magnétiques, et un gyroscope permet de gérer ses trajectoires.</p>',
   },
   '#robot-maze2Short#': {
     en: 'Maze Runner MkII',
+    fr: 'Coureur de labyrinthe MkII (Maze Runner)',
   },
   '#robot-maze2Long#': {
     en:
       '<p>This is an advanced maze runner robot that replaces the original\'s three ultrasonic sensor with a single laser range finder and a foward facing color sensor mounted on a swivel platform.</p>' +
       '<p>The forward facing color sensor is specially configured for long range (30cm) and narrow view (30 degrees).</p>',
+    fr:
+      '<p>Il s\'agit d\'un robot de labyrinthe évolué, qui remplace celui avec les 3 télémètres à ultrasons, avec un simple télémètre laser et un détecteur de couleurs montés sur une plateforme rotative.</p>' +
+      '<p>Le capteur de couleurs avant est spécialement configuré pour des portées longues (30cm) et une vision étroite (30 degrés).</p>',
   },
   '#robot-towShort#': {
     en: 'Tow Truck',
+    fr: 'Remorqueur (Tow Truck)',
   },
   '#robot-towLong#': {
     en:
       '<p>This robot is equipped with an arm mounted magnet.</p>' +
       '<p>It can pick up or tow magnetic objects. Just be careful not to knock the object away when turning around!</p>',
+    fr:
+      '<p>Ce robot est équipé d\'un bras motorisé avec un électroaimant au bout.</p>' +
+      '<p>Il peut prendre ou tirer des objets magnétiques. Faire attention à ne pas faire tomber l\'objet en vous retournant !</p>',
   },
   '#robot-craneShort#': {
     en: 'Crane',
+    fr: 'Grue (Crane)',
   },
   '#robot-craneLong#': {
     en:
@@ -120,6 +167,11 @@ i18n.append({
       '<p>It can reach higher and further than the other robots, ' +
       'and a color sensor at the end of the arm allows it to identify what it is picking up.</p>' +
       '<p>When using this robot, fold the arms to avoid obstructing the ultrasonic sensor.</p>',
+    fr:
+    '<p>Ce robot est équipé d\'un électro-aimant au bout d\'un bras de grue à deux segments.</p>' +
+    '<p>Il peut aller plus haut et plus loin que les autres robots, ' +
+    'et un capteur de couleur à l\'extrémité du bras lui permet d\'identifier ce qu\'il prend.</p>' +
+    '<p>Lorsque vous utilisez ce robot, repliez le bras pour éviter d\'obstruer le télémètre à ultrasons.</p>',
   },
 });
 
