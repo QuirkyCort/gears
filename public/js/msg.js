@@ -338,6 +338,12 @@ let MSGS = {
     en: 'Save Python to your computer',
     fr: 'Télécharge le script Python',
   },
+  '#main-load_python_lib#': {
+    en: 'Load library.py from your computer',
+  },
+  '#main-save_python_lib#': {
+    en: 'Save library.py to your computer',
+  },
   '#main-export_zip#': {
     en: 'Export zip package to your computer',
     fr: 'Exporter une archive zip',

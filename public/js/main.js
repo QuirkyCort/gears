@@ -369,6 +369,8 @@ var main = new function() {
         {html: i18n.get('#main-save_blocks#'), line: true, callback: self.saveToComputer},
         {html: i18n.get('#main-load_python#'), line: false, callback: self.loadPythonFromComputer},
         {html: i18n.get('#main-save_python#'), line: true, callback: self.savePythonToComputer},
+        {html: i18n.get('#main-load_python_lib#'), line: false, callback: self.loadPythonLibFromComputer},
+        {html: i18n.get('#main-save_python_lib#'), line: true, callback: self.savePythonLibToComputer},
         {html: i18n.get('#main-export_zip#'), line: true, callback: self.saveZipToComputer},
       ];
 
@@ -380,9 +382,12 @@ var main = new function() {
   this.newProgram = function() {
     confirmDialog(i18n.get('#main-start_new_warning#'), function() {
       blockly.loadDefaultWorkspace();
+      pythonPanel.loadPythonFromBlockly();
+      pythonPanel.saveLocalStorage();  
       pythonPanel.modified = false;
       localStorage.setItem('pythonModified', false);
       blocklyPanel.setDisable(false);
+      pythonLibPanel.editor.setValue('', 0);
     });
   };
 
@@ -400,6 +405,13 @@ var main = new function() {
     } else {
       zip.file('gearsPython.py', blockly.generator.genCode());
     }
+    var py_lib_code = pythonLibPanel.editor.getValue()
+    if (py_lib_code.trim() === "") {
+      // empty library code panel, do nothing
+    } else {
+      zip.file('library.py', py_lib_code);
+    }
+      
     zip.file('gearsRobot.json', JSON.stringify(robot.options, null, 2));
 
     zip.generateAsync({type:'base64'})
@@ -489,14 +501,54 @@ var main = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        pythonPanel.editor.setValue(this.result, 1);
+        // second arg: 0 replace all, -1 start, 1 end
+        // this used to be 1, I think 0 is more appropriate
+        pythonPanel.editor.setValue(this.result, 0);
         self.tabClicked('navPython');
         pythonPanel.warnModify();
+      };
+      reader.onerror = function() {
+        console.log(reader.error);
       };
       reader.readAsText(e.target.files[0]);
       let filename = e.target.files[0].name.replace(/.py/, '');
       self.$projectName.val(filename);
       self.saveProjectName();
+    });
+  };
+
+  // save library.py to computer
+  this.savePythonLibToComputer = function() {
+    let filename = 'library'
+    let code = null;
+    code = pythonLibPanel.editor.getValue();
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/x-python;base64,' + btoa(code);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = filename + '.py';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
+  // load library.py from computer
+  this.loadPythonLibFromComputer = function() {
+    // console.log('starting load of library.py');
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'text/x-python,.py';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        // console.log('read library.py text:');
+        // console.log(this.result);
+        // second arg: 0 replace all, -1 start, 1 end
+        pythonLibPanel.editor.setValue(this.result, 0);
+        self.tabClicked('libPython');
+      };
+      reader.onerror = function() {
+        console.log(reader.error);
+      };
+      reader.readAsText(e.target.files[0]);
     });
   };
 
@@ -521,6 +573,8 @@ var main = new function() {
         return blocklyPanel;
       } else if (nav == 'navPython') {
         return pythonPanel;
+      } else if (nav == 'libPython') {
+        return pythonLibPanel;
       } else if (nav == 'navSim') {
         return simPanel;
       }

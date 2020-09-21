@@ -122,6 +122,11 @@ nav {
   height: 100%;
   font-size: 120%; }
 
+#pythonLibCode {
+  width: 100%;
+  height: 100%;
+  font-size: 120%; }
+
 .dialogWindow .selectRobot {
   max-height: 60vh;
   display: flex;
