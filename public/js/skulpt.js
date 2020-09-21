@@ -76,6 +76,13 @@ var skulpt = new function() {
       './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=1599921990',
       './simPython.js': 'js/simPython.js?v=1599921990'
     }
+    if (filename === "./library.py") {
+      // special case for importing code from the Python Library tab
+      var code = pythonLibPanel.editor.getValue()
+      // console.log('importing lib code.  code follows...')
+      // console.log(code)
+      return code
+    }
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][filename] === undefined) {
       if (filename in externalLibs) {
         return Sk.misceval.promiseToSuspension(
