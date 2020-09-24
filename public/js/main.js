@@ -138,6 +138,10 @@ var main = new function() {
           '<li><a href="https://skulpt.org/" target="_blank">Skulpt</a></li>' +
           '<li><a href="https://github.com/kripken/ammo.js/" target="_blank">Ammo.js</a> (port of <a href="https://pybullet.org/wordpress/" target="_blank">Bullet</a>)</li>' +
         '</ul>' +
+        '<p>Translations Contributed By:</p>' +
+        '<ul>' +
+          '<li>French: Sébastien CANET &lt;scanet@libreduc.cc&gt;</li>' +
+        '</ul>' +
         '<h3>Contact</h3>' +
         '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +
         '<p>If you\'re in the market for STEM training, do consider <a href="https://aposteriori.com.sg" target="_blank">A Posteriori</a>.</p>' +

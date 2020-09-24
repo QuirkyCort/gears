@@ -476,6 +476,11 @@ var configurator = new function() {
           type: 'intText',
           help: 'Amount of ammo available to the launcher at start. Set to "-1" for unlimited ammo. Leave blank to use default.'
         },
+        {
+          option: 'splatterTTL',
+          type: 'intText',
+          help: 'Time-To-Live in milliseconds for the paint splatter. After this duration, the paint splatter will be removed. Set a negative number to last forever. Leave blank to use default.'
+        },
       ]
     },
   ];
@@ -995,20 +1000,20 @@ var configurator = new function() {
     let $configurations = $('<div class="configurations"></div>');
 
     function displayRobotDescriptions(robot) {
-      $description.find('.text').html(robot.longDescription);
+      $description.find('.text').html(i18n.get(robot.longDescription));
       if (robot.thumbnail) {
         $description.find('.thumbnail').attr('src', robot.thumbnail);
       } else {
         $description.find('.thumbnail').attr('src', 'images/robots/default_thumbnail.png');
       }
 
-      $configurations.html(robot.longerDescription);
+      $configurations.html(i18n.replace(robot.longerDescription));
     }
 
     robotTemplates.forEach(function(robotTemplate){
       let $robot = $('<option></option>');
       $robot.prop('value', robotTemplate.name);
-      $robot.text(robotTemplate.shortDescription);
+      $robot.text(i18n.get(robotTemplate.shortDescription));
       if (robotTemplate.name == robot.options.name) {
         $robot.attr('selected', 'selected');
         displayRobotDescriptions(robotTemplate);
@@ -1030,7 +1035,7 @@ var configurator = new function() {
       '<button type="button" class="confirm btn-success">Ok</button>'
     );
 
-    let $dialog = dialog('Select Robot', $body, $buttons);
+    let $dialog = dialog(i18n.get('#main-select_robot#'), $body, $buttons);
 
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){

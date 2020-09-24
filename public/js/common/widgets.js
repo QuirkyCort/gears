@@ -11,9 +11,11 @@ function readGET(name) {
 // Set on click animation
 function setOnClickAnimation($buttons) {
   $buttons.forEach(function($button){
-    $button[0].addEventListener('pointerdown', function() { $button.addClass('animateClick')});
-    $button[0].addEventListener('pointerup', function() { $button.removeClass('animateClick')});
-    $button[0].addEventListener('pointerout', function() { $button.removeClass('animateClick')});
+    if (typeof $button[0] != 'undefined') {
+      $button[0].addEventListener('pointerdown', function() { $button.addClass('animateClick')});
+      $button[0].addEventListener('pointerup', function() { $button.removeClass('animateClick')});
+      $button[0].addEventListener('pointerout', function() { $button.removeClass('animateClick')});
+    }
   });
 }
 

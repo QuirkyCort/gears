@@ -1680,7 +1680,8 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       maxSpeed: 600,
       color: 0,
       ttl: 10000,
-      ammo: -1
+      ammo: -1,
+      splatterTTL: -1
     };
 
     for (let name in options) {
@@ -1763,6 +1764,12 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     );
     let rotationQuaternion = BABYLON.Quaternion.Inverse(otherImpostor.object.absoluteRotationQuaternion);
     decal.rotationQuaternion = rotationQuaternion.multiply(decal.rotationQuaternion);
+
+    if (self.options.splatterTTL > 0) {
+      setTimeout(function(){
+        decal.dispose();
+      }, self.options.splatterTTL);
+    }
 
     if (typeof otherImpostor.object.paintballCollide == 'function') {
       otherImpostor.object.paintballCollide(otherImpostor, ownImpostor, hit);

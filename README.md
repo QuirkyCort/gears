@@ -37,6 +37,10 @@ This simulator would not have been possible without the great people behind:
 * Ace https://ace.c9.io
 * Ammo.js https://github.com/kripken/ammo.js/ (port of Bullet https://pybullet.org/)
 
+Translations by:
+
+* French: Sébastien CANET <scanet@libreduc.cc>
+
 License
 ---
 GNU General Public License v3.0
