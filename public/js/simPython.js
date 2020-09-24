@@ -6,7 +6,7 @@ var $builtinmodule = function(name) {
 
   mod.Motor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
-
+    
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       if (address.v == 'outA') {
         self.motor = robot.leftWheel;
@@ -38,7 +38,8 @@ var $builtinmodule = function(name) {
 
       } else if (command.v == '') {
         self.motor.stop();
-      }
+
+      } 
 
       self.motor.command = command.v;
     });
@@ -103,6 +104,36 @@ var $builtinmodule = function(name) {
 
   }, 'Motor', []);
 
+  mod.Pen = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self) {
+      self.robot = robot
+    });
+
+    $loc.down = new Sk.builtin.func(function(self) {
+      self.robot.pen_down()
+    });
+
+    $loc.up = new Sk.builtin.func(function(self) {
+      self.robot.pen_up()
+    });
+
+    $loc.isDown = new Sk.builtin.func(function(self) {
+      return self.robot.is_pen_down()
+    });
+
+    $loc.setColor = new Sk.builtin.func(function(self, r, g, b) {
+      self.robot.set_pen_color(r.v, g.v, b.v)
+    });
+
+    $loc.setOptions = new Sk.builtin.func(function(self, o) {
+      self.robot.set_pen_options(o)
+    });
+    
+  }, 'Pen', []);
+
+  
   mod.ColorSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 

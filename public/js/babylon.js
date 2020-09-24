@@ -5,6 +5,8 @@ var babylon = new function() {
 
   this.world = worlds[0];
 
+  self.groundTexture = null;
+    
   // Run on page load
   this.init = function() {
     self.canvas = document.getElementById('renderCanvas');

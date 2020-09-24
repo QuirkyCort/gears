@@ -194,6 +194,8 @@ var world_Grid = new function() {
 
     var groundMat = new BABYLON.StandardMaterial('ground', scene);
     var groundTexture = new BABYLON.Texture(options.image, scene);
+    //var groundTexture = new BABYLON.DynamicTexture("dynamic texture", 512,
+    //                                               scene, true);
     groundMat.diffuseTexture = groundTexture;
     groundMat.diffuseTexture.uScale = options.width / 20;
     groundMat.diffuseTexture.vScale = options.length / 20;
@@ -216,7 +218,63 @@ var world_Grid = new function() {
     ground.material = groundMat;
     ground.receiveShadows = true;
     ground.position.y = -5;
+    // put a reference to the ground texture in the bablyon object where we
+    // will be able to use it later  
+    //babylon.groundTexture = groundTexture
 
+    var debug_directions = false
+    if (debug_directions) {
+    var rmat = new BABYLON.StandardMaterial("mat1", self.scene);
+    rmat.alpha = 1.0;
+    rmat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 1.0);
+    rmat.backFaceCulling = false;
+    rpaths = []
+    var rpath1 = [];
+    rpath1.push(new BABYLON.Vector3(0, 0, -0.5));
+    rpath1.push(new BABYLON.Vector3(10, 0, -0.5));
+    rpaths.push(rpath1)
+    var rpath2 = [];
+    rpath2.push(new BABYLON.Vector3(0, 1, -0.5));
+    rpath2.push(new BABYLON.Vector3(10, 1, -0.5));
+    rpaths.push(rpath2)
+    
+    ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon", {pathArray: rpaths}, this.scene);
+    ribbon.material = rmat;
+
+    var rmat2 = new BABYLON.StandardMaterial("mat1", self.scene);
+    rmat2.alpha = 1.0;
+    rmat2.diffuseColor = new BABYLON.Color3(1.0, 0.0, 0.0);
+    rmat2.backFaceCulling = false;
+    rpaths = []
+    var rpath1 = [];
+    rpath1.push(new BABYLON.Vector3(0, 0, -0.5));
+    rpath1.push(new BABYLON.Vector3(0, 20, -0.5));
+    rpaths.push(rpath1)
+    var rpath2 = [];
+    rpath2.push(new BABYLON.Vector3(1, 0, -0.5));
+    rpath2.push(new BABYLON.Vector3(1, 20, -0.5));
+    rpaths.push(rpath2)
+    ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon", {pathArray: rpaths}, this.scene);
+    ribbon.material = rmat2;
+
+    var rmat3 = new BABYLON.StandardMaterial("mat1", self.scene);
+    rmat3.alpha = 1.0;
+    rmat3.diffuseColor = new BABYLON.Color3(0.0, 1.0, 0.0);
+    rmat3.backFaceCulling = false;
+    rpaths = []
+    var rpath1 = [];
+    rpath1.push(new BABYLON.Vector3(0, 0, 0));
+    rpath1.push(new BABYLON.Vector3(0, 0, 30));
+    rpaths.push(rpath1)
+    var rpath2 = [];
+    rpath2.push(new BABYLON.Vector3(1, 0, 0));
+    rpath2.push(new BABYLON.Vector3(1, 0, 30));
+    rpaths.push(rpath2)
+    
+    ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon", {pathArray: rpaths}, this.scene);
+    ribbon.material = rmat3;
+    }  
+    
     if (options.wall) {
       var wallMat = new BABYLON.StandardMaterial('wallMat', scene);
       wallMat.diffuseColor = new BABYLON.Color3(0.64, 0.64, 0.64);

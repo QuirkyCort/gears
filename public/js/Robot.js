@@ -12,6 +12,24 @@ function Robot() {
   this.actuatorCount = 2;
   this.componentIndex = 0;
 
+  this.is_pen_down = false // we only draw pen traces for when the pen is down
+  this.pen_color = new BABYLON.Color3(0.5, 0.5, 1.0);
+  // NOTE: pen_meshes does not include current_pen_mesh!
+  this.pen_meshes = []; // array of Ribbon mesh objects, one per down()/up()
+  this.pen_current_path = []; // the path we are currently drawing
+  this.pen_current_mesh = null;
+  // animate can be set to 'none' to disable the pen
+  this.pen_default_options = {'animate' : 'animate',
+                              'orientaton' : 'h',
+                              'width': 1.0,
+                              'debug' : false
+                             }
+  this.pen_options = {...this.pen_default_options}
+  // once the simulation is finished, we may need to render some paths once
+  // this is set to true once simulation starts, then back to false after
+  // the final render
+  this.pen_final_render_needed = false
+  
   this.playerColors =[
     new BABYLON.Color3(0.2, 0.94, 0.94),
     new BABYLON.Color3(0.2, 0.94, 0.2),
@@ -23,6 +41,7 @@ function Robot() {
 
   // Run on page load
   this.init = function() {
+    this.reset_pen();
   };
 
   // Create the scene
@@ -364,6 +383,7 @@ function Robot() {
 
   // Reset robot
   this.reset = function() {
+    this.reset_pen()
     self.leftWheel.reset();
     self.rightWheel.reset();
     self.components.forEach(function(component) {
@@ -383,8 +403,193 @@ function Robot() {
         component.render(delta);
       }
     });
+    // update the pen *after* we have moved the robot body
+    self.pen_update()
   };
 
+  // pen implementation functions
+  this.pen_down = function() {
+    this.pen_current_path = []; // the path we are currently drawing
+    this.pen_current_mesh = null;
+    this.is_pen_down = true
+    if (self.pen_options['debug']) {
+      console.log('pen down');
+    }
+  };
+
+  this.pen_up = function() {
+    if (self.is_pen_down) {
+      if (self.pen_options['animate'] === 'onUp' ||
+          self.pen_options['animate'] === 'onFinish') {
+        self.pen_rebuild_mesh()
+      }
+      if (this.pen_current_mesh != null) {
+        this.pen_meshes.push(this.pen_current_mesh)
+        this.pen_current_mesh = null
+      }
+      this.pen_current_path = [];
+      self.pen_current_path_dirty = false
+    }
+    this.is_pen_down = false
+    if (self.pen_options['debug']) {
+      console.log('pen up');
+    }
+  };
+
+  this.set_pen_color = function(r, g, b) {
+    self.pen_color = new BABYLON.Color3(r, g, b);
+    if (self.pen_options['debug']) {
+      console.log('pen color now', r, g, b);
+    }
+  };
+
+  this.set_pen_options = function(options) {
+    self.last_pen_options = options;
+    js_options = Sk.ffi.remapToJs(options)
+    if (self.pen_options['debug']) {
+      console.log('pen options set', js_options);
+    }
+    for (const [key, value] of Object.entries(js_options)) {
+      if (self.pen_options['debug']) {
+        console.log('setting pen option ', key, ' : ', value);
+      }
+      self.pen_options[key] = value;
+    }    
+  }
+
+  // do all the pen updates for this time through the render loop.
+  // This needs to be called after the body is rendered...
+  this.pen_update = function() {
+    // assume that skulpt.running may change asynchronously
+    robotRunning = skulpt.running
+    if (robotRunning) {
+      self.pen_final_render_needed = true;
+    } else {
+      if (!self.pen_final_render_needed) {
+        return;
+      }
+    }
+    self.pen_update_position()
+    if (self.pen_options['animate'] == 'animate') {
+      // if animating the pen, rebuild each time through render loop
+      if (self.pen_current_path_dirty) {
+        self.pen_rebuild_mesh()
+      }
+    }
+    if (!robotRunning && self.pen_final_render_needed) {
+      self.pen_final_render()
+    }
+  }
+
+  
+  // update current pen path if the pen is down
+  this.pen_update_position = function() {
+    if (!self.is_pen_down) {
+      return
+    }
+    // Body position gets updated in the render loop prior to this
+    // ref axes y and z are swapped!
+    let cur_pos = [self.body.position.x, self.body.position.z]
+    // it seems like a better position would be exactly between the L and R
+    // wheel positions:
+    wheelAxisCenter = self.leftWheel.mesh.position.add(self.rightWheel.mesh.position).scale(1/2.0)
+    cur_pos = [wheelAxisCenter.x, wheelAxisCenter.z] 
+    // TODO consider allowing other positions on robot
+    if (self.pen_current_path.length == 0) {
+      self.pen_current_path.push(cur_pos);
+      self.pen_current_path_dirty = true;
+    } else {
+      let old_pos = self.pen_current_path.slice(-1)[0];
+      // TODO - this epsilon is in any coordinate.  It would be better
+      // to use compare the difference vector distance to the epsilon 
+      penPathEpsilon = 0.05
+      if (arrayAlmostEquals(cur_pos, old_pos, penPathEpsilon)) {
+        // efficiency, skip points very close to previous
+      } else {
+        self.pen_current_path.push(cur_pos)
+        self.pen_current_path_dirty = true;
+      }
+    }
+  };
+
+  this.pen_rebuild_mesh = function() {
+    let animateMode = this.pen_options['animate']
+    if (animateMode === 'none') {
+      return;
+    }
+    if (animateMode != 'animate' && self.pen_options['debug']) {
+      // gets called lots of times in animate mode, so don't log those
+      console.log('pen rebuild mesh');
+    }
+    // drawing current path only
+    var idx;
+    var path = this.pen_current_path;
+    if (this.pen_current_path.length < 2) {
+      return;
+    }
+    if (this.pen_current_mesh != null ) {
+      // remove the old ribbon mesh
+      self.scene.removeMesh(this.current_pen_mesh);
+      this.pen_current_mesh.dispose();
+      this.pen_current_mesh = null;
+    }
+    var mat = new BABYLON.StandardMaterial("mat1", self.scene);
+    mat.alpha = 1.0;
+    mat.diffuseColor = this.pen_color;
+    mat.backFaceCulling = false;
+    // in animate mode, every time we change the path, we recreate the mesh.
+    // I didn't find a way around this, because the length of a ribbon is
+    // not allowed to change.
+    rpaths = ribbonVPathsFromXYPath(path, this.pen_options);
+    try {
+      ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon",
+                                                {pathArray: rpaths,
+                                                 sideOrientation: BABYLON.Mesh.DOUBLESIDE},
+                                                this.scene);
+      if (animateMode === 'onFinish') {
+        ribbon.setEnabled(false)
+      }
+      ribbon.material = mat;
+      this.pen_current_mesh = ribbon;
+    } catch(err) {
+      // do nothing if unable to create ribbon
+    }
+  };
+
+  this.pen_final_render = function() {
+    if (self.pen_options['debug']) {
+      console.log('pen final render');
+    }
+    // force the pen to finish up so the last path gets rendered
+    self.pen_up();
+    self.pen_final_render_needed = false;
+    for (idx = 0; idx < this.pen_meshes.length; idx++) {
+      mesh = this.pen_meshes[idx];
+      mesh.setEnabled(true); // make mesh visible
+    }
+  }
+
+  // clear all pen meshes, clear the current pen trace, set the pen to up
+  this.reset_pen = function() {
+    this.is_pen_down = false
+    this.pen_final_render_needed = false
+    // TODO - Not resetting pen color here, reconsider
+    this.pen_options = {...this.pen_default_options}
+    if (this.pen_current_mesh != null ) {
+      self.scene.removeMesh(this.pen_current_mesh)
+      this.pen_current_mesh.dispose()
+      this.pen_current_mesh = null;
+    }
+    for (idx = 0; idx < this.pen_meshes.length; idx++) {
+      mesh = this.pen_meshes[idx]
+      self.scene.removeMesh(mesh)
+      mesh.dispose()
+    }
+    this.pen_meshes = []
+    this.pen_current_path = []; // the path we are currently drawing
+    self.pen_current_path_dirty = false
+  }
+    
   // Force all motors to stop
   this.stopAll = function() {
     if (self.leftWheel) {
@@ -403,3 +608,46 @@ function Robot() {
   // Init class
   self.init();
 }
+
+function arrayAlmostEquals(a, b, epsilon) {
+  return Array.isArray(a) &&
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, index) => Math.abs(val-b[index]) <= epsilon);
+}    
+
+function ribbonVPathsFromXYPath(xyPath, pen_options){
+  // note Z and Y need to be flipped in creating the vectors.  Not sure why.
+  // we're going to make the ribbon width vertical
+  ribbon_width = pen_options.width;
+  r_v_path = [];  
+  r_v_path2 = [];  
+  for (idx = 0; idx < xyPath.length; idx++) {
+    x = xyPath[idx][0]
+    y = xyPath[idx][1]
+    z = 0
+    if (pen_options.orientation[0] == 'h') {
+      if (idx == 0) {
+        v1 = new BABYLON.Vector3(x, 0.1, y);
+        v2 = v1;
+        lastx = x
+        lasty = y
+      } else {
+        // offset each of v1 v2 perpendicular to travel direction
+        dx = x - lastx
+        dy = y - lasty
+        crossv = new BABYLON.Vector2(dy, -dx)
+        crossv = crossv.normalize().scale(ribbon_width/2.0)
+        // console.log('ns-crossv :', crossv)
+        v1 = new BABYLON.Vector3(x+crossv.x, 0.1, y+crossv.y);
+        v2 = new BABYLON.Vector3(x-crossv.x, 0.1, y-crossv.y);
+      }
+    } else {
+      v1 = new BABYLON.Vector3(x, z, y);
+      v2 = new BABYLON.Vector3(x, z+ribbon_width, y);
+    }
+    r_v_path.push(v1);
+    r_v_path2.push(v2);
+  }
+  return [r_v_path, r_v_path2]
+}  
