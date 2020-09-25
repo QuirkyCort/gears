@@ -1766,9 +1766,14 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     decal.rotationQuaternion = rotationQuaternion.multiply(decal.rotationQuaternion);
 
     if (self.options.splatterTTL > 0) {
-      setTimeout(function(){
-        decal.dispose();
-      }, self.options.splatterTTL);
+      setTimeout(
+        (function (d) {
+          return function(){
+            d.dispose();
+          };
+        }) (decal),
+        self.options.splatterTTL
+      );
     }
 
     if (typeof otherImpostor.object.paintballCollide == 'function') {
