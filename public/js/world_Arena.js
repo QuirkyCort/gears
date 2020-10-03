@@ -402,7 +402,12 @@ var world_Arena = new function() {
     var groundMat = new BABYLON.StandardMaterial('ground', scene);
     var groundTexture = new BABYLON.Texture(self.imagesURL[self.options.challenge], scene);
     groundMat.diffuseTexture = groundTexture;
-    self.addCylinder(scene, groundMat, [10, 200], [0,0,-10]);
+    let physicsOptions = {
+      mass: 0,
+      friction: self.options.groundFriction,
+      restitution: self.options.groundRestitution
+    };
+    self.addCylinder(scene, groundMat, [10, 200], [0,0,-10], false, physicsOptions);
 
     // set time limits
     self.game.TIME_LIMIT = 2 * 60 * 1000;
