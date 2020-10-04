@@ -917,6 +917,11 @@ var configurator = new function() {
 
   // Save robot to json file
   this.saveRobot = function() {
+    if (robotTemplates.findIndex(r => r.name == robot.options.name) != -1) {
+      robot.options.name = robot.options.name + ' (Custom)';
+      self.$robotName.val(robot.options.name);
+    }
+
     robot.options.shortDescription = robot.options.name;
     robot.options.longDescription = '<p>Custom robot created in the configurator.</p>';
 

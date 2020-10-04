@@ -232,6 +232,7 @@ var main = new function() {
 
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
+      robot.options = {};
       Object.assign(robot.options, robotTemplates.find(robotTemplate => robotTemplate.name == $select.val()));
       babylon.resetScene();
       skulpt.hardInterrupt = true;
