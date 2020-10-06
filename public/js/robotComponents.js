@@ -1943,7 +1943,7 @@ function Pen(scene, parent, robot, pos, rot, options) {
   this.current_mesh = null;
   // animate can be set to 'none' to disable the pen
   this.default_options = {'animate' : 'animate',
-                          'orientaton' : 'h',
+                          'orientation' : 'h',
                           'width': 1.0,
                           'debug' : false
                          }
