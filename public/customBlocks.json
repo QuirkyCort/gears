@@ -1284,4 +1284,32 @@
   "colour": 160,
   "tooltip": "#blk-gps_tooltip#",
   "helpUrl": ""
-}]
+},
+{
+  "type": "addPen",
+  "message0": "add Pen to Robot",
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penDown",
+  "message0": "start drawing with pen",
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penUp",
+  "message0": "stop drawing with pen",
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+}
+]

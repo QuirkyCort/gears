@@ -27,6 +27,9 @@ var pybricks_generator = new function() {
     Blockly.Python['exit'] = self.exit;
     Blockly.Python['time'] = self.time;
     Blockly.Python['gps_sensor'] = self.gps_sensor;
+    Blockly.Python['addPen'] = self.addPen;
+    Blockly.Python['penDown'] = self.penDown;
+    Blockly.Python['penUp'] = self.penUp;
   };
 
   // Generate python code
@@ -549,5 +552,21 @@ var pybricks_generator = new function() {
 
     return [code, Blockly.Python.ORDER_ATOMIC];
   }
+
+  this.addPen = function(block) {
+    var code = 'from ev3dev2.pen import *\npen = Pen()\npen.addPen()\n'
+    return code;
+  };
+
+  this.penDown = function(block) {
+    var code = 'pen.down()\n';
+    return code;
+  };
+  
+  this.penUp = function(block) {
+    var code = 'pen.up()\n';
+    return code;
+  };
+
 }
 
