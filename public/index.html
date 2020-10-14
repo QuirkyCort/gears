@@ -35,6 +35,9 @@
   <script src="js/msg.js?v=34356e33"></script>
   <script src="js/common/widgets.js?v=8d532d57"></script>
 
+  <!-- Add icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
   <title>GearsBot</title>
 </head>
 
@@ -50,8 +53,19 @@
     <nav>
       <ul class="panelTabs">
         <li id="navBlocks" class="active">Blocks</li>
-        <li id="navPython">Python</li>
-        <li id="libPython">library.py</li>
+        <li id="navPython" class="pythonMain">
+          <span>
+            Python
+          </span>
+          <span class="py-mod-controls">
+            <i class="fa fa-cloud-upload upload-py-mod"
+               title="Upload python main"></i>
+            <i class="fa fa-cloud-download download-py-mod"
+              title="Download python main"></i>
+            <i class="fa fa-plus-circle add-py-mod"
+              title="Add python module"></i>
+          </span>
+        </li>
         <li id="navSim">Simulator</li>
       </ul>
       <div class="menuBar">
@@ -82,11 +96,7 @@
         <div id="pythonCode"></div>
       </div>
 
-      <div class="panel" aria-labelledby="libPython">
-        <div id="pythonLibCode"></div>
-      </div>
-      
-      <div class="panel" aria-labelledby="navSim">
+      <div class="panel" aria-labelledby="navSim" id="simPanel">
         <canvas id="renderCanvas" touch-action="none"></canvas>
         <div class="runSim"><span class="icon-play"></span></div>
         <div class="world">World</div>

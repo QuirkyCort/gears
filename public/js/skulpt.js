@@ -76,12 +76,21 @@ var skulpt = new function() {
       './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=b78ff7f5',
       './simPython.js': 'js/simPython.js?v=cefd270a'
     }
-    if (filename === "./library.py") {
-      // special case for importing code from the Python Library tab
-      var code = pythonLibPanel.editor.getValue()
-      // console.log('importing lib code.  code follows...')
-      // console.log(code)
-      return code
+    // before import, check if this is one of the library tab modules
+    searchModule = filename.replace(/.py/, '');
+    if (searchModule.startsWith('./')) {
+      // strip off the ./ , because we don't have it in the dict 
+      searchModule = searchModule.substring(2);
+    }
+    for (var moduleID in pythonLibPanelFactory.pyModuleId2Panel) {
+      panel = pythonLibPanelFactory.pyModuleId2Panel[moduleID];
+      moduleName = panel.moduleName;
+      if (searchModule == moduleName) {
+        var code = panel.editor.getValue()
+        console.log('importing lib code from', moduleName) 
+        console.log(code)
+        return code
+      }
     }
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][filename] === undefined) {
       if (filename in externalLibs) {
