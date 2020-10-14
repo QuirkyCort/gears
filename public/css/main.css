@@ -68,6 +68,7 @@ nav {
       background: #D9E3F1;
       color: #999999;
       cursor: pointer;
+      white-space:nowrap;
       user-select: none; }
       nav ul.panelTabs li .py-mod-controls span {
         padding: 0px;
