@@ -1,13 +1,21 @@
 // This code started as a copy of pythonPanel.js
 // It might be a good idea to go back and look at sharing code between them.
-var pythonLibPanel = new function() {
+// Changed from the module pattern to factory pattern so we can have
+// multiple instances.  After creating an instance, call x.init(),
+// passing a unique module name.  If you repeat a module name between instances,
+// they will share storage, which would be bad.
+var pythonLibPanelFactory = function() {
   var self = this;
 
   this.unsaved = false;
   this.modified = false;
 
-  // Run on page load
-  this.init = function() {
+  // Run to initialize this instance of the class.
+  // The module name may change.  The module ID must not change.
+  this.init = function(moduleID, moduleName) {
+    self.moduleID = moduleID;
+    self.moduleName = moduleName;
+    
     self.$save = $('.savePython');
 
     self.updateTextLanguage();
@@ -32,7 +40,8 @@ var pythonLibPanel = new function() {
   // Load ace editor
   this.loadPythonEditor = function() {
     let langTools = ace.require("ace/ext/language_tools");
-    self.editor = ace.edit('pythonLibCode');
+    domElID = `pythonModule_${self.moduleID}`
+    self.editor = ace.edit(domElID);
     self.editor.setTheme('ace/theme/monokai');
     self.editor.session.setMode('ace/mode/python');
     self.editor.setOptions({
@@ -92,18 +101,22 @@ var pythonLibPanel = new function() {
     if (self.unsaved) {
       self.unsaved = false;
       self.hideSave();
-      localStorage.setItem('pythonLibCode', self.editor.getValue());
-      localStorage.setItem('pythonLibModified', self.modified);
+      lsCodeKey = `pythonModuleCode.${self.moduleName}`;
+      lsModifiedKey = `pythonModuleModified.${self.moduleName}`;
+      localStorage.setItem(lsCodeKey, self.editor.getValue());
+      localStorage.setItem(lsModifiedKey, self.modified);
     }
   };
 
   // Load from local storage
   this.loadLocalStorage = function() {
-    var code = localStorage.getItem('pythonLibCode');
+    lsCodeKey = `pythonModuleCode.${self.moduleName}`;
+    lsModifiedKey = `pythonModuleModified.${self.moduleName}`;
+    var code = localStorage.getItem(lsCodeKey);
     if (code) {
       self.editor.setValue(code);
     }
-    if (localStorage.getItem('pythonLibModified') == 'true') {
+    if (localStorage.getItem(lsModifiedKey) == 'true') {
       self.modified = true;
     }
   };
@@ -124,5 +137,19 @@ var pythonLibPanel = new function() {
   };
 }
 
-// Init class
-pythonLibPanel.init();
+// active panel objects.
+pythonLibPanelFactory.pyModuleId2Panel = {}
+// return a list of the names of active python modules.
+
+pythonLibPanelFactory.getModuleNames = function() {
+  moduleNames = []
+  for (var panelModuleID in pythonLibPanelFactory.pyModuleId2Panel) {
+    panel = pythonLibPanelFactory.pyModuleId2Panel[panelModuleID];
+    moduleNames.push(panel.moduleName);
+  }
+  return moduleNames
+}
+  
+// Init class instance after construcing, like this
+// plp = new pythonLibPanelFactory()
+// plp.init('library');
