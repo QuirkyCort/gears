@@ -329,19 +329,19 @@ var world_Image = new function() {
         self.addObstacles(scene, [[[-52, 49, 0], [7, 7, 20], [0, -133, 0]]])
 
         // Push ups (M06):
-        self.addObstacles(scene, [[[12, -7, 0], [5, 10, 2]]])
-        self.addObstacles(scene, [[[15, -10, 0], [3, 3, 20]]])
-        self.addObstacles(scene, [[[27, -10, 17], [24, 3, 3]]])
-        self.addObstacles(scene, [[[39, -10, 0], [3, 3, 20]]])
-        self.addObstacles(scene, [[[42, -7, 0], [5, 10, 2]]])
+        self.addObstacles(scene, [[[12, -7, 0], [5, 10, 2]], 
+                                  [[15, -10, 0], [3, 3, 20]], 
+                                  [[27, -10, 17], [24, 3, 3]], 
+                                  [[39, -10, 0], [3, 3, 20]], 
+                                  [[42, -7, 0], [5, 10, 2]]])
 
         // Boccia (M08):
-        self.addObstacles(scene, [[[-32, 57, 0], [20, 3, 8]]])
-        self.addObstacles(scene, [[[-32, 60, 8], [10, 10, 3]]])
+        self.addObstacles(scene, [[[-32, 57, 0], [20, 3, 8]], 
+                                  [[-32, 60, 8], [10, 10, 3]]])
 
         // Tire Flip (M09):
-        self.addObstacles(scene, [[[55, -13, 0], [7, 7, 3]]])
-        self.addObstacles(scene, [[[55, 0, 0], [10, 10, 5]]])
+        self.addObstacles(scene, [[[55, -13, 0], [7, 7, 3]], 
+                                  [[55, 0, 0], [10, 10, 5]]])
 
         self.addObstacles(scene, [[[42, 39, 0], [5, 15, 10]]])
 
@@ -352,8 +352,8 @@ var world_Image = new function() {
         self.addObstacles(scene, [[[105, -41, 0], [10, 10, 5]]])
 
         // Row Machine (M12):
-        self.addObstacles(scene, [[[108, -8, 0], [5, 5, 10]]])
-        self.addObstacles(scene, [[[101, -11, 0], [5, 5, 2]]])
+        self.addObstacles(scene, [[[108, -8, 0], [5, 5, 10]], 
+                                  [[101, -11, 0], [5, 5, 2]]])
 
         // Weight Machine (M13):
         self.addObstacles(scene, [[[103, 44, 0], [20, 5, 10]]])
