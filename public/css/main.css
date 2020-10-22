@@ -591,34 +591,34 @@ ul.menuDropDownRightAlign {
     font-weight: bold; }
 
 #arenaFrame.bot0 {
-  border-color: #00FFFF; }
+  border-color: #f2502287; }
 
 #arenaFrame.bot1 {
-  border-color: #00FF00; }
+  border-color: #00a4ef82; }
 
 #arenaFrame.bot2 {
-  border-color: #FFFF00; }
+  border-color: #7fba0045; }
 
 #arenaFrame.bot3 {
-  border-color: #FF0000; }
+  border-color: #ffb9006b; }
 
 #arenaFrame.bot0.disabled {
-  border-color: #446666; }
+  border-color: #f250221f; }
   #arenaFrame.bot0.disabled #player {
     color: gray; }
 
 #arenaFrame.bot1.disabled {
-  border-color: #446644; }
+  border-color: #00a4ef1c; }
   #arenaFrame.bot1.disabled #player {
     color: gray; }
 
 #arenaFrame.bot2.disabled {
-  border-color: #666644; }
+  border-color: #7fba0029; }
   #arenaFrame.bot2.disabled #player {
     color: gray; }
 
 #arenaFrame.bot3.disabled {
-  border-color: #664444; }
+  border-color: #ffb90030; }
   #arenaFrame.bot3.disabled #player {
     color: gray; }
 
