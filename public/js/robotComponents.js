@@ -2019,6 +2019,8 @@ function Pen(scene, parent, robot, pos, rot, options) {
       }
       if (this.current_mesh != null) {
         this.meshes.push(this.current_mesh)
+        // slow, use for debugging ribbon only
+        // this.showNormals(this.current_mesh, 1)
         this.current_mesh = null
       }
       this.current_path = [];
@@ -2134,6 +2136,20 @@ function Pen(scene, parent, robot, pos, rot, options) {
     }
   };
 
+  // visualize normals as described in 
+  // https://www.html5gamedevs.com/topic/17040-the-mystery-of-computenormals/
+  // this will be slow, so only use for debugging!
+  this.showNormals = function(mesh, size) {
+    var normals = mesh.getVerticesData(BABYLON.VertexBuffer.NormalKind);
+    var positions = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+  
+    for (var i = 0; i < normals.length; i += 3) {
+      var v1 = BABYLON.Vector3.FromArray(positions, i);
+      var v2 = v1.clone().add(BABYLON.Vector3.FromArray(normals, i).scaleInPlace(size));
+      BABYLON.Mesh.CreateLines(""+i, [v1, v2], scene);
+    }
+  }
+  
   this.final_render = function() {
     if (self.options['debug']) {
       console.log('pen final render');
@@ -2194,18 +2210,19 @@ function ribbonVPathsFromXYPath(xyPath, pen_options){
       if (idx == 0) {
         v1 = new BABYLON.Vector3(x, 0.1, y);
         v2 = v1;
-        lastx = x
-        lasty = y
       } else {
         // offset each of v1 v2 perpendicular to travel direction
         dx = x - lastx
         dy = y - lasty
         crossv = new BABYLON.Vector2(dy, -dx)
         crossv = crossv.normalize().scale(ribbon_width/2.0)
+        // console.log('ns-x,y:', x, y, 'dx,dy :', dx, dy)
         // console.log('ns-crossv :', crossv)
         v1 = new BABYLON.Vector3(x+crossv.x, 0.1, y+crossv.y);
         v2 = new BABYLON.Vector3(x-crossv.x, 0.1, y-crossv.y);
       }
+      lastx = x
+      lasty = y
     } else {
       v1 = new BABYLON.Vector3(x, z, y);
       v2 = new BABYLON.Vector3(x, z+ribbon_width, y);
