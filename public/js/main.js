@@ -526,9 +526,8 @@ var main = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        // second arg: 0 replace all, -1 start, 1 end
-        // this used to be 1, I think 0 is more appropriate
-        pythonPanel.editor.setValue(this.result, 0);
+        // second arg: 0 select all, -1 start, 1 end
+        pythonPanel.editor.setValue(this.result, 1);
         self.tabClicked('navPython');
         pythonPanel.warnModify();
       };
@@ -664,9 +663,11 @@ var main = new function() {
     $(tabNodes[0]).off()
     // remove tab and panel from the DOM.
     tabNodes[0].remove();
-    self.$panels.find('[aria-labelledby="' + moduleID + '"]').remove();
+    modulePanel = self.$panels.siblings('[aria-labelledby="' + moduleID + '"]')
+    modulePanel.remove();
     self.recalcElementSets();
     // TODO, do we need to remove the ACE editor / other associated cleanup?
+    pythonLibPanel.editor.destroy()
     // remove from the hash table
     delete self.pyModuleId2Panel[moduleID];
     console.log(`deleted module ID ${moduleID} NAME ${moduleName}`);

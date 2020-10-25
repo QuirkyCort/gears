@@ -45,6 +45,7 @@ var pythonLibPanelFactory = function() {
     self.editor.setTheme('ace/theme/monokai');
     self.editor.session.setMode('ace/mode/python');
     self.editor.setOptions({
+      readOnly: false,
       enableBasicAutocompletion: true,
       enableSnippets: false,
       enableLiveAutocompletion: true
@@ -71,7 +72,10 @@ var pythonLibPanelFactory = function() {
     };
     langTools.addCompleter(staticWordCompleter);
 
-    self.loadLocalStorage();
+    // Don't load local storage at start for py modules.
+    // At this point we only have the default name, so we cant load
+    // existing code on a page reload anyway.
+    // self.loadLocalStorage();
 
     self.editor.on('change', self.warnModify);
 
@@ -114,7 +118,7 @@ var pythonLibPanelFactory = function() {
     lsModifiedKey = `pythonModuleModified.${self.moduleName}`;
     var code = localStorage.getItem(lsCodeKey);
     if (code) {
-      self.editor.setValue(code);
+      self.editor.setValue(code, 1);
     }
     if (localStorage.getItem(lsModifiedKey) == 'true') {
       self.modified = true;
