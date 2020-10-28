@@ -56,6 +56,13 @@ var world_Image = new function() {
       label: 'Wall Present'
     },
     {
+      option: 'missions',
+      title: 'Missions',
+      type: 'checkbox',
+      label: 'Mission Present',
+      help: '(Currently supports only the 2020 mission)'
+    },
+    {
       option: 'wallHeight',
       title: 'Wall Height (cm)',
       type: 'slider',
@@ -117,6 +124,7 @@ var world_Image = new function() {
     width: 100,
     imageScale: '1',
     wall: true,
+    missions: true,
     wallHeight: 7.7,
     wallThickness: 4.5,
     groundFriction: 1,
@@ -126,7 +134,7 @@ var world_Image = new function() {
     obstacles: [],
     magnetics: [],
     startPos: 'center',
-    startPosXY: '',
+    startPosXY: '-70, -40',
     startRot: ''
   };
 
@@ -305,6 +313,55 @@ var world_Image = new function() {
         wallRight.material = wallMat;
       }
 
+      
+      // 2020 Missions:
+      if (self.options.image == 'textures/maps/FLL2020.jpg' && self.options.missions){
+        // Step Counter (M02):
+        self.addObstacles(scene, [[[40, -53, 0], [30, 7, 7]]])
+
+        // Slide (M03):
+        self.addObstacles(scene, [[[0, -2, 0], [4, 10, 10], [0, 50, 0]]])
+
+        // Bench (M04):
+        self.addObstacles(scene, [[[-67, 15, 0], [20, 7, 7], [0, -165, 0]]])
+
+        // Basketball (M05):
+        self.addObstacles(scene, [[[-52, 49, 0], [7, 7, 20], [0, -133, 0]]])
+
+        // Push ups (M06):
+        self.addObstacles(scene, [[[12, -7, 0], [5, 10, 2]], 
+                                  [[15, -10, 0], [3, 3, 20]], 
+                                  [[27, -10, 17], [24, 3, 3]], 
+                                  [[39, -10, 0], [3, 3, 20]], 
+                                  [[42, -7, 0], [5, 10, 2]]])
+
+        // Boccia (M08):
+        self.addObstacles(scene, [[[-32, 57, 0], [20, 3, 8]], 
+                                  [[-32, 60, 8], [10, 10, 3]]])
+
+        // Tire Flip (M09):
+        self.addObstacles(scene, [[[55, -13, 0], [7, 7, 3]], 
+                                  [[55, 0, 0], [10, 10, 5]]])
+
+        self.addObstacles(scene, [[[42, 39, 0], [5, 15, 10]]])
+
+        // Cell Phone (M10):
+        self.addObstacles(scene, [[[55, 48, 0], [10, 5, 2], [0, 45, 0]]])
+
+        // Treadmill (M11):
+        self.addObstacles(scene, [[[105, -41, 0], [10, 10, 5]]])
+
+        // Row Machine (M12):
+        self.addObstacles(scene, [[[108, -8, 0], [5, 5, 10]], 
+                                  [[101, -11, 0], [5, 5, 2]]])
+
+        // Weight Machine (M13):
+        self.addObstacles(scene, [[[103, 44, 0], [20, 5, 10]]])
+      }
+
+      
+
+
       // Physics
       ground.physicsImpostor = new BABYLON.PhysicsImpostor(
         ground,
@@ -374,9 +431,12 @@ var world_Image = new function() {
       }
       let rot = [0, 0, 0];
       if (obstacles[i][2]) {
+        for (let r=0; r < obstacles[i][2].length; r++){
+          obstacles[i][2][r] = obstacles[i][2][r] * (Math.PI/180)
+        }
         rot = obstacles[i][2];
       }
-      let defaultColor = '#E6808080';
+      let defaultColor = '#666666';
       let color = defaultColor;
       if (obstacles[i][3]) {
         color = obstacles[i][3];
