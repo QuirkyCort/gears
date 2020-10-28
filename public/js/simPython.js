@@ -103,6 +103,55 @@ var $builtinmodule = function(name) {
 
   }, 'Motor', []);
 
+  mod.Pen = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self) {
+      self.robot = robot
+    });
+
+    // python layer does checks to see if the pen exists before
+    // calling pen functions, so not checking in this layer
+    $loc.exists = new Sk.builtin.func(function(self) {
+      if (self.robot.pen != null) {
+        return true; // TODO convert to python True?
+      } else {
+        return false;
+      }
+    });
+
+    // add a pen to the robot at runtime, so all the existing
+    // robot templates can be used with a pen...
+    $loc.addPenToRobot = new Sk.builtin.func(function(self) {
+      self.robot.addPen(); 
+    });
+    
+    $loc.down = new Sk.builtin.func(function(self) {
+      if (self.robot.pen != null) {
+        self.robot.pen.down();
+      } else {
+        console.log('no pen / unable to do pen.down()');
+      }
+    });
+
+    $loc.up = new Sk.builtin.func(function(self) {
+      self.robot.pen.up()
+    });
+
+    $loc.isDown = new Sk.builtin.func(function(self) {
+      return self.robot.pen.is_down
+    });
+
+    $loc.setColor = new Sk.builtin.func(function(self, r, g, b) {
+      self.robot.pen.set_trace_color(r.v, g.v, b.v)
+    });
+
+    $loc.setOptions = new Sk.builtin.func(function(self, o) {
+      self.robot.pen.set_options(o)
+    });
+
+  }, 'Pen', []);
+  
   mod.ColorSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 

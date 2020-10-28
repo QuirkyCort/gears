@@ -1,7 +1,6 @@
 var skulpt = new function() {
   var self = this;
 
-
   // Run on page load
   this.init = function() {
     Sk.configure({
@@ -74,6 +73,7 @@ var skulpt = new function() {
       './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
       './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=cf9db7c8',
       './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=b78ff7f5',
+      './ev3dev2/pen.py': 'ev3dev2/pen.py?v=1601017657',
       './simPython.js': 'js/simPython.js?v=cefd270a'
     }
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][filename] === undefined) {
