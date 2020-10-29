@@ -330,7 +330,10 @@ var main = new function() {
 
       let menuItems = [
         {html: 'Ev3dev Mode', line: false, callback: self.switchToEv3dev},
-        {html: 'Pybricks Mode (Currently not working with simulator)', line: false, callback: self.switchToPybricks}
+        {html: 'Pybricks Mode (Currently not working with simulator)', line: true, callback: self.switchToPybricks},
+        {html: 'Zoom In', line: false, callback: pythonPanel.zoomIn},
+        {html: 'Zoom Out', line: false, callback: pythonPanel.zoomOut},
+        {html: 'Reset Zoom', line: false, callback: pythonPanel.zoomReset},
       ];
       var tickIndex;
       if (blockly.generator == ev3dev2_generator) {
@@ -549,26 +552,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20200813;
+    let current = 20201030;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>13 Aug 2020</h3>' +
-          '<p>Added a ruler for measuring distance, angle, and position.</p>' +
-          '<h3>11 Aug 2020</h3>' +
-          '<p>Biggest new addition is the GearsBot arena, which lets you run up to 4 robots simultaneously, either competing or coorperating with each other to complete a mission.</p>' +
-          '<p>To use the GearsBot arena...</p>' +
-          '<ul><li>Write your program in the normal GearsBot page (...where you are now)</li>' +
-          '<li>Test it out using the new "Arena" world.</li>' +
-          '<li>Export your program and robot as a zip package (Files -> Export Zip...)</li>' +
-          '<li>Load the zip package in the GearsBot Arena, and run it against other players.</li></ul>' +
-          '<p>Other new stuff...</p>' +
-          '<ul><li>Added FLL 2020-2021 (RePLAY) to image world</li>' +
-          '<li>Added WRO 2020 Junior to image world</li>' +
-          '<li>Set project name (optional, but it helps name your save file)</li>' +
-          '<li>Lots of bug fixes</li></ul>'
+          '<h3>30 Oct 2020</h3>' +
+          '<ul>'+
+          '<li>Added a pen (experimental).</li>' +
+          '<li>Added mission models for FLL 2020.</li>' +
+          '<li>Added zoom for Python Code.</li>' +
+          '</ul>'
       }
       acknowledgeDialog(options, function(){
         localStorage.setItem('whatsNew', current);

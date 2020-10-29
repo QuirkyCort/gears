@@ -168,7 +168,7 @@
       </value>
     </block>
   </category>
-  <category name="Pen" colour="#5ba58c">
+  <category name="Pen (Experimental)" colour="#5ba58c">
     <block type="addPen">
     </block>
     <block type="penUp">

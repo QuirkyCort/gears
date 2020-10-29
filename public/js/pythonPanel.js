@@ -7,6 +7,7 @@ var pythonPanel = new function() {
 
   // Run on page load
   this.init = function() {
+    self.$pythonCode = $('#pythonCode');
     self.$save = $('.savePython');
 
     self.updateTextLanguage();
@@ -16,11 +17,28 @@ var pythonPanel = new function() {
     self.loadPythonEditor();
   };
 
+  // Increase font size
+  this.zoomIn = function() {
+    let currentSize = parseFloat(self.$pythonCode.css('font-size'));
+    self.$pythonCode.css('font-size', currentSize * 1.25);
+  };
+
+  // Decrease font size
+  this.zoomOut = function() {
+    let currentSize = parseFloat(self.$pythonCode.css('font-size'));
+    self.$pythonCode.css('font-size', currentSize * 0.8);
+  };
+
+  // Reset font size
+  this.zoomReset = function() {
+    self.$pythonCode.css('font-size', '120%');
+  };
+
   // Update text already in html
   this.updateTextLanguage = function() {
     self.$save.text(i18n.get('#python-save#'));
   };
-  
+
   // Runs when panel is made active
   this.onActive = function() {
     if (self.modified == false) {

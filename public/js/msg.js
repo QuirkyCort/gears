@@ -361,8 +361,8 @@ let MSGS = {
     fr: 'Sélectionner un robot',
   },
   '#main-robot_configurator#': {
-    en: 'Robot Configurator (experimental)',
-    fr: 'Configurateur de robot (expérimental)',
+    en: 'Robot Configurator',
+    fr: 'Configurateur de robot',
   },
   '#main-robot_load_file#': {
     en: 'Load from file',
