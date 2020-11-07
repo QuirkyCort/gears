@@ -71,6 +71,9 @@ function Robot() {
       body.rotate(BABYLON.Axis.X, startRot.x, BABYLON.Space.LOCAL);
       body.rotate(BABYLON.Axis.Z, startRot.z, BABYLON.Space.LOCAL);
 
+      // Add label
+      self.addLabel();
+
       // Add a paintballCollide function
       body.paintballCollide = self.paintballCollide;
 
@@ -192,9 +195,51 @@ function Robot() {
       if (self.pen != null) {
         self.pen.finishInit();
       }
-      
+
       resolve();
     });
+  };
+
+  // Add label
+  this.addLabel = function() {
+    if (typeof babylon.gui != 'undefined' && self.name) {
+      self.nameLabel = new BABYLON.GUI.Rectangle();
+      self.nameLabel.height = '30px';
+      self.nameLabel.width = '200px';
+      self.nameLabel.cornerRadius = 0;
+      self.nameLabel.thickness = 0;
+      babylon.gui.addControl(self.nameLabel);
+
+      var label = new BABYLON.GUI.TextBlock();
+      self.label = label;
+      label.fontFamily = 'sans';
+      label.text = self.name;
+      label.color = '#FFFF77';
+      label.outlineWidth = 1;
+      label.outlineColor = 'black'
+      label.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+      label.fontSize = 20;
+      self.nameLabel.addControl(label);
+
+      self.nameLabel.linkWithMesh(self.body);
+      self.nameLabel.linkOffsetY = -50;
+
+      self.nameLabel.isVisible = false;
+    }
+  };
+
+  // Hide label
+  this.hideLabel = function() {
+    if (typeof self.nameLabel != 'undefined') {
+      self.nameLabel.isVisible = false;
+    }
+  };
+
+  // Show label
+  this.showLabel = function() {
+    if (typeof self.nameLabel != 'undefined') {
+      self.nameLabel.isVisible = true;
+    }
   };
 
   // Paintball collide function. Used to notify world of hit for score keeping.
@@ -343,7 +388,7 @@ function Robot() {
       self.pen.finishInit();
     }
   }
-  
+
   // Load meshes for components that needs it
   this.loadMeshes = function(meshes) {
     function loadMeshes(components) {

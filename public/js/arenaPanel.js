@@ -387,6 +387,11 @@ var arenaPanel = new function() {
     playerFrames.forEach(function(playerFrame){
       playerFrame.skulpt.hardInterrupt = true;
     });
+    if (arena.showNames) {
+      robots.forEach(robot => {
+        robot.showLabel();
+      });
+    }
   };
 
   // Strip html tags

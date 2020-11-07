@@ -36,8 +36,8 @@
 
   <script src="js/ev3dev2_generator.js?v=7f6c87ea"></script>
   <script src="js/pybricks_generator.js?v=4d05c17d"></script>
-  <script src="js/blockly.js?v=5f31fca2"></script>
-  <script src="js/skulpt.js?v=62db1faf"></script>
+  <script src="js/blockly.js?v=54fd6a6d"></script>
+  <script src="js/skulpt.js?v=24e085c9"></script>
   <script>
     function readGET(name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -91,6 +91,14 @@
     document.getElementById('zip').addEventListener('change', function(e){
       JSZip.loadAsync(e.target.files[0])
         .then(function(zip){
+          let metaFile = zip.file('meta.json');
+          if (metaFile) {
+            metaFile.async('string')
+              .then(function(content){
+                let meta = JSON.parse(content);
+                robot.name = meta.name;
+              });
+          }
           zip.file('gearsPython.py').async('string')
             .then(function(content){
               pythonProgram = content;

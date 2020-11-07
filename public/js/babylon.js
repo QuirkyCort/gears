@@ -52,6 +52,11 @@ var babylon = new function() {
     self.cameraArc = cameraArc;
     self.setCameraMode('follow');
 
+    // Add GUI layer
+    if (typeof BABYLON.GUI != 'undefined') {
+      self.gui = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    }
+
     // Add lights to the scene
     var lightHemi = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
     lightHemi.groundColor = new BABYLON.Color3(0.1, 0.2, 0.1);

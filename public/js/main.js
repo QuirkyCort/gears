@@ -396,6 +396,11 @@ var main = new function() {
       filename = 'gearsBot';
     }
 
+    let meta = {
+      name: filename,
+      pythonModified: pythonPanel.modified
+    };
+
     var zip = new JSZip();
     zip.file('gearsBlocks.xml', blockly.getXmlText());
     if (pythonPanel.modified) {
@@ -404,6 +409,7 @@ var main = new function() {
       zip.file('gearsPython.py', blockly.generator.genCode());
     }
     zip.file('gearsRobot.json', JSON.stringify(robot.options, null, 2));
+    zip.file('meta.json', JSON.stringify(meta, null, 2));
 
     zip.generateAsync({type:'base64'})
     .then(function(content) {
