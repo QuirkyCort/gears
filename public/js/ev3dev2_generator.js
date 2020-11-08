@@ -30,6 +30,8 @@ var ev3dev2_generator = new function() {
     Blockly.Python['addPen'] = self.addPen;
     Blockly.Python['penDown'] = self.penDown;
     Blockly.Python['penUp'] = self.penUp;
+    Blockly.Python['penSetColor'] = self.penSetColor;
+    Blockly.Python['penSetWidth'] = self.penSetWidth;
   };
 
   // Generate python code
@@ -537,6 +539,20 @@ var ev3dev2_generator = new function() {
   
   this.penUp = function(block) {
     var code = 'pen.up()\n';
+    return code;
+  };
+
+  this.penSetColor = function(block) {
+    var value_red = Blockly.Python.valueToCode(block, 'red', Blockly.Python.ORDER_ATOMIC);
+    var value_green = Blockly.Python.valueToCode(block, 'green', Blockly.Python.ORDER_ATOMIC);
+    var value_blue = Blockly.Python.valueToCode(block, 'blue', Blockly.Python.ORDER_ATOMIC);
+    var code = 'pen.setColor(' + value_red + ', ' + value_green + ', ' + value_blue + ')\n';
+    return code;
+  };
+
+  this.penSetWidth = function(block) {
+    var value_width = Blockly.Python.valueToCode(block, 'width', Blockly.Python.ORDER_ATOMIC);
+    var code = 'pen.setWidth(' + value_width + ')\n';
     return code;
   };
   
