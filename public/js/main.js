@@ -13,6 +13,7 @@ var main = new function() {
     self.$helpMenu = $('.helpMenu');
     self.$projectName = $('#projectName');
     self.$languageMenu = $('.language');
+    self.$newsButton = $('.news');
 
     self.updateTextLanguage();
 
@@ -23,6 +24,7 @@ var main = new function() {
     self.$arenaButton.click(self.arenaWindow);
     self.$helpMenu.click(self.toggleHelpMenu);
     self.$languageMenu.click(self.toggleLanguageMenu);
+    self.$newsButton.click(self.showNews);
 
     self.$projectName.change(self.saveProjectName);
 
@@ -575,6 +577,20 @@ var main = new function() {
         localStorage.setItem('whatsNew', current);
       });
     }
+  };
+
+  // Display news
+  this.showNews = function() {
+    let options = {
+      title: 'News',
+      message:
+        '<h3>Robo Compete virtual competition</h3>' +
+        '<p>'+
+        'MINT Genie from Germany is running the Robo Compete virtual competition using Gears. ' +
+        'Competition date is on 5 Dec 2020, and registration is open <a href="https://www.mintgenie.de/event-info/robo-compete" target="_blank">here</a>.' +
+        '</p>'
+    }
+    acknowledgeDialog(options);
   };
 }
 

@@ -88,6 +88,12 @@ nav {
       user-select: none; }
     nav .menuBar .menuItem:hover {
       color: #4994FB; }
+  nav .news {
+    margin-left: 2em;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+    user-select: none; }
   nav .panelControlsArea {
     margin-left: auto; }
     nav .panelControlsArea .panelControls {
