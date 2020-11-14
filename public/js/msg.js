@@ -258,7 +258,7 @@ let MSGS = {
   },
   '#blk-and_dont_wait#': {
     en: 'and don\'t wait',
-    fr: 'aet ne pas attendre',
+    fr: 'et ne pas attendre',
   },
   '#blk-and_wait#': {
     en: 'and wait for completion',
@@ -324,7 +324,7 @@ let MSGS = {
   },
   '#main-import_functions#': {
     en: 'Import functions from blocks file',
-    fr: 'Importer une fonctions depuis une sauvegarde',
+    fr: 'Importer une fonction depuis une sauvegarde',
   },
   '#main-save_blocks#': {
     en: 'Save blocks to your computer',
@@ -422,7 +422,7 @@ let MSGS = {
   },
   '#main-about#': {
     en: 'About',
-    fr: 'A propos',
+    fr: 'À propos',
   },
   '#main-arenaTitle#': {
     en: 'GearsBot Arena',
@@ -445,7 +445,7 @@ let MSGS = {
       'Entonces puedes cargar el archivo zip en la Pista GearsBot y ejecutarlo contra otros jugadores.</p>',
     fr:
       '<p>L\'arène GearsBot permet de faire collaborer ou de s\'affronter jusqu\'à 4 robots simultanément.</p>' +
-      '<p>Programmez votre robot depuis la page principale (...celle-ci donc), et expoertez votre programme et votre robot comme un paquet zip (Fichier -> Export Zip...).' +
+      '<p>Programmez votre robot depuis la page principale (...celle-ci donc), puis exportez votre programme et votre robot comme un paquet zip (Fichier -> Export Zip...).' +
       'Vous pouvez charger le paquet zip dans l\'arène GearsBot et le lancer contre les autres joueurs.</p>',
   },
   '#main-arenaGo#': {
@@ -463,8 +463,8 @@ let MSGS = {
       '<p>The GearsBot Robot Configurator allows you to customize an existing robot or create a new robot design.</p>' +
       '<p>After you have completed your customization, save your creation to file and return here to load it.</p>',
     fr:
-      '<p>Le configurateur de robot GearsBot permet de personnaliser un robot déjà existant ou d\'en créer un nouveau..</p>' +
-      '<p>Quand votre personnalisation est finie, sauvergardez votre création dans un fichier et revenir ici pour le charger.</p>',
+      '<p>Le configurateur de robot GearsBot permet de personnaliser un robot déjà existant ou d\'en créer un nouveau.</p>' +
+      '<p>Quand votre personnalisation est finie, sauvegardez votre création dans un fichier et revenez ici pour le charger.</p>',
   },
   '#main-configurator_go#': {
     en: 'Go to Configurator',
@@ -600,7 +600,7 @@ let MSGS = {
   },
   '#sim-select_world#': {
     en: 'Select World',
-    fr: 'Sélectionner votre univers',
+    fr: 'Sélectionnez votre univers',
   },
   '#sim-invalid_map#': {
     en: 'Invalid map configurations',
