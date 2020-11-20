@@ -454,7 +454,7 @@ var world_Image = new function() {
       rotationMode: 'degrees',
       rotation: [0,0,0],
       color: '#E6808080',
-      physicsOptions: 'wall',
+      physicsOptions: 'fixed',
       magnetic: false
     };
 
