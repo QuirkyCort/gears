@@ -462,7 +462,7 @@ var world_Image = new function() {
     Object.assign(options, tmp);
 
     if (typeof options.physicsOptions == 'string') {
-      if (options.physicsOptions == 'wall') {
+      if (options.physicsOptions == 'fixed') {
         options.physicsOptions = {
           mass: 0,
           friction: 0.1,
