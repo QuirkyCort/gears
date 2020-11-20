@@ -89,6 +89,11 @@ var world_Image = new function() {
       value: []
     },
     {
+      option: 'objects',
+      type: 'set',
+      value: []
+    },
+    {
       option: 'startPos',
       title: 'Starting Position',
       type: 'select',
@@ -177,6 +182,7 @@ var world_Image = new function() {
     wallRestitution: 0.1,
     obstacles: [],
     magnetics: [],
+    objects: [],
     startPos: 'imageDefault',
     startPosXY: '',
     startRot: ''
@@ -428,8 +434,172 @@ var world_Image = new function() {
         self.addMagnetics(scene, self.options.magnetics);
       }
 
+      // General objects
+      if (self.options.objects instanceof Array) {
+        for (let i=0; i<self.options.objects.length; i++) {
+          self.addObject(scene, self.options.objects[i]);
+        }
+      }
+
       resolve();
     });
+  };
+
+  // Add a single object
+  this.addObject = function(scene, object) {
+    let options = {
+      type: 'box',
+      position: [0,0,0],
+      size: [10,10,10],
+      rotationMode: 'degrees',
+      rotation: [0,0,0],
+      color: '#E6808080',
+      physicsOptions: 'wall',
+      magnetic: false
+    };
+
+    let tmp = JSON.parse(JSON.stringify(object));
+    Object.assign(options, tmp);
+
+    if (typeof options.physicsOptions == 'string') {
+      if (options.physicsOptions == 'wall') {
+        options.physicsOptions = {
+          mass: 0,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      } else if (options.physicsOptions == 'moveable') {
+        options.physicsOptions = {
+          mass: 10,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      } else {
+        console.log('Invalid physicsOption for object. Using default.');
+        options.physicsOptions = {
+          mass: 0,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      }
+    }
+
+    if (options.position.length < 3) {
+      options.position.push(0);
+    }
+
+    if (options.rotationMode == 'degrees') {
+      for (let i=0; i<options.rotation.length; i++) {
+        options.rotation[i] = options.rotation[i] / 180 * Math.PI;
+      }
+    }
+
+    let meshOptions = {
+      material: babylon.getMaterial(scene, options.color),
+      size: options.size,
+      position: new BABYLON.Vector3(options.position[0], options.position[2],options.position[1]),
+      rotation: new BABYLON.Vector3(options.rotation[0], options.rotation[1], options.rotation[2]),
+      physicsOptions: options.physicsOptions
+    };
+
+    if (options.type == 'box') {
+      var objectMesh = self.addBox(scene, meshOptions);
+    } else if (options.type == 'cylinder') {
+      var objectMesh = self.addCylinder(scene, meshOptions);
+    } else if (options.type == 'sphere') {
+      var objectMesh = self.addSphere(scene, meshOptions);
+    }
+
+    if (options.magnetic) {
+      objectMesh.isMagnetic = true;
+      objectMesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
+    }
+
+    return objectMesh;
+  };
+
+  // Add sphere
+  this.addSphere = function(scene, options) {
+    var meshOptions = {
+      diameter: options.size[0],
+    };
+    if (options.faceUV) {
+      meshOptions.faceUV = options.faceUV;
+    }
+
+    var mesh = BABYLON.MeshBuilder.CreateSphere('sphere', meshOptions, scene);
+    mesh.material = options.material;
+
+    mesh.position = options.position;
+    mesh.rotation = options.rotation;
+
+    if (options.physicsOptions !== false) {
+      mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+        mesh,
+        BABYLON.PhysicsImpostor.SphereImpostor,
+        options.physicsOptions,
+        scene
+      );
+    }
+
+    return mesh;
+  };
+
+  // Add cylinder
+  this.addCylinder = function(scene, options) {
+    var meshOptions = {
+      height: options.size[0],
+      diameter: options.size[1],
+    };
+    if (options.faceUV) {
+      meshOptions.faceUV = options.faceUV;
+    }
+
+    var mesh = BABYLON.MeshBuilder.CreateCylinder('cylinder', meshOptions, scene);
+    mesh.material = options.material;
+
+    mesh.position = options.position;
+    mesh.rotation = options.rotation;
+
+    if (options.physicsOptions !== false) {
+      mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+        mesh,
+        BABYLON.PhysicsImpostor.CylinderImpostor,
+        options.physicsOptions,
+        scene
+      );
+    }
+
+    return mesh;
+  };
+
+  // Add box
+  this.addBox = function(scene, options) {
+    var meshOptions = {
+      width: options.size[0],
+      depth: options.size[1],
+      height: options.size[2],
+    };
+    if (options.faceUV) {
+      meshOptions.faceUV = options.faceUV;
+    }
+
+    var mesh = BABYLON.MeshBuilder.CreateBox('box', meshOptions, scene);
+    mesh.material = options.material;
+
+    mesh.position = options.position;
+    mesh.rotation = options.rotation;
+
+    if (options.physicsOptions !== false) {
+      mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+        mesh,
+        BABYLON.PhysicsImpostor.BoxImpostor,
+        options.physicsOptions,
+        scene
+      );
+    }
+
+    return mesh;
   };
 
   // Add obstacles
@@ -452,7 +622,7 @@ var world_Image = new function() {
       }
       let obstacleMat = babylon.getMaterial(scene, color);
 
-      let obstacle = self.addBox(scene, obstacleMat, size, pos, false, true, true, rot);
+      let obstacle = self.addBoxDeprecated(scene, obstacleMat, size, pos, false, true, true, rot);
       obstacleMeshes.push(obstacle);
     }
     return obstacleMeshes;
@@ -486,14 +656,14 @@ var world_Image = new function() {
       }
       let magneticMat = babylon.getMaterial(scene, color);
 
-      let magnetic = self.addBox(scene, magneticMat, size, pos, true, physicsOptions, true, rot);
+      let magnetic = self.addBoxDeprecated(scene, magneticMat, size, pos, true, physicsOptions, true, rot);
       magneticMeshes.push(magnetic);
     }
     return magneticMeshes;
   };
 
   // Add box
-  this.addBox = function(scene, material, size, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null) {
+  this.addBoxDeprecated = function(scene, material, size, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null) {
     var boxOptions = {
       width: size[0],
       depth: size[1],
