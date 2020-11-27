@@ -567,8 +567,8 @@ let MSGS = {
       '<p>The GearsBot Robot Configurator allows you to customize an existing robot or create a new robot design.</p>' +
       '<p>After you have completed your customization, save your creation to file and return here to load it.</p>',
     fr:
-      '<p>Le configurateur de robot GearsBot permet de personnaliser un robot déjà existant ou d\'en créer un nouveau..</p>' +
-      '<p>Quand votre personnalisation est finie, sauvegardez votre création dans un fichier et revenir ici pour le charger.</p>',
+      '<p>Le configurateur de robot GearsBot permet de personnaliser un robot déjà existant ou d\'en créer un nouveau.</p>' +
+      '<p>Quand votre personnalisation est finie, sauvegardez votre création dans un fichier et revenez ici pour le charger.</p>',
     el:
       '<p>Ο διαμορφωτής ρομπότ GearsBot σάς επιτρέπει να προσαρμόσετε ένα υπάρχον ρομπότ ή να δημιουργήσετε ένα νέο σχέδιο ρομπότ.</p>' +
       '<p>Αφού ολοκληρώσετε τις προσαρμογές σας, αποθηκεύστε τη δημιουργία σας σε ένα αρχείο και επιστρέψτε εδώ για να την φορτώσετε.</p>',
