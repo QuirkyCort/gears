@@ -316,7 +316,7 @@ let MSGS = {
   },
   '#blk-and_dont_wait#': {
     en: 'and don\'t wait',
-    fr: 'aet ne pas attendre',
+    fr: 'et ne pas attendre',
     el: 'και μην περιμένεις',
   },
   '#blk-and_wait#': {
@@ -397,7 +397,7 @@ let MSGS = {
   },
   '#main-import_functions#': {
     en: 'Import functions from blocks file',
-    fr: 'Importer une fonctions depuis une sauvegarde',
+    fr: 'Importer une fonction depuis une sauvegarde',
     el: 'Εισαγωγή συναρτήσεων από αρχείο μπλοκ',
   },
   '#main-save_blocks#': {
@@ -518,7 +518,7 @@ let MSGS = {
   },
   '#main-about#': {
     en: 'About',
-    fr: 'A propos',
+    fr: 'À propos',
     el: 'Σχετικά με',
   },
   '#main-arenaTitle#': {
@@ -543,7 +543,7 @@ let MSGS = {
       'Entonces puedes cargar el archivo zip en la Pista GearsBot y ejecutarlo contra otros jugadores.</p>',
     fr:
       '<p>L\'arène GearsBot permet de faire collaborer ou de s\'affronter jusqu\'à 4 robots simultanément.</p>' +
-      '<p>Programmez votre robot depuis la page principale (...celle-ci donc), et expoertez votre programme et votre robot comme un paquet zip (Fichier -> Export Zip...).' +
+      '<p>Programmez votre robot depuis la page principale (...celle-ci donc), puis exportez votre programme et votre robot comme un paquet zip (Fichier -> Export Zip...).' +
       'Vous pouvez charger le paquet zip dans l\'arène GearsBot et le lancer contre les autres joueurs.</p>',
     el:
       '<p>Η Αρένα GearsBot επιτρέπει έως και 4 ρομπότ να ανταγωνίζονται ή να συνεργάζονται μεταξύ τους.</p>' +
@@ -568,7 +568,7 @@ let MSGS = {
       '<p>After you have completed your customization, save your creation to file and return here to load it.</p>',
     fr:
       '<p>Le configurateur de robot GearsBot permet de personnaliser un robot déjà existant ou d\'en créer un nouveau..</p>' +
-      '<p>Quand votre personnalisation est finie, sauvergardez votre création dans un fichier et revenir ici pour le charger.</p>',
+      '<p>Quand votre personnalisation est finie, sauvegardez votre création dans un fichier et revenir ici pour le charger.</p>',
     el:
       '<p>Ο διαμορφωτής ρομπότ GearsBot σάς επιτρέπει να προσαρμόσετε ένα υπάρχον ρομπότ ή να δημιουργήσετε ένα νέο σχέδιο ρομπότ.</p>' +
       '<p>Αφού ολοκληρώσετε τις προσαρμογές σας, αποθηκεύστε τη δημιουργία σας σε ένα αρχείο και επιστρέψτε εδώ για να την φορτώσετε.</p>',
@@ -739,7 +739,7 @@ let MSGS = {
   },
   '#sim-select_world#': {
     en: 'Select World',
-    fr: 'Sélectionner votre univers',
+    fr: 'Sélectionnez votre univers',
     el: 'Επιλέξτε κόσμο',
   },
   '#sim-invalid_map#': {
@@ -866,38 +866,30 @@ let MSGS = {
 let MSGS_KEYS = Object.keys(MSGS);
 
 let LANG = localStorage.getItem('LANG');
-if (!LANG || LANG == '' || LANG == 'undefined')
-{
+if (!LANG || LANG == '' || LANG == 'undefined') {
   LANG = 'en';
 }
 
-var i18n = new function ()
-{
+var i18n = new function() {
   var self = this;
 
   // Append to messages
-  this.append = function (msgs)
-  {
+  this.append = function(msgs) {
     MSGS = Object.assign(MSGS, msgs);
     MSGS_KEYS = Object.keys(MSGS);
   };
 
   // Get a single string
-  this.get = function (requestedKey)
-  {
+  this.get = function(requestedKey) {
     let messages = MSGS[requestedKey];
-    if (typeof messages == 'undefined')
-    {
+    if (typeof messages == 'undefined') {
       return requestedKey;
     }
     let message = messages[LANG]
-    if (typeof message == 'undefined')
-    {
-      if (typeof messages['en'] == 'undefined')
-      {
+    if (typeof message == 'undefined') {
+      if (typeof messages['en'] == 'undefined') {
         return requestedKey;
-      } else
-      {
+      } else {
         return messages['en'];
       }
     }
@@ -905,17 +897,14 @@ var i18n = new function ()
   };
 
   // Change all keys in provided string
-  this.replace = function (input)
-  {
+  this.replace = function(input) {
     let regEx = '';
-    for (key of MSGS_KEYS)
-    {
+    for (key of MSGS_KEYS) {
       regEx += key + '|';
     }
     regEx = regEx.slice(0, regEx.length - 1);
     regEx = new RegExp(regEx, 'g');
-    return input.replace(regEx, function (key)
-    {
+    return input.replace(regEx, function(key){
       return self.get(key);
     })
   }
