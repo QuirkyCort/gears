@@ -57,6 +57,7 @@ var main = new function() {
       }
 
       let menuItems = [
+        {html: 'Ελληνικά', line: false, callback: function() { setLang('el'); }},
         {html: 'English', line: false, callback: function() { setLang('en'); }},
         {html: 'Español', line: false, callback: function() { setLang('es'); }},
         {html: 'Français', line: false, callback: function() { setLang('fr'); }},
