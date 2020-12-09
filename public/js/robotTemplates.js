@@ -105,7 +105,7 @@ i18n.append({
       '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a gyro and GPS allows accurate movements even when the robot is off the line.</p>',
     fr:
       '<p>Ce robot est équipé de deux capteurs de couleurs pour suivre des lignes au sol.</p>' +
-      '<p>Un électroaimant sous le robot permet de ramasser des objets magnétiques, et un gyroscope et un GPS permet de gérer ses mouvements même s\'il sort de la ligne.</p>',
+      '<p>Un électroaimant sous le robot permet de ramasser des objets magnétiques, un gyroscope et un GPS permet de gérer ses mouvements même s\'il sort de la ligne.</p>',
   },
   '#robot-paintballShort#': {
     en: 'Paintball ',

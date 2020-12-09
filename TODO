@@ -20,6 +20,7 @@ Documentation
 
 Coding (Python editor)
 - Documentation panel?
+- Zoom in/out
 
 Coding (Robot configurator)
 - Help menu
@@ -36,6 +37,9 @@ Coding (Simulator)
   - touch sensor (simplified laser rangefinder with very short range)
 - Prevent jumping over wall when backing up. (Increasing wall friction doesn't work...)
 - Set duty_cycle_sp. Useful for aligning to wall.
+- Remote control
+- Buttons
+- Load zip file
 
 Coding (Sharing)
 - Remote coach view of student's work

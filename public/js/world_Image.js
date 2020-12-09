@@ -56,6 +56,13 @@ var world_Image = new function() {
       label: 'Wall Present'
     },
     {
+      option: 'missions',
+      title: 'Missions',
+      type: 'checkbox',
+      label: 'Mission Objects Present',
+      help: '(Currently supports only the FLL 2020 mission)'
+    },
+    {
       option: 'wallHeight',
       title: 'Wall Height (cm)',
       type: 'slider',
@@ -82,10 +89,16 @@ var world_Image = new function() {
       value: []
     },
     {
+      option: 'objects',
+      type: 'set',
+      value: []
+    },
+    {
       option: 'startPos',
       title: 'Starting Position',
       type: 'select',
       options: [
+        ['Image Default', 'imageDefault'],
         ['Center', 'center'],
         ['Bottom Left', 'bottomLeft'],
         ['Bottom Center', 'bottomCenter'],
@@ -110,6 +123,49 @@ var world_Image = new function() {
     }
   ];
 
+  // Default starting position for this image in x, z, rotY (radians)
+  this.imageStartPos = {
+    'textures/maps/FLL2020.jpg': [-70, -40, 0],
+  },
+
+  this.missions = {
+    'textures/maps/FLL2020.jpg': {
+      obstacles: [
+        // Step Counter (M02):
+        [[40, -53, 0], [30, 7, 7], [0,0,0], '#666666'],
+        // Slide (M03):
+        [[0, -2, 0], [4, 10, 10], [0, 0.872664625997165, 0], '#666666'],
+        // Bench (M04):
+        [[-67, 15, 0], [20, 7, 7], [0, -2.87979326579064, 0], '#666666'],
+        // Basketball (M05):
+        [[-52, 49, 0], [7, 7, 20], [0, -2.32128790515246, 0], '#666666'],
+        // Push ups (M06):
+        [[12, -7, 0], [5, 10, 2], [0,0,0], '#666666'],
+        [[15, -10, 0], [3, 3, 20], [0,0,0], '#666666'],
+        [[27, -10, 17], [24, 3, 3], [0,0,0], '#666666'],
+        [[39, -10, 0], [3, 3, 20], [0,0,0], '#666666'],
+        [[42, -7, 0], [5, 10, 2], [0,0,0], '#666666'],
+        // Boccia (M08):
+        [[-32, 57, 0], [20, 3, 8], [0,0,0], '#666666'],
+        [[-32, 60, 8], [10, 10, 3], [0,0,0], '#666666'],
+        // Tire Flip (M09):
+        [[55, -13, 0], [7, 7, 3], [0,0,0], '#666666'],
+        [[55, 0, 0], [10, 10, 5], [0,0,0], '#666666'],
+        [[42, 39, 0], [5, 15, 10], [0,0,0], '#666666'],
+        // Cell Phone (M10):
+        [[55, 48, 0], [10, 5, 2], [0, 0.785398163397448, 0], '#666666'],
+        // Treadmill (M11):
+        [[105, -41, 0], [10, 10, 5], [0,0,0], '#666666'],
+        // Row Machine (M12):
+        [[108, -8, 0], [5, 5, 10], [0,0,0], '#666666'],
+        [[101, -11, 0], [5, 5, 2], [0,0,0], '#666666'],
+        // Weight Machine (M13):
+        [[103, 44, 0], [20, 5, 10], [0,0,0], '#666666'],
+      ],
+      magnetics: []
+    }
+  }
+
   this.defaultOptions = {
     image: 'textures/maps/FLL2020.jpg',
     imageURL: '',
@@ -117,6 +173,7 @@ var world_Image = new function() {
     width: 100,
     imageScale: '1',
     wall: true,
+    missions: true,
     wallHeight: 7.7,
     wallThickness: 4.5,
     groundFriction: 1,
@@ -125,7 +182,8 @@ var world_Image = new function() {
     wallRestitution: 0.1,
     obstacles: [],
     magnetics: [],
-    startPos: 'center',
+    objects: [],
+    startPos: 'imageDefault',
     startPosXY: '',
     startRot: ''
   };
@@ -219,6 +277,14 @@ var world_Image = new function() {
           self.robotStart = self.arenaStart[2];
         } else if (self.options.startPos == 'P3') {
           self.robotStart = self.arenaStart[3];
+        } else if (self.options.startPos == 'imageDefault') {
+          let imageStartPos = self.imageStartPos[self.options.image];
+          if (typeof imageStartPos != 'undefined') {
+            self.robotStart.position = new BABYLON.Vector3(imageStartPos[0], 0, imageStartPos[1]);
+            self.robotStart.rotation.y = imageStartPos[2];
+          } else {
+            self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
+          }
         }
 
         if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
@@ -227,6 +293,15 @@ var world_Image = new function() {
         }
         if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
           self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
+        }
+
+        if (self.options.missions && typeof self.missions[self.options.image] != 'undefined') {
+          if (self.options.obstacles.length == 0) {
+            self.options.obstacles = self.missions[self.options.image].obstacles;
+          }
+          if (self.options.magnetics.length == 0) {
+            self.options.magnetics = self.missions[self.options.image].magnetics;
+          }
         }
 
         resolve();
@@ -359,8 +434,172 @@ var world_Image = new function() {
         self.addMagnetics(scene, self.options.magnetics);
       }
 
+      // General objects
+      if (self.options.objects instanceof Array) {
+        for (let i=0; i<self.options.objects.length; i++) {
+          self.addObject(scene, self.options.objects[i]);
+        }
+      }
+
       resolve();
     });
+  };
+
+  // Add a single object
+  this.addObject = function(scene, object) {
+    let options = {
+      type: 'box',
+      position: [0,0,0],
+      size: [10,10,10],
+      rotationMode: 'degrees',
+      rotation: [0,0,0],
+      color: '#E6808080',
+      physicsOptions: 'fixed',
+      magnetic: false
+    };
+
+    let tmp = JSON.parse(JSON.stringify(object));
+    Object.assign(options, tmp);
+
+    if (typeof options.physicsOptions == 'string') {
+      if (options.physicsOptions == 'fixed') {
+        options.physicsOptions = {
+          mass: 0,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      } else if (options.physicsOptions == 'moveable') {
+        options.physicsOptions = {
+          mass: 10,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      } else {
+        console.log('Invalid physicsOption for object. Using default.');
+        options.physicsOptions = {
+          mass: 0,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      }
+    }
+
+    if (options.position.length < 3) {
+      options.position.push(0);
+    }
+
+    if (options.rotationMode == 'degrees') {
+      for (let i=0; i<options.rotation.length; i++) {
+        options.rotation[i] = options.rotation[i] / 180 * Math.PI;
+      }
+    }
+
+    let meshOptions = {
+      material: babylon.getMaterial(scene, options.color),
+      size: options.size,
+      position: new BABYLON.Vector3(options.position[0], options.position[2],options.position[1]),
+      rotation: new BABYLON.Vector3(options.rotation[0], options.rotation[1], options.rotation[2]),
+      physicsOptions: options.physicsOptions
+    };
+
+    if (options.type == 'box') {
+      var objectMesh = self.addBox(scene, meshOptions);
+    } else if (options.type == 'cylinder') {
+      var objectMesh = self.addCylinder(scene, meshOptions);
+    } else if (options.type == 'sphere') {
+      var objectMesh = self.addSphere(scene, meshOptions);
+    }
+
+    if (options.magnetic) {
+      objectMesh.isMagnetic = true;
+      objectMesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
+    }
+
+    return objectMesh;
+  };
+
+  // Add sphere
+  this.addSphere = function(scene, options) {
+    var meshOptions = {
+      diameter: options.size[0],
+    };
+    if (options.faceUV) {
+      meshOptions.faceUV = options.faceUV;
+    }
+
+    var mesh = BABYLON.MeshBuilder.CreateSphere('sphere', meshOptions, scene);
+    mesh.material = options.material;
+
+    mesh.position = options.position;
+    mesh.rotation = options.rotation;
+
+    if (options.physicsOptions !== false) {
+      mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+        mesh,
+        BABYLON.PhysicsImpostor.SphereImpostor,
+        options.physicsOptions,
+        scene
+      );
+    }
+
+    return mesh;
+  };
+
+  // Add cylinder
+  this.addCylinder = function(scene, options) {
+    var meshOptions = {
+      height: options.size[0],
+      diameter: options.size[1],
+    };
+    if (options.faceUV) {
+      meshOptions.faceUV = options.faceUV;
+    }
+
+    var mesh = BABYLON.MeshBuilder.CreateCylinder('cylinder', meshOptions, scene);
+    mesh.material = options.material;
+
+    mesh.position = options.position;
+    mesh.rotation = options.rotation;
+
+    if (options.physicsOptions !== false) {
+      mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+        mesh,
+        BABYLON.PhysicsImpostor.CylinderImpostor,
+        options.physicsOptions,
+        scene
+      );
+    }
+
+    return mesh;
+  };
+
+  // Add box
+  this.addBox = function(scene, options) {
+    var meshOptions = {
+      width: options.size[0],
+      depth: options.size[1],
+      height: options.size[2],
+    };
+    if (options.faceUV) {
+      meshOptions.faceUV = options.faceUV;
+    }
+
+    var mesh = BABYLON.MeshBuilder.CreateBox('box', meshOptions, scene);
+    mesh.material = options.material;
+
+    mesh.position = options.position;
+    mesh.rotation = options.rotation;
+
+    if (options.physicsOptions !== false) {
+      mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+        mesh,
+        BABYLON.PhysicsImpostor.BoxImpostor,
+        options.physicsOptions,
+        scene
+      );
+    }
+
+    return mesh;
   };
 
   // Add obstacles
@@ -383,7 +622,7 @@ var world_Image = new function() {
       }
       let obstacleMat = babylon.getMaterial(scene, color);
 
-      let obstacle = self.addBox(scene, obstacleMat, size, pos, false, true, true, rot);
+      let obstacle = self.addBoxDeprecated(scene, obstacleMat, size, pos, false, true, true, rot);
       obstacleMeshes.push(obstacle);
     }
     return obstacleMeshes;
@@ -417,14 +656,14 @@ var world_Image = new function() {
       }
       let magneticMat = babylon.getMaterial(scene, color);
 
-      let magnetic = self.addBox(scene, magneticMat, size, pos, true, physicsOptions, true, rot);
+      let magnetic = self.addBoxDeprecated(scene, magneticMat, size, pos, true, physicsOptions, true, rot);
       magneticMeshes.push(magnetic);
     }
     return magneticMeshes;
   };
 
   // Add box
-  this.addBox = function(scene, material, size, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null) {
+  this.addBoxDeprecated = function(scene, material, size, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null) {
     var boxOptions = {
       width: size[0],
       depth: size[1],

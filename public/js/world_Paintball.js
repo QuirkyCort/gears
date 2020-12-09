@@ -157,7 +157,7 @@ var world_Paintball = new function() {
   this.loadFindTarget = function(scene) {
     let ground = self.addCylinder(
       scene,
-      null,
+      babylon.getMaterial(scene, 'fff'),
       [10, 1000],
       [0,0,-10]
     );

@@ -1284,4 +1284,76 @@
   "colour": 160,
   "tooltip": "#blk-gps_tooltip#",
   "helpUrl": ""
-}]
+},
+{
+  "type": "addPen",
+  "message0": "add Pen to Robot",
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penDown",
+  "message0": "start drawing with pen",
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penUp",
+  "message0": "stop drawing with pen",
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penSetColor",
+  "message0": "set the pen color to red %1 green %2 blue %3",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "red",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "green",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "blue",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penSetWidth",
+  "message0": "set the pen width to %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "width",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+}
+]

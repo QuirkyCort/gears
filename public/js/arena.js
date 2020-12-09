@@ -6,8 +6,45 @@ var arena = new function() {
     self.$navs = $('nav li');
     self.$panelControls = $('.panelControlsArea .panelControls');
     self.$panels = $('.panels .panel');
+    self.$optionsMenu = $('.optionsMenu');
+
+    self.showNames = false;
 
     self.$navs.click(self.tabClicked);
+
+    self.$optionsMenu.click(self.toggleOptionsMenu);
+  };
+
+  // Toggle options
+  this.toggleOptionsMenu = function(e) {
+    if ($('.optionsMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: 'Show Names', line: false, callback: self.toggleShowName},
+      ];
+      if (self.showNames) {
+        menuItems[0].html = '<span class="tick">&#x2713;</span> ' + menuItems[0].html;
+      }
+
+      menuDropDown(self.$optionsMenu, menuItems, {className: 'optionsMenuDropDown'});
+    }
+  };
+
+  // Toggle display of name
+  this.toggleShowName = function() {
+    if (self.showNames) {
+      self.showNames = false;
+      robots.forEach(robot => {
+        robot.hideLabel();
+      });
+    } else {
+      self.showNames = true;
+      robots.forEach(robot => {
+        robot.showLabel();
+      });
+    }
   };
 
   // Clicked on tab

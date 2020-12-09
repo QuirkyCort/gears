@@ -52,6 +52,11 @@ var babylon = new function() {
     self.cameraArc = cameraArc;
     self.setCameraMode('follow');
 
+    // Add GUI layer
+    if (typeof BABYLON.GUI != 'undefined') {
+      self.gui = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    }
+
     // Add lights to the scene
     var lightHemi = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
     lightHemi.groundColor = new BABYLON.Color3(0.1, 0.2, 0.1);
@@ -187,7 +192,7 @@ var babylon = new function() {
 
       // RTT test
       // var mat = new BABYLON.StandardMaterial("RTT mat", self.scene);
-      // mat.diffuseTexture = robot.getComponentByPort('in5').renderTarget;
+      // mat.diffuseTexture = robot.getComponentByPort('in1').renderTarget;
       // mat.emissiveColor = new BABYLON.Color3(1,1,1);
       // mat.disableLighting = true;
 
@@ -210,6 +215,9 @@ var babylon = new function() {
       self.scene.meshes.forEach(function(mesh) {
         mesh.origMaterial = mesh.material;
         if (mesh.material == null) {
+          if (mesh.visibility) {
+            console.log('WARNING: ' + mesh.id + ' does not have a material');
+          }
           mesh.rttMaterial == null;
         } else {
           let rttID = 'RTT_' + mesh.material.id;
@@ -224,6 +232,8 @@ var babylon = new function() {
               mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
             }
             mesh.rttMaterial.freeze();
+          } else {
+            mesh.rttMaterial = mat;
           }
         }
       });
