@@ -68,7 +68,17 @@ nav {
       background: #D9E3F1;
       color: #999999;
       cursor: pointer;
+      white-space:nowrap;
       user-select: none; }
+      nav ul.panelTabs li .py-mod-controls span {
+        padding: 0px;
+      }
+      nav ul.panelTabs li .py-mod-controls {
+        display: none;
+      }
+      nav ul.panelTabs li.active .py-mod-controls {
+        display: inline;
+      }
     nav ul.panelTabs li:hover {
       background: #E4F0FE; }
     nav ul.panelTabs li.active {
@@ -124,6 +134,11 @@ nav {
   display: none; }
 
 #pythonCode {
+  width: 100%;
+  height: 100%;
+  font-size: 120%; }
+
+.pythonModule {
   width: 100%;
   height: 100%;
   font-size: 120%; }
