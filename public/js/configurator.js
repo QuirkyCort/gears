@@ -230,7 +230,6 @@ var configurator = new function() {
         position: [0, 5, 0],
         rotation: [0, 0, 0],
         options: {
-          height: 1,
           diameter: 1,
           color: 'A3CF0D'
         }
@@ -429,7 +428,9 @@ var configurator = new function() {
         position: [0, 5, 0],
         rotation: [0, 0, 0],
         components: [],
-        options: null
+        options: {
+          armColor: 'A3CF0D'
+        }
       },
       optionsConfigurations: [
         {
@@ -452,6 +453,12 @@ var configurator = new function() {
           option: 'armLength',
           type: 'floatText',
           help: 'Length of arm in cm. Leave blank to use default.',
+          reset: true
+        },
+        {
+          option: 'armColor',
+          type: 'strText',
+          help: 'Color in hex',
           reset: true
         },
         {

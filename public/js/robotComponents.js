@@ -1090,7 +1090,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     pivot.position.y = 0.5;
     scene.shadowGenerator.addShadowCaster(pivot);
 
-    var armMat = babylon.getMaterial(scene, 'A3CF0D');
+    var armMat = babylon.getMaterial(scene, self.options.armColor);
 
     var arm = BABYLON.MeshBuilder.CreateBox('arm', {height: 1, width: 1, depth: self.options.armLength}, scene);;
     self.arm = arm;
@@ -1167,6 +1167,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       minAngle: -5,
       maxAngle: 180,
       mass: 100,
+      armColor: 'A3CF0D',
       components: []
     };
 
