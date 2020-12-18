@@ -57,10 +57,10 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
     var eyeMat = babylon.getMaterial(scene, 'E60000');
-    var eye = new BABYLON.MeshBuilder.CreateSphere('colorSensorEye', {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
-    eye.material = eyeMat;
-    eye.position.z = 1.5;
-    eye.parent = body;
+    self.eye = new BABYLON.MeshBuilder.CreateSphere('colorSensorEye', {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
+    self.eye.material = eyeMat;
+    self.eye.position.z = 1.5;
+    self.eye.parent = body;
 
     // Create camera and RTT
     self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
@@ -68,7 +68,6 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.rttCam.minZ = self.options.sensorMinRange;
     self.rttCam.maxZ = self.options.sensorMaxRange;
     self.rttCam.updateUpVectorFromRotation = true;
-    self.rttCam.position = eye.absolutePosition;
 
     self.renderTarget = new BABYLON.RenderTargetTexture(
       'colorSensor',
@@ -167,6 +166,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
   };
 
   this.render = function(delta) {
+    self.rttCam.position = self.eye.getAbsolutePosition();
     self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
     if (! self.waitingSync && babylon.engine._webGLVersion >= 2 && babylon.DISABLE_ASYNC == false) {
       self.readPixelsAsync();
