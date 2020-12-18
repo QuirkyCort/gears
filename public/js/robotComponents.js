@@ -57,7 +57,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
     var eyeMat = babylon.getMaterial(scene, 'E60000');
-    var eye = new BABYLON.MeshBuilder.CreateSphere('eye', {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
+    var eye = new BABYLON.MeshBuilder.CreateSphere('colorSensorEye', {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
     eye.material = eyeMat;
     eye.position.z = 1.5;
     eye.parent = body;
@@ -142,6 +142,9 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
 
   this.loadMeshes = function(meshes) {
     meshes.forEach(function(mesh){
+      if (mesh.name == 'colorSensorEye') {
+        return;
+      }
       self.renderTarget.renderList.push(mesh);
     });
   };
@@ -1887,7 +1890,7 @@ function Pen(scene, parent, robot, pos, rot, options) {
   var self = this;
   this.scene = scene;
   this.robot = robot; // cache the robot so we can find the wheel axis center
-  
+
   this.type = 'Pen';
   // TODO default options
   this.options = null;
@@ -1898,7 +1901,7 @@ function Pen(scene, parent, robot, pos, rot, options) {
     // if the position is not given, we default to the center of the wheel
     // axis.  However, the wheel meshes are built *after* the components,
     // so we can't do it until later.  Therefore we use 0,0,0 as the temporary
-    // position and correct it in Pen.finishInit() 
+    // position and correct it in Pen.finishInit()
     this.position = new BABYLON.Vector3(0, -2, 0)
   } else {
     this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
@@ -1953,7 +1956,7 @@ function Pen(scene, parent, robot, pos, rot, options) {
   // this is set to true once simulation starts, then back to false after
   // the final render
   this.final_render_needed = false
-  
+
   this.init = function() {
     this.reset();
   }
@@ -1974,7 +1977,7 @@ function Pen(scene, parent, robot, pos, rot, options) {
       self.positionSetupNeeded = false;
     }
   }
-  
+
   // We do all the work of updating the trace path and, when necessary,
   // drawing the pen trace in render().
   this.render = function(delta) {
@@ -2051,7 +2054,7 @@ function Pen(scene, parent, robot, pos, rot, options) {
         console.log('setting pen option ', key, ' : ', value);
       }
       self.options[key] = value;
-    }    
+    }
   }
 
   // update current pen trace path if the pen is down
@@ -2076,7 +2079,7 @@ function Pen(scene, parent, robot, pos, rot, options) {
     } else {
       let old_pos = self.current_path.slice(-1)[0];
       // TODO - this epsilon is in any coordinate.  It would be better
-      // to use compare the difference vector distance to the epsilon 
+      // to use compare the difference vector distance to the epsilon
       penPathEpsilon = 0.05
       if (arrayAlmostEquals(cur_pos, old_pos, penPathEpsilon)) {
         // efficiency, skip points very close to previous
@@ -2136,20 +2139,20 @@ function Pen(scene, parent, robot, pos, rot, options) {
     }
   };
 
-  // visualize normals as described in 
+  // visualize normals as described in
   // https://www.html5gamedevs.com/topic/17040-the-mystery-of-computenormals/
   // this will be slow, so only use for debugging!
   this.showNormals = function(mesh, size) {
     var normals = mesh.getVerticesData(BABYLON.VertexBuffer.NormalKind);
     var positions = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-  
+
     for (var i = 0; i < normals.length; i += 3) {
       var v1 = BABYLON.Vector3.FromArray(positions, i);
       var v2 = v1.clone().add(BABYLON.Vector3.FromArray(normals, i).scaleInPlace(size));
       BABYLON.Mesh.CreateLines(""+i, [v1, v2], scene);
     }
   }
-  
+
   this.final_render = function() {
     if (self.options['debug']) {
       console.log('pen final render');
@@ -2194,14 +2197,14 @@ function arrayAlmostEquals(a, b, epsilon) {
     Array.isArray(b) &&
     a.length === b.length &&
     a.every((val, index) => Math.abs(val-b[index]) <= epsilon);
-}    
+}
 
 function ribbonVPathsFromXYPath(xyPath, pen_options){
   // note Z and Y need to be flipped in creating the vectors.  Not sure why.
   // we're going to make the ribbon width vertical
   ribbon_width = pen_options.width;
-  r_v_path = [];  
-  r_v_path2 = [];  
+  r_v_path = [];
+  r_v_path2 = [];
   for (idx = 0; idx < xyPath.length; idx++) {
     x = xyPath[idx][0]
     y = xyPath[idx][1]
@@ -2231,4 +2234,4 @@ function ribbonVPathsFromXYPath(xyPath, pen_options){
     r_v_path2.push(v2);
   }
   return [r_v_path, r_v_path2]
-}  
+}
