@@ -701,7 +701,9 @@ function GyroSensor(scene, parent, pos, port, options) {
       self.prevRotation = rot;
 
       let rotation = self.rotationRounds * 360 + rot;
-      self.angularVelocity = 0.8 * self.angularVelocity + 0.2 * ((rotation - self.actualRotation) / delta * 1000);
+      if (delta > 0) {
+        self.angularVelocity = 0.8 * self.angularVelocity + 0.2 * ((rotation - self.actualRotation) / delta * 1000);
+      }
       self.actualRotation = rotation;
       self.rotation = rotation - self.rotationAdjustment;
     }
