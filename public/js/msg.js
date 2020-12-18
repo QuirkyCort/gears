@@ -166,7 +166,7 @@ let MSGS = {
     en: 'and speed',
     fr: 'et vitesse',
     el: 'και ταχύτητα',
-    nl: 'en snelheid',
+    nl: 'en bochtscherpte',
   },
   '#blk-degrees#': {
     en: 'degrees',
@@ -334,7 +334,7 @@ let MSGS = {
     en: 'rate',
     fr: 'cadence',
     el: 'ρυθμός',
-    nl: 'snelheid',
+    nl: 'bochtscherpte',
   },
   '#blk-reset_gyro_on_port#': {
     en: 'reset gyro on port',
