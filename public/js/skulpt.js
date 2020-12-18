@@ -79,17 +79,19 @@ var skulpt = new function() {
     // before import, check if this is one of the library tab modules
     searchModule = filename.replace(/.py/, '');
     if (searchModule.startsWith('./')) {
-      // strip off the ./ , because we don't have it in the dict 
+      // strip off the ./ , because we don't have it in the dict
       searchModule = searchModule.substring(2);
     }
-    for (var moduleID in pythonLibPanelFactory.pyModuleId2Panel) {
-      panel = pythonLibPanelFactory.pyModuleId2Panel[moduleID];
-      moduleName = panel.moduleName;
-      if (searchModule == moduleName) {
-        var code = panel.editor.getValue()
-        console.log('importing lib code from', moduleName) 
-        console.log(code)
-        return code
+    if (typeof pythonLibPanelFactory !== 'undefined') {
+      for (var moduleID in pythonLibPanelFactory.pyModuleId2Panel) {
+        panel = pythonLibPanelFactory.pyModuleId2Panel[moduleID];
+        moduleName = panel.moduleName;
+        if (searchModule == moduleName) {
+          var code = panel.editor.getValue()
+          console.log('importing lib code from', moduleName)
+          console.log(code)
+          return code
+        }
       }
     }
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][filename] === undefined) {
