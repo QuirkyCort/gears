@@ -29,6 +29,15 @@ Credits
 ---
 Created by A Posteriori (https://aposteriori.com.sg).
 
+Other Contributors:
+
+humbug99
+* Pen
+* Multiple Python modules tabs
+
+Yuvix25
+* FLL Mission models
+
 This simulator would not have been possible without the great people behind:
 
 * Babylon.js https://babylonjs.org
@@ -39,7 +48,10 @@ This simulator would not have been possible without the great people behind:
 
 Translations by:
 
-* French: Sébastien CANET <scanet@libreduc.cc>
+* Français: Sébastien CANET <scanet@libreduc.cc>
+* Nederlands: Henry Romkes
+* Ελληνικά: Eduact, eduact.org/en
+* Español: edurobotic
 
 License
 ---

@@ -3,9 +3,9 @@ var main = new function() {
   // mapping of nav panel id to panel object, for py module panels.
   // We add it to the pythonLibPanelFactory instead of to an instance.
   pythonLibPanelFactory.pyModuleId2Panel = {}
-  // syntatic sugar, make it look local 
+  // syntatic sugar, make it look local
   self.pyModuleId2Panel = pythonLibPanelFactory.pyModuleId2Panel;
-  
+
   // Run on page load
   this.init = function() {
     self.$navs = $('nav li');
@@ -81,6 +81,7 @@ var main = new function() {
         {html: 'English', line: false, callback: function() { setLang('en'); }},
         {html: 'Español', line: false, callback: function() { setLang('es'); }},
         {html: 'Français', line: false, callback: function() { setLang('fr'); }},
+        {html: 'Nederlands', line: false, callback: function() { setLang('nl'); }},
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
       ];
 
@@ -407,7 +408,7 @@ var main = new function() {
     confirmDialog(i18n.get('#main-start_new_warning#'), function() {
       blockly.loadDefaultWorkspace();
       pythonPanel.loadPythonFromBlockly();
-      pythonPanel.saveLocalStorage();  
+      pythonPanel.saveLocalStorage();
       pythonPanel.modified = false;
       localStorage.setItem('pythonModified', false);
       blocklyPanel.setDisable(false);
@@ -447,7 +448,7 @@ var main = new function() {
       moduleFilename = panel.moduleName + '.py'
       zip.file(moduleFilename, module_code);
     }
-    
+
     zip.file('gearsRobot.json', JSON.stringify(robot.options, null, 2));
     zip.file('meta.json', JSON.stringify(meta, null, 2));
 
@@ -590,7 +591,7 @@ var main = new function() {
       };
       reader.readAsText(e.target.files[0]);
       let moduleName = e.target.files[0].name.replace(/.py/, '');
-      pythonLibPanel.moduleName = moduleName; 
+      pythonLibPanel.moduleName = moduleName;
       // and change the name on the tab
       selector = "nav li#" + moduleID;
       moduleTabEls = $(selector);
@@ -664,7 +665,7 @@ var main = new function() {
       }
     }
   }
-  
+
   // Remove a python module tab and its editor
   this.pyDelModule = function(event) {
     tabNodes = $( event.target.parentNode.parentNode );
@@ -764,7 +765,7 @@ var main = new function() {
     self.$panelControls = $('.panelControlsArea .panelControls');
     self.$panels = $('.panels .panel');
   }
-  
+
   // Clicked on tab
   this.tabClicked = function(tabNav) {
     if (typeof tabNav == 'string') {
@@ -818,7 +819,7 @@ var main = new function() {
     }
     acknowledgeDialog(options, function(){});
   }
-  
+
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
     let current = 20201030;
