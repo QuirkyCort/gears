@@ -822,17 +822,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20201030;
+    let current = 20201218;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>30 Oct 2020</h3>' +
+          '<h3>18 Dec 2020</h3>' +
           '<ul>'+
-          '<li>Added a pen (experimental).</li>' +
-          '<li>Added mission models for FLL 2020.</li>' +
-          '<li>Added zoom for Python Code.</li>' +
+          '<li>Added a cylinder and sphere blocks to robot configuration.</li>' +
+          '<li>Allow custom colors for box, cylinder, and sphere blocks.</li>' +
+          '<li>Options to add cylinders and spheres to custom image world.</li>' +
+          '<li>Added Ελληνικά and Nederlands translations.</li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){
