@@ -595,6 +595,32 @@ var configurator = new function() {
         },
       ]
     },
+    {
+      name: 'Pen',
+      defaultConfig: {
+        type: 'Pen',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          doubleSided: false
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'doubleSided',
+          type: 'boolean',
+          help: 'If true, the drawn trace will be visible from both sides.'
+        }
+      ]
+    },
   ];
 
   // Run on page load
@@ -809,6 +835,28 @@ var configurator = new function() {
       return $div;
     }
 
+    function genBoolean(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $checkBox = $('<div class="text"><input type="checkbox"></div>');
+      let $input = $checkBox.find('input');
+      let currentVal = currentOptions[opt.option];
+
+      $input.prop('checked', currentVal);
+
+      $input.change(function(){
+        currentOptions[opt.option] = $input.prop('checked');
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($checkBox);
+
+      return $div;
+    }
+
+
     let $componentName = $('<div class="componentName"></div>');
     if (typeof component.bodyMass != 'undefined') {
       $componentName.text('Body');
@@ -832,6 +880,8 @@ var configurator = new function() {
           self.$settingsArea.append(genIntText(optionConfiguration, component));
         } else if (optionConfiguration.type == 'strText') {
           self.$settingsArea.append(genStrText(optionConfiguration, component));
+        } else if (optionConfiguration.type == 'boolean') {
+          self.$settingsArea.append(genBoolean(optionConfiguration, component));
         }
       });
     } else {
@@ -847,6 +897,8 @@ var configurator = new function() {
           self.$settingsArea.append(genIntText(optionConfiguration, component.options));
         } else if (optionConfiguration.type == 'strText') {
           self.$settingsArea.append(genStrText(optionConfiguration, component.options));
+        } else if (optionConfiguration.type == 'boolean') {
+          self.$settingsArea.append(genBoolean(optionConfiguration, component.options));
         }
       });
       }

@@ -2000,358 +2000,163 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
   this.init();
 }
 
-// Pen component, used for drawing a pen trace.  The pen is currently
-// represented as a small green cube, which you can see if you zoom into
-// the robot (the default position is on the bottom of the robot body).
-// The pen defaults to being centered on the wheel axis.  This gives
-// the most smooth trace during turns.  You can put the pen somewhere else
-// by changing the robot options.  The rot option doesn't do anything yet.
-function Pen(scene, parent, robot, pos, rot, options) {
+function Pen(scene, parent, pos, rot, port, options) {
   var self = this;
-  this.scene = scene;
-  this.robot = robot; // cache the robot so we can find the wheel axis center
 
   this.type = 'Pen';
-  // TODO default options
+  this.port = port;
   this.options = null;
 
-  this.positionSetupNeeded = false;
-  if (pos == undefined || pos == null) {
-    this.positionSetupNeeded = true;
-    // if the position is not given, we default to the center of the wheel
-    // axis.  However, the wheel meshes are built *after* the components,
-    // so we can't do it until later.  Therefore we use 0,0,0 as the temporary
-    // position and correct it in Pen.finishInit()
-    this.position = new BABYLON.Vector3(0, -2, 0)
-  } else {
-    this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
-  }
-  if (rot == undefined) {
-    this.rotation = null
-  }
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(0, 0, 0);
 
-  self.body = null
-  var bodyMat = babylon.getMaterial(scene, '00FF00');
-  // TODO - change options so it parallels the other robotComponent objs
-  let bodyOptions = {
-    height: 0.2,
-    width: 0.2,
-    depth: 0.2,
-  };
-  var body = BABYLON.MeshBuilder.CreateBox('penBox', bodyOptions, scene);
-  self.body = body; // self.body is the mesh representing the pen
-  body.material = bodyMat;
-
-  body.position = self.position;
-  body.parent = parent;
-
-  body.physicsImpostor = new BABYLON.PhysicsImpostor(
-    body,
-    BABYLON.PhysicsImpostor.BoxImpostor,
-    {
-      mass: 0,
-      restitution: 0.4,
-      friction: 0.1 // ignored
-    },
-    scene
-  );
-
-  // pen trace rendering attributes
-  this.is_down = false // we only draw pen traces for when the pen is down
-  this.trace_color = new BABYLON.Color3(0.5, 0.5, 1.0);
-  this.trace_material = null;
-  // NOTE: pen_meshes does not include current_pen_mesh!
-  this.meshes = []; // array of Ribbon mesh objects, one per down()/up()
-  this.current_path = []; // the path we are currently drawing
-  this.current_mesh = null;
-  // animate can be set to 'none' to disable the pen
-  this.default_options = {'animate' : 'animate',
-                          'orientation' : 'h',
-                          'width': 1.0,
-                          'debug' : false
-                         }
-  // TODO creation options?
-  this.options = {...this.default_options}
-  // once the simulation is finished, we may need to render some paths once
-  // this is set to true once simulation starts, then back to false after
-  // the final render
-  this.final_render_needed = false
+  this.isDown = false;
+  this.traceColor = '000';
+  this.traceWidth = 0.5;
+  this.traceMat = null;
+  this.traceMeshes = [];
+  this.currentTraceMesh = null;
+  this.prevPos = null;
+  this.currentPathDirty = false;
+  this.currentRibbonPath = [[], []];
 
   this.init = function() {
-    this.reset();
-  }
+    self.setOptions(options);
 
-  this.finishInit = function() {
-    if (self.positionSetupNeeded) {
-      // default pen postion is exactly between the L and R
-      // wheel positions.  Wheel meshes don't have a parent; their positions are
-      // absolute.
-      wheelLPos = self.robot.leftWheel.mesh.position
-      wheelRPos = self.robot.rightWheel.mesh.position
-      wheelLRel = wheelLPos.subtract(self.robot.body.position)
-      wheelRRel = wheelRPos.subtract(self.robot.body.position)
-      wheelAxisCenter = wheelLRel.add(wheelRRel).scale(1/2.0)
-      // TODO - the -2 is the bottom edge of the standard robot body, fix
-      newPosV = new BABYLON.Vector3(wheelAxisCenter.x, -2, wheelAxisCenter.z);
-      self.body.setPositionWithLocalVector(newPosV);
-      self.positionSetupNeeded = false;
+    var bodyMat = babylon.getMaterial(scene, 'E1A32B');
+    let bodyOptions = {
+      height: 3,
+      width: 1.5,
+      depth: 1.5
+    };
+    var body = BABYLON.MeshBuilder.CreateBox('penBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.position.y += 2.5;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+
+    var tipMat = babylon.getMaterial(scene, '000000');
+    let tipOptions = {
+      height: 1,
+      diameterTop: 1.5,
+      diameterBottom: 0.01,
+      tessellation: 4
+    };
+    self.tip = new BABYLON.MeshBuilder.CreateCylinder('penTip', tipOptions, scene);
+    self.tip.material = tipMat;
+    self.tip.position.y = -2;
+    self.tip.parent = body;
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      doubleSided: false
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
     }
-  }
+  };
 
-  // We do all the work of updating the trace path and, when necessary,
-  // drawing the pen trace in render().
   this.render = function(delta) {
-    // assume that skulpt.running may change asynchronously
-    robotRunning = skulpt.running
-    if (robotRunning) {
-      self.final_render_needed = true;
-    } else {
-      if (!self.final_render_needed) {
-        return;
-      }
-    }
-    // first, update the current trace path if needed
-    self.update_trace_path();
-    if (self.options['animate'] == 'animate') {
-      // if animating the pen, rebuild each time through render loop
-      if (self.current_path_dirty) {
-        self.rebuild_mesh()
-      }
-    }
-    if (!robotRunning && self.final_render_needed) {
-      self.final_render()
+    self.updateTracePath();
+    if (self.currentPathDirty) {
+      self.rebuildMesh()
     }
   }
 
   // Lower the pen (begin drawing a trace)
   this.down = function() {
-    this.current_path = []; // the path we are currently drawing
-    this.current_mesh = null;
-    this.is_down = true
-    if (self.options['debug']) {
-      console.log('pen down');
-    }
+    this.currentPath = [];
+    this.currentTraceMesh = null;
+    this.isDown = true;
   };
 
   // Raise the pen (stop drawing a trace)
   this.up = function() {
-    if (self.is_down) {
-      if (self.options['animate'] === 'onUp' ||
-          self.options['animate'] === 'onFinish') {
-        self.rebuild_mesh()
-      }
-      if (this.current_mesh != null) {
-        this.meshes.push(this.current_mesh)
-        // slow, use for debugging ribbon only
-        // this.showNormals(this.current_mesh, 1)
-        this.current_mesh = null
-      }
-      this.current_path = [];
-      self.current_path_dirty = false
+    this.isDown = false
+    if (this.currentMesh != null) {
+      this.traceMeshes.push(this.currentMesh)
     }
-    this.is_down = false
-    if (self.options['debug']) {
-      console.log('pen up');
-    }
+    self.currentPathDirty = false
   };
 
-  this.set_trace_color = function(r, g, b) {
-    this.trace_material = null;
-    self.trace_color = new BABYLON.Color3(r, g, b);
-    if (self.options['debug']) {
-      console.log('pen trace color now', r, g, b);
-    }
+  this.setTraceColor = function(r, g, b) {
+    r = ('0' + Math.round(r*255).toString(16)).slice(-2);
+    g = ('0' + Math.round(g*255).toString(16)).slice(-2);
+    b = ('0' + Math.round(b*255).toString(16)).slice(-2);
+    self.traceColor = r + g + b;
+    self.traceMat = babylon.getMaterial(scene, self.traceColor);
   };
 
-  this.set_options = function(options) {
-    self.last_options = options;
-    js_options = Sk.ffi.remapToJs(options)
-    if (self.options['debug']) {
-      console.log('pen options set', js_options);
-    }
-    for (const [key, value] of Object.entries(js_options)) {
-      if (self.options['debug']) {
-        console.log('setting pen option ', key, ' : ', value);
-      }
-      self.options[key] = value;
-    }
+  this.setWidth = function(width) {
+    self.traceWidth = width / 2;
   }
 
-  // update current pen trace path if the pen is down
-  this.update_trace_path = function() {
-    if (!self.is_down) {
+  this.updateTracePath = function() {
+    if (!self.isDown) {
       return;
     }
-    // Body position gets updated in the render loop prior to this
-    // ref axes y and z are swapped!
-    // default pen postion is exactly between the L and R
-    // wheel positions.  Wheel meshes don't have a parent; their positions are
-    // absolute.
-    wheelAxisCenter = self.robot.leftWheel.mesh.position.add(self.robot.rightWheel.mesh.position).scale(1/2.0)
-    let cur_pos = [wheelAxisCenter.x, wheelAxisCenter.z]
-    if (self.body != null) {
-      bodyPos = self.body.absolutePosition
-      cur_pos = [bodyPos.x, bodyPos.z]
-    }
-    if (self.current_path.length == 0) {
-      self.current_path.push(cur_pos);
-      self.current_path_dirty = true;
+    let pos = self.tip.getAbsolutePosition();
+    pos.y -= 0.48;
+
+    if (self.prevPos === null) {
+      self.prevPos = pos.clone();
+      self.currentPathDirty = true;
     } else {
-      let old_pos = self.current_path.slice(-1)[0];
-      // TODO - this epsilon is in any coordinate.  It would be better
-      // to use compare the difference vector distance to the epsilon
-      penPathEpsilon = 0.05
-      if (arrayAlmostEquals(cur_pos, old_pos, penPathEpsilon)) {
-        // efficiency, skip points very close to previous
-      } else {
-        self.current_path.push(cur_pos)
-        self.current_path_dirty = true;
+      const penPathEpsilon = 0.2;
+      let dirV = pos.subtract(self.prevPos);
+      if (dirV.lengthSquared() > penPathEpsilon) {
+        self.prevPos = pos.clone();
+        let left = new BABYLON.Vector3(0, self.traceWidth, 0);
+        let right = new BABYLON.Vector3(0, -self.traceWidth, 0);
+        left = dirV.cross(left);
+        right = dirV.cross(right);
+        left.addInPlace(pos);
+        right.addInPlace(pos);
+        self.currentRibbonPath[0].push(left);
+        self.currentRibbonPath[1].push(right);
+        self.currentPathDirty = true;
       }
     }
   };
 
-  this.rebuild_mesh = function() {
-    let animateMode = this.options['animate']
-    if (animateMode === 'none') {
+  this.rebuildMesh = function() {
+    if (self.currentRibbonPath[0].length < 2) {
       return;
     }
-    if (animateMode != 'animate' && self.options['debug']) {
-      // gets called lots of times in animate mode, so don't log those
-      console.log('pen rebuild mesh');
+    if (this.currentMesh != null ) {
+      scene.removeMesh(self.currentMesh);
+      self.currentMesh.dispose();
     }
-    // drawing current path only
-    var idx;
-    var path = this.current_path;
-    if (this.current_path.length < 2) {
-      return;
+    if (self.traceMat == null) {
+      self.traceMat = babylon.getMaterial(scene, self.traceColor);
     }
-    if (this.current_mesh != null ) {
-      // remove the old ribbon mesh
-      this.scene.removeMesh(this.current_mesh);
-      this.current_mesh.dispose();
-      this.current_mesh = null;
+    let options = {
+      pathArray: self.currentRibbonPath,
+    };
+    if (self.options.doubleSided) {
+      options.sideOrientation = BABYLON.Mesh.DOUBLESIDE;
     }
-    if (this.trace_material == null) {
-      this.trace_material = new BABYLON.StandardMaterial("pen trace mat",
-                                                         self.scene);
-      this.trace_material.alpha = 1.0;
-      this.trace_material.diffuseColor = this.trace_color;
-      this.trace_material.backFaceCulling = false;
-    }
-    // In animate mode, every time we change the path, we recreate the mesh.
-    // TODO: consider ways to improve efficiency, such as keeping a constant
-    // length path for some number of iterations and skipping positions so
-    // that the ribbon appears to grow.
-    // See https://playground.babylonjs.com/#2IWT8Q#5 for an example
-    rpaths = ribbonVPathsFromXYPath(path, this.options);
-    try {
-      ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon",
-                                                {pathArray: rpaths,
-                                                 sideOrientation: BABYLON.Mesh.DOUBLESIDE},
-                                                this.scene);
-      if (animateMode === 'onFinish') {
-        ribbon.setEnabled(false)
-      }
-      ribbon.material = this.trace_material;
-      this.current_mesh = ribbon;
-    } catch(err) {
-      // do nothing if unable to create ribbon
-    }
+    self.currentMesh = BABYLON.MeshBuilder.CreateRibbon("ribbon", options, scene);
+    self.currentMesh.material = self.traceMat;
   };
-
-  // visualize normals as described in
-  // https://www.html5gamedevs.com/topic/17040-the-mystery-of-computenormals/
-  // this will be slow, so only use for debugging!
-  this.showNormals = function(mesh, size) {
-    var normals = mesh.getVerticesData(BABYLON.VertexBuffer.NormalKind);
-    var positions = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-
-    for (var i = 0; i < normals.length; i += 3) {
-      var v1 = BABYLON.Vector3.FromArray(positions, i);
-      var v2 = v1.clone().add(BABYLON.Vector3.FromArray(normals, i).scaleInPlace(size));
-      BABYLON.Mesh.CreateLines(""+i, [v1, v2], scene);
-    }
-  }
-
-  this.final_render = function() {
-    if (self.options['debug']) {
-      console.log('pen final render');
-    }
-    // force the pen to finish up so the last path gets rendered
-    self.up();
-    self.final_render_needed = false;
-    for (idx = 0; idx < this.meshes.length; idx++) {
-      mesh = this.meshes[idx];
-      mesh.setEnabled(true); // make mesh visible
-    }
-  }
-
-  // clear all pen meshes, clear the current pen trace, set the pen to up
-  this.reset = function() {
-    this.is_down = false
-    this.final_render_needed = false
-    // reset to default trace color
-    this.trace_color = new BABYLON.Color3(0.5, 0.5, 1.0);
-    this.trace_material = null
-    this.options = {...this.default_options}
-    if (this.current_mesh != null ) {
-      self.scene.removeMesh(this.current_mesh)
-      this.current_mesh.dispose()
-      this.current_mesh = null;
-    }
-    for (idx = 0; idx < this.meshes.length; idx++) {
-      mesh = this.meshes[idx]
-      self.scene.removeMesh(mesh)
-      mesh.dispose()
-    }
-    this.meshes = []
-    this.current_path = []; // the path we are currently drawing
-    this.current_path_dirty = false
-  }
 
   this.init();
-}
-
-function arrayAlmostEquals(a, b, epsilon) {
-  return Array.isArray(a) &&
-    Array.isArray(b) &&
-    a.length === b.length &&
-    a.every((val, index) => Math.abs(val-b[index]) <= epsilon);
-}
-
-function ribbonVPathsFromXYPath(xyPath, pen_options){
-  // note Z and Y need to be flipped in creating the vectors.  Not sure why.
-  // we're going to make the ribbon width vertical
-  ribbon_width = pen_options.width;
-  r_v_path = [];
-  r_v_path2 = [];
-  for (idx = 0; idx < xyPath.length; idx++) {
-    x = xyPath[idx][0]
-    y = xyPath[idx][1]
-    z = 0
-    if (pen_options.orientation[0] == 'h') {
-      if (idx == 0) {
-        v1 = new BABYLON.Vector3(x, 0.1, y);
-        v2 = v1;
-      } else {
-        // offset each of v1 v2 perpendicular to travel direction
-        dx = x - lastx
-        dy = y - lasty
-        crossv = new BABYLON.Vector2(dy, -dx)
-        crossv = crossv.normalize().scale(ribbon_width/2.0)
-        // console.log('ns-x,y:', x, y, 'dx,dy :', dx, dy)
-        // console.log('ns-crossv :', crossv)
-        v1 = new BABYLON.Vector3(x+crossv.x, 0.1, y+crossv.y);
-        v2 = new BABYLON.Vector3(x-crossv.x, 0.1, y-crossv.y);
-      }
-      lastx = x
-      lasty = y
-    } else {
-      v1 = new BABYLON.Vector3(x, z, y);
-      v2 = new BABYLON.Vector3(x, z+ribbon_width, y);
-    }
-    r_v_path.push(v1);
-    r_v_path2.push(v2);
-  }
-  return [r_v_path, r_v_path2]
 }

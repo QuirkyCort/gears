@@ -432,6 +432,18 @@ let MSGS = {
     el: 'Εικονικός αισθητήρας που παρέχει την θέση του ρομπότ',
     nl: 'Virtuele sensor die de positie van de robot aanduidt',
   },
+  '#blk-pen_down#': {
+    en: 'start drawing with pen',
+  },
+  '#blk-pen_up#': {
+    en: 'stop drawing with pen',
+  },
+  '#blk-pen_color#': {
+    en: 'set the pen color to',
+  },
+  '#blk-pen_width#': {
+    en: 'set the pen width to',
+  },
   '#main-blocks#': {
     en: 'Blocks',
     tlh: 'Porgh',
@@ -819,6 +831,9 @@ let MSGS = {
     fr: 'Télémètre laser',
     el: 'Αισθητήρας Απόστασης Laser',
     nl: 'Laser afstand sensor',
+  },
+  '#sim-pen#': {
+    en: 'Pen',
   },
   '#sim-left_motor#': {
     en: 'Left Motor',

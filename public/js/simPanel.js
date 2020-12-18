@@ -267,6 +267,11 @@ var simPanel = new function() {
           sensor.port + ': ' + i18n.get('#sim-laser#'),
           [i18n.get('#sim-distance#') + ' (cm)']
         );
+      } else if (sensor.type == 'Pen') {
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-pen#'),
+          []
+        );
       } else {
         console.log(sensor);
       }

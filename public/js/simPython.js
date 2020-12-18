@@ -106,52 +106,39 @@ var $builtinmodule = function(name) {
   mod.Pen = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 
-    $loc.__init__ = new Sk.builtin.func(function(self) {
-      self.robot = robot
-    });
-
-    // python layer does checks to see if the pen exists before
-    // calling pen functions, so not checking in this layer
-    $loc.exists = new Sk.builtin.func(function(self) {
-      if (self.robot.pen != null) {
-        return true; // TODO convert to python True?
-      } else {
-        return false;
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.pen = robot.getComponentByPort(address.v);
+      if (!self.pen) {
+        throw new Sk.builtin.TypeError('No pen connected to ' + String(address.v));
       }
     });
 
-    // add a pen to the robot at runtime, so all the existing
-    // robot templates can be used with a pen...
-    $loc.addPenToRobot = new Sk.builtin.func(function(self) {
-      self.robot.addPen(); 
-    });
-    
     $loc.down = new Sk.builtin.func(function(self) {
-      if (self.robot.pen != null) {
-        self.robot.pen.down();
-      } else {
-        console.log('no pen / unable to do pen.down()');
-      }
+      self.pen.down();
     });
 
     $loc.up = new Sk.builtin.func(function(self) {
-      self.robot.pen.up()
+      self.pen.up();
     });
 
     $loc.isDown = new Sk.builtin.func(function(self) {
-      return self.robot.pen.is_down
+      return self.pen.isDown;
     });
 
     $loc.setColor = new Sk.builtin.func(function(self, r, g, b) {
-      self.robot.pen.set_trace_color(r.v, g.v, b.v)
+      self.pen.setTraceColor(r.v, g.v, b.v);
     });
 
-    $loc.setOptions = new Sk.builtin.func(function(self, o) {
-      self.robot.pen.set_options(o)
+    $loc.setWidth = new Sk.builtin.func(function(self, width) {
+      self.pen.setWidth(width.v);
     });
+
+    // $loc.setOptions = new Sk.builtin.func(function(self, o) {
+    //   self.robot.pen.set_options(o)
+    // });
 
   }, 'Pen', []);
-  
+
   mod.ColorSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 

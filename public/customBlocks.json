@@ -1286,17 +1286,56 @@
   "helpUrl": ""
 },
 {
-  "type": "addPen",
-  "message0": "add Pen to Robot",
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 20,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
   "type": "penDown",
-  "message0": "start drawing with pen",
+  "message0": "#blk-pen_down# #blk-on_port# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
   "previousStatement": null,
   "nextStatement": null,
   "colour": 20,
@@ -1305,7 +1344,55 @@
 },
 {
   "type": "penUp",
-  "message0": "stop drawing with pen",
+  "message0": "#blk-pen_up# #blk-on_port# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
   "previousStatement": null,
   "nextStatement": null,
   "colour": 20,
@@ -1314,7 +1401,7 @@
 },
 {
   "type": "penSetColor",
-  "message0": "set the pen color to red %1 green %2 blue %3",
+  "message0": "#blk-pen_color# #blk-red# %1 #blk-green# %2 #blk-blue# %3 #blk-on_port# %4",
   "args0": [
     {
       "type": "input_value",
@@ -1330,6 +1417,52 @@
       "type": "input_value",
       "name": "blue",
       "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
     }
   ],
   "inputsInline": true,
@@ -1341,12 +1474,58 @@
 },
 {
   "type": "penSetWidth",
-  "message0": "set the pen width to %1",
+  "message0": "#blk-pen_width# %1 #blk-on_port# %2",
   "args0": [
     {
       "type": "input_value",
       "name": "width",
       "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
     }
   ],
   "inputsInline": true,

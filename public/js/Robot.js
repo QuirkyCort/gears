@@ -6,7 +6,6 @@ function Robot() {
   this.body = null;
   this.leftWheel = null;
   this.rightWheel = null;
-  this.pen = null;
   this.components = [];
 
   this.sensorCount = 0;
@@ -191,11 +190,6 @@ function Robot() {
       self.leftWheel.stop();
       self.rightWheel.stop();
 
-      // if the robot has a pen, finish setting its position after wheel setup
-      if (self.pen != null) {
-        self.pen.finishInit();
-      }
-
       resolve();
     });
   };
@@ -362,11 +356,10 @@ function Robot() {
         component = new Pen(
           self.scene,
           parent,
-          self,
           componentConfig.position,
           componentConfig.rotation,
+          'in' + (++self.sensorCount),
           componentConfig.options);
-        self.pen = component; // cache for easy access to pen later
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
       }
@@ -384,24 +377,6 @@ function Robot() {
       }
     });
   };
-
-  //
-  this.addPen = function() {
-    if (self.pen == null) {
-      component = new Pen(
-        self.scene,
-        self.body, // TODO, not clear to me what parent should be here
-        self, // backpointer to the robot
-        null, // default position
-        null, // default rotation
-        null // default options
-      );
-      self.pen = component; // cache for easy access to pen later
-      self.components.push(component);
-      // Here, the robot is already built, so do the final pen init now
-      self.pen.finishInit();
-    }
-  }
 
   // Load meshes for components that needs it
   this.loadMeshes = function(meshes) {
@@ -458,13 +433,9 @@ function Robot() {
   this.reset = function() {
     self.leftWheel.reset();
     self.rightWheel.reset();
-    self.pen = null;
     self.components.forEach(function(component) {
       if (typeof component.reset == 'function') {
         component.reset();
-      }
-      if (component.type == 'Pen') {
-        self.pen = component;
       }
     })
   };
@@ -474,20 +445,11 @@ function Robot() {
     self.leftWheel.render(delta);
     self.rightWheel.render(delta);
 
-    penComponent = null; // Note: only allows one pen per robot
     self.components.forEach(function(component) {
-      if (component.type == 'Pen') {
-        // render the pen last
-        penComponent = component;
-      } else {
-        if (typeof component.render == 'function') {
-          component.render(delta);
-        }
+      if (typeof component.render == 'function') {
+        component.render(delta);
       }
     });
-    if (penComponent != null) {
-      penComponent.render(delta);
-    }
   };
 
   // Force all motors to stop

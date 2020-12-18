@@ -73,6 +73,8 @@ var ev3dev2_generator = new function() {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
       } else if (sensor.type == 'GPSSensor') {
         sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(INPUT_' + i + ')\n';
+      } else if (sensor.type == 'Pen') {
+        sensorsCode += 'pen_in' + i + ' = Pen(INPUT_' + i + ')\n';
       }
       i++;
     }
@@ -527,34 +529,37 @@ var ev3dev2_generator = new function() {
     return [code, Blockly.Python.ORDER_ATOMIC];
   }
 
-  this.addPen = function(block) {
-    var code = 'from ev3dev2.pen import *\npen = Pen()\npen.addPen()\n'
+  this.penDown = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+
+    var code = 'pen_in' + dropdown_port + '.down()\n';
     return code;
   };
 
-  this.penDown = function(block) {
-    var code = 'pen.down()\n';
-    return code;
-  };
-  
   this.penUp = function(block) {
-    var code = 'pen.up()\n';
+    var dropdown_port = block.getFieldValue('port');
+
+    var code = 'pen_in' + dropdown_port + '.up()\n';
     return code;
   };
 
   this.penSetColor = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+
     var value_red = Blockly.Python.valueToCode(block, 'red', Blockly.Python.ORDER_ATOMIC);
     var value_green = Blockly.Python.valueToCode(block, 'green', Blockly.Python.ORDER_ATOMIC);
     var value_blue = Blockly.Python.valueToCode(block, 'blue', Blockly.Python.ORDER_ATOMIC);
-    var code = 'pen.setColor(' + value_red + ', ' + value_green + ', ' + value_blue + ')\n';
+    var code = 'pen_in' + dropdown_port + '.setColor(' + value_red + ', ' + value_green + ', ' + value_blue + ')\n';
     return code;
   };
 
   this.penSetWidth = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+
     var value_width = Blockly.Python.valueToCode(block, 'width', Blockly.Python.ORDER_ATOMIC);
-    var code = 'pen.setWidth(' + value_width + ')\n';
+    var code = 'pen_in' + dropdown_port + '.setWidth(' + value_width + ')\n';
     return code;
   };
-  
+
 }
 

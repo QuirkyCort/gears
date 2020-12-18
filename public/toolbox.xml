@@ -169,11 +169,9 @@
     </block>
   </category>
   <category name="Pen (Experimental)" colour="#a5745b">
-    <block type="addPen">
+    <block type="penDown">
     </block>
     <block type="penUp">
-    </block>
-    <block type="penDown">
     </block>
     <block type="penSetColor">
       <value name="red">
