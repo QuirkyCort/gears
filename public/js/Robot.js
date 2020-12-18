@@ -304,6 +304,20 @@ function Robot() {
           componentConfig.position,
           componentConfig.rotation,
           componentConfig.options);
+      } else if (componentConfig.type == 'Cylinder') {
+        component = new CylinderBlock(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          componentConfig.options);
+      } else if (componentConfig.type == 'Sphere') {
+        component = new SphereBlock(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          componentConfig.options);
       } else if (componentConfig.type == 'MagnetActuator') {
         component = new MagnetActuator(
           self.scene,

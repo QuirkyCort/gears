@@ -117,7 +117,8 @@ var configurator = new function() {
         options: {
           height: 1,
           width: 1,
-          depth: 1
+          depth: 1,
+          color: 'A3CF0D'
         }
       },
       optionsConfigurations: [
@@ -159,6 +160,110 @@ var configurator = new function() {
           min: '1',
           max: '20',
           step: '1',
+          reset: true
+        },
+        {
+          option: 'color',
+          type: 'strText',
+          help: 'Color in hex',
+          reset: true
+        },
+      ]
+    },
+    {
+      name: 'Cylinder',
+      defaultConfig: {
+        type: 'Cylinder',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          height: 1,
+          diameter: 1,
+          color: 'A3CF0D'
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vector3',
+          min: '-180',
+          max: '180',
+          step: '5',
+          reset: true
+        },
+        {
+          option: 'height',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'diameter',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'color',
+          type: 'strText',
+          help: 'Color in hex',
+          reset: true
+        },
+      ]
+    },
+    {
+      name: 'Sphere',
+      defaultConfig: {
+        type: 'Sphere',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          height: 1,
+          diameter: 1,
+          color: 'A3CF0D'
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vector3',
+          min: '-180',
+          max: '180',
+          step: '5',
+          reset: true
+        },
+        {
+          option: 'diameter',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'color',
+          type: 'strText',
+          help: 'Color in hex',
           reset: true
         },
       ]
@@ -676,6 +781,27 @@ var configurator = new function() {
       return $div;
     }
 
+    function genStrText(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $textBox = $('<div class="text"><input type="text"></div>');
+      let $input = $textBox.find('input');
+      let currentVal = currentOptions[opt.option];
+
+      $input.val(currentVal);
+
+      $input.change(function(){
+        currentOptions[opt.option] = $input.val();
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($textBox);
+
+      return $div;
+    }
+
     let $componentName = $('<div class="componentName"></div>');
     if (typeof component.bodyMass != 'undefined') {
       $componentName.text('Body');
@@ -697,6 +823,8 @@ var configurator = new function() {
           self.$settingsArea.append(genFloatText(optionConfiguration, component));
         } else if (optionConfiguration.type == 'intText') {
           self.$settingsArea.append(genIntText(optionConfiguration, component));
+        } else if (optionConfiguration.type == 'strText') {
+          self.$settingsArea.append(genStrText(optionConfiguration, component));
         }
       });
     } else {
@@ -710,6 +838,8 @@ var configurator = new function() {
           self.$settingsArea.append(genFloatText(optionConfiguration, component.options));
         } else if (optionConfiguration.type == 'intText') {
           self.$settingsArea.append(genIntText(optionConfiguration, component.options));
+        } else if (optionConfiguration.type == 'strText') {
+          self.$settingsArea.append(genStrText(optionConfiguration, component.options));
         }
       });
       }
@@ -866,6 +996,7 @@ var configurator = new function() {
   this.loadIntoComponentsWindow = function(options) {
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'PaintballLauncherActuator'];
+    let DUMB_BLOCKS = ['Box', 'Cylinder', 'Sphere'];
     let motorCount = 2;
     let sensorCount = 0;
     let componentIndex = 0;
@@ -881,7 +1012,7 @@ var configurator = new function() {
         let $item = $('<li></li>');
         let text = component.type;
 
-        if (text == 'Box') {
+        if (DUMB_BLOCKS.indexOf(text) != -1) {
           ;
         } else if (ACTUATORS.indexOf(text) != -1) {
           text += ' (out' + PORT_LETTERS[(++motorCount)] + ')';

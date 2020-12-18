@@ -305,7 +305,7 @@ function BoxBlock(scene, parent, pos, rot, options) {
   this.init = function() {
     self.setOptions(options);
 
-    var bodyMat = babylon.getMaterial(scene, 'A3CF0D');
+    var bodyMat = babylon.getMaterial(scene, self.options.color);
     let bodyOptions = {
       height: self.options.height,
       width: self.options.width,
@@ -338,7 +338,126 @@ function BoxBlock(scene, parent, pos, rot, options) {
     self.options = {
       height: 1,
       width: 1,
-      depth: 1
+      depth: 1,
+      color: 'A3CF0D'
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.init();
+}
+
+// Just a dumb cylinder with physics
+function CylinderBlock(scene, parent, pos, rot, options) {
+  var self = this;
+
+  this.type = 'Cylinder';
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = babylon.getMaterial(scene, self.options.color);
+    let bodyOptions = {
+      height: self.options.height,
+      diameter: self.options.diameter
+    };
+    var body = BABYLON.MeshBuilder.CreateCylinder('cylinderBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.CylinderImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      height: 1,
+      diameter: 1,
+      color: 'A3CF0D'
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.init();
+}
+
+// Just a dumb sphere with physics
+function SphereBlock(scene, parent, pos, rot, options) {
+  var self = this;
+
+  this.type = 'Sphere';
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = babylon.getMaterial(scene, self.options.color);
+    let bodyOptions = {
+      diameter: self.options.diameter
+    };
+    var body = BABYLON.MeshBuilder.CreateSphere('sphereBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.SphereImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      diameter: 1,
+      color: 'A3CF0D'
     };
 
     for (let name in options) {
