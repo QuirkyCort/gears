@@ -709,7 +709,7 @@ function GyroSensor(scene, parent, pos, port, options) {
 
   this.reset = function() {
     self.rotationAdjustment += self.rotation;
-    self.rotation = 0;
+    self.rotation = new BABYLON.Vector3(0, 0, 0);;
     self.prevRotation = 0;
   };
 
