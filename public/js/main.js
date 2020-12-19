@@ -407,13 +407,9 @@ var main = new function() {
   this.newProgram = function() {
     confirmDialog(i18n.get('#main-start_new_warning#'), function() {
       blockly.loadDefaultWorkspace();
-      pythonPanel.loadPythonFromBlockly();
-      pythonPanel.saveLocalStorage();
       pythonPanel.modified = false;
       localStorage.setItem('pythonModified', false);
       blocklyPanel.setDisable(false);
-      // TODO - decide reset to default py module state, or retain py modules?
-      pythonLibPanel.editor.setValue('', 0);
     });
   };
 

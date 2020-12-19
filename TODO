@@ -20,7 +20,6 @@ Documentation
 
 Coding (Python editor)
 - Documentation panel?
-- Zoom in/out
 
 Coding (Robot configurator)
 - Help menu
@@ -28,7 +27,6 @@ Coding (Robot configurator)
 Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
 - More components
-  - pen
   - object of interest radar (direction and range of object)
   - radio (communications between robots)
   - claw
