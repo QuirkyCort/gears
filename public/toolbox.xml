@@ -124,30 +124,30 @@
   <category name="#blk-sensors#" colour="#5ba58c">
     <block type="color_sensor">
       <field name="type">INTENSITY</field>
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
     <block type="ultrasonic_sensor">
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
       <field name="units">CM</field>
     </block>
     <block type="gyro_sensor">
       <field name="type">ANGLE</field>
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
     <block type="reset_gyro">
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
     <block type="gps_sensor">
       <field name="type">X</field>
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
     <block type="touch_state">
       <field name="state">PRESSED</field>
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
     <block type="wait_for_state">
       <field name="state">PRESSED</field>
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
 
   </category>

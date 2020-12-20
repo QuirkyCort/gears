@@ -584,6 +584,10 @@
       "name": "port",
       "options": [
         [
+          "Auto",
+          "AUTO"
+        ],
+        [
           "1",
           "1"
         ],
@@ -640,6 +644,10 @@
       "type": "field_dropdown",
       "name": "port",
       "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
         [
           "1",
           "1"
@@ -726,6 +734,10 @@
       "name": "port",
       "options": [
         [
+          "Auto",
+          "AUTO"
+        ],
+        [
           "1",
           "1"
         ],
@@ -782,6 +794,10 @@
       "type": "field_dropdown",
       "name": "port",
       "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
         [
           "1",
           "1"
@@ -1238,6 +1254,10 @@
       "name": "port",
       "options": [
         [
+          "Auto",
+          "AUTO"
+        ],
+        [
           "1",
           "1"
         ],
@@ -1293,6 +1313,10 @@
       "type": "field_dropdown",
       "name": "port",
       "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
         [
           "1",
           "1"
@@ -1350,6 +1374,10 @@
       "type": "field_dropdown",
       "name": "port",
       "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
         [
           "1",
           "1"
@@ -1423,6 +1451,10 @@
       "name": "port",
       "options": [
         [
+          "Auto",
+          "AUTO"
+        ],
+        [
           "1",
           "1"
         ],
@@ -1486,6 +1518,10 @@
       "name": "port",
       "options": [
         [
+          "Auto",
+          "AUTO"
+        ],
+        [
           "1",
           "1"
         ],
@@ -1543,6 +1579,10 @@
       "type": "field_dropdown",
       "name": "port",
       "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
         [
           "1",
           "1"
@@ -1613,6 +1653,10 @@
       "type": "field_dropdown",
       "name": "port",
       "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
         [
           "1",
           "1"
