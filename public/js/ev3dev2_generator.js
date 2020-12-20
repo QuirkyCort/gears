@@ -32,6 +32,8 @@ var ev3dev2_generator = new function() {
     Blockly.Python['penUp'] = self.penUp;
     Blockly.Python['penSetColor'] = self.penSetColor;
     Blockly.Python['penSetWidth'] = self.penSetWidth;
+    Blockly.Python['touch_state'] = self.touch_state;
+    Blockly.Python['wait_for_state'] = self.wait_for_state;
   };
 
   // Generate python code
@@ -73,6 +75,8 @@ var ev3dev2_generator = new function() {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
       } else if (sensor.type == 'GPSSensor') {
         sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(INPUT_' + i + ')\n';
+      } else if (sensor.type == 'TouchSensor') {
+        sensorsCode += 'touch_sensor_in' + i + ' = TouchSensor(INPUT_' + i + ')\n';
       } else if (sensor.type == 'Pen') {
         sensorsCode += 'pen_in' + i + ' = Pen(INPUT_' + i + ')\n';
       }
@@ -558,6 +562,36 @@ var ev3dev2_generator = new function() {
 
     var value_width = Blockly.Python.valueToCode(block, 'width', Blockly.Python.ORDER_ATOMIC);
     var code = 'pen_in' + dropdown_port + '.setWidth(' + value_width + ')\n';
+    return code;
+  };
+
+  this.touch_state = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var dropdown_state = block.getFieldValue('state');
+
+    if (dropdown_state == 'PRESSED') {
+      var stateStr = 'is_pressed';
+    } else if (dropdown_state == 'RELEASED') {
+      var stateStr = 'is_released';
+    }
+
+    var code = 'touch_sensor_in' + dropdown_port + '.' + stateStr;
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.wait_for_state = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var dropdown_state = block.getFieldValue('state');
+
+    if (dropdown_state == 'PRESSED') {
+      var stateStr = 'pressed';
+    } else if (dropdown_state == 'RELEASED') {
+      var stateStr = 'released';
+    } else if (dropdown_state == 'BUMPED') {
+      var stateStr = 'bump';
+    }
+
+    var code = 'touch_sensor_in' + dropdown_port + '.wait_for_' + stateStr + '()\n';
     return code;
   };
 

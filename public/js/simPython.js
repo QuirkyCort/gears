@@ -333,6 +333,22 @@ var $builtinmodule = function(name) {
 
   }, 'UltrasonicSensor', []);
 
+  mod.TouchSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor) {
+        throw new Sk.builtin.TypeError('No touch sensor connected to ' + String(address.v));
+      }
+    });
+
+    $loc.isPressed = new Sk.builtin.func(function(self) {
+      return self.sensor.isPressed();
+    });
+
+  }, 'TouchSensor', []);
+
   mod.Sound = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 

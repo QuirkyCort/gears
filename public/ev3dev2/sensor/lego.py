@@ -225,3 +225,51 @@ class UltrasonicSensor:
   def other_sensor_present(self):
     time.sleep(SENSOR_DELAY)
     return False
+
+class TouchSensor:
+  _DRIVER_NAME = 'lego-ev3-touch'
+
+  MODE_TOUCH = 'TOUCH'
+
+  def __init__(self, address=None):
+    self.sensor = simPython.TouchSensor(address)
+
+  @property
+  def is_pressed(self):
+    return bool(self.sensor.isPressed())
+
+  @property
+  def is_released(self):
+    return not bool(self.sensor.isPressed())
+
+  def _wait(self, desired_state, timeout_ms, sleep_ms):
+    tic = time.time()
+
+    if sleep_ms:
+      sleep_sec = float(sleep_ms/1000)
+
+    while True:
+      if self.is_pressed == desired_state:
+        return True
+
+      if timeout_ms is not None and time.time() >= tic + timeout_ms/1000:
+        return False
+
+      if sleep_ms:
+        time.sleep(sleep_sec)
+
+  def wait_for_pressed(self, timeout_ms=None, sleep_ms=10):
+    return self._wait(True, timeout_ms, sleep_ms)
+
+  def wait_for_released(self, timeout_ms=None, sleep_ms=10):
+    return self._wait(False, timeout_ms, sleep_ms)
+
+  def wait_for_bump(self, timeout_ms=None, sleep_ms=10):
+    start_time = time.time()
+
+    if self.wait_for_pressed(timeout_ms, sleep_ms):
+      if timeout_ms is not None:
+        timeout_ms -= int((time.time()-start_time) * 1000)
+      return self.wait_for_released(timeout_ms, sleep_ms)
+
+    return False

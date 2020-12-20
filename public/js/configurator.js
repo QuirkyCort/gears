@@ -621,6 +621,52 @@ var configurator = new function() {
         }
       ]
     },
+    {
+      name: 'TouchSensor',
+      defaultConfig: {
+        type: 'TouchSensor',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          width: 2,
+          depth: 2,
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vector3',
+          min: '-180',
+          max: '180',
+          step: '5',
+          reset: true
+        },
+        {
+          option: 'width',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'depth',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+      ]
+    },
   ];
 
   // Run on page load
@@ -1130,6 +1176,10 @@ var configurator = new function() {
         sensors += '<li>#robot-port# ' + i + ' : GPS</li>';
       } else if (sensor.type == 'LaserRangeSensor') {
         sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-laser#') + '</li>';
+      } else if (sensor.type == 'TouchSensor') {
+        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-touch#') + '</li>';
+      } else if (sensor.type == 'Pen') {
+        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-pen#') + '</li>';
       } else {
         console.log(sensor);
       }

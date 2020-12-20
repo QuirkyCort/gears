@@ -79,6 +79,12 @@ i18n.append({
     en: 'Laser Range Sensor',
     fr: 'télémètre laser',
   },
+  '#robot-pen#': {
+    en: 'Pen',
+  },
+  '#robot-touch#': {
+    en: 'Touch Sensor',
+  },
 
 
   '#robot-singleFollowerShort#': {

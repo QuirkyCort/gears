@@ -2162,3 +2162,109 @@ function Pen(scene, parent, pos, rot, port, options) {
 
   this.init();
 }
+
+function TouchSensor(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'TouchSensor';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.pressed = false;
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = babylon.getMaterial(scene, 'FFFFFF');
+    let bodyOptions = {
+      height: 2,
+      width: self.options.width,
+      depth: self.options.depth
+    };
+    var body = BABYLON.MeshBuilder.CreateBox('touchSensorBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL);
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL);
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL);
+
+    var fakeSensorMat = babylon.getMaterial(scene, 'E60000');
+    let sensorOptions = {
+      height: 0.8,
+      width: self.options.width - 0.2,
+      depth: self.options.depth - 0.2
+    };
+    self.fakeSensor = BABYLON.MeshBuilder.CreateBox('touchSensorBodyFake', sensorOptions, scene);
+    self.fakeSensor.material = fakeSensorMat;
+    self.fakeSensor.position.y = -1.4;
+    self.fakeSensor.parent = body;
+
+    // Real sensor is invisible, but with a physics body
+    self.realSensor = BABYLON.MeshBuilder.CreateBox('touchSensorBodyReal', sensorOptions, scene);
+    self.realSensor.material = fakeSensorMat;
+    self.realSensor.isVisible = false;
+    self.realSensor.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.realSensor,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    self.realSensor.physicsImpostor.physicsBody.setCollisionFlags(4);
+
+    self.realSensor.physicsImpostor.registerBeforePhysicsStep(function(){
+      self.realSensor.position = self.fakeSensor.getAbsolutePosition();
+      self.realSensor.rotationQuaternion = self.fakeSensor.absoluteRotationQuaternion;
+      self.realSensor.physicsImpostor.forceUpdate();
+      self.realSensor.physicsImpostor.physicsBody.setCollisionFlags(4);
+      self.pressed = false;
+    });
+    scene.meshes.forEach(function(mesh){
+      if (mesh.parent != null || mesh == parent || mesh == self.realSensor) return;
+      if (mesh.physicsImpostor) {
+        self.realSensor.physicsImpostor.registerOnPhysicsCollide(mesh.physicsImpostor, function(own, other){
+          self.pressed = true;
+        });
+      }
+    })
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      width: 2,
+      depth: 2
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.isPressed = function() {
+    return self.pressed;
+  };
+
+  this.init();
+}

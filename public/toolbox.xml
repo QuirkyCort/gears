@@ -141,6 +141,15 @@
       <field name="type">X</field>
       <field name="port">1</field>
     </block>
+    <block type="touch_state">
+      <field name="state">PRESSED</field>
+      <field name="port">1</field>
+    </block>
+    <block type="wait_for_state">
+      <field name="state">PRESSED</field>
+      <field name="port">1</field>
+    </block>
+
   </category>
   <category name="#blk-sound#" colour="#a5745b">
     <block type="say">

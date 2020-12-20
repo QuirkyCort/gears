@@ -360,6 +360,14 @@ function Robot() {
           componentConfig.rotation,
           'in' + (++self.sensorCount),
           componentConfig.options);
+      } else if (componentConfig.type == 'TouchSensor') {
+        component = new TouchSensor(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'in' + (++self.sensorCount),
+          componentConfig.options);
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
       }

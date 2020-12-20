@@ -252,6 +252,21 @@ let MSGS = {
     el: 'και δεξιά ταχύτητα',
     nl: 'en rechter snelheid',
   },
+  '#blk-touch_sensor#': {
+    en: 'touch_sensor',
+  },
+  '#blk-wait_until_touch_sensor#': {
+    en: 'wait until touch_sensor',
+  },
+  '#blk-is_pressed#': {
+    en: 'is Pressed',
+  },
+  '#blk-is_released#': {
+    en: 'is Released',
+  },
+  '#blk-is_bumped#': {
+    en: 'is Bumped',
+  },
   '#blk-color_sensor#': {
     en: 'color_sensor',
     fr: 'capteur de couleurs',
@@ -834,6 +849,12 @@ let MSGS = {
   },
   '#sim-pen#': {
     en: 'Pen',
+  },
+  '#sim-touch#': {
+    en: 'Touch Sensor',
+  },
+  '#sim-is_pressed#': {
+    en: 'Is Pressed',
   },
   '#sim-left_motor#': {
     en: 'Left Motor',
