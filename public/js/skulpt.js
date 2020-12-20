@@ -71,9 +71,9 @@ var skulpt = new function() {
       './ev3dev2/motor.py': 'ev3dev2/motor.py?v=f13c634c',
       './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
       './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
-      './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=5af23db0',
+      './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=5f0297eb',
       './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=60925ea9',
-      './simPython.js': 'js/simPython.js?v=2e5123e8'
+      './simPython.js': 'js/simPython.js?v=d69b0558'
     }
     // before import, check if this is one of the library tab modules
     searchModule = filename.replace(/.py/, '');

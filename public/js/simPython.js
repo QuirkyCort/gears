@@ -344,7 +344,7 @@ var $builtinmodule = function(name) {
     });
 
     $loc.isPressed = new Sk.builtin.func(function(self) {
-      return self.sensor.isPressed();
+      return Sk.ffi.remapToPy(self.sensor.isPressed());
     });
 
   }, 'TouchSensor', []);

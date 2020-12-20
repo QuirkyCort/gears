@@ -236,11 +236,13 @@ class TouchSensor:
 
   @property
   def is_pressed(self):
-    return bool(self.sensor.isPressed())
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.isPressed()
 
   @property
   def is_released(self):
-    return not bool(self.sensor.isPressed())
+    time.sleep(SENSOR_DELAY)
+    return not self.sensor.isPressed()
 
   def _wait(self, desired_state, timeout_ms, sleep_ms):
     tic = time.time()
