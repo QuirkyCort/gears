@@ -43,6 +43,11 @@ var ev3dev2_generator = new function() {
     Blockly.Python['penSetWidth'] = self.penSetWidth;
     Blockly.Python['touch_state'] = self.touch_state;
     Blockly.Python['wait_for_state'] = self.wait_for_state;
+    Blockly.Python['radio_send'] = self.radio_send;
+    Blockly.Python['radio_available'] = self.radio_available;
+    Blockly.Python['radio_read'] = self.radio_read;
+    Blockly.Python['radio_read_content'] = self.radio_read_content;
+    Blockly.Python['radio_empty'] = self.radio_empty;
   };
 
   // Generate python code
@@ -68,6 +73,7 @@ var ev3dev2_generator = new function() {
       'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
       '\n' +
       'spkr = Sound()\n' +
+      'radio = Radio()\n' +
       '\n';
 
     var sensorsCode = '';
@@ -628,5 +634,49 @@ var ev3dev2_generator = new function() {
     return code;
   };
 
+  this.radio_send = function(block) {
+    var dropdown_robot = block.getFieldValue('robot');
+    var text_mailbox = block.getFieldValue('mailbox');
+    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+
+    if (dropdown_robot == 'TEAM') {
+      dest = 'team';
+    } else if (dropdown_robot == 'ALL') {
+      dest = 'all';
+    } else {
+      dest = dropdown_robot;
+    }
+
+    var code = 'radio.send(' + dest + ', \'' + text_mailbox + '\', ' + value_value + ')\n';
+    return code;
+  };
+
+  this.radio_available = function(block) {
+    var text_mailbox = block.getFieldValue('mailbox');
+
+    var code = 'radio.available(\'' + text_mailbox + '\')';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.radio_read = function(block) {
+    var text_mailbox = block.getFieldValue('mailbox');
+
+    var code = 'radio.read(\'' + text_mailbox + '\')';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.radio_read_content = function(block) {
+    var text_mailbox = block.getFieldValue('mailbox');
+
+    var code = 'radio.read(\'' + text_mailbox + '\')[0]';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.radio_empty = function(block) {
+    var text_mailbox = block.getFieldValue('mailbox');
+
+    var code = 'radio.empty(\'' + text_mailbox + '\')\n';
+    return code;
+  };
 }
 

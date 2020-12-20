@@ -405,5 +405,33 @@ var $builtinmodule = function(name) {
     });
   }, 'Sound', []);
 
+  mod.Radio = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      robot.radioEmpty();
+    });
+
+    $loc.send = new Sk.builtin.func(function(self, dest, mailbox, value) {
+      return Sk.ffi.remapToPy(robot.radioSend(dest.v, mailbox.v, value.v));
+    });
+
+    $loc.available = new Sk.builtin.func(function(self, mailbox) {
+      return Sk.ffi.remapToPy(robot.radioAvailable(mailbox.v));
+    });
+
+    $loc.read = new Sk.builtin.func(function(self, mailbox) {
+      return Sk.ffi.remapToPy(robot.radioRead(mailbox.v));
+    });
+
+    $loc.empty = new Sk.builtin.func(function(self, mailbox) {
+      if (mailbox.v == null) {
+        return Sk.ffi.remapToPy(robot.radioEmpty());
+      }
+      return Sk.ffi.remapToPy(robot.radioEmpty(mailbox.v));
+    });
+
+  }, 'TouchSensor', []);
+
   return mod;
 };

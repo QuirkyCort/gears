@@ -207,6 +207,23 @@
       </value>
     </block>
   </category>
+  <category name="Radio (Experimental)" colour="#a55b80">
+    <block type="radio_send">
+      <value name="value">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="radio_available">
+    </block>
+    <block type="radio_read">
+    </block>
+    <block type="radio_read_content">
+    </block>
+    <block type="radio_empty">
+    </block>
+  </category>
   <category name="#blk-control#" colour="#9fa55b">
     <block type="sleep">
       <field name="units">SECONDS</field>

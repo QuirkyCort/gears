@@ -1723,5 +1723,116 @@
   "colour": 160,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "radio_send",
+  "message0": "#blk-send_message# %1 #blk-via_mailbox# %2 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "robot",
+      "options": [
+        [
+          "#blk-robot# 0",
+          "0"
+        ],
+        [
+          "#blk-robot# 1",
+          "1"
+        ],
+        [
+          "#blk-robot# 2",
+          "2"
+        ],
+        [
+          "#blk-robot# 3",
+          "3"
+        ],
+        [
+          "#blk-team_mates#",
+          "TEAM"
+        ],
+        [
+          "#blk-all#",
+          "ALL"
+        ]
+      ]
+    },
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    },
+    {
+      "type": "input_value",
+      "name": "value"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 330,
+  "tooltip": "#blk-radio_send_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "radio_available",
+  "message0": "#blk-messages_available# %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    }
+  ],
+  "output": null,
+  "colour": 330,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "radio_read",
+  "message0": "#blk-read_message# %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    }
+  ],
+  "output": null,
+  "colour": 330,
+  "tooltip": "#blk-radio_read_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "radio_read_content",
+  "message0": "#blk-read_content# %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    }
+  ],
+  "output": null,
+  "colour": 330,
+  "tooltip": "#blk-radio_read_content_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "radio_empty",
+  "message0": "#blk-empty_mailbox# %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 330,
+  "tooltip": "",
+  "helpUrl": ""
 }
 ]

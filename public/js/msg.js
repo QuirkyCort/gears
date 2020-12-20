@@ -267,6 +267,42 @@ let MSGS = {
   '#blk-is_bumped#': {
     en: 'is Bumped',
   },
+  '#blk-send_message#': {
+    en: 'Send message to',
+  },
+  '#blk-via_mailbox#': {
+    en: 'via mailbox',
+  },
+  '#blk-robot#': {
+    en: 'robot',
+  },
+  '#blk-team_mates#': {
+    en: 'team mates',
+  },
+  '#blk-all#': {
+    en: 'all',
+  },
+  '#blk-messages_available#': {
+    en: 'number of messages in mailbox',
+  },
+  '#blk-read_message#': {
+    en: 'read next message in mailbox',
+  },
+  '#blk-read_content#': {
+    en: 'read content of next message in mailbox',
+  },
+  '#blk-empty_mailbox#': {
+    en: 'empty mailbox',
+  },
+  '#blk-radio_send_tooltip#': {
+    en: 'Any type of messages can be sent, including numbers, text, and lists',
+  },
+  '#blk-radio_read_tooltip#': {
+    en: 'Returns the oldest message and remove it from the mailbox. Return value is a list containing both the message content and the sender id.'
+  },
+  '#blk-radio_read_content_tooltip#': {
+    en: 'Returns the oldest message and remove it from the mailbox. Return value contains only the message content.'
+  },
   '#blk-color_sensor#': {
     en: 'color_sensor',
     fr: 'capteur de couleurs',

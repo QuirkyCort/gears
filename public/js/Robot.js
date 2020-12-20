@@ -12,14 +12,16 @@ function Robot() {
   this.actuatorCount = 2;
   this.componentIndex = 0;
 
-  this.playerColors =[
+  this.playerColors = [
     new BABYLON.Color3(0.2, 0.94, 0.94),
     new BABYLON.Color3(0.2, 0.94, 0.2),
     new BABYLON.Color3(0.94, 0.94, 0.2),
     new BABYLON.Color3(0.94, 0.2, 0.2),
     new BABYLON.Color3(0.94, 0.2, 0.94),
     new BABYLON.Color3(0.2, 0.2, 0.94)
-  ]
+  ];
+
+  this.mailboxes = {};
 
   // Run on page load
   this.init = function() {
@@ -473,6 +475,71 @@ function Robot() {
         component.stop();
       }
     })
+  };
+
+  // Send a message
+  this.radioSend = function(dest, mailbox, value) {
+    const TEAM_MATES = [
+      [1],
+      [0],
+      [3],
+      [2]
+    ];
+    const ALL = [0, 1, 2, 3];
+
+    if (dest == 'all') {
+      dest = ALL;
+    } else if (dest == 'team') {
+      dest = TEAM_MATES[self.player];
+    } else if (typeof dest == 'number') {
+      dest = [dest];
+    }
+
+    dest.forEach(function(d){
+      if (d == self.player) {
+        return;
+      }
+
+      let recepient = window.parent.robots[d];
+
+      if (typeof recepient != 'undefined') {
+        if (typeof recepient.mailboxes[mailbox] == 'undefined') {
+          recepient.mailboxes[mailbox] = [];
+        }
+        recepient.mailboxes[mailbox].push([value, self.player]);
+      }
+    })
+  };
+
+  // Check if messages available
+  this.radioAvailable = function(mailbox) {
+    if (typeof self.mailboxes[mailbox] == 'undefined') {
+      return 0;
+    }
+
+    return self.mailboxes[mailbox].length;
+  };
+
+  // Read message
+  this.radioRead = function(mailbox) {
+    if (typeof self.mailboxes[mailbox] == 'undefined') {
+      return null;
+    }
+
+    if (self.mailboxes[mailbox].length == 0) {
+      return null;
+    }
+
+    return self.mailboxes[mailbox].shift();
+  };
+
+  // Empty mailbox
+  this.radioEmpty = function(mailbox) {
+    if (typeof mailbox == 'undefined') {
+      self.mailboxes = {};
+    } else if (typeof self.mailboxes[mailbox] != 'undefined') {
+      self.mailboxes[mailbox] = [];
+    }
   };
 
   // Init class

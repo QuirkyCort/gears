@@ -818,12 +818,16 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20201220;
+    let current = 20201221;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>21 Dec 2020</h3>' +
+          '<ul>' +
+          '<li>Added radio. This can be used in the multi-robot arena to send messages between robots.</li>' +
+          '</ul>' +
           '<h3>20 Dec 2020</h3>' +
           '<ul>' +
           '<li>Added the touch sensor. You can add it to your robot throught the robot configurator.</li>' +

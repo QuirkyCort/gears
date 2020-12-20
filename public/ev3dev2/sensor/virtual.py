@@ -55,3 +55,25 @@ class Pen:
 
   def setWidth(self, width=1.0):
     self.pen.setWidth( width )
+
+class Radio:
+  _DRIVER_NAME = 'virtual-radio'
+
+  def __init__(self, address=None):
+    self.radio = simPython.Radio()
+
+  def send(self, dest, mailbox, value):
+    time.sleep(SENSOR_DELAY)
+    return self.radio.send(dest, mailbox, value)
+
+  def available(self, mailbox):
+    time.sleep(SENSOR_DELAY)
+    return self.radio.available(mailbox)
+
+  def read(self, mailbox):
+    time.sleep(SENSOR_DELAY)
+    return self.radio.read(mailbox)
+
+  def empty(self, mailbox=None):
+    time.sleep(SENSOR_DELAY)
+    return self.radio.empty(mailbox)
