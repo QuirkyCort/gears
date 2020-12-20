@@ -818,12 +818,17 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20201218;
+    let current = 20201220;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>20 Dec 2020</h3>' +
+          '<ul>' +
+          '<li>Added the touch sensor. You can add it to your robot throught the robot configurator.</li>' +
+          '<li>Setting port to "Auto" will automatically select the correct port if you only have one device of the type.</li>' +
+          '</ul>' +
           '<h3>18 Dec 2020</h3>' +
           '<ul>'+
           '<li>Added a cylinder and sphere blocks to robot configuration.</li>' +

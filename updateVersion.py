@@ -72,11 +72,5 @@ def main():
     directory = os.path.join(BASE_DIR, scan)
     log(LOG_INFO, 'Scanning ' + directory)
     scan_directory(directory)
-  log(LOG_INFO, '\nRe-scanning for recursive changes')
-  # Repeat as some changes may be recursive
-  for scan in SCAN_DIRS:
-    directory = os.path.join(BASE_DIR, scan)
-    log(LOG_INFO, 'Scanning ' + directory)
-    scan_directory(directory)
 
 main()
