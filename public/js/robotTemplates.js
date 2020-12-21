@@ -255,6 +255,12 @@ var robotTemplates = [
         position: [0, -1, 3],
         rotation: [0, 0, 0],
         options: null
+      },
+      {
+        type: 'Pen',
+        position: [0, 0, 6],
+        rotation: [0, 0, 0],
+        options: null
       }
     ]
   },

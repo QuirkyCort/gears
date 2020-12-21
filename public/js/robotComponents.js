@@ -2017,7 +2017,7 @@ function Pen(scene, parent, pos, rot, port, options) {
   this.traceWidth = 0.5;
   this.traceMat = null;
   this.traceMeshes = [];
-  this.currentTraceMesh = null;
+  this.currentMesh = null;
   this.prevPos = null;
   this.currentPathDirty = false;
   this.currentRibbonPath = [[], []];
@@ -2085,21 +2085,29 @@ function Pen(scene, parent, pos, rot, port, options) {
 
   // Lower the pen (begin drawing a trace)
   this.down = function() {
-    this.currentPath = [];
-    this.currentTraceMesh = null;
-    this.isDown = true;
+    self.currentRibbonPath = [[], []];
+    self.currentMesh = null;
+    self.prevPos = null;
+    self.isDown = true;
   };
 
   // Raise the pen (stop drawing a trace)
   this.up = function() {
-    this.isDown = false
-    if (this.currentMesh != null) {
-      this.traceMeshes.push(this.currentMesh)
+    self.isDown = false
+    if (self.currentMesh != null) {
+      self.traceMeshes.push(self.currentMesh)
+      self.currentMesh = null;
     }
     self.currentPathDirty = false
   };
 
   this.setTraceColor = function(r, g, b) {
+    // if the pen is down, setting the trace color causes a new trace to start.
+    // This is so the new ribbon can have a different material.
+    if (self.isDown) {
+      self.up();
+      self.down();
+    }
     r = ('0' + Math.round(r*255).toString(16)).slice(-2);
     g = ('0' + Math.round(g*255).toString(16)).slice(-2);
     b = ('0' + Math.round(b*255).toString(16)).slice(-2);
@@ -2128,6 +2136,9 @@ function Pen(scene, parent, pos, rot, port, options) {
         self.prevPos = pos.clone();
         let left = new BABYLON.Vector3(0, self.traceWidth, 0);
         let right = new BABYLON.Vector3(0, -self.traceWidth, 0);
+        // cross product is proprtional to lengths of both vectors, but we
+        // do not want the trace width to vary with the robot speed
+        dirV = dirV.normalize()
         left = dirV.cross(left);
         right = dirV.cross(right);
         left.addInPlace(pos);
@@ -2143,7 +2154,7 @@ function Pen(scene, parent, pos, rot, port, options) {
     if (self.currentRibbonPath[0].length < 2) {
       return;
     }
-    if (this.currentMesh != null ) {
+    if (self.currentMesh != null ) {
       scene.removeMesh(self.currentMesh);
       self.currentMesh.dispose();
     }
