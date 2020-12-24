@@ -94,10 +94,7 @@ var world_Maze = new function() {
 
   // Set options, including default
   this.setOptions = function(options) {
-    let tmpOptions = {};
-    Object.assign(tmpOptions, self.defaultOptions);
-    Object.assign(tmpOptions, self.options);
-    Object.assign(self.options, tmpOptions);
+    Object.assign(self.options, self.defaultOptions);
 
     for (let name in options) {
       if (typeof self.options[name] == 'undefined') {

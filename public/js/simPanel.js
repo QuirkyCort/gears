@@ -576,6 +576,7 @@ var simPanel = new function() {
 
       $configurations.empty();
       worldOptionsSetting = {};
+      Object.assign(worldOptionsSetting, worldOptions);
       for (let optionConfiguration of world.optionsConfigurations) {
         if (optionConfiguration.type == 'select') {
           $configurations.append(genSelect(optionConfiguration, worldOptions));
