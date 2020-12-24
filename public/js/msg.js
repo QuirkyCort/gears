@@ -166,7 +166,7 @@ let MSGS = {
     en: 'and speed',
     fr: 'et vitesse',
     el: 'και ταχύτητα',
-    nl: 'en bochtscherpte',
+    nl: 'en snelheid',
   },
   '#blk-degrees#': {
     en: 'degrees',
@@ -254,54 +254,71 @@ let MSGS = {
   },
   '#blk-touch_sensor#': {
     en: 'touch_sensor',
+	  nl:'drukknop sensor',
   },
   '#blk-wait_until_touch_sensor#': {
     en: 'wait until touch_sensor',
+	  nl:'wacht tot drukknop sensor',
   },
   '#blk-is_pressed#': {
     en: 'is Pressed',
+	  nl:'is ingedrukt',
   },
   '#blk-is_released#': {
     en: 'is Released',
+	  nl:'is losgelaten',
   },
   '#blk-is_bumped#': {
     en: 'is Bumped',
+	  nl:'is in-uitgedrukt',
   },
   '#blk-send_message#': {
     en: 'Send message to',
+	  nl:'stuur bericht naar',
   },
   '#blk-via_mailbox#': {
     en: 'via mailbox',
+	  nl:'via postvak',
   },
   '#blk-robot#': {
     en: 'robot',
+	  nl:'robot',
   },
   '#blk-team_mates#': {
     en: 'team mates',
+	  nl:'team-leden',
   },
   '#blk-all#': {
     en: 'all',
+	  nl:'allemaal',
   },
   '#blk-messages_available#': {
     en: 'number of messages in mailbox',
+	  nl:'aantal berichten in postvak',
   },
   '#blk-read_message#': {
     en: 'read next message in mailbox',
+	  nl:'lees volgende bericht in postvak',
   },
   '#blk-read_content#': {
     en: 'read content of next message in mailbox',
+	  nl:'lees inhoud van volgende bericht in postvak',
   },
   '#blk-empty_mailbox#': {
     en: 'empty mailbox',
+	  nl:'postvak legen',
   },
   '#blk-radio_send_tooltip#': {
     en: 'Any type of messages can be sent, including numbers, text, and lists',
+	  nl:'Ieder type bericht kan gestuurd worden, inclusief nummers, tekst en lijsten',
   },
   '#blk-radio_read_tooltip#': {
-    en: 'Returns the oldest message and remove it from the mailbox. Return value is a list containing both the message content and the sender id.'
+    en: 'Returns the oldest message and remove it from the mailbox. Return value is a list containing both the message content and the sender id.',
+	  nl:'Geeft het oudste bericht weer en verwijdert het uit het postvak. Weergegeven waarde is een lijst met zowel de berichtinhoud als de ID van de verzender.',
   },
   '#blk-radio_read_content_tooltip#': {
-    en: 'Returns the oldest message and remove it from the mailbox. Return value contains only the message content.'
+    en: 'Returns the oldest message and remove it from the mailbox. Return value contains only the message content.',
+	  nl:'Geeft het oudste bericht weer en verwijdert het uit het postvak. Weergegeven waarde bevat enkel de berichtinhoud.',
   },
   '#blk-color_sensor#': {
     en: 'color_sensor',
@@ -485,15 +502,19 @@ let MSGS = {
   },
   '#blk-pen_down#': {
     en: 'start drawing with pen',
+	  nl: 'begin tekenen met pen',
   },
   '#blk-pen_up#': {
     en: 'stop drawing with pen',
+	  nl: 'stop tekenen met pen',
   },
   '#blk-pen_color#': {
     en: 'set the pen color to',
+	  nl: 'zet de penkleur op',
   },
   '#blk-pen_width#': {
     en: 'set the pen width to',
+	  nl: 'zet de pendikte op',
   },
   '#main-blocks#': {
     en: 'Blocks',
@@ -885,12 +906,15 @@ let MSGS = {
   },
   '#sim-pen#': {
     en: 'Pen',
+	  nl: 'Pen',
   },
   '#sim-touch#': {
     en: 'Touch Sensor',
+	  nl: 'Drukknop-sensor',
   },
   '#sim-is_pressed#': {
     en: 'Is Pressed',
+	  nl: 'Is ingedrukt',
   },
   '#sim-left_motor#': {
     en: 'Left Motor',
