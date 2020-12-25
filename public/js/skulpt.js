@@ -1,6 +1,17 @@
 var skulpt = new function() {
   var self = this;
 
+  this.externalLibs = {
+    './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=698096cb',
+    './ev3dev2/motor.py': 'ev3dev2/motor.py?v=f13c634c',
+    './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
+    './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
+    './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=5f0297eb',
+    './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=99e2275d',
+    './simPython.js': 'js/simPython.js?v=abc5bf0b'
+  };
+  this.preloadedLibs = {};
+
   // Run on page load
   this.init = function() {
     Sk.configure({
@@ -9,6 +20,8 @@ var skulpt = new function() {
       __future__: Sk.python3
     });
     Sk.execLimit = 5000;
+
+    self.preload();
   };
 
   // Run program
@@ -62,19 +75,25 @@ var skulpt = new function() {
   // Write to stdout
   this.outf = function (text) {
     simPanel.consoleWrite(text);
-  }
+  };
+
+  // Files preloader
+  this.preload = function () {
+    for (key in self.externalLibs) {
+      (function(key, url){
+        fetch(url)
+        .then(function(r){
+          return r.text();
+        })
+        .then(function(r){
+          self.preloadedLibs[key] = r;
+        });
+      })(key, self.externalLibs[key]);
+    }
+  };
 
   // File loader
   this.builtinRead = function (filename) {
-    var externalLibs = {
-      './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=698096cb',
-      './ev3dev2/motor.py': 'ev3dev2/motor.py?v=f13c634c',
-      './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
-      './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
-      './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=5f0297eb',
-      './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=99e2275d',
-      './simPython.js': 'js/simPython.js?v=abc5bf0b'
-    }
     // before import, check if this is one of the library tab modules
     searchModule = filename.replace(/.py/, '');
     if (searchModule.startsWith('./')) {
@@ -93,8 +112,11 @@ var skulpt = new function() {
         }
       }
     }
+
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][filename] === undefined) {
-      if (filename in externalLibs) {
+      if (filename in self.preloadedLibs) {
+        return self.preloadedLibs[filename];
+      } else if (filename in self.externalLibs) {
         return Sk.misceval.promiseToSuspension(
           fetch(externalLibs[filename])
             .then(r => r.text())

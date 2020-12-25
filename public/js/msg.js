@@ -292,6 +292,12 @@ let MSGS = {
     en: 'all',
 	  nl:'allemaal',
   },
+  '#blk-pen-category#': {
+    en: 'Pen (Experimental)',
+  },
+  '#blk-radio-category#': {
+    en: 'Radio (Experimental)',
+  },
   '#blk-messages_available#': {
     en: 'number of messages in mailbox',
 	  nl:'aantal berichten in postvak',

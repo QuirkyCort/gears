@@ -177,7 +177,7 @@
       </value>
     </block>
   </category>
-  <category name="Pen (Experimental)" colour="#a5745b">
+  <category name="#blk-pen-category#" colour="#a5745b">
     <block type="penDown">
     </block>
     <block type="penUp">
@@ -207,7 +207,7 @@
       </value>
     </block>
   </category>
-  <category name="Radio (Experimental)" colour="#a55b80">
+  <category name="#blk-radio-category#" colour="#a55b80">
     <block type="radio_send">
       <value name="value">
         <shadow type="text">
