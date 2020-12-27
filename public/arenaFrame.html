@@ -95,13 +95,28 @@
       };
     };
 
+    document.getElementById('arenaFrame').addEventListener('dragover', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }, false);
+
+    document.getElementById('arenaFrame').addEventListener('drop', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      uploadFile(e.dataTransfer.files[0]);
+    }, false);
+
     document.getElementById('zip').addEventListener('click', function(e){
       document.getElementById('zip').value = null;
     });
 
     document.getElementById('zip').addEventListener('change', function(e){
-      document.getElementById('zipFileName').value = e.target.files[0].name;
-      JSZip.loadAsync(e.target.files[0])
+      uploadFile(e.target.files[0]);
+    });
+
+    function uploadFile(file) {
+      document.getElementById('zipFileName').value = file.name;
+      JSZip.loadAsync(file)
         .then(function(zip){
           let metaFile = zip.file('meta.json');
           if (metaFile) {
@@ -137,8 +152,7 @@
               parent.arenaPanel.resetSim();
             });
         })
-    });
-
+    };
 
     function runPython() {
       let enable = document.getElementById('enable').checked;
