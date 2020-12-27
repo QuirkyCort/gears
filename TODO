@@ -28,7 +28,6 @@ Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
 - More components
   - object of interest radar (direction and range of object)
-  - radio (communications between robots)
   - claw
   - linear actuator
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
@@ -44,3 +43,4 @@ Coding (Sharing)
 - Host an arena match and allow others to submit code/robots
 
 Bugs
+- Variables not disappearing from toolbox immediately upon delete

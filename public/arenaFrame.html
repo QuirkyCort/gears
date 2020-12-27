@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="css/main.css?v=085ad89e">
+  <link rel="stylesheet" href="css/main.css?v=7312c566">
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
 
@@ -24,8 +24,15 @@
       <span id="player"></span>
     </div>
     <div class="row">
-      <label for="zip">Upload your zip package:&nbsp;</label>
-      <input type="file" id="zip" accept="application/zip,.zip">
+      <!-- <label for="zip">Upload your zip package:&nbsp;</label> -->
+      <div id="zipLabel">
+        Upload your zip package:<br>
+        <div class="fileSelector">
+          <input type="text" id="zipFileName" placeholder="Choose file" disabled>
+          <label for="zip">Browse...</label>
+          <input type="file" id="zip" accept="application/zip,.zip">
+        </div>
+      </div>
     </div>
   </main>
 
@@ -88,7 +95,12 @@
       };
     };
 
+    document.getElementById('zip').addEventListener('click', function(e){
+      document.getElementById('zip').value = null;
+    });
+
     document.getElementById('zip').addEventListener('change', function(e){
+      document.getElementById('zipFileName').value = e.target.files[0].name;
       JSZip.loadAsync(e.target.files[0])
         .then(function(zip){
           let metaFile = zip.file('meta.json');
