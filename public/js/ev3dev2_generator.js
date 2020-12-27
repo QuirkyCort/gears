@@ -640,9 +640,9 @@ var ev3dev2_generator = new function() {
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
 
     if (dropdown_robot == 'TEAM') {
-      dest = 'team';
+      dest = '\'team\'';
     } else if (dropdown_robot == 'ALL') {
-      dest = 'all';
+      dest = '\'all\'';
     } else {
       dest = dropdown_robot;
     }
