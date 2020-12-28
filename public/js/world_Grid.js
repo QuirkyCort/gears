@@ -95,7 +95,9 @@ var world_Grid = new function() {
     wallRestitution: 0.1,
     startPos: 'center',
     startPosXY: '',
-    startRot: ''
+    startRot: '',
+    arenaStartPosXY: null,
+    arenaStartRot: null
   };
 
   // Set options, including default
@@ -130,6 +132,26 @@ var world_Grid = new function() {
         rotation: new BABYLON.Vector3(0, 0, 0)
       },
     ];
+
+    if (self.options.arenaStartPosXY instanceof Array) {
+      for (let i=0; i < self.options.arenaStartPosXY.length; i++) {
+        self.arenaStart[i].position = new BABYLON.Vector3(
+          self.options.arenaStartPosXY[i][0],
+          0,
+          self.options.arenaStartPosXY[i][1]
+        );
+      }
+    }
+
+    if (self.options.arenaStartRot instanceof Array) {
+      for (let i=0; i < self.options.arenaStartRot.length; i++) {
+        self.arenaStart[i].rotation = new BABYLON.Vector3(
+          0,
+          self.options.arenaStartRot[i],
+          0,
+        );
+      }
+    }
 
     self.robotStart = {
       position: new BABYLON.Vector3(0, 0, 0),
