@@ -94,7 +94,7 @@ i18n.append({
   '#robot-singleFollowerLong#': {
     en:
       '<p>This robot is equipped with a single color sensor for line following.</p>' +
-      '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects.</p>' +
+      '<p>An electromagnet at the bottom of the robot lets you pick up magnetic objects, and a Pen lets you draw a line in the world to see the robot\'s path.</p>' +
       '<p>It\'s good for learning the basics of line following, but some line following maps will require double sensors.</p>',
     fr:
       '<p>Ce robot n\'est équipé que d\'un capteur de couleurs pour suivre la ligne.</p>' +
@@ -205,6 +205,7 @@ var robotTemplates = [
         '<li>#robot-port# 2 : #robot-ultrasonic#</li>' +
         '<li>#robot-port# 3 : #robot-gyro#</li>' +
         '<li>#robot-port# 4 : GPS</li>' +
+        '<li>#robot-port# 5 : Pen</li>' +
       '</ul>',
     thumbnail: 'images/robots/singleFollower.jpg',
 
