@@ -947,9 +947,78 @@ var configurator = new function() {
           self.$settingsArea.append(genBoolean(optionConfiguration, component.options));
         }
       });
-      }
+    }
+    if (component.type == 'Pen') {
+      self.penSpecialCaseSetup(component);
+    }
   };
 
+  // Special case for the pen, add some buttons to move it to useful locations
+  this.penSpecialCaseSetup = function(component) {
+
+    function moveTo(x,z) {
+      let $posDiv = self.$settingsArea.find("div.configurationTitle:contains('position')")
+      // Get the input boxes for x/y/z so value changes can be made visible
+      let $inputX = $posDiv.next().find('input[type=text]');
+      let $inputY = $posDiv.next().next().find('input[type=text]');
+      let $inputZ = $posDiv.next().next().next().find('input[type=text]');
+      // change only X and Z vals, Y is height from ground
+      $inputX.val(x)
+      component.position[0]=x
+      $inputZ.val(z)
+      component.position[2]=z
+      self.resetScene(false);
+    };
+
+    let $centerWheelAxisBtn = $('<div class="btn_pen">Center On Wheel Axis</div>');
+    $centerWheelAxisBtn.click(function(){
+      // move the pen to the center of the wheel axis
+      wheelAxisCenter = robot.leftWheel.mesh.position.add(robot.rightWheel.mesh.position).scale(1/2.0)
+      moveTo(wheelAxisCenter.x, wheelAxisCenter.z)
+    });
+    let $centerWheelBtn = $('<div class="btn_pen">Center On Wheel</div>');
+    let nextWheelCenter = 'L';
+    $centerWheelBtn.click(function(){
+      // move the pen to the center of a wheel.
+      // Alternate between L and R wheels (and castor?)
+      if (nextWheelCenter == 'L') {
+        nextWheelCenter = 'R';
+        wheelCenter = robot.leftWheel.mesh.position;
+      } else {
+        nextWheelCenter = 'L';
+        wheelCenter = robot.rightWheel.mesh.position;
+      }
+      moveTo(wheelCenter.x, wheelCenter.z)
+    });
+    let $centerCSBtn = $('<div class="btn_pen">Center On Color Sensor</div>');
+    let nextColorSensor = 0;
+    $centerCSBtn.click(function(){
+      // Move the pen to the center of the color sensor.  If there is more
+      // than one color sensor, move to the next one 
+      var colorSensors = []
+      for (c of robot.components) {
+        if (c.type == "ColorSensor") {
+          colorSensors.push(c);
+        }
+      }
+      if (colorSensors.length <= 0) {
+        return;
+      }
+      csPos = colorSensors[nextColorSensor].position
+      nextColorSensor++;
+      if (nextColorSensor >= colorSensors.length) {
+        nextColorSensor = 0;
+      }
+      moveTo(csPos.x, csPos.z)
+    });
+
+    let $btndiv = $('<div class="buttons"></div>')
+    $btndiv.append($centerWheelAxisBtn);
+    $btndiv.append($centerWheelBtn);
+    $btndiv.append($centerCSBtn);
+    self.$settingsArea.append($btndiv)
+  }
+  
   // Reset scene
   this.resetScene = function(reloadComponents=true) {
     if (typeof self.cameraRadius == 'undefined') {
