@@ -83,6 +83,7 @@ var main = new function() {
         {html: 'Français', line: false, callback: function() { setLang('fr'); }},
         {html: 'Nederlands', line: false, callback: function() { setLang('nl'); }},
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
+		{html: 'Deutsch', line: false, callback: function() { setLang('de'); }},
       ];
 
       menuDropDown(self.$languageMenu, menuItems, {className: 'languageMenuDropDown', align: 'right'});
