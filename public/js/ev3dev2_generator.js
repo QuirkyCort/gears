@@ -27,6 +27,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['reset_motor'] = self.reset_motor;
     Blockly.Python['color_sensor'] = self.color_sensor;
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
+    Blockly.Python['laser_sensor'] = self.laser_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
     Blockly.Python['reset_gyro'] = self.reset_gyro;
     Blockly.Python['say'] = self.say;
@@ -436,6 +437,23 @@ var ev3dev2_generator = new function() {
     var dropdown_port = block.getFieldValue('port');
     var dropdown_units = block.getFieldValue('units');
     dropdown_port = self.getPort(dropdown_port, 'UltrasonicSensor');
+
+    if (dropdown_units == 'CM') {
+      var multiplier = '';
+      var order = Blockly.Python.ORDER_ATOMIC;
+    } else if (dropdown_units == 'MM') {
+      var multiplier = ' * 10';
+      var order = Blockly.Python.ORDER_MULTIPLICATIVE;
+    }
+    var code = 'ultrasonic_sensor_in' + dropdown_port + '.distance_centimeters' + multiplier;
+    return [code, order];
+  };
+
+  // laser. Same as ultrasonic, except for autoport
+  this.laser_sensor = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var dropdown_units = block.getFieldValue('units');
+    dropdown_port = self.getPort(dropdown_port, 'LaserRangeSensor');
 
     if (dropdown_units == 'CM') {
       var multiplier = '';

@@ -451,6 +451,9 @@ let MSGS = {
     nl: 'ultrasonische afstand op poort',
     de: 'Ultraschalldistanz am Port',
   },
+  '#blk-laser_distance_on_port#': {
+    en: 'laser distance on port',
+  },
   '#blk-in#': {
     en: 'in',
     fr: 'entrée',
@@ -1119,11 +1122,11 @@ let MSGS = {
     de: 'schwenkbarer Antrieb',
   },
   '#sim-paintball#': {
-    en: 'Paintball Launcher Actuator',
+    en: 'Paintball Launcher',
     fr: 'Lanceur de paintball',
     el: 'Ενεργοποιητής Εκτοξευτήρα Paintball',
     nl: 'Paintball kanon',
-    de: 'Paintball Launcher Aktuator',
+    de: 'Paintball Launcher',
   },
   '#sim-save#': {
     en: 'Save',

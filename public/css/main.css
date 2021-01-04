@@ -503,7 +503,8 @@ ul.menuDropDownRightAlign {
       width: 100%;
       border-collapse: collapse; }
       .sensorReadings .sensorReading table.sensorValues td {
-        border: solid 2px #bbbbbb; }
+        border: solid 2px #bbbbbb;
+        color: darkblue; }
       .sensorReadings .sensorReading table.sensorValues td.sensorValue {
         text-align: right;
         width: 30%; }

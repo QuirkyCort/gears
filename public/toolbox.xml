@@ -130,6 +130,10 @@
       <field name="port">AUTO</field>
       <field name="units">CM</field>
     </block>
+    <block type="laser_sensor">
+      <field name="port">AUTO</field>
+      <field name="units">CM</field>
+    </block>
     <block type="gyro_sensor">
       <field name="type">ANGLE</field>
       <field name="port">AUTO</field>
