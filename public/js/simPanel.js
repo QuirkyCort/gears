@@ -320,6 +320,11 @@ var simPanel = new function() {
           motor.port + ': ' + i18n.get('#sim-paintball#'),
           [i18n.get('#sim-position#')]
           );
+      } else if (motor.type == 'MagnetActuator') {
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-magnet#'),
+          [i18n.get('#sim-magnet_power#')]
+          );
       }
 
       if (tmp) {
@@ -364,6 +369,8 @@ var simPanel = new function() {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'PaintballLauncherActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
+      } else if (sensor[0].type == 'MagnetActuator') {
+        sensor[1][0].text(Math.round(sensor[0].power * 100 / sensor[0].options.maxPower));
       }
     });
   };

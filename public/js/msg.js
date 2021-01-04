@@ -1091,6 +1091,12 @@ let MSGS = {
     nl: 'Positie (graden)',
     de: 'Position (grad)',
   },
+  '#sim-magnet#': {
+    en: 'Electromagnet',
+  },
+  '#sim-magnet_power#': {
+    en: 'Magnet Power (%)',
+  },
   '#sim-right_motor#': {
     en: 'Right Motor',
     fr: 'Moteur droit',
