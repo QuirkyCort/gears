@@ -50,7 +50,7 @@ Translations by:
 
 * Français: Sébastien CANET <scanet@libreduc.cc>
 * Nederlands: Henry Romkes
-* Ελληνικά: Eduact, eduact.org/en
+* Ελληνικά: Eduact, https://eduact.org/en
 * Español: edurobotic
 * Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix)
 
