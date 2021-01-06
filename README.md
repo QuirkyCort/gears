@@ -52,6 +52,7 @@ Translations by:
 * Nederlands: Henry Romkes
 * Ελληνικά: Eduact, eduact.org/en
 * Español: edurobotic
+* Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix)
 
 License
 ---

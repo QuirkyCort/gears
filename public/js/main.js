@@ -165,7 +165,11 @@ var main = new function() {
         '</ul>' +
         '<p>Translations Contributed By:</p>' +
         '<ul>' +
-          '<li>French: Sébastien CANET &lt;scanet@libreduc.cc&gt;</li>' +
+          '<li>Français: Sébastien CANET &lt;scanet@libreduc.cc&gt;</li>' +
+          '<li>Nederlands: Henry Romkes</li>' +
+          '<li>Ελληνικά: <a href="https://eduact.org/en" target="_blank">Eduact</a></li>' +
+          '<li>Español: edurobotic</li>' +
+          '<li>Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix)</li>' +
         '</ul>' +
         '<h3>Contact</h3>' +
         '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +

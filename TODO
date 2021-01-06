@@ -23,6 +23,13 @@ Coding (Python editor)
 
 Coding (Robot configurator)
 - Help menu
+- Name items
+- Duplicate items
+
+Coding (Image world)
+- Option to set robot rotation in degrees or radian for both single and multi-robots
+- Split this into a separate base world
+- Document multi-robot position setting
 
 Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
@@ -31,11 +38,13 @@ Coding (Simulator)
   - claw
   - linear actuator
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
+  - LED (use ev3dev api or new?)
 - Prevent jumping over wall when backing up. (Increasing wall friction doesn't work...)
 - Set duty_cycle_sp. Useful for aligning to wall.
 - Remote control
 - Buttons
 - Load zip file
+- Touch sensor extendable touch surface
 
 Coding (Sharing)
 - Remote coach view of student's work
