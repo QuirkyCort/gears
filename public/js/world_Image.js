@@ -534,6 +534,26 @@ var world_Image = new function() {
       objectMesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
     }
 
+    if (typeof options.laserDetection == 'undefined') {
+      if (options.physicsOptions === false) {
+        objectMesh.laserDetection = 'invisible';
+      } else {
+        objectMesh.laserDetection = 'normal';
+      }
+    } else {
+      objectMesh.laserDetection = options.laserDetection;
+    }
+
+    if (typeof options.ultrasonicDetection == 'undefined') {
+      if (options.physicsOptions === false) {
+        objectMesh.ultrasonicDetection = 'invisible';
+      } else {
+        objectMesh.ultrasonicDetection = 'normal';
+      }
+    } else {
+      objectMesh.ultrasonicDetection = options.ultrasonicDetection;
+    }
+
     return objectMesh;
   };
 

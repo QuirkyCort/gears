@@ -587,6 +587,16 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     }
   };
 
+  this.filterRay = function(mesh) {
+    if (mesh.isPickable == false) {
+      return false;
+    }
+    if (mesh.ultrasonicDetection == 'invisible') {
+      return false;
+    }
+    return true;
+  };
+
   this.getDistance = function() {
     var shortestDistance = self.options.rayLength;
 
@@ -598,8 +608,11 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     self.rayVectors.forEach(function(rayVector, i){
       rayVector.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, self.rays[i].direction);
 
-      var hit = scene.pickWithRay(self.rays[i]);
-      if (hit.hit && hit.distance < shortestDistance) {
+      var hit = scene.pickWithRay(self.rays[i], self.filterRay);
+      if (hit.hit == false || hit.pickedMesh.ultrasonicDetection == 'absorb') {
+        return;
+      }
+      if (hit.distance < shortestDistance) {
         let hitVector = hit.getNormal(true);
         if (hitVector) {
           var incidentAngle = Math.abs(BABYLON.Vector3.Dot(hitVector, self.rays[i].direction));
@@ -1358,6 +1371,16 @@ function LaserRangeSensor(scene, parent, pos, rot, port, options) {
     }
   };
 
+  this.filterRay = function(mesh) {
+    if (mesh.isPickable == false) {
+      return false;
+    }
+    if (mesh.laserDetection == 'invisible') {
+      return false;
+    }
+    return true;
+  };
+
   this.getDistance = function() {
     var shortestDistance = self.options.rayLength;
 
@@ -1369,8 +1392,11 @@ function LaserRangeSensor(scene, parent, pos, rot, port, options) {
     self.rayVectors.forEach(function(rayVector, i){
       rayVector.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, self.rays[i].direction);
 
-      var hit = scene.pickWithRay(self.rays[i]);
-      if (hit.hit && hit.distance < shortestDistance) {
+      var hit = scene.pickWithRay(self.rays[i], self.filterRay);
+      if (hit.hit == false || hit.pickedMesh.laserDetection == 'absorb') {
+        return;
+      }
+      if (hit.distance < shortestDistance) {
         shortestDistance = hit.distance;
       }
     });
