@@ -35,6 +35,14 @@ let MSGS = {
     nl: 'Geluid',
     de: 'Ton',
   },
+  '#blk-pen-category#': {
+    en: 'Pen (Experimental)',
+    nl: 'Pen (Experimenteel)',
+  },
+  '#blk-radio-category#': {
+    en: 'Radio (Experimental)',
+    nl: 'Radio (Experimenteel)',
+  },
   '#blk-control#': {
     en: 'Control',
     tlh: 'SeH',
@@ -340,14 +348,6 @@ let MSGS = {
     nl: 'allemaal',
     de: 'alle',
   },
-  '#blk-pen-category#': {
-    en: 'Pen (Experimental)',
-    nl: 'Pen (Experimenteel)',
-  },
-  '#blk-radio-category#': {
-    en: 'Radio (Experimental)',
-    nl: 'Radio (Experimenteel)',
-  },
   '#blk-messages_available#': {
     en: 'number of messages in mailbox',
     nl: 'aantal berichten in postvak',
@@ -455,6 +455,7 @@ let MSGS = {
   },
   '#blk-laser_distance_on_port#': {
     en: 'laser distance on port',
+    nl: 'laser afstand op poort',
   },
   '#blk-in#': {
     en: 'in',
