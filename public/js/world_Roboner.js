@@ -1,10 +1,10 @@
-var world_Roboner = new function() {
+var world_TFC = new function() {
   var self = this;
 
-  this.name = 'roboner';
-  this.shortDescription = 'Roboner Field';
+  this.name = 'Trinity Firefighting competition';
+  this.shortDescription = 'Trinity Firefighting competition Field';
   this.longDescription =
-    '<p>This world is the Roboner 2020 arena.</p>';
+    '<p>This world is the Trinity Firefighting competition 2020 arena.</p>';
   this.thumbnail = 'images/worlds/roboner.png';
 
   this.options = {};
@@ -583,9 +583,9 @@ var world_Roboner = new function() {
 }
 
 // Init class
-world_Roboner.init();
+world_TFC.init();
 
 if (typeof worlds == 'undefined') {
   var worlds = [];
 }
-worlds.push(world_Roboner);
+worlds.push(world_TFC);

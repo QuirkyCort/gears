@@ -879,9 +879,9 @@ var robotTemplates = [
     ]
   },
   {
-    "name": "Roboner",
-    "shortDescription": "Roboner",
-    "longDescription": "<p>Roboner sampale robot.</p>",
+    "name": "TFC",
+    "shortDescription": "TFC",
+    "longDescription": "<p>TFC sampale robot.</p>",
     "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : Paintball Launcher</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : Color Sensor</li><li>#robot-port# 2 : Ultrasonic Distance</li><li>#robot-port# 3 : Gyro</li><li>#robot-port# 4 : Laser Range Sensor</li></ul>",
     "thumbnail": "",
     "bodyHeight": 4,
