@@ -877,5 +877,94 @@ var robotTemplates = [
         ]
       }
     ]
+  },
+  {
+    "name": "Roboner",
+    "shortDescription": "Roboner",
+    "longDescription": "<p>Roboner sampale robot.</p>",
+    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : Paintball Launcher</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : Color Sensor</li><li>#robot-port# 2 : Ultrasonic Distance</li><li>#robot-port# 3 : Gyro</li><li>#robot-port# 4 : Laser Range Sensor</li></ul>",
+    "thumbnail": "",
+    "bodyHeight": 4,
+    "bodyWidth": 14,
+    "bodyLength": 16,
+    "wheelDiameter": 5.6,
+    "wheelWidth": 0.8,
+    "wheelToBodyOffset": 0.2,
+    "bodyEdgeToWheelCenterY": 1,
+    "bodyEdgeToWheelCenterZ": 2,
+    "bodyMass": 1000,
+    "wheelMass": 200,
+    "casterMass": 0,
+    "wheelFriction": 10,
+    "bodyFriction": 0,
+    "casterFriction": 0,
+    "components": [
+      {
+        "type": "ColorSensor",
+        "position": [
+          0,
+          -1,
+          9
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "UltrasonicSensor",
+        "position": [
+          0,
+          2.5,
+          8
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "options": null
+      },
+      {
+        "type": "GyroSensor",
+        "position": [
+          0,
+          2.5,
+          2.5
+        ],
+        "options": {}
+      },
+      {
+        "type": "PaintballLauncherActuator",
+        "position": [
+          0,
+          5,
+          5
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "LaserRangeSensor",
+        "position": [
+          6,
+          1,
+          9
+        ],
+        "rotation": [
+          0,
+          0,
+          1.5707963267948966
+        ],
+        "options": {}
+      }
+    ],
+    "options": {}
   }
 ];
