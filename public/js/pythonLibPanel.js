@@ -1,13 +1,21 @@
-var pythonPanel = new function() {
+// This code started as a copy of pythonPanel.js
+// It might be a good idea to go back and look at sharing code between them.
+// Changed from the module pattern to factory pattern so we can have
+// multiple instances.  After creating an instance, call x.init(),
+// passing a unique module name.  If you repeat a module name between instances,
+// they will share storage, which would be bad.
+var pythonLibPanelFactory = function() {
   var self = this;
 
   this.unsaved = false;
   this.modified = false;
-  this.blocklyModified = false;
 
-  // Run on page load
-  this.init = function() {
-    self.$pythonCode = $('#pythonCode');
+  // Run to initialize this instance of the class.
+  // The module name may change.  The module ID must not change.
+  this.init = function(moduleID, moduleName) {
+    self.moduleID = moduleID;
+    self.moduleName = moduleName;
+    
     self.$save = $('.savePython');
 
     self.updateTextLanguage();
@@ -17,42 +25,27 @@ var pythonPanel = new function() {
     self.loadPythonEditor();
   };
 
-  // Increase font size
-  this.zoomIn = function() {
-    let currentSize = parseFloat(self.$pythonCode.css('font-size'));
-    self.$pythonCode.css('font-size', currentSize * 1.25);
-  };
-
-  // Decrease font size
-  this.zoomOut = function() {
-    let currentSize = parseFloat(self.$pythonCode.css('font-size'));
-    self.$pythonCode.css('font-size', currentSize * 0.8);
-  };
-
-  // Reset font size
-  this.zoomReset = function() {
-    self.$pythonCode.css('font-size', '120%');
-  };
-
   // Update text already in html
   this.updateTextLanguage = function() {
     self.$save.text(i18n.get('#python-save#'));
   };
-
+  
   // Runs when panel is made active
   this.onActive = function() {
     if (self.modified == false) {
-      self.loadPythonFromBlockly();
+      // self.loadPythonFromBlockly();
     }
   };
 
   // Load ace editor
   this.loadPythonEditor = function() {
     let langTools = ace.require("ace/ext/language_tools");
-    self.editor = ace.edit('pythonCode');
+    domElID = `pythonModule_${self.moduleID}`
+    self.editor = ace.edit(domElID);
     self.editor.setTheme('ace/theme/monokai');
     self.editor.session.setMode('ace/mode/python');
     self.editor.setOptions({
+      readOnly: false,
       enableBasicAutocompletion: true,
       enableSnippets: false,
       enableLiveAutocompletion: true
@@ -79,7 +72,10 @@ var pythonPanel = new function() {
     };
     langTools.addCompleter(staticWordCompleter);
 
-    self.loadLocalStorage();
+    // Don't load local storage at start for py modules.
+    // At this point we only have the default name, so we cant load
+    // existing code on a page reload anyway.
+    // self.loadLocalStorage();
 
     self.editor.on('change', self.warnModify);
 
@@ -88,6 +84,7 @@ var pythonPanel = new function() {
 
   // Warn when changing python code
   this.warnModify = function() {
+    // TODO - not clear what to do about warnings for modifying python library
     if (self.blocklyModified) {
       return;
     }
@@ -103,31 +100,27 @@ var pythonPanel = new function() {
     }
   };
 
-  // Load Python code from blockly
-  this.loadPythonFromBlockly = function() {
-    self.blocklyModified = true;
-    let code = blockly.generator.genCode();
-    self.editor.setValue(code, 1);
-    self.blocklyModified = false;
-  };
-
   // Save to local storage
   this.saveLocalStorage = function() {
     if (self.unsaved) {
       self.unsaved = false;
       self.hideSave();
-      localStorage.setItem('pythonCode', self.editor.getValue());
-      localStorage.setItem('pythonModified', self.modified);
+      lsCodeKey = `pythonModuleCode.${self.moduleName}`;
+      lsModifiedKey = `pythonModuleModified.${self.moduleName}`;
+      localStorage.setItem(lsCodeKey, self.editor.getValue());
+      localStorage.setItem(lsModifiedKey, self.modified);
     }
   };
 
   // Load from local storage
   this.loadLocalStorage = function() {
-    var code = localStorage.getItem('pythonCode');
+    lsCodeKey = `pythonModuleCode.${self.moduleName}`;
+    lsModifiedKey = `pythonModuleModified.${self.moduleName}`;
+    var code = localStorage.getItem(lsCodeKey);
     if (code) {
-      self.editor.setValue(code);
+      self.editor.setValue(code, 1);
     }
-    if (localStorage.getItem('pythonModified') == 'true') {
+    if (localStorage.getItem(lsModifiedKey) == 'true') {
       self.modified = true;
     }
   };
@@ -148,5 +141,19 @@ var pythonPanel = new function() {
   };
 }
 
-// Init class
-pythonPanel.init();
+// active panel objects.
+pythonLibPanelFactory.pyModuleId2Panel = {}
+// return a list of the names of active python modules.
+
+pythonLibPanelFactory.getModuleNames = function() {
+  moduleNames = []
+  for (var panelModuleID in pythonLibPanelFactory.pyModuleId2Panel) {
+    panel = pythonLibPanelFactory.pyModuleId2Panel[panelModuleID];
+    moduleNames.push(panel.moduleName);
+  }
+  return moduleNames
+}
+  
+// Init class instance after construcing, like this
+// plp = new pythonLibPanelFactory()
+// plp.init('library');

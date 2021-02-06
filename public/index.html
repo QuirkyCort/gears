@@ -10,7 +10,7 @@
   <link rel="icon" href="favicon-167.png" sizes="167x167">
   <link rel="icon" href="favicon-192.png" sizes="192x192">
 
-  <link rel="stylesheet" href="css/main.css?v=2c993920">
+  <link rel="stylesheet" href="css/main.css?v=4c2a89a3">
   <link rel="stylesheet" href="css/widgets.css?v=c3d4f957">
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
@@ -32,9 +32,12 @@
 
   <script src="jszip/3.5.0/jszip.min.js"></script>
 
-  <script src="js/msg.js?v=34356e33"></script>
+  <script src="js/msg.js?v=75f61c0c"></script>
   <script src="js/common/widgets.js?v=8d532d57"></script>
 
+  <!-- Add icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
   <title>GearsBot</title>
 </head>
 
@@ -50,7 +53,19 @@
     <nav>
       <ul class="panelTabs">
         <li id="navBlocks" class="active">Blocks</li>
-        <li id="navPython">Python</li>
+        <li id="navPython" class="pythonMain">
+          <span>
+            Python
+          </span>
+          <span class="py-mod-controls">
+            <i class="fa fa-cloud-upload upload-py-mod"
+               title="Upload python main"></i>
+            <i class="fa fa-cloud-download download-py-mod"
+              title="Download python main"></i>
+            <i class="fa fa-plus-circle add-py-mod"
+              title="Add python module"></i>
+          </span>
+        </li>
         <li id="navSim">Simulator</li>
       </ul>
       <div class="menuBar">
@@ -59,6 +74,10 @@
         <div class="menuItem robotMenu">Robot</div>
         <div class="menuItem arenaButton">Arena</div>
         <div class="menuItem helpMenu">Help</div>
+      </div>
+      <!-- <div class="news">
+        News!
+      </div> -->
       </div>
       <div class="panelControlsArea">
         <div class="panelControls active" aria-labelledby="navBlocks">
@@ -81,7 +100,7 @@
         <div id="pythonCode"></div>
       </div>
 
-      <div class="panel" aria-labelledby="navSim">
+      <div class="panel" aria-labelledby="navSim" id="simPanel">
         <canvas id="renderCanvas" touch-action="none"></canvas>
         <div class="runSim"><span class="icon-play"></span></div>
         <div class="world">World</div>
@@ -124,25 +143,24 @@
   <script src="blockly/3.20200402.1/python.js"></script>
   <!-- <script src="blockly/3.20200402.1/msg/en.js"></script> -->
 
-  <script src="js/ev3dev2_generator.js?v=974ab481"></script>
-  <script src="js/pybricks_generator.js?v=4944ac2d"></script>
-  <script src="js/blockly.js?v=5f31fca2"></script>
-  <script src="js/skulpt.js?v=c278d960"></script>
-  <script src="js/world_Grid.js?v=0668fc43"></script>
-  <script src="js/world_LineFollowing.js?v=fc4801f0"></script>
-  <script src="js/world_Gyro.js?v=d1bfe505"></script>
-  <script src="js/world_Paintball.js?v=ef2fce1c"></script>
-  <script src="js/world_Sumo.js?v=2c98346c"></script>
-  <script src="js/world_FireRescue.js?v=a7b2dd9f"></script>
-  <script src="js/world_Maze.js?v=c4d2a6e4"></script>
-  <script src="js/world_Image.js?v=f7b29d40"></script>
-  <script src="js/world_TFC.js?v=f7b29d40"></script>
-  <script src="js/world_Arena.js?v=a8084ba0"></script>
-  <script src="js/world_Test.js?v=71ba47ec"></script>
-  <script src="js/robotComponents.js?v=7813a1cd"></script>
-  <script src="js/robotTemplates.js?v=76d6c554"></script>
+  <script src="js/ev3dev2_generator.js?v=69a21554"></script>
+  <script src="js/pybricks_generator.js?v=568e2fbb"></script>
+  <script src="js/blockly.js?v=42358d17"></script>
+  <script src="js/skulpt.js?v=df5ed192"></script>
+  <script src="js/world_Grid.js?v=d07bb9a5"></script>
+  <script src="js/world_LineFollowing.js?v=8e36de6c"></script>
+  <script src="js/world_Gyro.js?v=9291b492"></script>
+  <script src="js/world_Paintball.js?v=a62c658e"></script>
+  <script src="js/world_Sumo.js?v=e7b48574"></script>
+  <script src="js/world_FireRescue.js?v=213ec885"></script>
+  <script src="js/world_Maze.js?v=068748cc"></script>
+  <script src="js/world_Image.js?v=ec8c064e"></script>
+  <script src="js/world_Arena.js?v=a72f3889"></script>
+  <script src="js/world_Test.js?v=fcaf4961"></script>
+  <script src="js/robotComponents.js?v=0e9ea5a4"></script>
+  <script src="js/robotTemplates.js?v=dd3d35bd"></script>
   <script src="js/Wheel.js?v=bcd088f9"></script>
-  <script src="js/Robot.js?v=963f2f26"></script>
+  <script src="js/Robot.js?v=8d897835"></script>
   <script>
     var robots = [];
 
@@ -152,11 +170,12 @@
     robot.player = 'single';
     robots.push(robot);
   </script>
-  <script src="js/babylon.js?v=78c6a084"></script>
+  <script src="js/babylon.js?v=7a657644"></script>
   <script src="js/blocklyPanel.js?v=a34b3eb5"></script>
-  <script src="js/pythonPanel.js?v=2b363795"></script>
-  <script src="js/simPanel.js?v=fc10b316"></script>
-  <script src="js/main.js?v=42f512f7"></script>
+  <script src="js/pythonPanel.js?v=ae836351"></script>
+  <script src="js/pythonLibPanel.js?v=01359988"></script>
+  <script src="js/simPanel.js?v=332e9c68"></script>
+  <script src="js/main.js?v=c6315592"></script>
 
   <script>
     // Init classes

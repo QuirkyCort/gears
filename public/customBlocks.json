@@ -584,6 +584,10 @@
       "name": "port",
       "options": [
         [
+          "Auto",
+          "AUTO"
+        ],
+        [
           "1",
           "1"
         ],
@@ -640,6 +644,85 @@
       "type": "field_dropdown",
       "name": "port",
       "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "units",
+      "options": [
+        [
+          "cm",
+          "CM"
+        ],
+        [
+          "mm",
+          "MM"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "laser_sensor",
+  "message0": "#blk-laser_distance_on_port# %1 #blk-in# %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
         [
           "1",
           "1"
@@ -726,6 +809,10 @@
       "name": "port",
       "options": [
         [
+          "Auto",
+          "AUTO"
+        ],
+        [
           "1",
           "1"
         ],
@@ -782,6 +869,10 @@
       "type": "field_dropdown",
       "name": "port",
       "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
         [
           "1",
           "1"
@@ -1238,6 +1329,10 @@
       "name": "port",
       "options": [
         [
+          "Auto",
+          "AUTO"
+        ],
+        [
           "1",
           "1"
         ],
@@ -1284,4 +1379,535 @@
   "colour": 160,
   "tooltip": "#blk-gps_tooltip#",
   "helpUrl": ""
-}]
+},
+{
+  "type": "penDown",
+  "message0": "#blk-pen_down# #blk-on_port# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penUp",
+  "message0": "#blk-pen_up# #blk-on_port# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penSetColor",
+  "message0": "#blk-pen_color# #blk-red# %1 #blk-green# %2 #blk-blue# %3 #blk-on_port# %4",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "red",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "green",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "blue",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "penSetWidth",
+  "message0": "#blk-pen_width# %1 #blk-on_port# %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "width",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "touch_state",
+  "message0": "#blk-touch_sensor# #blk-on_port# %1 %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "state",
+      "options": [
+        [
+          "#blk-is_pressed#",
+          "PRESSED"
+        ],
+        [
+          "#blk-is_released#",
+          "RELEASED"
+        ]
+      ]
+    }
+  ],
+  "output": "Boolean",
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "wait_for_state",
+  "message0": "#blk-wait_until_touch_sensor# #blk-on_port# %1 %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "state",
+      "options": [
+        [
+          "#blk-is_pressed#",
+          "PRESSED"
+        ],
+        [
+          "#blk-is_released#",
+          "RELEASED"
+        ],
+        [
+          "#blk-is_bumped#",
+          "BUMPED"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "radio_send",
+  "message0": "#blk-send_message# %1 #blk-via_mailbox# %2 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "robot",
+      "options": [
+        [
+          "#blk-robot# 0",
+          "0"
+        ],
+        [
+          "#blk-robot# 1",
+          "1"
+        ],
+        [
+          "#blk-robot# 2",
+          "2"
+        ],
+        [
+          "#blk-robot# 3",
+          "3"
+        ],
+        [
+          "#blk-team_mates#",
+          "TEAM"
+        ],
+        [
+          "#blk-all#",
+          "ALL"
+        ]
+      ]
+    },
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    },
+    {
+      "type": "input_value",
+      "name": "value"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 330,
+  "tooltip": "#blk-radio_send_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "radio_available",
+  "message0": "#blk-messages_available# %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    }
+  ],
+  "output": null,
+  "colour": 330,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "radio_read",
+  "message0": "#blk-read_message# %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    }
+  ],
+  "output": null,
+  "colour": 330,
+  "tooltip": "#blk-radio_read_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "radio_read_content",
+  "message0": "#blk-read_content# %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    }
+  ],
+  "output": null,
+  "colour": 330,
+  "tooltip": "#blk-radio_read_content_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "radio_empty",
+  "message0": "#blk-empty_mailbox# %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "mailbox",
+      "text": "default"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 330,
+  "tooltip": "",
+  "helpUrl": ""
+}
+]

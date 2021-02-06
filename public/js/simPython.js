@@ -103,6 +103,42 @@ var $builtinmodule = function(name) {
 
   }, 'Motor', []);
 
+  mod.Pen = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.pen = robot.getComponentByPort(address.v);
+      if (!self.pen) {
+        throw new Sk.builtin.TypeError('No pen connected to ' + String(address.v));
+      }
+    });
+
+    $loc.down = new Sk.builtin.func(function(self) {
+      self.pen.down();
+    });
+
+    $loc.up = new Sk.builtin.func(function(self) {
+      self.pen.up();
+    });
+
+    $loc.isDown = new Sk.builtin.func(function(self) {
+      return self.pen.isDown;
+    });
+
+    $loc.setColor = new Sk.builtin.func(function(self, r, g, b) {
+      self.pen.setTraceColor(r.v, g.v, b.v);
+    });
+
+    $loc.setWidth = new Sk.builtin.func(function(self, width) {
+      self.pen.setWidth(width.v);
+    });
+
+    // $loc.setOptions = new Sk.builtin.func(function(self, o) {
+    //   self.robot.pen.set_options(o)
+    // });
+
+  }, 'Pen', []);
+
   mod.ColorSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 
@@ -297,6 +333,22 @@ var $builtinmodule = function(name) {
 
   }, 'UltrasonicSensor', []);
 
+  mod.TouchSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor) {
+        throw new Sk.builtin.TypeError('No touch sensor connected to ' + String(address.v));
+      }
+    });
+
+    $loc.isPressed = new Sk.builtin.func(function(self) {
+      return Sk.ffi.remapToPy(self.sensor.isPressed());
+    });
+
+  }, 'TouchSensor', []);
+
   mod.Sound = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 
@@ -352,6 +404,34 @@ var $builtinmodule = function(name) {
       return self.playing;
     });
   }, 'Sound', []);
+
+  mod.Radio = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      robot.radioEmpty();
+    });
+
+    $loc.send = new Sk.builtin.func(function(self, dest, mailbox, value) {
+      return Sk.ffi.remapToPy(robot.radioSend(dest.v, mailbox.v, value.v));
+    });
+
+    $loc.available = new Sk.builtin.func(function(self, mailbox) {
+      return Sk.ffi.remapToPy(robot.radioAvailable(mailbox.v));
+    });
+
+    $loc.read = new Sk.builtin.func(function(self, mailbox) {
+      return Sk.ffi.remapToPy(robot.radioRead(mailbox.v));
+    });
+
+    $loc.empty = new Sk.builtin.func(function(self, mailbox) {
+      if (mailbox.v == null) {
+        return Sk.ffi.remapToPy(robot.radioEmpty());
+      }
+      return Sk.ffi.remapToPy(robot.radioEmpty(mailbox.v));
+    });
+
+  }, 'TouchSensor', []);
 
   return mod;
 };

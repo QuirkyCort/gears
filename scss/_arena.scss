@@ -17,6 +17,38 @@
     font-size: 200%;
     font-weight: bold;
   }
+
+  #zip {
+    visibility: hidden;
+  }
+  #zipLabel {
+    font-size: 16px;
+
+    .fileSelector {
+      margin-top: 0.5em;
+
+      input, label {
+        font-size: 16px;
+        border: solid 1px gray;
+        box-sizing: border-box;
+        height: 2em;
+        padding: 0 0.5em;
+        outline: none;
+        float: left;
+      }
+      input {
+        border-right: none;
+        width: 14em;
+        border-radius: 0.4em 0 0 0.4em;
+      }
+      label {
+        border-radius: 0 0.4em 0.4em 0;
+        background: #4EB9D5;
+        color: white;
+        padding-top: 0.35em;
+      }
+    }
+  }
 }
 
 #arenaFrame.bot0 { border-color: #00FFFF; }

@@ -12,14 +12,16 @@ function Robot() {
   this.actuatorCount = 2;
   this.componentIndex = 0;
 
-  this.playerColors =[
+  this.playerColors = [
     new BABYLON.Color3(0.2, 0.94, 0.94),
     new BABYLON.Color3(0.2, 0.94, 0.2),
     new BABYLON.Color3(0.94, 0.94, 0.2),
     new BABYLON.Color3(0.94, 0.2, 0.2),
     new BABYLON.Color3(0.94, 0.2, 0.94),
     new BABYLON.Color3(0.2, 0.2, 0.94)
-  ]
+  ];
+
+  this.mailboxes = {};
 
   // Run on page load
   this.init = function() {
@@ -69,6 +71,9 @@ function Robot() {
       body.rotate(BABYLON.Axis.Y, startRot.y, BABYLON.Space.LOCAL);
       body.rotate(BABYLON.Axis.X, startRot.x, BABYLON.Space.LOCAL);
       body.rotate(BABYLON.Axis.Z, startRot.z, BABYLON.Space.LOCAL);
+
+      // Add label
+      self.addLabel();
 
       // Add a paintballCollide function
       body.paintballCollide = self.paintballCollide;
@@ -191,6 +196,48 @@ function Robot() {
     });
   };
 
+  // Add label
+  this.addLabel = function() {
+    if (typeof babylon.gui != 'undefined' && self.name) {
+      self.nameLabel = new BABYLON.GUI.Rectangle();
+      self.nameLabel.height = '30px';
+      self.nameLabel.width = '200px';
+      self.nameLabel.cornerRadius = 0;
+      self.nameLabel.thickness = 0;
+      babylon.gui.addControl(self.nameLabel);
+
+      var label = new BABYLON.GUI.TextBlock();
+      self.label = label;
+      label.fontFamily = 'sans';
+      label.text = self.name;
+      label.color = '#FFFF77';
+      label.outlineWidth = 1;
+      label.outlineColor = 'black'
+      label.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+      label.fontSize = 20;
+      self.nameLabel.addControl(label);
+
+      self.nameLabel.linkWithMesh(self.body);
+      self.nameLabel.linkOffsetY = -50;
+
+      self.nameLabel.isVisible = false;
+    }
+  };
+
+  // Hide label
+  this.hideLabel = function() {
+    if (typeof self.nameLabel != 'undefined') {
+      self.nameLabel.isVisible = false;
+    }
+  };
+
+  // Show label
+  this.showLabel = function() {
+    if (typeof self.nameLabel != 'undefined') {
+      self.nameLabel.isVisible = true;
+    }
+  };
+
   // Paintball collide function. Used to notify world of hit for score keeping.
   this.paintballCollide = function(thisImpostor, otherImpostor, hit) {
     if (typeof babylon.world.paintBallHit == 'function'){
@@ -253,6 +300,20 @@ function Robot() {
           componentConfig.position,
           componentConfig.rotation,
           componentConfig.options);
+      } else if (componentConfig.type == 'Cylinder') {
+        component = new CylinderBlock(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          componentConfig.options);
+      } else if (componentConfig.type == 'Sphere') {
+        component = new SphereBlock(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          componentConfig.options);
       } else if (componentConfig.type == 'MagnetActuator') {
         component = new MagnetActuator(
           self.scene,
@@ -292,6 +353,22 @@ function Robot() {
           componentConfig.position,
           componentConfig.rotation,
           'out' + PORT_LETTERS[(++self.motorCount)],
+          componentConfig.options);
+      } else if (componentConfig.type == 'Pen') {
+        component = new Pen(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'in' + (++self.sensorCount),
+          componentConfig.options);
+      } else if (componentConfig.type == 'TouchSensor') {
+        component = new TouchSensor(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'in' + (++self.sensorCount),
           componentConfig.options);
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
@@ -398,6 +475,71 @@ function Robot() {
         component.stop();
       }
     })
+  };
+
+  // Send a message
+  this.radioSend = function(dest, mailbox, value) {
+    const TEAM_MATES = [
+      [1],
+      [0],
+      [3],
+      [2]
+    ];
+    const ALL = [0, 1, 2, 3];
+
+    if (dest == 'all') {
+      dest = ALL;
+    } else if (dest == 'team') {
+      dest = TEAM_MATES[self.player];
+    } else if (typeof dest == 'number') {
+      dest = [dest];
+    }
+
+    dest.forEach(function(d){
+      if (d == self.player) {
+        return;
+      }
+
+      let recepient = window.parent.robots[d];
+
+      if (typeof recepient != 'undefined') {
+        if (typeof recepient.mailboxes[mailbox] == 'undefined') {
+          recepient.mailboxes[mailbox] = [];
+        }
+        recepient.mailboxes[mailbox].push([value, self.player]);
+      }
+    })
+  };
+
+  // Check if messages available
+  this.radioAvailable = function(mailbox) {
+    if (typeof self.mailboxes[mailbox] == 'undefined') {
+      return 0;
+    }
+
+    return self.mailboxes[mailbox].length;
+  };
+
+  // Read message
+  this.radioRead = function(mailbox) {
+    if (typeof self.mailboxes[mailbox] == 'undefined') {
+      return null;
+    }
+
+    if (self.mailboxes[mailbox].length == 0) {
+      return null;
+    }
+
+    return self.mailboxes[mailbox].shift();
+  };
+
+  // Empty mailbox
+  this.radioEmpty = function(mailbox) {
+    if (typeof mailbox == 'undefined') {
+      self.mailboxes = {};
+    } else if (typeof self.mailboxes[mailbox] != 'undefined') {
+      self.mailboxes[mailbox] = [];
+    }
   };
 
   // Init class

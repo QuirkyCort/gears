@@ -117,7 +117,8 @@ var configurator = new function() {
         options: {
           height: 1,
           width: 1,
-          depth: 1
+          depth: 1,
+          color: 'A3CF0D'
         }
       },
       optionsConfigurations: [
@@ -159,6 +160,109 @@ var configurator = new function() {
           min: '1',
           max: '20',
           step: '1',
+          reset: true
+        },
+        {
+          option: 'color',
+          type: 'strText',
+          help: 'Color in hex',
+          reset: true
+        },
+      ]
+    },
+    {
+      name: 'Cylinder',
+      defaultConfig: {
+        type: 'Cylinder',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          height: 1,
+          diameter: 1,
+          color: 'A3CF0D'
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vector3',
+          min: '-180',
+          max: '180',
+          step: '5',
+          reset: true
+        },
+        {
+          option: 'height',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'diameter',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'color',
+          type: 'strText',
+          help: 'Color in hex',
+          reset: true
+        },
+      ]
+    },
+    {
+      name: 'Sphere',
+      defaultConfig: {
+        type: 'Sphere',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          diameter: 1,
+          color: 'A3CF0D'
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vector3',
+          min: '-180',
+          max: '180',
+          step: '5',
+          reset: true
+        },
+        {
+          option: 'diameter',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'color',
+          type: 'strText',
+          help: 'Color in hex',
           reset: true
         },
       ]
@@ -324,7 +428,9 @@ var configurator = new function() {
         position: [0, 5, 0],
         rotation: [0, 0, 0],
         components: [],
-        options: null
+        options: {
+          armColor: 'A3CF0D'
+        }
       },
       optionsConfigurations: [
         {
@@ -347,6 +453,12 @@ var configurator = new function() {
           option: 'armLength',
           type: 'floatText',
           help: 'Length of arm in cm. Leave blank to use default.',
+          reset: true
+        },
+        {
+          option: 'armColor',
+          type: 'strText',
+          help: 'Color in hex',
           reset: true
         },
         {
@@ -480,6 +592,78 @@ var configurator = new function() {
           option: 'splatterTTL',
           type: 'intText',
           help: 'Time-To-Live in milliseconds for the paint splatter. After this duration, the paint splatter will be removed. Set a negative number to last forever. Leave blank to use default.'
+        },
+      ]
+    },
+    {
+      name: 'Pen',
+      defaultConfig: {
+        type: 'Pen',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          doubleSided: false
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'doubleSided',
+          type: 'boolean',
+          help: 'If true, the drawn trace will be visible from both sides.'
+        }
+      ]
+    },
+    {
+      name: 'TouchSensor',
+      defaultConfig: {
+        type: 'TouchSensor',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          width: 2,
+          depth: 2,
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vector3',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vector3',
+          min: '-180',
+          max: '180',
+          step: '5',
+          reset: true
+        },
+        {
+          option: 'width',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'depth',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
         },
       ]
     },
@@ -676,6 +860,49 @@ var configurator = new function() {
       return $div;
     }
 
+    function genStrText(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $textBox = $('<div class="text"><input type="text"></div>');
+      let $input = $textBox.find('input');
+      let currentVal = currentOptions[opt.option];
+
+      $input.val(currentVal);
+
+      $input.change(function(){
+        currentOptions[opt.option] = $input.val();
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($textBox);
+
+      return $div;
+    }
+
+    function genBoolean(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $checkBox = $('<div class="text"><input type="checkbox"></div>');
+      let $input = $checkBox.find('input');
+      let currentVal = currentOptions[opt.option];
+
+      $input.prop('checked', currentVal);
+
+      $input.change(function(){
+        currentOptions[opt.option] = $input.prop('checked');
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($checkBox);
+
+      return $div;
+    }
+
+
     let $componentName = $('<div class="componentName"></div>');
     if (typeof component.bodyMass != 'undefined') {
       $componentName.text('Body');
@@ -697,6 +924,10 @@ var configurator = new function() {
           self.$settingsArea.append(genFloatText(optionConfiguration, component));
         } else if (optionConfiguration.type == 'intText') {
           self.$settingsArea.append(genIntText(optionConfiguration, component));
+        } else if (optionConfiguration.type == 'strText') {
+          self.$settingsArea.append(genStrText(optionConfiguration, component));
+        } else if (optionConfiguration.type == 'boolean') {
+          self.$settingsArea.append(genBoolean(optionConfiguration, component));
         }
       });
     } else {
@@ -710,11 +941,84 @@ var configurator = new function() {
           self.$settingsArea.append(genFloatText(optionConfiguration, component.options));
         } else if (optionConfiguration.type == 'intText') {
           self.$settingsArea.append(genIntText(optionConfiguration, component.options));
+        } else if (optionConfiguration.type == 'strText') {
+          self.$settingsArea.append(genStrText(optionConfiguration, component.options));
+        } else if (optionConfiguration.type == 'boolean') {
+          self.$settingsArea.append(genBoolean(optionConfiguration, component.options));
         }
       });
-      }
+    }
+    if (component.type == 'Pen') {
+      self.penSpecialCaseSetup(component);
+    }
   };
 
+  // Special case for the pen, add some buttons to move it to useful locations
+  this.penSpecialCaseSetup = function(component) {
+
+    function moveTo(x,z) {
+      let $posDiv = self.$settingsArea.find("div.configurationTitle:contains('position')")
+      // Get the input boxes for x/y/z so value changes can be made visible
+      let $inputX = $posDiv.next().find('input[type=text]');
+      let $inputY = $posDiv.next().next().find('input[type=text]');
+      let $inputZ = $posDiv.next().next().next().find('input[type=text]');
+      // change only X and Z vals, Y is height from ground
+      $inputX.val(x)
+      component.position[0]=x
+      $inputZ.val(z)
+      component.position[2]=z
+      self.resetScene(false);
+    };
+
+    let $centerWheelAxisBtn = $('<div class="btn_pen">Center On Wheel Axis</div>');
+    $centerWheelAxisBtn.click(function(){
+      // move the pen to the center of the wheel axis
+      wheelAxisCenter = robot.leftWheel.mesh.position.add(robot.rightWheel.mesh.position).scale(1/2.0)
+      moveTo(wheelAxisCenter.x, wheelAxisCenter.z)
+    });
+    let $centerWheelBtn = $('<div class="btn_pen">Center On Wheel</div>');
+    let nextWheelCenter = 'L';
+    $centerWheelBtn.click(function(){
+      // move the pen to the center of a wheel.
+      // Alternate between L and R wheels (and castor?)
+      if (nextWheelCenter == 'L') {
+        nextWheelCenter = 'R';
+        wheelCenter = robot.leftWheel.mesh.position;
+      } else {
+        nextWheelCenter = 'L';
+        wheelCenter = robot.rightWheel.mesh.position;
+      }
+      moveTo(wheelCenter.x, wheelCenter.z)
+    });
+    let $centerCSBtn = $('<div class="btn_pen">Center On Color Sensor</div>');
+    let nextColorSensor = 0;
+    $centerCSBtn.click(function(){
+      // Move the pen to the center of the color sensor.  If there is more
+      // than one color sensor, move to the next one 
+      var colorSensors = []
+      for (c of robot.components) {
+        if (c.type == "ColorSensor") {
+          colorSensors.push(c);
+        }
+      }
+      if (colorSensors.length <= 0) {
+        return;
+      }
+      csPos = colorSensors[nextColorSensor].position
+      nextColorSensor++;
+      if (nextColorSensor >= colorSensors.length) {
+        nextColorSensor = 0;
+      }
+      moveTo(csPos.x, csPos.z)
+    });
+
+    let $btndiv = $('<div class="buttons"></div>')
+    $btndiv.append($centerWheelAxisBtn);
+    $btndiv.append($centerWheelBtn);
+    $btndiv.append($centerCSBtn);
+    self.$settingsArea.append($btndiv)
+  }
+  
   // Reset scene
   this.resetScene = function(reloadComponents=true) {
     if (typeof self.cameraRadius == 'undefined') {
@@ -866,6 +1170,7 @@ var configurator = new function() {
   this.loadIntoComponentsWindow = function(options) {
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'PaintballLauncherActuator'];
+    let DUMB_BLOCKS = ['Box', 'Cylinder', 'Sphere'];
     let motorCount = 2;
     let sensorCount = 0;
     let componentIndex = 0;
@@ -881,7 +1186,7 @@ var configurator = new function() {
         let $item = $('<li></li>');
         let text = component.type;
 
-        if (text == 'Box') {
+        if (DUMB_BLOCKS.indexOf(text) != -1) {
           ;
         } else if (ACTUATORS.indexOf(text) != -1) {
           text += ' (out' + PORT_LETTERS[(++motorCount)] + ')';
@@ -940,6 +1245,10 @@ var configurator = new function() {
         sensors += '<li>#robot-port# ' + i + ' : GPS</li>';
       } else if (sensor.type == 'LaserRangeSensor') {
         sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-laser#') + '</li>';
+      } else if (sensor.type == 'TouchSensor') {
+        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-touch#') + '</li>';
+      } else if (sensor.type == 'Pen') {
+        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-pen#') + '</li>';
       } else {
         console.log(sensor);
       }

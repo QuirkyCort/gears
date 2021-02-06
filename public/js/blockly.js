@@ -20,7 +20,7 @@ var blockly = new function() {
     rtl : false,
     scrollbars : true,
     sounds : true,
-    oneBasedIndex : true
+    oneBasedIndex : false
   };
 
   this.unsaved = false;
@@ -50,7 +50,7 @@ var blockly = new function() {
 
   // Load toolbox
   this.loadToolBox = function() {
-    return fetch('toolbox.xml?v=ac183130')
+    return fetch('toolbox.xml?v=bc1c279c')
       .then(response => response.text())
       .then(function(response) {
         response = i18n.replace(response);
@@ -136,7 +136,7 @@ var blockly = new function() {
         self.workspace.blockDB_[id1] = self.workspace.blockDB_[id2];
         delete self.workspace.blockDB_[id2];
 
-        return;  
+        return;
       }
     }
     var json = primaryEvent.toJson();
@@ -159,7 +159,7 @@ var blockly = new function() {
 
   // Load custom blocks
   this.loadCustomBlocks = function() {
-    return fetch('customBlocks.json?v=20e111e0')
+    return fetch('customBlocks.json?v=dde639d9')
       .then(response => response.text())
       .then(function(response) {
         let json = JSON.parse(i18n.replace(response));
