@@ -182,6 +182,9 @@ var world_Image = new function() {
     wallRestitution: 0.1,
     obstacles: [],
     magnetics: [],
+    startPos: 'center',
+    startPosXY: '-70, -40',
+    startRot: ''
     objects: [],
     startPos: 'imageDefault',
     startPosXY: '',
