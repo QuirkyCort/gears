@@ -267,6 +267,16 @@ var simPanel = new function() {
           sensor.port + ': ' + i18n.get('#sim-laser#'),
           [i18n.get('#sim-distance#') + ' (cm)']
         );
+      } else if (sensor.type == 'TouchSensor') {
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-touch#'),
+          [i18n.get('#sim-is_pressed#')]
+        );
+      } else if (sensor.type == 'Pen') {
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-pen#'),
+          []
+        );
       } else {
         console.log(sensor);
       }
@@ -310,6 +320,11 @@ var simPanel = new function() {
           motor.port + ': ' + i18n.get('#sim-paintball#'),
           [i18n.get('#sim-position#')]
           );
+      } else if (motor.type == 'MagnetActuator') {
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-magnet#'),
+          [i18n.get('#sim-magnet_power#')]
+          );
       }
 
       if (tmp) {
@@ -348,10 +363,14 @@ var simPanel = new function() {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'LaserRangeSensor') {
         sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
+      } else if (sensor[0].type == 'TouchSensor') {
+        sensor[1][0].text(sensor[0].isPressed());
       } else if (sensor[0].type == 'SwivelActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'PaintballLauncherActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
+      } else if (sensor[0].type == 'MagnetActuator') {
+        sensor[1][0].text(Math.round(sensor[0].power * 100 / sensor[0].options.maxPower));
       }
     });
   };
@@ -564,6 +583,7 @@ var simPanel = new function() {
 
       $configurations.empty();
       worldOptionsSetting = {};
+      Object.assign(worldOptionsSetting, worldOptions);
       for (let optionConfiguration of world.optionsConfigurations) {
         if (optionConfiguration.type == 'select') {
           $configurations.append(genSelect(optionConfiguration, worldOptions));

@@ -68,7 +68,14 @@ nav {
       background: #D9E3F1;
       color: #999999;
       cursor: pointer;
-      user-select: none; }
+      user-select: none;
+      white-space: nowrap; }
+      nav ul.panelTabs li .py-mod-controls {
+        display: none; }
+        nav ul.panelTabs li .py-mod-controls span {
+          padding: 0px; }
+    nav ul.panelTabs li.active .py-mod-controls {
+      display: inline; }
     nav ul.panelTabs li:hover {
       background: #E4F0FE; }
     nav ul.panelTabs li.active {
@@ -88,6 +95,12 @@ nav {
       user-select: none; }
     nav .menuBar .menuItem:hover {
       color: #4994FB; }
+  nav .news {
+    margin-left: 2em;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+    user-select: none; }
   nav .panelControlsArea {
     margin-left: auto; }
     nav .panelControlsArea .panelControls {
@@ -118,6 +131,11 @@ nav {
   display: none; }
 
 #pythonCode {
+  width: 100%;
+  height: 100%;
+  font-size: 120%; }
+
+.pythonModule {
   width: 100%;
   height: 100%;
   font-size: 120%; }
@@ -485,7 +503,8 @@ ul.menuDropDownRightAlign {
       width: 100%;
       border-collapse: collapse; }
       .sensorReadings .sensorReading table.sensorValues td {
-        border: solid 2px #bbbbbb; }
+        border: solid 2px #bbbbbb;
+        color: darkblue; }
       .sensorReadings .sensorReading table.sensorValues td.sensorValue {
         text-align: right;
         width: 30%; }
@@ -589,6 +608,29 @@ ul.menuDropDownRightAlign {
   #arenaFrame #player {
     font-size: 200%;
     font-weight: bold; }
+  #arenaFrame #zip {
+    visibility: hidden; }
+  #arenaFrame #zipLabel {
+    font-size: 16px; }
+    #arenaFrame #zipLabel .fileSelector {
+      margin-top: 0.5em; }
+      #arenaFrame #zipLabel .fileSelector input, #arenaFrame #zipLabel .fileSelector label {
+        font-size: 16px;
+        border: solid 1px gray;
+        box-sizing: border-box;
+        height: 2em;
+        padding: 0 0.5em;
+        outline: none;
+        float: left; }
+      #arenaFrame #zipLabel .fileSelector input {
+        border-right: none;
+        width: 14em;
+        border-radius: 0.4em 0 0 0.4em; }
+      #arenaFrame #zipLabel .fileSelector label {
+        border-radius: 0 0.4em 0.4em 0;
+        background: #4EB9D5;
+        color: white;
+        padding-top: 0.35em; }
 
 #arenaFrame.bot0 {
   border-color: #00FFFF; }

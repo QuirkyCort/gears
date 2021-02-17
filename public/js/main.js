@@ -1,5 +1,10 @@
 var main = new function() {
   var self = this;
+  // mapping of nav panel id to panel object, for py module panels.
+  // We add it to the pythonLibPanelFactory instead of to an instance.
+  pythonLibPanelFactory.pyModuleId2Panel = {}
+  // syntatic sugar, make it look local
+  self.pyModuleId2Panel = pythonLibPanelFactory.pyModuleId2Panel;
 
   // Run on page load
   this.init = function() {
@@ -13,6 +18,14 @@ var main = new function() {
     self.$helpMenu = $('.helpMenu');
     self.$projectName = $('#projectName');
     self.$languageMenu = $('.language');
+    // python icon controls
+    self.$icons_py_upload = $('nav li .upload-py-mod');
+    self.$icons_py_download = $('nav li .download-py-mod');
+    self.$icons_py_add = $('nav li .add-py-mod');
+    self.$icons_py_del = $('nav li .del-py-mod');
+    //self.$icons_py_rename = $('nav li .rename-py-mod');
+    //self.$py_name_edit = $('nav li .name-edit');
+    self.$newsButton = $('.news');
 
     self.updateTextLanguage();
 
@@ -23,8 +36,17 @@ var main = new function() {
     self.$arenaButton.click(self.arenaWindow);
     self.$helpMenu.click(self.toggleHelpMenu);
     self.$languageMenu.click(self.toggleLanguageMenu);
+    self.$newsButton.click(self.showNews);
 
     self.$projectName.change(self.saveProjectName);
+
+    // connect py icon click events to callbacks
+    self.$icons_py_upload.click(self.pyUploadModule)
+    self.$icons_py_download.click(self.pyDownloadModule)
+    self.$icons_py_add.click(self.pyAddModule)
+    self.$icons_py_del.click(self.pyDelModule)
+    // self.$icons_py_rename.click(self.pyRenameModule)
+    // self.$py_name_edit.focusout(self.pyRenameModule)
 
     window.addEventListener('beforeunload', self.checkUnsaved);
     blocklyPanel.onActive();
@@ -55,9 +77,12 @@ var main = new function() {
       }
 
       let menuItems = [
+        {html: 'Deutsch', line: false, callback: function() { setLang('de'); }},
+        {html: 'Ελληνικά', line: false, callback: function() { setLang('el'); }},
         {html: 'English', line: false, callback: function() { setLang('en'); }},
         {html: 'Español', line: false, callback: function() { setLang('es'); }},
         {html: 'Français', line: false, callback: function() { setLang('fr'); }},
+        {html: 'Nederlands', line: false, callback: function() { setLang('nl'); }},
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
       ];
 
@@ -140,7 +165,11 @@ var main = new function() {
         '</ul>' +
         '<p>Translations Contributed By:</p>' +
         '<ul>' +
-          '<li>French: Sébastien CANET &lt;scanet@libreduc.cc&gt;</li>' +
+          '<li>Français: Sébastien CANET &lt;scanet@libreduc.cc&gt;</li>' +
+          '<li>Nederlands: Henry Romkes</li>' +
+          '<li>Ελληνικά: <a href="https://eduact.org/en" target="_blank">Eduact</a></li>' +
+          '<li>Español: edurobotic</li>' +
+          '<li>Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix)</li>' +
         '</ul>' +
         '<h3>Contact</h3>' +
         '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +
@@ -330,7 +359,10 @@ var main = new function() {
 
       let menuItems = [
         {html: 'Ev3dev Mode', line: false, callback: self.switchToEv3dev},
-        {html: 'Pybricks Mode (Currently not working with simulator)', line: false, callback: self.switchToPybricks}
+        {html: 'Pybricks Mode (Currently not working with simulator)', line: true, callback: self.switchToPybricks},
+        {html: 'Zoom In', line: false, callback: pythonPanel.zoomIn},
+        {html: 'Zoom Out', line: false, callback: pythonPanel.zoomOut},
+        {html: 'Reset Zoom', line: false, callback: pythonPanel.zoomReset},
       ];
       var tickIndex;
       if (blockly.generator == ev3dev2_generator) {
@@ -369,7 +401,7 @@ var main = new function() {
         {html: i18n.get('#main-save_blocks#'), line: true, callback: self.saveToComputer},
         {html: i18n.get('#main-load_python#'), line: false, callback: self.loadPythonFromComputer},
         {html: i18n.get('#main-save_python#'), line: true, callback: self.savePythonToComputer},
-        {html: i18n.get('#main-export_zip#'), line: true, callback: self.saveZipToComputer},
+        {html: i18n.get('#main-export_zip#'), line: true, callback: self.saveZipToComputer}
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
@@ -393,6 +425,11 @@ var main = new function() {
       filename = 'gearsBot';
     }
 
+    let meta = {
+      name: filename,
+      pythonModified: pythonPanel.modified
+    };
+
     var zip = new JSZip();
     zip.file('gearsBlocks.xml', blockly.getXmlText());
     if (pythonPanel.modified) {
@@ -400,7 +437,21 @@ var main = new function() {
     } else {
       zip.file('gearsPython.py', blockly.generator.genCode());
     }
+    // add each python module to the zip
+
+    for (var moduleID in self.pyModuleId2Panel) {
+      panel = pythonLibPanelFactory.pyModuleId2Panel[moduleID];
+      var module_code = panel.editor.getValue()
+      // NOTE - It seems to me that loading a zip file should restore
+      // the state of the editor windows.  Therefore, if a module is
+      // empty at zip export time, save it as an empty file.
+      // if (module_code.trim() === "") {
+      moduleFilename = panel.moduleName + '.py'
+      zip.file(moduleFilename, module_code);
+    }
+
     zip.file('gearsRobot.json', JSON.stringify(robot.options, null, 2));
+    zip.file('meta.json', JSON.stringify(meta, null, 2));
 
     zip.generateAsync({type:'base64'})
     .then(function(content) {
@@ -489,14 +540,64 @@ var main = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
+        // second arg: 0 select all, -1 start, 1 end
         pythonPanel.editor.setValue(this.result, 1);
         self.tabClicked('navPython');
         pythonPanel.warnModify();
+      };
+      reader.onerror = function() {
+        console.log(reader.error);
       };
       reader.readAsText(e.target.files[0]);
       let filename = e.target.files[0].name.replace(/.py/, '');
       self.$projectName.val(filename);
       self.saveProjectName();
+    });
+  };
+
+  // save library.py to computer
+  this.savePythonModuleToComputer = function(moduleID) {
+    pythonLibPanel = self.pyModuleId2Panel[moduleID];
+    moduleName = pythonLibPanel.moduleName
+    // let filename = 'library'
+    let code = null;
+    code = pythonLibPanel.editor.getValue();
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/x-python;base64,' + btoa(code);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = moduleName + '.py';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
+  // load python module from computer to pythonLibPanel
+  this.loadPythonModuleFromComputer = function(moduleID) {
+    pythonLibPanel = self.pyModuleId2Panel[moduleID];
+    // console.log('starting load of library.py');
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'text/x-python,.py';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        // console.log('read library.py text:');
+        // console.log(this.result);
+        // second arg: 0 replace all, -1 start, 1 end
+        pythonLibPanel.editor.setValue(this.result, 0);
+        // At the moment this is only called from the module tab, don't click
+        // self.tabClicked('libPython');
+      };
+      reader.onerror = function() {
+        console.log(reader.error);
+      };
+      reader.readAsText(e.target.files[0]);
+      let moduleName = e.target.files[0].name.replace(/.py/, '');
+      pythonLibPanel.moduleName = moduleName;
+      // and change the name on the tab
+      selector = "nav li#" + moduleID;
+      moduleTabEls = $(selector);
+      nameSpanEls = moduleTabEls.find('span.name-edit');
+      nameSpanEls[0].innerText = moduleName;
     });
   };
 
@@ -508,6 +609,164 @@ var main = new function() {
     }
   };
 
+  // used for both main and module tabs.
+  this.pyUploadModule = function(event) {
+    tabNodes = $( event.target.parentNode.parentNode );
+    if (tabNodes.hasClass("pythonMain")) {
+      self.loadPythonFromComputer();
+    } else {
+      moduleID = tabNodes[0].id
+      self.loadPythonModuleFromComputer(moduleID);
+    }
+  }
+
+  // used for both main and module tabs.
+  this.pyDownloadModule = function(event) {
+    tabNodes = $( event.target.parentNode.parentNode );
+    if (tabNodes.hasClass("pythonMain")) {
+      self.savePythonToComputer();
+    } else {
+      moduleID = tabNodes[0].id
+      self.savePythonModuleToComputer(moduleID);
+    }
+  }
+
+  // event callback used for both main and module tabs.
+  this.pyAddModule = function(event) {
+    self.addPythonModule();
+  }
+
+  // used for module tabs only, called on focusoout
+  this.pyRenameModule = function(event) {
+    tabNodes = $( event.target.parentNode.parentNode );
+    moduleID = tabNodes[0].id;
+    // first, clean / validate the new name
+    newName = event.target.innerText;
+    newName = newName.replace(/\s+/g, "").trim();
+    pythonLibPanel = self.pyModuleId2Panel[moduleID];
+    oldModuleName = pythonLibPanel.moduleName;
+    isValid = true
+    errMsg = `Unable to change python module name to ${newName}`
+    if (oldModuleName != newName) {
+      panelModuleNames = pythonLibPanelFactory.getModuleNames()
+      if (panelModuleNames.includes(newName)) {
+        // the new name is a duplicate, don't accept it
+        isValid = false;
+        errMsg = `Unable to change python module name to ${newName}, as it would be the same as another module`
+      }
+      // TODO, better validation to py module name rules
+      if (isValid) {
+        pythonLibPanel.moduleName = newName;
+        console.log(`renamed module ${oldModuleName} to ${newName}`);
+      } else {
+        // Show UI indication that we failed.
+        self.showDialog('Warning', errMsg)
+        // set the name back to what it was before the edit
+        event.target.innerText = oldModuleName;
+      }
+    }
+  }
+
+  // Remove a python module tab and its editor
+  this.pyDelModule = function(event) {
+    tabNodes = $( event.target.parentNode.parentNode );
+    moduleID = tabNodes[0].id;
+    pythonLibPanel = self.pyModuleId2Panel[moduleID];
+    moduleName = pythonLibPanel.moduleName;
+    // remove all event handlers for the tab
+    $(tabNodes[0]).off()
+    // remove tab and panel from the DOM.
+    tabNodes[0].remove();
+    modulePanel = self.$panels.siblings('[aria-labelledby="' + moduleID + '"]')
+    modulePanel.remove();
+    self.recalcElementSets();
+    // TODO, do we need to remove the ACE editor / other associated cleanup?
+    pythonLibPanel.editor.destroy()
+    // remove from the hash table
+    delete self.pyModuleId2Panel[moduleID];
+    console.log(`deleted module ID ${moduleID} NAME ${moduleName}`);
+    // switch tabs away from the deleted one
+    self.tabClicked('navPython');
+  }
+
+  // function that we call from the callback and from init code
+  // if moduleName is given, attempt to use it, but if it is already taken,
+  // then default to the regular pattern.
+  this.addPythonModule = function(moduleName) {
+    // find an unused module ID
+    candIDNum = 0
+    while (true) {
+      candIDNum += 1
+      moduleID = `pythonModule${candIDNum}`
+      if (! (moduleID in self.pyModuleId2Panel) ) {
+        break;
+      }
+    }
+    // find an unused module name
+    candNum = 0
+    while (true) {
+      // inc at top of loop so continue in loop gets the next candidate.
+      candNum += 1
+      if ((candNum>1) || (moduleName === undefined)) {
+        moduleName = `module${candNum}`
+      }
+      panelModuleNames = pythonLibPanelFactory.getModuleNames()
+      if (! (panelModuleNames.includes(moduleName)) ) {
+        break;
+      }
+    }
+    newTabHtml = `<li id="${moduleID}" class="pythonModule">
+          <span class="py-mod-name">
+            <span class="name-edit">${moduleName}</span>
+            <span>.py</span>
+          </span>
+          <span class="py-mod-controls">
+            <i class="fa fa-cloud-upload upload-py-mod"
+               title="Upload python module"></i>
+            <i class="fa fa-cloud-download download-py-mod"
+               title="Download python module"></i>
+            <i class="fa fa-minus-circle del-py-mod"
+               title="Delete this python module"></i>
+          </span>
+        </li>`
+    // add it just before the simulator Tab
+    simTabEl = $('nav li#navSim')
+    // before() returns the same element it was called on.
+    newTabEl = simTabEl.before(newTabHtml).prev()
+    // now add event handlers.  TODO, duplicates code in init()
+    newTabEl.click(self.tabClicked)
+    //newModuleEl.find('.upload-py-mod').click(self.pyUploadModule)
+    upIcon = newTabEl.find('.upload-py-mod')
+    upIcon.click(self.pyUploadModule)
+    newTabEl.find('.download-py-mod').click(self.pyDownloadModule)
+    newTabEl.find('.del-py-mod').click(self.pyDelModule)
+    newTabEl.find('span.name-edit').focusout(self.pyRenameModule)
+    // add panel element to the parent
+    newPanelHtml = `<div class="panel" aria-labelledby="${moduleID}">
+                      <div class="pythonModule" id="pythonModule_${moduleID}"></div>
+                    </div>`
+    // ACE uses the id to attach the editor to the correct DOM element
+    simPanelEl = $('div.panels div#simPanel')
+    // before() returns the same element it was called on.
+    newPanelEl = simPanelEl.before(newPanelHtml).prev()
+    // now add event handlers.  TODO, duplicates code in init()
+    pyLibPanel = new pythonLibPanelFactory()
+    pyLibPanel.init(moduleID, moduleName); // without the .py extn
+    self.pyModuleId2Panel[moduleID] = pyLibPanel;
+    console.log(`added py panel ${moduleID} for ${moduleName}`);
+    self.recalcElementSets();
+    // TODO in theory this should transfer focus to the panel... but something
+    // about the event handling seems to be causing a later click on navPython
+    self.tabClicked(moduleID);
+  }
+
+  // recalculate jquery dom element sets each time we modify the dom
+  this.recalcElementSets = function() {
+    self.$navs = $('nav li');
+    self.$panelControls = $('.panelControlsArea .panelControls');
+    self.$panels = $('.panels .panel');
+  }
+
   // Clicked on tab
   this.tabClicked = function(tabNav) {
     if (typeof tabNav == 'string') {
@@ -517,7 +776,10 @@ var main = new function() {
     }
 
     function getPanelByNav(nav) {
-      if (nav == 'navBlocks') {
+      // the python module panels are all in the dict, look there first
+      if (nav in self.pyModuleId2Panel) {
+        return self.pyModuleId2Panel[nav];
+      } else if (nav == 'navBlocks') {
         return blocklyPanel;
       } else if (nav == 'navPython') {
         return pythonPanel;
@@ -526,12 +788,15 @@ var main = new function() {
       }
     };
 
+    // when deleting a python module, inActiveNav and inActive will be undefined
     inActiveNav = self.$navs.siblings('.active').attr('id');
     inActive = getPanelByNav(inActiveNav);
     active = getPanelByNav(match);
 
     self.$navs.removeClass('active');
+    self.$navs.find('span.name-edit').attr('contenteditable', false);
     $('#' + match).addClass('active');
+    $('#' + match).find('span.name-edit').attr('contenteditable', true);
 
     self.$panels.removeClass('active');
     self.$panels.siblings('[aria-labelledby="' + match + '"]').addClass('active');
@@ -539,7 +804,8 @@ var main = new function() {
     self.$panelControls.removeClass('active');
     self.$panelControls.siblings('[aria-labelledby="' + match + '"]').addClass('active');
 
-    if (typeof inActive.onInActive == 'function') {
+    if ((inActive !== undefined) &&
+        (typeof inActive.onInActive == 'function')) {
       inActive.onInActive();
     }
     if (typeof active.onActive == 'function') {
@@ -547,33 +813,57 @@ var main = new function() {
     }
   };
 
+  this.showDialog = function(title, message) {
+    let options = {
+      title: title,
+      message: message
+    }
+    acknowledgeDialog(options, function(){});
+  }
+
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20200813;
+    let current = 20201221;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>13 Aug 2020</h3>' +
-          '<p>Added a ruler for measuring distance, angle, and position.</p>' +
-          '<h3>11 Aug 2020</h3>' +
-          '<p>Biggest new addition is the GearsBot arena, which lets you run up to 4 robots simultaneously, either competing or coorperating with each other to complete a mission.</p>' +
-          '<p>To use the GearsBot arena...</p>' +
-          '<ul><li>Write your program in the normal GearsBot page (...where you are now)</li>' +
-          '<li>Test it out using the new "Arena" world.</li>' +
-          '<li>Export your program and robot as a zip package (Files -> Export Zip...)</li>' +
-          '<li>Load the zip package in the GearsBot Arena, and run it against other players.</li></ul>' +
-          '<p>Other new stuff...</p>' +
-          '<ul><li>Added FLL 2020-2021 (RePLAY) to image world</li>' +
-          '<li>Added WRO 2020 Junior to image world</li>' +
-          '<li>Set project name (optional, but it helps name your save file)</li>' +
-          '<li>Lots of bug fixes</li></ul>'
+          '<h3>21 Dec 2020</h3>' +
+          '<ul>' +
+          '<li>Added radio. This can be used in the multi-robot arena to send messages between robots.</li>' +
+          '</ul>' +
+          '<h3>20 Dec 2020</h3>' +
+          '<ul>' +
+          '<li>Added the touch sensor. You can add it to your robot throught the robot configurator.</li>' +
+          '<li>Setting port to "Auto" will automatically select the correct port if you only have one device of the type.</li>' +
+          '</ul>' +
+          '<h3>18 Dec 2020</h3>' +
+          '<ul>'+
+          '<li>Added a cylinder and sphere blocks to robot configuration.</li>' +
+          '<li>Allow custom colors for box, cylinder, and sphere blocks.</li>' +
+          '<li>Options to add cylinders and spheres to custom image world.</li>' +
+          '<li>Added Ελληνικά and Nederlands translations.</li>' +
+          '</ul>'
       }
       acknowledgeDialog(options, function(){
         localStorage.setItem('whatsNew', current);
       });
     }
+  };
+
+  // Display news
+  this.showNews = function() {
+    let options = {
+      title: 'News',
+      message:
+        '<h3>Robo Compete virtual competition</h3>' +
+        '<p>'+
+        'MINT Genie from Germany is running the Robo Compete virtual competition using Gears. ' +
+        'Competition date is on 5 Dec 2020, and registration is open <a href="https://www.mintgenie.de/event-info/robo-compete" target="_blank">here</a>.' +
+        '</p>'
+    }
+    acknowledgeDialog(options);
   };
 }
 

@@ -124,23 +124,36 @@
   <category name="#blk-sensors#" colour="#5ba58c">
     <block type="color_sensor">
       <field name="type">INTENSITY</field>
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
     <block type="ultrasonic_sensor">
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
+      <field name="units">CM</field>
+    </block>
+    <block type="laser_sensor">
+      <field name="port">AUTO</field>
       <field name="units">CM</field>
     </block>
     <block type="gyro_sensor">
       <field name="type">ANGLE</field>
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
     <block type="reset_gyro">
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
     <block type="gps_sensor">
       <field name="type">X</field>
-      <field name="port">1</field>
+      <field name="port">AUTO</field>
     </block>
+    <block type="touch_state">
+      <field name="state">PRESSED</field>
+      <field name="port">AUTO</field>
+    </block>
+    <block type="wait_for_state">
+      <field name="state">PRESSED</field>
+      <field name="port">AUTO</field>
+    </block>
+
   </category>
   <category name="#blk-sound#" colour="#a5745b">
     <block type="say">
@@ -166,6 +179,53 @@
           <field name="NUM">0.5</field>
         </shadow>
       </value>
+    </block>
+  </category>
+  <category name="#blk-pen-category#" colour="#a5745b">
+    <block type="penDown">
+    </block>
+    <block type="penUp">
+    </block>
+    <block type="penSetColor">
+      <value name="red">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="green">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="blue">
+        <shadow type="math_number">
+          <field name="NUM">0.5</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="penSetWidth">
+      <value name="width">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="#blk-radio-category#" colour="#a55b80">
+    <block type="radio_send">
+      <value name="value">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="radio_available">
+    </block>
+    <block type="radio_read">
+    </block>
+    <block type="radio_read_content">
+    </block>
+    <block type="radio_empty">
     </block>
   </category>
   <category name="#blk-control#" colour="#9fa55b">

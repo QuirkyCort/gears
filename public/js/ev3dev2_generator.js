@@ -1,6 +1,15 @@
 var ev3dev2_generator = new function() {
   var self = this;
 
+  this.autoPorts = {
+    ColorSensor: 1,
+    UltrasonicSensor: 1,
+    GyroSensor: 1,
+    GPSSensor: 1,
+    TouchSensor: 1,
+    Pen: 1
+  };
+
   // Load Python generators
   this.load = function() {
     Blockly.Python['when_started'] = self.when_started;
@@ -18,6 +27,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['reset_motor'] = self.reset_motor;
     Blockly.Python['color_sensor'] = self.color_sensor;
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
+    Blockly.Python['laser_sensor'] = self.laser_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
     Blockly.Python['reset_gyro'] = self.reset_gyro;
     Blockly.Python['say'] = self.say;
@@ -27,6 +37,18 @@ var ev3dev2_generator = new function() {
     Blockly.Python['exit'] = self.exit;
     Blockly.Python['time'] = self.time;
     Blockly.Python['gps_sensor'] = self.gps_sensor;
+    Blockly.Python['addPen'] = self.addPen;
+    Blockly.Python['penDown'] = self.penDown;
+    Blockly.Python['penUp'] = self.penUp;
+    Blockly.Python['penSetColor'] = self.penSetColor;
+    Blockly.Python['penSetWidth'] = self.penSetWidth;
+    Blockly.Python['touch_state'] = self.touch_state;
+    Blockly.Python['wait_for_state'] = self.wait_for_state;
+    Blockly.Python['radio_send'] = self.radio_send;
+    Blockly.Python['radio_available'] = self.radio_available;
+    Blockly.Python['radio_read'] = self.radio_read;
+    Blockly.Python['radio_read_content'] = self.radio_read_content;
+    Blockly.Python['radio_empty'] = self.radio_empty;
   };
 
   // Generate python code
@@ -52,6 +74,7 @@ var ev3dev2_generator = new function() {
       'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
       '\n' +
       'spkr = Sound()\n' +
+      'radio = Radio()\n' +
       '\n';
 
     var sensorsCode = '';
@@ -60,14 +83,25 @@ var ev3dev2_generator = new function() {
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
         sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'UltrasonicSensor') {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'LaserRangeSensor') {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ') # Laser Range Sensor\n';
+        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'GyroSensor') {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'GPSSensor') {
         sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(INPUT_' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
+      } else if (sensor.type == 'TouchSensor') {
+        sensorsCode += 'touch_sensor_in' + i + ' = TouchSensor(INPUT_' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
+      } else if (sensor.type == 'Pen') {
+        sensorsCode += 'pen_in' + i + ' = Pen(INPUT_' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
       }
       i++;
     }
@@ -98,6 +132,12 @@ var ev3dev2_generator = new function() {
     return code
   };
 
+  this.getPort = function(port, sensorType) {
+    if (port == 'AUTO') {
+      return self.autoPorts[sensorType];
+    }
+    return port;
+  };
 
   //
   // Python Generators
@@ -369,6 +409,7 @@ var ev3dev2_generator = new function() {
   this.color_sensor = function(block) {
     var dropdown_type = block.getFieldValue('type');
     var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'ColorSensor');
     var typeStr = '';
 
     if (dropdown_type == 'INTENSITY') {
@@ -395,6 +436,24 @@ var ev3dev2_generator = new function() {
   this.ultrasonic_sensor = function(block) {
     var dropdown_port = block.getFieldValue('port');
     var dropdown_units = block.getFieldValue('units');
+    dropdown_port = self.getPort(dropdown_port, 'UltrasonicSensor');
+
+    if (dropdown_units == 'CM') {
+      var multiplier = '';
+      var order = Blockly.Python.ORDER_ATOMIC;
+    } else if (dropdown_units == 'MM') {
+      var multiplier = ' * 10';
+      var order = Blockly.Python.ORDER_MULTIPLICATIVE;
+    }
+    var code = 'ultrasonic_sensor_in' + dropdown_port + '.distance_centimeters' + multiplier;
+    return [code, order];
+  };
+
+  // laser. Same as ultrasonic, except for autoport
+  this.laser_sensor = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var dropdown_units = block.getFieldValue('units');
+    dropdown_port = self.getPort(dropdown_port, 'LaserRangeSensor');
 
     if (dropdown_units == 'CM') {
       var multiplier = '';
@@ -410,7 +469,8 @@ var ev3dev2_generator = new function() {
   // gyro
   this.gyro_sensor = function(block) {
     var dropdown_type = block.getFieldValue('type');
-    var dropdown_port = block.getFieldValue('port')
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'GyroSensor');
 
     if (dropdown_type == 'ANGLE') {
       var typeStr = 'angle';
@@ -425,6 +485,7 @@ var ev3dev2_generator = new function() {
   // gyro reset
   this.reset_gyro = function(block) {
     var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'GyroSensor');
 
     var code = 'gyro_sensor_in' + dropdown_port + '.reset()\n';
     return code;
@@ -506,6 +567,7 @@ var ev3dev2_generator = new function() {
   this.gps_sensor = function(block) {
     var dropdown_type = block.getFieldValue('type');
     var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'GPSSensor');
 
     if (dropdown_type == 'X') {
       var typeStr = 'x';
@@ -522,5 +584,117 @@ var ev3dev2_generator = new function() {
     return [code, Blockly.Python.ORDER_ATOMIC];
   }
 
+  this.penDown = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'Pen');
+
+    var code = 'pen_in' + dropdown_port + '.down()\n';
+    return code;
+  };
+
+  this.penUp = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'Pen');
+
+    var code = 'pen_in' + dropdown_port + '.up()\n';
+    return code;
+  };
+
+  this.penSetColor = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'Pen');
+
+    var value_red = Blockly.Python.valueToCode(block, 'red', Blockly.Python.ORDER_ATOMIC);
+    var value_green = Blockly.Python.valueToCode(block, 'green', Blockly.Python.ORDER_ATOMIC);
+    var value_blue = Blockly.Python.valueToCode(block, 'blue', Blockly.Python.ORDER_ATOMIC);
+    var code = 'pen_in' + dropdown_port + '.setColor(' + value_red + ', ' + value_green + ', ' + value_blue + ')\n';
+    return code;
+  };
+
+  this.penSetWidth = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'Pen');
+
+    var value_width = Blockly.Python.valueToCode(block, 'width', Blockly.Python.ORDER_ATOMIC);
+    var code = 'pen_in' + dropdown_port + '.setWidth(' + value_width + ')\n';
+    return code;
+  };
+
+  this.touch_state = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var dropdown_state = block.getFieldValue('state');
+    dropdown_port = self.getPort(dropdown_port, 'TouchSensor');
+
+    if (dropdown_state == 'PRESSED') {
+      var stateStr = 'is_pressed';
+    } else if (dropdown_state == 'RELEASED') {
+      var stateStr = 'is_released';
+    }
+
+    var code = 'touch_sensor_in' + dropdown_port + '.' + stateStr;
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.wait_for_state = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var dropdown_state = block.getFieldValue('state');
+    dropdown_port = self.getPort(dropdown_port, 'TouchSensor');
+
+    if (dropdown_state == 'PRESSED') {
+      var stateStr = 'pressed';
+    } else if (dropdown_state == 'RELEASED') {
+      var stateStr = 'released';
+    } else if (dropdown_state == 'BUMPED') {
+      var stateStr = 'bump';
+    }
+
+    var code = 'touch_sensor_in' + dropdown_port + '.wait_for_' + stateStr + '()\n';
+    return code;
+  };
+
+  this.radio_send = function(block) {
+    var dropdown_robot = block.getFieldValue('robot');
+    var text_mailbox = block.getFieldValue('mailbox');
+    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+
+    if (dropdown_robot == 'TEAM') {
+      dest = '\'team\'';
+    } else if (dropdown_robot == 'ALL') {
+      dest = '\'all\'';
+    } else {
+      dest = dropdown_robot;
+    }
+
+    var code = 'radio.send(' + dest + ', \'' + text_mailbox + '\', ' + value_value + ')\n';
+    return code;
+  };
+
+  this.radio_available = function(block) {
+    var text_mailbox = block.getFieldValue('mailbox');
+
+    var code = 'radio.available(\'' + text_mailbox + '\')';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.radio_read = function(block) {
+    var text_mailbox = block.getFieldValue('mailbox');
+
+    var code = 'radio.read(\'' + text_mailbox + '\')';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.radio_read_content = function(block) {
+    var text_mailbox = block.getFieldValue('mailbox');
+
+    var code = 'radio.read(\'' + text_mailbox + '\')[0]';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.radio_empty = function(block) {
+    var text_mailbox = block.getFieldValue('mailbox');
+
+    var code = 'radio.empty(\'' + text_mailbox + '\')\n';
+    return code;
+  };
 }
 

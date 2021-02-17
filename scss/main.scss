@@ -83,8 +83,21 @@ nav {
       color: #999999;
       cursor: pointer;
       user-select: none;
-    }
+      white-space:nowrap;
 
+      .py-mod-controls {
+        display: none;
+
+        span {
+          padding: 0px;
+        }
+      }
+    }
+    
+    li.active .py-mod-controls {
+      display: inline;
+    }
+    
     li:hover {
       background: #E4F0FE;
     }
@@ -113,6 +126,14 @@ nav {
     .menuItem:hover {
       color: #4994FB;
     }
+  }
+
+  .news {
+    margin-left: 2em;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+    user-select: none;
   }
 
   .panelControlsArea {
@@ -163,6 +184,10 @@ nav {
   font-size: 120%;
 }
 
+.pythonModule {
+  width: 100%;
+  height: 100%;
+  font-size: 120%; }
 
 .dialogWindow {
   .selectRobot {

@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="css/main.css?v=2c993920">
+  <link rel="stylesheet" href="css/main.css?v=4c2a89a3">
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
 
@@ -24,8 +24,15 @@
       <span id="player"></span>
     </div>
     <div class="row">
-      <label for="zip">Upload your zip package:&nbsp;</label>
-      <input type="file" id="zip" accept="application/zip,.zip">
+      <!-- <label for="zip">Upload your zip package:&nbsp;</label> -->
+      <div id="zipLabel">
+        Upload your zip package:<br>
+        <div class="fileSelector">
+          <input type="text" id="zipFileName" placeholder="Choose file" disabled>
+          <label for="zip">Browse...</label>
+          <input type="file" id="zip" accept="application/zip,.zip">
+        </div>
+      </div>
     </div>
   </main>
 
@@ -34,10 +41,10 @@
   <script src="blockly/3.20200402.1/python.js"></script>
   <script src="blockly/3.20200402.1/msg/en.js"></script>
 
-  <script src="js/ev3dev2_generator.js?v=974ab481"></script>
-  <script src="js/pybricks_generator.js?v=4944ac2d"></script>
-  <script src="js/blockly.js?v=5f31fca2"></script>
-  <script src="js/skulpt.js?v=c278d960"></script>
+  <script src="js/ev3dev2_generator.js?v=69a21554"></script>
+  <script src="js/pybricks_generator.js?v=568e2fbb"></script>
+  <script src="js/blockly.js?v=42358d17"></script>
+  <script src="js/skulpt.js?v=df5ed192"></script>
   <script>
     function readGET(name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -88,9 +95,37 @@
       };
     };
 
+    document.getElementById('arenaFrame').addEventListener('dragover', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }, false);
+
+    document.getElementById('arenaFrame').addEventListener('drop', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      uploadFile(e.dataTransfer.files[0]);
+    }, false);
+
+    document.getElementById('zip').addEventListener('click', function(e){
+      document.getElementById('zip').value = null;
+    });
+
     document.getElementById('zip').addEventListener('change', function(e){
-      JSZip.loadAsync(e.target.files[0])
+      uploadFile(e.target.files[0]);
+    });
+
+    function uploadFile(file) {
+      document.getElementById('zipFileName').value = file.name;
+      JSZip.loadAsync(file)
         .then(function(zip){
+          let metaFile = zip.file('meta.json');
+          if (metaFile) {
+            metaFile.async('string')
+              .then(function(content){
+                let meta = JSON.parse(content);
+                robot.name = meta.name;
+              });
+          }
           zip.file('gearsPython.py').async('string')
             .then(function(content){
               pythonProgram = content;
@@ -117,8 +152,7 @@
               parent.arenaPanel.resetSim();
             });
         })
-    });
-
+    };
 
     function runPython() {
       let enable = document.getElementById('enable').checked;

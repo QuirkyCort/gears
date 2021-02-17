@@ -57,10 +57,10 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
 
     var eyeMat = babylon.getMaterial(scene, 'E60000');
-    var eye = new BABYLON.MeshBuilder.CreateSphere('eye', {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
-    eye.material = eyeMat;
-    eye.position.z = 1.5;
-    eye.parent = body;
+    self.eye = new BABYLON.MeshBuilder.CreateSphere('colorSensorEye', {diameterX: 1, diameterY: 1, diameterZ: 0.6, segments: 3}, scene);
+    self.eye.material = eyeMat;
+    self.eye.position.z = 1.5;
+    self.eye.parent = body;
 
     // Create camera and RTT
     self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
@@ -68,7 +68,6 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     self.rttCam.minZ = self.options.sensorMinRange;
     self.rttCam.maxZ = self.options.sensorMaxRange;
     self.rttCam.updateUpVectorFromRotation = true;
-    self.rttCam.position = eye.absolutePosition;
 
     self.renderTarget = new BABYLON.RenderTargetTexture(
       'colorSensor',
@@ -142,6 +141,9 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
 
   this.loadMeshes = function(meshes) {
     meshes.forEach(function(mesh){
+      if (mesh.name == 'colorSensorEye') {
+        return;
+      }
       self.renderTarget.renderList.push(mesh);
     });
   };
@@ -164,6 +166,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
   };
 
   this.render = function(delta) {
+    self.rttCam.position = self.eye.getAbsolutePosition();
     self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
     if (! self.waitingSync && babylon.engine._webGLVersion >= 2 && babylon.DISABLE_ASYNC == false) {
       self.readPixelsAsync();
@@ -302,7 +305,7 @@ function BoxBlock(scene, parent, pos, rot, options) {
   this.init = function() {
     self.setOptions(options);
 
-    var bodyMat = babylon.getMaterial(scene, 'A3CF0D');
+    var bodyMat = babylon.getMaterial(scene, self.options.color);
     let bodyOptions = {
       height: self.options.height,
       width: self.options.width,
@@ -335,7 +338,126 @@ function BoxBlock(scene, parent, pos, rot, options) {
     self.options = {
       height: 1,
       width: 1,
-      depth: 1
+      depth: 1,
+      color: 'A3CF0D'
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.init();
+}
+
+// Just a dumb cylinder with physics
+function CylinderBlock(scene, parent, pos, rot, options) {
+  var self = this;
+
+  this.type = 'Cylinder';
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = babylon.getMaterial(scene, self.options.color);
+    let bodyOptions = {
+      height: self.options.height,
+      diameter: self.options.diameter
+    };
+    var body = BABYLON.MeshBuilder.CreateCylinder('cylinderBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.CylinderImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      height: 1,
+      diameter: 1,
+      color: 'A3CF0D'
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.init();
+}
+
+// Just a dumb sphere with physics
+function SphereBlock(scene, parent, pos, rot, options) {
+  var self = this;
+
+  this.type = 'Sphere';
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = babylon.getMaterial(scene, self.options.color);
+    let bodyOptions = {
+      diameter: self.options.diameter
+    };
+    var body = BABYLON.MeshBuilder.CreateSphere('sphereBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.SphereImpostor,
+      {
+        mass: 1,
+        restitution: 0.4,
+        friction: 0.1
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      diameter: 1,
+      color: 'A3CF0D'
     };
 
     for (let name in options) {
@@ -465,6 +587,16 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     }
   };
 
+  this.filterRay = function(mesh) {
+    if (mesh.isPickable == false) {
+      return false;
+    }
+    if (mesh.ultrasonicDetection == 'invisible') {
+      return false;
+    }
+    return true;
+  };
+
   this.getDistance = function() {
     var shortestDistance = self.options.rayLength;
 
@@ -476,8 +608,11 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     self.rayVectors.forEach(function(rayVector, i){
       rayVector.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, self.rays[i].direction);
 
-      var hit = scene.pickWithRay(self.rays[i]);
-      if (hit.hit && hit.distance < shortestDistance) {
+      var hit = scene.pickWithRay(self.rays[i], self.filterRay);
+      if (hit.hit == false || hit.pickedMesh.ultrasonicDetection == 'absorb') {
+        return;
+      }
+      if (hit.distance < shortestDistance) {
         let hitVector = hit.getNormal(true);
         if (hitVector) {
           var incidentAngle = Math.abs(BABYLON.Vector3.Dot(hitVector, self.rays[i].direction));
@@ -503,7 +638,7 @@ function GyroSensor(scene, parent, pos, port, options) {
   this.options = null;
 
   this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
-  this.rotation = new BABYLON.Vector3(0, 0, 0);
+  this.rotation = 0;
   this.angularVelocity = 0;
   this.actualRotation = 0;
   this.rotationRounds = 0;
@@ -579,7 +714,9 @@ function GyroSensor(scene, parent, pos, port, options) {
       self.prevRotation = rot;
 
       let rotation = self.rotationRounds * 360 + rot;
-      self.angularVelocity = 0.8 * self.angularVelocity + 0.2 * ((rotation - self.actualRotation) / delta * 1000);
+      if (delta > 0) {
+        self.angularVelocity = 0.8 * self.angularVelocity + 0.2 * ((rotation - self.actualRotation) / delta * 1000);
+      }
       self.actualRotation = rotation;
       self.rotation = rotation - self.rotationAdjustment;
     }
@@ -968,7 +1105,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     pivot.position.y = 0.5;
     scene.shadowGenerator.addShadowCaster(pivot);
 
-    var armMat = babylon.getMaterial(scene, 'A3CF0D');
+    var armMat = babylon.getMaterial(scene, self.options.armColor);
 
     var arm = BABYLON.MeshBuilder.CreateBox('arm', {height: 1, width: 1, depth: self.options.armLength}, scene);;
     self.arm = arm;
@@ -1045,6 +1182,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       minAngle: -5,
       maxAngle: 180,
       mass: 100,
+      armColor: 'A3CF0D',
       components: []
     };
 
@@ -1233,6 +1371,16 @@ function LaserRangeSensor(scene, parent, pos, rot, port, options) {
     }
   };
 
+  this.filterRay = function(mesh) {
+    if (mesh.isPickable == false) {
+      return false;
+    }
+    if (mesh.laserDetection == 'invisible') {
+      return false;
+    }
+    return true;
+  };
+
   this.getDistance = function() {
     var shortestDistance = self.options.rayLength;
 
@@ -1244,8 +1392,11 @@ function LaserRangeSensor(scene, parent, pos, rot, port, options) {
     self.rayVectors.forEach(function(rayVector, i){
       rayVector.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, self.rays[i].direction);
 
-      var hit = scene.pickWithRay(self.rays[i]);
-      if (hit.hit && hit.distance < shortestDistance) {
+      var hit = scene.pickWithRay(self.rays[i], self.filterRay);
+      if (hit.hit == false || hit.pickedMesh.laserDetection == 'absorb') {
+        return;
+      }
+      if (hit.distance < shortestDistance) {
         shortestDistance = hit.distance;
       }
     });
@@ -1872,6 +2023,284 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
     }
 
     self.position = position;
+  };
+
+  this.init();
+}
+
+function Pen(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'Pen';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(0, 0, 0);
+
+  this.isDown = false;
+  this.traceColor = '000';
+  this.traceWidth = 0.5;
+  this.traceMat = null;
+  this.traceMeshes = [];
+  this.currentMesh = null;
+  this.prevPos = null;
+  this.currentPathDirty = false;
+  this.currentRibbonPath = [[], []];
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = babylon.getMaterial(scene, 'E1A32B');
+    let bodyOptions = {
+      height: 3,
+      width: 1.5,
+      depth: 1.5
+    };
+    var body = BABYLON.MeshBuilder.CreateBox('penBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.position.y += 2.5;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+
+    var tipMat = babylon.getMaterial(scene, '000000');
+    let tipOptions = {
+      height: 1,
+      diameterTop: 1.5,
+      diameterBottom: 0.01,
+      tessellation: 4
+    };
+    self.tip = new BABYLON.MeshBuilder.CreateCylinder('penTip', tipOptions, scene);
+    self.tip.material = tipMat;
+    self.tip.position.y = -2;
+    self.tip.parent = body;
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      doubleSided: false
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.render = function(delta) {
+    self.updateTracePath();
+    if (self.currentPathDirty) {
+      self.rebuildMesh()
+    }
+  }
+
+  // Lower the pen (begin drawing a trace)
+  this.down = function() {
+    self.currentRibbonPath = [[], []];
+    self.currentMesh = null;
+    self.prevPos = null;
+    self.isDown = true;
+  };
+
+  // Raise the pen (stop drawing a trace)
+  this.up = function() {
+    self.isDown = false
+    if (self.currentMesh != null) {
+      self.traceMeshes.push(self.currentMesh)
+      self.currentMesh = null;
+    }
+    self.currentPathDirty = false
+  };
+
+  this.setTraceColor = function(r, g, b) {
+    // if the pen is down, setting the trace color causes a new trace to start.
+    // This is so the new ribbon can have a different material.
+    if (self.isDown) {
+      self.up();
+      self.down();
+    }
+    r = ('0' + Math.round(r*255).toString(16)).slice(-2);
+    g = ('0' + Math.round(g*255).toString(16)).slice(-2);
+    b = ('0' + Math.round(b*255).toString(16)).slice(-2);
+    self.traceColor = r + g + b;
+    self.traceMat = babylon.getMaterial(scene, self.traceColor);
+  };
+
+  this.setWidth = function(width) {
+    self.traceWidth = width / 2;
+  }
+
+  this.updateTracePath = function() {
+    if (!self.isDown) {
+      return;
+    }
+    let pos = self.tip.getAbsolutePosition();
+    pos.y -= 0.48;
+
+    if (self.prevPos === null) {
+      self.prevPos = pos.clone();
+      self.currentPathDirty = true;
+    } else {
+      const penPathEpsilon = 0.2;
+      let dirV = pos.subtract(self.prevPos);
+      if (dirV.lengthSquared() > penPathEpsilon) {
+        self.prevPos = pos.clone();
+        let left = new BABYLON.Vector3(0, self.traceWidth, 0);
+        let right = new BABYLON.Vector3(0, -self.traceWidth, 0);
+        // cross product is proprtional to lengths of both vectors, but we
+        // do not want the trace width to vary with the robot speed
+        dirV = dirV.normalize()
+        left = dirV.cross(left);
+        right = dirV.cross(right);
+        left.addInPlace(pos);
+        right.addInPlace(pos);
+        self.currentRibbonPath[0].push(left);
+        self.currentRibbonPath[1].push(right);
+        self.currentPathDirty = true;
+      }
+    }
+  };
+
+  this.rebuildMesh = function() {
+    if (self.currentRibbonPath[0].length < 2) {
+      return;
+    }
+    if (self.currentMesh != null ) {
+      scene.removeMesh(self.currentMesh);
+      self.currentMesh.dispose();
+    }
+    if (self.traceMat == null) {
+      self.traceMat = babylon.getMaterial(scene, self.traceColor);
+    }
+    let options = {
+      pathArray: self.currentRibbonPath,
+    };
+    if (self.options.doubleSided) {
+      options.sideOrientation = BABYLON.Mesh.DOUBLESIDE;
+    }
+    self.currentMesh = BABYLON.MeshBuilder.CreateRibbon("ribbon", options, scene);
+    self.currentMesh.material = self.traceMat;
+  };
+
+  this.init();
+}
+
+function TouchSensor(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'TouchSensor';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.pressed = false;
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = babylon.getMaterial(scene, 'FFFFFF');
+    let bodyOptions = {
+      height: 2,
+      width: self.options.width,
+      depth: self.options.depth
+    };
+    var body = BABYLON.MeshBuilder.CreateBox('touchSensorBody', bodyOptions, scene);
+    self.body = body;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL);
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL);
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL);
+
+    var fakeSensorMat = babylon.getMaterial(scene, 'E60000');
+    let sensorOptions = {
+      height: 0.8,
+      width: self.options.width - 0.2,
+      depth: self.options.depth - 0.2
+    };
+    self.fakeSensor = BABYLON.MeshBuilder.CreateBox('touchSensorBodyFake', sensorOptions, scene);
+    self.fakeSensor.material = fakeSensorMat;
+    self.fakeSensor.position.y = -1.4;
+    self.fakeSensor.parent = body;
+
+    // Real sensor is invisible, but with a physics body
+    self.realSensor = BABYLON.MeshBuilder.CreateBox('touchSensorBodyReal', sensorOptions, scene);
+    self.realSensor.material = fakeSensorMat;
+    self.realSensor.isVisible = false;
+    self.realSensor.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.realSensor,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    self.realSensor.physicsImpostor.physicsBody.setCollisionFlags(4);
+
+    self.realSensor.physicsImpostor.registerBeforePhysicsStep(function(){
+      self.realSensor.position = self.fakeSensor.getAbsolutePosition();
+      self.realSensor.rotationQuaternion = self.fakeSensor.absoluteRotationQuaternion;
+      self.realSensor.physicsImpostor.forceUpdate();
+      self.realSensor.physicsImpostor.physicsBody.setCollisionFlags(4);
+      self.pressed = false;
+    });
+    scene.meshes.forEach(function(mesh){
+      if (mesh.parent != null || mesh == parent || mesh == self.realSensor) return;
+      if (mesh.physicsImpostor) {
+        self.realSensor.physicsImpostor.registerOnPhysicsCollide(mesh.physicsImpostor, function(own, other){
+          self.pressed = true;
+        });
+      }
+    })
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      width: 2,
+      depth: 2
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.isPressed = function() {
+    return self.pressed;
   };
 
   this.init();
