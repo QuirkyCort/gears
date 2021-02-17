@@ -5,7 +5,7 @@ var world_TFC = new function() {
   this.shortDescription = 'Trinity Firefighting competition Field';
   this.longDescription =
     '<p>This world is the Trinity Firefighting competition 2020 arena.</p>';
-  this.thumbnail = 'images/worlds/roboner.png';
+  this.thumbnail = 'images/worlds/tfc.png';
 
   this.options = {};
   this.robotStart = {
