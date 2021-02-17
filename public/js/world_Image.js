@@ -184,7 +184,7 @@ var world_Image = new function() {
     magnetics: [],
     startPos: 'center',
     startPosXY: '-70, -40',
-    startRot: ''
+    startRot: '',
     objects: [],
     startPos: 'imageDefault',
     startPosXY: '',
