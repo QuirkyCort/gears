@@ -380,22 +380,28 @@ var world_TFC = new function() {
       var candle = [0, 0, 0];
       switch(+candlePosState){
         case 0:
-          candle = [15, 15, 0];
+          candle = [15, 15, 0]; // lower left room, lower left corner
           break;
         case 1:
-          candle = [229, 15, 0];
+          candle = [229, 15, 0]; // lower right room, lower right corener
           break;
         case 2:
-          candle = [15, 90, 0];
+          candle = [15, 90, 0]; // lower left room, upper left corner
           break;
         case 3:
-          candle = [60.5, 90, 0];
+          candle = [60.5, 90, 0]; // lower left room, upper right corner
           break;
         case 4:
-          candle = [143, 80, 0];
+          candle = [143, 80, 0]; // lower right room, upper left corner
+          break;
+        case 5:
+          candle = [143, 15, 0]; // lower right room, lower left corner
+          break;
+        case 6:
+          candle = [186, 100, 0]; // upper right room, upper right corner
           break;
         default:
-          candle = [15, 15, 0];
+          candle = [15, 15, 0]; // lower left room, lower left corner
           break;
       }
       self.addObstacles(scene, [[candle, [10, 10, 30], [0, 0, 0], "#ffff00"]]);
