@@ -320,7 +320,7 @@ var world_TFC = new function() {
         dogPosState = Math.floor(Math.random() * 3);
         passagePos1State = Math.floor(Math.random() * 2);
         passagePos2State = Math.floor(Math.random() * 2);
-        candlePosState = Math.floor(Math.random() * 10);
+        candlePosState = Math.floor(Math.random() * 11);
       }
       else {
         dogPosState = self.options.dogPos;
@@ -404,7 +404,7 @@ var world_TFC = new function() {
           candle = [132, 15, 0]; // lower right room, lower left corner
           break;
         case 6:
-          candle = [178, 186, 0]; // upper right room, upper right corner
+          candle = [183, 186, 0]; // upper right room, upper right corner
           break;
         case 7:
           candle = [132, 154, 0]; // upper right room, lower left corner
