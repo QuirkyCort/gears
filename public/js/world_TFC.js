@@ -407,7 +407,10 @@ var world_TFC = new function() {
           candle = [178, 186, 0]; // upper right room, upper right corner
           break;
         case 7:
-          candle = [132, 160, 0]; // upper right room, lower left corner
+          candle = [132, 153, 0]; // upper right room, lower left corner
+          break;
+        case 8:
+          candle = [60.5, 170, 0]; // upper right room, lower left corner
           break;
         default:
           candle = [15, 15, 0]; // lower left room, lower left corner
