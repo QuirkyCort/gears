@@ -320,7 +320,7 @@ var world_TFC = new function() {
         dogPosState = Math.floor(Math.random() * 3);
         passagePos1State = Math.floor(Math.random() * 2);
         passagePos2State = Math.floor(Math.random() * 2);
-        candlePosState = Math.floor(Math.random() * 5);
+        candlePosState = Math.floor(Math.random() * 10);
       }
       else {
         dogPosState = self.options.dogPos;
