@@ -60,6 +60,11 @@ var world_TFC = new function() {
         ['Pos 4', 3],
         ['Pos 5', 4],
         ['Pos 6', 5],
+        ['Pos 7', 6],
+        ['Pos 8', 7],
+        ['Pos 9', 8],
+        ['Pos 10', 9],
+        ['Pos 11', 10],
       ]
     },
     {
@@ -399,7 +404,7 @@ var world_TFC = new function() {
           candle = [143, 15, 0]; // lower right room, lower left corner
           break;
         case 6:
-          candle = [186, 100, 0]; // upper right room, upper right corner
+          candle = [186, 200, 0]; // upper right room, upper right corner
           break;
         default:
           candle = [15, 15, 0]; // lower left room, lower left corner
