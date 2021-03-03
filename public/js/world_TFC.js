@@ -59,6 +59,7 @@ var world_TFC = new function() {
         ['Pos 3', 2],
         ['Pos 4', 3],
         ['Pos 5', 4],
+        ['Pos 6', 5],
       ]
     },
     {
