@@ -673,23 +673,56 @@ var configurator = new function() {
     self.$deleteComponent = $('.deleteComponent');
     self.$componentList = $('.componentsList');
     self.$settingsArea = $('.settingsArea');
-    self.$revert = $('.revert');
-    self.$save = $('.save');
+    self.$undo = $('.undo');
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
 
     self.$addComponent.click(self.addComponent);
     self.$deleteComponent.click(self.deleteComponent);
-    self.$revert.click(self.loadRobotOptions);
-    self.$save.click(self.saveRobotOptions);
+    self.$undo.click(self.undo);
 
     self.$robotName.change(self.setRobotName);
 
     babylon.setCameraMode('arc')
 
+    self.saveHistory();
     self.resetScene();
     self.saveRobotOptions();
+  };
+
+  // Save history
+  this.saveHistory = function() {
+    if (typeof self.editHistory == 'undefined') {
+      self.editHistory = [];
+    }
+
+    self.editHistory.push(JSON.stringify(robot.options));
+    self.firstUndo = true;
+  };
+
+  // Clear history
+  this.clearHistory = function() {
+    if (typeof self.editHistory != 'undefined') {
+      self.editHistory = [];
+    }
+  };
+
+  // Undo
+  this.undo = function() {
+    if (typeof self.editHistory != 'undefined' && self.editHistory.length > 0) {
+      if (self.firstUndo && self.editHistory.length > 1) {
+        self.editHistory.pop();
+        self.firstUndo = false;
+      }
+      if (self.editHistory.length == 1) {
+        var lastDesign = self.editHistory[0];
+      } else {
+        var lastDesign = self.editHistory.pop();
+      }
+      robot.options = JSON.parse(lastDesign);
+      self.resetScene();
+    }
   };
 
   // Save robot options
@@ -751,6 +784,7 @@ var configurator = new function() {
         $input.val($slider.val());
       });
       $slider.on('change', function(){
+        self.saveHistory();
         if (opt.reset) {
           self.resetScene(false);
         }
@@ -758,6 +792,7 @@ var configurator = new function() {
       $input.change(function(){
         callback(parseFloat($input.val()));
         $slider.val($input.val());
+        self.saveHistory();
         if (opt.reset) {
           self.resetScene(false);
         }
@@ -814,6 +849,7 @@ var configurator = new function() {
           toastMsg('Not a valid number');
         } else {
           currentOptions[opt.option] = val;
+          self.saveHistory();
           if (opt.reset) {
             self.resetScene(false);
           }
@@ -840,6 +876,7 @@ var configurator = new function() {
           toastMsg('Not a valid number');
         } else {
           currentOptions[opt.option] = val;
+          self.saveHistory();
           if (opt.reset) {
             self.resetScene(false);
           }
@@ -862,6 +899,7 @@ var configurator = new function() {
 
       $input.change(function(){
         currentOptions[opt.option] = $input.val();
+        self.saveHistory();
         if (opt.reset) {
           self.resetScene(false);
         }
@@ -883,6 +921,7 @@ var configurator = new function() {
 
       $input.change(function(){
         currentOptions[opt.option] = $input.prop('checked');
+        self.saveHistory();
         if (opt.reset) {
           self.resetScene(false);
         }
@@ -959,6 +998,7 @@ var configurator = new function() {
       component.position[0]=x
       $inputZ.val(z)
       component.position[2]=z
+      self.saveHistory();
       self.resetScene(false);
     };
 
@@ -1066,6 +1106,7 @@ var configurator = new function() {
     $buttons.siblings('.confirm').click(function(){
       let component = self.componentTemplates.find(componentTemplate => componentTemplate.name == $select.val())
       $selected[0].component.components.push(JSON.parse(JSON.stringify(component.defaultConfig)));
+      self.saveHistory();
       self.resetScene();
       $dialog.close();
     });
@@ -1081,6 +1122,7 @@ var configurator = new function() {
 
     let i = $selected[0].componentParent.indexOf($selected[0].component);
     $selected[0].componentParent.splice(i, 1);
+    self.saveHistory();
     self.resetScene();
   };
 
@@ -1292,6 +1334,8 @@ var configurator = new function() {
       var reader = new FileReader();
       reader.onload = function() {
         robot.options = JSON.parse(this.result);
+        self.clearHistory();
+        self.saveHistory();
         self.resetScene();
       };
       reader.readAsText(e.target.files[0]);
@@ -1346,6 +1390,8 @@ var configurator = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       robot.options = JSON.parse(JSON.stringify(robotTemplates.find(robotTemplate => robotTemplate.name == $select.val())));
+      self.clearHistory();
+      self.saveHistory();
       self.resetScene();
       $dialog.close();
     });
