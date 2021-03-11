@@ -698,7 +698,6 @@ var configurator = new function() {
     }
 
     self.editHistory.push(JSON.stringify(robot.options));
-    self.firstUndo = true;
   };
 
   // Clear history
@@ -711,15 +710,7 @@ var configurator = new function() {
   // Undo
   this.undo = function() {
     if (typeof self.editHistory != 'undefined' && self.editHistory.length > 0) {
-      if (self.firstUndo && self.editHistory.length > 1) {
-        self.editHistory.pop();
-        self.firstUndo = false;
-      }
-      if (self.editHistory.length == 1) {
-        var lastDesign = self.editHistory[0];
-      } else {
-        var lastDesign = self.editHistory.pop();
-      }
+      var lastDesign = self.editHistory.pop();
       robot.options = JSON.parse(lastDesign);
       self.resetScene();
     }
@@ -780,19 +771,19 @@ var configurator = new function() {
       $input.val(currentValue);
 
       $slider.on('input', function(){
-        callback(parseFloat($slider.val()));
         $input.val($slider.val());
       });
       $slider.on('change', function(){
         self.saveHistory();
+        callback(parseFloat($slider.val()));
         if (opt.reset) {
           self.resetScene(false);
         }
       })
       $input.change(function(){
+        self.saveHistory();
         callback(parseFloat($input.val()));
         $slider.val($input.val());
-        self.saveHistory();
         if (opt.reset) {
           self.resetScene(false);
         }
@@ -848,8 +839,8 @@ var configurator = new function() {
         if (isNaN(val)) {
           toastMsg('Not a valid number');
         } else {
-          currentOptions[opt.option] = val;
           self.saveHistory();
+          currentOptions[opt.option] = val;
           if (opt.reset) {
             self.resetScene(false);
           }
@@ -875,8 +866,8 @@ var configurator = new function() {
         if (isNaN(val)) {
           toastMsg('Not a valid number');
         } else {
-          currentOptions[opt.option] = val;
           self.saveHistory();
+          currentOptions[opt.option] = val;
           if (opt.reset) {
             self.resetScene(false);
           }
@@ -898,8 +889,8 @@ var configurator = new function() {
       $input.val(currentVal);
 
       $input.change(function(){
-        currentOptions[opt.option] = $input.val();
         self.saveHistory();
+        currentOptions[opt.option] = $input.val();
         if (opt.reset) {
           self.resetScene(false);
         }
@@ -920,8 +911,8 @@ var configurator = new function() {
       $input.prop('checked', currentVal);
 
       $input.change(function(){
-        currentOptions[opt.option] = $input.prop('checked');
         self.saveHistory();
+        currentOptions[opt.option] = $input.prop('checked');
         if (opt.reset) {
           self.resetScene(false);
         }
@@ -994,11 +985,11 @@ var configurator = new function() {
       let $inputY = $posDiv.next().next().find('input[type=text]');
       let $inputZ = $posDiv.next().next().next().find('input[type=text]');
       // change only X and Z vals, Y is height from ground
+      self.saveHistory();
       $inputX.val(x)
       component.position[0]=x
       $inputZ.val(z)
       component.position[2]=z
-      self.saveHistory();
       self.resetScene(false);
     };
 
@@ -1104,9 +1095,9 @@ var configurator = new function() {
 
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
+      self.saveHistory();
       let component = self.componentTemplates.find(componentTemplate => componentTemplate.name == $select.val())
       $selected[0].component.components.push(JSON.parse(JSON.stringify(component.defaultConfig)));
-      self.saveHistory();
       self.resetScene();
       $dialog.close();
     });
@@ -1120,9 +1111,9 @@ var configurator = new function() {
       return;
     }
 
+    self.saveHistory();
     let i = $selected[0].componentParent.indexOf($selected[0].component);
     $selected[0].componentParent.splice(i, 1);
-    self.saveHistory();
     self.resetScene();
   };
 
@@ -1148,6 +1139,10 @@ var configurator = new function() {
       return;
     }
 
+    let wireframe = babylon.scene.getMeshByID('wireframeComponentSelector');
+    if (wireframe != null) {
+      wireframe.dispose();
+    }
     let index = $selected[0].componentIndex;
     if (typeof index != 'undefined') {
       let body = robot.getComponentByIndex(index).body;
@@ -1161,11 +1156,6 @@ var configurator = new function() {
       if (wireframeMat == null) {
         wireframeMat = new BABYLON.StandardMaterial('wireframeComponentSelector', babylon.scene);
         wireframeMat.alpha = 0;
-      }
-
-      let wireframe = babylon.scene.getMeshByID('wireframeComponentSelector');
-      if (wireframe != null) {
-        wireframe.dispose();
       }
 
       wireframe = BABYLON.MeshBuilder.CreateBox('wireframeComponentSelector', options, babylon.scene);
