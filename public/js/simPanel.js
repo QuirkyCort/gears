@@ -37,8 +37,6 @@ var simPanel = new function() {
 
     self.updateTextLanguage();
 
-    self.initSensorsPanel();
-
     self.$ruler[0].addEventListener('pointerup', function(e){
       if (e.pointerType == 'touch') {
         self.touchDevice = true;
@@ -377,6 +375,9 @@ var simPanel = new function() {
 
   // toggle sensors panel
   this.toggleSensorsPanel = function() {
+    if (self.sensors.length == 0) {
+      self.initSensorsPanel();
+    }
     self.$sensorsPanel.toggleClass('hide');
   };
 
