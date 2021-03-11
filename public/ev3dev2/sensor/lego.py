@@ -85,7 +85,7 @@ class ColorSensor:
   @property
   def rgb(self):
     time.sleep(SENSOR_DELAY)
-    rgb = list(self.sensor.value())
+    rgb = self.sensor.value()
     for i in range(3):
       rgb[i] = int(rgb[i])
     return rgb
@@ -93,7 +93,7 @@ class ColorSensor:
   @property
   def lab(self):
     time.sleep(SENSOR_DELAY)
-    lab = list(self.sensor.valueLAB())
+    lab = self.sensor.valueLAB()
     for i in range(3):
       lab[i] = int(lab[i])
     return lab
@@ -101,7 +101,7 @@ class ColorSensor:
   @property
   def hsv(self):
     time.sleep(SENSOR_DELAY)
-    hsv = list(self.sensor.valueHSV())
+    hsv = self.sensor.valueHSV()
     for i in range(3):
       hsv[i] = int(hsv[i])
     return hsv
@@ -109,7 +109,7 @@ class ColorSensor:
   @property
   def hls(self):
     time.sleep(SENSOR_DELAY)
-    hls = list(self.sensor.valueHLS())
+    hls = self.sensor.valueHLS()
     for i in range(3):
       hls[i] = int(hls[i])
     return hls
@@ -156,7 +156,7 @@ class GyroSensor:
   @property
   def angle_and_rate(self):
     time.sleep(SENSOR_DELAY)
-    angle_and_rate = list(self.sensor.angleAndRate())
+    angle_and_rate = self.sensor.angleAndRate()
     for i in range(2):
       angle_and_rate[i] = int(angle_and_rate[i])
     return angle_and_rate
@@ -207,7 +207,7 @@ class UltrasonicSensor:
   @property
   def distance_centimeters(self):
     time.sleep(SENSOR_DELAY)
-    return float(self.sensor.dist())
+    return self.sensor.dist()
 
   @property
   def distance_inches_continuous(self):

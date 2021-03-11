@@ -150,7 +150,7 @@ var $builtinmodule = function(name) {
     });
 
     $loc.value = new Sk.builtin.func(function(self) {
-      return self.sensor.getRGB();
+      return Sk.ffi.remapToPy(self.sensor.getRGB());
     });
 
     $loc.valueLAB = new Sk.builtin.func(function(self) {
@@ -185,7 +185,7 @@ var $builtinmodule = function(name) {
       lab[1] = 500 * (xyz[0] - xyz[1]);
       lab[2] = 200 * (xyz[1] - xyz[2]);
 
-      return lab;
+      return Sk.ffi.remapToPy(lab);
     });
 
     $loc.valueHSV = new Sk.builtin.func(function(self) {
@@ -222,7 +222,7 @@ var $builtinmodule = function(name) {
 
       hsv[2] = cMax * 100;
 
-      return hsv;
+      return Sk.ffi.remapToPy(hsv);
     });
 
     $loc.valueHLS = new Sk.builtin.func(function(self) {
@@ -263,7 +263,7 @@ var $builtinmodule = function(name) {
 
       hls[1] = (cMax + cMin) / 2 * 100;
 
-      return hls;
+      return Sk.ffi.remapToPy(hls);
     });
 
   }, 'ColorSensor', []);
@@ -284,7 +284,7 @@ var $builtinmodule = function(name) {
       gyro[0] = Math.round(self.sensor.getAngle());
       gyro[1] = Math.round(self.sensor.getRate());
 
-      return gyro;
+      return Sk.ffi.remapToPy(gyro);
     });
 
     $loc.reset = new Sk.builtin.func(function(self) {
@@ -308,7 +308,7 @@ var $builtinmodule = function(name) {
 
       position = self.sensor.getPosition();
 
-      return position;
+      return Sk.ffi.remapToPy(position);
     });
 
     $loc.reset = new Sk.builtin.func(function(self) {
@@ -328,7 +328,7 @@ var $builtinmodule = function(name) {
     });
 
     $loc.dist = new Sk.builtin.func(function(self) {
-      return self.sensor.getDistance();
+      return Sk.ffi.remapToPy(self.sensor.getDistance());
     });
 
   }, 'UltrasonicSensor', []);
