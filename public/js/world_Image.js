@@ -308,7 +308,11 @@ var world_Image = new function() {
 
         if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
           let xy = self.options.startPosXY.split(',');
-          self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), 0, parseFloat(xy[1]));
+          let alt = 0;
+          if (xy.length > 2) {
+            alt = parseFloat(xy[2]);
+          }
+          self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), alt, parseFloat(xy[1]));
         }
         if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
           self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
