@@ -110,7 +110,7 @@ var World_Base = function() {
     groundRestitution: 0.0,
     wallRestitution: 0.1,
     objects: [],
-    startPos: 'imageDefault',
+    startPos: 'center',
     startPosXY: '',
     startRot: '',
     arenaStartPosXY: null,

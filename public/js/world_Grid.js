@@ -82,25 +82,15 @@ var world_Grid = new function() {
     }
   ];
 
-  this.defaultOptions = {
+  this.defaultOptions = Object.assign(this.defaultOptions, {
     image: 'textures/maps/grid.png',
     imageScale: '2.353',
     length: 400,
     width: 400,
-    wall: true,
     wallHeight: 10,
     wallThickness: 5,
-    wallColor: 'B3B3B3',
-    groundFriction: 1,
-    wallFriction: 0.1,
-    groundRestitution: 0.0,
-    wallRestitution: 0.1,
-    startPos: 'center',
-    startPosXY: '',
-    startRot: '',
-    arenaStartPosXY: null,
-    arenaStartRot: null
-  };
+    wallColor: 'B3B3B3'
+  });
 
   // Set options, including default
   this.setOptions = function(options) {
