@@ -244,14 +244,6 @@ var configurator = new function() {
           reset: true
         },
         {
-          option: 'rotation',
-          type: 'vector3',
-          min: '-180',
-          max: '180',
-          step: '5',
-          reset: true
-        },
-        {
           option: 'diameter',
           type: 'slider',
           min: '1',
@@ -994,7 +986,7 @@ var configurator = new function() {
     let nextColorSensor = 0;
     $centerCSBtn.click(function(){
       // Move the pen to the center of the color sensor.  If there is more
-      // than one color sensor, move to the next one 
+      // than one color sensor, move to the next one
       var colorSensors = []
       for (c of robot.components) {
         if (c.type == "ColorSensor") {
@@ -1018,7 +1010,7 @@ var configurator = new function() {
     $btndiv.append($centerCSBtn);
     self.$settingsArea.append($btndiv)
   }
-  
+
   // Reset scene
   this.resetScene = function(reloadComponents=true) {
     if (typeof self.cameraRadius == 'undefined') {
