@@ -557,6 +557,42 @@ var simPanel = new function() {
       return $div;
     }
 
+    function genInt(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $textBox = $('<div class="text"><input type="text"></div>');
+      let $input = $textBox.find('input');
+      let currentVal = currentOptions[opt.option];
+
+      $input.val(currentVal);
+
+      $input.change(function(){
+        worldOptionsSetting[opt.option] = parseInt($input.val());
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($textBox);
+
+      return $div;
+    }
+
+    function genFloat(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $textBox = $('<div class="text"><input type="text"></div>');
+      let $input = $textBox.find('input');
+      let currentVal = currentOptions[opt.option];
+
+      $input.val(currentVal);
+
+      $input.change(function(){
+        worldOptionsSetting[opt.option] = parseFloat($input.val());
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($textBox);
+
+      return $div;
+    }
+
     function genFile(opt, currentOptions) {
       let $div = $('<div class="configuration"></div>');
       let $file = $('<input type="file">');
@@ -596,6 +632,10 @@ var simPanel = new function() {
           $configurations.append(genSlider(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'text') {
           $configurations.append(genText(optionConfiguration, worldOptions));
+        } else if (optionConfiguration.type == 'int') {
+          $configurations.append(genInt(optionConfiguration, worldOptions));
+        } else if (optionConfiguration.type == 'float') {
+          $configurations.append(genFloat(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'file') {
           $configurations.append(genFile(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'set') {

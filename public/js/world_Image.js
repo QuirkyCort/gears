@@ -46,7 +46,7 @@ var world_Image = new function() {
     {
       option: 'imageScale',
       title: 'Image Scale Factor',
-      type: 'text',
+      type: 'float',
       help: 'Scales the image (eg. when set to 2, each pixel will equal 2mm). Default to 1.'
     },
     {
@@ -171,7 +171,7 @@ var world_Image = new function() {
     imageURL: '',
     length: 100,
     width: 100,
-    imageScale: '1',
+    imageScale: 1,
     wall: true,
     missions: true,
     wallHeight: 7.7,
@@ -228,13 +228,8 @@ var world_Image = new function() {
         );
       };
       img.onload = function() {
-        let scale = 1;
-        if (self.options.imageScale.trim()) {
-          scale = parseFloat(self.options.imageScale);
-        }
-
-        self.options.length = this.width / 10.0 * scale;
-        self.options.width = this.height / 10.0 * scale;
+        self.options.length = this.width / 10.0 * self.options.imageScale;
+        self.options.width = this.height / 10.0 * self.options.imageScale;
 
         let xPos = self.options.length / 2 - 12;
         let yPos = self.options.width / 2 - 12;
