@@ -1005,7 +1005,7 @@
 },
 {
   "type": "run_motor_for",
-  "message0": "#blk-run_motor_on_port# %1 #blk-at# %2 %3 %4 #blk-for# %5 %6",
+  "message0": "#blk-run_motor_on_port# %1 #blk-at# %2 %3 %4 #blk-for# %5 %6 %7",
   "args0": [
     {
       "type": "field_dropdown",
@@ -1105,6 +1105,20 @@
           "MILLISECONDS"
         ]
       ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "block",
+      "options": [
+        [
+          "#blk-and_wait#",
+          "BLOCK"
+        ],
+        [
+          "#blk-and_dont_wait#",
+          "NO_BLOCK"
+        ]
+      ]
     }
   ],
   "previousStatement": null,
@@ -1115,7 +1129,7 @@
 },
 {
   "type": "run_motor_to",
-  "message0": "#blk-run_motor_on_port# %1 #blk-at# %2 %3 %4 #blk-to_position# %5 #blk-degrees#",
+  "message0": "#blk-run_motor_on_port# %1 #blk-at# %2 %3 %4 #blk-to_position# %5 #blk-degrees# %6",
   "args0": [
     {
       "type": "field_dropdown",
@@ -1193,6 +1207,20 @@
       "type": "input_value",
       "name": "degrees",
       "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "block",
+      "options": [
+        [
+          "#blk-and_wait#",
+          "BLOCK"
+        ],
+        [
+          "#blk-and_dont_wait#",
+          "NO_BLOCK"
+        ]
+      ]
     }
   ],
   "previousStatement": null,

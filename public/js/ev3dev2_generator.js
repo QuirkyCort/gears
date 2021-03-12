@@ -306,6 +306,12 @@ var ev3dev2_generator = new function() {
     var dropdown_unit = block.getFieldValue('unit');
     var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
     var dropdown_unit2 = block.getFieldValue('unit2');
+    var dropdown_block = block.getFieldValue('block');
+
+    var block = '';
+    if (dropdown_block == 'NO_BLOCK') {
+      block = ', block=False';
+    }
 
     if (dropdown_unit == 'PERCENT') {
       var speedStr = value_speed;
@@ -329,7 +335,7 @@ var ev3dev2_generator = new function() {
       var durationStr = value_duration + ' / 1000';
     }
 
-    var code = 'motor' + dropdown_port + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + ')\n';
+    var code = 'motor' + dropdown_port + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + block + ')\n';
 
     return code;
   }
@@ -340,6 +346,12 @@ var ev3dev2_generator = new function() {
     var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     var dropdown_unit = block.getFieldValue('unit');
     var value_degrees = Blockly.Python.valueToCode(block, 'degrees', Blockly.Python.ORDER_ATOMIC);
+    var dropdown_block = block.getFieldValue('block');
+
+    var block = '';
+    if (dropdown_block == 'NO_BLOCK') {
+      block = ', block=False';
+    }
 
     if (dropdown_unit == 'PERCENT') {
       var speedStr = value_speed;
@@ -349,7 +361,7 @@ var ev3dev2_generator = new function() {
       var speedStr = 'SpeedRPS(' + value_speed + ')';
     }
 
-    var code = 'motor' + dropdown_port + '.on_to_position(' + speedStr + ', ' + value_degrees + ')\n';
+    var code = 'motor' + dropdown_port + '.on_to_position(' + speedStr + ', ' + value_degrees + block + ')\n';
 
     return code;
   }
