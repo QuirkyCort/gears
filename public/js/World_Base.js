@@ -344,6 +344,10 @@ var World_Base = function() {
   this.addObject = function(scene, object) {
     let options = {
       type: 'box',
+      imageType: '',
+      imageURL: '',
+      uScale: 1,
+      vScale: 1,
       position: [0,0,0],
       size: [10,10,10],
       rotationMode: 'degrees',
@@ -392,10 +396,24 @@ var World_Base = function() {
     let meshOptions = {
       material: babylon.getMaterial(scene, options.color),
       size: options.size,
-      position: new BABYLON.Vector3(options.position[0], options.position[2],options.position[1]),
+      position: new BABYLON.Vector3(options.position[0], options.position[2], options.position[1]),
       rotation: new BABYLON.Vector3(options.rotation[0], options.rotation[1], options.rotation[2]),
-      physicsOptions: options.physicsOptions
+      physicsOptions: options.physicsOptions,
+      imageType: options.imageType
     };
+
+    let VALID_IMAGETYPES = ['one','repeat','all','cylinder','sphere'];
+
+    if (VALID_IMAGETYPES.indexOf(options.imageType) != -1) {
+      var material = new BABYLON.StandardMaterial('imageObject', scene);
+      var texture = new BABYLON.Texture(options.imageURL, scene);
+      material.diffuseTexture = texture;
+      material.diffuseTexture.uScale = options.uScale;
+      material.diffuseTexture.vScale = options.vScale;
+      material.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+
+      meshOptions.material = material;
+    }
 
     if (options.type == 'box') {
       var objectMesh = self.addBox(scene, meshOptions);
@@ -466,6 +484,15 @@ var World_Base = function() {
       height: options.size[0],
       diameter: options.size[1],
     };
+
+    if (options.imageType == 'cylinder') {
+      var faceUV = new Array(3);
+      faceUV[0] = new BABYLON.Vector4(0,   0,   1/4, 1);
+      faceUV[1] = new BABYLON.Vector4(3/4, 0,   1/4, 1);
+      faceUV[2] = new BABYLON.Vector4(3/4, 0,   1,   1);
+      meshOptions.faceUV = faceUV;
+    }
+
     if (options.faceUV) {
       meshOptions.faceUV = options.faceUV;
     }
@@ -494,7 +521,30 @@ var World_Base = function() {
       width: options.size[0],
       depth: options.size[1],
       height: options.size[2],
+      wrap: true,
     };
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+      faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+
+    if (options.imageType == 'one') {
+      faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+    } else if (options.imageType == 'repeat') {
+      for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 1, 1);
+      }
+    } else if (options.imageType == 'all') {
+      faceUV[0] = new BABYLON.Vector4(0,   0,   1/3, 1/2);
+      faceUV[1] = new BABYLON.Vector4(1/3, 0,   2/3, 1/2);
+      faceUV[2] = new BABYLON.Vector4(2/3, 0,   1,   1/2);
+      faceUV[3] = new BABYLON.Vector4(0,   1/2, 1/3, 1);
+      faceUV[4] = new BABYLON.Vector4(1/3, 1/2, 2/3, 1);
+      faceUV[5] = new BABYLON.Vector4(2/3, 1/2, 1,   1);
+    }
+    meshOptions.faceUV = faceUV;
+
     if (options.faceUV) {
       meshOptions.faceUV = options.faceUV;
     }
