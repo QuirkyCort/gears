@@ -126,11 +126,6 @@ var World_Base = function() {
           }
         }
 
-        self.robotStart = {
-          position: new BABYLON.Vector3(0, 0, 0),
-          rotation: new BABYLON.Vector3(0, 0, 0)
-        };
-
         if (self.options.startPos == 'center') {
           self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
         } else if (self.options.startPos == 'bottomLeft') {

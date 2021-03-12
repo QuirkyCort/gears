@@ -1,4 +1,10 @@
 var world_Test = new function() {
+  World_Base.call(this);
+  this.parent = {};
+  for (p in this) {
+    this.parent[p] = this[p];
+  }
+
   var self = this;
 
   this.name = 'test';
@@ -6,11 +12,6 @@ var world_Test = new function() {
   this.longDescription =
     '<p>A test world mainly for testing physics.</p>' +
     '<p>The small blue squares are magnetic, and can be picked up using the robot magnet.</p>';
-
-  this.options = {};
-  this.robotStart = {
-    position: new BABYLON.Vector3(0, 0, 0)
-  };
 
   this.optionsConfigurations = [
     {
@@ -39,26 +40,737 @@ var world_Test = new function() {
     }
   ];
 
-  this.defaultOptions = {
-    staticObjectFriction: 1,
-    kinematicObjectFriction: .8,
-    staticObjectRestitution: 0.0,
-    kinematicObjectRestitution: 0.1,
+  this.defaultOptions = Object.assign(this.defaultOptions, {
+    image: 'textures/maps/grid.png',
+    imageScale: '2.353',
+    length: 400,
+    width: 400,
+    uScale: 20,
+    vScale: 20,
+    wallHeight: 10,
+    wallThickness: 5,
+    wallColor: 'B3B3B3',
     startPos: 'ramp18',
-    startPosXY: ''
-  };
+    objects: [
+
+      // Ramps
+      {
+        "type": "box",
+        "position":[0,20,-5],
+        "size": [30, 20, 40],
+        "rotation": [72,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[35,20,-5],
+        "size": [30, 20, 40],
+        "rotation": [54,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[70,20,-5],
+        "size": [30, 20, 40],
+        "rotation": [45,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[105,20,-5],
+        "size": [30, 20, 40],
+        "rotation": [72,0,0],
+        "color": "#A3A333",
+        "physicsOptions": {
+          mass: 0,
+          friction: 0.01,
+          restitution: 0.1
+        }
+      },
+
+      // Bumps
+      {
+        "type": "box",
+        "position":[140,15,0.5],
+        "size": [30, 1, 1],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,20,0.5],
+        "size": [30, 1, 1],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,25,0.5],
+        "size": [30, 1, 1],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,30,0.5],
+        "size": [30, 1, 1],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,40,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,46,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,50,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,55,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,70,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,5.7,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,80,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,-5.7,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,90,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,11.5,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[140,100,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,-11.5,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+
+      // Boxes for pushing
+      {
+        "type": "box",
+        "position":[-70,20,4],
+        "size": [8, 8, 8],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 800,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-105,20,4],
+        "size": [8, 8, 8],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 1600,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+
+      // Tower
+      {
+        "type": "box",
+        "position":[-140,40,4],
+        "size": [8, 8, 8],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-140,40,12],
+        "size": [8, 8, 8],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-140,40,20],
+        "size": [8, 8, 8],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-140,40,28],
+        "size": [8, 8, 8],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-140,40,36],
+        "size": [8, 8, 8],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+
+      // Wall
+      {
+        "type": "box",
+        "position":[-180,40,5],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-180,40,15],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-180,40,25],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-170,40,5],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-170,40,15],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-170,40,25],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-180,-40,5],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-180,-40,15],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-180,-40,25],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-170,-40,5],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-170,-40,15],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-170,-40,25],
+        "size": [10, 10, 10],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 200,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+
+      // Bumps
+      {
+        "type": "box",
+        "position":[-35,15,0.5],
+        "size": [30, 1, 1],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,20,0.5],
+        "size": [30, 1, 1],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,25,0.5],
+        "size": [30, 1, 1],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,30,0.5],
+        "size": [30, 1, 1],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,40,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,46,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,50,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,55,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,0,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,70,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,5.7,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,80,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,-5.7,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,90,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,11.5,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+      {
+        "type": "box",
+        "position":[-35,100,0.5],
+        "size": [30, 1.5, 1],
+        "rotation": [0,-11.5,0],
+        "color": "#A333A3",
+        "physicsOptions": {
+          mass: 100,
+          friction: 0.8,
+          restitution: 0.1
+        }
+      },
+
+      // Magnetic blocks
+      {
+        "type": "box",
+        "position": [0, -80, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [30, -119, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [27, -118, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [27, -128, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [32, -125, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+
+      // Wall around magnetic blocks
+      {
+        "type": "box",
+        "position":[0,-150,1.5],
+        "size": [30, 1, 3],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[0,-180,1.5],
+        "size": [30, 1, 3],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[-15,-165,1.5],
+        "size": [1, 30, 3],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[15,-165,1.5],
+        "size": [1, 30, 3],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position": [-3, -157, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [5, -160, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [0, -170, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [-9, -165, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [7, -171, 0],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+
+      // Tower for magnetic blocks
+      {
+        "type": "box",
+        "position":[-50,-150,6],
+        "size": [30, 1, 12],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[-50,-180,6],
+        "size": [30, 1, 12],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[-65,-165,6],
+        "size": [1, 30, 12],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[-35,-165,6],
+        "size": [1, 30, 12],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+      {
+        "type": "box",
+        "position":[-50,-165,6],
+        "size": [30, 30, 11],
+        "rotation": [0,0,0],
+        "color": "#A3A333",
+        "physicsOptions": "fixed"
+      },
+
+      // magnetics on tower
+      {
+        "type": "box",
+        "position": [-51, -155, 13],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [-48, -167, 13],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+      {
+        "type": "box",
+        "position": [-53, -165, 13],
+        "size": [2, 2, 0.5],
+        "rotation": [0,0,0],
+        "color": "#0000CC",
+        "physicsOptions": "moveable",
+        "magnetic": true
+      },
+    ]
+  });
 
   // Set options, including default
   this.setOptions = function(options) {
-    Object.assign(self.options, self.defaultOptions);
-
-    for (let name in options) {
-      if (typeof self.options[name] == 'undefined') {
-        console.log('Unrecognized option: ' + name);
-      } else {
-        self.options[name] = options[name];
-      }
-    }
+    self.mergeOptionsWithDefault(options);
 
     if (self.options.startPos == 'ramp18') {
       self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
@@ -84,210 +796,12 @@ var world_Test = new function() {
       self.robotStart.position = new BABYLON.Vector3(0, 0, -110);
     }
 
-    if (
-      typeof options != 'undefined'
-      && typeof options.startPosXY != 'undefined'
-      && options.startPosXY.trim() != ''
-    ) {
-      let xy = options.startPosXY.split(',');
-      self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), 0, parseFloat(xy[1]));
-    }
-
-    return new Promise(function(resolve, reject) {
-      resolve();
-    });
+    return this.parent.setOptions(options);
   };
 
   // Run on page load
   this.init = function() {
-    self.setOptions();
   };
-
-  // Create the scene
-  this.load = function (scene) {
-    self.loadMaterials(scene);
-
-    return new Promise(function(resolve, reject) {
-      world_Grid.loadBaseMap(scene);
-      self.loadObjects(scene);
-      resolve();
-    });
-  };
-
-  // Objects
-  this.loadObjects = function (scene) {
-    // Ramp
-    self.buildStatic(scene,[40,30,20],[0,-5,20],[Math.PI*0.4,0,0]);
-    self.buildStatic(scene,[40,30,20],[35,-5,20],[Math.PI*0.3,0,0]);
-    self.buildStatic(scene,[40,30,20],[70,-5,20],[Math.PI*0.25,0,0]);
-    self.buildStatic(scene,[40,30,20],[105,-5,20],[Math.PI*0.4,0,0],0.01);
-
-    // Bumps
-    self.buildStatic(scene,[1,30,1],[140,0.5,15]);
-    self.buildStatic(scene,[1,30,1],[140,0.5,20]);
-    self.buildStatic(scene,[1,30,1],[140,0.5,25]);
-    self.buildStatic(scene,[1,30,1],[140,0.5,30]);
-
-    self.buildStatic(scene,[1,30,1.5],[140,0.5,40]);
-    self.buildStatic(scene,[1,30,1.5],[140,0.5,46]);
-    self.buildStatic(scene,[1,30,1.5],[140,0.5,50]);
-    self.buildStatic(scene,[1,30,1.5],[140,0.5,55]);
-
-    self.buildStatic(scene,[1,30,1.5],[140,0.5,70],[0,0.1,0]);
-    self.buildStatic(scene,[1,30,1.5],[140,0.5,80],[0,-0.1,0]);
-    self.buildStatic(scene,[1,30,1.5],[140,0.5,90],[0,0.2,0]);
-    self.buildStatic(scene,[1,30,1.5],[140,0.5,100],[0,-0.2,0]);
-
-    // Boxes for pushing
-    self.buildKinematic(scene,[8,8,8],[-70,4,20],800);
-    self.buildKinematic(scene,[8,8,8],[-105,4,20],1600);
-
-    // Tower
-    self.buildKinematic(scene,[8,8,8],[-140,4,40],200);
-    self.buildKinematic(scene,[8,8,8],[-140,12,40],200);
-    self.buildKinematic(scene,[8,8,8],[-140,20,40],200);
-    self.buildKinematic(scene,[8,8,8],[-140,28,40],200);
-    self.buildKinematic(scene,[8,8,8],[-140,36,40],200);
-
-    // Wall
-    self.buildKinematic(scene,[10,10,10],[-180,5,40],200);
-    self.buildKinematic(scene,[10,10,10],[-180,15,40],200);
-    self.buildKinematic(scene,[10,10,10],[-180,25,40],200);
-    self.buildKinematic(scene,[10,10,10],[-170,5,40],200);
-    self.buildKinematic(scene,[10,10,10],[-170,15,40],200);
-    self.buildKinematic(scene,[10,10,10],[-170,25,40],200);
-
-    self.buildKinematic(scene,[10,10,10],[-180,5,-40],200);
-    self.buildKinematic(scene,[10,10,10],[-180,15,-40],200);
-    self.buildKinematic(scene,[10,10,10],[-180,25,-40],200);
-    self.buildKinematic(scene,[10,10,10],[-170,5,-40],200);
-    self.buildKinematic(scene,[10,10,10],[-170,15,-40],200);
-    self.buildKinematic(scene,[10,10,10],[-170,25,-40],200);
-
-    // Bumps
-    self.buildKinematic(scene,[1,30,1],[-35,0.5,15],100);
-    self.buildKinematic(scene,[1,30,1],[-35,0.5,20],100);
-    self.buildKinematic(scene,[1,30,1],[-35,0.5,25],100);
-    self.buildKinematic(scene,[1,30,1],[-35,0.5,30],100);
-
-    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,40],100);
-    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,46],100);
-    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,50],100);
-    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,55],100);
-
-    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,70],100,[0,0.1,0]);
-    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,80],100,[0,-0.1,0]);
-    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,90],100,[0,0.2,0]);
-    self.buildKinematic(scene,[1,30,1.5],[-35,0.5,100],100,[0,-0.2,0]);
-
-    // Magnetic blocks to pickup
-    self.buildMagnetic(scene, [0.5,2,2], [0, 0, -80]);
-
-    self.buildMagnetic(scene, [0.5,2,2], [30, 0, -119]);
-    self.buildMagnetic(scene, [0.5,2,2], [27, 0, -118]);
-    self.buildMagnetic(scene, [0.5,2,2], [27, 0, -128]);
-    self.buildMagnetic(scene, [0.5,2,2], [32, 0, -125]);
-
-    // Wall around magnetic blocks
-    self.buildStatic(scene,[3,30,1],[0,1.5,-150]);
-    self.buildStatic(scene,[3,30,1],[0,1.5,-180]);
-    self.buildStatic(scene,[3,1,30],[-15,1.5,-165]);
-    self.buildStatic(scene,[3,1,30],[15,1.5,-165]);
-
-    self.buildMagnetic(scene, [0.5,2,2], [-3, 0, -157]);
-    self.buildMagnetic(scene, [0.5,2,2], [5, 0, -160]);
-    self.buildMagnetic(scene, [0.5,2,2], [0, 0, -170]);
-    self.buildMagnetic(scene, [0.5,2,2], [-9, 0, -165]);
-    self.buildMagnetic(scene, [0.5,2,2], [7, 0, -171]);
-
-    // Tower for magnetic blocks
-    self.buildStatic(scene,[12,30,1],[-50,6,-150]);
-    self.buildStatic(scene,[12,30,1],[-50,6,-180]);
-    self.buildStatic(scene,[12,1,30],[-65,6,-165]);
-    self.buildStatic(scene,[12,1,30],[-35,6,-165]);
-
-    self.buildStatic(scene,[11,30,30],[-50,6,-165]);
-
-    self.buildMagnetic(scene, [0.5,2,2], [-51, 13, -155]);
-    self.buildMagnetic(scene, [0.5,2,2], [-48, 13, -167]);
-    self.buildMagnetic(scene, [0.5,2,2], [-53, 13, -165]);
-  };
-
-  this.loadMaterials = function(scene) {
-    self.kinematicMat = new BABYLON.StandardMaterial('kinematicMat', scene);
-    self.kinematicMat.diffuseColor = new BABYLON.Color3(0.64, 0.2, 0.64);
-    self.kinematicMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-
-    self.staticMat = new BABYLON.StandardMaterial('staticMat', scene);
-    self.staticMat.diffuseColor = new BABYLON.Color3(0.64, 0.64, 0.20);
-    self.staticMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-
-    self.magneticMat = new BABYLON.StandardMaterial('magneticMat', scene);
-    self.magneticMat.diffuseColor = new BABYLON.Color3(0, 0, 0.80);
-    self.magneticMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-  }
-
-  this.buildMagnetic = function(scene, dim, pos, mass=10) {
-    var m1 = BABYLON.MeshBuilder.CreateBox('metal1', {height: dim[0], width: dim[1], depth: dim[2]}, scene);
-    m1.isMagnetic = true;
-    m1.material = self.magneticMat;
-    m1.position.x = pos[0];
-    m1.position.y = pos[1];
-    m1.position.z = pos[2];
-    m1.physicsImpostor = new BABYLON.PhysicsImpostor(
-      m1,
-      BABYLON.PhysicsImpostor.BoxImpostor,
-      { mass: mass, friction: 0.5 },
-      scene
-    );
-    m1.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
-  };
-
-  // static object builder
-  this.buildStatic = function(scene, dim, pos, rot=[0,0,0], friction=self.options.staticObjectFriction, restitution=self.options.staticObjectRestitution) {
-    var ramp = BABYLON.MeshBuilder.CreateBox('ramp', {height: dim[0], width: dim[1], depth: dim[2]}, scene);
-    ramp.position.x = pos[0];
-    ramp.position.y = pos[1];
-    ramp.position.z = pos[2];
-    ramp.rotation.x = rot[0];
-    ramp.rotation.y = rot[1];
-    ramp.rotation.z = rot[2];
-    ramp.material = self.staticMat;
-
-    ramp.physicsImpostor = new BABYLON.PhysicsImpostor(
-      ramp,
-      BABYLON.PhysicsImpostor.BoxImpostor,
-      {
-        mass: 0,
-        friction: friction,
-        restitution: restitution
-      },
-      scene
-    );
-  };
-
-  // kinematic object builder
-  this.buildKinematic = function(scene, dim, pos, mass=200, rot=[0,0,0], friction=self.options.kinematicObjectFriction, restitution=self.options.kinematicObjectRestitution) {
-    var block = BABYLON.MeshBuilder.CreateBox('block', {height: dim[0], width: dim[1], depth: dim[2]}, scene);
-    block.position.x = pos[0];
-    block.position.y = pos[1];
-    block.position.z = pos[2];
-    block.rotation.x = rot[0];
-    block.rotation.y = rot[1];
-    block.rotation.z = rot[2];
-    block.material = self.kinematicMat;
-
-    block.physicsImpostor = new BABYLON.PhysicsImpostor(
-      block,
-      BABYLON.PhysicsImpostor.BoxImpostor,
-      {
-        mass: mass,
-        friction: friction,
-        restitution: restitution
-      },
-      scene
-    );
-  }
 
 }
 
