@@ -15,6 +15,7 @@ var World_Base = function() {
 
   this.defaultOptions = {
     imageURL: '',
+    groundType: 'box',
     length: 100,
     width: 100,
     uScale: 1,
@@ -23,7 +24,7 @@ var World_Base = function() {
     wall: true,
     wallHeight: 7.7,
     wallThickness: 4.5,
-    wallColor: '1A1A1A',
+    wallColor: '#1A1A1A',
     groundFriction: 1,
     wallFriction: 0.1,
     groundRestitution: 0.0,
@@ -174,6 +175,77 @@ var World_Base = function() {
     self.setOptions();
   };
 
+  // Box ground
+  this.boxGround = function(scene, groundMat) {
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+    faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+
+    var boxOptions = {
+      width: self.options.groundWidth,
+      height: 10,
+      depth: self.options.groundLength,
+      faceUV: faceUV
+    };
+
+    var ground = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
+    ground.material = groundMat;
+    ground.receiveShadows = true;
+    ground.position.y = -5;
+    ground.rotation.y = Math.PI / 2;
+
+    // Physics
+    ground.physicsImpostor = new BABYLON.PhysicsImpostor(
+      ground,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0,
+        friction: self.options.groundFriction,
+        restitution: self.options.groundRestitution
+      },
+      scene
+    );
+
+    return ground;
+  };
+
+  // Cylinder gound
+  this.cylinderGround = function(scene, groundMat) {
+    var faceUV = new Array(3);
+    for (var i = 0; i < 3; i++) {
+      faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+    faceUV[2] = new BABYLON.Vector4(0, 0, 1, 1);
+
+    var cylinderOptions = {
+      height: 10,
+      diameter: self.options.groundWidth,
+      tessellation: 48,
+      faceUV: faceUV
+    };
+
+    var ground = BABYLON.MeshBuilder.CreateCylinder('cylinder', cylinderOptions, scene);
+    ground.material = groundMat;
+    ground.receiveShadows = true;
+    ground.position.y = -5;
+
+    // Physics
+    ground.physicsImpostor = new BABYLON.PhysicsImpostor(
+      ground,
+      BABYLON.PhysicsImpostor.CylinderImpostor,
+      {
+        mass: 0,
+        friction: self.options.groundFriction,
+        restitution: self.options.groundRestitution
+      },
+      scene
+    );
+
+    return ground;
+  };
+
   // Create the scene
   this.load = function (scene) {
     return new Promise(function(resolve, reject) {
@@ -184,26 +256,13 @@ var World_Base = function() {
       groundMat.diffuseTexture.vScale = self.options.vScale;
       groundMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
-      var faceUV = new Array(6);
-      for (var i = 0; i < 6; i++) {
-          faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+      if (self.options.groundType == 'box') {
+        self.boxGround(scene, groundMat);
+      } else if (self.options.groundType == 'cylinder') {
+        self.cylinderGround(scene, groundMat);
       }
-      faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
 
-      var boxOptions = {
-          width: self.options.groundWidth,
-          height: 10,
-          depth: self.options.groundLength,
-          faceUV: faceUV
-      };
-
-      var ground = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
-      ground.material = groundMat;
-      ground.receiveShadows = true;
-      ground.position.y = -5;
-      ground.rotation.y = Math.PI / 2;
-
-      if (self.options.wall) {
+      if (self.options.wall && self.options.groundType == 'box') {
         var wallMat = babylon.getMaterial(scene, self.options.wallColor);
 
         let wall1 = {
@@ -237,21 +296,8 @@ var World_Base = function() {
         wallRight.position.y = wall1.height / 2 - 10;
         wallRight.position.x = (self.options.groundLength + self.options.wallThickness) / 2;
         wallRight.material = wallMat;
-      }
 
-      // Physics
-      ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-        ground,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        {
-          mass: 0,
-          friction: self.options.groundFriction,
-          restitution: self.options.groundRestitution
-        },
-        scene
-      );
-
-      if (self.options.wall) {
+        // Wall physics
         var wallOptions = {
           mass: 0,
           friction: self.options.wallFriction,
