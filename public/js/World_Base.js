@@ -402,7 +402,7 @@ var World_Base = function() {
       imageType: options.imageType
     };
 
-    let VALID_IMAGETYPES = ['one','repeat','all','cylinder','sphere'];
+    let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
 
     if (VALID_IMAGETYPES.indexOf(options.imageType) != -1) {
       var material = new BABYLON.StandardMaterial('imageObject', scene);
@@ -529,8 +529,10 @@ var World_Base = function() {
       faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
     }
 
-    if (options.imageType == 'one') {
+    if (options.imageType == 'top') {
       faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+    } else if (options.imageType == 'front') {
+      faceUV[1] = new BABYLON.Vector4(0, 0, 1, 1);
     } else if (options.imageType == 'repeat') {
       for (var i = 0; i < 6; i++) {
         faceUV[i] = new BABYLON.Vector4(0, 0, 1, 1);
