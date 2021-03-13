@@ -68,6 +68,20 @@ var World_Base = function() {
     }
 
     return new Promise(function(resolve, reject) {
+      function setStartPosRot() {
+        if (self.options.startPosXY.trim() != '') {
+          let xy = self.options.startPosXY.split(',');
+          let alt = 0;
+          if (xy.length > 2) {
+            alt = parseFloat(xy[2]);
+          }
+          self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), alt, parseFloat(xy[1]));
+        }
+        if (self.options.startRot.trim() != '') {
+          self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
+        }
+      }
+
       var img = new Image();
       img.crossOrigin = "anonymous";
       img.onerror = function() {
@@ -150,21 +164,13 @@ var World_Base = function() {
           self.robotStart = self.arenaStart[3];
         }
 
-        if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
-          let xy = self.options.startPosXY.split(',');
-          let alt = 0;
-          if (xy.length > 2) {
-            alt = parseFloat(xy[2]);
-          }
-          self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), alt, parseFloat(xy[1]));
-        }
-        if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
-          self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
-        }
+        setStartPosRot();
 
         resolve();
       }
-      if (typeof self.options.image != 'undefined' && self.options.image != '') {
+      if (self.options.imageType == 'none') {
+        setStartPosRot();
+      } else if (typeof self.options.image != 'undefined' && self.options.image != '') {
         img.src = self.options.image;
       }
     });
