@@ -801,6 +801,7 @@ var world_Test = new function() {
 
   // Run on page load
   this.init = function() {
+    Object.assign(self.options, self.defaultOptions);
   };
 
 }

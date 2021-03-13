@@ -2,10 +2,10 @@ var world_Image = new function() {
   var self = this;
 
   this.name = 'image';
-  this.shortDescription = 'Generate from image';
+  this.shortDescription = 'Generate from image (deprecated)';
   this.longDescription =
-    '<p>This world is automatically generated from the selected image.</p>' +
-    '<p>You can use your own image or choose one of the provided images. The 3D world will be generated at a scale of 1px to 1mm.</p>';
+    '<p>This world is deprecated. Most of it\'s capabilities are now replaced by Custom World and Mission World.</p>' +
+    '<p>This world is kept around mainly for compatibility with old custom maps.</p>';
   this.thumbnail = 'images/worlds/fll.jpg';
 
   this.options = {};

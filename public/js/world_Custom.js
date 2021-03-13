@@ -1,4 +1,4 @@
-var world_Grid = new function() {
+var world_Custom = new function() {
   World_Base.call(this);
   this.parent = {};
   for (p in this) {
@@ -7,29 +7,31 @@ var world_Grid = new function() {
 
   var self = this;
 
-  this.name = 'grid';
-  this.shortDescription = 'Grid Map (20cm)';
+  this.name = 'custom';
+  this.shortDescription = 'Custom world';
   this.longDescription =
-    '<p>This is a plain grid map.</p>' +
-    '<p>Each large square is 20cm, while each small square is 5cm.</p>';
-  this.thumbnail = 'images/worlds/grid.jpg';
+    '<p>This world is automatically generated from the provided image.</p>' +
+    '<p>There are many more options available through editing of the JSON file. Please read the wiki for more details.</p>';
 
   this.optionsConfigurations = [
     {
-      option: 'length',
-      title: 'Length of field (cm)',
-      type: 'slider',
-      min: '100',
-      max: '1000',
-      step: '10'
+      option: 'imageURL',
+      title: 'Image URL',
+      type: 'text',
+      help: 'This will not work with many webhosts, as they block their images from being used in a different domain. Imgur will work.'
     },
     {
-      option: 'width',
-      title: 'Width of field (cm)',
-      type: 'slider',
-      min: '100',
-      max: '1000',
-      step: '10'
+      option: 'imageFile',
+      title: 'Upload Image',
+      type: 'file',
+      accept: 'image/*',
+      help: 'This will override both "Select Image" and "Image URL"'
+    },
+    {
+      option: 'imageScale',
+      title: 'Image Scale Factor',
+      type: 'float',
+      help: 'Scales the image (eg. when set to 2, each pixel will equal 2mm). Default to 1.'
     },
     {
       option: 'wall',
@@ -70,9 +72,9 @@ var world_Grid = new function() {
     },
     {
       option: 'startPosXY',
-      title: 'Starting Position (x, y)',
+      title: 'Starting Position (x, y, z)',
       type: 'text',
-      help: 'Enter using this format "x, y" (without quotes) and it will override the above. Center of image is "0, 0".'
+      help: 'Enter using this format "x, y, z" (in cm, without quotes) and it will override the above. Center of image is "0, 0, 0".'
     },
     {
       option: 'startRot',
@@ -83,21 +85,11 @@ var world_Grid = new function() {
   ];
 
   this.defaultOptions = Object.assign(this.defaultOptions, {
-    image: 'textures/maps/grid.png',
-    imageScale: '2.353',
-    length: 400,
-    width: 400,
-    wallHeight: 10,
-    wallThickness: 5,
-    wallColor: 'B3B3B3'
+    imageURL: 'textures/maps/custom.png',
   });
 
-  // Set options, including default
   this.setOptions = function(options) {
     self.mergeOptionsWithDefault(options);
-
-    self.options.uScale = self.options.width / 20;
-    self.options.vScale = self.options.length / 20;
 
     return this.parent.setOptions(options);
   };
@@ -109,9 +101,9 @@ var world_Grid = new function() {
 }
 
 // Init class
-world_Grid.init();
+world_Custom.init();
 
 if (typeof worlds == 'undefined') {
   var worlds = [];
 }
-worlds.push(world_Grid);
+worlds.push(world_Custom);

@@ -344,7 +344,7 @@ var World_Base = function() {
   this.addObject = function(scene, object) {
     let options = {
       type: 'box',
-      imageType: '',
+      imageType: 'repeat',
       imageURL: '',
       uScale: 1,
       vScale: 1,
@@ -352,7 +352,7 @@ var World_Base = function() {
       size: [10,10,10],
       rotationMode: 'degrees',
       rotation: [0,0,0],
-      color: '#E6808080',
+      color: '#80E680',
       physicsOptions: 'fixed',
       magnetic: false
     };
@@ -404,7 +404,7 @@ var World_Base = function() {
 
     let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
 
-    if (VALID_IMAGETYPES.indexOf(options.imageType) != -1) {
+    if (VALID_IMAGETYPES.indexOf(options.imageType) != -1 && options.imageURL != '') {
       var material = new BABYLON.StandardMaterial('imageObject', scene);
       var texture = new BABYLON.Texture(options.imageURL, scene);
       material.diffuseTexture = texture;
