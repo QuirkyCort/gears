@@ -32,12 +32,15 @@ var World_Base = function() {
 
   this.defaultOptions = {
     imageURL: '',
-    groundType: 'box',
+    groundType: 'box',     // none, box, cylinder
     length: 100,
     width: 100,
     uScale: 1,
     vScale: 1,
     imageScale: '1',
+    timer: 'none',         // none, up, down
+    timerDuration: 60,
+    timerEnd: 'continue',  // continue, stopTimer, stopRobot
     wall: true,
     wallHeight: 7.7,
     wallThickness: 4.5,
@@ -364,6 +367,15 @@ var World_Base = function() {
         }
       }
 
+      // Show the info panel if timer is requested
+      if (self.options.timer != 'none') {
+        self.renderTimeout = 0;
+        self.startTime = null;
+        self.timeLimitReached = false;
+        simPanel.showWorldInfoPanel();
+        self.drawTimer(true);
+      }
+
       resolve();
     });
   };
@@ -596,4 +608,99 @@ var World_Base = function() {
 
     return mesh;
   };
+
+  // startSim
+  self.startSim = function() {
+    if (self.options.timer != 'none' && self.startTime == null) {
+      self.startTime = Date.now();
+    }
+  };
+
+  // set the render functions for drawing timer
+  self.render = function(delta){
+    // Only run every 100ms
+    self.renderTimeout += delta;
+    if (self.renderTimeout < 100) {
+      return;
+    }
+    self.renderTimeout = 0;
+
+    if (self.options.timer != 'none') {
+      self.drawTimer(false);
+    }
+  }
+
+  // draw the timer panel
+  self.drawTimer = function(rebuild) {
+    if (rebuild) {
+      simPanel.clearWorldInfoPanel();
+      let $info = $(
+        '<div class="mono row">' +
+          '<div class="center time"></div>' +
+        '</div>'
+      );
+      simPanel.drawWorldInfo($info);
+
+      self.$time = $info.find('.time');
+    }
+
+    let elapsedTime = 0;
+    if (self.startTime != null) {
+      elapsedTime = Math.floor((Date.now() - self.startTime) / 1000);
+    }
+
+    function setTimeLimitReached() {
+      if (self.timeLimitReached == false) {
+        self.timeLimitReached = true;
+        self.$time.addClass('warn');
+        if (self.options.timerEnd == 'stopRobot') {
+          simPanel.stopSim();
+          robot.reset();
+          setTimeout(robot.reset, 200);
+          setTimeout(robot.reset, 400);
+          setTimeout(robot.reset, 600);
+          setTimeout(robot.reset, 800);
+          setTimeout(robot.reset, 1000);
+        }
+      }
+    }
+
+    if (self.options.timer == 'up') {
+      var time = elapsedTime;
+      var sign = '';
+      if (time >= self.options.timerDuration) {
+        if (self.options.timerEnd != 'continue') {
+          time = self.options.timerDuration;
+        }
+        setTimeLimitReached();
+      }
+
+    } else if (self.options.timer == 'down') {
+      var time = self.options.timerDuration - elapsedTime;
+      var sign = '';
+      if (time <= 0) {
+        if (self.options.timerEnd == 'continue') {
+          if (time < 0) {
+            sign = '-';
+          }
+          time = -time;
+        } else {
+          time = 0;
+        }
+        setTimeLimitReached();
+      }
+    }
+
+    if (typeof time != 'undefined') {
+      let timeStr = sign + Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
+
+      function updateIfChanged(text, $dom) {
+        if (text != $dom.text()) {
+          $dom.text(text);
+        }
+      }
+      updateIfChanged(timeStr, self.$time);
+    }
+  };
+
 }

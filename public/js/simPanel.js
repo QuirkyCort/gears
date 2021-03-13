@@ -729,11 +729,16 @@ var simPanel = new function() {
     });
   };
 
+  // Stop the simulator
+  this.stopSim = function() {
+    skulpt.hardInterrupt = true;
+    self.setRunIcon('run');
+  };
+
   // Run the simulator
   this.runSim = function() {
     if (skulpt.running) {
-      skulpt.hardInterrupt = true;
-      self.setRunIcon('run');
+      self.stopSim();
     } else {
       if (! pythonPanel.modified) {
         pythonPanel.loadPythonFromBlockly();

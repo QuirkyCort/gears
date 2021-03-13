@@ -18,14 +18,14 @@ var world_Custom = new function() {
       option: 'imageURL',
       title: 'Image URL',
       type: 'text',
-      help: 'This will not work with many webhosts, as they block their images from being used in a different domain. Imgur will work.'
+      help: 'URL for ground image. Will not work with most webhosts; Imgur will work.'
     },
     {
       option: 'imageFile',
       title: 'Upload Image',
       type: 'file',
       accept: 'image/*',
-      help: 'This will override both "Select Image" and "Image URL"'
+      help: 'This will override both "Image URL". Will not work if map configuration is saved to a file. You must upload it manually everytime.'
     },
     {
       option: 'groundType',
@@ -37,6 +37,35 @@ var world_Custom = new function() {
         ['None', 'none']
       ],
       help: 'Walls only work with a Box ground. If None is selected, there will be no ground! This is only useful if a custom object is added to act as the ground.'
+    },
+    {
+      option: 'timer',
+      title: 'Display Timer',
+      type: 'select',
+      options: [
+        ['None', 'none'],
+        ['Count up from 0', 'up'],
+        ['Count down from duration', 'down']
+      ]
+    },
+    {
+      option: 'timerDuration',
+      title: 'Timer Duration (s)',
+      type: 'slider',
+      min: '0',
+      max: '300',
+      step: '1'
+    },
+    {
+      option: 'timerEnd',
+      title: 'At Timer End',
+      type: 'select',
+      options: [
+        ['Continue running', 'continue'],
+        ['Stop the timer only', 'stopTimer'],
+        ['Stop the timer and robot', 'stopRobot']
+      ],
+      help: 'What will happend when timer ends.'
     },
     {
       option: 'imageScale',

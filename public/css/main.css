@@ -555,6 +555,8 @@ ul.menuDropDownRightAlign {
     color: #ffff00; }
   .worldInfo .p3.animate {
     color: #ff0000; }
+  .worldInfo .warn {
+    color: #ff0000; }
 
 .worldInfo.hide {
   display: none; }
