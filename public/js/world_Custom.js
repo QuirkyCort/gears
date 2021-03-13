@@ -28,6 +28,17 @@ var world_Custom = new function() {
       help: 'This will override both "Select Image" and "Image URL"'
     },
     {
+      option: 'groundType',
+      title: 'Ground Type',
+      type: 'select',
+      options: [
+        ['Box', 'box'],
+        ['Cylinder', 'cylinder'],
+        ['None', 'none']
+      ],
+      help: 'Walls only work with a Box ground. If None is selected, there will be no ground! This is only useful if a custom object is added to act as the ground.'
+    },
+    {
       option: 'imageScale',
       title: 'Image Scale Factor',
       type: 'float',

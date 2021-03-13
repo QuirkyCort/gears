@@ -11,7 +11,24 @@ var World_Base = function() {
     position: new BABYLON.Vector3(0, 0, 0), // Overridden by position setting,
     rotation: new BABYLON.Vector3(0, 0, 0)
   };
-  this.arenaStart = null;
+  this.arenaStart = [
+    {
+      position: new BABYLON.Vector3(0, 0, 0),
+      rotation: new BABYLON.Vector3(0, 0, 0)
+    },
+    {
+      position: new BABYLON.Vector3(0, 0, 0),
+      rotation: new BABYLON.Vector3(0, 0, 0)
+    },
+    {
+      position: new BABYLON.Vector3(0, 0, 0),
+      rotation: new BABYLON.Vector3(0, 0, 0)
+    },
+    {
+      position: new BABYLON.Vector3(0, 0, 0),
+      rotation: new BABYLON.Vector3(0, 0, 0)
+    },
+  ];
 
   this.defaultOptions = {
     imageURL: '',
@@ -33,7 +50,7 @@ var World_Base = function() {
     startPos: 'center',
     startPosXY: '',
     startRot: '',
-    arenaStartPosXY: null,
+    arenaStartPosXYZ: null,
     arenaStartRot: null
   };
 
@@ -69,6 +86,49 @@ var World_Base = function() {
 
     return new Promise(function(resolve, reject) {
       function setStartPosRot() {
+        if (self.options.arenaStartPosXYZ instanceof Array) {
+          for (let i=0; i < self.options.arenaStartPosXYZ.length; i++) {
+            self.arenaStart[i].position = new BABYLON.Vector3(
+              self.options.arenaStartPosXYZ[i][0],
+              self.options.arenaStartPosXYZ[i][2],
+              self.options.arenaStartPosXYZ[i][1]
+            );
+          }
+        }
+
+        if (self.options.arenaStartRot instanceof Array) {
+          for (let i=0; i < self.options.arenaStartRot.length; i++) {
+            self.arenaStart[i].rotation = new BABYLON.Vector3(
+              0,
+              self.options.arenaStartRot[i],
+              0,
+            );
+          }
+        }
+
+        if (self.options.startPos == 'center') {
+          self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
+        } else if (self.options.startPos == 'bottomLeft') {
+          let x = -(self.options.length / 2 - 12.5);
+          let z = -(self.options.width / 2 - 12.5) + 1;
+          self.robotStart.position = new BABYLON.Vector3(x, 0, z);
+        } else if (self.options.startPos == 'bottomCenter') {
+          let z = -(self.options.width / 2 - 12.5) + 1;
+          self.robotStart.position = new BABYLON.Vector3(0, 0, z);
+        } else if (self.options.startPos == 'bottomRight') {
+          let x = (self.options.length / 2 - 12.5);
+          let z = -(self.options.width / 2 - 12.5) + 1;
+          self.robotStart.position = new BABYLON.Vector3(x, 0, z);
+        } else if (self.options.startPos == 'P0') {
+          self.robotStart = self.arenaStart[0];
+        } else if (self.options.startPos == 'P1') {
+          self.robotStart = self.arenaStart[1];
+        } else if (self.options.startPos == 'P2') {
+          self.robotStart = self.arenaStart[2];
+        } else if (self.options.startPos == 'P3') {
+          self.robotStart = self.arenaStart[3];
+        }
+
         if (self.options.startPosXY.trim() != '') {
           let xy = self.options.startPosXY.split(',');
           let alt = 0;
@@ -121,55 +181,17 @@ var World_Base = function() {
           },
         ];
 
-        if (self.options.arenaStartPosXY instanceof Array) {
-          for (let i=0; i < self.options.arenaStartPosXY.length; i++) {
-            self.arenaStart[i].position = new BABYLON.Vector3(
-              self.options.arenaStartPosXY[i][0],
-              0,
-              self.options.arenaStartPosXY[i][1]
-            );
-          }
-        }
-
-        if (self.options.arenaStartRot instanceof Array) {
-          for (let i=0; i < self.options.arenaStartRot.length; i++) {
-            self.arenaStart[i].rotation = new BABYLON.Vector3(
-              0,
-              self.options.arenaStartRot[i],
-              0,
-            );
-          }
-        }
-
-        if (self.options.startPos == 'center') {
-          self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
-        } else if (self.options.startPos == 'bottomLeft') {
-          let x = -(self.options.length / 2 - 12.5);
-          let z = -(self.options.width / 2 - 12.5) + 1;
-          self.robotStart.position = new BABYLON.Vector3(x, 0, z);
-        } else if (self.options.startPos == 'bottomCenter') {
-          let z = -(self.options.width / 2 - 12.5) + 1;
-          self.robotStart.position = new BABYLON.Vector3(0, 0, z);
-        } else if (self.options.startPos == 'bottomRight') {
-          let x = (self.options.length / 2 - 12.5);
-          let z = -(self.options.width / 2 - 12.5) + 1;
-          self.robotStart.position = new BABYLON.Vector3(x, 0, z);
-        } else if (self.options.startPos == 'P0') {
-          self.robotStart = self.arenaStart[0];
-        } else if (self.options.startPos == 'P1') {
-          self.robotStart = self.arenaStart[1];
-        } else if (self.options.startPos == 'P2') {
-          self.robotStart = self.arenaStart[2];
-        } else if (self.options.startPos == 'P3') {
-          self.robotStart = self.arenaStart[3];
-        }
-
         setStartPosRot();
 
         resolve();
       }
-      if (self.options.imageType == 'none') {
+      if (self.options.groundType == 'none') {
+        var VALID_STARTPOS = ['center','P0','P1','P2','P3'];
+        if (VALID_STARTPOS.indexOf(self.options.startPos) == -1) {
+          self.options.startPos = 'center';
+        }
         setStartPosRot();
+        resolve();
       } else if (typeof self.options.image != 'undefined' && self.options.image != '') {
         img.src = self.options.image;
       }
