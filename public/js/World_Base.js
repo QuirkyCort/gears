@@ -51,8 +51,10 @@ var World_Base = function() {
     wallRestitution: 0.1,
     objects: [],
     startPos: 'center',
-    startPosXY: '',
-    startRot: '',
+    startPosXYZStr: '',
+    startRotStr: '',
+    startPosXYZ: null,
+    startRot: null,
     arenaStartPosXYZ: null,
     arenaStartRot: null
   };
@@ -132,23 +134,24 @@ var World_Base = function() {
           self.robotStart = self.arenaStart[3];
         }
 
-        if (typeof self.options.startPosXY == "string") {
-          if (self.options.startPosXY.trim() != '') {
-            let xy = self.options.startPosXY.split(',');
-            let alt = 0;
-            if (xy.length > 2) {
-              alt = parseFloat(xy[2]);
-            }
-            self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), alt, parseFloat(xy[1]));
-          }            
-        } else if (self.options.startPosXY instanceof Array) {
-          self.robotStart.position = new BABYLON.Vector3(self.options.startPosXY[0], self.options.startPosXY[2],self.options.startPosXY[1]);
+        if (self.options.startPosXYZStr.trim() != '') {
+          let xy = self.options.startPosXYZ.split(',');
+          let alt = 0;
+          if (xy.length > 2) {
+            alt = parseFloat(xy[2]);
+          }
+          self.options.startPosXYZ = [parseFloat(xy[0]), alt, parseFloat(xy[1])];
         }
-        if (typeof self.options.startRot == "string") {
-          if (self.options.startRot.trim() != '') {
-            self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
-          }  
-        } else {
+    
+        if (self.options.startRotStr.trim() != '') {
+          self.options.startRot = parseFloat(self.options.startRot);
+        }
+
+        if (self.options.startPosXYZ instanceof Array) {
+          self.robotStart.position = new BABYLON.Vector3(self.options.startPosXYZ[0], self.options.startPosXYZ[2],self.options.startPosXYZ[1]);
+        }
+
+        if (typeof self.options.startRot == 'number') {
           self.robotStart.rotation.y = self.options.startRot / 180 * Math.PI;
         }
       }
