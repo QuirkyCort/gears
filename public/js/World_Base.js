@@ -666,12 +666,16 @@ var World_Base = function() {
         self.$time.addClass('warn');
         if (self.options.timerEnd == 'stopRobot') {
           simPanel.stopSim();
-          robot.reset();
-          setTimeout(robot.reset, 200);
-          setTimeout(robot.reset, 400);
-          setTimeout(robot.reset, 600);
-          setTimeout(robot.reset, 800);
-          setTimeout(robot.reset, 1000);
+
+          var counts = 15;
+          function repeatedReset() {
+            if (c > 0) {
+              setTimeout(repeatedReset, 100);
+              robot.reset();
+            }
+            c--;
+          }
+          repeatedReset();
         }
       }
     }
