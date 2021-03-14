@@ -37,7 +37,7 @@ var World_Base = function() {
     width: 100,
     uScale: 1,
     vScale: 1,
-    imageScale: '1',
+    imageScale: 1,
     timer: 'none',         // none, up, down
     timerDuration: 60,
     timerEnd: 'continue',  // continue, stopTimer, stopRobot
@@ -142,7 +142,7 @@ var World_Base = function() {
           }
           self.options.startPosXYZ = [parseFloat(xy[0]), alt, parseFloat(xy[1])];
         }
-    
+
         if (self.options.startRotStr.trim() != '') {
           self.options.startRot = parseFloat(self.options.startRot);
         }
@@ -166,13 +166,8 @@ var World_Base = function() {
         );
       };
       img.onload = function() {
-        let scale = 1;
-        if (self.options.imageScale.trim()) {
-          scale = parseFloat(self.options.imageScale);
-        }
-
-        self.options.groundLength = this.width / 10.0 * scale * self.options.uScale;
-        self.options.groundWidth = this.height / 10.0 * scale * self.options.vScale;
+        self.options.groundLength = this.width / 10.0 * self.options.imageScale * self.options.uScale;
+        self.options.groundWidth = this.height / 10.0 * self.options.imageScale * self.options.vScale;
 
         let xPos = self.options.groundLength / 2 - 12;
         let yPos = self.options.groundWidth / 2 - 12;
@@ -479,7 +474,7 @@ var World_Base = function() {
       objectMesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
     }
 
-    if (typeof options.laserDetection == 'undefined') {
+    if (typeof options.laserDetection == 'undefined' || options.laserDetection == null) {
       if (options.physicsOptions === false) {
         objectMesh.laserDetection = 'invisible';
       } else {
@@ -489,7 +484,7 @@ var World_Base = function() {
       objectMesh.laserDetection = options.laserDetection;
     }
 
-    if (typeof options.ultrasonicDetection == 'undefined') {
+    if (typeof options.ultrasonicDetection == 'undefined' || options.ultrasonicDetection == null) {
       if (options.physicsOptions === false) {
         objectMesh.ultrasonicDetection = 'invisible';
       } else {

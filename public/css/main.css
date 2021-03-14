@@ -688,7 +688,7 @@ ul.menuDropDownRightAlign {
 .console .player3 {
   color: #FF0000; }
 
-.componentsWindow {
+.componentsWindow, .objectsWindow {
   position: absolute;
   color: white;
   background-color: rgba(255, 255, 255, 0.2);
@@ -701,36 +701,36 @@ ul.menuDropDownRightAlign {
   height: 90%;
   display: flex;
   flex-direction: column; }
-  .componentsWindow .buttons {
+  .componentsWindow .buttons, .objectsWindow .buttons {
     display: flex;
     width: 100%;
     justify-content: space-between;
     box-sizing: border-box;
     font-size: 120%; }
-    .componentsWindow .buttons div {
+    .componentsWindow .buttons div, .objectsWindow .buttons div {
       border: solid 2px #bbbbbb;
       padding: 0.3em 0.5em;
       border-radius: 0.5em;
       cursor: pointer;
       user-select: none; }
-  .componentsWindow .componentsList {
+  .componentsWindow .componentsList, .componentsWindow .objectsList, .objectsWindow .componentsList, .objectsWindow .objectsList {
     font-size: 120%;
     overflow: auto;
     flex-grow: 1;
     white-space: nowrap;
     margin-bottom: 1em; }
-    .componentsWindow .componentsList ul {
+    .componentsWindow .componentsList ul, .componentsWindow .objectsList ul, .objectsWindow .componentsList ul, .objectsWindow .objectsList ul {
       list-style-type: none;
       padding-inline-start: 0; }
-      .componentsWindow .componentsList ul ul {
+      .componentsWindow .componentsList ul ul, .componentsWindow .objectsList ul ul, .objectsWindow .componentsList ul ul, .objectsWindow .objectsList ul ul {
         padding-inline-start: 1em;
         list-style-type: "˪ "; }
-    .componentsWindow .componentsList li {
+    .componentsWindow .componentsList li, .componentsWindow .objectsList li, .objectsWindow .componentsList li, .objectsWindow .objectsList li {
       cursor: pointer;
       user-select: none; }
-    .componentsWindow .componentsList li.selected {
+    .componentsWindow .componentsList li.selected, .componentsWindow .objectsList li.selected, .objectsWindow .componentsList li.selected, .objectsWindow .objectsList li.selected {
       background-color: #bbbbbb; }
-    .componentsWindow .componentsList li.ulHolder {
+    .componentsWindow .componentsList li.ulHolder, .componentsWindow .objectsList li.ulHolder, .objectsWindow .componentsList li.ulHolder, .objectsWindow .objectsList li.ulHolder {
       list-style-type: none; }
 
 .settingsWindow {

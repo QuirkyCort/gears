@@ -1199,7 +1199,7 @@ var configurator = new function() {
     let sensorCount = 0;
     let componentIndex = 0;
 
-    let $ul = $('<ul><ul>');
+    let $ul = $('<ul></ul>');
     let $li = $('<li class="selected">Body</li>');
     $li[0].component = options;
     $ul.append($li);

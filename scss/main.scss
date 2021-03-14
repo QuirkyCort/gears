@@ -93,11 +93,11 @@ nav {
         }
       }
     }
-    
+
     li.active .py-mod-controls {
       display: inline;
     }
-    
+
     li:hover {
       background: #E4F0FE;
     }
@@ -261,4 +261,4 @@ ul.menuDropDownRightAlign {
 @import '_simPanel.scss';
 @import '_font.scss';
 @import '_arena.scss';
-@import '_configurator.scss';
+@import '_configuratorAndBuilder.scss';
