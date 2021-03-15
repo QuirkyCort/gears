@@ -200,6 +200,23 @@ var builder = new function() {
         reset: true
       },
       {
+        option: 'imageType',
+        type: 'select',
+        options: [
+          ['Repeat on every face', 'repeat'],
+          ['Only on top face', 'top'],
+          ['Only on front face', 'front'],
+          ['Map across all faces', 'all']
+        ],
+        reset: true
+      },
+      {
+        option: 'imageURL',
+        type: 'strText',
+        reset: true,
+        help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
+      },
+      {
         option: 'physicsOptions',
         type: 'select',
         options: [
@@ -268,6 +285,12 @@ var builder = new function() {
         type: 'strText',
         help: 'Color in hex',
         reset: true
+      },
+      {
+        option: 'imageURL',
+        type: 'strText',
+        reset: true,
+        help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
       },
       {
         option: 'physicsOptions',
@@ -340,6 +363,12 @@ var builder = new function() {
         reset: true
       },
       {
+        option: 'imageURL',
+        type: 'strText',
+        reset: true,
+        help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
+      },
+      {
         option: 'physicsOptions',
         type: 'select',
         options: [
@@ -383,6 +412,8 @@ var builder = new function() {
     size: [10,10,10],
     rotation: [0,0,0],
     color: '#80E680',
+    imageType: 'repeat',
+    imageURL: '',
     physicsOptions: 'fixed',
     magnetic: false,
     laserDetection: null,
@@ -395,6 +426,8 @@ var builder = new function() {
     size: [10,10],
     rotation: [0,0,0],
     color: '#80E680',
+    imageType: 'cylinder',
+    imageURL: '',
     physicsOptions: 'fixed',
     magnetic: false,
     laserDetection: null,
@@ -407,6 +440,8 @@ var builder = new function() {
     size: [10],
     rotation: [0,0,0],
     color: '#80E680',
+    imageType: 'sphere',
+    imageURL: '',
     physicsOptions: 'fixed',
     magnetic: false,
     laserDetection: null,
