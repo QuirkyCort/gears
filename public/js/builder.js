@@ -150,7 +150,7 @@ var builder = new function() {
     optionsConfigurations: [
       {
         option: 'startPosXYZ',
-        type: 'vector3',
+        type: 'vectors',
         min: '-200',
         max: '200',
         step: '1',
@@ -167,81 +167,11 @@ var builder = new function() {
     ]
   };
 
-  this.objectDefaultTemplate = {
-    optionsConfigurations: [
-      {
-        type: 'label',
-        text: 'Default settings for new objects'
-      },
-      {
-        option: 'position',
-        type: 'vector3',
-        min: '-200',
-        max: '200',
-        step: '1',
-      },
-      {
-        option: 'size',
-        type: 'vector3',
-        min: '1',
-        max: '100',
-        step: '1',
-      },
-      {
-        option: 'rotation',
-        type: 'vector3',
-        min: '-180',
-        max: '180',
-        step: '5',
-      },
-      {
-        option: 'color',
-        type: 'strText',
-        help: 'Color in hex',
-      },
-      {
-        option: 'physicsOptions',
-        type: 'select',
-        options: [
-          ['Fixed', 'fixed'],
-          ['Moveable', 'moveable'],
-          ['Physicsless', false]
-        ],
-      },
-      {
-        option: 'magnetic',
-        type: 'boolean',
-      },
-      {
-        option: 'laserDetection',
-        type: 'select',
-        options: [
-          ['Default', null],
-          ['Invisible (Ray passes through)', 'invisible'],
-          ['Absorb with no reflection', 'absorb'],
-          ['Normal', 'normal']
-        ],
-        help: 'Defaults to invisible for physicless objects, and normal for all others.'
-      },
-      {
-        option: 'ultrasonicDetection',
-        type: 'select',
-        options: [
-          ['Default', null],
-          ['Invisible (Ray passes through)', 'invisible'],
-          ['Absorb with no reflection', 'absorb'],
-          ['Normal', 'normal']
-        ],
-        help: 'Defaults to invisible for physicless objects, and normal for all others.'
-      },
-    ]
-  };
-
-  this.objectTemplate = {
+  this.boxTemplate = {
     optionsConfigurations: [
       {
         option: 'position',
-        type: 'vector3',
+        type: 'vectors',
         min: '-200',
         max: '200',
         step: '1',
@@ -249,7 +179,7 @@ var builder = new function() {
       },
       {
         option: 'size',
-        type: 'vector3',
+        type: 'vectors',
         min: '1',
         max: '100',
         step: '1',
@@ -257,7 +187,7 @@ var builder = new function() {
       },
       {
         option: 'rotation',
-        type: 'vector3',
+        type: 'vectors',
         min: '-180',
         max: '180',
         step: '5',
@@ -307,10 +237,174 @@ var builder = new function() {
     ]
   };
 
-  this.objectDefault = {
+  this.cylinderTemplate = {
+    optionsConfigurations: [
+      {
+        option: 'position',
+        type: 'vectors',
+        min: '-200',
+        max: '200',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'size',
+        type: 'vectors',
+        min: '1',
+        max: '100',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'rotation',
+        type: 'vectors',
+        min: '-180',
+        max: '180',
+        step: '5',
+        reset: true
+      },
+      {
+        option: 'color',
+        type: 'strText',
+        help: 'Color in hex',
+        reset: true
+      },
+      {
+        option: 'physicsOptions',
+        type: 'select',
+        options: [
+          ['Fixed', 'fixed'],
+          ['Moveable', 'moveable'],
+          ['Physicsless', false]
+        ],
+      },
+      {
+        option: 'magnetic',
+        type: 'boolean',
+      },
+      {
+        option: 'laserDetection',
+        type: 'select',
+        options: [
+          ['Default', null],
+          ['Invisible (Ray passes through)', 'invisible'],
+          ['Absorb with no reflection', 'absorb'],
+          ['Normal', 'normal']
+        ],
+        help: 'Defaults to invisible for physicless objects, and normal for all others.'
+      },
+      {
+        option: 'ultrasonicDetection',
+        type: 'select',
+        options: [
+          ['Default', null],
+          ['Invisible (Ray passes through)', 'invisible'],
+          ['Absorb with no reflection', 'absorb'],
+          ['Normal', 'normal']
+        ],
+        help: 'Defaults to invisible for physicless objects, and normal for all others.'
+      },
+    ]
+  };
+
+  this.sphereTemplate = {
+    optionsConfigurations: [
+      {
+        option: 'position',
+        type: 'vectors',
+        min: '-200',
+        max: '200',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'size',
+        type: 'vectors',
+        min: '1',
+        max: '100',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'rotation',
+        type: 'vectors',
+        min: '-180',
+        max: '180',
+        step: '5',
+        reset: true
+      },
+      {
+        option: 'color',
+        type: 'strText',
+        help: 'Color in hex',
+        reset: true
+      },
+      {
+        option: 'physicsOptions',
+        type: 'select',
+        options: [
+          ['Fixed', 'fixed'],
+          ['Moveable', 'moveable'],
+          ['Physicsless', false]
+        ],
+      },
+      {
+        option: 'magnetic',
+        type: 'boolean',
+      },
+      {
+        option: 'laserDetection',
+        type: 'select',
+        options: [
+          ['Default', null],
+          ['Invisible (Ray passes through)', 'invisible'],
+          ['Absorb with no reflection', 'absorb'],
+          ['Normal', 'normal']
+        ],
+        help: 'Defaults to invisible for physicless objects, and normal for all others.'
+      },
+      {
+        option: 'ultrasonicDetection',
+        type: 'select',
+        options: [
+          ['Default', null],
+          ['Invisible (Ray passes through)', 'invisible'],
+          ['Absorb with no reflection', 'absorb'],
+          ['Normal', 'normal']
+        ],
+        help: 'Defaults to invisible for physicless objects, and normal for all others.'
+      },
+    ]
+  };
+
+  this.boxDefault = {
     type: 'box',
-    position: [0,0,0],
+    position: [0,0,20],
     size: [10,10,10],
+    rotation: [0,0,0],
+    color: '#80E680',
+    physicsOptions: 'fixed',
+    magnetic: false,
+    laserDetection: null,
+    ultrasonicDetection: null
+  };
+
+  this.cylinderDefault = {
+    type: 'cylinder',
+    position: [0,0,20],
+    size: [10,10],
+    rotation: [0,0,0],
+    color: '#80E680',
+    physicsOptions: 'fixed',
+    magnetic: false,
+    laserDetection: null,
+    ultrasonicDetection: null
+  };
+
+  this.sphereDefault = {
+    type: 'sphere',
+    position: [0,0,20],
+    size: [10],
     rotation: [0,0,0],
     color: '#80E680',
     physicsOptions: 'fixed',
@@ -443,7 +537,7 @@ var builder = new function() {
       return $sliderBox;
     }
 
-    function genVector3(opt, currentOptions) {
+    function genVectors(opt, currentOptions) {
       let $div = $('<div class="configuration"></div>');
 
       $div.append(getTitle(opt));
@@ -613,8 +707,8 @@ var builder = new function() {
       template.optionsConfigurations.forEach(function(optionConfiguration){
         if (optionConfiguration.type == 'label') {
           self.$settingsArea.append(genLabel(optionConfiguration));
-        } else if (optionConfiguration.type == 'vector3') {
-          self.$settingsArea.append(genVector3(optionConfiguration, object));
+        } else if (optionConfiguration.type == 'vectors') {
+          self.$settingsArea.append(genVectors(optionConfiguration, object));
         } else if (optionConfiguration.type == 'slider') {
           self.$settingsArea.append(genSlider(optionConfiguration, object));
         } else if (optionConfiguration.type == 'floatText') {
@@ -639,10 +733,12 @@ var builder = new function() {
       displayOptionsConfigurations(self.timerTemplate);
     } else if (name == 'robot') {
       displayOptionsConfigurations(self.robotTemplate);
-    } else if (name == 'objects') {
-      displayOptionsConfigurations(self.objectDefaultTemplate);
-    } else {
-
+    } else if (name == 'box') {
+      displayOptionsConfigurations(self.boxTemplate);
+    } else if (name == 'cylinder') {
+      displayOptionsConfigurations(self.cylinderTemplate);
+    } else if (name == 'sphere') {
+      displayOptionsConfigurations(self.sphereTemplate);
     }
   };
 
@@ -666,7 +762,7 @@ var builder = new function() {
     let $select = $('<select></select>');
     let $description = $('<div class="description"><div class="text"></div></div>');
 
-    let objectTypes = ['box', 'cylinder', 'sphere'];
+    let objectTypes = ['Box', 'Cylinder', 'Sphere'];
 
     objectTypes.forEach(function(type){
       let $object = $('<option></option>');
@@ -688,8 +784,14 @@ var builder = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       self.saveHistory();
-      let object = JSON.parse(JSON.stringify(self.objectDefault));
-      object.type = $select.val();
+      let object = null;
+      if ($select.val() == 'Box') {
+        object = JSON.parse(JSON.stringify(self.boxDefault));
+      } else if ($select.val() == 'Cylinder') {
+        object = JSON.parse(JSON.stringify(self.cylinderDefault));
+      } else if ($select.val() == 'Sphere') {
+        object = JSON.parse(JSON.stringify(self.sphereDefault));
+      }
       self.worldOptions.objects.push(object);
       self.resetScene();
       $dialog.close();
@@ -810,19 +912,15 @@ var builder = new function() {
 
     $li = $('<li>Objects</li>');
     $li[0].name = 'objects';
-    $li[0].object = self.objectDefault;
+    $li[0].object = {};
     $ul.append($li);
 
     let $list = $('<ul></ul>');
     options.objects.forEach(function(object){
       let $item = $('<li></li>');
-      let text = 'box';
-      if (typeof object.type != 'undefined') {
-        text = object.type;
-      }
 
-      $item.text(text);
-      $item[0].name = 'object';
+      $item.text(object.type);
+      $item[0].name = object.type;
       $item[0].object = object;
       $item[0].objectIndex = objectIndex++;
       $list.append($item);
