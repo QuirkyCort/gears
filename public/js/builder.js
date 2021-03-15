@@ -998,73 +998,17 @@ var builder = new function() {
     self.$objectsList.append($ul);
   };
 
-  // Save robot to json file
-  this.saveRobot = function() {
-    if (robotTemplates.findIndex(r => r.name == robot.options.name) != -1) {
-      robot.options.name = robot.options.name + ' (Custom)';
-      self.$robotName.val(robot.options.name);
-    }
+  // Save world to json file
+  this.saveWorld = function() {
+    let world = {
+      worldName: 'custom',
+      options: self.worldOptions
+    };
 
-    robot.options.shortDescription = robot.options.name;
-    robot.options.longDescription = '<p>Custom robot created in the configurator.</p>';
-
-    let wheelSpacing = Math.round((robot.options.bodyWidth + robot.options.wheelWidth + robot.options.wheelToBodyOffset * 2) * 10) / 10;
-    let sensors = '';
-    var i = 1;
-    var sensor = null;
-    while (sensor = robot.getComponentByPort('in' + i)) {
-      if (sensor.type == 'ColorSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-color#') + '</li>';
-      } else if (sensor.type == 'UltrasonicSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-ultrasonic#') + '</li>';
-      } else if (sensor.type == 'GyroSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-gyro#') + '</li>';
-      } else if (sensor.type == 'GPSSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : GPS</li>';
-      } else if (sensor.type == 'LaserRangeSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-laser#') + '</li>';
-      } else if (sensor.type == 'TouchSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-touch#') + '</li>';
-      } else if (sensor.type == 'Pen') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-pen#') + '</li>';
-      } else {
-        console.log(sensor);
-      }
-      i++;
-    }
-    let ports =
-      '<li>#robot-port# A : #robot-leftWheel#</li>' +
-      '<li>#robot-port# B : #robot-rightWheel#</li>';
-    let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    i = 3;
-    var motor = null;
-    while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
-      if (motor.type == 'ArmActuator') {
-        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : ' + i18n.get('#robot-motorizedArm#') + '</li>';
-      } else if (motor.type == 'SwivelActuator') {
-        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : ' + i18n.get('#robot-swivel#') + '</li>';
-      } else if (motor.type == 'PaintballLauncherActuator') {
-        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : ' + i18n.get('#robot-paintball#') + '</li>';
-      }
-      i++;
-    }
-
-    robot.options.longerDescription =
-      '<h3>#robot-dimensions#</h3>' +
-      '<ul>' +
-        '<li>#robot-wheelDiameter#: ' + robot.options.wheelDiameter + ' cm</li>' +
-        '<li>#robot-wheelSpacing#: ' + wheelSpacing + ' cm</li>' +
-      '</ul>' +
-      '<h3>#robot-actuators#</h3>' +
-      '<ul>' + ports + '</ul>' +
-      '<h3>#robot-sensors#</h3>' +
-      '<ul>' + sensors +'</ul>';
-
-    robot.options.thumbnail = '';
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(robot.options, null, 2));
+    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(world, null, 2));
     hiddenElement.target = '_blank';
-    hiddenElement.download = robot.options.name + '.json';
+    hiddenElement.download = 'custom_world.json';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
   };
 
