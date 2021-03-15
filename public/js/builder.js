@@ -421,6 +421,7 @@ var builder = new function() {
     self.$fileMenu = $('.fileMenu');
 
     self.$addObject = $('.addObject');
+    self.$cloneObject = $('.cloneObject');
     self.$deleteObject = $('.deleteObject');
     self.$objectsList = $('.objectsList');
     self.$settingsArea = $('.settingsArea');
@@ -430,6 +431,7 @@ var builder = new function() {
     self.$fileMenu.click(self.toggleFileMenu);
 
     self.$addObject.click(self.addObject);
+    self.$cloneObject.click(self.cloneObject);
     self.$deleteObject.click(self.deleteObject);
     self.$undo.click(self.undo);
 
@@ -549,15 +551,9 @@ var builder = new function() {
       currentOptions[opt.option].forEach(function(currentOption, i){
         let slider = null;
 
-        if (opt.option == 'rotation') {
-          slider = genSliderBox(opt, currentOption / Math.PI * 180, function(val) {
-            currentOptions[opt.option][i] = val / 180 * Math.PI;
-          });
-        } else {
-          slider = genSliderBox(opt, currentOption, function(val) {
-            currentOptions[opt.option][i] = val;
-          });
-        }
+        slider = genSliderBox(opt, currentOption, function(val) {
+          currentOptions[opt.option][i] = val;
+        });
         $div.append(slider);
       })
 
@@ -796,6 +792,21 @@ var builder = new function() {
       self.resetScene();
       $dialog.close();
     });
+  };
+
+  // Clone selected object
+  this.cloneObject = function() {
+    let $selected = self.getSelectedComponent();
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere']
+    if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
+      toastMsg('Only objects can be cloned');
+      return;
+    }
+
+    self.saveHistory();
+    let object = JSON.parse(JSON.stringify($selected[0].object));
+    self.worldOptions.objects.push(object);
+    self.resetScene();
   };
 
   // Delete selected object
