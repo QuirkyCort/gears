@@ -1,7 +1,7 @@
 var builder = new function() {
   var self = this;
 
-  this.worldOptions = JSON.parse(JSON.stringify(worlds[0].options));
+  this.worldOptions = JSON.parse(JSON.stringify(worlds[0].defaultOptions));
 
   this.groundTemplate = {
     optionsConfigurations: [
@@ -1010,6 +1010,19 @@ var builder = new function() {
     hiddenElement.target = '_blank';
     hiddenElement.download = 'custom_world.json';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
+  // New world using defaults
+  this.newWorld = function() {
+    let options = {
+      message: 'Create a new empty world? You will lose all unsaved changes.',
+    };
+    confirmDialog(options, function(){
+      self.worldOptions = JSON.parse(JSON.stringify(worlds[0].defaultOptions));
+      self.clearHistory();
+      self.saveHistory();
+      self.resetScene();
+    });
   };
 
   // Load robot from json file
