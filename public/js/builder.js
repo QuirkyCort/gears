@@ -483,7 +483,7 @@ var builder = new function() {
       self.editHistory = [];
     }
 
-    self.editHistory.push(JSON.stringify(robot.options));
+    self.editHistory.push(JSON.stringify(self.worldOptions));
   };
 
   // Clear history
@@ -497,7 +497,7 @@ var builder = new function() {
   this.undo = function() {
     if (typeof self.editHistory != 'undefined' && self.editHistory.length > 0) {
       var lastDesign = self.editHistory.pop();
-      robot.options = JSON.parse(lastDesign);
+      self.worldOptions = JSON.parse(lastDesign);
       self.resetScene();
     }
   };
