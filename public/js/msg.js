@@ -726,6 +726,12 @@ let MSGS = {
     nl: 'Robot',
     de: 'Roboter',
   },
+  '#main-worlds#': {
+    en: 'Worlds',
+  },
+  '#main-world_builder#': {
+    en: 'World Builder (Experimental)',
+  },
   '#main-select_robot#': {
     en: 'Select Robot',
     fr: 'Sélectionner un robot',
@@ -889,6 +895,17 @@ let MSGS = {
     el: 'Μετάβαση στην Αρένα',
     nl: 'Ga naar arena',
     de: 'Gehe zur Arena',
+  },
+  '#main-worldBuilder_title#': {
+    en: 'GearsBot World Builder',
+  },
+  '#main-worldBuilder_description#': {
+    en:
+      '<p>The GearsBot World Builder allows you to create a custom world.</p>' +
+      '<p>After you have completed your customization, save your creation to file and return here to load it.</p>',
+  },
+  '#main-worldBuilder_go#': {
+    en: 'Go to World Builder',
   },
   '#main-configurator_title#': {
     en: 'GearsBot Robot Configurator',

@@ -14,7 +14,7 @@ var main = new function() {
     self.$fileMenu = $('.fileMenu');
     self.$pythonMenu = $('.pythonMenu');
     self.$robotMenu = $('.robotMenu');
-    self.$arenaButton = $('.arenaButton');
+    self.$worldsMenu = $('.worldsMenu');
     self.$helpMenu = $('.helpMenu');
     self.$projectName = $('#projectName');
     self.$languageMenu = $('.language');
@@ -33,7 +33,7 @@ var main = new function() {
     self.$fileMenu.click(self.toggleFileMenu);
     self.$pythonMenu.click(self.togglePythonMenu);
     self.$robotMenu.click(self.toggleRobotMenu);
-    self.$arenaButton.click(self.arenaWindow);
+    self.$worldsMenu.click(self.toggleWorldsMenu);
     self.$helpMenu.click(self.toggleHelpMenu);
     self.$languageMenu.click(self.toggleLanguageMenu);
     self.$newsButton.click(self.showNews);
@@ -61,7 +61,7 @@ var main = new function() {
     $('#navSim').text(i18n.get('#main-sim#'));
     self.$fileMenu.text(i18n.get('#main-file#'));
     self.$robotMenu.text(i18n.get('#main-robot#'));
-    self.$arenaButton.text(i18n.get('#main-arena#'));
+    self.$worldsMenu.text(i18n.get('#main-worlds#'));
     self.$helpMenu.text(i18n.get('#main-help#'));
   };
 
@@ -331,7 +331,19 @@ var main = new function() {
     });
   };
 
-  // Toggle robot
+  // Open a window with a link to the world builder page
+  this.worldBuilderWindow = function() {
+    let options = {
+      title: i18n.get('#main-worldBuilder_title#'),
+      message: i18n.get('#main-worldBuilder_description#'),
+      confirm: i18n.get('#main-worldBuilder_go#')
+    };
+    confirmDialog(options, function(){
+      self.openPage('builder.html');
+    });
+  };
+
+  // Toggle robot menu
   this.toggleRobotMenu = function(e) {
     if ($('.robotMenuDropDown').length == 0) {
       $('.menuDropDown').remove();
@@ -348,6 +360,21 @@ var main = new function() {
       ];
 
       menuDropDown(self.$robotMenu, menuItems, {className: 'robotMenuDropDown'});
+    }
+  };
+
+  // Toggle worlds menu
+  this.toggleWorldsMenu = function(e) {
+    if ($('.worldsMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: i18n.get('#main-world_builder#'), line: true, callback: self.worldBuilderWindow},
+        {html: i18n.get('#main-arena#'), line: false, callback: self.arenaWindow},
+      ];
+
+      menuDropDown(self.$worldsMenu, menuItems, {className: 'worldsMenuDropDown'});
     }
   };
 
