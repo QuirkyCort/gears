@@ -369,7 +369,7 @@ var World_Base = function() {
       // General objects
       if (self.options.objects instanceof Array) {
         for (let i=0; i<self.options.objects.length; i++) {
-          self.addObject(scene, self.options.objects[i]);
+          self.addObject(scene, self.options.objects[i], i);
         }
       }
 
@@ -387,7 +387,7 @@ var World_Base = function() {
   };
 
   // Add a single object
-  this.addObject = function(scene, object) {
+  this.addObject = function(scene, object, index) {
     let options = {
       type: 'box',
       imageType: 'repeat',
@@ -445,7 +445,8 @@ var World_Base = function() {
       position: new BABYLON.Vector3(options.position[0], options.position[2], options.position[1]),
       rotation: new BABYLON.Vector3(options.rotation[0], options.rotation[1], options.rotation[2]),
       physicsOptions: options.physicsOptions,
-      imageType: options.imageType
+      imageType: options.imageType,
+      index: index
     };
 
     let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
@@ -506,7 +507,11 @@ var World_Base = function() {
       meshOptions.faceUV = options.faceUV;
     }
 
-    var mesh = BABYLON.MeshBuilder.CreateSphere('sphere', meshOptions, scene);
+    let id = 'worldBaseObject';
+    if (typeof options.index != 'undefined') {
+      id += '_sphere' + options.index;
+    }
+    var mesh = BABYLON.MeshBuilder.CreateSphere(id, meshOptions, scene);
     mesh.material = options.material;
 
     mesh.position = options.position;
@@ -543,7 +548,11 @@ var World_Base = function() {
       meshOptions.faceUV = options.faceUV;
     }
 
-    var mesh = BABYLON.MeshBuilder.CreateCylinder('cylinder', meshOptions, scene);
+    let id = 'worldBaseObject';
+    if (typeof options.index != 'undefined') {
+      id += '_cylinder' + options.index;
+    }
+    var mesh = BABYLON.MeshBuilder.CreateCylinder(id, meshOptions, scene);
     mesh.material = options.material;
 
     mesh.position = options.position;
@@ -597,7 +606,11 @@ var World_Base = function() {
       meshOptions.faceUV = options.faceUV;
     }
 
-    var mesh = BABYLON.MeshBuilder.CreateBox('box', meshOptions, scene);
+    let id = 'worldBaseObject';
+    if (typeof options.index != 'undefined') {
+      id += '_box' + options.index;
+    }
+    var mesh = BABYLON.MeshBuilder.CreateBox(id, meshOptions, scene);
     mesh.material = options.material;
 
     mesh.position = options.position;

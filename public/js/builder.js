@@ -894,31 +894,32 @@ var builder = new function() {
       return;
     }
 
-    let wireframe = babylon.scene.getMeshByID('wireframeComponentSelector');
+    let wireframe = babylon.scene.getMeshByID('wireframeObjectSelector');
     if (wireframe != null) {
       wireframe.dispose();
     }
-    let index = $selected[0].componentIndex;
+    let index = $selected[0].objectIndex;
     if (typeof index != 'undefined') {
-      let body = robot.getComponentByIndex(index).body;
+      let id = 'worldBaseObject_' + $selected[0].name + index;
+      let body = babylon.scene.getMeshByID(id);
       let size = body.getBoundingInfo().boundingBox.extendSize;
       let options = {
         height: size.y * 2,
         width: size.x * 2,
         depth: size.z * 2
       };
-      let wireframeMat = babylon.scene.getMaterialByID('wireframeComponentSelector');
+      let wireframeMat = babylon.scene.getMaterialByID('wireframeObjectSelector');
       if (wireframeMat == null) {
-        wireframeMat = new BABYLON.StandardMaterial('wireframeComponentSelector', babylon.scene);
+        wireframeMat = new BABYLON.StandardMaterial('wireframeObjectSelector', babylon.scene);
         wireframeMat.alpha = 0;
       }
 
-      wireframe = BABYLON.MeshBuilder.CreateBox('wireframeComponentSelector', options, babylon.scene);
+      wireframe = BABYLON.MeshBuilder.CreateBox('wireframeObjectSelector', options, babylon.scene);
       wireframe.material = wireframeMat;
       wireframe.position = body.absolutePosition;
       wireframe.rotationQuaternion = body.absoluteRotationQuaternion;
       wireframe.enableEdgesRendering();
-      wireframe.edgesWidth = 10;
+      wireframe.edgesWidth = 50;
       let wireframeAnimation = new BABYLON.Animation(
         'wireframeAnimation',
         'edgesColor',
@@ -977,7 +978,11 @@ var builder = new function() {
 
     let $list = $('<ul></ul>');
     options.objects.forEach(function(object){
-      object = Object.assign(self.objectDefault, object);
+      for (let key in self.objectDefault) {
+        if (typeof object[key] == 'undefined') {
+          object[key] = self.objectDefault[key];
+        }
+      }
 
       let $item = $('<li></li>');
 
