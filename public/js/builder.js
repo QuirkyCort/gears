@@ -798,17 +798,17 @@ var builder = new function() {
     });
   };
 
-  // Delete selected component
-  this.deleteComponent = function() {
+  // Delete selected object
+  this.deleteObject = function() {
     let $selected = self.getSelectedComponent();
-    if ($selected.text() == 'Body') {
-      toastMsg('Cannot delete main body');
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere']
+    if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
+      toastMsg('Only objects can be deleted');
       return;
     }
 
     self.saveHistory();
-    let i = $selected[0].componentParent.indexOf($selected[0].component);
-    $selected[0].componentParent.splice(i, 1);
+    self.worldOptions.objects.splice($selected[0].objectIndex, 1);
     self.resetScene();
   };
 
