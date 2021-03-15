@@ -648,6 +648,7 @@ var builder = new function() {
 
   // Reset scene
   this.resetScene = function(reloadComponents=true) {
+    simPanel.hideWorldInfoPanel();
     worlds[0].setOptions(self.worldOptions).then(function(){
       babylon.resetScene();
       babylon.scene.physicsEnabled = false;
