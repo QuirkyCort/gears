@@ -406,6 +406,20 @@ var builder = new function() {
     ]
   };
 
+  this.objectDefault = {
+    type: 'box',
+    position: [0,0,0],
+    size: [10,10,10],
+    rotation: [0,0,0],
+    color: '#80E680',
+    imageType: 'repeat',
+    imageURL: '',
+    physicsOptions: 'fixed',
+    magnetic: false,
+    laserDetection: null,
+    ultrasonicDetection: null
+  };
+
   this.boxDefault = {
     type: 'box',
     position: [0,0,20],
@@ -963,6 +977,8 @@ var builder = new function() {
 
     let $list = $('<ul></ul>');
     options.objects.forEach(function(object){
+      object = Object.assign(self.objectDefault, object);
+
       let $item = $('<li></li>');
 
       $item.text(object.type);
@@ -1053,7 +1069,7 @@ var builder = new function() {
   };
 
   // Load robot from json file
-  this.loadRobot = function() {
+  this.loadWorld = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
     hiddenElement.accept = 'application/json,.json';
@@ -1061,67 +1077,12 @@ var builder = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        robot.options = JSON.parse(this.result);
+        self.worldOptions = JSON.parse(this.result).options;
         self.clearHistory();
         self.saveHistory();
         self.resetScene();
       };
       reader.readAsText(e.target.files[0]);
-    });
-  };
-
-  // Select robot from templates
-  this.selectRobot = function() {
-    let $body = $('<div class="selectRobot"></div>');
-    let $select = $('<select></select>');
-    let $description = $('<div class="description"><img class="thumbnail" width="200" height="200"><div class="text"></div></div>');
-    let $configurations = $('<div class="configurations"></div>');
-
-    function displayRobotDescriptions(robot) {
-      $description.find('.text').html(i18n.get(robot.longDescription));
-      if (robot.thumbnail) {
-        $description.find('.thumbnail').attr('src', robot.thumbnail);
-      } else {
-        $description.find('.thumbnail').attr('src', 'images/robots/default_thumbnail.png');
-      }
-
-      $configurations.html(i18n.replace(robot.longerDescription));
-    }
-
-    robotTemplates.forEach(function(robotTemplate){
-      let $robot = $('<option></option>');
-      $robot.prop('value', robotTemplate.name);
-      $robot.text(i18n.get(robotTemplate.shortDescription));
-      if (robotTemplate.name == robot.options.name) {
-        $robot.attr('selected', 'selected');
-        displayRobotDescriptions(robotTemplate);
-      }
-      $select.append($robot);
-    });
-
-    $body.append($select);
-    $body.append($description);
-    $body.append($configurations);
-
-    $select.change(function(){
-      let robotTemplate = robotTemplates.find(robotTemplate => robotTemplate.name == $select.val());
-      displayRobotDescriptions(robotTemplate);
-    });
-
-    let $buttons = $(
-      '<button type="button" class="cancel btn-light">Cancel</button>' +
-      '<button type="button" class="confirm btn-success">Ok</button>'
-    );
-
-    let $dialog = dialog(i18n.get('#main-select_robot#'), $body, $buttons);
-
-    $buttons.siblings('.cancel').click(function() { $dialog.close(); });
-    $buttons.siblings('.confirm').click(function(){
-      robot.options = JSON.parse(JSON.stringify(robotTemplates.find(robotTemplate => robotTemplate.name == $select.val())));
-      self.clearHistory();
-      self.saveHistory();
-      self.resetScene();
-      $dialog.close();
     });
   };
 
