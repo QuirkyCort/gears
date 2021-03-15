@@ -850,27 +850,17 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20201221;
+    let current = 20210316;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>21 Dec 2020</h3>' +
+          '<h3>16 Mar 2021</h3>' +
           '<ul>' +
-          '<li>Added radio. This can be used in the multi-robot arena to send messages between robots.</li>' +
-          '</ul>' +
-          '<h3>20 Dec 2020</h3>' +
-          '<ul>' +
-          '<li>Added the touch sensor. You can add it to your robot throught the robot configurator.</li>' +
-          '<li>Setting port to "Auto" will automatically select the correct port if you only have one device of the type.</li>' +
-          '</ul>' +
-          '<h3>18 Dec 2020</h3>' +
-          '<ul>'+
-          '<li>Added a cylinder and sphere blocks to robot configuration.</li>' +
-          '<li>Allow custom colors for box, cylinder, and sphere blocks.</li>' +
-          '<li>Options to add cylinders and spheres to custom image world.</li>' +
-          '<li>Added Ελληνικά and Nederlands translations.</li>' +
+          '<li>Added World Builder for easy creation of custom worlds.</li>' +
+          '<li>"image world" has been split into "custom world" and "missions world". The old image world is still available, but will be gradually deprecated in the distant future.</li>' +
+          '<li>The new "custom world" has more features for custom world building than the old "image world", such as timer, image texture on objects, cylindrical grounds, and tiling of images.</li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){
