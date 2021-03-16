@@ -429,6 +429,9 @@ var builder = new function() {
     imageType: 'sphere',
   };
 
+  this.pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0,1,0)});
+  this.pointerDragBehavior.useObjectOrientationForDragging = false;
+
   // Run on page load
   this.init = function() {
     self.$navs = $('nav li');
@@ -453,9 +456,32 @@ var builder = new function() {
 
     babylon.setCameraMode('arc')
 
+    self.pointerDragBehavior.onDragEndObservable.add(self.dragEnd);
+
     self.saveHistory();
     self.resetScene();
-    // self.saveRobotOptions();
+  };
+
+  // Object drag end
+  this.dragEnd = function(event) {
+    let selected = self.$objectsList.find('li.selected');
+    if (typeof selected[0].object != 'undefined') {
+      let pos = self.pointerDragBehavior.attachedNode.absolutePosition;
+      selected[0].object.position[0] = pos.x;
+      selected[0].object.position[1] = pos.z;
+      selected[0].object.position[2] = pos.y;
+      self.resetScene(false);
+    }
+  };
+
+  // Apply pointerDragBehavior to selected mesh
+  this.applyDragToSelected = function() {
+    let selected = self.$objectsList.find('li.selected');
+    if (typeof selected[0].objectIndex != 'undefined') {
+      let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;
+      let mesh = babylon.scene.getMeshByID(id);
+      mesh.addBehavior(self.pointerDragBehavior);
+    }
   };
 
   // Save history
@@ -839,10 +865,22 @@ var builder = new function() {
       babylon.resetScene();
       babylon.scene.physicsEnabled = false;
       if (reloadComponents) {
+        let selected = self.$objectsList.find('li.selected');
+        let childList = self.$objectsList.find('li');
+        let selectedIndex = [...childList].indexOf(selected[0]);
+
         self.loadIntoObjectsWindow(self.worldOptions);
-        self.showObjectOptions($('div.objectsList > ul >li')[0]);
+
+        childList = self.$objectsList.find('li');
+        if (typeof childList[selectedIndex] != 'undefined') {
+          childList.removeClass('selected');
+          $(childList[selectedIndex]).addClass('selected');
+        }
       }
+      let selected = self.$objectsList.find('li.selected');
+      self.showObjectOptions(selected[0]);
       self.highlightSelected();
+      self.applyDragToSelected();
     });
   }
 
@@ -924,8 +962,16 @@ var builder = new function() {
 
   // Select list item on click
   this.objectSelect = function(e) {
-    self.$objectsList.find('li').removeClass('selected');
+    let prevSelection = self.$objectsList.find('li.selected');
+    if (typeof prevSelection[0].objectIndex != 'undefined') {
+      let id = 'worldBaseObject_' + prevSelection[0].name + prevSelection[0].objectIndex;
+      let mesh = babylon.scene.getMeshByID(id);
+      mesh.removeBehavior(self.pointerDragBehavior);
+    }
+    prevSelection.removeClass('selected');
+
     e.target.classList.add('selected');
+    self.applyDragToSelected();
     e.stopPropagation();
 
     self.showObjectOptions(e.target);
@@ -965,6 +1011,7 @@ var builder = new function() {
       wireframe.rotationQuaternion = body.absoluteRotationQuaternion;
       wireframe.enableEdgesRendering();
       wireframe.edgesWidth = 50;
+      wireframe.isPickable = false;
       let wireframeAnimation = new BABYLON.Animation(
         'wireframeAnimation',
         'edgesColor',
