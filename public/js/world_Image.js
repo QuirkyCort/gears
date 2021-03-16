@@ -21,12 +21,12 @@ var world_Image = new function() {
       title: 'Select Image',
       type: 'select',
       options: [
-        ['FLL 2020', 'textures/maps/FLL2020.jpg'],
-        ['FLL 2019', 'textures/maps/FLL2019.jpg'],
-        ['FLL 2018', 'textures/maps/FLL2018.jpg'],
-        ['WRO 2020', 'textures/maps/WRO-2020-Regular-Junior.jpg'],
-        ['WRO 2019', 'textures/maps/WRO-2019-Regular-Junior.jpg'],
-        ['WRO 2018', 'textures/maps/WRO-2018-Regular-Junior.png'],
+        ['FLL 2020', 'textures/maps/FLL/FLL2020.jpg'],
+        ['FLL 2019', 'textures/maps/FLL/FLL2019.jpg'],
+        ['FLL 2018', 'textures/maps/FLL/FLL2018.jpg'],
+        ['WRO 2020', 'textures/maps/WRO/WRO-2020-Regular-Junior.jpg'],
+        ['WRO 2019', 'textures/maps/WRO/WRO-2019-Regular-Junior.jpg'],
+        ['WRO 2018', 'textures/maps/WRO/WRO-2018-Regular-Junior.png'],
       ],
       help: 'You can override this by setting an image URL or uploading a file'
     },
@@ -125,11 +125,11 @@ var world_Image = new function() {
 
   // Default starting position for this image in x, z, rotY (radians)
   this.imageStartPos = {
-    'textures/maps/FLL2020.jpg': [-70, -40, 0],
+    'textures/maps/FLL/FLL2020.jpg': [-70, -40, 0],
   },
 
   this.missions = {
-    'textures/maps/FLL2020.jpg': {
+    'textures/maps/FLL/FLL2020.jpg': {
       obstacles: [
         // Step Counter (M02):
         [[40, -53, 0], [30, 7, 7], [0,0,0], '#666666'],
@@ -167,7 +167,7 @@ var world_Image = new function() {
   }
 
   this.defaultOptions = {
-    image: 'textures/maps/FLL2020.jpg',
+    image: 'textures/maps/FLL/FLL2020.jpg',
     imageURL: '',
     length: 100,
     width: 100,

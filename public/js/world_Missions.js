@@ -28,12 +28,15 @@ var world_Missions = new function() {
       title: 'Select Mission',
       type: 'select',
       options: [
-        ['FLL 2020', 'textures/maps/FLL2020.jpg'],
-        ['FLL 2019', 'textures/maps/FLL2019.jpg'],
-        ['FLL 2018', 'textures/maps/FLL2018.jpg'],
-        ['WRO 2020', 'textures/maps/WRO-2020-Regular-Junior.jpg'],
-        ['WRO 2019', 'textures/maps/WRO-2019-Regular-Junior.jpg'],
-        ['WRO 2018', 'textures/maps/WRO-2018-Regular-Junior.png'],
+        ['FLL 2020', 'textures/maps/FLL/FLL2020.jpg'],
+        ['FLL 2019', 'textures/maps/FLL/FLL2019.jpg'],
+        ['FLL 2018', 'textures/maps/FLL/FLL2018.jpg'],
+        ['WRO 2021 (Senior)', 'textures/maps/WRO/WRO-2021-Regular-Senior.jpg'],
+        ['WRO 2021 (Junior)', 'textures/maps/WRO/WRO-2021-Regular-Junior.jpg'],
+        ['WRO 2021 (Elementary)', 'textures/maps/WRO/WRO-2021-Regular-Elementary.jpg'],
+        ['WRO 2020 (Junior)', 'textures/maps/WRO/WRO-2020-Regular-Junior.jpg'],
+        ['WRO 2019 (Junior)', 'textures/maps/WRO/WRO-2019-Regular-Junior.jpg'],
+        ['WRO 2018 (Junior)', 'textures/maps/WRO/WRO-2018-Regular-Junior.png'],
       ]
     },
     {
@@ -97,11 +100,11 @@ var world_Missions = new function() {
 
   // Default starting position for this mission in x, y, z, rotY (radians)
   this.missionStartPos = {
-    'textures/maps/FLL2020.jpg': [-70, 0, -40, 0],
+    'textures/maps/FLL/FLL2020.jpg': [-70, 0, -40, 0],
   },
 
   this.missionObjects = {
-    'textures/maps/FLL2020.jpg': [
+    'textures/maps/FLL/FLL2020.jpg': [
       // Step Counter (M02)
       {
         "position": [40,-53,3.5],
@@ -197,7 +200,7 @@ var world_Missions = new function() {
   }
 
   this.defaultOptions = Object.assign(this.defaultOptions, {
-    image: 'textures/maps/FLL2020.jpg',
+    image: 'textures/maps/FLL/FLL2020.jpg',
     missions: true,
     wallHeight: 7.7,
     wallThickness: 4.5,
@@ -220,6 +223,8 @@ var world_Missions = new function() {
 
     if (self.options.missions && typeof self.missionObjects[self.options.image] != 'undefined') {
       self.options.objects = self.missionObjects[self.options.image];
+    } else {
+      self.options.objects = {};
     }
 
     return this.parent.setOptions(options);
