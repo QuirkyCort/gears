@@ -466,6 +466,7 @@ var builder = new function() {
   this.dragEnd = function(event) {
     let selected = self.$objectsList.find('li.selected');
     if (typeof selected[0].object != 'undefined') {
+      self.saveHistory();
       let pos = self.pointerDragBehavior.attachedNode.absolutePosition;
       selected[0].object.position[0] = pos.x;
       selected[0].object.position[1] = pos.z;
@@ -858,12 +859,34 @@ var builder = new function() {
     }
   };
 
+  // Setup picking ray
+  this.setupPickingRay = function() {
+    babylon.scene.onPointerUp = function() {
+      var ray = babylon.scene.createPickingRay(babylon.scene.pointerX, babylon.scene.pointerY, BABYLON.Matrix.Identity(), babylon.cameraArc);
+      var hit = babylon.scene.pickWithRay(ray);
+
+      if (hit.pickedMesh != null && hit.pickedMesh.id.match(/^worldBaseObject_/) != null) {
+        let index = parseInt(hit.pickedMesh.id.match(/[0-9]+$/)[0]);
+        let childList = self.$objectsList.find('li');
+        for (child of childList) {
+          if (typeof child.objectIndex != 'undefined' && child.objectIndex == index) {
+            childList.removeClass('selected');
+            $(child).addClass('selected');
+            self.objectSelect(child);
+            break;
+          }
+        }
+      }
+    }
+  };
+
   // Reset scene
   this.resetScene = function(reloadComponents=true) {
     simPanel.hideWorldInfoPanel();
     worlds[0].setOptions(self.worldOptions).then(function(){
       babylon.resetScene();
       babylon.scene.physicsEnabled = false;
+      self.setupPickingRay();
       if (reloadComponents) {
         let selected = self.$objectsList.find('li.selected');
         let childList = self.$objectsList.find('li');
@@ -961,7 +984,7 @@ var builder = new function() {
   };
 
   // Select list item on click
-  this.objectSelect = function(e) {
+  this.objectSelect = function(target) {
     let prevSelection = self.$objectsList.find('li.selected');
     if (typeof prevSelection[0].objectIndex != 'undefined') {
       let id = 'worldBaseObject_' + prevSelection[0].name + prevSelection[0].objectIndex;
@@ -970,11 +993,10 @@ var builder = new function() {
     }
     prevSelection.removeClass('selected');
 
-    e.target.classList.add('selected');
+    target.classList.add('selected');
     self.applyDragToSelected();
-    e.stopPropagation();
 
-    self.showObjectOptions(e.target);
+    self.showObjectOptions(target);
     self.highlightSelected();
   };
 
@@ -1089,7 +1111,10 @@ var builder = new function() {
       $ul.append($('<li class="ulHolder"></li>').append($list));
     }
 
-    $ul.find('li').click(self.objectSelect);
+    $ul.find('li').click(function(e) {
+      self.objectSelect(e.target);
+      e.stopPropagation();
+    });
 
     self.$objectsList.empty();
     self.$objectsList.append($ul);
