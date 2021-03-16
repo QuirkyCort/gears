@@ -407,59 +407,26 @@ var builder = new function() {
   };
 
   this.objectDefault = {
-    type: 'box',
-    position: [0,0,0],
-    size: [10,10,10],
-    rotation: [0,0,0],
-    color: '#80E680',
-    imageType: 'repeat',
-    imageURL: '',
-    physicsOptions: 'fixed',
-    magnetic: false,
-    laserDetection: null,
-    ultrasonicDetection: null
+    ...world_Custom.objectDefault,
+    position: [0,0,20],
   };
 
   this.boxDefault = {
+    ...this.objectDefault,
     type: 'box',
-    position: [0,0,20],
-    size: [10,10,10],
-    rotation: [0,0,0],
-    color: '#80E680',
     imageType: 'repeat',
-    imageURL: '',
-    physicsOptions: 'fixed',
-    magnetic: false,
-    laserDetection: null,
-    ultrasonicDetection: null
   };
 
   this.cylinderDefault = {
+    ...this.objectDefault,
     type: 'cylinder',
-    position: [0,0,20],
-    size: [10,10],
-    rotation: [0,0,0],
-    color: '#80E680',
     imageType: 'cylinder',
-    imageURL: '',
-    physicsOptions: 'fixed',
-    magnetic: false,
-    laserDetection: null,
-    ultrasonicDetection: null
   };
 
   this.sphereDefault = {
+    ...this.objectDefault,
     type: 'sphere',
-    position: [0,0,20],
-    size: [10],
-    rotation: [0,0,0],
-    color: '#80E680',
     imageType: 'sphere',
-    imageURL: '',
-    physicsOptions: 'fixed',
-    magnetic: false,
-    laserDetection: null,
-    ultrasonicDetection: null
   };
 
   // Run on page load

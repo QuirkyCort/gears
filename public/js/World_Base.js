@@ -59,6 +59,23 @@ var World_Base = function() {
     arenaStartRot: null
   };
 
+  this.objectDefault = {
+    type: 'box',
+    position: [0,0,0],
+    size: [10,10,10],
+    rotationMode: 'degrees',
+    rotation: [0,0,0],
+    color: '#80E680',
+    imageType: 'repeat',
+    imageURL: '',
+    uScale: 1,
+    vScale: 1,
+    physicsOptions: 'fixed',
+    magnetic: false,
+    laserDetection: null,
+    ultrasonicDetection: null
+  };
+
   // Set default options
   this.mergeOptionsWithDefault = function(options) {
     Object.assign(self.options, self.defaultOptions);
@@ -388,20 +405,7 @@ var World_Base = function() {
 
   // Add a single object
   this.addObject = function(scene, object, index) {
-    let options = {
-      type: 'box',
-      imageType: 'repeat',
-      imageURL: '',
-      uScale: 1,
-      vScale: 1,
-      position: [0,0,0],
-      size: [10,10,10],
-      rotationMode: 'degrees',
-      rotation: [0,0,0],
-      color: '#80E680',
-      physicsOptions: 'fixed',
-      magnetic: false
-    };
+    let options = Object.assign({}, self.objectDefault);
 
     let tmp = JSON.parse(JSON.stringify(object));
     Object.assign(options, tmp);
