@@ -92,7 +92,7 @@ var builder = new function() {
       },
       {
         option: 'wallColor',
-        type: 'strText',
+        type: 'color',
         help: 'Color in hex',
         reset: true
       },
@@ -195,7 +195,7 @@ var builder = new function() {
       },
       {
         option: 'color',
-        type: 'strText',
+        type: 'color',
         help: 'Color in hex',
         reset: true
       },
@@ -282,7 +282,7 @@ var builder = new function() {
       },
       {
         option: 'color',
-        type: 'strText',
+        type: 'color',
         help: 'Color in hex',
         reset: true
       },
@@ -358,7 +358,7 @@ var builder = new function() {
       },
       {
         option: 'color',
-        type: 'strText',
+        type: 'color',
         help: 'Color in hex',
         reset: true
       },
@@ -546,6 +546,82 @@ var builder = new function() {
       $textBox.text(opt.text);
 
       $div.append($textBox);
+
+      return $div;
+    }
+
+    function genColor(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $colorBox = $('<div class="color"><input type="color"><input type="text"></div>');
+      let $alphaBox = $('<div class="slider">Opacity: <input type="range"></div>');
+      let $color = $colorBox.find('input[type=color]');
+      let $text = $colorBox.find('input[type=text]');
+      let $alpha = $alphaBox.find('input');
+      $alpha.attr('min', 0);
+      $alpha.attr('max', 255);
+      $alpha.attr('step', 1);
+      let currentVal = currentOptions[opt.option];
+
+      function setInputs(currentVal) {
+        // Strip hex
+        if (currentVal[0] = '#') {
+          currentVal = currentVal.slice(1);
+        }
+
+        // Convert 3/4 notation to 6/8
+        if (currentVal.length < 6) {
+          let tmp = '';
+          for (let c of currentVal) {
+            tmp = c + c;
+          }
+          currentVal = tmp;
+        }
+
+        // Split into color and alpha
+        let currentValColor = currentVal.slice(0,6).toLowerCase();
+        let currentValAlpha = currentVal.slice(6,8);
+        if (currentValAlpha == '') {
+          currentValAlpha = 255;
+        } else {
+          currentValAlpha = parseInt(currentValAlpha, 16);
+        }
+
+        $color.val('#' + currentValColor);
+        $alpha.val(currentValAlpha);
+        $text.val('#' + currentValColor + ('0' + currentValAlpha.toString(16)).slice(-2));
+      }
+
+      setInputs(currentVal);
+
+      function setColor() {
+        let valColor = $color.val();
+        let valAlpha = $alpha.val();
+        valAlpha = ('0' + parseInt(valAlpha).toString(16)).slice(-2);
+
+        let val = valColor + valAlpha;
+        self.saveHistory();
+        currentOptions[opt.option] = val;
+        $text.val(val);
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      }
+
+      $color.change(setColor);
+      $alpha.change(setColor);
+      $text.change(function(){
+        let val = $text.val();
+        setInputs(val);
+        self.saveHistory();
+        currentOptions[opt.option] = val;
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($colorBox);
+      $div.append($alphaBox);
 
       return $div;
     }
@@ -766,6 +842,8 @@ var builder = new function() {
           self.$settingsArea.append(genBoolean(optionConfiguration, object));
         } else if (optionConfiguration.type == 'select') {
           self.$settingsArea.append(genSelect(optionConfiguration, object));
+        } else if (optionConfiguration.type == 'color') {
+          self.$settingsArea.append(genColor(optionConfiguration, object));
         }
       });
     }
