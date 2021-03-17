@@ -170,6 +170,15 @@ var builder = new function() {
   this.boxTemplate = {
     optionsConfigurations: [
       {
+        type: 'buttons',
+        buttons: [
+          {
+            label: 'Move to ground',
+            callback: 'moveToGround'
+          }
+        ]
+      },
+      {
         option: 'position',
         type: 'vectors',
         min: '-200',
@@ -257,6 +266,15 @@ var builder = new function() {
   this.cylinderTemplate = {
     optionsConfigurations: [
       {
+        type: 'buttons',
+        buttons: [
+          {
+            label: 'Move to ground',
+            callback: 'moveToGround'
+          }
+        ]
+      },
+      {
         option: 'position',
         type: 'vectors',
         min: '-200',
@@ -332,6 +350,15 @@ var builder = new function() {
 
   this.sphereTemplate = {
     optionsConfigurations: [
+      {
+        type: 'buttons',
+        buttons: [
+          {
+            label: 'Move to ground',
+            callback: 'moveToGround'
+          }
+        ]
+      },
       {
         option: 'position',
         type: 'vectors',
@@ -510,6 +537,34 @@ var builder = new function() {
     }
   };
 
+  // Drop object to ground level
+  this.moveToGround = function(objectOptions) {
+    let selected = self.$objectsList.find('li.selected');
+    if (typeof selected[0].objectIndex != 'undefined') {
+      if (selected[0].name == 'box') {
+        let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;
+        let mesh = babylon.scene.getMeshByID(id);
+        let extendSize = mesh.getBoundingInfo().boundingBox.extendSizeWorld;
+        objectOptions.position[2] = extendSize.y;
+      } else if (selected[0].name == 'sphere') {
+        objectOptions.position[2] = objectOptions.size[0] / 2;
+      } else if (selected[0].name == 'cylinder') {
+        let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;
+        let mesh = babylon.scene.getMeshByID(id);
+        let quad = mesh.absoluteRotationQuaternion;
+        let origVec = new BABYLON.Vector3(0,1,0);
+        let rotVec =  new BABYLON.Vector3();
+        rotVec = origVec.rotateByQuaternionToRef(quad, rotVec);
+
+        let angle = Math.acos(BABYLON.Vector3.Dot(origVec, rotVec));
+        let y2 = -(objectOptions.size[1] / 2) * Math.sin(angle) + -(objectOptions.size[0] / 2) * Math.cos(angle);
+
+        objectOptions.position[2] = -y2;
+      }
+      self.resetScene(false);
+    }
+  };
+
   // Show options
   this.showObjectOptions = function(li) {
     let name = li.name;
@@ -540,6 +595,24 @@ var builder = new function() {
       $textBox.text(opt.text);
 
       $div.append($textBox);
+
+      return $div;
+    }
+
+    function genButtons(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $buttonsBox = $('<div class="color"></div>');
+
+      for (let button of opt.buttons) {
+        let $button = $('<button></button>');
+        $button.text(button.label);
+        $button.click(function() {
+          self[button.callback](currentOptions);
+        });
+        $buttonsBox.append($button);
+      }
+
+      $div.append($buttonsBox);
 
       return $div;
     }
@@ -838,6 +911,8 @@ var builder = new function() {
           self.$settingsArea.append(genSelect(optionConfiguration, object));
         } else if (optionConfiguration.type == 'color') {
           self.$settingsArea.append(genColor(optionConfiguration, object));
+        } else if (optionConfiguration.type == 'buttons') {
+          self.$settingsArea.append(genButtons(optionConfiguration, object));
         }
       });
     }
