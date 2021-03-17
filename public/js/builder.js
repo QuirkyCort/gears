@@ -173,7 +173,7 @@ var builder = new function() {
         type: 'buttons',
         buttons: [
           {
-            label: 'Move to ground',
+            label: 'Drop to ground',
             callback: 'moveToGround'
           }
         ]
@@ -269,7 +269,7 @@ var builder = new function() {
         type: 'buttons',
         buttons: [
           {
-            label: 'Move to ground',
+            label: 'Drop to ground',
             callback: 'moveToGround'
           }
         ]
@@ -354,7 +354,7 @@ var builder = new function() {
         type: 'buttons',
         buttons: [
           {
-            label: 'Move to ground',
+            label: 'Drop to ground',
             callback: 'moveToGround'
           }
         ]
@@ -541,16 +541,27 @@ var builder = new function() {
   this.moveToGround = function(objectOptions) {
     let selected = self.$objectsList.find('li.selected');
     if (typeof selected[0].objectIndex != 'undefined') {
+      let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;
+      let mesh = babylon.scene.getMeshByID(id);
+
+      let down = new BABYLON.Vector3(0, -1, 0);
+      let ray = new BABYLON.Ray(mesh.position, down, 1000);
+      mesh.isPickable = false;
+      let hit = babylon.scene.pickWithRay(ray);
+      mesh.isPickable = true;
+      let groundY = 0;
+      if (hit.hit) {
+        groundY = hit.pickedPoint.y;
+      }
+
       if (selected[0].name == 'box') {
-        let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;
-        let mesh = babylon.scene.getMeshByID(id);
         let extendSize = mesh.getBoundingInfo().boundingBox.extendSizeWorld;
-        objectOptions.position[2] = extendSize.y;
+        objectOptions.position[2] = extendSize.y + groundY;
+
       } else if (selected[0].name == 'sphere') {
-        objectOptions.position[2] = objectOptions.size[0] / 2;
+        objectOptions.position[2] = objectOptions.size[0] / 2 + groundY;
+
       } else if (selected[0].name == 'cylinder') {
-        let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;
-        let mesh = babylon.scene.getMeshByID(id);
         let quad = mesh.absoluteRotationQuaternion;
         let origVec = new BABYLON.Vector3(0,1,0);
         let rotVec =  new BABYLON.Vector3();
@@ -559,7 +570,7 @@ var builder = new function() {
         let angle = Math.acos(BABYLON.Vector3.Dot(origVec, rotVec));
         let y2 = -(objectOptions.size[1] / 2) * Math.sin(angle) + -(objectOptions.size[0] / 2) * Math.cos(angle);
 
-        objectOptions.position[2] = -y2;
+        objectOptions.position[2] = -y2 + groundY;
       }
       self.resetScene(false);
     }
