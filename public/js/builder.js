@@ -1242,7 +1242,8 @@ var builder = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        self.worldOptions = JSON.parse(this.result).options;
+        self.worldOptions = JSON.parse(JSON.stringify(worlds[0].defaultOptions));
+        Object.assign(self.worldOptions, JSON.parse(this.result).options);
         self.clearHistory();
         self.saveHistory();
         self.resetScene();
