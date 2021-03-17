@@ -1,0 +1,15 @@
+{
+  "worldName": "custom",
+  "options": {
+    "groundType": "none",
+    "objects": [
+      {
+        "type": "sphere",
+        "imageType": "sphere",
+        "imageURL": "https://www.babylonjs-playground.com/textures/earth.jpg",
+        "position": [0,0,-250],
+        "size": [500]
+      }
+    ]
+  }
+}

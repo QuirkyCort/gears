@@ -1,0 +1,43 @@
+{
+  "worldName": "custom",
+  "options": {
+    "objects": [
+      {
+        "imageType": "front",
+        "imageURL": "https://i.imgur.com/vp7ufji.png",
+        "position": [10,40,5]
+      },
+      {
+        "imageType": "top",
+        "imageURL": "https://i.imgur.com/vp7ufji.png",
+        "position": [-50,20,10]
+      },
+      {
+        "imageType": "repeat",
+        "imageURL": "https://i.imgur.com/vp7ufji.png",
+        "position": [-50,-20,10]
+      },
+      {
+        "imageType": "all",
+        "imageURL": "https://i.imgur.com/vp7ufji.png",
+        "position": [50,20,30],
+        "size": [20,20,20]
+      },
+      {
+        "type": "cylinder",
+        "imageType": "cylinder",
+        "imageURL": "https://i.imgur.com/ub5fsU0.jpg",
+        "position": [50,-20,30],
+        "size": [20,20]
+      },
+      {
+        "type": "sphere",
+        "imageType": "sphere",
+        "imageURL": "https://www.babylonjs-playground.com/textures/earth.jpg",
+        "position": [0,30,40],
+        "size": [30],
+        "physicsOptions": "moveable"
+      }
+    ]
+  }
+}
