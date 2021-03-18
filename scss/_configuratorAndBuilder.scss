@@ -122,3 +122,38 @@
     }
   }
 }
+
+.dialogWindow {
+  .selectImage {
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+
+    .images {
+      border: solid 1px white;
+      margin-top: 0.5em;
+      padding: 0.5em;
+      overflow-y: auto;
+      max-height: 20em;
+
+      .row {
+        display: flex;
+
+        .description {
+          border: solid 1px white;
+          flex-grow: 1;
+          padding: 0 0.5em;
+        }
+
+        .select {
+          border: solid 1px white;
+          padding: 0.5em;
+        }
+      }
+
+      .row.hide {
+        display: none;
+      }
+    }
+  }
+}
