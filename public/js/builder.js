@@ -1392,6 +1392,9 @@ var builder = new function() {
 
   // Select list item on click
   this.objectSelect = function(target) {
+    if (target.nodeName != 'LI') {
+      return;
+    }
     let prevSelection = self.$objectsList.find('li.selected');
     if (typeof prevSelection[0].objectIndex != 'undefined') {
       let id = 'worldBaseObject_' + prevSelection[0].name + prevSelection[0].objectIndex;

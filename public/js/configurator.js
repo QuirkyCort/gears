@@ -1241,12 +1241,14 @@ var configurator = new function() {
 
   // Select list item on click
   this.componentSelect = function(e) {
-    self.$componentList.find('li').removeClass('selected');
-    e.target.classList.add('selected');
-    e.stopPropagation();
+    if (typeof e.target.component != 'undefined') {
+      self.$componentList.find('li').removeClass('selected');
+      e.target.classList.add('selected');
+      e.stopPropagation();
 
-    self.showComponentOptions(e.target.component);
-    self.highlightSelected();
+      self.showComponentOptions(e.target.component);
+      self.highlightSelected();
+    }
   };
 
   // Highlight selected component
