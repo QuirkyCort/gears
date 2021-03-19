@@ -50,6 +50,7 @@ var world_Configurator = new function() {
       var ground = BABYLON.MeshBuilder.CreatePlane('plane', planeOptions, scene);
       ground.material = groundMat;
       ground.rotation.x = Math.PI / 2;
+      ground.isPickable = false;
 
       resolve();
     });

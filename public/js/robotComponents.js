@@ -37,6 +37,7 @@ function ColorSensor(scene, parent, pos, rot, port, options) {
     };
     var body = BABYLON.MeshBuilder.CreateBox('colorSensorBody', bodyOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(body);
 
@@ -313,6 +314,7 @@ function BoxBlock(scene, parent, pos, rot, options) {
     };
     var body = BABYLON.MeshBuilder.CreateBox('boxBody', bodyOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(body);
 
@@ -374,6 +376,7 @@ function CylinderBlock(scene, parent, pos, rot, options) {
     };
     var body = BABYLON.MeshBuilder.CreateCylinder('cylinderBody', bodyOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(body);
 
@@ -433,6 +436,7 @@ function SphereBlock(scene, parent, pos, rot, options) {
     };
     var body = BABYLON.MeshBuilder.CreateSphere('sphereBody', bodyOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(body);
 
@@ -489,6 +493,7 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
 
     var body = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody', {height: 2, width: 5, depth: 2.5}, scene);
     self.body = body;
+    body.component = self;
     body.visibility = false;
     body.isPickable = false;
     body.parent = parent;
@@ -670,6 +675,7 @@ function GyroSensor(scene, parent, pos, port, options) {
 
     var body = BABYLON.MeshBuilder.CreateBox('gyroSensorBody', boxOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     body.parent = parent;
     body.position = self.position;
@@ -772,6 +778,7 @@ function GPSSensor(scene, parent, pos, port, options) {
 
     var body = BABYLON.MeshBuilder.CreateBox('gpsSensorBody', boxOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     body.parent = parent;
     body.position = self.position;
@@ -877,6 +884,7 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
 
     var body = BABYLON.MeshBuilder.CreateBox('magnetActuatorBody', {height: 2.5, width: 2, depth: 2}, scene);
     self.body = body;
+    body.component = self;
     body.visibility = false;
     body.parent = parent;
     body.position = self.position;
@@ -1076,6 +1084,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
     var body = BABYLON.MeshBuilder.CreateBox('armBody', {height: 3, width: 2, depth: 3}, scene);
     self.body = body;
+    body.component = self;
     body.visibility = false;
     body.parent = parent;
     body.position = self.bodyPosition;
@@ -1101,6 +1110,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
     var pivot = BABYLON.MeshBuilder.CreateBox('pivot', {height: 0.5, width: 2.4, depth: 0.5}, scene);;
     self.pivot = pivot;
+    pivot.component = self;
     pivot.material = pivotMat;
     pivot.position.y = 0.5;
     scene.shadowGenerator.addShadowCaster(pivot);
@@ -1319,6 +1329,7 @@ function LaserRangeSensor(scene, parent, pos, rot, port, options) {
 
     var body = BABYLON.MeshBuilder.CreateBox('laserRangeSensorBody', bodyOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     body.parent = parent;
     body.position = self.position;
@@ -1495,6 +1506,7 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
 
     var body = BABYLON.MeshBuilder.CreateBox('swivelBody', {height: 1, width: 3, depth: 3}, scene);
     self.body = body;
+    body.component = self;
     self.body.material = swivelBodyMat;
     body.parent = parent;
     body.position = self.bodyPosition;
@@ -1506,6 +1518,7 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
 
     var platform = BABYLON.MeshBuilder.CreateCylinder('platform', {height: 0.5, diameter: 2.5, tessellation:12}, scene);;
     self.platform = platform;
+    platform.component = self;
     self.end = platform;
     platform.material = platformMat;
     scene.shadowGenerator.addShadowCaster(platform);
@@ -1754,6 +1767,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
 
     var body = BABYLON.MeshBuilder.CreateBox('launcherBody', {height: 2.5, width: 2, depth: 9}, scene);
     self.body = body;
+    body.component = self;
     self.body.visibility = 0;
     body.parent = parent;
     body.position = self.bodyPosition;
@@ -2059,6 +2073,7 @@ function Pen(scene, parent, pos, rot, port, options) {
     };
     var body = BABYLON.MeshBuilder.CreateBox('penBody', bodyOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(body);
 
@@ -2224,6 +2239,7 @@ function TouchSensor(scene, parent, pos, rot, port, options) {
     };
     var body = BABYLON.MeshBuilder.CreateBox('touchSensorBody', bodyOptions, scene);
     self.body = body;
+    body.component = self;
     body.material = bodyMat;
     scene.shadowGenerator.addShadowCaster(body);
 

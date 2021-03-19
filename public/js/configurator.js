@@ -1122,6 +1122,42 @@ var configurator = new function() {
     self.$settingsArea.append($btndiv)
   }
 
+  // Setup picking ray
+  this.setupPickingRay = function() {
+    babylon.scene.onPointerUp = function(e, hit) {
+      if (e.button != 0) {
+        return;
+      }
+
+      if (hit.pickedMesh != null) {
+        function getComponent(mesh) {
+          if (typeof mesh.component != 'undefined') {
+            return mesh.component;
+          } else if (mesh.parent != null) {
+            return getComponent(mesh.parent);
+          } else {
+            return null;
+          }
+        }
+
+        let $components = self.$componentList.find('li');
+        $components.removeClass('selected');
+
+        let component = getComponent(hit.pickedMesh);
+        let target = null;
+        if (component == null) {
+          target = $components[0];
+        } else {
+          target = $components[component.componentIndex + 2];
+        }
+        $(target).addClass('selected');
+
+        self.showComponentOptions(target.component);
+        self.highlightSelected();
+      }
+    }
+  };
+
   // Reset scene
   this.resetScene = function(reloadComponents=true) {
     if (typeof self.cameraRadius == 'undefined') {
@@ -1131,6 +1167,7 @@ var configurator = new function() {
     }
     babylon.resetScene();
     babylon.scene.physicsEnabled = false;
+    self.setupPickingRay();
     babylon.scene.cameras[0].radius = self.cameraRadius;
     if (reloadComponents) {
       self.$robotName.val(robot.options.name);
