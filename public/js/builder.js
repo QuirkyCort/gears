@@ -1272,6 +1272,10 @@ var builder = new function() {
   // Setup picking ray
   this.setupPickingRay = function() {
     babylon.scene.onPointerUp = function(e, hit) {
+      if (e.button != 0) {
+        return;
+      }
+
       if (hit.pickedMesh != null && hit.pickedMesh.id.match(/^worldBaseObject_/) != null) {
         let index = parseInt(hit.pickedMesh.id.match(/[0-9]+$/)[0]);
         let childList = self.$objectsList.find('li');
