@@ -966,7 +966,7 @@ var builder = new function() {
 
       function setInputs(currentVal) {
         // Strip hex
-        if (currentVal[0] = '#') {
+        if (currentVal[0] == '#') {
           currentVal = currentVal.slice(1);
         }
 

@@ -124,7 +124,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -132,7 +132,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -164,7 +164,7 @@ var configurator = new function() {
         },
         {
           option: 'color',
-          type: 'strText',
+          type: 'color',
           help: 'Color in hex',
           reset: true
         },
@@ -185,7 +185,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -193,7 +193,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -237,7 +237,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -270,7 +270,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -278,7 +278,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -312,7 +312,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -320,7 +320,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -349,7 +349,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -368,7 +368,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -387,7 +387,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -395,7 +395,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -427,7 +427,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -435,7 +435,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -476,7 +476,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -484,7 +484,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -509,7 +509,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -517,7 +517,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -536,7 +536,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -544,7 +544,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -600,7 +600,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -627,7 +627,7 @@ var configurator = new function() {
       optionsConfigurations: [
         {
           option: 'position',
-          type: 'vector3',
+          type: 'vectors',
           min: '-20',
           max: '20',
           step: '1',
@@ -635,7 +635,7 @@ var configurator = new function() {
         },
         {
           option: 'rotation',
-          type: 'vector3',
+          type: 'vectors',
           min: '-180',
           max: '180',
           step: '5',
@@ -754,6 +754,82 @@ var configurator = new function() {
       return $title;
     }
 
+    function genColor(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $colorBox = $('<div class="color"><input type="color"><input type="text"></div>');
+      let $alphaBox = $('<div class="slider">Opacity: <input type="range"></div>');
+      let $color = $colorBox.find('input[type=color]');
+      let $text = $colorBox.find('input[type=text]');
+      let $alpha = $alphaBox.find('input');
+      $alpha.attr('min', 0);
+      $alpha.attr('max', 255);
+      $alpha.attr('step', 1);
+      let currentVal = currentOptions[opt.option];
+
+      function setInputs(currentVal) {
+        // Strip hex
+        if (currentVal[0] == '#') {
+          currentVal = currentVal.slice(1);
+        }
+
+        // Convert 3/4 notation to 6/8
+        if (currentVal.length < 6) {
+          let tmp = '';
+          for (let c of currentVal) {
+            tmp = c + c;
+          }
+          currentVal = tmp;
+        }
+
+        // Split into color and alpha
+        let currentValColor = currentVal.slice(0,6).toLowerCase();
+        let currentValAlpha = currentVal.slice(6,8);
+        if (currentValAlpha == '') {
+          currentValAlpha = 255;
+        } else {
+          currentValAlpha = parseInt(currentValAlpha, 16);
+        }
+
+        $color.val('#' + currentValColor);
+        $alpha.val(currentValAlpha);
+        $text.val('#' + currentValColor + ('0' + currentValAlpha.toString(16)).slice(-2));
+      }
+
+      setInputs(currentVal);
+
+      function setColor() {
+        let valColor = $color.val();
+        let valAlpha = $alpha.val();
+        valAlpha = ('0' + parseInt(valAlpha).toString(16)).slice(-2);
+
+        let val = valColor + valAlpha;
+        self.saveHistory();
+        currentOptions[opt.option] = val;
+        $text.val(val);
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      }
+
+      $color.change(setColor);
+      $alpha.change(setColor);
+      $text.change(function(){
+        let val = $text.val();
+        setInputs(val);
+        self.saveHistory();
+        currentOptions[opt.option] = val;
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($colorBox);
+      $div.append($alphaBox);
+
+      return $div;
+    }
+
     function genSliderBox(opt, currentValue, callback) {
       let $sliderBox = $(
         '<div class="slider">' +
@@ -792,21 +868,25 @@ var configurator = new function() {
       return $sliderBox;
     }
 
-    function genVector3(opt, currentOptions) {
+    function genVectors(opt, currentOptions) {
       let $div = $('<div class="configuration"></div>');
 
       $div.append(getTitle(opt));
 
-      currentOptions.forEach(function(currentOption, i){
+      if (currentOptions[opt.option] == null) {
+        currentOptions[opt.option] = [0,0,0];
+      }
+
+      currentOptions[opt.option].forEach(function(currentOption, i){
         let slider = null;
 
         if (opt.option == 'rotation') {
           slider = genSliderBox(opt, currentOption / Math.PI * 180, function(val) {
-            currentOptions[i] = val / 180 * Math.PI;
+            currentOptions[opt.option][i] = val / 180 * Math.PI;
           });
         } else {
           slider = genSliderBox(opt, currentOption, function(val) {
-            currentOptions[i] = val;
+            currentOptions[opt.option][i] = val;
           });
         }
         $div.append(slider);
@@ -937,37 +1017,37 @@ var configurator = new function() {
       component.options = {};
     }
 
+    function displayOptionsConfiguration(optionConfiguration, options) {
+      if (optionConfiguration.type == 'vectors') {
+        self.$settingsArea.append(genVectors(optionConfiguration, options));
+      } else if (optionConfiguration.type == 'slider') {
+        self.$settingsArea.append(genSlider(optionConfiguration, options));
+      } else if (optionConfiguration.type == 'floatText') {
+        self.$settingsArea.append(genFloatText(optionConfiguration, options));
+      } else if (optionConfiguration.type == 'intText') {
+        self.$settingsArea.append(genIntText(optionConfiguration, options));
+      } else if (optionConfiguration.type == 'strText') {
+        self.$settingsArea.append(genStrText(optionConfiguration, options));
+      } else if (optionConfiguration.type == 'boolean') {
+        self.$settingsArea.append(genBoolean(optionConfiguration, options));
+      } else if (optionConfiguration.type == 'color') {
+        self.$settingsArea.append(genColor(optionConfiguration, options));
+      }
+    }
+
     if (typeof component.bodyMass != 'undefined') { // main body
       let bodyTemplate = self.bodyTemplate;
       bodyTemplate.optionsConfigurations.forEach(function(optionConfiguration){
-        if (optionConfiguration.type == 'slider') {
-          self.$settingsArea.append(genSlider(optionConfiguration, component));
-        } else if (optionConfiguration.type == 'floatText') {
-          self.$settingsArea.append(genFloatText(optionConfiguration, component));
-        } else if (optionConfiguration.type == 'intText') {
-          self.$settingsArea.append(genIntText(optionConfiguration, component));
-        } else if (optionConfiguration.type == 'strText') {
-          self.$settingsArea.append(genStrText(optionConfiguration, component));
-        } else if (optionConfiguration.type == 'boolean') {
-          self.$settingsArea.append(genBoolean(optionConfiguration, component));
-        }
+        displayOptionsConfiguration(optionConfiguration, component);
       });
     } else {
       let componentTemplate = self.componentTemplates.find(componentTemplate => componentTemplate.name == component.type);
       componentTemplate.optionsConfigurations.forEach(function(optionConfiguration){
-        if (optionConfiguration.type == 'vector3') {
-          self.$settingsArea.append(genVector3(optionConfiguration, component[optionConfiguration.option]));
-        } else if (optionConfiguration.type == 'slider') {
-          self.$settingsArea.append(genSlider(optionConfiguration, component.options));
-        } else if (optionConfiguration.type == 'floatText') {
-          self.$settingsArea.append(genFloatText(optionConfiguration, component.options));
-        } else if (optionConfiguration.type == 'intText') {
-          self.$settingsArea.append(genIntText(optionConfiguration, component.options));
-        } else if (optionConfiguration.type == 'strText') {
-          self.$settingsArea.append(genStrText(optionConfiguration, component.options));
-        } else if (optionConfiguration.type == 'boolean') {
-          self.$settingsArea.append(genBoolean(optionConfiguration, component.options));
+        let options = component.options;
+        if (optionConfiguration.option == 'position' || optionConfiguration.option == 'rotation') {
+          options = component;
         }
+        displayOptionsConfiguration(optionConfiguration, options);
       });
     }
     if (component.type == 'Pen') {
