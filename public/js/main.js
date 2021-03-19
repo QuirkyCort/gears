@@ -850,12 +850,22 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20210316;
+    let current = 20210319;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>19 Mar 2021</h3>' +
+          '<ul>' +
+          '<li>Missions: Added mission models to WRO 2021 Elementary and Junior.</li>' +
+          '<li>Blocks: Added defaults to "if" and "while".</li>' +
+          '<li>World builder: Click on objects to select.</li>' +
+          '<li>World builder: Drag and drop editing.</li>' +
+          '<li>World builder: Built-in image texture library.</li>' +
+          '<li>World builder: Graphical color chooser.</li>' +
+          '<li>World builder: Drop object to ground button.</li>' +
+          '</ul>' +
           '<h3>16 Mar 2021</h3>' +
           '<ul>' +
           '<li>Added World Builder for easy creation of custom worlds.</li>' +
