@@ -95,7 +95,23 @@ var blockly = new function() {
     });
 
     self.displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function(workspace){
-      return self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
+      let blocks = self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
+
+      let shadow = Blockly.Xml.textToDom('<value name="ARG0"><shadow type="math_number"><field name="NUM">0</field></shadow></value>');
+
+      for (let block of blocks) {
+        let blockType = block.getAttribute('type');
+        if (blockType == 'procedures_callnoreturn' || blockType == 'procedures_callreturn') {
+          block.setAttribute('inline', true);
+          let argsNumber = block.getElementsByTagName('arg').length;
+          for (let i=0; i<argsNumber; i++) {
+            let shadow = Blockly.Xml.textToDom('<value name="ARG' + i + '"><shadow type="math_number"><field name="NUM">0</field></shadow></value>');
+            block.append(shadow);
+          }
+        }
+      }
+
+      return blocks;
     });
   };
 
