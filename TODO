@@ -8,7 +8,6 @@ Playing field
 - Cospace type challenge
 - Underwater
 - Flying drone
-- Map configurator
 
 Robot / pybricks
 - realism is not the main focus, but where practicable, I would like the simulator to behave at least close to a real robot
@@ -25,11 +24,6 @@ Coding (Robot configurator)
 - Help menu
 - Name items
 - Duplicate items
-
-Coding (Image world)
-- Option to set robot rotation in degrees or radian for both single and multi-robots
-- Split this into a separate base world
-- Document multi-robot position setting
 
 Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)

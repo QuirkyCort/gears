@@ -1217,6 +1217,21 @@ let MSGS = {
     nl: 'Kopieer huidige pagina',
     de: 'Kopiere diese Seite',
   },
+  '#blockly-move_selected#': {
+    en: 'Move Selected Blocks',
+  },
+  '#blockly-move_to_page_name#': {
+    en: 'Move selected blocks to page name',
+  },
+  '#blockly-moved_to#': {
+    en: 'Blocks moved to',
+  },
+  '#blockly-no_selected#': {
+    en: 'No blocks selected',
+  },
+  '#blockly-cannot_move#': {
+    en: 'Cannot move "When Started" block',
+  },
   '#blockly-rename_page#': {
     en: 'Rename Current Page',
     fr: 'Renommer la page en cours',

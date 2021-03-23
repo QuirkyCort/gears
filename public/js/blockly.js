@@ -384,6 +384,18 @@ var blockly = new function() {
     blocklyPanel.showSave();
   };
 
+  // Move blocks
+  this.moveSelected = function(selected, to) {
+    function moveBlock(block, to) {
+      block.data = to;
+      block.getChildren().forEach(function(desc) {
+        moveBlock(desc, to);
+      });
+    }
+
+    moveBlock(self.workspace.getBlockById(selected.id), to);
+  };
+
   //
   // Special generators
   //

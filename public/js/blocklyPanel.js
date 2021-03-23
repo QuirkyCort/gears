@@ -55,6 +55,7 @@ var blocklyPanel = new function() {
       let menuItems = [
         {html: i18n.get('#blockly-add_page#'), line: false, callback: self.addPage},
         {html: i18n.get('#blockly-copy_page#'), line: false, callback: self.copyCurrentPage},
+        {html: i18n.get('#blockly-move_selected#'), line: false, callback: self.moveSelected},
         {html: i18n.get('#blockly-rename_page#'), line: false, callback: self.renameCurrentPage},
         {html: i18n.get('#blockly-delete_page#'), line: true, callback: self.deleteCurrentPage}
       ];
@@ -107,6 +108,37 @@ var blocklyPanel = new function() {
     blockly.copyPage(self.currentPage, destinationName);
     toastMsg(i18n.get('#blockly-page#') + ' "' + self.currentPage + '" ' + i18n.get('#blockly-copied_to#') + ' "' + destinationName + '".');
     self.loadPage(destinationName);
+  };
+
+  // Move selected blocks
+  this.moveSelected = function() {
+    let block = Blockly.selected;
+    if (block == null) {
+      toastMsg(i18n.get('#blockly-no_selected#'));
+      return;
+    }
+    if (block.type == 'when_started') {
+      toastMsg(i18n.get('#blockly-cannot_move#')) ;
+      return;
+    }
+
+    var destinationName = prompt(i18n.get('#blockly-move_to_page_name#'), self.currentPage);
+    if (!destinationName) {
+      return;
+    }
+
+    destinationName = destinationName.trim();
+    if (destinationName == '') {
+      return;
+    }
+
+    if (self.pages.filter(page => page == destinationName).length == 0) {
+      self.pages.push(destinationName);
+    }
+    blockly.assignOrphenToPage(self.currentPage);
+    blockly.moveSelected(block, destinationName);
+    toastMsg(i18n.get('#blockly-moved_to#') + ' "' + destinationName + '".');
+    self.loadPage(self.currentPage);
   };
 
   // Rename page
