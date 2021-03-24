@@ -12,6 +12,8 @@ var ev3dev2_generator = new function() {
 
   // Load Python generators
   this.load = function() {
+    Blockly.Python.INDENT = '    ';
+
     Blockly.Python['when_started'] = self.when_started;
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;

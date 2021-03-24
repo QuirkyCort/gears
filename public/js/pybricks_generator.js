@@ -3,6 +3,8 @@ var pybricks_generator = new function() {
 
   // Load Python generators
   this.load = function() {
+    Blockly.Python.INDENT = '    ';
+
     Blockly.Python['when_started'] = self.when_started;
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
@@ -564,7 +566,7 @@ var pybricks_generator = new function() {
     var code = 'pen.down()\n';
     return code;
   };
-  
+
   this.penUp = function(block) {
     var code = 'pen.up()\n';
     return code;
