@@ -152,16 +152,16 @@ var World_Base = function() {
         }
 
         if (self.options.startPosXYZStr.trim() != '') {
-          let xy = self.options.startPosXYZ.split(',');
+          let xy = self.options.startPosXYZStr.split(',');
           let alt = 0;
           if (xy.length > 2) {
             alt = parseFloat(xy[2]);
           }
-          self.options.startPosXYZ = [parseFloat(xy[0]), alt, parseFloat(xy[1])];
+          self.options.startPosXYZ = [parseFloat(xy[0]), parseFloat(xy[1]), alt];
         }
 
         if (self.options.startRotStr.trim() != '') {
-          self.options.startRot = parseFloat(self.options.startRot);
+          self.options.startRot = parseFloat(self.options.startRotStr);
         }
 
         if (self.options.startPosXYZ instanceof Array) {
