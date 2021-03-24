@@ -1144,15 +1144,10 @@ var configurator = new function() {
         $components.removeClass('selected');
 
         let component = getComponent(hit.pickedMesh);
-        let target = null;
-        if (component == null) {
-          target = $components[0];
-        } else {
-          target = $components[component.componentIndex + 2];
-        }
-        $(target).addClass('selected');
+        let $target = self.$componentList.find('li[componentIndex=' + component.componentIndex + ']');
+        $target.addClass('selected');
+        self.showComponentOptions($target[0].component);
 
-        self.showComponentOptions(target.component);
         self.highlightSelected();
       }
     }
@@ -1327,6 +1322,7 @@ var configurator = new function() {
       let $list = $('<ul></ul>');
       components.forEach(function(component){
         let $item = $('<li></li>');
+        $item.attr('componentIndex', componentIndex);
         let text = component.type;
 
         if (DUMB_BLOCKS.indexOf(text) != -1) {
