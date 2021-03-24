@@ -617,6 +617,54 @@ let MSGS = {
     nl: 'zet de pendikte op',
     de: 'setze die Stiftnreite zu',
   },
+  '#blk-sleep_tooltip#': {
+    en: 'Pause the program for a while',
+  },
+  '#blk-stop_tooltip#': {
+    en: 'Robot will stop faster if using brake or hold',
+  },
+  '#blk-stop_motor_tooltip#': {
+    en: 'Motor will stop faster if using brake or hold',
+  },
+  '#blk-exit_tooltip#': {
+    en: 'End the program',
+  },
+  '#blk-position_tooltip#': {
+    en: 'How much the motor has turned since the start of the program',
+  },
+  '#blk-speed_tooltip#': {
+    en: 'Rotation speed of the motor',
+  },
+  '#blk-reset_motor_tooltip#': {
+    en: 'Reset the motor position to zero',
+  },
+  '#blk-move_tank_tooltip#': {
+    en: 'Robot will move continuously until given another command',
+  },
+  '#blk-move_tank_for_tooltip#': {
+    en: 'Robot will stop moving when the amount is reached',
+  },
+  '#blk-reset_gyro_tooltip#': {
+    en: 'Sets the current heading to be the new zero degrees',
+  },
+  '#blk-run_motor_for_tooltip#': {
+    en: 'Motor will stop moving when the amount is reached',
+  },
+  '#blk-run_motor_to_tooltip#': {
+    en: 'Motor may turn forward or back depending on the current position and the specified position',
+  },
+  '#blk-beep_tooltip#': {
+    en: 'If set to wait, the program will only continue when the beep completes playing',
+  },
+  '#blk-play_tone_tooltip#': {
+    en: 'If set to wait, the program will only continue when the tone completes playing',
+  },
+  '#blk-radio_available_tooltip#': {
+    en: 'Number of unread messages in the mailbox',
+  },
+  '#blk-radio_empty_tooltip#': {
+    en: 'Delete all messages in the mailbox',
+  },
   '#main-blocks#': {
     en: 'Blocks',
     tlh: 'Porgh',

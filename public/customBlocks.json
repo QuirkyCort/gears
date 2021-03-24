@@ -33,7 +33,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 65,
-  "tooltip": "",
+  "tooltip": "#blk-sleep_tooltip#",
   "helpUrl": ""
 },
 {
@@ -62,7 +62,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-stop_tooltip#",
   "helpUrl": ""
 },
 {
@@ -137,7 +137,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-stop_motor_tooltip#",
   "helpUrl": ""
 },
 {
@@ -255,7 +255,7 @@
   "message0": "#blk-exit_program#",
   "previousStatement": null,
   "colour": 65,
-  "tooltip": "",
+  "tooltip": "#blk-exit_tooltip#",
   "helpUrl": ""
 },
 {
@@ -311,7 +311,7 @@
   ],
   "output": "Number",
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-position_tooltip#",
   "helpUrl": ""
 },
 {
@@ -367,7 +367,7 @@
   ],
   "output": "Number",
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-speed_tooltip#",
   "helpUrl": ""
 },
 {
@@ -428,7 +428,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-reset_motor_tooltip#",
   "helpUrl": ""
 },
 {
@@ -468,7 +468,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-move_tank_tooltip#",
   "helpUrl": ""
 },
 {
@@ -538,7 +538,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-move_tank_for_tooltip#",
   "helpUrl": ""
 },
 {
@@ -634,7 +634,7 @@
   "output": null,
   "colour": 160,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Color-Sensor"
 },
 {
   "type": "ultrasonic_sensor",
@@ -709,7 +709,7 @@
   "output": null,
   "colour": 160,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Ultrasonic-Sensor"
 },
 {
   "type": "laser_sensor",
@@ -784,7 +784,7 @@
   "output": null,
   "colour": 160,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Laser-Range-Sensor"
 },
 {
   "type": "gyro_sensor",
@@ -859,7 +859,7 @@
   "output": null,
   "colour": 160,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Gyro-Sensor"
 },
 {
   "type": "reset_gyro",
@@ -920,8 +920,8 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 160,
-  "tooltip": "",
-  "helpUrl": ""
+  "tooltip": "#blk-reset_gyro_tooltip#",
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Gyro-Sensor"
 },
 {
   "type": "run_motor",
@@ -1124,7 +1124,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-run_motor_for_tooltip#",
   "helpUrl": ""
 },
 {
@@ -1226,7 +1226,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
-  "tooltip": "",
+  "tooltip": "#blk-run_motor_to_tooltip#",
   "helpUrl": ""
 },
 {
@@ -1280,7 +1280,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 20,
-  "tooltip": "",
+  "tooltip": "#blk-beep_tooltip#",
   "helpUrl": ""
 },
 {
@@ -1315,7 +1315,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 20,
-  "tooltip": "",
+  "tooltip": "#blk-play_tone_tooltip#",
   "helpUrl": ""
 },
 {
@@ -1406,7 +1406,7 @@
   "output": null,
   "colour": 160,
   "tooltip": "#blk-gps_tooltip#",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/GPS-Sensor"
 },
 {
   "type": "penDown",
@@ -1467,7 +1467,7 @@
   "nextStatement": null,
   "colour": 20,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Pen"
 },
 {
   "type": "penUp",
@@ -1528,7 +1528,7 @@
   "nextStatement": null,
   "colour": 20,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Pen"
 },
 {
   "type": "penSetColor",
@@ -1605,7 +1605,7 @@
   "nextStatement": null,
   "colour": 20,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Pen"
 },
 {
   "type": "penSetWidth",
@@ -1672,7 +1672,7 @@
   "nextStatement": null,
   "colour": 20,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Pen"
 },
 {
   "type": "touch_state",
@@ -1746,7 +1746,7 @@
   "output": "Boolean",
   "colour": 160,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Touch-Sensor"
 },
 {
   "type": "wait_for_state",
@@ -1825,7 +1825,7 @@
   "nextStatement": null,
   "colour": 160,
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Touch-Sensor"
 },
 {
   "type": "radio_send",
@@ -1875,7 +1875,7 @@
   "nextStatement": null,
   "colour": 330,
   "tooltip": "#blk-radio_send_tooltip#",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Radio"
 },
 {
   "type": "radio_available",
@@ -1889,8 +1889,8 @@
   ],
   "output": null,
   "colour": 330,
-  "tooltip": "",
-  "helpUrl": ""
+  "tooltip": "#blk-radio_available_tooltip#",
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Radio"
 },
 {
   "type": "radio_read",
@@ -1905,7 +1905,7 @@
   "output": null,
   "colour": 330,
   "tooltip": "#blk-radio_read_tooltip#",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Radio"
 },
 {
   "type": "radio_read_content",
@@ -1920,7 +1920,7 @@
   "output": null,
   "colour": 330,
   "tooltip": "#blk-radio_read_content_tooltip#",
-  "helpUrl": ""
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Radio"
 },
 {
   "type": "radio_empty",
@@ -1935,7 +1935,7 @@
   "previousStatement": null,
   "nextStatement": null,
   "colour": 330,
-  "tooltip": "",
-  "helpUrl": ""
+  "tooltip": "#blk-radio_empty_tooltip#",
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Radio"
 }
 ]
