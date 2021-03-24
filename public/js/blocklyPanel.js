@@ -121,6 +121,10 @@ var blocklyPanel = new function() {
       toastMsg(i18n.get('#blockly-cannot_move#')) ;
       return;
     }
+    if (block.parentBlock_ != null) {
+      toastMsg(i18n.get('#blockly-cannot_move_child#'));
+      return;
+    }
 
     var destinationName = prompt(i18n.get('#blockly-move_to_page_name#'), self.currentPage);
     if (!destinationName) {

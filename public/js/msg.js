@@ -1232,6 +1232,9 @@ let MSGS = {
   '#blockly-cannot_move#': {
     en: 'Cannot move "When Started" block',
   },
+  '#blockly-cannot_move_child#': {
+    en: 'Only top level blocks can be moved',
+  },
   '#blockly-rename_page#': {
     en: 'Rename Current Page',
     fr: 'Renommer la page en cours',
