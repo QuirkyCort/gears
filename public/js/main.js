@@ -442,6 +442,8 @@ var main = new function() {
       pythonPanel.modified = false;
       localStorage.setItem('pythonModified', false);
       blocklyPanel.setDisable(false);
+      self.$projectName.val('');
+      self.saveProjectName();
     });
   };
 
