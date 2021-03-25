@@ -335,8 +335,8 @@ var robotTemplates = [
       '</ul>' +
       '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>#robot-port# 1 : #robot-color#</li>' +
-        '<li>#robot-port# 2 : #robot-color#</li>' +
+        '<li>#robot-port# 1 : #robot-color# (#robot-left#)</li>' +
+        '<li>#robot-port# 2 : #robot-color# (#robot-right#)</li>' +
         '<li>#robot-port# 3 : #robot-ultrasonic#</li>' +
         '<li>#robot-port# 4 : #robot-gyro#</li>' +
         '<li>#robot-port# 5 : GPS</li>' +
@@ -419,8 +419,8 @@ var robotTemplates = [
       '</ul>' +
       '<h3>#robot-sensors#</h3>' +
       '<ul>' +
-        '<li>#robot-port# 1 : #robot-color#</li>' +
-        '<li>#robot-port# 2 : #robot-color#</li>' +
+        '<li>#robot-port# 1 : #robot-color# (#robot-left#)</li>' +
+        '<li>#robot-port# 2 : #robot-color# (#robot-right#)</li>' +
         '<li>#robot-port# 3 : #robot-laser#</li>' +
         '<li>#robot-port# 4 : #robot-gyro#</li>' +
         '<li>#robot-port# 5 : GPS</li>' +
