@@ -21,6 +21,11 @@ function Robot() {
     new BABYLON.Color3(0.2, 0.2, 0.94)
   ];
 
+  this.defaultOptions = {
+    color: '#f09c0d',
+    imageURL: ''
+  };
+
   this.mailboxes = {};
 
   // Run on page load
@@ -29,7 +34,8 @@ function Robot() {
 
   // Create the scene
   this.load = function (scene, robotStart) {
-    var options = self.options;
+    var options = {...self.defaultOptions};
+    Object.assign(options, self.options);
     self.scene = scene;
 
     return new Promise(function(resolve, reject) {
@@ -46,8 +52,24 @@ function Robot() {
 
       // Body
       var bodyMat = new BABYLON.StandardMaterial('body', scene);
+      var faceUV = new Array(6);
+      for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+      }
+
       if (self.player == 'single') {
-        bodyMat.diffuseColor = new BABYLON.Color3(0.94, 0.61, 0.05);
+        if (options.imageURL != '') {
+          var texture = new BABYLON.Texture(options.imageURL, scene);
+          bodyMat.diffuseTexture = texture;
+          faceUV[0] = new BABYLON.Vector4(0,   0,   1/3, 1/2);
+          faceUV[1] = new BABYLON.Vector4(1/3, 0,   2/3, 1/2);
+          faceUV[2] = new BABYLON.Vector4(2/3, 0,   1,   1/2);
+          faceUV[3] = new BABYLON.Vector4(0,   1/2, 1/3, 1);
+          faceUV[4] = new BABYLON.Vector4(1/3, 1/2, 2/3, 1);
+          faceUV[5] = new BABYLON.Vector4(2/3, 1/2, 1,   1);
+        } else {
+          bodyMat.diffuseColor = babylon.hexToColor3(options.color);
+        }
       } else {
         bodyMat.diffuseColor = self.playerColors[self.player];
       }
@@ -57,8 +79,9 @@ function Robot() {
       let bodyOptions = {
         height: options.bodyHeight,
         width: options.bodyWidth,
-        depth: options.bodyLength
-      }
+        depth: options.bodyLength,
+        faceUV: faceUV
+      };
       var body = BABYLON.MeshBuilder.CreateBox('body', bodyOptions, scene);
       self.body = body;
       body.material = bodyMat;

@@ -258,13 +258,14 @@ var babylon = new function() {
 
   // Get color3 from hex
   this.hexToColor3 = function(rgba) {
+    rgba = rgba.replace(/^#/g, '');
     let color = '#';
 
-    if (rgba.length == 3) {
+    if (rgba.length == 3 || rgba.length == 4) {
       color += rgba[0] + rgba[0];
       color += rgba[1] + rgba[1];
       color += rgba[2] + rgba[2];
-    } else if (rgba.length == 6) {
+    } else if (rgba.length == 6 || rgba.length == 8) {
       color += rgba[0] + rgba[1];
       color += rgba[2] + rgba[3];
       color += rgba[4] + rgba[5];
@@ -285,13 +286,7 @@ var babylon = new function() {
 
     let mat = new BABYLON.StandardMaterial(rgba, scene);
 
-    if (rgba.length == 3 || rgba.length == 4) {
-      mat.diffuseColor = self.hexToColor3(rgba.slice(0,3));
-    }
-
-    if (rgba.length == 6 || rgba.length == 8) {
-      mat.diffuseColor = self.hexToColor3(rgba.slice(0,6));
-    }
+    mat.diffuseColor = self.hexToColor3(rgba);
 
     if (rgba.length == 4) {
       color[3] = parseInt(rgba[3]+rgba[3], 16) / 255;
