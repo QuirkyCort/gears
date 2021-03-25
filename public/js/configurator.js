@@ -1375,19 +1375,19 @@ var configurator = new function() {
     var sensor = null;
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-color#') + '</li>';
+        sensors += '<li>#robot-port# ' + i + ' : #robot-color#</li>';
       } else if (sensor.type == 'UltrasonicSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-ultrasonic#') + '</li>';
+        sensors += '<li>#robot-port# ' + i + ' : #robot-ultrasonic#</li>';
       } else if (sensor.type == 'GyroSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-gyro#') + '</li>';
+        sensors += '<li>#robot-port# ' + i + ' : #robot-gyro#</li>';
       } else if (sensor.type == 'GPSSensor') {
         sensors += '<li>#robot-port# ' + i + ' : GPS</li>';
       } else if (sensor.type == 'LaserRangeSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-laser#') + '</li>';
+        sensors += '<li>#robot-port# ' + i + ' : #robot-laser#</li>';
       } else if (sensor.type == 'TouchSensor') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-touch#') + '</li>';
+        sensors += '<li>#robot-port# ' + i + ' : #robot-touch#</li>';
       } else if (sensor.type == 'Pen') {
-        sensors += '<li>#robot-port# ' + i + ' : ' + i18n.get('#robot-pen#') + '</li>';
+        sensors += '<li>#robot-port# ' + i + ' : #robot-pen#</li>';
       } else {
         console.log(sensor);
       }
@@ -1401,11 +1401,11 @@ var configurator = new function() {
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'ArmActuator') {
-        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : ' + i18n.get('#robot-motorizedArm#') + '</li>';
+        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-motorizedArm#</li>';
       } else if (motor.type == 'SwivelActuator') {
-        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : ' + i18n.get('#robot-swivel#') + '</li>';
+        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-swivel#</li>';
       } else if (motor.type == 'PaintballLauncherActuator') {
-        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : ' + i18n.get('#robot-paintball#') + '</li>';
+        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-paintball#</li>';
       }
       i++;
     }
