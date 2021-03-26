@@ -68,7 +68,7 @@ function Robot() {
           faceUV[4] = new BABYLON.Vector4(1/3, 1/2, 2/3, 1);
           faceUV[5] = new BABYLON.Vector4(2/3, 1/2, 1,   1);
         } else {
-          bodyMat.diffuseColor = babylon.hexToColor3(options.color);
+          bodyMat = babylon.getMaterial(scene, options.color);
         }
       } else {
         bodyMat.diffuseColor = self.playerColors[self.player];

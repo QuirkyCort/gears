@@ -104,6 +104,28 @@ var configurator = new function() {
         step: '0.5',
         reset: true,
       },
+      {
+        option: 'color',
+        type: 'color',
+        help: 'Color in hex',
+        reset: true
+      },
+      {
+        type: 'buttons',
+        buttons: [
+          {
+            label: 'Select built-in image',
+            callback: 'selectImage'
+          }
+        ]
+      },
+      {
+        option: 'imageURL',
+        type: 'strText',
+        reset: true,
+        help: 'URL for robot body image. Will not work with most webhosts; Imgur will work.'
+      },
+
     ]
   };
 
@@ -754,6 +776,24 @@ var configurator = new function() {
       return $title;
     }
 
+    function genButtons(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $buttonsBox = $('<div class="color"></div>');
+
+      for (let button of opt.buttons) {
+        let $button = $('<button></button>');
+        $button.text(button.label);
+        $button.click(function() {
+          self[button.callback](currentOptions);
+        });
+        $buttonsBox.append($button);
+      }
+
+      $div.append($buttonsBox);
+
+      return $div;
+    }
+
     function genColor(opt, currentOptions) {
       let $div = $('<div class="configuration"></div>');
       let $colorBox = $('<div class="color"><input type="color"><input type="text"></div>');
@@ -765,6 +805,10 @@ var configurator = new function() {
       $alpha.attr('max', 255);
       $alpha.attr('step', 1);
       let currentVal = currentOptions[opt.option];
+
+      if (typeof currentVal == 'undefined') {
+        currentVal = '#f09c0d';
+      }
 
       function setInputs(currentVal) {
         // Strip hex
@@ -1032,6 +1076,8 @@ var configurator = new function() {
         self.$settingsArea.append(genBoolean(optionConfiguration, options));
       } else if (optionConfiguration.type == 'color') {
         self.$settingsArea.append(genColor(optionConfiguration, options));
+      } else if (optionConfiguration.type == 'buttons') {
+        self.$settingsArea.append(genButtons(optionConfiguration, options));
       }
     }
 
@@ -1053,6 +1099,72 @@ var configurator = new function() {
     if (component.type == 'Pen') {
       self.penSpecialCaseSetup(component);
     }
+  };
+
+  // Select built in images
+  this.selectImage = function(objectOptions) {
+    let $body = $('<div class="selectImage"></div>');
+    let $filter = $(
+      '<div class="filter">Filter by Type: ' +
+        '<select>' +
+          '<option selected value="any">Any</option>' +
+          '<option value="box">Box</option>' +
+          '<option value="cylinder">Cylinder</option>' +
+          '<option value="sphere">Sphere</option>' +
+          '<option value="ground">Ground</option>' +
+          '<option value="robot">Robot</option>' +
+        '</select>' +
+      '</div>'
+    );
+    let $select = $filter.find('select');
+    let $imageList = $('<div class="images"></div>');
+
+    BUILT_IN_IMAGES.forEach(function(image){
+      let basename = image.url.split('/').pop();
+
+      let $row = $('<div class="row"></div>');
+      $row.addClass(image.type);
+
+      let $descriptionBox = $('<div class="description"></div>');
+      let $basename = $('<p class="bold"></p>').text(basename + ' (' + image.type + ')');
+      let $description = $('<p></p>').text(image.description);
+      $descriptionBox.append($basename);
+      $descriptionBox.append($description);
+
+      let $selectBox = $('<div class="select"><button>Select</button></div>');
+      let $select = $selectBox.find('button');
+      $select.prop('url', image.url);
+
+      $select.click(function(e){
+        objectOptions.imageURL = e.target.url;
+        self.resetScene(false);
+        $dialog.close();
+      });
+
+      $row.append($descriptionBox);
+      $row.append($selectBox);
+      $imageList.append($row);
+    });
+
+    $body.append($filter);
+    $body.append($imageList);
+
+    $select.change(function(){
+      let filter = $select.val();
+
+      $imageList.find('.row').removeClass('hide');
+      if (filter != 'any') {
+        $imageList.find(':not(.row.' + filter + ')').addClass('hide');
+      }
+    });
+
+    let $buttons = $(
+      '<button type="button" class="cancel btn-light">Cancel</button>'
+    );
+
+    let $dialog = dialog('Select Built-In Image', $body, $buttons);
+
+    $buttons.click(function() { $dialog.close(); });
   };
 
   // Special case for the pen, add some buttons to move it to useful locations
