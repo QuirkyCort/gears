@@ -231,6 +231,15 @@ i18n.append({
       'und ein Farbsensor am Ende von Arm erlaubt es ihm zu erkennen, was er aufhebt.</p>' +
       '<p>Wenn du den Roboter nutzt, falte den Arm um zu verhindern, dass du den Ultraschallsensor behinderst.</p>',
   },
+  '#robot-cageShort#': {
+    en: 'Cage Bot',
+  },
+  '#robot-cageLong#': {
+    en:
+      '<p>This robot is equipped with a moveable cage that can be used to capture and move blocks.' +
+      'A forward facing color sensor allows the robot to detect the presence and color of blocks infront of it.</p>' +
+      '<p>If you require a larger cage for your mission, you can modify the robot in the robot configurator.</p>',
+  }
 });
 
 
@@ -940,6 +949,238 @@ var robotTemplates = [
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    "name": "cage",
+    "shortDescription": "#robot-cageShort#",
+    "longDescription": "#robot-cageLong#",
+    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : #robot-motorizedArm#</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-color#</li><li>#robot-port# 2 : #robot-color#</li><li>#robot-port# 3 : #robot-ultrasonic#</li><li>#robot-port# 4 : #robot-gyro#</li><li>#robot-port# 5 : GPS</li><li>#robot-port# 6 : #robot-color#</li></ul>",
+    "thumbnail": "images/robots/cage.jpg",
+    "bodyHeight": 4,
+    "bodyWidth": 14,
+    "bodyLength": 14,
+    "wheelDiameter": 5.6,
+    "wheelWidth": 0.8,
+    "wheelToBodyOffset": 0.2,
+    "bodyEdgeToWheelCenterY": 1,
+    "bodyEdgeToWheelCenterZ": 2,
+    "bodyMass": 1000,
+    "wheelMass": 200,
+    "casterMass": 0,
+    "wheelFriction": 10,
+    "bodyFriction": 0,
+    "casterFriction": 0,
+    "color": "#ff0000",
+    "imageURL": "textures/robot/captureBotBody.png",
+    "components": [
+      {
+        "type": "ColorSensor",
+        "position": [
+          -2,
+          -1,
+          8
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "ColorSensor",
+        "position": [
+          2,
+          -1,
+          8
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "ColorSensor",
+        "position": [
+          0,
+          -2,
+          7.5
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "UltrasonicSensor",
+        "position": [
+          0,
+          0,
+          8
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "GyroSensor",
+        "position": [
+          0,
+          2.5,
+          2.5
+        ],
+        "options": {}
+      },
+      {
+        "type": "GPSSensor",
+        "position": [
+          0,
+          2.5,
+          5
+        ],
+        "options": {}
+      },
+      {
+        "type": "ArmActuator",
+        "position": [
+          5.5,
+          2,
+          -1
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "components": [
+          {
+            "type": "Box",
+            "position": [
+              -5.5,
+              -4,
+              5
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "options": {
+              "height": 1,
+              "width": 8,
+              "depth": 1,
+              "color": "A3CF0D"
+            }
+          },
+          {
+            "type": "Box",
+            "position": [
+              -5.5,
+              -4,
+              11
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "options": {
+              "height": 1,
+              "width": 8,
+              "depth": 1,
+              "color": "A3CF0D"
+            }
+          },
+          {
+            "type": "Box",
+            "position": [
+              -2,
+              -4,
+              8
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "options": {
+              "height": 1,
+              "width": 1,
+              "depth": 5,
+              "color": "A3CF0D"
+            }
+          },
+          {
+            "type": "Box",
+            "position": [
+              -9,
+              -4,
+              8
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "options": {
+              "height": 1,
+              "width": 1,
+              "depth": 5,
+              "color": "A3CF0D"
+            }
+          },
+          {
+            "type": "Box",
+            "position": [
+              0,
+              -2.5,
+              6.5
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "options": {
+              "height": 4,
+              "width": 1,
+              "depth": 1,
+              "color": "A3CF0D"
+            }
+          },
+          {
+            "type": "Box",
+            "position": [
+              -1,
+              -4,
+              6.5
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "options": {
+              "height": 1,
+              "width": 1,
+              "depth": 1,
+              "color": "A3CF0D"
+            }
+          }
+        ],
+        "options": {
+          "armColor": "A3CF0D",
+          "armLength": 14
+        }
       }
     ]
   }
