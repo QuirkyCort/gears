@@ -223,7 +223,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -251,7 +251,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -279,7 +279,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -307,7 +307,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -335,7 +335,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -363,7 +363,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -391,7 +391,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -419,7 +419,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -447,7 +447,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -475,7 +475,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -503,7 +503,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -531,7 +531,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -559,7 +559,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -587,7 +587,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -615,7 +615,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -645,7 +645,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -673,7 +673,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -701,7 +701,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -729,7 +729,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -757,7 +757,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -785,7 +785,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -813,7 +813,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -841,7 +841,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -869,7 +869,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -897,7 +897,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -925,7 +925,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -953,7 +953,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -981,7 +981,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -1009,7 +1009,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -1037,7 +1037,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -1065,7 +1065,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -1093,7 +1093,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
@@ -1121,7 +1121,7 @@ var world_Missions = new function() {
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": "moveable",
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null
