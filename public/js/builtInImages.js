@@ -224,4 +224,9 @@ BUILT_IN_IMAGES = [
     type: 'robot',
     description: 'Image texture for the capture bot body'
   },
+  {
+    url: 'textures/robot/robotOrientation.png',
+    type: 'robot',
+    description: 'Sample image showing the position and orientation of the image texture'
+  },
 ];

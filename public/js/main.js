@@ -294,13 +294,17 @@ var main = new function() {
     let angles = robot.body.absoluteRotationQuaternion.toEulerAngles();
     let rot = Math.round(angles.y / Math.PI * 1800) / 10;
 
-    if (typeof babylon.world.defaultOptions.startPosXY != 'undefined') {
+    if (typeof babylon.world.defaultOptions.startPosXYZStr != 'undefined') {
+      babylon.world.options.startPosXYZStr = x + ',' +y;
+    } else if (typeof babylon.world.defaultOptions.startPosXY != 'undefined') {
       babylon.world.options.startPosXY = x + ',' +y;
     } else {
       toastMsg(i18n.get('#main-cannot_save_position#'));
       return;
     }
-    if (typeof babylon.world.defaultOptions.startRot != 'undefined') {
+    if (typeof babylon.world.defaultOptions.startRotStr != 'undefined') {
+      babylon.world.options.startRotStr = rot.toString();
+    } else if (typeof babylon.world.defaultOptions.startRot != 'undefined') {
       babylon.world.options.startRot = rot.toString();
     } else {
       toastMsg(i18n.get('#main-cannot_save_rotation#'));

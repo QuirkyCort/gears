@@ -131,15 +131,15 @@ var World_Base = function() {
         if (self.options.startPos == 'center') {
           self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
         } else if (self.options.startPos == 'bottomLeft') {
-          let x = -(self.options.length / 2 - 12.5);
-          let z = -(self.options.width / 2 - 12.5) + 1;
+          let x = -(self.options.groundLength / 2 - 12.5);
+          let z = -(self.options.groundWidth / 2 - 12.5) + 1;
           self.robotStart.position = new BABYLON.Vector3(x, 0, z);
         } else if (self.options.startPos == 'bottomCenter') {
-          let z = -(self.options.width / 2 - 12.5) + 1;
+          let z = -(self.options.groundWidth / 2 - 12.5) + 1;
           self.robotStart.position = new BABYLON.Vector3(0, 0, z);
         } else if (self.options.startPos == 'bottomRight') {
-          let x = (self.options.length / 2 - 12.5);
-          let z = -(self.options.width / 2 - 12.5) + 1;
+          let x = (self.options.groundLength / 2 - 12.5);
+          let z = -(self.options.groundWidth / 2 - 12.5) + 1;
           self.robotStart.position = new BABYLON.Vector3(x, 0, z);
         } else if (self.options.startPos == 'P0') {
           self.robotStart = self.arenaStart[0];

@@ -85,13 +85,13 @@ var world_Missions = new function() {
       ]
     },
     {
-      option: 'startPosXY',
+      option: 'startPosXYZStr',
       title: 'Starting Position (x, y)',
       type: 'text',
       help: 'Enter using this format "x, y" (in cm, without quotes) and it will override the above. Center of image is "0, 0".'
     },
     {
-      option: 'startRot',
+      option: 'startRotStr',
       title: 'Starting Rotation (degrees)',
       type: 'text',
       help: 'Set the starting rotation in degrees. Positive rotation is clockwise.'
