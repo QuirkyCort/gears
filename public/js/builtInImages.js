@@ -10,6 +10,16 @@ BUILT_IN_IMAGES = [
     description: 'Box full of Gears!'
   },
   {
+    url: 'textures/box/caution51.png',
+    type: 'box',
+    description: 'Yellow and black caution strips. This one is meant for rectangular surfaces.'
+  },
+  {
+    url: 'textures/box/cautionSquare.png',
+    type: 'box',
+    description: 'Yellow and black caution strips. This one is meant for square surfaces.'
+  },
+  {
     url: 'textures/box/metal.jpg',
     type: 'box',
     description: 'Light gray.'
