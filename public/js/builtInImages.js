@@ -75,6 +75,11 @@ BUILT_IN_IMAGES = [
     description: 'Plain steel drum. Filled with... beer?'
   },
   {
+    url: 'textures/cylinder/wheel.png',
+    type: 'cylinder',
+    description: 'The GearsBot wheel.'
+  },
+  {
     url: 'textures/sphere/basketBall.jpg',
     type: 'sphere',
     description: 'Double Dribble!'
