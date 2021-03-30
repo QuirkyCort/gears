@@ -108,7 +108,7 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       self.pen = robot.getComponentByPort(address.v);
-      if (!self.pen) {
+      if (!self.pen || self.pen.type != 'Pen') {
         throw new Sk.builtin.TypeError('No pen connected to ' + String(address.v));
       }
     });
@@ -144,7 +144,7 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       self.sensor = robot.getComponentByPort(address.v);
-      if (!self.sensor) {
+      if (!self.sensor || self.sensor.type != 'ColorSensor') {
         throw new Sk.builtin.TypeError('No color sensor connected to ' + String(address.v));
       }
     });
@@ -273,7 +273,7 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       self.sensor = robot.getComponentByPort(address.v);
-      if (!self.sensor) {
+      if (!self.sensor || self.sensor.type != 'GyroSensor') {
         throw new Sk.builtin.TypeError('No gyro sensor connected to ' + String(address.v));
       }
     });
@@ -298,7 +298,7 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       self.sensor = robot.getComponentByPort(address.v);
-      if (!self.sensor) {
+      if (!self.sensor || self.sensor.type != 'GPSSensor') {
         throw new Sk.builtin.TypeError('No GPS sensor connected to ' + String(address.v));
       }
     });
@@ -322,7 +322,7 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       self.sensor = robot.getComponentByPort(address.v);
-      if (!self.sensor) {
+      if (!self.sensor || self.sensor.type != 'UltrasonicSensor') {
         throw new Sk.builtin.TypeError('No ultrasonic sensor connected to ' + String(address.v));
       }
     });
@@ -338,7 +338,7 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       self.sensor = robot.getComponentByPort(address.v);
-      if (!self.sensor) {
+      if (!self.sensor || self.sensor.type != 'TouchSensor') {
         throw new Sk.builtin.TypeError('No touch sensor connected to ' + String(address.v));
       }
     });
@@ -431,7 +431,7 @@ var $builtinmodule = function(name) {
       return Sk.ffi.remapToPy(robot.radioEmpty(mailbox.v));
     });
 
-  }, 'TouchSensor', []);
+  }, 'Radio', []);
 
   return mod;
 };
