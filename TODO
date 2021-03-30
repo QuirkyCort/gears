@@ -49,6 +49,5 @@ Bugs
 - Variables not disappearing from toolbox immediately upon delete
 - Loading a map file will set hidden options that cannot be cleared through GUI.
 - Rewrite python imports for trivial files in js
-- Better warnings when initializing non-existent components in Python
 - Add compound objects
 - Add damping physics option
