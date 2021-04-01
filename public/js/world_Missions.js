@@ -25,11 +25,14 @@ var world_Missions = new function() {
         ['2021 WRO (Junior)', 'worlds/missions/WRO/WRO-2021-Regular-Junior.json?v=151e42f8'],
         ['2021 WRO (Senior)', 'worlds/missions/WRO/WRO-2021-Regular-Senior.json?v=b2fed43c'],
         ['2020 FLL (RePLAY)', 'worlds/missions/FLL/FLL2020.json?v=eeac2988'],
+        ['2020 WRO (Elementary)', 'worlds/missions/WRO/WRO-2020-Regular-Elementary.json?v=a2b3799b'],
         ['2020 WRO (Junior)', 'worlds/missions/WRO/WRO-2020-Regular-Junior.json?v=6f98672b'],
         ['2019 FLL (City Shaper)', 'worlds/missions/FLL/FLL2019.json?v=36e51441'],
-        ['2019 WRO (Junior)', 'worlds/missions/WRO/WRO-2019-Regular-Junior.json?v=02c66e1d'],
+        ['2019 WRO (Elementary)', 'worlds/missions/WRO/WRO-2019-Regular-Elementary.json?v=01c06b8c'],
+        ['2019 WRO (Junior)', 'worlds/missions/WRO/WRO-2019-Regular-Junior.json?v=deccceee'],
         ['2018 FLL (Into Orbit)', 'worlds/missions/FLL/FLL2018.json?v=55341767'],
-        ['2018 WRO (Junior)', 'worlds/missions/WRO/WRO-2018-Regular-Junior.json?v=b9d7ff56'],
+        ['2018 WRO (Elementary)', 'worlds/missions/WRO/WRO-2018-Regular-Elementary.json?v=45169571'],
+        ['2018 WRO (Junior)', 'worlds/missions/WRO/WRO-2018-Regular-Junior.json?v=54491949'],
       ]
     },
     {
