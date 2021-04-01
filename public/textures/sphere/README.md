@@ -23,3 +23,9 @@ Changes: Scaled down
 * sun.jpg
 * uranus.jpg
 * venus_atmosphere.jpg
+
+By: Kat Fetisov
+URL: https://katfetisov.wordpress.com/2014/08/08/freebies-football-textures/
+License: Feel free to use these textures for whatever you like so long as you include a link back to this blog with anything you distribute.
+
+* soccerBall.png

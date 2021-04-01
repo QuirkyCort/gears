@@ -90,6 +90,16 @@ BUILT_IN_IMAGES = [
     description: 'Multicolored beach ball.'
   },
   {
+    url: 'textures/sphere/soccerBall.png',
+    type: 'sphere',
+    description: 'More commonly referred to as football in most parts of the world.'
+  },
+  {
+    url: 'textures/sphere/tennisBall.png',
+    type: 'sphere',
+    description: 'Not to be sent to kings.'
+  },
+  {
     url: 'textures/sphere/earth_day.jpg',
     type: 'sphere',
     description: 'Day view of earth.'
