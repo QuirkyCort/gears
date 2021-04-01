@@ -12,15 +12,8 @@ var world_Missions = new function() {
   this.longDescription =
     '<p>This world contains various missions.</p>' +
     '<p>Currently, we only have missions based on First Lego League (FLL) and World Robot Olympiad (WRO), but we welcome contributions of any types of missions.</p>' +
-    '<p>Contributed missions should be constructable using just a custom json to be suitable for inclusion here.</p>';
-  this.thumbnail = 'images/worlds/fll.jpg';
-
-  this.options = {};
-  this.robotStart = {
-    position: new BABYLON.Vector3(0, 0, 0), // Overridden by position setting,
-    rotation: new BABYLON.Vector3(0, 0, 0)
-  };
-  this.arenaStart = null;
+    '<p>Contributed missions should be constructed using json only (ie. no javascript) to be suitable for inclusion here.</p>';
+  this.thumbnail = 'images/worlds/missions.jpg';
 
   this.optionsConfigurations = [
     {
@@ -28,15 +21,15 @@ var world_Missions = new function() {
       title: 'Select Mission',
       type: 'select',
       options: [
-        ['2021 WRO (Elementary)', 'worlds/missions/WRO/WRO-2021-Regular-Elementary.json'],
-        ['2021 WRO (Junior)', 'worlds/missions/WRO/WRO-2021-Regular-Junior.json'],
-        ['2021 WRO (Senior)', 'worlds/missions/WRO/WRO-2021-Regular-Senior.json'],
-        ['2020 FLL (RePLAY)', 'worlds/missions/FLL/FLL2020.json'],
-        ['2020 WRO (Junior)', 'worlds/missions/WRO/WRO-2020-Regular-Junior.json'],
-        ['2019 FLL (City Shaper)', 'worlds/missions/FLL/FLL2019.json'],
-        ['2019 WRO (Junior)', 'worlds/missions/WRO/WRO-2019-Regular-Junior.json'],
-        ['2018 FLL (Into Orbit)', 'worlds/missions/FLL/FLL2018.json'],
-        ['2018 WRO (Junior)', 'worlds/missions/WRO/WRO-2018-Regular-Junior.json'],
+        ['2021 WRO (Elementary)', 'worlds/missions/WRO/WRO-2021-Regular-Elementary.json?v=c0e43729'],
+        ['2021 WRO (Junior)', 'worlds/missions/WRO/WRO-2021-Regular-Junior.json?v=151e42f8'],
+        ['2021 WRO (Senior)', 'worlds/missions/WRO/WRO-2021-Regular-Senior.json?v=b2fed43c'],
+        ['2020 FLL (RePLAY)', 'worlds/missions/FLL/FLL2020.json?v=eeac2988'],
+        ['2020 WRO (Junior)', 'worlds/missions/WRO/WRO-2020-Regular-Junior.json?v=6f98672b'],
+        ['2019 FLL (City Shaper)', 'worlds/missions/FLL/FLL2019.json?v=36e51441'],
+        ['2019 WRO (Junior)', 'worlds/missions/WRO/WRO-2019-Regular-Junior.json?v=02c66e1d'],
+        ['2018 FLL (Into Orbit)', 'worlds/missions/FLL/FLL2018.json?v=55341767'],
+        ['2018 WRO (Junior)', 'worlds/missions/WRO/WRO-2018-Regular-Junior.json?v=b9d7ff56'],
       ]
     },
     {
