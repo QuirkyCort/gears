@@ -51,3 +51,4 @@ Bugs
 - Rewrite python imports for trivial files in js
 - Add compound objects
 - Add damping physics option
+- Fix ammo to add setDeactivationTime

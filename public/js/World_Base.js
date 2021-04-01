@@ -655,7 +655,7 @@ var World_Base = function() {
 
   // draw the timer panel
   self.drawTimer = function(rebuild) {
-    if (rebuild) {
+    if (rebuild || typeof self.$time == 'undefined') {
       simPanel.clearWorldInfoPanel();
       let $info = $(
         '<div class="mono row">' +

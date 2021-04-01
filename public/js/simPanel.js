@@ -428,6 +428,7 @@ var simPanel = new function() {
       let $div = $('<div class="configuration"></div>');
       let $select = $('<select></select>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
@@ -455,6 +456,7 @@ var simPanel = new function() {
       let $select = $('<select></select>');
       let $html = $('<div></div>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
@@ -517,6 +519,7 @@ var simPanel = new function() {
       let $slider = $sliderBox.find('input[type=range]');
       let $input = $sliderBox.find('input[type=text]');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $slider.attr('min', opt.min);
       $slider.attr('max', opt.max);
@@ -544,6 +547,7 @@ var simPanel = new function() {
       let $textBox = $('<div class="text"><input type="text"></div>');
       let $input = $textBox.find('input');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $input.val(currentVal);
 
@@ -562,6 +566,7 @@ var simPanel = new function() {
       let $textBox = $('<div class="text"><input type="text"></div>');
       let $input = $textBox.find('input');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $input.val(currentVal);
 
@@ -580,6 +585,7 @@ var simPanel = new function() {
       let $textBox = $('<div class="text"><input type="text"></div>');
       let $input = $textBox.find('input');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $input.val(currentVal);
 
@@ -620,7 +626,6 @@ var simPanel = new function() {
 
       $configurations.empty();
       worldOptionsSetting = {};
-      Object.assign(worldOptionsSetting, worldOptions);
       for (let optionConfiguration of world.optionsConfigurations) {
         if (optionConfiguration.type == 'select') {
           $configurations.append(genSelect(optionConfiguration, worldOptions));
