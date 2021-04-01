@@ -121,6 +121,10 @@ var world_Missions = new function() {
         if (options.missions != true) {
           self.options.objects = {};
         }
+        if (options.startPos != 'missionDefault') {
+          self.options.startPosXYZ = null;
+          self.options.startRot = null;
+        }
 
         return self.parent.setOptions();
       });
