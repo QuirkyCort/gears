@@ -226,6 +226,9 @@ class UltrasonicSensor:
     time.sleep(SENSOR_DELAY)
     return False
 
+# Alias for clarity
+LaserRangeSensor = UltrasonicSensor
+
 class TouchSensor:
   _DRIVER_NAME = 'lego-ev3-touch'
 
