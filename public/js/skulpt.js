@@ -6,9 +6,9 @@ var skulpt = new function() {
     './ev3dev2/motor.py': 'ev3dev2/motor.py?v=f13c634c',
     './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
     './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
-    './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=db329762',
+    './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=f1f831d2',
     './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=290ffe6d',
-    './simPython.js': 'js/simPython.js?v=2d8f6f25'
+    './simPython.js': 'js/simPython.js?v=fdca90f2'
   };
   this.preloadedLibs = {};
 

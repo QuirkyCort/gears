@@ -322,7 +322,7 @@ var $builtinmodule = function(name) {
 
     $loc.__init__ = new Sk.builtin.func(function(self, address) {
       self.sensor = robot.getComponentByPort(address.v);
-      if (!self.sensor || self.sensor.type != 'UltrasonicSensor') {
+      if (!self.sensor || (self.sensor.type != 'UltrasonicSensor' && self.sensor.type != 'LaserRangeSensor')) {
         throw new Sk.builtin.TypeError('No ultrasonic sensor connected to ' + String(address.v));
       }
     });
