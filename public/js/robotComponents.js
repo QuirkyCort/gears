@@ -729,9 +729,8 @@ function GyroSensor(scene, parent, pos, port, options) {
   };
 
   this.reset = function() {
-    self.rotationAdjustment += self.rotation;
+    self.rotationAdjustment = self.actualRotation;
     self.rotation = 0;
-    self.prevRotation = 0;
   };
 
   this.getAngle = function() {

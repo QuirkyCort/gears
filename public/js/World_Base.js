@@ -385,8 +385,16 @@ var World_Base = function() {
 
       // General objects
       if (self.options.objects instanceof Array) {
+        let indexObj = { index: 0 };
         for (let i=0; i<self.options.objects.length; i++) {
-          self.addObject(scene, self.options.objects[i], i);
+          if (self.options.objects[i].type == 'compound') {
+            self.addCompound(scene, self.options.objects[i], indexObj);
+          } else {
+            let options = self.mergeObjectOptionsWithDefault(self.options.objects[i])
+            let mesh = self.addObject(scene, options, indexObj.index);
+            self.addPhysics(scene, mesh, options);
+            indexObj.index++;
+          }
         }
       }
 
@@ -403,36 +411,47 @@ var World_Base = function() {
     });
   };
 
-  // Add a single object
-  this.addObject = function(scene, object, index) {
-    let options = Object.assign({}, self.objectDefault);
-
-    let tmp = JSON.parse(JSON.stringify(object));
-    Object.assign(options, tmp);
-
-    if (typeof options.physicsOptions == 'string') {
-      if (options.physicsOptions == 'fixed') {
-        options.physicsOptions = {
-          mass: 0,
-          friction: 0.1,
-          restitution: 0.1
-        }
-      } else if (options.physicsOptions == 'moveable') {
-        options.physicsOptions = {
-          mass: 10,
-          friction: 0.1,
-          restitution: 0.1
-        }
-      } else {
-        console.log('Invalid physicsOption for object. Using default.');
-        options.physicsOptions = {
-          mass: 0,
-          friction: 0.1,
-          restitution: 0.1
-        }
-      }
+  // Add a compound object
+  this.addCompound = function(scene, object, indexObj) {
+    if (! (object.objects instanceof Array)) {
+      return;
+    }
+    if (object.objects.length == 0) {
+      return;
     }
 
+    let options = self.mergeObjectOptionsWithDefault(object.objects[0])
+    let parentMesh = self.addObject(scene, options, indexObj.index);
+    indexObj.index++;
+
+    for (let i=1; i<object.objects.length; i++) {
+      let childOptions = self.mergeObjectOptionsWithDefault(object.objects[i])
+      let childMesh = self.addObject(scene, childOptions, indexObj.index);
+      childOptions.physicsOptions = {
+        mass: 0,
+        friction: 0,
+        restitution: 0
+      }
+      childMesh.parent = parentMesh;
+      self.addPhysics(scene, childMesh, childOptions);
+      indexObj.index++;
+    }
+
+    self.addPhysics(scene, parentMesh, options);
+
+    return parentMesh;
+  };
+
+  // Merge with default object options
+  this.mergeObjectOptionsWithDefault = function(object) {
+    let options = Object.assign({}, self.objectDefault);
+    Object.assign(options, object);
+
+    return options;
+  };
+
+  // Add a single object
+  this.addObject = function(scene, options, index) {
     if (options.position.length < 3) {
       options.position.push(0);
     }
@@ -472,11 +491,13 @@ var World_Base = function() {
       var objectMesh = self.addCylinder(scene, meshOptions);
     } else if (options.type == 'sphere') {
       var objectMesh = self.addSphere(scene, meshOptions);
+    } else {
+      console.log('Invalid object type');
+      return null;
     }
 
     if (options.magnetic) {
       objectMesh.isMagnetic = true;
-      objectMesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
     }
 
     if (typeof options.laserDetection == 'undefined' || options.laserDetection == null) {
@@ -521,15 +542,6 @@ var World_Base = function() {
     mesh.position = options.position;
     mesh.rotation = options.rotation;
 
-    if (options.physicsOptions !== false) {
-      mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
-        mesh,
-        BABYLON.PhysicsImpostor.SphereImpostor,
-        options.physicsOptions,
-        scene
-      );
-    }
-
     return mesh;
   };
 
@@ -561,15 +573,6 @@ var World_Base = function() {
 
     mesh.position = options.position;
     mesh.rotation = options.rotation;
-
-    if (options.physicsOptions !== false) {
-      mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
-        mesh,
-        BABYLON.PhysicsImpostor.CylinderImpostor,
-        options.physicsOptions,
-        scene
-      );
-    }
 
     return mesh;
   };
@@ -620,16 +623,58 @@ var World_Base = function() {
     mesh.position = options.position;
     mesh.rotation = options.rotation;
 
+    return mesh;
+  };
+
+  this.addPhysics = function(scene, mesh, options) {
+    if (typeof options.physicsOptions == 'string') {
+      if (options.physicsOptions == 'fixed') {
+        options.physicsOptions = {
+          mass: 0,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      } else if (options.physicsOptions == 'moveable') {
+        options.physicsOptions = {
+          mass: 10,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      } else {
+        console.log('Invalid physicsOption for object. Using default.');
+        options.physicsOptions = {
+          mass: 0,
+          friction: 0.1,
+          restitution: 0.1
+        }
+      }
+    }
+
     if (options.physicsOptions !== false) {
+      let imposterType = null;
+      if (options.type == 'box') {
+        imposterType = BABYLON.PhysicsImpostor.BoxImpostor;
+      } else if (options.type == 'cylinder') {
+        imposterType = BABYLON.PhysicsImpostor.CylinderImpostor;
+      } else if (options.type == 'sphere') {
+        imposterType = BABYLON.PhysicsImpostor.SphereImpostor;
+      } else {
+        console.log('Invalid object type when creating physics imposter');
+        return;
+      }
+
       mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
         mesh,
-        BABYLON.PhysicsImpostor.BoxImpostor,
+        imposterType,
         options.physicsOptions,
         scene
       );
-    }
 
-    return mesh;
+      if (options.magnetic) {
+        mesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
+      }
+
+    }
   };
 
   // startSim
