@@ -456,9 +456,12 @@ var World_Base = function() {
       options.position.push(0);
     }
 
-    if (options.rotationMode == 'degrees') {
-      for (let i=0; i<options.rotation.length; i++) {
-        options.rotation[i] = options.rotation[i] / 180 * Math.PI;
+    let rotationRad = []
+    for (let i=0; i<options.rotation.length; i++) {
+      if (options.rotationMode == 'degrees') {
+        rotationRad[i] = options.rotation[i] / 180 * Math.PI;
+      } else {
+        rotationRad[i] = options.rotation[i];
       }
     }
 
@@ -466,7 +469,7 @@ var World_Base = function() {
       material: babylon.getMaterial(scene, options.color),
       size: options.size,
       position: new BABYLON.Vector3(options.position[0], options.position[2], options.position[1]),
-      rotation: new BABYLON.Vector3(options.rotation[0], options.rotation[1], options.rotation[2]),
+      rotation: new BABYLON.Vector3(rotationRad[0], rotationRad[1], rotationRad[2]),
       physicsOptions: options.physicsOptions,
       imageType: options.imageType,
       index: index
