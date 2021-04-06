@@ -190,8 +190,8 @@ var builder = new function() {
       {
         option: 'position',
         type: 'vectors',
-        min: '-200',
-        max: '200',
+        min: '-100',
+        max: '100',
         step: '1',
         reset: true
       },
@@ -295,8 +295,8 @@ var builder = new function() {
       {
         option: 'position',
         type: 'vectors',
-        min: '-200',
-        max: '200',
+        min: '-100',
+        max: '100',
         step: '1',
         reset: true
       },
@@ -389,8 +389,8 @@ var builder = new function() {
       {
         option: 'position',
         type: 'vectors',
-        min: '-200',
-        max: '200',
+        min: '-100',
+        max: '100',
         step: '1',
         reset: true
       },
@@ -490,6 +490,11 @@ var builder = new function() {
     ...this.objectDefault,
     type: 'sphere',
     imageType: 'sphere',
+  };
+
+  this.compoundDefault = {
+    type: 'compound',
+    objects: []
   };
 
   this.pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0,1,0)});
@@ -596,7 +601,7 @@ var builder = new function() {
     let selected = self.$objectsList.find('li.selected');
     if (typeof selected[0].object != 'undefined') {
       self.saveHistory();
-      let pos = self.pointerDragBehavior.attachedNode.absolutePosition;
+      let pos = self.pointerDragBehavior.attachedNode.position;
       selected[0].object.position[0] = pos.x;
       selected[0].object.position[1] = pos.z;
       selected[0].object.position[2] = pos.y;
@@ -1055,14 +1060,17 @@ var builder = new function() {
       }
 
       if (hit.pickedMesh != null && hit.pickedMesh.id.match(/^worldBaseObject_/) != null) {
-        let index = parseInt(hit.pickedMesh.id.match(/[0-9]+$/)[0]);
-        let childList = self.$objectsList.find('li');
-        for (child of childList) {
-          if (typeof child.objectIndex != 'undefined' && child.objectIndex == index) {
-            childList.removeClass('selected');
-            $(child).addClass('selected');
-            self.objectSelect(child);
-            break;
+        let index = hit.pickedMesh.id.match(/[0-9]+$/);
+        if (index) {
+          index = parseInt(index[0]);
+          let childList = self.$objectsList.find('li');
+          for (child of childList) {
+            if (typeof child.objectIndex != 'undefined' && child.objectIndex == index) {
+              childList.removeClass('selected');
+              $(child).addClass('selected');
+              self.objectSelect(child);
+              break;
+            }
           }
         }
       }
@@ -1102,7 +1110,7 @@ var builder = new function() {
     let $select = $('<select></select>');
     let $description = $('<div class="description"><div class="text"></div></div>');
 
-    let objectTypes = ['Box', 'Cylinder', 'Sphere'];
+    let objectTypes = ['Box', 'Cylinder', 'Sphere', 'Compound'];
 
     objectTypes.forEach(function(type){
       let $object = $('<option></option>');
@@ -1124,6 +1132,8 @@ var builder = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       self.saveHistory();
+
+      let selected = self.getSelectedComponent()[0];
       let object = null;
       if ($select.val() == 'Box') {
         object = JSON.parse(JSON.stringify(self.boxDefault));
@@ -1131,8 +1141,16 @@ var builder = new function() {
         object = JSON.parse(JSON.stringify(self.cylinderDefault));
       } else if ($select.val() == 'Sphere') {
         object = JSON.parse(JSON.stringify(self.sphereDefault));
+      } else if ($select.val() == 'Compound') {
+        object = JSON.parse(JSON.stringify(self.compoundDefault));
       }
-      self.worldOptions.objects.push(object);
+
+      if (selected.name == 'compound') {
+        selected.object.objects.push(object);
+      } else {
+        self.worldOptions.objects.push(object);
+      }
+
       self.resetScene();
       $dialog.close();
     });
@@ -1141,7 +1159,7 @@ var builder = new function() {
   // Clone selected object
   this.cloneObject = function() {
     let $selected = self.getSelectedComponent();
-    let VALID_OBJECTS = ['box', 'cylinder', 'sphere']
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'compound'];
     if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
       toastMsg('Only objects can be cloned');
       return;
@@ -1181,7 +1199,9 @@ var builder = new function() {
     if (typeof prevSelection[0].objectIndex != 'undefined') {
       let id = 'worldBaseObject_' + prevSelection[0].name + prevSelection[0].objectIndex;
       let mesh = babylon.scene.getMeshByID(id);
-      mesh.removeBehavior(self.pointerDragBehavior);
+      if (mesh) {
+        mesh.removeBehavior(self.pointerDragBehavior);
+      }
     }
     prevSelection.removeClass('selected');
 
@@ -1282,8 +1302,8 @@ var builder = new function() {
     $li[0].object = {};
     $ul.append($li);
 
-    let $list = $('<ul></ul>');
-    options.objects.forEach(function(object){
+    function listObject(object, $list) {
+      // Apply default options
       for (let key in self.objectDefault) {
         if (typeof object[key] == 'undefined') {
           object[key] = self.objectDefault[key];
@@ -1291,12 +1311,24 @@ var builder = new function() {
       }
 
       let $item = $('<li></li>');
-
       $item.text(object.type);
       $item[0].name = object.type;
       $item[0].object = object;
-      $item[0].objectIndex = objectIndex++;
+      if (object.type == 'compound') {
+        let $subList = $('<ul></ul>');
+        object.objects.forEach(function(object){
+          listObject(object, $subList);
+        });
+        $item.append($subList);
+      } else {
+        $item[0].objectIndex = objectIndex++;
+      }
       $list.append($item);
+    }
+
+    let $list = $('<ul></ul>');
+    options.objects.forEach(function(object){
+      listObject(object, $list);
     });
 
     if ($list.children().length > 0) {
@@ -1356,22 +1388,6 @@ var builder = new function() {
       };
       reader.readAsText(e.target.files[0]);
     });
-  };
-
-  // Display current position
-  this.displayPosition = function() {
-    let x = Math.round(robot.body.position.x * 10) / 10;
-    let y = Math.round(robot.body.position.z * 10) / 10;
-    let angles = robot.body.absoluteRotationQuaternion.toEulerAngles();
-    let rot = Math.round(angles.y / Math.PI * 1800) / 10;
-
-    acknowledgeDialog({
-      title: 'Robot Position',
-      message: $(
-        '<p>Position: ' + x + ', ' + y + '</p>' +
-        '<p>Rotation: ' + rot + ' degrees</p>'
-      )
-    })
   };
 
   // Toggle filemenu
