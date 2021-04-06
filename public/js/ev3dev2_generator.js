@@ -90,7 +90,7 @@ var ev3dev2_generator = new function() {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n';
         self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'LaserRangeSensor') {
-        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ') # Laser Range Sensor\n';
+        sensorsCode += 'laser_sensor_in' + i + ' = LaserRangeSensor(INPUT_' + i + ')\n';
         self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'GyroSensor') {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
@@ -476,7 +476,7 @@ var ev3dev2_generator = new function() {
       var multiplier = ' * 10';
       var order = Blockly.Python.ORDER_MULTIPLICATIVE;
     }
-    var code = 'ultrasonic_sensor_in' + dropdown_port + '.distance_centimeters' + multiplier;
+    var code = 'laser_sensor_in' + dropdown_port + '.distance_centimeters' + multiplier;
     return [code, order];
   };
 
