@@ -1167,8 +1167,34 @@ var builder = new function() {
 
     self.saveHistory();
     let object = JSON.parse(JSON.stringify($selected[0].object));
-    self.worldOptions.objects.push(object);
+    let parentCompound = self.findParentCompound($selected[0].objectIndex);
+    if (parentCompound !== null) {
+      parentCompound.objects.push(object);
+    } else {
+      self.worldOptions.objects.push(object);
+    }
     self.resetScene();
+  };
+
+  // Find the parent of a child object
+  this.findParentCompound = function(objectIndex) {
+    let currentIndex = 0;
+    let parentCompound = null;
+    for (let i=0; i<self.worldOptions.objects.length; i++) {
+      if (self.worldOptions.objects[i].type == 'compound') {
+        parentCompound = self.worldOptions.objects[i];
+        for (let j=0; j<self.worldOptions.objects[i].objects.length; j++) {
+          if (currentIndex == objectIndex) {
+            return parentCompound;
+          }
+          currentIndex++;
+        }
+        parentCompound = null;
+      } else {
+        currentIndex++;
+      }
+    }
+    return null;
   };
 
   // Delete selected object
@@ -1180,28 +1206,8 @@ var builder = new function() {
       return;
     }
 
-    function findParentCompound(objectIndex) {
-      let currentIndex = 0;
-      let parentCompound = null;
-      for (let i=0; i<self.worldOptions.objects.length; i++) {
-        if (self.worldOptions.objects[i].type == 'compound') {
-          parentCompound = self.worldOptions.objects[i];
-          for (let j=0; j<self.worldOptions.objects[i].objects.length; j++) {
-            if (currentIndex == objectIndex) {
-              return parentCompound;
-            }
-            currentIndex++;
-          }
-          parentCompound = null;
-        } else {
-          currentIndex++;
-        }
-      }
-      return null;
-    }
-
     self.saveHistory();
-    let parentCompound = findParentCompound($selected[0].objectIndex);
+    let parentCompound = self.findParentCompound($selected[0].objectIndex);
     if (parentCompound !== null) {
       let index = parentCompound.objects.indexOf($selected[0].object);
       parentCompound.objects.splice(index, 1);
