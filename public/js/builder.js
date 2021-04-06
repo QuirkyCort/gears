@@ -1174,14 +1174,41 @@ var builder = new function() {
   // Delete selected object
   this.deleteObject = function() {
     let $selected = self.getSelectedComponent();
-    let VALID_OBJECTS = ['box', 'cylinder', 'sphere']
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'compound']
     if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
       toastMsg('Only objects can be deleted');
       return;
     }
 
+    function findParentCompound(objectIndex) {
+      let currentIndex = 0;
+      let parentCompound = null;
+      for (let i=0; i<self.worldOptions.objects.length; i++) {
+        if (self.worldOptions.objects[i].type == 'compound') {
+          parentCompound = self.worldOptions.objects[i];
+          for (let j=0; j<self.worldOptions.objects[i].objects.length; j++) {
+            if (currentIndex == objectIndex) {
+              return parentCompound;
+            }
+            currentIndex++;
+          }
+          parentCompound = null;
+        } else {
+          currentIndex++;
+        }
+      }
+      return null;
+    }
+
     self.saveHistory();
-    self.worldOptions.objects.splice($selected[0].objectIndex, 1);
+    let parentCompound = findParentCompound($selected[0].objectIndex);
+    if (parentCompound !== null) {
+      let index = parentCompound.objects.indexOf($selected[0].object);
+      parentCompound.objects.splice(index, 1);
+    } else {
+      let index = self.worldOptions.objects.indexOf($selected[0].object);
+      self.worldOptions.objects.splice(index, 1);
+    }
     self.resetScene();
   };
 
@@ -1302,7 +1329,7 @@ var builder = new function() {
     $li[0].object = {};
     $ul.append($li);
 
-    function listObject(object, $list) {
+    function listObject(object) {
       // Apply default options
       for (let key in self.objectDefault) {
         if (typeof object[key] == 'undefined') {
@@ -1317,18 +1344,21 @@ var builder = new function() {
       if (object.type == 'compound') {
         let $subList = $('<ul></ul>');
         object.objects.forEach(function(object){
-          listObject(object, $subList);
+          let $subItem = listObject(object);
+          $subItem[0].child = true;
+          $subList.append($subItem);
         });
         $item.append($subList);
       } else {
         $item[0].objectIndex = objectIndex++;
       }
-      $list.append($item);
+
+      return $item;
     }
 
     let $list = $('<ul></ul>');
     options.objects.forEach(function(object){
-      listObject(object, $list);
+      $list.append(listObject(object));
     });
 
     if ($list.children().length > 0) {
