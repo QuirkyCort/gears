@@ -747,7 +747,8 @@ ul.menuDropDownRightAlign {
   display: flex;
   flex-direction: column; }
   .settingsWindow .settingsArea {
-    flex-grow: 1; }
+    flex-grow: 1;
+    overflow: auto; }
   .settingsWindow .buttons {
     display: flex;
     width: 100%;
