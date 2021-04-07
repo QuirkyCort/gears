@@ -91,12 +91,14 @@ var World_Base = function() {
 
   // Set options, including default
   this.setOptions = function(options) {
+    self.setSeed(self.options.seed);
+
     if (
       typeof self.options != 'undefined'
       && typeof self.options.imageURL != 'undefined'
       && self.options.imageURL.trim() != ''
     ) {
-      self.options.image = self.options.imageURL;
+      self.options.image = self.processSettingsString(self.options.imageURL);
     }
 
     if (
@@ -111,9 +113,9 @@ var World_Base = function() {
         if (self.options.arenaStartPosXYZ instanceof Array) {
           for (let i=0; i < self.options.arenaStartPosXYZ.length; i++) {
             self.arenaStart[i].position = new BABYLON.Vector3(
-              self.options.arenaStartPosXYZ[i][0],
-              self.options.arenaStartPosXYZ[i][2],
-              self.options.arenaStartPosXYZ[i][1]
+              self.processSettingsString(self.options.arenaStartPosXYZ[i][0]),
+              self.processSettingsString(self.options.arenaStartPosXYZ[i][2]),
+              self.processSettingsString(self.options.arenaStartPosXYZ[i][1])
             );
           }
         }
@@ -122,11 +124,13 @@ var World_Base = function() {
           for (let i=0; i < self.options.arenaStartRot.length; i++) {
             self.arenaStart[i].rotation = new BABYLON.Vector3(
               0,
-              self.options.arenaStartRot[i],
+              self.processSettingsString(self.options.arenaStartRot[i]),
               0,
             );
           }
         }
+
+        self.options.startPos == self.processSettingsString(self.options.startPos);
 
         if (self.options.startPos == 'center') {
           self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
@@ -165,11 +169,15 @@ var World_Base = function() {
         }
 
         if (self.options.startPosXYZ instanceof Array) {
-          self.robotStart.position = new BABYLON.Vector3(self.options.startPosXYZ[0], self.options.startPosXYZ[2],self.options.startPosXYZ[1]);
+          self.robotStart.position = new BABYLON.Vector3(
+            self.processSettingsString(self.options.startPosXYZ[0]),
+            self.processSettingsString(self.options.startPosXYZ[2]),
+            self.processSettingsString(self.options.startPosXYZ[1])
+          );
         }
 
         if (typeof self.options.startRot == 'number') {
-          self.robotStart.rotation.y = self.options.startRot / 180 * Math.PI;
+          self.robotStart.rotation.y = self.processSettingsString(self.options.startRot) / 180 * Math.PI;
         }
       }
 
@@ -459,30 +467,39 @@ var World_Base = function() {
     let rotationRad = []
     for (let i=0; i<options.rotation.length; i++) {
       if (options.rotationMode == 'degrees') {
-        rotationRad[i] = options.rotation[i] / 180 * Math.PI;
+        rotationRad[i] = self.processSettingsString(options.rotation[i]) / 180 * Math.PI;
       } else {
-        rotationRad[i] = options.rotation[i];
+        rotationRad[i] = self.processSettingsString(options.rotation[i]);
       }
     }
 
     let meshOptions = {
-      material: babylon.getMaterial(scene, options.color),
-      size: options.size,
-      position: new BABYLON.Vector3(options.position[0], options.position[2], options.position[1]),
+      material: babylon.getMaterial(scene, self.processSettingsString(options.color)),
+      size: [
+        self.processSettingsString(options.size[0]),
+        self.processSettingsString(options.size[1]),
+        self.processSettingsString(options.size[2]),
+      ],
+      position: new BABYLON.Vector3(
+        self.processSettingsString(options.position[0]),
+        self.processSettingsString(options.position[2]),
+        self.processSettingsString(options.position[1])
+      ),
       rotation: new BABYLON.Vector3(rotationRad[0], rotationRad[1], rotationRad[2]),
       physicsOptions: options.physicsOptions,
-      imageType: options.imageType,
+      imageType: self.processSettingsString(options.imageType),
       index: index
     };
 
     let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
 
-    if (VALID_IMAGETYPES.indexOf(options.imageType) != -1 && options.imageURL != '') {
+    let imageURL = self.processSettingsString(options.imageURL);
+    if (VALID_IMAGETYPES.indexOf(meshOptions.imageType) != -1 && imageURL != '') {
       var material = new BABYLON.StandardMaterial('imageObject', scene);
-      var texture = new BABYLON.Texture(options.imageURL, scene);
+      var texture = new BABYLON.Texture(imageURL, scene);
       material.diffuseTexture = texture;
-      material.diffuseTexture.uScale = options.uScale;
-      material.diffuseTexture.vScale = options.vScale;
+      material.diffuseTexture.uScale = self.processSettingsString(options.uScale);
+      material.diffuseTexture.vScale = self.processSettingsString(options.vScale);
       material.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
       meshOptions.material = material;
@@ -499,7 +516,7 @@ var World_Base = function() {
       return null;
     }
 
-    if (options.magnetic) {
+    if (self.processSettingsString(options.magnetic)) {
       objectMesh.isMagnetic = true;
     }
 
@@ -510,7 +527,7 @@ var World_Base = function() {
         objectMesh.laserDetection = 'normal';
       }
     } else {
-      objectMesh.laserDetection = options.laserDetection;
+      objectMesh.laserDetection = self.processSettingsString(options.laserDetection);
     }
 
     if (typeof options.ultrasonicDetection == 'undefined' || options.ultrasonicDetection == null) {
@@ -520,7 +537,7 @@ var World_Base = function() {
         objectMesh.ultrasonicDetection = 'normal';
       }
     } else {
-      objectMesh.ultrasonicDetection = options.ultrasonicDetection;
+      objectMesh.ultrasonicDetection = self.processSettingsString(options.ultrasonicDetection);
     }
 
     return objectMesh;
@@ -776,6 +793,147 @@ var World_Base = function() {
       }
       updateIfChanged(timeStr, self.$time);
     }
+  };
+
+  // process setting string
+  self.processSettingsString = function(settingsString) {
+    let NUMBERS = '-+0123456789';
+
+    let fns = {};
+    fns.randrange = function(string) {
+      if (typeof string != 'string') {
+        return string;
+      }
+      string = string.trim();
+
+      let params = processTerms(string.slice(1, -1));
+      if (params.length != 2) {
+        return null;
+      }
+      if (typeof params[0] != 'number' || typeof params[1] != 'number') {
+        return null;
+      }
+
+      return params[0] + self.mulberry32() * (params[1] - params[0]);
+    };
+    fns.randchoice = function(string) {
+      if (typeof string != 'string') {
+        return string;
+      }
+      string = string.trim();
+
+      let params = processTerms(string.slice(1, -1));
+      if (params.length == 0) {
+        return null;
+      }
+
+      let choice = Math.floor(self.mulberry32() * params.length);
+      return params[choice];
+    };
+
+    function processFunction(string) {
+      let i;
+      for (i=0; i<string.length; i++) {
+        if (string[i] == '(') {
+          break;
+        }
+      }
+      let fn = string.slice(0, i);
+      let remainder = string.slice(i);
+
+      if (fn in fns) {
+        return fns[fn](remainder)
+      } else {
+        return string;
+      }
+    }
+
+    function processNumber(string) {
+      if (isNaN(string)) {
+        return string;
+      }
+      return parseFloat(string);
+    }
+
+    function processTerm(string) {
+      if (typeof string != 'string') {
+        return string;
+      }
+      string = string.trim();
+
+      if (NUMBERS.indexOf(string[0]) != -1) {
+        return processNumber(string);
+      } else {
+        let result = processFunction(string);
+        if (result === null) {
+          return string;
+        } else {
+          return result;
+        }
+      }
+    }
+
+    function processTerms(string) {
+      if (typeof string != 'string') {
+        return string;
+      }
+      string = string.trim();
+
+      let terms = [];
+
+      let i;
+
+      if (NUMBERS.indexOf(string[0]) != -1) {
+        for (i=0; i<string.length; i++) {
+          if (string[i] == ',') {
+            break;
+          }
+        }
+      } else {
+        let level = 0;
+        for (i=0; i<string.length; i++) {
+          if (string[i] == '(') {
+            level++;
+          } else if (string[i] == ')') {
+            level--;
+          } else if (string[i] == ',' && level == 0) {
+            break;
+          }
+        }
+      }
+      let firstTerm = string.slice(0, i);
+      let remainder = string.slice(i+1);
+
+      terms.push(processTerm(firstTerm));
+
+      if (remainder.length > 0) {
+        let r = processTerms(remainder);
+        terms = terms.concat(r);
+      }
+
+      return terms;
+    }
+
+    return processTerm(settingsString);
+  };
+
+  // Set the random number seed
+  this.setSeed = function(seed) {
+    if (typeof seed == 'undefined' || seed == null) {
+      self.seed = Date.now();
+    } else {
+      self.seed = parseFloat(seed);
+    }
+  };
+
+  // Generate random number
+  this.mulberry32 = function() {
+    var t = self.seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    let result = ((t ^ t >>> 14) >>> 0) / 4294967296;
+    self.seed = result * 4294967296;
+    return result;
   };
 
 }

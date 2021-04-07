@@ -571,7 +571,11 @@ var simPanel = new function() {
       $input.val(currentVal);
 
       $input.change(function(){
-        worldOptionsSetting[opt.option] = parseInt($input.val());
+        if (isNaN($input.val())) {
+          worldOptionsSetting[opt.option] = $input.val();
+        } else {
+          worldOptionsSetting[opt.option] = parseInt($input.val());
+        }
       });
 
       $div.append(getTitle(opt));
@@ -590,7 +594,11 @@ var simPanel = new function() {
       $input.val(currentVal);
 
       $input.change(function(){
-        worldOptionsSetting[opt.option] = parseFloat($input.val());
+        if (isNaN($input.val())) {
+          worldOptionsSetting[opt.option] = $input.val();
+        } else {
+          worldOptionsSetting[opt.option] = parseFloat($input.val());
+        }
       });
 
       $div.append(getTitle(opt));
@@ -728,6 +736,7 @@ var simPanel = new function() {
     $buttons.siblings('.confirm').click(function(){
       babylon.world = worlds.find(world => world.name == $select.val());
       babylon.world.setOptions(worldOptionsSetting).then(function(){
+        self.worldOptionsSetting = worldOptionsSetting;
         self.resetSim();
       });
       $dialog.close();
@@ -768,12 +777,14 @@ var simPanel = new function() {
 
   // Reset simulator
   this.resetSim = function() {
-    self.clearWorldInfoPanel();
-    self.hideWorldInfoPanel();
-    babylon.resetScene();
-    skulpt.hardInterrupt = true;
-    self.setRunIcon('run');
-    self.initSensorsPanel();
+    babylon.world.setOptions(self.worldOptionsSetting).then(function(){
+      self.clearWorldInfoPanel();
+      self.hideWorldInfoPanel();
+      babylon.resetScene();
+      skulpt.hardInterrupt = true;
+      self.setRunIcon('run');
+      self.initSensorsPanel();
+    });
   };
 
   // Strip html tags
