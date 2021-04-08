@@ -735,10 +735,8 @@ var simPanel = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       babylon.world = worlds.find(world => world.name == $select.val());
-      babylon.world.setOptions(worldOptionsSetting).then(function(){
-        self.worldOptionsSetting = worldOptionsSetting;
-        self.resetSim();
-      });
+      self.worldOptionsSetting = worldOptionsSetting;
+      self.resetSim();
       $dialog.close();
     });
   };

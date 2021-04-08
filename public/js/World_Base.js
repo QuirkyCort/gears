@@ -91,93 +91,138 @@ var World_Base = function() {
 
   // Set options, including default
   this.setOptions = function(options) {
-    self.setSeed(self.options.seed);
+    function processOptionsObject(options) {
+      let processed = {};
+
+      for (let key in options) {
+        if (options[key] instanceof Array) {
+          processed[key] = processOptionsArray(options[key]);
+        } else if (typeof options[key] == 'object') {
+          processed[key] = processOptionsObject(options[key]);
+        } else if (typeof options[key] == 'string') {
+          processed[key] = self.processSettingsString(options[key]);
+        } else {
+          processed[key] = options[key];
+        }
+      }
+
+      return processed;
+    }
+
+    function processOptionsArray(options) {
+      let processed = [];
+
+      for (let value of options) {
+        if (value instanceof Array) {
+          processed.push(processOptionsArray(value));
+        } else if (typeof value == 'object') {
+          processed.push(processOptionsObject(value));
+        } else if (typeof options[key] == 'string') {
+          processed.push(self.processSettingsString(value));
+        } else {
+          processed.push(value);
+        }
+      }
+
+      return processed;
+    }
+
+    self.processedOptions = processOptionsObject(self.options);
+
+    self.setSeed(self.processedOptions.seed);
 
     if (
-      typeof self.options != 'undefined'
-      && typeof self.options.imageURL != 'undefined'
-      && self.options.imageURL.trim() != ''
+      typeof self.processedOptions != 'undefined'
+      && typeof self.processedOptions.imageURL != 'undefined'
+      && self.processedOptions.imageURL.trim() != ''
     ) {
-      self.options.image = self.processSettingsString(self.options.imageURL);
+      self.processedOptions.image = self.processedOptions.imageURL;
     }
 
     if (
       typeof options != 'undefined'
       && typeof options.imageFile != 'undefined'
     ) {
-      self.options.image = options.imageFile;
+      self.processedOptions.image = options.imageFile;
     }
 
     return new Promise(function(resolve, reject) {
       function setStartPosRot() {
-        if (self.options.arenaStartPosXYZ instanceof Array) {
-          for (let i=0; i < self.options.arenaStartPosXYZ.length; i++) {
+        if (self.processedOptions.arenaStartPosXYZ instanceof Array) {
+          for (let i=0; i < self.processedOptions.arenaStartPosXYZ.length; i++) {
             self.arenaStart[i].position = new BABYLON.Vector3(
-              self.processSettingsString(self.options.arenaStartPosXYZ[i][0]),
-              self.processSettingsString(self.options.arenaStartPosXYZ[i][2]),
-              self.processSettingsString(self.options.arenaStartPosXYZ[i][1])
+              self.processedOptions.arenaStartPosXYZ[i][0],
+              self.processedOptions.arenaStartPosXYZ[i][2],
+              self.processedOptions.arenaStartPosXYZ[i][1]
             );
           }
         }
 
-        if (self.options.arenaStartRot instanceof Array) {
-          for (let i=0; i < self.options.arenaStartRot.length; i++) {
+        if (self.processedOptions.arenaStartRot instanceof Array) {
+          for (let i=0; i < self.processedOptions.arenaStartRot.length; i++) {
             self.arenaStart[i].rotation = new BABYLON.Vector3(
               0,
-              self.processSettingsString(self.options.arenaStartRot[i]),
+              self.processedOptions.arenaStartRot[i],
               0,
             );
           }
         }
 
-        self.options.startPos == self.processSettingsString(self.options.startPos);
-
-        if (self.options.startPos == 'center') {
+        if (self.processedOptions.startPos == 'center') {
           self.robotStart.position = new BABYLON.Vector3(0, 0, 0);
-        } else if (self.options.startPos == 'bottomLeft') {
-          let x = -(self.options.groundLength / 2 - 12.5);
-          let z = -(self.options.groundWidth / 2 - 12.5) + 1;
+        } else if (self.processedOptions.startPos == 'bottomLeft') {
+          let x = -(self.processedOptions.groundLength / 2 - 12.5);
+          let z = -(self.processedOptions.groundWidth / 2 - 12.5) + 1;
           self.robotStart.position = new BABYLON.Vector3(x, 0, z);
-        } else if (self.options.startPos == 'bottomCenter') {
-          let z = -(self.options.groundWidth / 2 - 12.5) + 1;
+        } else if (self.processedOptions.startPos == 'bottomCenter') {
+          let z = -(self.processedOptions.groundWidth / 2 - 12.5) + 1;
           self.robotStart.position = new BABYLON.Vector3(0, 0, z);
-        } else if (self.options.startPos == 'bottomRight') {
-          let x = (self.options.groundLength / 2 - 12.5);
-          let z = -(self.options.groundWidth / 2 - 12.5) + 1;
+        } else if (self.processedOptions.startPos == 'bottomRight') {
+          let x = (self.processedOptions.groundLength / 2 - 12.5);
+          let z = -(self.processedOptions.groundWidth / 2 - 12.5) + 1;
           self.robotStart.position = new BABYLON.Vector3(x, 0, z);
-        } else if (self.options.startPos == 'P0') {
+        } else if (self.processedOptions.startPos == 'P0') {
           self.robotStart = self.arenaStart[0];
-        } else if (self.options.startPos == 'P1') {
+        } else if (self.processedOptions.startPos == 'P1') {
           self.robotStart = self.arenaStart[1];
-        } else if (self.options.startPos == 'P2') {
+        } else if (self.processedOptions.startPos == 'P2') {
           self.robotStart = self.arenaStart[2];
-        } else if (self.options.startPos == 'P3') {
+        } else if (self.processedOptions.startPos == 'P3') {
           self.robotStart = self.arenaStart[3];
         }
 
-        if (self.options.startPosXYZStr.trim() != '') {
-          let xy = self.options.startPosXYZStr.split(',');
+        if (self.processedOptions.startPosXYZStr.trim() != '') {
+          let xy = self.processedOptions.startPosXYZStr.split(',');
           let alt = 0;
           if (xy.length > 2) {
             alt = parseFloat(xy[2]);
           }
-          self.options.startPosXYZ = [parseFloat(xy[0]), parseFloat(xy[1]), alt];
+          self.processedOptions.startPosXYZ = [parseFloat(xy[0]), parseFloat(xy[1]), alt];
         }
 
-        if (self.options.startRotStr.trim() != '') {
-          self.options.startRot = parseFloat(self.options.startRotStr);
+        if (self.processedOptions.startRotStr.trim() != '') {
+          self.processedOptions.startRot = parseFloat(self.processedOptions.startRotStr);
         }
 
-        if (self.options.startPosXYZ instanceof Array) {
+        if (typeof self.processedOptions.startPosXYZ == 'string') {
+          var startPosXYZ = self.processedOptions.startPosXYZ;
+        } else {
+          var startPosXYZ = self.processedOptions.startPosXYZ;
+        }
+
+        if (startPosXYZ instanceof Array) {
+          if (startPosXYZ.length < 3) {
+            startPosXYZ.push(0);
+          }
           self.robotStart.position = new BABYLON.Vector3(
-            self.processSettingsString(self.options.startPosXYZ[0]),
-            self.processSettingsString(self.options.startPosXYZ[2]),
-            self.processSettingsString(self.options.startPosXYZ[1])
+            startPosXYZ[0],
+            startPosXYZ[2],
+            startPosXYZ[1]
           );
         }
 
-        if (typeof self.options.startRot == 'number') {
-          self.robotStart.rotation.y = self.processSettingsString(self.options.startRot) / 180 * Math.PI;
+        if (typeof self.processedOptions.startRot == 'number') {
+          self.robotStart.rotation.y = self.processedOptions.startRot / 180 * Math.PI;
         }
       }
 
@@ -191,11 +236,11 @@ var World_Base = function() {
         );
       };
       img.onload = function() {
-        self.options.groundLength = this.width / 10.0 * self.options.imageScale * self.options.uScale;
-        self.options.groundWidth = this.height / 10.0 * self.options.imageScale * self.options.vScale;
+        self.processedOptions.groundLength = this.width / 10.0 * self.processedOptions.imageScale * self.processedOptions.uScale;
+        self.processedOptions.groundWidth = this.height / 10.0 * self.processedOptions.imageScale * self.processedOptions.vScale;
 
-        let xPos = self.options.groundLength / 2 - 12;
-        let yPos = self.options.groundWidth / 2 - 12;
+        let xPos = self.processedOptions.groundLength / 2 - 12;
+        let yPos = self.processedOptions.groundWidth / 2 - 12;
         self.arenaStart = [
           {
             position: new BABYLON.Vector3(-xPos, 0, yPos),
@@ -219,15 +264,15 @@ var World_Base = function() {
 
         resolve();
       }
-      if (self.options.groundType == 'none') {
+      if (self.processedOptions.groundType == 'none') {
         var VALID_STARTPOS = ['center','P0','P1','P2','P3'];
-        if (VALID_STARTPOS.indexOf(self.options.startPos) == -1) {
-          self.options.startPos = 'center';
+        if (VALID_STARTPOS.indexOf(self.processedOptions.startPos) == -1) {
+          self.processedOptions.startPos = 'center';
         }
         setStartPosRot();
         resolve();
-      } else if (typeof self.options.image != 'undefined' && self.options.image != '') {
-        img.src = self.options.image;
+      } else if (typeof self.processedOptions.image != 'undefined' && self.processedOptions.image != '') {
+        img.src = self.processedOptions.image;
       }
     });
   };
@@ -246,9 +291,9 @@ var World_Base = function() {
     faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
 
     var boxOptions = {
-      width: self.options.groundWidth,
+      width: self.processedOptions.groundWidth,
       height: 10,
-      depth: self.options.groundLength,
+      depth: self.processedOptions.groundLength,
       faceUV: faceUV
     };
 
@@ -264,8 +309,8 @@ var World_Base = function() {
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
         mass: 0,
-        friction: self.options.groundFriction,
-        restitution: self.options.groundRestitution
+        friction: self.processedOptions.groundFriction,
+        restitution: self.processedOptions.groundRestitution
       },
       scene
     );
@@ -283,7 +328,7 @@ var World_Base = function() {
 
     var cylinderOptions = {
       height: 10,
-      diameter: self.options.groundWidth,
+      diameter: self.processedOptions.groundWidth,
       tessellation: 48,
       faceUV: faceUV
     };
@@ -299,8 +344,8 @@ var World_Base = function() {
       BABYLON.PhysicsImpostor.CylinderImpostor,
       {
         mass: 0,
-        friction: self.options.groundFriction,
-        restitution: self.options.groundRestitution
+        friction: self.processedOptions.groundFriction,
+        restitution: self.processedOptions.groundRestitution
       },
       scene
     );
@@ -312,58 +357,58 @@ var World_Base = function() {
   this.load = function (scene) {
     return new Promise(function(resolve, reject) {
       var groundMat = new BABYLON.StandardMaterial('ground', scene);
-      var groundTexture = new BABYLON.Texture(self.options.image, scene);
+      var groundTexture = new BABYLON.Texture(self.processedOptions.image, scene);
       groundMat.diffuseTexture = groundTexture;
-      groundMat.diffuseTexture.uScale = self.options.uScale;
-      groundMat.diffuseTexture.vScale = self.options.vScale;
+      groundMat.diffuseTexture.uScale = self.processedOptions.uScale;
+      groundMat.diffuseTexture.vScale = self.processedOptions.vScale;
       groundMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
-      if (self.options.groundType == 'box') {
+      if (self.processedOptions.groundType == 'box') {
         self.boxGround(scene, groundMat);
-      } else if (self.options.groundType == 'cylinder') {
+      } else if (self.processedOptions.groundType == 'cylinder') {
         self.cylinderGround(scene, groundMat);
       }
 
-      if (self.options.wall && self.options.groundType == 'box') {
-        var wallMat = babylon.getMaterial(scene, self.options.wallColor);
+      if (self.processedOptions.wall && self.processedOptions.groundType == 'box') {
+        var wallMat = babylon.getMaterial(scene, self.processedOptions.wallColor);
 
         let wall1 = {
-          height: self.options.wallHeight + 10,
-          width: self.options.groundLength + self.options.wallThickness * 2,
-          depth: self.options.wallThickness
+          height: self.processedOptions.wallHeight + 10,
+          width: self.processedOptions.groundLength + self.processedOptions.wallThickness * 2,
+          depth: self.processedOptions.wallThickness
         }
 
         var wallTop = BABYLON.MeshBuilder.CreateBox('wallTop', wall1, scene);
         wallTop.position.y = wall1.height / 2 - 10;
-        wallTop.position.z = (self.options.groundWidth + self.options.wallThickness) / 2;
+        wallTop.position.z = (self.processedOptions.groundWidth + self.processedOptions.wallThickness) / 2;
         wallTop.material = wallMat;
 
         var wallBottom = BABYLON.MeshBuilder.CreateBox('wallBottom', wall1, scene);
         wallBottom.position.y = wall1.height / 2 - 10;
-        wallBottom.position.z = -(self.options.groundWidth + self.options.wallThickness) / 2;
+        wallBottom.position.z = -(self.processedOptions.groundWidth + self.processedOptions.wallThickness) / 2;
         wallBottom.material = wallMat;
 
         let wall2 = {
-          height: self.options.wallHeight + 10,
-          width: self.options.wallThickness,
-          depth: self.options.groundWidth
+          height: self.processedOptions.wallHeight + 10,
+          width: self.processedOptions.wallThickness,
+          depth: self.processedOptions.groundWidth
         }
 
         var wallLeft = BABYLON.MeshBuilder.CreateBox('wallLeft', wall2, scene);
         wallLeft.position.y = wall1.height / 2 - 10;
-        wallLeft.position.x = -(self.options.groundLength + self.options.wallThickness) / 2;
+        wallLeft.position.x = -(self.processedOptions.groundLength + self.processedOptions.wallThickness) / 2;
         wallLeft.material = wallMat;
 
         var wallRight = BABYLON.MeshBuilder.CreateBox('wallRight', wall2, scene);
         wallRight.position.y = wall1.height / 2 - 10;
-        wallRight.position.x = (self.options.groundLength + self.options.wallThickness) / 2;
+        wallRight.position.x = (self.processedOptions.groundLength + self.processedOptions.wallThickness) / 2;
         wallRight.material = wallMat;
 
         // Wall physics
         var wallOptions = {
           mass: 0,
-          friction: self.options.wallFriction,
-          restitution: self.options.wallRestitution
+          friction: self.processedOptions.wallFriction,
+          restitution: self.processedOptions.wallRestitution
         };
         wallTop.physicsImpostor = new BABYLON.PhysicsImpostor(
           wallTop,
@@ -392,13 +437,13 @@ var World_Base = function() {
       }
 
       // General objects
-      if (self.options.objects instanceof Array) {
+      if (self.processedOptions.objects instanceof Array) {
         let indexObj = { index: 0 };
-        for (let i=0; i<self.options.objects.length; i++) {
-          if (self.options.objects[i].type == 'compound') {
-            self.addCompound(scene, self.options.objects[i], indexObj);
+        for (let i=0; i<self.processedOptions.objects.length; i++) {
+          if (self.processedOptions.objects[i].type == 'compound') {
+            self.addCompound(scene, self.processedOptions.objects[i], indexObj);
           } else {
-            let options = self.mergeObjectOptionsWithDefault(self.options.objects[i])
+            let options = self.mergeObjectOptionsWithDefault(self.processedOptions.objects[i])
             let mesh = self.addObject(scene, options, indexObj.index);
             self.addPhysics(scene, mesh, options);
             indexObj.index++;
@@ -407,7 +452,7 @@ var World_Base = function() {
       }
 
       // Show the info panel if timer is requested
-      if (self.options.timer != 'none') {
+      if (self.processedOptions.timer != 'none') {
         self.renderTimeout = 0;
         self.startTime = null;
         self.timeLimitReached = false;
@@ -467,39 +512,39 @@ var World_Base = function() {
     let rotationRad = []
     for (let i=0; i<options.rotation.length; i++) {
       if (options.rotationMode == 'degrees') {
-        rotationRad[i] = self.processSettingsString(options.rotation[i]) / 180 * Math.PI;
+        rotationRad[i] = options.rotation[i] / 180 * Math.PI;
       } else {
-        rotationRad[i] = self.processSettingsString(options.rotation[i]);
+        rotationRad[i] = options.rotation[i];
       }
     }
 
     let meshOptions = {
-      material: babylon.getMaterial(scene, self.processSettingsString(options.color)),
+      material: babylon.getMaterial(scene, options.color),
       size: [
-        self.processSettingsString(options.size[0]),
-        self.processSettingsString(options.size[1]),
-        self.processSettingsString(options.size[2]),
+        options.size[0],
+        options.size[1],
+        options.size[2]
       ],
       position: new BABYLON.Vector3(
-        self.processSettingsString(options.position[0]),
-        self.processSettingsString(options.position[2]),
-        self.processSettingsString(options.position[1])
+        options.position[0],
+        options.position[2],
+        options.position[1]
       ),
       rotation: new BABYLON.Vector3(rotationRad[0], rotationRad[1], rotationRad[2]),
       physicsOptions: options.physicsOptions,
-      imageType: self.processSettingsString(options.imageType),
+      imageType: options.imageType,
       index: index
     };
 
     let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
 
-    let imageURL = self.processSettingsString(options.imageURL);
+    let imageURL = options.imageURL;
     if (VALID_IMAGETYPES.indexOf(meshOptions.imageType) != -1 && imageURL != '') {
       var material = new BABYLON.StandardMaterial('imageObject', scene);
       var texture = new BABYLON.Texture(imageURL, scene);
       material.diffuseTexture = texture;
-      material.diffuseTexture.uScale = self.processSettingsString(options.uScale);
-      material.diffuseTexture.vScale = self.processSettingsString(options.vScale);
+      material.diffuseTexture.uScale = options.uScale;
+      material.diffuseTexture.vScale = options.vScale;
       material.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
       meshOptions.material = material;
@@ -516,7 +561,7 @@ var World_Base = function() {
       return null;
     }
 
-    if (self.processSettingsString(options.magnetic)) {
+    if (options.magnetic) {
       objectMesh.isMagnetic = true;
     }
 
@@ -527,7 +572,7 @@ var World_Base = function() {
         objectMesh.laserDetection = 'normal';
       }
     } else {
-      objectMesh.laserDetection = self.processSettingsString(options.laserDetection);
+      objectMesh.laserDetection = options.laserDetection;
     }
 
     if (typeof options.ultrasonicDetection == 'undefined' || options.ultrasonicDetection == null) {
@@ -537,7 +582,7 @@ var World_Base = function() {
         objectMesh.ultrasonicDetection = 'normal';
       }
     } else {
-      objectMesh.ultrasonicDetection = self.processSettingsString(options.ultrasonicDetection);
+      objectMesh.ultrasonicDetection = options.ultrasonicDetection;
     }
 
     return objectMesh;
@@ -699,7 +744,7 @@ var World_Base = function() {
 
   // startSim
   self.startSim = function() {
-    if (self.options.timer != 'none' && self.startTime == null) {
+    if (self.processedOptions.timer != 'none' && self.startTime == null) {
       self.startTime = Date.now();
     }
   };
@@ -713,7 +758,7 @@ var World_Base = function() {
     }
     self.renderTimeout = 0;
 
-    if (self.options.timer != 'none') {
+    if (typeof self.processedOptions != 'undefined' && self.processedOptions.timer != 'none') {
       self.drawTimer(false);
     }
   }
@@ -741,7 +786,7 @@ var World_Base = function() {
       if (self.timeLimitReached == false) {
         self.timeLimitReached = true;
         self.$time.addClass('warn');
-        if (self.options.timerEnd == 'stopRobot') {
+        if (self.processedOptions.timerEnd == 'stopRobot') {
           simPanel.stopSim();
 
           var counts = 15;
@@ -757,21 +802,21 @@ var World_Base = function() {
       }
     }
 
-    if (self.options.timer == 'up') {
+    if (self.processedOptions.timer == 'up') {
       var time = elapsedTime;
       var sign = '';
-      if (time >= self.options.timerDuration) {
-        if (self.options.timerEnd != 'continue') {
-          time = self.options.timerDuration;
+      if (time >= self.processedOptions.timerDuration) {
+        if (self.processedOptions.timerEnd != 'continue') {
+          time = self.processedOptions.timerDuration;
         }
         setTimeLimitReached();
       }
 
-    } else if (self.options.timer == 'down') {
-      var time = self.options.timerDuration - elapsedTime;
+    } else if (self.processedOptions.timer == 'down') {
+      var time = self.processedOptions.timerDuration - elapsedTime;
       var sign = '';
       if (time <= 0) {
-        if (self.options.timerEnd == 'continue') {
+        if (self.processedOptions.timerEnd == 'continue') {
           if (time < 0) {
             sign = '-';
           }
@@ -855,13 +900,25 @@ var World_Base = function() {
       return parseFloat(string);
     }
 
+    function processArray(string) {
+      return processTerms(string.slice(1, -1));
+    }
+
+    function processString(string) {
+      return string.trim().slice(1, -1);
+    }
+
     function processTerm(string) {
       if (typeof string != 'string') {
         return string;
       }
       string = string.trim();
 
-      if (NUMBERS.indexOf(string[0]) != -1) {
+      if (string[0] == '\'') {
+        return processString(string);
+      } else if (string[0] == '[') {
+        return processArray(string);
+      } else if (NUMBERS.indexOf(string[0]) != -1) {
         return processNumber(string);
       } else {
         let result = processFunction(string);
@@ -883,7 +940,27 @@ var World_Base = function() {
 
       let i;
 
-      if (NUMBERS.indexOf(string[0]) != -1) {
+      if (string[0] == '\'') {
+        let closed = false;
+        for (i=1; i<string.length; i++) {
+          if (string[i] == '\'') {
+            closed = true;
+          } else if (string[i] == ',' && closed) {
+            break;
+          }
+        }
+      } else if (string[0] == '[') {
+        let level = 0;
+        for (i=0; i<string.length; i++) {
+          if (string[i] == '[') {
+            level++;
+          } else if (string[i] == ']') {
+            level--;
+          } else if (string[i] == ',' && level == 0) {
+            break;
+          }
+        }
+      } else if (NUMBERS.indexOf(string[0]) != -1) {
         for (i=0; i<string.length; i++) {
           if (string[i] == ',') {
             break;

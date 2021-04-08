@@ -1460,7 +1460,7 @@ var i18n = new function() {
   // Change all keys in provided string
   this.replace = function(input) {
     let regEx = '';
-    for (key of MSGS_KEYS) {
+    for (let key of MSGS_KEYS) {
       regEx += key + '|';
     }
     regEx = regEx.slice(0, regEx.length - 1);
