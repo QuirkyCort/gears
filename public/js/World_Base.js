@@ -117,7 +117,7 @@ var World_Base = function() {
           processed.push(processOptionsArray(value));
         } else if (typeof value == 'object') {
           processed.push(processOptionsObject(value));
-        } else if (typeof options[key] == 'string') {
+        } else if (typeof value == 'string') {
           processed.push(self.processSettingsString(value));
         } else {
           processed.push(value);
