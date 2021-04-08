@@ -117,6 +117,61 @@
   width: 1.3em;
 }
 
+.joystick {
+  position: absolute;
+  color: black;
+  background: rgba(255,255,255,0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 6em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: end;
+  width: 7em;
+  overflow: hidden;
+  transition: 0.5s width;
+
+  .icon {
+    margin-right: 0.5em;
+    font-size: 120%;
+  }
+
+  .row1, .row2 {
+    font-size: 50%;
+    white-space: nowrap;
+  }
+
+  .virtualJoystick {
+    position: relative;
+    font-size: 150px;
+    height: 150px;
+
+    .icon-virtualJoystickIndicator {
+      position: absolute;
+      color: #ddd;
+      top: 0;
+      left: 0;
+    }
+
+    .icon-virtualJoystick {
+      position: absolute;
+      color: #bbb;
+      top: 0;
+      left: 0;
+    }
+  }
+}
+
+.joystick.closed {
+  color: white;
+  background: none;
+  width: 1.3em;
+}
+
 .console {
   position: absolute;
   bottom: 0;

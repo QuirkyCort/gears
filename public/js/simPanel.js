@@ -20,8 +20,12 @@ var simPanel = new function() {
     self.$camera = $('.camera');
     self.$sensors = $('.sensors');
     self.$ruler = $('.ruler');
+    self.$joystick = $('.joystick');
+    self.$joystickIcon = $('.icon-joystick');
+    self.$virtualJoystick = $('.icon-virtualJoystick');
+    self.$virtualJoystickIndicator = $('.icon-virtualJoystickIndicator');
 
-    setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors]);
+    setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors, self.$joystickIcon]);
 
     self.$sensorsPanel = $('.sensorReadings');
     self.$worldInfoPanel = $('.worldInfo');
@@ -34,6 +38,59 @@ var simPanel = new function() {
     self.$reset.click(self.resetSim);
     self.$camera.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
+    self.$joystickIcon.click(self.toggleJoystick);
+
+    function moveSteering(steering, speed) {
+      console.log(speed, steering);
+      if (steering > 1) {
+        steering = 1;
+      } else if (steering < -1) {
+        steering = -1;
+      }
+      if (speed > 1) {
+        speed = 1;
+      } else if (speed < -1) {
+        speed = -1;
+      }
+
+      if (steering > 0) {
+        robot.leftWheel.speed_sp = speed * 1000;
+        robot.rightWheel.speed_sp = (speed - steering * 2) * 1000;
+        robot.leftWheel.runForever();
+        robot.rightWheel.runForever();
+      } else {
+        robot.leftWheel.speed_sp = (speed + steering * 2) * 1000;
+        robot.rightWheel.speed_sp = speed * 1000;
+        robot.leftWheel.runForever();
+        robot.rightWheel.runForever();
+      }
+    }
+    function stop() {
+      robot.leftWheel.speed_sp = 0;
+      robot.rightWheel.speed_sp = 0;
+      robot.leftWheel.stop();
+      robot.rightWheel.stop();
+    }
+
+    self.$virtualJoystick[0].addEventListener('pointermove', function(e){
+      if (e.buttons & 1) {
+        var rect = e.target.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        self.$virtualJoystickIndicator[0].style.left = (x - 75) + 'px';
+        self.$virtualJoystickIndicator[0].style.top = (y - 75) + 'px';
+        let speed = (75 - y) / 75;
+        let steering = (x - 75) / 75;
+        moveSteering(steering, speed);
+      }
+    });
+    function resetJoystick(e) {
+      self.$virtualJoystickIndicator[0].style.left = '0px';
+      self.$virtualJoystickIndicator[0].style.top = '0px';
+      stop();
+    }
+    self.$virtualJoystick[0].addEventListener('pointerup', resetJoystick);
+    self.$virtualJoystick[0].addEventListener('pointerleave', resetJoystick);
 
     self.updateTextLanguage();
 
@@ -62,6 +119,12 @@ var simPanel = new function() {
     setInterval(self.displayMeasurements, 50);
 
     self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
+  };
+
+  // Toggle virtual joystick
+  this.toggleJoystick = function() {
+    console.log('t')
+    self.$joystick.toggleClass('closed');
   };
 
   // Update text already in html
