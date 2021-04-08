@@ -24,6 +24,7 @@ Features
 - Switch to monaco?
 - Add support for Lego Python?
 - Configure physics option in builder
+- import/export compound objects in builder
 
 Coding (Sharing)
 - Remote coach view of student's work
