@@ -16,7 +16,6 @@ Features
   - LED (use ev3dev api or new?)
 - Prevent jumping over wall when backing up. (Increasing wall friction doesn't work...)
 - Set duty_cycle_sp. Useful for aligning to wall.
-- Remote control
 - Buttons
 - Load zip file
 - Touch sensor extendable touch surface

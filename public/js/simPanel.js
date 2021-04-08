@@ -41,7 +41,6 @@ var simPanel = new function() {
     self.$joystickIcon.click(self.toggleJoystick);
 
     function moveSteering(steering, speed) {
-      console.log(speed, steering);
       if (steering > 1) {
         steering = 1;
       } else if (steering < -1) {
@@ -55,11 +54,11 @@ var simPanel = new function() {
 
       if (steering > 0) {
         robot.leftWheel.speed_sp = speed * 1000;
-        robot.rightWheel.speed_sp = (speed - steering * 2) * 1000;
+        robot.rightWheel.speed_sp = speed * 1000 * (1 - steering * 2);
         robot.leftWheel.runForever();
         robot.rightWheel.runForever();
       } else {
-        robot.leftWheel.speed_sp = (speed + steering * 2) * 1000;
+        robot.leftWheel.speed_sp = speed * 1000 * (1 + steering * 2)
         robot.rightWheel.speed_sp = speed * 1000;
         robot.leftWheel.runForever();
         robot.rightWheel.runForever();
@@ -79,8 +78,15 @@ var simPanel = new function() {
         var y = e.clientY - rect.top;
         self.$virtualJoystickIndicator[0].style.left = (x - 75) + 'px';
         self.$virtualJoystickIndicator[0].style.top = (y - 75) + 'px';
-        let speed = (75 - y) / 75;
-        let steering = (x - 75) / 75;
+        y = (75 - y) / 75;
+        x = (x - 75) / 75;
+
+        let steering = 1 - 2 * Math.abs(Math.atan2(y, x) / Math.PI);
+        let speed = Math.sqrt(y**2 + x**2);
+        if (y < 0) {
+          speed = -speed;
+        }
+
         moveSteering(steering, speed);
       }
     });
