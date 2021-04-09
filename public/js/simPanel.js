@@ -85,6 +85,7 @@ var simPanel = new function() {
         let speed = Math.sqrt(y**2 + x**2);
         if (y < 0) {
           speed = -speed;
+          steering = -steering;
         }
 
         moveSteering(steering, speed);
