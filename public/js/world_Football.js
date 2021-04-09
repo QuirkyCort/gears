@@ -136,7 +136,7 @@ var world_Football = new function() {
       help: 'The range in speed of the ball at the beginning of the match and after scoring a goal.'
     },
     {
-      option: 'ballDampingstr',
+      option: 'ballDampingStr',
       title: 'Ball Damping',
       type: 'text',
       help: 'Amount of damping force slowing a rolling ball down. (float between 0 and 1 inclusive)'
