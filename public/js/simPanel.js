@@ -811,6 +811,46 @@ var simPanel = new function() {
     });
   };
 
+  // Load from file
+  this.loadWorld = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'application/json,.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        let loadedSave = JSON.parse(this.result);
+        let world = worlds.find(world => world.name == loadedSave.worldName);
+
+        if (typeof world == 'undefined') {
+          toastMsg(i18n.get('#sim-invalid_map#'));
+          return;
+        }
+
+        babylon.world = worlds.find(world => world.name == loadedSave.worldName);
+        self.worldOptionsSetting = loadedSave.options;
+        self.resetSim();
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+  };
+
+  // Save to file
+  this.saveWorld = function() {
+    let world = babylon.world;
+    let saveObj = {
+      worldName: world.name,
+      options: world.options
+    }
+
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(saveObj, null, 2));
+    hiddenElement.target = '_blank';
+    hiddenElement.download = world.name + 'Map_config.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
   // Stop the simulator
   this.stopSim = function() {
     skulpt.hardInterrupt = true;

@@ -374,8 +374,11 @@ var main = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: i18n.get('#main-world_builder#'), line: true, callback: self.worldBuilderWindow},
-        {html: i18n.get('#main-arena#'), line: false, callback: self.arenaWindow},
+        {html: i18n.get('#main-select_world#'), line: false, callback: simPanel.selectWorld},
+        {html: i18n.get('#main-world_builder#'), line: false, callback: self.worldBuilderWindow},
+        {html: i18n.get('#main-arena#'), line: true, callback: self.arenaWindow},
+        {html: i18n.get('#main-world_load_file#'), line: false, callback: simPanel.loadWorld},
+        {html: i18n.get('#main-world_save_file#'), line: false, callback: simPanel.saveWorld},
       ];
 
       menuDropDown(self.$worldsMenu, menuItems, {className: 'worldsMenuDropDown'});
