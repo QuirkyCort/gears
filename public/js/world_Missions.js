@@ -21,7 +21,7 @@ var world_Missions = new function() {
       title: 'Select Mission',
       type: 'select',
       options: [
-        ['2021 WRO (Elementary)', 'worlds/missions/WRO/WRO-2021-Regular-Elementary.json?v=c0e43729'],
+        ['2021 WRO (Elementary)', 'worlds/missions/WRO/WRO-2021-Regular-Elementary.json?v=45448002'],
         ['2021 WRO (Junior)', 'worlds/missions/WRO/WRO-2021-Regular-Junior.json?v=151e42f8'],
         ['2021 WRO (Senior)', 'worlds/missions/WRO/WRO-2021-Regular-Senior.json?v=b2fed43c'],
         ['2020 FLL (RePLAY)', 'worlds/missions/FLL/FLL2020.json?v=eeac2988'],

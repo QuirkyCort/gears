@@ -323,6 +323,49 @@ ul.menuDropDownRightAlign {
   background: none;
   width: 1.3em; }
 
+.joystick {
+  position: absolute;
+  color: black;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 6em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: end;
+  width: 7em;
+  overflow: hidden;
+  transition: 0.5s width; }
+  .joystick .icon {
+    margin-right: 0.5em;
+    font-size: 120%; }
+  .joystick .row1, .joystick .row2 {
+    font-size: 50%;
+    white-space: nowrap; }
+  .joystick .virtualJoystick {
+    position: relative;
+    font-size: 150px;
+    height: 150px; }
+    .joystick .virtualJoystick .icon-virtualJoystickIndicator {
+      position: absolute;
+      color: #ddd;
+      top: 0;
+      left: 0; }
+    .joystick .virtualJoystick .icon-virtualJoystick {
+      position: absolute;
+      color: #bbb;
+      top: 0;
+      left: 0; }
+
+.joystick.closed {
+  color: white;
+  background: none;
+  width: 1.3em; }
+
 .console {
   position: absolute;
   bottom: 0;
@@ -563,8 +606,8 @@ ul.menuDropDownRightAlign {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?bogrw9");
-  src: url("../fonts/icomoon.eot?bogrw9#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?bogrw9") format("truetype"), url("../fonts/icomoon.woff?bogrw9") format("woff"), url("../fonts/icomoon.svg?bogrw9#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?luj0sj");
+  src: url("../fonts/icomoon.eot?luj0sj#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?luj0sj") format("truetype"), url("../fonts/icomoon.woff?luj0sj") format("woff"), url("../fonts/icomoon.svg?luj0sj#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
@@ -581,20 +624,29 @@ ul.menuDropDownRightAlign {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.icon-globe:before {
-  content: "\e904"; }
+.icon-virtualJoystickIndicator:before {
+  content: "\e902"; }
+
+.icon-virtualJoystick:before {
+  content: "\e906"; }
+
+.icon-joystick:before {
+  content: "\e907"; }
 
 .icon-ruler:before {
   content: "\e900"; }
 
-.icon-stop:before {
-  content: "\e902"; }
-
-.icon-play:before {
-  content: "\e903"; }
-
 .icon-camera:before {
   content: "\e901"; }
+
+.icon-stop:before {
+  content: "\e903"; }
+
+.icon-play:before {
+  content: "\e904"; }
+
+.icon-globe:before {
+  content: "\e905"; }
 
 #arenaFrame {
   background-color: white;
@@ -747,7 +799,8 @@ ul.menuDropDownRightAlign {
   display: flex;
   flex-direction: column; }
   .settingsWindow .settingsArea {
-    flex-grow: 1; }
+    flex-grow: 1;
+    overflow: auto; }
   .settingsWindow .buttons {
     display: flex;
     width: 100%;

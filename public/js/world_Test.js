@@ -33,10 +33,10 @@ var world_Test = new function() {
       ]
     },
     {
-      option: 'startPosXY',
-      title: 'Starting Position (x, y)',
+      option: 'startPosXYZStr',
+      title: 'Starting Position (x, y, z)',
       type: 'text',
-      help: 'Enter using this format "x, y" (without quotes) and it will override the above. Center of image is "0, 0".'
+      help: 'Enter using this format "x, y, z" (in cm, without quotes) and it will override the above. Center of image is "0, 0, 0".'
     }
   ];
 

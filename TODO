@@ -1,31 +1,12 @@
 Playing field
-- more maps, more challenges
-- ideas are welcome
-- detailed designs and graphics are better
-- pull requests for completed code is best!
 - Wall following challenges
 - GPS challenges
 - Cospace type challenge
 - Underwater
 - Flying drone
 
-Robot / pybricks
-- realism is not the main focus, but where practicable, I would like the simulator to behave at least close to a real robot
-- testing and measurements of physical robot parameters
-- testing / advice on API behavior, particularly for pybricks.
-
-Documentation
-- most blocks are undocumented
-
-Coding (Python editor)
+Features
 - Documentation panel?
-
-Coding (Robot configurator)
-- Help menu
-- Name items
-- Duplicate items
-
-Coding (Simulator)
 - Implement Pybricks support (...run, not just generate code)
 - More components
   - object of interest radar (direction and range of object)
@@ -35,10 +16,14 @@ Coding (Simulator)
   - LED (use ev3dev api or new?)
 - Prevent jumping over wall when backing up. (Increasing wall friction doesn't work...)
 - Set duty_cycle_sp. Useful for aligning to wall.
-- Remote control
 - Buttons
 - Load zip file
 - Touch sensor extendable touch surface
+- Add damping physics option
+- Switch to monaco?
+- Add support for Lego Python?
+- Configure physics option in builder
+- import/export compound objects in builder
 
 Coding (Sharing)
 - Remote coach view of student's work
@@ -49,5 +34,4 @@ Bugs
 - Variables not disappearing from toolbox immediately upon delete
 - Loading a map file will set hidden options that cannot be cleared through GUI.
 - Rewrite python imports for trivial files in js
-- Add damping physics option
 - Fix ammo to add setDeactivationTime

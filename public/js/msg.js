@@ -777,6 +777,23 @@ let MSGS = {
   '#main-worlds#': {
     en: 'Worlds',
   },
+  '#main-select_world#': {
+    en: 'Select World',
+  },
+  '#main-world_load_file#': {
+    en: 'Load from file',
+    fr: 'Ouvrir un fichier',
+    el: 'Φόρτωση από αρχείο',
+    nl: 'Laden van bestand',
+    de: 'Öffne eine Datei',
+  },
+  '#main-world_save_file#': {
+    en: 'Save to file',
+    fr: 'Enregistrer dans un fichier',
+    el: 'Αποθήκευση σε αρχείο',
+    nl: 'Opslaan naar bestand',
+    de: 'Speichern unter',
+  },
   '#main-world_builder#': {
     en: 'World Builder (Experimental)',
   },
@@ -1460,7 +1477,7 @@ var i18n = new function() {
   // Change all keys in provided string
   this.replace = function(input) {
     let regEx = '';
-    for (key of MSGS_KEYS) {
+    for (let key of MSGS_KEYS) {
       regEx += key + '|';
     }
     regEx = regEx.slice(0, regEx.length - 1);
