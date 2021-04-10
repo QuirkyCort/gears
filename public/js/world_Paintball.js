@@ -1,11 +1,84 @@
+i18n.append({
+  '#shortDescription#': {
+    en: 'Paintball Challenges',
+    de: 'Paintball-Herausforderungen',
+  },
+  '#longDescription#': {
+    en: '<p>These challenges requires the use of the paintball launcher.</p>' +
+        'Read the <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball Launcher documentations</a> to learn how to launch a paintball.</p>',
+    de: '<p>Diese Herausforderungen erfordern die Nutzung des Paintball-Geschützes.</p>' +
+        'Lies die <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Dokumentations des Paintball-Geschützes</a>, um zu erfahren, wie man einen Paintball abfeuert.</p>',
+  },
+  '#firingRange#': {
+    en: 'Firing Range',
+    de: 'Schießbahn',
+  },
+  '#variableRange#': {
+    en: 'Variable Range',
+    de: 'Wechselnde Entfernung',
+  },
+  '#findTarget#': {
+    en: 'Find the Target',
+    de: 'Finde das Ziel',
+  },
+  '#highLow#': {
+    en: 'High and Low',
+    de: 'Hoch und Niedrig',
+  },
+  '#movingTarget1#': {
+    en: 'Moving Target 1',
+    de: 'Bewegliches Ziel 1',
+  },
+  '#movingTarget2#': {
+    en: 'Moving Target 2',
+    de: 'Bewegliches Ziel 2',
+  },
+  '#firingRangeLongDescriptiong#': {
+    en: '<p>Test out the paintball launcher here.</p>' +
+        '<p class="bold">Experiment 1</p>' +
+        '<ul>' +
+          '<li>Raise the paintball launcher to a 45 degrees angle.</li>' +
+          '<li>Launch the paintball at different power and record how far it travelled.</li>' +
+          '<li>Plot your recordings on a chart.</li>' +
+          '<li>Basic: Keep your chart and use it in the later challenges.</li>' +
+          '<li>Advanced: Can you find a mathematical equation to describe the curve in your chart?</li>' +
+          '<li>Advanced: Create a function that takes a distance as an input, and launch the paintball to that distance by controlling power.</li>' +
+        '</ul>' +
+        '<p class="bold">Experiment 2</p>' +
+        '<ul>' +
+          '<li>Launch the paintball at full power, but vary the launcher angle from 0 to 90 degrees.</li>' +
+          '<li>Record down the distance travelled for each launch angle and plot it on a chart.</li>' +
+          '<li>Basic: Keep your chart and use it in the later challenges.</li>' +
+          '<li>Advanced: Can you find a mathematical equation to describe the curve in your chart?</li>' +
+          '<li>Advanced: Create a function that takes a distance as an input, and launch the paintball to that distance by controlling launch angle.</li>' +
+        '</ul>',
+    de: '<p>Teste das Paintball Geschütz hier.</p>' +
+        '<p class="bold">Experiment 1</p>' +
+        '<ul>' +
+          '<li>Erhöhe den Abschusswinkel des Paintball-Geschützes auf 45 Grad.</li>' +
+          '<li>Feuere den Paintball mit unterschiedlicher Kraft und unterschiedlichen Winkeln ab und notiere, wie weit er flog.</li>' +
+          '<li>Stelle die notierten Werte in einem Diagramm dar.</li>' +
+          '<li>Grundlagen: Bewahre das Diagramm für spätere Herausforderungen auf.</li>' +
+          '<li>Fortgeschritten: Finde eine mathematische Gleichung für die Kurve des Diagramms.</li>' +
+          '<li>Fortgeschritten: Erstelle ein Unterprogramm, welches die Entfernung als Eingabe erhält und durch Regelung der Abschusskraft einen Paintball auf diese Entfernung abfeuert.</li>' +
+        '</ul>' +
+        '<p class="bold">Experiment 2</p>' +
+        '<ul>' +
+          '<li>Feuere den Paintball mit voller Kraft ab, aber verändere den Abschusswinkel im Bereich von 0 bis 90 Grad.</li>' +
+          '<li>Notiere die Entfernung für jeden Abschusswinkel und stelle die Werte in einem Diagramm dar.</li>' +
+          '<li>Grundlagen: Bewahre das Diagramm für spätere Herausforderungen auf.</li>' +
+          '<li>Fortgeschritten: Finde eine mathematische Gleichung für die Kurve des Diagramms.</li>' +
+          '<li>Fortgeschritten: Erstelle ein Unterprogramm, welches die Entfernung als Eingabe erhält und durch Regelung des Abschusswinkels einen Paintball auf diese Entfernung abfeuert.</li>' +
+        '</ul>'
+  }
+});
+
 var world_Paintball = new function() {
   var self = this;
 
   this.name = 'paintball';
-  this.shortDescription = 'Paintball Challenges';
-  this.longDescription =
-    '<p>These challenges requires the use of the paintball launcher.</p>' +
-    'Read the <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball Launcher documentations</a> to learn how to launch a paintball.</p>',
+  this.shortDescription = i18n.get('#shortDescription#');
+  this.longDescription = i18n.get('#longDescription#');
   this.thumbnail = 'images/worlds/paintball.jpg';
 
   this.options = {};
@@ -19,33 +92,16 @@ var world_Paintball = new function() {
       title: 'Select Challenge',
       type: 'selectWithHTML',
       options: [
-        ['Firing Range', 'firingRange'],
-        ['Variable Range', 'variableRange'],
-        ['Find the Target', 'findTarget'],
-        ['High and Low', 'highLow'],
-        ['Moving Target 1', 'movingTarget1'],
-        ['Moving Target 2', 'movingTarget2'],
+        [i18n.get('#firingRange#'), 'firingRange'],
+        [i18n.get('#variableRange#'), 'variableRange'],
+        [i18n.get('#findTarget#'), 'findTarget'],
+        [i18n.get('#highLow#'), 'highLow'],
+        [i18n.get('#movingTarget1#'), 'movingTarget1'],
+        [i18n.get('#movingTarget2#'), 'movingTarget2'],
       ],
       optionsHTML: {
         firingRange:
-          '<p>Test out the paintball launcher here.</p>' +
-          '<p class="bold">Experiment 1</p>' +
-          '<ul>' +
-            '<li>Raise the paintball launcher to a 45 degrees angle.</li>' +
-            '<li>Launch the paintball at different power and record how far it travelled.</li>' +
-            '<li>Plot your recordings on a chart.</li>' +
-            '<li>Basic: Keep your chart and use it in the later challenges.</li>' +
-            '<li>Advanced: Can you find a mathematical equation to describe the curve in your chart?</li>' +
-            '<li>Advanced: Create a function that takes a distance as an input, and launch the paintball to that distance by controlling power.</li>' +
-          '</ul>' +
-          '<p class="bold">Experiment 2</p>' +
-          '<ul>' +
-            '<li>Launch the paintball at full power, but vary the launcher angle from 0 to 90 degrees.</li>' +
-            '<li>Record down the distance travelled for each launch angle and plot it on a chart.</li>' +
-            '<li>Basic: Keep your chart and use it in the later challenges.</li>' +
-            '<li>Advanced: Can you find a mathematical equation to describe the curve in your chart?</li>' +
-            '<li>Advanced: Create a function that takes a distance as an input, and launch the paintball to that distance by controlling launch angle.</li>' +
-          '</ul>',
+          i18n.get('#firingRangeLongDescriptiong#'),
         variableRange:
           '<p>The target is placed a random distance away from the starting line. ' +
           'Using what you have learned in the previous challenge, program your robot to hit the target.</p>' +
