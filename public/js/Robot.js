@@ -565,6 +565,69 @@ function Robot() {
     }
   };
 
+  this.skyEyeGetByName = function(name){
+    if ([0,1,2,3,'team','opponent1','opponent2','self'].includes(name)){
+      if (self.player == 'single' && name != 'self'){
+        return null;
+      }
+
+      let player_num = 0;
+      if (typeof name == 'number'){
+        player_num = name;
+      }
+      else if (name == 'team'){
+        const TEAM_MATES = [1,0,3,2];
+        player_num = TEAM_MATES[self.player];
+      }
+      else if (name == 'opponent1'){
+        const OPP1 = [2,2,0,0];
+        player_num = OPP1[self.player];
+      }
+      else if (name == 'opponent2'){
+        const OPP2 = [3,3,1,1];
+        player_num = OPP2[self.player];
+      }
+      else{
+        if (self.player == 'single'){
+          player_num = 0;
+        }
+        else{
+          player_num = self.player;
+        }
+      }
+      let robot = robots[player_num];
+      if (robot != null && robot.body != null){
+          return robot.body;
+      }
+      return null;
+    } else if (typeof name == 'string'){
+      for (mesh of self.scene.meshes){
+        if (mesh.skyEyeLabel == name){
+          return mesh;
+        }
+      }
+    }
+    return null;
+  };
+
+  this.skyEyeGetPosition = function(name){
+    let temp = self.skyEyeGetByName(name);
+    if (temp != null){
+      let pos = temp.absolutePosition;
+      return [pos.x, pos.y, pos.z];
+    }
+    return null;
+  };
+
+  this.skyEyeGetVelocity = function(name){
+    let temp = self.skyEyeGetByName(name);
+    if (temp != null && temp.physicsImpostor != null){
+      let vel = temp.physicsImpostor.getLinearVelocity();
+      return [vel.x, vel.y, vel.z];
+    }
+    return null;
+  };
+
   // Init class
   self.init();
 }

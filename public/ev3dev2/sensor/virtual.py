@@ -27,6 +27,64 @@ class GPSSensor:
   def altitude(self):
     return self.position[2]
 
+class SkyEye:
+  _DRIVER_NAME = 'virtual-skyeye'
+
+  def __init__(self,address=None):
+    self.sensor = simPython.SkyEye(address)
+
+  def position(self,name):
+    time.sleep(SENSOR_DELAY)
+    pos = self.sensor.position(name)
+    if not pos is None:
+      return (pos[0],pos[2],pos[1])
+    return None
+
+  def velocity(self,name):
+    time.sleep(SENSOR_DELAY)
+    vel = self.sensor.velocity(name)
+    if not vel is None:
+      return (vel[0],vel[2],vel[1])
+    return None
+
+  def x(self,name):
+    pos =  self.position(name)
+    if pos is None:
+      return None
+    return pos[0]
+
+  def y(self,name):
+    pos = self.position(name)
+    if pos is None:
+      return None
+    return pos[1]
+
+  def altitude(self,name):
+    pos = self.position(name)
+    if pos is None:
+      return None
+    return pos[2]
+
+  def vx(self,name):
+    vel = self.velocity(name)
+    if vel is None:
+      return None
+    return vel[0]
+
+  def vy(self,name):
+    vel = self.velocity(name)
+    if vel is None:
+      return None
+    return vel[1]
+
+  def valtitude(self,name):
+    vel = self.velocity(name)
+    if vel is None:
+      return None
+    return vel[2]
+
+
+
 class Pen:
   _DRIVER_NAME = 'virtual-pen'
 
