@@ -433,6 +433,11 @@ var configurator = new function() {
           type: 'floatText',
           help: 'Maximum attraction force. Actual will be lower due to distance falloff. Leave blank to use default.'
         },
+        {
+          option: 'dGain',
+          type: 'floatText',
+          help: 'Positive gain used to reduce wobbling of objects being attracted. Leave blank to use default of none (0).'
+        }
       ]
     },
     {
