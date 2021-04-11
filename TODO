@@ -24,6 +24,7 @@ Features
 - Add support for Lego Python?
 - Configure physics option in builder
 - import/export compound objects in builder
+- GLTF loader; Physics body using bounding box, or set to false and made part of compound body?
 
 Coding (Sharing)
 - Remote coach view of student's work

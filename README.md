@@ -18,12 +18,22 @@ The simulator is meant to be served through a webserver, and we maintain the sit
 If you wish to run your own local copy, download all files and put them in a directory on your server and that should be it.
 Due to CORS protection on web browsers, it will not work when served from a "file://" URL.
 
-If you do not have a webserver, but have Python3 installed on your computer, you can try changing to the gears directory and running...
+Without a Webserver
+---
 
-`python -m http.server 1337`
+If you do not have a webserver, but have Python3 installed on your computer, you can try...
 
-This should get the site running on http://localhost:1337 (...try http://127.0.0.1/1337 if that doesn't work).
+1. Download Gears from https://github.com/QuirkyCort/gears/archive/refs/heads/master.zip
+2. Change to the "gears/public" directory
+3. Run `python -m http.server 1337`
 Do not close the window with the Python command running.
+
+This should get the site running on http://localhost:1337 (...try http://127.0.0.1:1337 if that doesn't work).
+
+The site may also be available to other users on the same network using http://your_IP_address:1337, where "your_IP_address" is replaced with your actual IP address.
+This may not work depending on your network configuration and your firewall settings.
+
+If you do not wish to allow other users from accessing the site, you should run `python -m http.server 1337 --bind 127.0.0.1` instead.
 
 Credits
 ---
