@@ -242,9 +242,9 @@
 
 .dialogWindow {
   .selectWorld {
-    max-height: 60vh;
-    display: flex;
-    flex-direction: column;
+    // max-height: 60vh;
+    // display: flex;
+    // flex-direction: column;
 
     .description {
       display: flex;
@@ -267,9 +267,9 @@
       border: solid 1px white;
       margin-top: 0.5em;
       padding: 0 0.5em;
-      overflow-y: auto;
+      // overflow-y: auto;
       overflow-x: hidden;
-      max-height: 20em;
+      // max-height: 20em;
 
       .configuration {
         padding: 0.5em 0em;

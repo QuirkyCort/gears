@@ -140,27 +140,21 @@ nav {
   height: 100%;
   font-size: 120%; }
 
-.dialogWindow .selectRobot {
-  max-height: 60vh;
+.dialogWindow .selectRobot .description {
   display: flex;
-  flex-direction: column; }
-  .dialogWindow .selectRobot .description {
-    display: flex;
-    border: solid 1px white;
-    margin-top: 0.5em; }
-    .dialogWindow .selectRobot .description .thumbnail {
-      width: 200px;
-      height: 200px; }
-    .dialogWindow .selectRobot .description .text {
-      border-left: solid 1px white;
-      padding: 0 1em;
-      flex-shrink: 1; }
-  .dialogWindow .selectRobot .configurations {
-    border: solid 1px white;
-    margin-top: 0.5em;
-    padding: 0 0.5em;
-    overflow-y: auto;
-    max-height: 20em; }
+  border: solid 1px white;
+  margin-top: 0.5em; }
+  .dialogWindow .selectRobot .description .thumbnail {
+    width: 200px;
+    height: 200px; }
+  .dialogWindow .selectRobot .description .text {
+    border-left: solid 1px white;
+    padding: 0 1em;
+    flex-shrink: 1; }
+.dialogWindow .selectRobot .configurations {
+  border: solid 1px white;
+  margin-top: 0.5em;
+  padding: 0 0.5em; }
 
 ul.menuDropDown {
   background: #E4F0FE;
@@ -416,47 +410,41 @@ ul.menuDropDownRightAlign {
   .console.open .content {
     overflow-y: scroll; }
 
-.dialogWindow .selectWorld {
-  max-height: 60vh;
+.dialogWindow .selectWorld .description {
   display: flex;
-  flex-direction: column; }
-  .dialogWindow .selectWorld .description {
-    display: flex;
-    border: solid 1px white;
-    margin-top: 0.5em; }
-    .dialogWindow .selectWorld .description .thumbnail {
-      width: 200px;
-      height: 200px; }
-    .dialogWindow .selectWorld .description .text {
-      border-left: solid 1px white;
-      padding: 0 1em;
-      flex-shrink: 1; }
-  .dialogWindow .selectWorld .configurations {
-    border: solid 1px white;
-    margin-top: 0.5em;
-    padding: 0 0.5em;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 20em; }
-    .dialogWindow .selectWorld .configurations .configuration {
-      padding: 0.5em 0em; }
-      .dialogWindow .selectWorld .configurations .configuration input[type=text], .dialogWindow .selectWorld .configurations .configuration input[type=file] {
-        font-size: 100%;
-        background: none;
-        border: solid 1px white;
-        color: white; }
-      .dialogWindow .selectWorld .configurations .configuration .configurationTitle {
-        color: lightgray;
-        margin-bottom: 0.1em; }
-      .dialogWindow .selectWorld .configurations .configuration .slider {
-        display: flex; }
-        .dialogWindow .selectWorld .configurations .configuration .slider input[type=range] {
-          flex-grow: 1; }
-        .dialogWindow .selectWorld .configurations .configuration .slider input[type=text] {
-          width: 3em;
-          text-align: right; }
-      .dialogWindow .selectWorld .configurations .configuration .text input[type=text] {
-        width: 100%; }
+  border: solid 1px white;
+  margin-top: 0.5em; }
+  .dialogWindow .selectWorld .description .thumbnail {
+    width: 200px;
+    height: 200px; }
+  .dialogWindow .selectWorld .description .text {
+    border-left: solid 1px white;
+    padding: 0 1em;
+    flex-shrink: 1; }
+.dialogWindow .selectWorld .configurations {
+  border: solid 1px white;
+  margin-top: 0.5em;
+  padding: 0 0.5em;
+  overflow-x: hidden; }
+  .dialogWindow .selectWorld .configurations .configuration {
+    padding: 0.5em 0em; }
+    .dialogWindow .selectWorld .configurations .configuration input[type=text], .dialogWindow .selectWorld .configurations .configuration input[type=file] {
+      font-size: 100%;
+      background: none;
+      border: solid 1px white;
+      color: white; }
+    .dialogWindow .selectWorld .configurations .configuration .configurationTitle {
+      color: lightgray;
+      margin-bottom: 0.1em; }
+    .dialogWindow .selectWorld .configurations .configuration .slider {
+      display: flex; }
+      .dialogWindow .selectWorld .configurations .configuration .slider input[type=range] {
+        flex-grow: 1; }
+      .dialogWindow .selectWorld .configurations .configuration .slider input[type=text] {
+        width: 3em;
+        text-align: right; }
+    .dialogWindow .selectWorld .configurations .configuration .text input[type=text] {
+      width: 100%; }
 
 .tooltip {
   position: relative;

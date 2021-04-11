@@ -88,9 +88,11 @@
     overflow-y: auto;
     margin: auto;
     border: solid 2px white;
+    display: flex;
+    flex-direction: column;
 
     > .dialogTitle {
-      padding: 0.8rem 1.2rem;
+      padding: 0.4rem 1.2rem;
       font-size: 130%;
       font-weight: bold;
       border-bottom: solid 2px #bbbbbb;
@@ -98,6 +100,7 @@
 
     > .dialogBody {
       padding: 0.8rem 1.2rem;
+      overflow-y: auto;
     }
 
     > .dialogButtonsRow {
