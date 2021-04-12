@@ -941,7 +941,8 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
   this.setOptions = function(options) {
     self.options = {
       maxRange: 8,
-      maxPower: 4000
+      maxPower: 4000,
+      dGain : 0
     };
 
     for (let name in options) {
@@ -983,8 +984,30 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     }
 
     let power = 1 / distance^2 * self.power;
-    vec.normalize();
-    mesh.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
+    if (self.power < 0){
+      vec.normalize();
+      mesh.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
+    }
+    else{
+      let meshVel = mesh.physicsImpostor.getLinearVelocity();
+
+      // attractor does not have a physicsImpostor, can't get velocity directly
+      // Calculate attractor velocity using parent's physicsImpostor
+      let center = self.body.parent.absolutePosition;
+      let centerVel = self.body.parent.physicsImpostor.getLinearVelocity();
+      let omega = self.body.parent.physicsImpostor.getAngularVelocity();
+      let p = self.attractor.absolutePosition;
+      let attractorVel = centerVel.add(BABYLON.Vector3.Cross(omega,p.subtract(center)));
+
+      let error = meshVel.subtract(attractorVel);
+
+      let pd = error.scale(self.options.dGain);
+      let pdAdded = mesh.absolutePosition.add(pd);
+      let pdVec = self.attractor.absolutePosition.subtract(pdAdded);
+      pdVec.normalize();
+
+      mesh.physicsImpostor.applyForce(pdVec.scale(power), mesh.absolutePosition);
+    }
   };
 
   this.setPower = function(fraction) {
