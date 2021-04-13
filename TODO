@@ -36,3 +36,4 @@ Bugs
 - Loading a map file will set hidden options that cannot be cleared through GUI.
 - Rewrite python imports for trivial files in js
 - Fix ammo to add setDeactivationTime
+- Electromagnet not added to custom robot description

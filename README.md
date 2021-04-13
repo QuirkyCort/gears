@@ -41,6 +41,11 @@ Created by A Posteriori (https://aposteriori.com.sg).
 
 Other Contributors:
 
+Steven Murray
+* Football Arena
+* ObjectTracker
+* Improvements to magnet
+
 humbug99
 * Pen
 * Multiple Python modules tabs
@@ -62,7 +67,7 @@ Translations by:
 * Nederlands: Henry Romkes
 * Ελληνικά: Eduact, https://eduact.org/en
 * Español: edurobotic
-* Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix)
+* Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix), germanicianus
 
 License
 ---

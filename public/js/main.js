@@ -163,13 +163,19 @@ var main = new function() {
           '<li><a href="https://skulpt.org/" target="_blank">Skulpt</a></li>' +
           '<li><a href="https://github.com/kripken/ammo.js/" target="_blank">Ammo.js</a> (port of <a href="https://pybullet.org/wordpress/" target="_blank">Bullet</a>)</li>' +
         '</ul>' +
+        '<p>Contributions from:</p>' +
+        '<ul>' +
+          '<li>Steven Murray</li>' +
+          '<li>humbug99</li>' +
+          '<li>Yuvix25</li>' +
+        '</ul>' +
         '<p>Translations Contributed By:</p>' +
         '<ul>' +
           '<li>Français: Sébastien CANET &lt;scanet@libreduc.cc&gt;</li>' +
           '<li>Nederlands: Henry Romkes</li>' +
           '<li>Ελληνικά: <a href="https://eduact.org/en" target="_blank">Eduact</a></li>' +
           '<li>Español: edurobotic</li>' +
-          '<li>Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix)</li>' +
+          '<li>Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix), germanicianus</li>' +
         '</ul>' +
         '<h3>Contact</h3>' +
         '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +
