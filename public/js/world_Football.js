@@ -774,7 +774,7 @@ var world_Football = new function() {
       mass = 10;
       sphere.isMagnetic = true;
     }
-
+    sphere.objectTrackerLabel = 'ball';
 
     if (physicsOptions !== false) {
 

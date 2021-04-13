@@ -317,6 +317,28 @@ var $builtinmodule = function(name) {
 
   }, 'GPSSensor', []);
 
+  mod.ObjectTracker = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {});
+
+    $loc.position = new Sk.builtin.func(function(self,foo) {
+      var position = [];
+
+      position = robot.objectTrackerPosition(foo.v);
+
+      return Sk.ffi.remapToPy(position);
+    });
+
+    $loc.velocity = new Sk.builtin.func(function(self,foo) {
+      var velocity = [];
+
+      velocity = robot.objectTrackerVelocity(foo.v);
+
+      return Sk.ffi.remapToPy(velocity);
+    });
+  }, 'ObjectTracker', []);
+
   mod.UltrasonicSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 
