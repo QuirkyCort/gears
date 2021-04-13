@@ -991,15 +991,15 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     else{
       let meshVel = mesh.physicsImpostor.getLinearVelocity();
 
-      // attractor does not have a physicsImpostor, can't get velocity directly
-      // Calculate attractor velocity using parent's physicsImpostor
       let center = self.body.parent.absolutePosition;
       let centerVel = self.body.parent.physicsImpostor.getLinearVelocity();
       let omega = self.body.parent.physicsImpostor.getAngularVelocity();
-      let p = self.attractor.absolutePosition;
-      let attractorVel = centerVel.add(BABYLON.Vector3.Cross(omega,p.subtract(center)));
+      let bodyVel = centerVel.add(BABYLON.Vector3.Cross(omega,mesh.absolutePosition.subtract(center)));
 
-      let error = meshVel.subtract(attractorVel);
+      let error = meshVel.subtract(bodyVel);
+
+      let normalVec = self.attractor.up.clone();
+      error.subtractInPlace(normalVec.scale(BABYLON.Vector3.Dot(error, normalVec)));
 
       let pd = error.scale(self.options.dGain);
       let pdAdded = mesh.absolutePosition.add(pd);
