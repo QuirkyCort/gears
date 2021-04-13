@@ -212,9 +212,13 @@ var main = new function() {
       let menuItems = [
         {html: 'Wiki', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears/wiki'); }},
         {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
-        {html: 'What\'s New', line: false, callback: function() { self.showWhatsNew(true); }},
-        {html: i18n.get('#main-about#'), line: false, callback: self.openAbout }
+        {html: i18n.get('#main-whats_new#'), line: false, callback: function() { self.showWhatsNew(true); }},
+        {html: i18n.get('#main-about#'), line: true, callback: self.openAbout },
+        {html: i18n.get('#main-display_fps#'), line: false, callback: simPanel.toggleFPS }
       ];
+      if (simPanel.showFPS) {
+        menuItems[4].html = '<span class="tick">&#x2713;</span> ' + menuItems[4].html;
+      }
 
       menuDropDown(self.$helpMenu, menuItems, {className: 'helpMenuDropDown'});
     }

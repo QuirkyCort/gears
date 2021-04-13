@@ -7,6 +7,7 @@ var simPanel = new function() {
   self.pickedPoints = [null, null];
   self.touchDevice = false;
   self.drag = false;
+  self.showFPS = false;
 
   // Run on page load
   this.init = function() {
@@ -24,6 +25,7 @@ var simPanel = new function() {
     self.$joystickIcon = $('.icon-joystick');
     self.$virtualJoystick = $('.icon-virtualJoystick');
     self.$virtualJoystickIndicator = $('.icon-virtualJoystickIndicator');
+    self.$fps = $('.fps');
 
     setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors, self.$joystickIcon]);
 
@@ -931,6 +933,15 @@ var simPanel = new function() {
   this.scrollConsoleToBottom = function() {
     var pre = self.$consoleContent[0];
     pre.scrollTop = pre.scrollHeight - pre.clientHeight
+  };
+
+  // Toggle FPS display
+  this.toggleFPS = function() {
+    self.showFPS = ! self.showFPS;
+
+    if (! self.showFPS) {
+      self.$fps.text('');
+    }
   };
 }
 

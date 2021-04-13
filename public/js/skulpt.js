@@ -7,8 +7,8 @@ var skulpt = new function() {
     './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
     './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
     './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=f1f831d2',
-    './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=290ffe6d',
-    './simPython.js': 'js/simPython.js?v=fdca90f2'
+    './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=a61f2397',
+    './simPython.js': 'js/simPython.js?v=e1a7db10'
   };
   this.preloadedLibs = {};
 

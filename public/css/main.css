@@ -592,6 +592,12 @@ ul.menuDropDownRightAlign {
 .worldInfo.hide {
   display: none; }
 
+.fps {
+  position: absolute;
+  right: 4em;
+  top: 1em;
+  color: #eb09ff; }
+
 @font-face {
   font-family: 'icomoon';
   src: url("../fonts/icomoon.eot?luj0sj");

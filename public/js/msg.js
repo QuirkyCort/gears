@@ -906,6 +906,12 @@ let MSGS = {
     nl: 'Help',
     de: 'Hilfe',
   },
+  '#main-whats_new#': {
+    en: 'What\'s New',
+  },
+  '#main-display_fps#': {
+    en: 'Display FPS',
+  },
   '#main-about#': {
     en: 'About',
     fr: 'À propos',

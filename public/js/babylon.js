@@ -306,6 +306,10 @@ var babylon = new function() {
   this.render = function() {
     var delta = self.scene.getEngine().getDeltaTime();
 
+    if (simPanel.showFPS) {
+      simPanel.$fps.text(self.engine.getFps().toFixed() + " fps");
+    }
+
     robots.forEach(function(robot){
       if (robot.disabled == true) {
         return;
