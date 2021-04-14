@@ -198,7 +198,7 @@ function confirmDialog(options, callback) {
   var $dialog = dialog(options.title, bodyContent, $buttons);
 
   $buttons.siblings('.cancel').click(function() { $dialog.close(); });
-  $buttons.siblings('.confirm').click(function() { $dialog.close(callback); });
+  $buttons.siblings('.confirm').click(function() { $dialog.close(); callback(); });
 
   return $dialog;
 }
