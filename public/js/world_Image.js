@@ -537,7 +537,6 @@ var world_Image = new function() {
 
     if (options.magnetic) {
       objectMesh.isMagnetic = true;
-      objectMesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
     }
 
     if (typeof options.laserDetection == 'undefined') {
@@ -755,9 +754,6 @@ var world_Image = new function() {
         physicsOptions,
         scene
       );
-      if (magnetic) {
-        box.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
-      }
     }
 
     return box;

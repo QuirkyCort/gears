@@ -734,11 +734,6 @@ var World_Base = function() {
         options.physicsOptions,
         scene
       );
-
-      if (options.magnetic) {
-        mesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
-      }
-
     }
   };
 

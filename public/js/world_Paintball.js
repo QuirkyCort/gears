@@ -512,9 +512,6 @@ var world_Paintball = new function() {
         physicsOptions,
         scene
       );
-      if (magnetic) {
-        box.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
-      }
     }
 
     return box;
@@ -567,9 +564,6 @@ var world_Paintball = new function() {
         physicsOptions,
         scene
       );
-      if (magnetic) {
-        cylinder.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
-      }
     }
 
     return cylinder;

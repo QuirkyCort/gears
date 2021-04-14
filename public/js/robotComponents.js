@@ -942,7 +942,7 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     self.options = {
       maxRange: 8,
       maxPower: 4000,
-      dGain : 0
+      dGain : 0.08
     };
 
     for (let name in options) {
@@ -991,9 +991,21 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     else{
       let meshVel = mesh.physicsImpostor.getLinearVelocity();
 
-      let center = self.body.parent.absolutePosition;
-      let centerVel = self.body.parent.physicsImpostor.getLinearVelocity();
-      let omega = self.body.parent.physicsImpostor.getAngularVelocity();
+      function getPhysicsParent(body) {
+        let parent = body.parent;
+        while (true) {
+          if (parent.parent == null) {
+            return parent;
+          } else {
+            parent = parent.parent;
+          }
+        }
+      }
+
+      let physicsParent = getPhysicsParent(self.body);
+      let center = physicsParent.absolutePosition;
+      let centerVel = physicsParent.physicsImpostor.getLinearVelocity();
+      let omega = physicsParent.physicsImpostor.getAngularVelocity();
       let bodyVel = centerVel.add(BABYLON.Vector3.Cross(omega,mesh.absolutePosition.subtract(center)));
 
       let error = meshVel.subtract(bodyVel);
