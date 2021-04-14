@@ -75,6 +75,21 @@ var simPanel = new function() {
     self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
   };
 
+  // Run when the simPanel in inactive
+  this.onInActive = function() {
+    if (! skulpt.running) {
+      babylon.engine.stopRenderLoop();
+    }
+  };
+
+  // Run when the simPanel in active
+  this.onActive = function() {
+    if (babylon.engine._activeRenderLoops.length == 0)
+    babylon.engine.runRenderLoop(function(){
+      babylon.scene.render();
+    });
+  };
+
   // Setup virtual joystick
   this.setupJoystick = function() {
     function moveSteering(steering, speed) {

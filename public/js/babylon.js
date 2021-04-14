@@ -18,9 +18,9 @@ var babylon = new function() {
     });
 
     // Register a render loop to repeatedly render the scene
-    self.engine.runRenderLoop(function () {
-      self.scene.render();
-    });
+    // self.engine.runRenderLoop(function () {
+    //   self.scene.render();
+    // });
 
     // Watch for browser/canvas resize events
     window.addEventListener('resize', function () {
@@ -113,7 +113,7 @@ var babylon = new function() {
     let up = self.cameraArc.upVector;
     let mode = self.cameraMode;
 
-    self.engine.stopRenderLoop(self.engine._activeRenderLoops[0]);
+    self.engine.stopRenderLoop();
     self.scene.dispose();
 
     self.scene = self.createScene();
@@ -127,9 +127,11 @@ var babylon = new function() {
     self.cameraArc.target = target;
 
     self.loadMeshes(self.scene);
-    self.engine.runRenderLoop(function () {
-      self.scene.render();
-    });
+    if (main.$navs.siblings('.active').attr('id') == 'navSim') {
+      self.engine.runRenderLoop(function () {
+        self.scene.render();
+      });
+    }
   };
 
   // Remove all RTT cameras
