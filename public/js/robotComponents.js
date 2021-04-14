@@ -991,34 +991,42 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     else{
       let meshVel = mesh.physicsImpostor.getLinearVelocity();
 
-      function getPhysicsParent(body) {
-        let parent = body.parent;
-        while (true) {
-          if (parent.parent == null) {
-            return parent;
-          } else {
-            parent = parent.parent;
+      let ver = BABYLON.Vector3.Dot(self.attractor.up, meshVel);
+      let mag = meshVel.length();
+
+      if (ver / mag > 0.5) {
+        vec.normalize();
+        mesh.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
+      } else {
+        function getPhysicsParent(body) {
+          let parent = body.parent;
+          while (true) {
+            if (parent.parent == null) {
+              return parent;
+            } else {
+              parent = parent.parent;
+            }
           }
         }
+
+        let physicsParent = getPhysicsParent(self.body);
+        let center = physicsParent.absolutePosition;
+        let centerVel = physicsParent.physicsImpostor.getLinearVelocity();
+        let omega = physicsParent.physicsImpostor.getAngularVelocity();
+        let bodyVel = centerVel.add(BABYLON.Vector3.Cross(omega,mesh.absolutePosition.subtract(center)));
+
+        let error = meshVel.subtract(bodyVel);
+
+        let normalVec = self.attractor.up.clone();
+        error.subtractInPlace(normalVec.scale(BABYLON.Vector3.Dot(error, normalVec)));
+
+        let pd = error.scale(self.options.dGain);
+        let pdAdded = mesh.absolutePosition.add(pd);
+        let pdVec = self.attractor.absolutePosition.subtract(pdAdded);
+        pdVec.normalize();
+
+        mesh.physicsImpostor.applyForce(pdVec.scale(power), mesh.absolutePosition);
       }
-
-      let physicsParent = getPhysicsParent(self.body);
-      let center = physicsParent.absolutePosition;
-      let centerVel = physicsParent.physicsImpostor.getLinearVelocity();
-      let omega = physicsParent.physicsImpostor.getAngularVelocity();
-      let bodyVel = centerVel.add(BABYLON.Vector3.Cross(omega,mesh.absolutePosition.subtract(center)));
-
-      let error = meshVel.subtract(bodyVel);
-
-      let normalVec = self.attractor.up.clone();
-      error.subtractInPlace(normalVec.scale(BABYLON.Vector3.Dot(error, normalVec)));
-
-      let pd = error.scale(self.options.dGain);
-      let pdAdded = mesh.absolutePosition.add(pd);
-      let pdVec = self.attractor.absolutePosition.subtract(pdAdded);
-      pdVec.normalize();
-
-      mesh.physicsImpostor.applyForce(pdVec.scale(power), mesh.absolutePosition);
     }
   };
 
