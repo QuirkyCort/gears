@@ -32,9 +32,13 @@ var arenaPanel = new function() {
 
   // Run when the simPanel in inactive
   this.onInActive = function() {
-    if (! skulpt.running) {
-      babylon.engine.stopRenderLoop();
+    for (playerFrame of playerFrames) {
+      if (playerFrame.skulpt.running) {
+        return;
+      }
     }
+
+    babylon.engine.stopRenderLoop();
   };
 
   // Run when the simPanel in active
