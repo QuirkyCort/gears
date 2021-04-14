@@ -136,7 +136,7 @@ var babylon = new function() {
     self.cameraArc.target = target;
 
     self.loadMeshes(self.scene);
-    if (main.$navs.siblings('.active').attr('id') == 'navSim') {
+    if (typeof main == 'undefined' || main.$navs.siblings('.active').attr('id') == 'navSim') {
       self.engine.runRenderLoop(function () {
         self.scene.render();
       });

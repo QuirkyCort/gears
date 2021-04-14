@@ -983,32 +983,34 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
       return;
     }
 
+    function getPhysicsParent(body) {
+      let parent = body;
+      while (true) {
+        if (parent.parent == null) {
+          return parent;
+        } else {
+          parent = parent.parent;
+        }
+      }
+    }
+
+    let meshPhysicsParent = getPhysicsParent(mesh);
+
     let power = 1 / distance^2 * self.power;
     if (self.power < 0){
       vec.normalize();
-      mesh.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
+      meshPhysicsParent.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
     }
     else{
-      let meshVel = mesh.physicsImpostor.getLinearVelocity();
+      let meshVel = meshPhysicsParent.physicsImpostor.getLinearVelocity();
 
       let ver = BABYLON.Vector3.Dot(self.attractor.up, meshVel);
       let mag = meshVel.length();
 
       if (ver / mag > 0.5) {
         vec.normalize();
-        mesh.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
+        meshPhysicsParent.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
       } else {
-        function getPhysicsParent(body) {
-          let parent = body.parent;
-          while (true) {
-            if (parent.parent == null) {
-              return parent;
-            } else {
-              parent = parent.parent;
-            }
-          }
-        }
-
         let physicsParent = getPhysicsParent(self.body);
         let center = physicsParent.absolutePosition;
         let centerVel = physicsParent.physicsImpostor.getLinearVelocity();
@@ -1025,7 +1027,7 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
         let pdVec = self.attractor.absolutePosition.subtract(pdAdded);
         pdVec.normalize();
 
-        mesh.physicsImpostor.applyForce(pdVec.scale(power), mesh.absolutePosition);
+        meshPhysicsParent.physicsImpostor.applyForce(pdVec.scale(power), mesh.absolutePosition);
       }
     }
   };
