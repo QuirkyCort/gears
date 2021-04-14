@@ -42,6 +42,41 @@ var simPanel = new function() {
     self.$sensors.click(self.toggleSensorsPanel);
     self.$joystickIcon.click(self.toggleJoystick);
 
+    if (self.$virtualJoystick.length > 0) {
+      self.setupJoystick();
+    }
+
+    self.updateTextLanguage();
+
+    self.$ruler[0].addEventListener('pointerup', function(e){
+      if (e.pointerType == 'touch') {
+        self.touchDevice = true;
+      } else {
+        self.touchDevice = false;
+        babylon.marker1.isVisible = true;
+      }
+      self.toggleRuler();
+      e.preventDefault();
+      e.stopPropagation();
+    });
+    window.addEventListener('pointerdown', function(){
+      self.drag = false;
+    });
+    window.addEventListener('pointermove', function(){
+      self.drag = true;
+    });
+    window.addEventListener('pointerup', function(e){
+      if (self.drag == false) {
+        self.recordMeasurements();
+      }
+    });
+    setInterval(self.displayMeasurements, 50);
+
+    self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
+  };
+
+  // Setup virtual joystick
+  this.setupJoystick = function() {
     function moveSteering(steering, speed) {
       if (steering > 1) {
         steering = 1;
@@ -93,6 +128,7 @@ var simPanel = new function() {
         moveSteering(steering, speed);
       }
     });
+
     function resetJoystick(e) {
       self.$virtualJoystickIndicator[0].style.left = '0px';
       self.$virtualJoystickIndicator[0].style.top = '0px';
@@ -100,34 +136,6 @@ var simPanel = new function() {
     }
     self.$virtualJoystick[0].addEventListener('pointerup', resetJoystick);
     self.$virtualJoystick[0].addEventListener('pointerleave', resetJoystick);
-
-    self.updateTextLanguage();
-
-    self.$ruler[0].addEventListener('pointerup', function(e){
-      if (e.pointerType == 'touch') {
-        self.touchDevice = true;
-      } else {
-        self.touchDevice = false;
-        babylon.marker1.isVisible = true;
-      }
-      self.toggleRuler();
-      e.preventDefault();
-      e.stopPropagation();
-    });
-    window.addEventListener('pointerdown', function(){
-      self.drag = false;
-    });
-    window.addEventListener('pointermove', function(){
-      self.drag = true;
-    });
-    window.addEventListener('pointerup', function(e){
-      if (self.drag == false) {
-        self.recordMeasurements();
-      }
-    });
-    setInterval(self.displayMeasurements, 50);
-
-    self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
   };
 
   // Toggle virtual joystick
