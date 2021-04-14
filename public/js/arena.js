@@ -1,6 +1,8 @@
 var arena = new function() {
   var self = this;
 
+  self.showFPS = false;
+
   // Run on page load
   this.init = function() {
     self.$navs = $('nav li');
@@ -23,9 +25,13 @@ var arena = new function() {
 
       let menuItems = [
         {html: 'Show Names', line: false, callback: self.toggleShowName},
+        {html: i18n.get('#main-display_fps#'), line: false, callback: arenaPanel.toggleFPS }
       ];
       if (self.showNames) {
         menuItems[0].html = '<span class="tick">&#x2713;</span> ' + menuItems[0].html;
+      }
+      if (self.showFPS) {
+        menuItems[1].html = '<span class="tick">&#x2713;</span> ' + menuItems[1].html;
       }
 
       menuDropDown(self.$optionsMenu, menuItems, {className: 'optionsMenuDropDown'});

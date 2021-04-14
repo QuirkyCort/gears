@@ -14,6 +14,7 @@ var arenaPanel = new function() {
     self.$world = $('.world');
     self.$reset = $('.reset');
     self.$camera = $('.camera');
+    self.$fps = $('.fps');
 
     self.$worldInfoPanel = $('.worldInfo');
 
@@ -445,6 +446,15 @@ var arenaPanel = new function() {
   this.scrollConsoleToBottom = function() {
     var pre = self.$consoleContent[0];
     pre.scrollTop = pre.scrollHeight - pre.clientHeight
+  };
+
+  // Toggle FPS display
+  this.toggleFPS = function() {
+    self.showFPS = ! self.showFPS;
+
+    if (! self.showFPS) {
+      self.$fps.text('');
+    }
   };
 }
 

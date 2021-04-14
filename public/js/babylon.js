@@ -324,6 +324,9 @@ var babylon = new function() {
     if (typeof simPanel != 'undefined' && simPanel.showFPS) {
       simPanel.$fps.text(self.engine.getFps().toFixed() + " fps");
     }
+    if (typeof arenaPanel != 'undefined' && arenaPanel.showFPS) {
+      arenaPanel.$fps.text(self.engine.getFps().toFixed() + " fps");
+    }
 
     robots.forEach(function(robot){
       if (robot.disabled == true) {
