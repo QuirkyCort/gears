@@ -11,7 +11,6 @@ var babylon = new function() {
     self.engine = new BABYLON.Engine(self.canvas, true);
 
     self.scene = self.createScene(); // Call the createScene function
-    // self.scene.debugLayer.show();
 
     self.world.setOptions().then(function(){
       self.loadMeshes(self.scene);
@@ -76,6 +75,17 @@ var babylon = new function() {
     // scene.shadowGenerator.depthScale = 50;
     // scene._shadowsEnabled = false;
 
+    // Optimizer
+    var options = new BABYLON.SceneOptimizerOptions(80, 2000); // 60fps, check every 2000ms
+    options.addOptimization(new BABYLON.HardwareScalingOptimization(0, 2));
+    self.optimizer = new BABYLON.SceneOptimizer(scene, options);
+    self.optimizer.onNewOptimizationAppliedObservable.add(function (optim) {
+      console.log(optim.getDescription());
+    });
+
+    // Debugging
+    // scene.debugLayer.show();
+
     return scene;
   };
 
@@ -117,7 +127,6 @@ var babylon = new function() {
     self.scene.dispose();
 
     self.scene = self.createScene();
-    // self.scene.debugLayer.show();
 
     // Restore camera
     self.setCameraMode(mode);
