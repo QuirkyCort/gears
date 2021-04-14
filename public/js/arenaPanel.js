@@ -29,6 +29,21 @@ var arenaPanel = new function() {
     babylon.setCameraMode('arc');
   };
 
+  // Run when the simPanel in inactive
+  this.onInActive = function() {
+    if (! skulpt.running) {
+      babylon.engine.stopRenderLoop();
+    }
+  };
+
+  // Run when the simPanel in active
+  this.onActive = function() {
+    if (babylon.engine._activeRenderLoops.length == 0)
+    babylon.engine.runRenderLoop(function(){
+      babylon.scene.render();
+    });
+  };
+
   // clear world info
   this.clearWorldInfoPanel = function() {
     self.$worldInfoPanel.empty();

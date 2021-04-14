@@ -136,7 +136,11 @@ var babylon = new function() {
     self.cameraArc.target = target;
 
     self.loadMeshes(self.scene);
-    if (typeof main == 'undefined' || main.$navs.siblings('.active').attr('id') == 'navSim') {
+    if (
+      typeof main == 'undefined'
+      || main.$navs.siblings('.active').attr('id') == 'navSim'
+      || main.$navs.siblings('.active').attr('id') == 'navArena'
+    ) {
       self.engine.runRenderLoop(function () {
         self.scene.render();
       });
@@ -317,7 +321,7 @@ var babylon = new function() {
   this.render = function() {
     var delta = self.scene.getEngine().getDeltaTime();
 
-    if (simPanel.showFPS) {
+    if (typeof simPanel != 'undefined' && simPanel.showFPS) {
       simPanel.$fps.text(self.engine.getFps().toFixed() + " fps");
     }
 
