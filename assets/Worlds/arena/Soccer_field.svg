@@ -7,17 +7,17 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20.812817cm"
-   height="13.774349cm"
-   viewBox="0 0 1087.9427 708.3951"
+   width="19.980249cm"
+   height="13.223362cm"
+   viewBox="0 0 1044.4221 680.05861"
    version="1.1"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="Soccer_field_-_empty.svg"
+   sodipodi:docname="Soccer_field.svg"
    style="stroke:#ffffff"
    inkscape:export-filename="/home/cort/Downloads/Soccer_field_-_empty.svg.png"
-   inkscape:export-xdpi="110.64044"
-   inkscape:export-ydpi="110.64044">
+   inkscape:export-xdpi="114.41299"
+   inkscape:export-ydpi="114.41299">
   <metadata
      id="metadata44">
     <rdf:RDF>
@@ -58,9 +58,9 @@
      inkscape:window-height="1056"
      id="namedview40"
      showgrid="false"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="142.33863"
-     inkscape:cy="148.15134"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="349.93519"
+     inkscape:cy="256.90242"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -73,7 +73,7 @@
      fit-margin-bottom="0" />
   <g
      id="g4715"
-     transform="matrix(0.99254647,0,0,1,4.4658075e-5,-795.34505)"
+     transform="matrix(0.95284203,0,0,0.95999905,-2.1231052e-6,-763.67166)"
      inkscape:export-xdpi="110.64044"
      inkscape:export-ydpi="110.64044">
     <rect
@@ -230,7 +230,7 @@
   <!--图纸区-->
   <!--球场框和中线-->
   <path
-     d="m 543.97166,14.051719 -506.591769,0 0,680.101211 1013.183509,0 0,-680.101211 -506.59174,0 0,680.101211 z"
+     d="m 522.21138,-0.34908775 -506.591764,0 0,680.10120775 1013.183484,0 0,-680.10120775 -506.59172,0 0,680.10120775 z"
      id="path6"
      style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5.64440823;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
@@ -239,27 +239,27 @@
      inkscape:connector-curvature="0" />
   <!--中线-->
   <circle
-     cx="543.97168"
-     cy="354.10233"
+     cx="522.21143"
+     cy="339.70151"
      r="91.5"
      id="circle8"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
      inkscape:export-ydpi="110.64044"
-     style="fill-opacity:0;stroke:#ffffff;stroke-width:5.74561688;stroke-miterlimit:4;stroke-dasharray:none" />
+     style="fill-opacity:0;stroke:#ffffff;stroke-width:5.74561691;stroke-miterlimit:4;stroke-dasharray:none" />
   <circle
-     cx="543.97168"
-     cy="354.10233"
+     cx="522.21143"
+     cy="339.70151"
      r="2"
      id="circle10"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
      inkscape:export-ydpi="110.64044"
-     style="fill:#ffffff;stroke:#ffffff;stroke-width:4.49509453;stroke-miterlimit:4;stroke-dasharray:none" />
+     style="fill:#ffffff;stroke:#ffffff;stroke-width:4.4950943;stroke-miterlimit:4;stroke-dasharray:none" />
   <!--罚球点-->
   <ellipse
-     cx="143.52292"
-     cy="354.10233"
+     cx="121.76264"
+     cy="339.70151"
      id="circle12"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -268,8 +268,8 @@
      rx="1.9298735"
      ry="2.0002978" />
   <ellipse
-     cx="944.42041"
-     cy="354.10233"
+     cx="922.66016"
+     cy="339.70151"
      id="circle14"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -279,7 +279,7 @@
      ry="2.0002978" />
   <!--球门-->
   <path
-     d="m 37.379891,318.49702 -9.649368,0 0,72.21074 9.649368,0 z"
+     d="m 15.619616,304.09621 -9.6493681,0 0,72.21074 9.6493681,0 z"
      id="path16"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -287,7 +287,7 @@
      style="fill-opacity:0;stroke:#ffffff;stroke-width:5.64440823;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="m 1050.5634,318.49702 9.6495,0 0,72.21074 -9.6495,0 z"
+     d="m 1028.8031,304.09621 9.6495,0 0,72.21074 -9.6495,0 z"
      id="path18"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -296,7 +296,7 @@
      inkscape:connector-curvature="0" />
   <!--球门区-->
   <path
-     d="m 37.379891,263.48884 53.071517,0 0,182.22711 -53.071517,0 z"
+     d="m 15.619616,249.08803 53.071517,0 0,182.22711 -53.071517,0 z"
      id="path20"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -304,7 +304,7 @@
      style="fill-opacity:0;stroke:#ffffff;stroke-width:5.64440823;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="m 1050.5634,263.48884 -53.07148,0 0,182.22711 53.07148,0 z"
+     d="m 1028.8031,249.08803 -53.07146,0 0,182.22711 53.07146,0 z"
      id="path22"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -313,7 +313,7 @@
      inkscape:connector-curvature="0" />
   <!--禁区 -->
   <path
-     d="m 37.379891,153.47246 159.214549,0 0,402.25986 -159.214549,0 z"
+     d="m 15.619616,139.07165 159.214544,0 0,402.25986 -159.214544,0 z"
      id="path24"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -321,7 +321,7 @@
      style="fill-opacity:0;stroke:#ffffff;stroke-width:5.64440823;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="m 1050.5634,153.47246 -159.21452,0 0,402.25986 159.21452,0 z"
+     d="m 1028.8031,139.07165 -159.2145,0 0,402.25986 159.2145,0 z"
      id="path26"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -329,7 +329,7 @@
      style="fill-opacity:0;stroke:#ffffff;stroke-width:5.64440823;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="m 196.59444,280.96643 a 88.291708,91.513618 0 0 1 0,146.27178 z"
+     d="m 174.83416,266.56562 a 88.291708,91.513618 0 0 1 0,146.27178 z"
      id="path28"
      style="fill:#4ccf4c;fill-opacity:1;stroke:#ffffff;stroke-width:5.64440823;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
@@ -337,7 +337,7 @@
      inkscape:export-ydpi="110.64044"
      inkscape:connector-curvature="0" />
   <path
-     d="m 891.34888,280.96643 a 88.291708,91.513618 0 0 0 0,146.27178 z"
+     d="m 869.5886,266.56562 a 88.291708,91.513618 0 0 0 0,146.27178 z"
      id="path30"
      style="fill:#4ccf4c;fill-opacity:1;stroke:#ffffff;stroke-width:5.64440823;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
@@ -346,7 +346,7 @@
      inkscape:connector-curvature="0" />
   <!--角球弧-->
   <path
-     d="M 37.380128,28.107993 A 13.561159,14.056028 0 0 0 50.941287,14.051965 l -13.561159,0 z"
+     d="M 15.619853,13.707186 A 13.561159,14.056028 0 0 0 29.181012,-0.34884175 l -13.561159,0 z"
      id="path32"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -354,7 +354,7 @@
      style="fill-opacity:0;stroke:#ffffff;stroke-width:5.64489079;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="M 50.941287,694.15268 A 13.561159,14.056028 0 0 0 37.380128,680.09665 l 0,14.05603 z"
+     d="M 29.181012,679.75187 A 13.561159,14.056028 0 0 0 15.619853,665.69584 l 0,14.05603 z"
      id="path34"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -362,7 +362,7 @@
      style="fill-opacity:0;stroke:#ffffff;stroke-width:5.64489079;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="m 1050.5633,680.09665 a 13.561159,14.056028 0 0 0 -13.5612,14.05603 l 13.5612,0 z"
+     d="m 1028.803,665.69584 a 13.561159,14.056028 0 0 0 -13.5612,14.05603 l 13.5612,0 z"
      id="path36"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -370,7 +370,7 @@
      style="fill-opacity:0;stroke:#ffffff;stroke-width:5.64489079;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="m 1037.0025,14.051965 a 13.560735,14.055589 0 0 0 13.5608,14.055589 l 0,-14.055589 z"
+     d="M 1015.2422,-0.34884175 A 13.560735,14.055589 0 0 0 1028.803,13.706747 l 0,-14.05558875 z"
      id="path38"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
@@ -379,7 +379,7 @@
      inkscape:connector-curvature="0" />
   <g
      id="g4881"
-     transform="matrix(1.9745343,0,0,1.9745343,-231.53351,-876.90618)"
+     transform="matrix(1.9745343,0,0,1.9745343,-253.29379,-891.30699)"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
      inkscape:export-ydpi="110.64044">
@@ -399,14 +399,14 @@
   <g
      id="g4301"
      style="fill:#9be49b;fill-opacity:1"
-     transform="translate(-31.028343,-5.8976768)">
+     transform="translate(-52.788618,-20.298484)">
     <g
        id="g4288"
        style="fill:#9be49b;fill-opacity:1" />
   </g>
   <g
      id="g4328"
-     transform="matrix(0.50456297,0,0,0.50456297,341.8741,167.93804)"
+     transform="matrix(0.50456297,0,0,0.50456297,320.11382,153.53723)"
      inkscape:export-filename="/var/www/html/gers/public/textures/maps/Arena/soccerfield2.png"
      inkscape:export-xdpi="110.64044"
      inkscape:export-ydpi="110.64044">
