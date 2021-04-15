@@ -690,6 +690,11 @@ var configurator = new function() {
 
   // Run on page load
   this.init = function() {
+    if (typeof babylon.scene == 'undefined') {
+      setTimeout(self.init, 500);
+      return;
+    }
+
     self.$navs = $('nav li');
     self.$panelControls = $('.panelControlsArea .panelControls');
     self.$panels = $('.panels .panel');
@@ -711,6 +716,7 @@ var configurator = new function() {
 
     self.$robotName.change(self.setRobotName);
 
+    babylon.scene.physicsEnabled = false;
     babylon.setCameraMode('arc')
 
     self.saveHistory();

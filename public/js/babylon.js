@@ -342,13 +342,17 @@ var babylon = new function() {
 }
 
 // Init class
-babylon.init();
+// babylon.init();
+
+window.addEventListener("DOMContentLoaded", function() {
+  var config = {
+    locateFile: () => 'ammo/ammo-20210414.wasm.wasm'
+  }
+  Ammo(config).then(babylon.init);
+});
 
 // window.addEventListener("DOMContentLoaded", function() {
-//   var config = {
-//     locateFile: () => 'ammo/ammo-20200724.wasm.wasm'
-//   }
-//   Ammo(config).then(babylon.init);
+//   Ammo().then(babylon.init);
 // });
 
 

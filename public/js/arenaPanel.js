@@ -5,6 +5,11 @@ var arenaPanel = new function() {
 
   // Run on page load
   this.init = function() {
+    if (typeof babylon.scene == 'undefined') {
+      setTimeout(self.init, 500);
+      return;
+    }
+
     self.$console = $('.console');
     self.$consoleBtn = $('.console .chevron');
     self.$consoleContent = $('.console .content');
