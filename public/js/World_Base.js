@@ -89,7 +89,7 @@ var World_Base = function() {
     }
   };
 
-  // Set options, including default
+  // Set options, NOT including default
   this.setOptions = function(options) {
     function processOptionsObject(options) {
       let processed = {};
@@ -127,9 +127,8 @@ var World_Base = function() {
       return processed;
     }
 
+    self.setSeed(self.options.seed);
     self.processedOptions = processOptionsObject(self.options);
-
-    self.setSeed(self.processedOptions.seed);
 
     if (
       typeof self.processedOptions != 'undefined'
@@ -162,7 +161,7 @@ var World_Base = function() {
           for (let i=0; i < self.processedOptions.arenaStartRot.length; i++) {
             self.arenaStart[i].rotation = new BABYLON.Vector3(
               0,
-              self.processedOptions.arenaStartRot[i],
+              self.processedOptions.arenaStartRot[i] / 180 * Math.PI,
               0,
             );
           }
@@ -310,7 +309,9 @@ var World_Base = function() {
       {
         mass: 0,
         friction: self.processedOptions.groundFriction,
-        restitution: self.processedOptions.groundRestitution
+        restitution: self.processedOptions.groundRestitution,
+        group: 1,
+        mask: -1
       },
       scene
     );
@@ -345,7 +346,9 @@ var World_Base = function() {
       {
         mass: 0,
         friction: self.processedOptions.groundFriction,
-        restitution: self.processedOptions.groundRestitution
+        restitution: self.processedOptions.groundRestitution,
+        group: 1,
+        mask: -1
       },
       scene
     );
@@ -408,7 +411,9 @@ var World_Base = function() {
         var wallOptions = {
           mass: 0,
           friction: self.processedOptions.wallFriction,
-          restitution: self.processedOptions.wallRestitution
+          restitution: self.processedOptions.wallRestitution,
+          group: 1,
+          mask: -1
         };
         wallTop.physicsImpostor = new BABYLON.PhysicsImpostor(
           wallTop,
@@ -443,7 +448,7 @@ var World_Base = function() {
           if (self.processedOptions.objects[i].type == 'compound') {
             self.addCompound(scene, self.processedOptions.objects[i], indexObj);
           } else {
-            let options = self.mergeObjectOptionsWithDefault(self.processedOptions.objects[i])
+            let options = self.mergeObjectOptionsWithDefault(self.processedOptions.objects[i]);
             let mesh = self.addObject(scene, options, indexObj.index);
             self.addPhysics(scene, mesh, options);
             indexObj.index++;
@@ -697,20 +702,26 @@ var World_Base = function() {
         options.physicsOptions = {
           mass: 0,
           friction: 0.1,
-          restitution: 0.1
+          restitution: 0.1,
+          group: 1,
+          mask: -1
         }
       } else if (options.physicsOptions == 'moveable') {
         options.physicsOptions = {
           mass: 10,
           friction: 0.1,
-          restitution: 0.1
+          restitution: 0.1,
+          group: 1,
+          mask: -1
         }
       } else {
         console.log('Invalid physicsOption for object. Using default.');
         options.physicsOptions = {
           mass: 0,
           friction: 0.1,
-          restitution: 0.1
+          restitution: 0.1,
+          group: 1,
+          mask: -1
         }
       }
     }
@@ -1007,5 +1018,18 @@ var World_Base = function() {
     self.seed = result * 4294967296;
     return result;
   };
+
+  // shuffle array
+  this.shuffleArray = function(arr) {
+    var i = arr.length, k , temp;      // k is to generate random index and temp is to swap the values
+    while(--i > 0){
+        k = Math.floor(Math.random() * (i+1));
+        temp = arr[k];
+        arr[k] = arr[i];
+        arr[i] = temp;
+    }
+    return arr;
+  };
+
 
 }

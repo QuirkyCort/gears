@@ -1,4 +1,10 @@
 var world_Football = new function() {
+  World_Base.call(this);
+  this.parent = {};
+  for (p in this) {
+    this.parent[p] = this[p];
+  }
+
   var self = this;
 
   this.name = 'football';
@@ -6,34 +12,9 @@ var world_Football = new function() {
   this.longDescription =
     "<p>A 2 on 2 football game! Kick the ball into the opponent's goal, but be careful not to leave your own goal undefended for too long.</p>" +
     "<p>An invisible wall in the center of the field separates the two teams. Grab and kick the ball with the electromagnet.</p>" +
-    '<p>You can use this world in single robot mode to prepare your program,  before running it in the arena.</p>';
+    '<p>You can use this world in single robot mode to prepare your program before running it in the arena.</p>';
   //TODO add a cool picture
-  this.thumbnail = 'images/worlds/arena.jpg';
-
-  this.options = {};
-
-  this.robotStart = null;
-  this.arenaStart = null;
-  this.arenaStarts = {
-    football: [
-      {
-        position: new BABYLON.Vector3(0, 0, 58.75),
-        rotation: new BABYLON.Vector3(0, 1/2 * Math.PI, 0)
-      },
-      {
-        position: new BABYLON.Vector3(0, 0, 176.25),
-        rotation: new BABYLON.Vector3(0, 1/2 * Math.PI, 0)
-      },
-      {
-        position: new BABYLON.Vector3(0, 0, -58.75),
-        rotation: new BABYLON.Vector3(0, 1/2 * Math.PI, 0)
-      },
-      {
-        position: new BABYLON.Vector3(0, 0, -176.25),
-        rotation: new BABYLON.Vector3(0, 1/2 * Math.PI, 0)
-      },
-    ]
-  };
+  this.thumbnail = 'images/worlds/football.jpg';
 
   this.optionsConfigurations = [
     {
@@ -150,31 +131,26 @@ var world_Football = new function() {
 
   ];
 
-  this.imagesURL = {
-    football: 'textures/maps/Arena/soccerfield.png',
-  };
-
-  this.defaultOptions = {
+  this.defaultOptions = Object.assign(this.defaultOptions, {
     challenge: 'football',
-    image: 'textures/maps/Arena/soccerfield.png',
-    length: 400,
-    width: 400,
+    image: 'textures/maps/Arena/soccerfield.png?v=7008dcf9',
     wall: true,
-    wallHeight: 10,
+    wallHeight: 20,
     wallThickness: 5,
+    wallColor: '#6A6A6A',
     groundFriction: 1,
     wallFriction: 0.1,
     groundRestitution: 0.0,
-    wallRestitution: 0.1,
+    wallRestitution: 1.0,
     startPos: '0',
     timeLimit: true,
     seed: null,
     widthInterior: 288,
     lengthInterior: 470,
     widthGoal: 160,
-    startBallPos: 'center',
+    startBallPos: '0',
     startBallPosXYZStr: '',
-    startBallPosXYZ: [0,0,0],
+    startBallPosXYZ: [0,0,5],
     startBallHeading: 0,
     randomFlipBallHeading: true,
     ballDampingStr: '',
@@ -183,27 +159,28 @@ var world_Football = new function() {
     ballFriction: 0.1,
     ballSpeedMin: 100,
     ballSpeedRange: 50,
-    shotClockDuration: 15
-  };
+    shotClockDuration: 15,
+    arenaStartPosXYZ: [
+      [-58.75, 0, 0],
+      [-176.25, 0, 0],
+      [58.75, 0, 0],
+      [176.25, 0, 0]
+    ],
+    arenaStartRot: [
+      90,
+      90,
+      -90,
+      -90
+    ]
+  });
 
   // Set options, including default
   this.setOptions = function(options) {
-    let tmpOptions = {};
-    Object.assign(tmpOptions, self.defaultOptions);
-    Object.assign(tmpOptions, self.options);
-    Object.assign(self.options, tmpOptions);
-
-    for (let name in options) {
-      if (typeof self.options[name] == 'undefined') {
-        console.log('Unrecognized option: ' + name);
-      } else {
-        self.options[name] = options[name];
-      }
-    }
+    self.mergeOptionsWithDefault(options);
 
     if (self.options.startBallPosXYZStr.trim() != '') {
       let xy = self.options.startBallPosXYZStr.split(',');
-      let alt = 0;
+      let alt = 5;
       if (xy.length > 2) {
         alt = parseFloat(xy[2]);
       }
@@ -217,27 +194,23 @@ var world_Football = new function() {
       self.options.ballFriction = parseFloat(self.options.ballFrictionStr.trim());
     }
 
-    self.arenaStart = self.arenaStarts[self.options.challenge];
-    self.robotStart = self.arenaStart[parseInt(self.options.startPos)];
+    self.options.startPosXYZ = self.options.arenaStartPosXYZ[parseInt(self.options.startPos)];
+    self.options.startRot = self.options.arenaStartRot[parseInt(self.options.startPos)];
 
-    return new Promise(function(resolve, reject) {
-      resolve();
-    });
+    return this.parent.setOptions(options);
   };
 
   // Run on page load
   this.init = function() {
-    self.setOptions();
+    Object.assign(self.options, self.defaultOptions);
   };
 
   // Create the scene
   this.load = function (scene) {
     self.setSeed(self.options.seed);
+    self.loadFootball(scene);
 
-    return new Promise(function(resolve, reject) {
-      self.loadFootball(scene);
-      resolve();
-    });
+    return this.parent.load(scene);
   };
 
   // Football map
@@ -252,85 +225,88 @@ var world_Football = new function() {
       shotClock: 0,
     };
 
-    let fieldWidth = self.options.widthInterior / 0.96;
-    let fieldLength = self.options.lengthInterior / 0.94;
-
-    let wH = 20;
+    let fieldWidth = self.options.widthInterior;
+    let fieldLength = self.options.lengthInterior / 0.98;
+    self.processedOptions.groundWidth = fieldWidth;
+    self.processedOptions.groundLength = fieldLength;
 
     let goalWidth = self.options.widthGoal;
-    let sideWidth = fieldWidth * 0.02;
-    let backWidth = fieldLength * 0.03;
-    let backboardWidth = fieldLength * 0.005;
+    let backWidth = fieldLength * 0.0095;
+    let backLength = (fieldWidth - goalWidth) / 2;
 
-    // load field
-    self.loadImageTile(
-      scene,
-      self.imagesURL[self.options.challenge],
-      [fieldLength, fieldWidth, 10],
-      [0, 0, -10]
-    );
-
-    let wallMat = new BABYLON.StandardMaterial('wall', scene);
-    wallMat.diffuseColor = new BABYLON.Color3(0.47, 0.48, 0.49);
-    let walls = [
-      [[sideWidth,fieldLength,wH],[(sideWidth - fieldWidth ) * 0.5 ,0,0]],
-      [[sideWidth,fieldLength,wH],[(fieldWidth - sideWidth ) * 0.5 ,0,0]],
-      [[(fieldWidth - goalWidth) * 0.5,backWidth,wH],[(fieldWidth + goalWidth) * 0.25, (fieldLength - backWidth ) * 0.5 , 0]],
-      [[(fieldWidth - goalWidth) * 0.5,backWidth,wH],[-(fieldWidth + goalWidth) * 0.25, (fieldLength - backWidth ) * 0.5 , 0]],
-      [[(fieldWidth - goalWidth) * 0.5,backWidth,wH],[(fieldWidth + goalWidth) * 0.25, (fieldLength - backWidth ) * -0.5 , 0]],
-      [[(fieldWidth - goalWidth) * 0.5,backWidth,wH],[-(fieldWidth + goalWidth) * 0.25, (fieldLength - backWidth ) * -0.5 , 0]]
-    ];
-    self.addWalls(scene, wallMat, walls,restitution=1.03);
-
-    let backboards = [
-      [[goalWidth, backboardWidth, wH],[0, (fieldLength - backboardWidth ) * -0.5 , 0]],
-      [[goalWidth, backboardWidth, wH],[0, (fieldLength - backboardWidth ) * 0.5 , 0]]
-    ];
-
-    self.addWalls(scene,wallMat,backboards,restitution=0);
+    // Wall besides goal
+    function addWall(x, y) {
+      self.processedOptions.objects.push({
+        type: 'box',
+        position: [x, y, self.processedOptions.wallHeight / 2],
+        size: [backWidth, backLength, self.processedOptions.wallHeight],
+        color: self.processedOptions.wallColor,
+        physicsOptions: 'fixed'
+      });
+    }
+    addWall(fieldLength / 2 - backWidth / 2, fieldWidth / 2 - backLength / 2);
+    addWall(fieldLength / 2 - backWidth / 2, -fieldWidth / 2 + backLength / 2);
+    addWall(-fieldLength / 2 + backWidth / 2, fieldWidth / 2 - backLength / 2);
+    addWall(-fieldLength / 2 + backWidth / 2, -fieldWidth / 2 + backLength / 2);
 
     // load ball
-    let ballMat = new BABYLON.StandardMaterial('ball', scene);
-    ballMat.diffuseTexture = new BABYLON.Texture('textures/sphere/soccerBall.png');
-    self.game.ball = self.addSphere(scene, ballMat, 10, self.options.startBallPosXYZ, magnetic=true);
+    let sphereOptions = self.mergeObjectOptionsWithDefault({
+      type: 'sphere',
+      imageURL: 'textures/sphere/soccerBall.png',
+      position: self.options.startBallPosXYZ,
+      size: [10],
+      magnetic: true,
+      physicsOptions: {
+        mass: 10,
+        friction: self.options.ballFriction,
+        restitution: 1.0,
+        group: 2,
+        mask: 1
+      }
+    });
+    self.game.ball = self.addObject(scene, sphereOptions, 'Ball');
+    self.addPhysics(scene, self.game.ball, sphereOptions);
+    // self.game.ball.physicsImpostor.physicsBody.setRollingFriction(1.0); // Doesn't seem to do anything
+    self.game.ball.physicsImpostor.physicsBody.setDamping(self.options.ballDamping, self.options.ballDamping);
 
     //Score zones
     self.game.scoreZones = [];
-    function addScoreZone(pos, color, team) {
-      let scoreZone = null;
-      var faceUV = new Array(6);
-      for (var i = 0; i < 6; i++) {
-        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
-      }
-      faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
-      scoreZone = self.addBox(scene, ballMat, [goalWidth - 6, backWidth - 2, wH], pos, false, false,false,[0,0,0], faceUV);
+    function addScoreZone(pos, team) {
+      let scoreZoneOptions = self.mergeObjectOptionsWithDefault({
+        type: 'box',
+        color: '#a000',
+        position: [pos, 0, self.processedOptions.wallHeight / 2],
+        size: [backWidth - 2, goalWidth - 6, self.processedOptions.wallHeight],
+        physicsOptions: false
+      });
+      let scoreZone = self.addObject(scene, scoreZoneOptions, 'ScoreZone');
+      self.addPhysics(scene, scoreZone, scoreZoneOptions);
       scoreZone.isPickable = false;
-      scoreZone.color = color;
       scoreZone.team = team;
       self.game.scoreZones.push(scoreZone);
     }
-
-    addScoreZone([0, (fieldLength - backWidth) * 0.5], 'red', 'A');
-    addScoreZone([0, (fieldLength - backWidth) * -0.5], 'red', 'B');
-
+    addScoreZone((fieldLength - backWidth) * 0.5, 'A');
+    addScoreZone((fieldLength - backWidth) * -0.5, 'B');
 
     // invisible fences that keep robots separated
-    self.game.borders = [];
-    function addBorder(pos,robodirs) {
-      let border = null;
-      var faceUV = new Array(6);
-      for (var i = 0; i < 6; i++) {
-        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
-      }
-      faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
-      //border = self.addBox(scene, ballMat, [fieldWidth - 2 * sideWidth, 1 * backWidth, wH], pos, false, false,true,[0,0,0], faceUV);
-      border = self.addBox(scene, ballMat, [fieldWidth - 2 * sideWidth, 1 * backWidth, wH], pos, false, false,false,[0,0,0], faceUV);
-      border.isPickable = false;
-      border.robodirs = robodirs;
-      self.game.borders.push(border);
-    }
-
-    addBorder([0, 0], [[0,1],[1,1],[2,-1],[3,-1]]);
+    let fenceOptions = self.mergeObjectOptionsWithDefault({
+      type: 'box',
+      color: '#00a0',
+      position: [0, 0, 20],
+      size: [12, fieldWidth, 40],
+      physicsOptions: {
+        mass: 0,
+        friction: 0.1,
+        restitution: 0.1,
+        group: 2,
+        mask: 1
+      },
+      laserDetection: 'invisible',
+      ultrasonicDetection: 'invisible'
+    });
+    let fence = self.addObject(scene, fenceOptions, 'Fence');
+    fence.isPickable = false;
+    self.addPhysics(scene, fence, fenceOptions);
 
     // set time limits
     self.game.TIME_LIMIT = 2 * 60 * 1000;
@@ -343,7 +319,7 @@ var world_Football = new function() {
 
       self.game.ball.physicsImpostor.forceUpdate();
 
-      self.game.ball.physicsImpostor.physicsBody.setDamping(self.options.ballDamping, self.options.ballDamping / 5);
+      // self.game.ball.physicsImpostor.physicsBody.setDamping(self.options.ballDamping, self.options.ballDamping / 5);
       //self.game.ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0,0,0));
       self.game.ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3(vel[2]/5,0,-vel[0]/5));
       self.game.ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(vel[0],vel[1],vel[2]));
@@ -362,7 +338,7 @@ var world_Football = new function() {
       let r_speed = min_speed + self.mulberry32() * range;
 
       foos(self.options.startBallPosXYZ,
-           [r_speed * Math.cos(heading),0, r_speed * Math.sin(heading) ]);
+           [r_speed * Math.sin(heading),0, r_speed * Math.cos(heading) ]);
     }
 
     let firstFoos = true;
@@ -381,10 +357,10 @@ var world_Football = new function() {
 
     function resetBall(zone=0){
       if (zone == 0){
-        foos([0,0,-0.125 * fieldLength], [0,0,0]);
+        foos([-0.125 * fieldLength, 0, 0], [0,0,0]);
       }
       else{
-        foos([0,0,0.125 * fieldLength], [0,0,0]);
+        foos([0.125 * fieldLength0, 0, 0], [0,0,0]);
       }
     }
 
@@ -422,25 +398,8 @@ var world_Football = new function() {
         if (curBallZone == 2){
           self.game.shotClock = 0;
         }
-
-        for (border of self.game.borders){
-          for (robodir of border.robodirs){
-            //debugger;
-            for (bot of robots){
-              let dir = robodir[1];
-              let correct_player = bot.player == robodir[0] || (bot.player === 'single' && parseInt(self.options.startPos) == robodir[0]);
-              if (bot != null && bot.body != null && correct_player){
-                if (border.intersectsMesh(bot.body,false)){
-                  bot.body.physicsImpostor.applyImpulse(new BABYLON.Vector3(0,-4000,dir * 15000),
-                                                      bot.body.getAbsolutePosition());
-                }
-              }
-            }
-          }
-        }
       }
     };
-
 
     self.drawWorldInfo = self.drawWorldInfoDefault;
 
@@ -603,203 +562,6 @@ var world_Football = new function() {
     if (typeof self.game != 'undefined') {
       self.game.state = 'stopped';
     }
-  };
-
-  // Set the random number seed
-  this.setSeed = function(seed) {
-    if (typeof seed == 'undefined' || seed == null) {
-      self.seed = Date.now();
-    } else {
-      self.seed = parseFloat(seed);
-    }
-  };
-
-  // Generate random number
-  this.mulberry32 = function() {
-    var t = self.seed += 0x6D2B79F5;
-    t = Math.imul(t ^ t >>> 15, t | 1);
-    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-    let result = ((t ^ t >>> 14) >>> 0) / 4294967296;
-    self.seed = result * 4294967296;
-    return result;
-  };
-
-  // shuffle array
-  this.shuffleArray = function(arr) {
-    var i = arr.length, k , temp;      // k is to generate random index and temp is to swap the values
-    while(--i > 0){
-      k = Math.floor(self.mulberry32() * (i+1));
-      temp = arr[k];
-      arr[k] = arr[i];
-      arr[i] = temp;
-    }
-    return arr;
-  };
-
-  // Load image into tile
-  this.loadImageTile = function (scene, imageSrc, size, pos=[0,0,0], physicsOptions=null) {
-    var mat = new BABYLON.StandardMaterial('image', scene);
-    var texture = new BABYLON.Texture(imageSrc, scene);
-    mat.diffuseTexture = texture;
-    mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
-    mat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-
-    var faceUV = new Array(6);
-    for (var i = 0; i < 6; i++) {
-      faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
-    }
-    faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
-
-    if (! physicsOptions) {
-      physicsOptions = {
-        mass: 0,
-        friction: self.options.groundFriction,
-        restitution: self.options.groundRestitution
-      };
-    }
-    let tile = self.addBox(scene, mat, size, pos, false, physicsOptions, true, [0, Math.PI/2, 0], faceUV);
-    tile.receiveShadows = true;
-
-    return tile;
-  };
-
-  // Add walls
-  this.addWalls = function(scene, wallMat, walls,restitution=null) {
-    let meshes = [];
-
-    walls.forEach(function(wall) {
-      if (wall[0].length < 3) {
-        wall[0].push(20);
-      }
-      let size = wall[0];
-
-      if (wall[1].length < 3) {
-        wall[1].push(0);
-      }
-      let pos = wall[1];
-      if (restitution == null){
-        meshes.push(self.addBox(scene, wallMat, size, pos));
-      }
-      else{
-        meshes.push(self.addBox(scene, wallMat, size, pos,false, true, true, [0,0,0], null,restitution));
-      }
-    });
-
-    return meshes;
-  };
-
-  // Add box
-  this.addBox = function(scene, material, size, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null,restitution=self.options.wallRestitution) {
-    var boxOptions = {
-      width: size[0],
-      depth: size[1],
-      height: size[2],
-    };
-    if (pos.length < 3) {
-      pos.push(0);
-    }
-    if (faceUV) {
-      boxOptions.faceUV = faceUV;
-    }
-
-    var box = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
-    if (visible) {
-      box.material = material;
-    } else {
-      box.visibility = 0;
-    }
-    box.position.x = pos[0];
-    box.position.y = pos[2] + size[2] / 2;
-    box.position.z = pos[1];
-    box.rotation.x = rot[0];
-    box.rotation.y = rot[1];
-    box.rotation.z = rot[2];
-
-    let mass = 0;
-    if (magnetic) {
-      mass = 10;
-      box.isMagnetic = true;
-    }
-
-    if (physicsOptions !== false) {
-      if (physicsOptions === true) {
-        physicsOptions = {
-          mass: mass,
-          friction: self.options.wallFriction,
-          restitution: restitution
-        };
-      }
-
-      box.physicsImpostor = new BABYLON.PhysicsImpostor(
-        box,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        physicsOptions,
-        scene
-      );
-      if (magnetic) {
-        box.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
-      }
-    }
-
-    return box;
-  };
-
-  this.addSphere = function (scene, material, diam, pos, magnetic=false, physicsOptions=true, visible=true, rot=[0,0,0], faceUV=null) {
-
-    var meshOptions = {
-      diameter: diam,
-    };
-    if (faceUV) {
-      meshOptions.faceUV = faceUV;
-    }
-
-    var sphere = BABYLON.MeshBuilder.CreateSphere('sphere', meshOptions, scene);
-    if (visible) {
-      sphere.material = material;
-    } else {
-      sphere.visibility = 0;
-    }
-
-    sphere.material = material;
-
-    sphere.position.x = pos[0];
-    sphere.position.y = pos[2];// + size[2] / 2;
-    sphere.position.z = pos[1];
-    sphere.rotation.x = rot[0];
-    sphere.rotation.y = rot[1];
-    sphere.rotation.z = rot[2];
-
-    let mass = 0;
-    if (magnetic) {
-      mass = 10;
-      sphere.isMagnetic = true;
-    }
-    sphere.objectTrackerLabel = 'ball';
-
-    if (physicsOptions !== false) {
-
-      if (physicsOptions === true) {
-        physicsOptions = {
-          mass: mass,
-          friction: self.options.ballFriction,
-          restitution: 1.0
-        };
-      }
-
-      sphere.physicsImpostor = new BABYLON.PhysicsImpostor(
-        sphere,
-        BABYLON.PhysicsImpostor.SphereImpostor,
-        physicsOptions,
-        scene
-      );
-
-      if (magnetic) {
-        sphere.physicsImpostor.physicsBody.setDamping(self.options.ballDamping, self.options.ballDamping);
-      }
-
-    }
-
-    return sphere;
   };
 };
 

@@ -9,7 +9,6 @@ Features
 - Documentation panel?
 - Implement Pybricks support (...run, not just generate code)
 - More components
-  - object of interest radar (direction and range of object)
   - claw
   - linear actuator
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
@@ -35,8 +34,9 @@ Bugs
 - Variables not disappearing from toolbox immediately upon delete
 - Loading a map file will set hidden options that cannot be cleared through GUI.
 - Rewrite python imports for trivial files in js
-- Fix ammo to add setDeactivationTime
+- Fix ammo to add setDeactivationTime (...never seems to sleep even when set)
 - Football world
   - Fix rotation of football world
   - Explore collision mask
   - Explore rolling friction
+- Check json for correct type before loading
