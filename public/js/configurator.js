@@ -1529,6 +1529,8 @@ var configurator = new function() {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-swivel#</li>';
       } else if (motor.type == 'PaintballLauncherActuator') {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-paintball#</li>';
+      } else if (motor.type == 'MagnetActuator') {
+        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-electromagnet#</li>';
       }
       i++;
     }
