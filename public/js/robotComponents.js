@@ -1004,31 +1004,23 @@ function MagnetActuator(scene, parent, pos, rot, port, options) {
     else{
       let meshVel = meshPhysicsParent.physicsImpostor.getLinearVelocity();
 
-      let ver = BABYLON.Vector3.Dot(self.attractor.up, meshVel);
-      let mag = meshVel.length();
+      let physicsParent = getPhysicsParent(self.body);
+      let center = physicsParent.absolutePosition;
+      let centerVel = physicsParent.physicsImpostor.getLinearVelocity();
+      let omega = physicsParent.physicsImpostor.getAngularVelocity();
+      let bodyVel = centerVel.add(BABYLON.Vector3.Cross(omega,mesh.absolutePosition.subtract(center)));
 
-      if (ver / mag > 0.5) {
-        vec.normalize();
-        meshPhysicsParent.physicsImpostor.applyForce(vec.scale(power), mesh.absolutePosition);
-      } else {
-        let physicsParent = getPhysicsParent(self.body);
-        let center = physicsParent.absolutePosition;
-        let centerVel = physicsParent.physicsImpostor.getLinearVelocity();
-        let omega = physicsParent.physicsImpostor.getAngularVelocity();
-        let bodyVel = centerVel.add(BABYLON.Vector3.Cross(omega,mesh.absolutePosition.subtract(center)));
+      let error = meshVel.subtract(bodyVel);
 
-        let error = meshVel.subtract(bodyVel);
+      let normalVec = vec.normalize();
+      error.subtractInPlace(normalVec.scale(BABYLON.Vector3.Dot(error, normalVec)));
 
-        let normalVec = self.attractor.up.clone();
-        error.subtractInPlace(normalVec.scale(BABYLON.Vector3.Dot(error, normalVec)));
+      let pd = error.scale(self.options.dGain);
+      let pdAdded = mesh.absolutePosition.add(pd);
+      let pdVec = self.attractor.absolutePosition.subtract(pdAdded);
+      pdVec.normalize();
 
-        let pd = error.scale(self.options.dGain);
-        let pdAdded = mesh.absolutePosition.add(pd);
-        let pdVec = self.attractor.absolutePosition.subtract(pdAdded);
-        pdVec.normalize();
-
-        meshPhysicsParent.physicsImpostor.applyForce(pdVec.scale(power), mesh.absolutePosition);
-      }
+      meshPhysicsParent.physicsImpostor.applyForce(pdVec.scale(power), mesh.absolutePosition);
     }
   };
 
