@@ -240,7 +240,13 @@ var world_Football = new function() {
         position: [x, y, self.processedOptions.wallHeight / 2],
         size: [backWidth, backLength, self.processedOptions.wallHeight],
         color: self.processedOptions.wallColor,
-        physicsOptions: 'fixed'
+        physicsOptions: {
+            mass: 0,
+            friction: self.processedOptions.wallFriction,
+            restitution: self.processedOptions.wallRestitution,
+            group: 1,
+            mask: -1
+        }
       });
     }
     addWall(fieldLength / 2 - backWidth / 2, fieldWidth / 2 - backLength / 2);
@@ -264,8 +270,12 @@ var world_Football = new function() {
         group: 2,
         mask: 1
       },
-      callback: function(mesh) { self.game.ball = mesh}
+      callback: function(mesh) {
+        self.game.ball = mesh;
+        self.game.ball.objectTrackerLabel = 'ball';
+      }
     });
+
 
     //Score zones
     self.game.scoreZones = [];
@@ -309,9 +319,9 @@ var world_Football = new function() {
 
     // Reintroduce the ball at a given position with given velocity
     function foos(pos=[0,0,0],vel =[0,0,0]){
-      self.game.ball.position.y = pos[1];
+      self.game.ball.position.y = pos[2];
       self.game.ball.position.x = pos[0];
-      self.game.ball.position.z = pos[2];
+      self.game.ball.position.z = pos[1];
 
       self.game.ball.physicsImpostor.forceUpdate();
 
@@ -340,11 +350,11 @@ var world_Football = new function() {
     let prevBallZone = 0;
 
     function getBallZone(){
-      let y = self.game.ball.position.z;
-      if (Math.abs(y) < 5){
+      let x = self.game.ball.position.x;
+      if (Math.abs(x) < 5){
         return 2;
       }
-      if (y < 0){
+      if (x < 0){
         return 1;
       }
       return 0;
@@ -352,10 +362,10 @@ var world_Football = new function() {
 
     function resetBall(zone=0){
       if (zone == 0){
-        foos([-0.125 * fieldLength, 0, 0], [0,0,0]);
+        foos([-0.125 * fieldLength, 0, 5], [0,0,0]);
       }
       else{
-        foos([0.125 * fieldLength0, 0, 0], [0,0,0]);
+        foos([0.125 * fieldLength, 0, 5], [0,0,0]);
       }
     }
 
