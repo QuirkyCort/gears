@@ -778,11 +778,11 @@ var World_Base = function() {
         scene
       );
 
-      if (physicsOptions.dampLinear != 0 && physicsOptions.dampAngular != 0) {
+      if (mesh.parent == null) {
         mesh.physicsImpostor.physicsBody.setDamping(
           physicsOptions.dampLinear,
           physicsOptions.dampAngular
-        );  
+        );
       }
     }
   };
