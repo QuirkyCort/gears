@@ -233,6 +233,9 @@ var world_Football = new function() {
     let backWidth = fieldLength * 0.0095;
     let backLength = (fieldWidth - goalWidth) / 2;
 
+    // Empty out the objects first
+    self.processedOptions.objects = [];
+
     // Wall besides goal
     function addWall(x, y) {
       self.processedOptions.objects.push({
@@ -340,11 +343,15 @@ var world_Football = new function() {
     let prevBallZone = 0;
 
     function getBallZone(){
-      let y = self.game.ball.position.z;
-      if (Math.abs(y) < 5){
+      let x = self.game.ball.position.x;
+      let alt = self.game.ball.position.y;
+      if (alt < 0) {
+        return 3; // Out of bounds
+      }
+      if (Math.abs(x) < 5){
         return 2;
       }
-      if (y < 0){
+      if (x < 0){
         return 1;
       }
       return 0;
@@ -355,7 +362,7 @@ var world_Football = new function() {
         foos([-0.125 * fieldLength, 0, 0], [0,0,0]);
       }
       else{
-        foos([0.125 * fieldLength0, 0, 0], [0,0,0]);
+        foos([0.125 * fieldLength, 0, 0], [0,0,0]);
       }
     }
 
@@ -377,6 +384,10 @@ var world_Football = new function() {
         }
 
         let curBallZone = getBallZone();
+        if (curBallZone == 3) {
+          foosRandom();
+        }
+
         if (curBallZone != prevBallZone){
           prevBallZone = curBallZone;
           self.game.shotClock = 0;
