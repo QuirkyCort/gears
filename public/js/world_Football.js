@@ -245,8 +245,10 @@ var world_Football = new function() {
         color: self.processedOptions.wallColor,
         physicsOptions: {
           mass: 0,
-          friction: self.options.wallFriction,
-          restitution: self.options.wallRestitution
+          friction: self.processedOptions.wallFriction,
+          restitution: self.processedOptions.wallRestitution,
+          group: 1,
+          mask: -1
         }
       });
     }
@@ -271,8 +273,12 @@ var world_Football = new function() {
         group: 2,
         mask: 1
       },
-      callback: function(mesh) { self.game.ball = mesh}
+      callback: function(mesh) {
+        self.game.ball = mesh;
+        self.game.ball.objectTrackerLabel = 'ball';
+      }
     });
+
 
     //Score zones
     self.game.scoreZones = [];
@@ -316,9 +322,9 @@ var world_Football = new function() {
 
     // Reintroduce the ball at a given position with given velocity
     function foos(pos=[0,0,0],vel =[0,0,0]){
-      self.game.ball.position.y = pos[1];
+      self.game.ball.position.y = pos[2];
       self.game.ball.position.x = pos[0];
-      self.game.ball.position.z = pos[2];
+      self.game.ball.position.z = pos[1];
 
       self.game.ball.physicsImpostor.forceUpdate();
 
@@ -348,6 +354,7 @@ var world_Football = new function() {
 
     function getBallZone(){
       let x = self.game.ball.position.x;
+
       let alt = self.game.ball.position.y;
       if (alt < 0) {
         return 3; // Out of bounds
@@ -363,10 +370,10 @@ var world_Football = new function() {
 
     function resetBall(zone=0){
       if (zone == 0){
-        foos([-0.125 * fieldLength, 0, 0], [0,0,0]);
+        foos([-0.125 * fieldLength, 0, 5], [0,0,0]);
       }
       else{
-        foos([0.125 * fieldLength, 0, 0], [0,0,0]);
+        foos([0.125 * fieldLength, 0, 5], [0,0,0]);
       }
     }
 
