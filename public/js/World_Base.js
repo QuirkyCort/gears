@@ -210,7 +210,12 @@ var World_Base = function() {
           self.processedOptions.startPosXYZ = [parseFloat(xy[0]), parseFloat(xy[1]), alt];
         }
 
-        if (self.processedOptions.startRotStr.trim() != '') {
+        if (typeof self.processedOptions.startRotStr == 'string') {
+          startRot = parseFloat(self.processedOptions.startRotStr);
+        } else {
+          startRot = self.processedOptions.startRotStr; // May be parsed by setting string processor
+        }
+        if (! isNaN(startRot)) {
           self.processedOptions.startRot = parseFloat(self.processedOptions.startRotStr);
         }
 
