@@ -73,7 +73,8 @@ var World_Base = function() {
     physicsOptions: 'fixed',
     magnetic: false,
     laserDetection: null,
-    ultrasonicDetection: null
+    ultrasonicDetection: null,
+    isPickable: true
   };
 
   // Set default options
@@ -452,6 +453,9 @@ var World_Base = function() {
             let mesh = self.addObject(scene, options, indexObj.index);
             self.addPhysics(scene, mesh, options);
             indexObj.index++;
+            if (typeof options.callback == 'function') {
+              options.callback(mesh);
+            }
           }
         }
       }
@@ -569,6 +573,8 @@ var World_Base = function() {
     if (options.magnetic) {
       objectMesh.isMagnetic = true;
     }
+
+    objectMesh.isPickable = options.isPickable;
 
     if (typeof options.laserDetection == 'undefined' || options.laserDetection == null) {
       if (options.physicsOptions === false) {
@@ -703,6 +709,8 @@ var World_Base = function() {
           mass: 0,
           friction: 0.1,
           restitution: 0.1,
+          dampLinear: 0,
+          dampAngular: 0,
           group: 1,
           mask: -1
         }
@@ -711,6 +719,8 @@ var World_Base = function() {
           mass: 10,
           friction: 0.1,
           restitution: 0.1,
+          dampLinear: 0,
+          dampAngular: 0,
           group: 1,
           mask: -1
         }
@@ -720,6 +730,8 @@ var World_Base = function() {
           mass: 0,
           friction: 0.1,
           restitution: 0.1,
+          dampLinear: 0,
+          dampAngular: 0,
           group: 1,
           mask: -1
         }
@@ -744,6 +756,11 @@ var World_Base = function() {
         imposterType,
         options.physicsOptions,
         scene
+      );
+
+      mesh.physicsImpostor.physicsBody.setDamping(
+        options.physicsOptions.dampLinear,
+        options.physicsOptions.dampAngular
       );
     }
   };

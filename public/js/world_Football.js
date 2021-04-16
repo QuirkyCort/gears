@@ -13,7 +13,6 @@ var world_Football = new function() {
     "<p>A 2 on 2 football game! Kick the ball into the opponent's goal, but be careful not to leave your own goal undefended for too long.</p>" +
     "<p>An invisible wall in the center of the field separates the two teams. Grab and kick the ball with the electromagnet.</p>" +
     '<p>You can use this world in single robot mode to prepare your program before running it in the arena.</p>';
-  //TODO add a cool picture
   this.thumbnail = 'images/worlds/football.jpg';
 
   this.optionsConfigurations = [
@@ -250,7 +249,7 @@ var world_Football = new function() {
     addWall(-fieldLength / 2 + backWidth / 2, -fieldWidth / 2 + backLength / 2);
 
     // load ball
-    let sphereOptions = self.mergeObjectOptionsWithDefault({
+    self.processedOptions.objects.push({
       type: 'sphere',
       imageURL: 'textures/sphere/soccerBall.png',
       position: self.options.startBallPosXYZ,
@@ -260,36 +259,35 @@ var world_Football = new function() {
         mass: 10,
         friction: self.options.ballFriction,
         restitution: 1.0,
+        dampLinear: self.options.ballDamping,
+        dampAngular: self.options.ballDamping,
         group: 2,
         mask: 1
-      }
+      },
+      callback: function(mesh) { self.game.ball = mesh}
     });
-    self.game.ball = self.addObject(scene, sphereOptions, 'Ball');
-    self.addPhysics(scene, self.game.ball, sphereOptions);
-    // self.game.ball.physicsImpostor.physicsBody.setRollingFriction(1.0); // Doesn't seem to do anything
-    self.game.ball.physicsImpostor.physicsBody.setDamping(self.options.ballDamping, self.options.ballDamping);
 
     //Score zones
     self.game.scoreZones = [];
     function addScoreZone(pos, team) {
-      let scoreZoneOptions = self.mergeObjectOptionsWithDefault({
+      self.processedOptions.objects.push({
         type: 'box',
         color: '#a000',
         position: [pos, 0, self.processedOptions.wallHeight / 2],
         size: [backWidth - 2, goalWidth - 6, self.processedOptions.wallHeight],
-        physicsOptions: false
+        physicsOptions: false,
+        isPickable: false,
+        callback: function(mesh) {
+          mesh.team = team;
+          self.game.scoreZones.push(mesh);
+        }
       });
-      let scoreZone = self.addObject(scene, scoreZoneOptions, 'ScoreZone');
-      self.addPhysics(scene, scoreZone, scoreZoneOptions);
-      scoreZone.isPickable = false;
-      scoreZone.team = team;
-      self.game.scoreZones.push(scoreZone);
     }
     addScoreZone((fieldLength - backWidth) * 0.5, 'A');
     addScoreZone((fieldLength - backWidth) * -0.5, 'B');
 
     // invisible fences that keep robots separated
-    let fenceOptions = self.mergeObjectOptionsWithDefault({
+    self.processedOptions.objects.push({
       type: 'box',
       color: '#00a0',
       position: [0, 0, 20],
@@ -302,11 +300,9 @@ var world_Football = new function() {
         mask: 1
       },
       laserDetection: 'invisible',
-      ultrasonicDetection: 'invisible'
+      ultrasonicDetection: 'invisible',
+      isPickable: false
     });
-    let fence = self.addObject(scene, fenceOptions, 'Fence');
-    fence.isPickable = false;
-    self.addPhysics(scene, fence, fenceOptions);
 
     // set time limits
     self.game.TIME_LIMIT = 2 * 60 * 1000;
@@ -319,8 +315,7 @@ var world_Football = new function() {
 
       self.game.ball.physicsImpostor.forceUpdate();
 
-      // self.game.ball.physicsImpostor.physicsBody.setDamping(self.options.ballDamping, self.options.ballDamping / 5);
-      //self.game.ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0,0,0));
+      self.game.ball.physicsImpostor.physicsBody.setDamping(self.options.ballDamping, self.options.ballDamping);
       self.game.ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3(vel[2]/5,0,-vel[0]/5));
       self.game.ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(vel[0],vel[1],vel[2]));
     }
