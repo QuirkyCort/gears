@@ -507,7 +507,9 @@ var World_Base = function() {
       childOptions.physicsOptions = {
         mass: 0,
         friction: 0,
-        restitution: 0
+        restitution: 0,
+        dampLinear: 0,
+        dampAngular: 0
       }
       childMesh.parent = parentMesh;
       self.addPhysics(scene, childMesh, childOptions);
@@ -776,10 +778,12 @@ var World_Base = function() {
         scene
       );
 
-      mesh.physicsImpostor.physicsBody.setDamping(
-        physicsOptions.dampLinear,
-        physicsOptions.dampAngular
-      );
+      if (physicsOptions.dampLinear != 0 && physicsOptions.dampAngular != 0) {
+        mesh.physicsImpostor.physicsBody.setDamping(
+          physicsOptions.dampLinear,
+          physicsOptions.dampAngular
+        );  
+      }
     }
   };
 
