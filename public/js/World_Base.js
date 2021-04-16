@@ -77,6 +77,16 @@ var World_Base = function() {
     isPickable: true
   };
 
+  this.physicsDefault = {
+    mass: 0,
+    friction: 0.1,
+    restitution: 0.1,
+    dampLinear: 0,
+    dampAngular: 0,
+    group: 1,
+    mask: -1
+  };
+
   // Set default options
   this.mergeOptionsWithDefault = function(options) {
     Object.assign(self.options, self.defaultOptions);
@@ -739,6 +749,9 @@ var World_Base = function() {
     }
 
     if (options.physicsOptions !== false) {
+      let physicsOptions = Object.assign({}, self.physicsDefault);
+      Object.assign(physicsOptions, options.physicsOptions);
+
       let imposterType = null;
       if (options.type == 'box') {
         imposterType = BABYLON.PhysicsImpostor.BoxImpostor;
@@ -754,13 +767,13 @@ var World_Base = function() {
       mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
         mesh,
         imposterType,
-        options.physicsOptions,
+        physicsOptions,
         scene
       );
 
       mesh.physicsImpostor.physicsBody.setDamping(
-        options.physicsOptions.dampLinear,
-        options.physicsOptions.dampAngular
+        physicsOptions.dampLinear,
+        physicsOptions.dampAngular
       );
     }
   };

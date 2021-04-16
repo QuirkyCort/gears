@@ -243,7 +243,11 @@ var world_Football = new function() {
         position: [x, y, self.processedOptions.wallHeight / 2],
         size: [backWidth, backLength, self.processedOptions.wallHeight],
         color: self.processedOptions.wallColor,
-        physicsOptions: 'fixed'
+        physicsOptions: {
+          mass: 0,
+          friction: self.options.wallFriction,
+          restitution: self.options.wallRestitution
+        }
       });
     }
     addWall(fieldLength / 2 - backWidth / 2, fieldWidth / 2 - backLength / 2);
