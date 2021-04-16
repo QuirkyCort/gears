@@ -139,7 +139,7 @@ var world_Football = new function() {
     wallColor: '#6A6A6A',
     groundFriction: 1,
     wallFriction: 0.1,
-    groundRestitution: 0.0,
+    groundRestitution: 0.2,
     wallRestitution: 1.0,
     startPos: '0',
     timeLimit: true,
@@ -276,6 +276,7 @@ var world_Football = new function() {
       callback: function(mesh) {
         self.game.ball = mesh;
         self.game.ball.objectTrackerLabel = 'ball';
+        scene.shadowGenerator.addShadowCaster(mesh);
       }
     });
 
