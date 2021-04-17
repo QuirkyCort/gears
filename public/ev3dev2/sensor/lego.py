@@ -49,11 +49,11 @@ class ColorSensor:
     time.sleep(SENSOR_DELAY)
     hsv = self.hsv
 
-    if hsv[1] < 20:
-      if hsv[2] < 30:
-        return self.COLOR_BLACK
-      else:
-        return self.COLOR_WHITE
+    if hsv[2] < 30:
+      return self.COLOR_BLACK
+
+    elif hsv[1] < 20:
+      return self.COLOR_WHITE
 
     elif hsv[0] < 30:
       return self.COLOR_RED
