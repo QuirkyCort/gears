@@ -516,7 +516,7 @@ var ev3dev2_generator = new function() {
       var play_type = '';
     }
 
-    var code = 'spkr.speak("' + value_text + '"' + play_type + ')\n';
+    var code = 'spkr.speak(' + value_text + '' + play_type + ')\n';
     return code;
   }
 
