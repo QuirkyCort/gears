@@ -801,6 +801,22 @@
         [
           "#blk-rate#",
           "RATE"
+        ],
+        [
+          "#blk-pitchAngle#",
+          "PITCH_ANGLE"
+        ],
+        [
+          "#blk-pitchRate#",
+          "PITCH_RATE"
+        ],
+        [
+          "#blk-rollAngle#",
+          "ROLL_ANGLE"
+        ],
+        [
+          "#blk-rollRate#",
+          "ROLL_RATE"
         ]
       ]
     },

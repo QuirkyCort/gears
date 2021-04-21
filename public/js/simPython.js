@@ -278,11 +278,44 @@ var $builtinmodule = function(name) {
       }
     });
 
-    $loc.angleAndRate = new Sk.builtin.func(function(self) {
+    $loc.yawAngleAndRate = new Sk.builtin.func(function(self, float) {
       var gyro = [];
 
-      gyro[0] = Math.round(self.sensor.getAngle());
-      gyro[1] = Math.round(self.sensor.getRate());
+      gyro[0] = self.sensor.getYawAngle();
+      gyro[1] = self.sensor.getYawRate();
+
+      if (float.v == false) {
+        gyro[0] = Math.round(gyro[0]);
+        gyro[1] = Math.round(gyro[1]);
+      }
+
+      return Sk.ffi.remapToPy(gyro);
+    });
+
+    $loc.pitchAngleAndRate = new Sk.builtin.func(function(self, float) {
+      var gyro = [];
+
+      gyro[0] = self.sensor.getPitchAngle();
+      gyro[1] = self.sensor.getPitchRate();
+
+      if (float.v == false) {
+        gyro[0] = Math.round(gyro[0]);
+        gyro[1] = Math.round(gyro[1]);
+      }
+
+      return Sk.ffi.remapToPy(gyro);
+    });
+
+    $loc.rollAngleAndRate = new Sk.builtin.func(function(self, float) {
+      var gyro = [];
+
+      gyro[0] = self.sensor.getRollAngle();
+      gyro[1] = self.sensor.getRollRate();
+
+      if (float.v == false) {
+        gyro[0] = Math.round(gyro[0]);
+        gyro[1] = Math.round(gyro[1]);
+      }
 
       return Sk.ffi.remapToPy(gyro);
     });

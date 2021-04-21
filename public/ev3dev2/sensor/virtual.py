@@ -83,8 +83,6 @@ class ObjectTracker:
       return None
     return vel[2]
 
-
-
 class Pen:
   _DRIVER_NAME = 'virtual-pen'
 

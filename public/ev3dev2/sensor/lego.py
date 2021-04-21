@@ -142,24 +142,46 @@ class GyroSensor:
 
   def __init__(self, address=None):
     self.sensor = simPython.GyroSensor(address)
+    self.float = False
 
   @property
   def angle(self):
-    time.sleep(SENSOR_DELAY)
     return self.angle_and_rate[0]
 
   @property
   def rate(self):
-    time.sleep(SENSOR_DELAY)
     return self.angle_and_rate[1]
 
   @property
   def angle_and_rate(self):
     time.sleep(SENSOR_DELAY)
-    angle_and_rate = self.sensor.angleAndRate()
-    for i in range(2):
-      angle_and_rate[i] = int(angle_and_rate[i])
-    return angle_and_rate
+    return self.sensor.yawAngleAndRate(self.float)
+
+  @property
+  def pitch_angle(self):
+    return self.pitch_angle_and_rate[0]
+
+  @property
+  def pitch_rate(self):
+    return self.pitch_angle_and_rate[1]
+
+  @property
+  def pitch_angle_and_rate(self):
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.pitchAngleAndRate(self.float)
+
+  @property
+  def roll_angle(self):
+    return self.roll_angle_and_rate[0]
+
+  @property
+  def roll_rate(self):
+    return self.roll_angle_and_rate[1]
+
+  @property
+  def roll_angle_and_rate(self):
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.rollAngleAndRate(self.float)
 
   def reset(self):
     self.sensor.reset()

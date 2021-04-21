@@ -485,6 +485,18 @@ let MSGS = {
     nl: 'bochtscherpte',
     de: 'Rate',
   },
+  '#blk-pitchAngle#': {
+    en: 'pitch angle',
+  },
+  '#blk-pitchRate#': {
+    en: 'pitch rate',
+  },
+  '#blk-rollAngle#': {
+    en: 'roll angle',
+  },
+  '#blk-rollRate#': {
+    en: 'roll rate',
+  },
   '#blk-reset_gyro_on_port#': {
     en: 'reset gyro on port',
     fr: 'réinitialiser le gyroscope sur le port',

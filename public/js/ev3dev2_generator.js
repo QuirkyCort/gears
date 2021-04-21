@@ -490,6 +490,14 @@ var ev3dev2_generator = new function() {
       var typeStr = 'angle';
     } else if (dropdown_type == 'RATE') {
       var typeStr = 'rate';
+    } else if (dropdown_type == 'PITCH_ANGLE') {
+      var typeStr = 'pitch_angle';
+    } else if (dropdown_type == 'PITCH_RATE') {
+      var typeStr = 'pitch_rate';
+    } else if (dropdown_type == 'ROLL_ANGLE') {
+      var typeStr = 'roll_angle';
+    } else if (dropdown_type == 'ROLL_RATE') {
+      var typeStr = 'roll_rate';
     }
     var code = 'gyro_sensor_in' + dropdown_port + '.' + typeStr;
 

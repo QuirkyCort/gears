@@ -444,7 +444,7 @@ var simPanel = new function() {
       } else if (sensor[0].type == 'UltrasonicSensor') {
         sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
       } else if (sensor[0].type == 'GyroSensor') {
-        sensor[1][0].text(Math.round(sensor[0].getAngle()));
+        sensor[1][0].text(Math.round(sensor[0].getYawAngle()));
       } else if (sensor[0].type == 'GPSSensor') {
         let position = sensor[0].getPosition();
         sensor[1][0].text(Math.round(position[0] * 10) / 10);

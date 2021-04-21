@@ -643,15 +643,31 @@ function GyroSensor(scene, parent, pos, port, options) {
   this.options = null;
 
   this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
-  this.rotation = 0;
-  this.angularVelocity = 0;
-  this.actualRotation = 0;
-  this.rotationRounds = 0;
-  this.rotationAdjustment = 0;
+  this.yawRotation = {
+    angularVelocity: 0,
+    actualRotation: 0,
+    rotationRounds: 0,
+    rotationAdjustment: 0
+  };
+  this.pitchRotation = {
+    angularVelocity: 0,
+    actualRotation: 0,
+    rotationRounds: 0,
+    rotationAdjustment: 0
+  };
+  this.rollRotation = {
+    angularVelocity: 0,
+    actualRotation: 0,
+    rotationRounds: 0,
+    rotationAdjustment: 0
+  };
   this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(0, 0, 0);
-  this.s = new BABYLON.Vector3(0,0,1);
+  this.UP = new BABYLON.Vector3(0,1,0);
+  this.RIGHT = new BABYLON.Vector3(1,0,0);
+  this.FORWARD = new BABYLON.Vector3(0,0,1);
+  this.s1 = new BABYLON.Vector3(0,0,1);
+  this.s2 = new BABYLON.Vector3(1,0,0);
   this.origin = new BABYLON.Vector3(0,0,0);
-  this.e = new BABYLON.Vector3(0,0,0);
 
   this.init = function() {
     self.setOptions(options);
@@ -707,38 +723,75 @@ function GyroSensor(scene, parent, pos, port, options) {
   };
 
   this.updateRotation = function(delta) {
-    self.s.rotateByQuaternionAroundPointToRef(self.body.absoluteRotationQuaternion, self.origin, self.e);
+    let e = new BABYLON.Vector3(0,0,0);
 
-    let rot = BABYLON.Vector3.GetAngleBetweenVectors(self.s, self.e, BABYLON.Vector3.Up()) / Math.PI * 180;
+    function calculateActualAndVelocity(rot, rotationObj) {
+      if (! isNaN(rot)) {
+        if (rot - rotationObj.prevRotation > 180) {
+          rotationObj.rotationRounds -= 1;
+        } else if (rot - rotationObj.prevRotation < -180) {
+          rotationObj.rotationRounds += 1;
+        }
+        rotationObj.prevRotation = rot;
 
-    if (! isNaN(rot)) {
-      if (rot - self.prevRotation > 180) {
-        self.rotationRounds -= 1;
-      } else if (rot - self.prevRotation < -180) {
-        self.rotationRounds += 1;
+        let rotation = rotationObj.rotationRounds * 360 + rot;
+        if (delta > 0) {
+          rotationObj.angularVelocity = 0.8 * rotationObj.angularVelocity + 0.2 * ((rotation - rotationObj.actualRotation) / delta * 1000);
+        }
+        rotationObj.actualRotation = rotation;
       }
-      self.prevRotation = rot;
-
-      let rotation = self.rotationRounds * 360 + rot;
-      if (delta > 0) {
-        self.angularVelocity = 0.8 * self.angularVelocity + 0.2 * ((rotation - self.actualRotation) / delta * 1000);
-      }
-      self.actualRotation = rotation;
-      self.rotation = rotation - self.rotationAdjustment;
     }
+
+    // Yaw
+    self.s1.rotateByQuaternionAroundPointToRef(self.body.absoluteRotationQuaternion, self.origin, e);
+    let ey = e.y;
+    e.y = 0;
+    let rot = BABYLON.Vector3.GetAngleBetweenVectors(self.s1, e, self.UP) / Math.PI * 180;
+    calculateActualAndVelocity(rot, self.yawRotation);
+
+    // Pitch
+    e.y = ey;
+    e.x = 0;
+    e.z = Math.sqrt(1 - e.y**2);
+    rot = BABYLON.Vector3.GetAngleBetweenVectors(self.s1, e, self.RIGHT) / Math.PI * -180;
+    calculateActualAndVelocity(rot, self.pitchRotation);
+
+    // Roll
+    self.s2.rotateByQuaternionAroundPointToRef(self.body.absoluteRotationQuaternion, self.origin, e);
+    e.x = Math.sqrt(1 - e.y**2);
+    e.z = 0;
+    rot = BABYLON.Vector3.GetAngleBetweenVectors(self.s2, e, self.FORWARD) / Math.PI * -180;
+    calculateActualAndVelocity(rot, self.rollRotation);
   };
 
   this.reset = function() {
-    self.rotationAdjustment = self.actualRotation;
-    self.rotation = 0;
+    self.yawRotation.rotationAdjustment = self.yawRotation.actualRotation;
+    self.pitchRotation.rotationAdjustment = self.pitchRotation.actualRotation;
+    self.rollRotation.rotationAdjustment = self.rollRotation.actualRotation;
   };
 
-  this.getAngle = function() {
-    return self.rotation;
+  this.getYawAngle = function() {
+    return self.yawRotation.actualRotation - self.yawRotation.rotationAdjustment;
   };
 
-  this.getRate = function() {
-    return self.angularVelocity;
+  this.getYawRate = function() {
+    return self.yawRotation.angularVelocity;
+  };
+
+  this.getPitchAngle = function() {
+    return self.pitchRotation.actualRotation - self.pitchRotation.rotationAdjustment;
+  };
+
+  this.getPitchRate = function() {
+    return self.pitchRotation.angularVelocity;
+  };
+
+  this.getRollAngle = function() {
+    return self.rollRotation.actualRotation - self.rollRotation.rotationAdjustment;
+  };
+
+  this.getRollRate = function() {
+    return self.rollRotation.angularVelocity;
   };
 
   this.init();
