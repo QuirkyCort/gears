@@ -488,7 +488,7 @@ var pybricks_generator = new function() {
     var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
     var dropdown_block = block.getFieldValue('block');
 
-    var code = 'ev3.speaker.say("' + value_text + '")\n';
+    var code = 'ev3.speaker.say(' + value_text + ')\n';
     return code;
   }
 
