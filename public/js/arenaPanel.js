@@ -117,6 +117,7 @@ var arenaPanel = new function() {
       let $div = $('<div class="configuration"></div>');
       let $select = $('<select></select>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
@@ -144,6 +145,7 @@ var arenaPanel = new function() {
       let $select = $('<select></select>');
       let $html = $('<div></div>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
@@ -175,6 +177,7 @@ var arenaPanel = new function() {
       let $checkbox = $('<input type="checkbox" id="' + id + '">');
       let $label = $('<label for="' + id + '"></label>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $label.text(opt.label);
 
@@ -206,6 +209,7 @@ var arenaPanel = new function() {
       let $slider = $sliderBox.find('input[type=range]');
       let $input = $sliderBox.find('input[type=text]');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $slider.attr('min', opt.min);
       $slider.attr('max', opt.max);
@@ -233,6 +237,7 @@ var arenaPanel = new function() {
       let $textBox = $('<div class="text"><input type="text"></div>');
       let $input = $textBox.find('input');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $input.val(currentVal);
 
@@ -406,17 +411,19 @@ var arenaPanel = new function() {
 
   // Reset simulator
   this.resetSim = function() {
-    self.clearWorldInfoPanel();
-    self.hideWorldInfoPanel();
-    babylon.resetScene();
-    playerFrames.forEach(function(playerFrame){
-      playerFrame.skulpt.hardInterrupt = true;
-    });
-    if (arena.showNames) {
-      robots.forEach(robot => {
-        robot.showLabel();
+    babylon.world.setOptions(self.worldOptionsSetting).then(function(){
+      self.clearWorldInfoPanel();
+      self.hideWorldInfoPanel();
+      babylon.resetScene();
+      playerFrames.forEach(function(playerFrame){
+        playerFrame.skulpt.hardInterrupt = true;
       });
-    }
+      if (arena.showNames) {
+        robots.forEach(robot => {
+          robot.showLabel();
+        });
+      }
+    });
   };
 
   // Strip html tags
@@ -465,6 +472,47 @@ var arenaPanel = new function() {
       self.$fps.text('');
     }
   };
+
+  // Load from file
+  this.loadWorld = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'application/json,.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        let loadedSave = JSON.parse(this.result);
+        let world = worlds.find(world => world.name == loadedSave.worldName);
+
+        if (typeof world == 'undefined') {
+          toastMsg(i18n.get('#sim-invalid_map#'));
+          return;
+        }
+
+        babylon.world = worlds.find(world => world.name == loadedSave.worldName);
+        self.worldOptionsSetting = loadedSave.options;
+        self.resetSim();
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+  };
+
+  // Save to file
+  this.saveWorld = function() {
+    let world = babylon.world;
+    let saveObj = {
+      worldName: world.name,
+      options: world.options
+    }
+
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(saveObj, null, 2));
+    hiddenElement.target = '_blank';
+    hiddenElement.download = world.name + 'Map_config.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
 }
 
 arenaPanel.init();

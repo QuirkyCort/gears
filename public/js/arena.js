@@ -9,12 +9,30 @@ var arena = new function() {
     self.$panelControls = $('.panelControlsArea .panelControls');
     self.$panels = $('.panels .panel');
     self.$optionsMenu = $('.optionsMenu');
+    self.$worldsMenu = $('.worldsMenu');
+    self.$worldsMenu.click(self.toggleWorldsMenu);
 
     self.showNames = false;
 
     self.$navs.click(self.tabClicked);
 
     self.$optionsMenu.click(self.toggleOptionsMenu);
+  };
+
+  // Toggle worlds menu
+  this.toggleWorldsMenu = function(e) {
+    if ($('.worldsMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: i18n.get('#main-select_world#'), line: true, callback: arenaPanel.selectWorld},
+        {html: i18n.get('#main-world_load_file#'), line: false, callback: arenaPanel.loadWorld},
+        {html: i18n.get('#main-world_save_file#'), line: false, callback: arenaPanel.saveWorld},
+      ];
+
+      menuDropDown(self.$worldsMenu, menuItems, {className: 'worldsMenuDropDown'});
+    }
   };
 
   // Toggle options
