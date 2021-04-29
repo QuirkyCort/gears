@@ -79,6 +79,9 @@ i18n.append({
     fr: 'droite',
     de: 'Rechts',
   },
+  '#robot-back#': {
+    en: 'Back',
+  },
   '#robot-arm#': {
     en: 'Arm',
     fr: 'bras',
@@ -105,8 +108,6 @@ i18n.append({
   '#robot-touch#': {
     en: 'Touch Sensor',
   },
-
-
   '#robot-singleFollowerShort#': {
     en: 'Single Sensor Line Follower',
     fr: 'Suiveur de ligne à un capteur (Single Sensor Line Follower)',
@@ -239,6 +240,14 @@ i18n.append({
       '<p>This robot is equipped with a moveable cage that can be used to capture and move blocks.' +
       'A forward facing color sensor allows the robot to detect the presence and color of blocks infront of it.</p>' +
       '<p>If you require a larger cage for your mission, you can modify the robot in the robot configurator.</p>',
+  },
+  '#robot-footballShort#': {
+    en: 'Football',
+  },
+  '#robot-footballLong#': {
+    en:
+      '<p>This robot is equipped with front and back electromagnets to capture and shoot the football.</p>' +
+      '<p>The electromagnets on this robot are customized to have a longer range and higher power.</p>'
   }
 });
 
@@ -1183,5 +1192,68 @@ var robotTemplates = [
         }
       }
     ]
+  },
+  {
+    "name": "football",
+    "shortDescription": "#robot-footballShort#",
+    "longDescription": "#robot-footballLong#",
+    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : #robot-electromagnet# (#robot-front#)</li><li>#robot-port# D : #robot-electromagnet# (#robot-back#)</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-gyro#</li><li>#robot-port# 2 : GPS</li></ul>",
+    "thumbnail": "images/robots/football.jpg",
+    "bodyHeight": 4,
+    "bodyWidth": 14,
+    "bodyLength": 16,
+    "wheelDiameter": 5.6,
+    "wheelWidth": 0.8,
+    "wheelToBodyOffset": 0.2,
+    "bodyEdgeToWheelCenterY": 1,
+    "bodyEdgeToWheelCenterZ": 8,
+    "bodyMass": 1000,
+    "wheelMass": 200,
+    "casterMass": 0,
+    "wheelFriction": 10,
+    "bodyFriction": 0,
+    "casterFriction": 0,
+    "components": [
+      {
+        "type": "GyroSensor",
+        "position": [0, 2.5, 2.5],
+        "options": {}
+      },
+      {
+        "type": "GPSSensor",
+        "position": [0, 2.5, 0],
+        "options": {}
+      },
+      {
+        "type": "MagnetActuator",
+        "position": [0, -0.5, 7],
+        "rotation": [-Math.PI/2, 0, 0],
+        "options": {
+          "maxRange": 20,
+          "maxPower": 10000,
+          "dGain": 0.1
+        }
+      },
+      {
+        "type": "MagnetActuator",
+        "position": [0, -0.5, -7],
+        "rotation": [Math.PI/2, 0, 0],
+        "options": {
+          "maxRange": 20,
+          "maxPower": 10000,
+          "dGain": 0.1
+        }
+      },
+      {
+        "type": "Sphere",
+        "position": [0, -0.95, 5.2],
+        "rotation": [0, 0, 0],
+        "options": {
+          "diameter": 5.6,
+          "color": "E0E0E0"
+        }
+      }
+    ],
+    "options": {}
   }
 ];
