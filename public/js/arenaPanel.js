@@ -354,7 +354,7 @@ var arenaPanel = new function() {
           let world = worlds.find(world => world.name == loadedSave.worldName);
 
           if (typeof world == 'undefined') {
-            toastMsg('Invalid map configurations');
+            toastMsg(i18n.get('#sim-invalid_map#'));
             return;
           }
 
