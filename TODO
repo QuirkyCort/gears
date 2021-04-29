@@ -24,6 +24,11 @@ Features
 - Configure physics option in builder
 - import/export compound objects in builder
 - GLTF loader; Physics body using bounding box, or set to false and made part of compound body?
+- Rewrite python imports for trivial files in js
+- Blockly slider field https://google.github.io/blockly-samples/plugins/field-slider/test/
+- Review UI events with new Blockly version https://groups.google.com/g/blockly/c/4StIgJJXPwY/m/VSHqnqADAgAJ
+- Change multi-page approach to use multiple, independent workspaces instead
+- Sync to github!
 
 Coding (Sharing)
 - Remote coach view of student's work
@@ -33,5 +38,4 @@ Coding (Sharing)
 Bugs
 - Variables not disappearing from toolbox immediately upon delete
 - Loading a map file will set hidden options that cannot be cleared through GUI.
-- Rewrite python imports for trivial files in js
 - Check json for correct type before loading

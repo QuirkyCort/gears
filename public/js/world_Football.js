@@ -308,7 +308,7 @@ var world_Football = new function() {
       size: [12, fieldWidth, 40],
       physicsOptions: {
         mass: 0,
-        friction: 0.1,
+        friction: 0,
         restitution: 0.1,
         group: 2,
         mask: 1
