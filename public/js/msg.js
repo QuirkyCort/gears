@@ -487,15 +487,19 @@ let MSGS = {
   },
   '#blk-pitchAngle#': {
     en: 'pitch angle',
+    nl: 'hellingsgraad',
   },
   '#blk-pitchRate#': {
     en: 'pitch rate',
+    nl: 'hellingsscherpte',
   },
   '#blk-rollAngle#': {
     en: 'roll angle',
+    nl: 'kantelgraad',
   },
   '#blk-rollRate#': {
     en: 'roll rate',
+    nl: 'kantelscherpte',
   },
   '#blk-reset_gyro_on_port#': {
     en: 'reset gyro on port',
@@ -631,51 +635,67 @@ let MSGS = {
   },
   '#blk-sleep_tooltip#': {
     en: 'Pause the program for a while',
+    nl: 'Pauzeer het programma voor een tijdje',
   },
   '#blk-stop_tooltip#': {
     en: 'Robot will stop faster if using brake or hold',
+    nl: 'Robot stopt sneller bij gebruik van remmen of wachten',
   },
   '#blk-stop_motor_tooltip#': {
     en: 'Motor will stop faster if using brake or hold',
+    nl: 'Motor stopt sneller bij gebruik van remmen of wachten',
   },
   '#blk-exit_tooltip#': {
     en: 'End the program',
+    nl: 'Stop het programma',
   },
   '#blk-position_tooltip#': {
     en: 'How much the motor has turned since the start of the program',
+    nl: 'Hoeveel de motor heeft gedraait sinds de start van het programma',
   },
   '#blk-speed_tooltip#': {
     en: 'Rotation speed of the motor',
+    nl: 'Rotatiesnelheid van de motor',
   },
   '#blk-reset_motor_tooltip#': {
     en: 'Reset the motor position to zero',
+    nl: 'Zet de motorpositie op nul',
   },
   '#blk-move_tank_tooltip#': {
     en: 'Robot will move continuously until given another command',
+    nl: 'Robot zal continue rijden totdat een ander commando wordt gegeven',
   },
   '#blk-move_tank_for_tooltip#': {
     en: 'Robot will stop moving when the amount is reached',
+    nl: 'Robot stopt met rijden als de hoeveelheid is bereikt',
   },
   '#blk-reset_gyro_tooltip#': {
     en: 'Sets the current heading to be the new zero degrees',
+    nl: 'Stelt de huidige richting in op nul graden',
   },
   '#blk-run_motor_for_tooltip#': {
     en: 'Motor will stop moving when the amount is reached',
+    nl: 'Motor stopt met rijden als de hoeveelheid is bereikt',
   },
   '#blk-run_motor_to_tooltip#': {
     en: 'Motor may turn forward or back depending on the current position and the specified position',
+    nl: 'Motor zal vooruit of achteruit draaien, afhankelijk van de huidige positie en de ingestelde positie',
   },
   '#blk-beep_tooltip#': {
     en: 'If set to wait, the program will only continue when the beep completes playing',
+    nl: 'Als ingestelt op wacht zal het programma pas doorgaan als de bliep helemaal is afgespeeld',
   },
   '#blk-play_tone_tooltip#': {
     en: 'If set to wait, the program will only continue when the tone completes playing',
+    nl: 'Als ingestelt op wacht zal het programma pas doorgaan als de toon helemaal is afgespeeld',
   },
   '#blk-radio_available_tooltip#': {
     en: 'Number of unread messages in the mailbox',
+    nl: 'Aantal ongelezen berichten in het postvak',
   },
   '#blk-radio_empty_tooltip#': {
     en: 'Delete all messages in the mailbox',
+    nl: 'Verwijderd alle berichten uit het postvak',
   },
   '#main-blocks#': {
     en: 'Blocks',
@@ -788,9 +808,11 @@ let MSGS = {
   },
   '#main-worlds#': {
     en: 'Worlds',
+    nl: 'Werelden',
   },
   '#main-select_world#': {
     en: 'Select World',
+    nl: 'Selecteer wereld',
   },
   '#main-world_load_file#': {
     en: 'Load from file',
@@ -808,6 +830,7 @@ let MSGS = {
   },
   '#main-world_builder#': {
     en: 'World Builder (Experimental)',
+    nl: 'Wereld bouwer (Experimenteel)',
   },
   '#main-select_robot#': {
     en: 'Select Robot',
@@ -920,9 +943,11 @@ let MSGS = {
   },
   '#main-whats_new#': {
     en: 'What\'s New',
+    nl: 'Wat is nieuw',
   },
   '#main-display_fps#': {
     en: 'Display FPS',
+    nl: 'Toon FPS',
   },
   '#main-about#': {
     en: 'About',
@@ -981,11 +1006,15 @@ let MSGS = {
   },
   '#main-worldBuilder_title#': {
     en: 'GearsBot World Builder',
+    nl: 'GearsBot Wereld bouwer',
   },
   '#main-worldBuilder_description#': {
     en:
       '<p>The GearsBot World Builder allows you to create a custom world.</p>' +
       '<p>After you have completed your customization, save your creation to file and return here to load it.</p>',
+    nl:
+      '<p>De GearsBot Wereld Bouwer stelt je in staat je eigen wereld te bouwen.</p>' +
+      '<p>Als je wereld klaar is, sla je het op en kom je hier terug om het in te laden.</p>',
   },
   '#main-worldBuilder_go#': {
     en: 'Go to World Builder',
@@ -1199,9 +1228,11 @@ let MSGS = {
   },
   '#sim-magnet#': {
     en: 'Electromagnet',
+    nl: 'Electromagneet',
   },
   '#sim-magnet_power#': {
     en: 'Magnet Power (%)',
+    nl: 'Magneet kracht (%)',
   },
   '#sim-right_motor#': {
     en: 'Right Motor',
@@ -1302,21 +1333,27 @@ let MSGS = {
   },
   '#blockly-move_selected#': {
     en: 'Move Selected Blocks',
+    nl: 'Verplaats geselecteerde blokken',
   },
   '#blockly-move_to_page_name#': {
     en: 'Move selected blocks to page name',
+    nl: 'Verplaats geselecteerde blokken naar pagina naam',
   },
   '#blockly-moved_to#': {
     en: 'Blocks moved to',
+    nl: 'Blokken verplaatst naar',
   },
   '#blockly-no_selected#': {
     en: 'No blocks selected',
+    nl: 'Geen blokken geselecteerd',
   },
   '#blockly-cannot_move#': {
     en: 'Cannot move "When Started" block',
+    nl: 'Kan "Als gestart" blok niet verplaatsen',
   },
   '#blockly-cannot_move_child#': {
     en: 'Only top level blocks can be moved',
+    nl: 'Enkel top level blokken kunnen worden verplaatst',
   },
   '#blockly-rename_page#': {
     en: 'Rename Current Page',

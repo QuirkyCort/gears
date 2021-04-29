@@ -3,81 +3,97 @@ i18n.append({
     en: 'Dimensions',
     fr: 'Dimensions',
     de: 'Dimensionen',
+    nl: 'Dimensies',
   },
   '#robot-wheelDiameter#': {
     en: 'Wheel Diameter',
     fr: 'Diamètre des roues',
     de: 'Raddurchmesser',
+    nl: 'Wieldiameter',
   },
   '#robot-wheelSpacing#': {
     en: 'Wheel Spacing',
     fr: 'Espace entre les roues',
     de: 'Radabstand',
+    nl: 'Wielafstand',
   },
   '#robot-actuators#': {
     en: 'Actuators',
     fr: 'Actionneurs',
     de: 'Antrieb',
+    nl: 'Aandrijving',
   },
   '#robot-port#': {
     en: 'Port',
     fr: 'Port',
     de: 'Port',
+    nl: 'Poort',
   },
   '#robot-leftWheel#': {
     en: 'Left Wheel',
     fr: 'roue gauche',
     de: 'linkes Rad',
+    nl: 'Linker wiel',
   },
   '#robot-rightWheel#': {
     en: 'Right Wheel',
     fr: 'roue droite',
     de: 'rechtes Rad',
+    nl: 'Rechter wiel',
   },
   '#robot-electromagnet#': {
     en: 'Electromagnet',
     fr: 'électroaimant',
     de: 'Elektromagnet',
+    nl: 'Elektromagneet',
   },
   '#robot-motorizedArm#': {
     en: 'Motorized Arm',
     fr: 'bras motorisé',
     de: 'motorisierter Arm',
+    nl: 'gemotoriseerde Arm',
   },
   '#robot-swivel#': {
     en: 'Swivel Platform',
     fr: 'tourelle',
     de: 'Schwenkplattform',
+    nl: 'Draaiplatform',
   },
   '#robot-paintball#': {
     en: 'Paintball Launcher',
     fr: 'lanceur de paintball',
     de: 'Paintball Launcher',
+    nl: 'Paintball kanon',
   },
   '#robot-sensors#': {
     en: 'Sensors',
     fr: 'Capteurs',
     de: 'Sensoren',
+    nl: 'Sensoren',
   },
   '#robot-color#': {
     en: 'Color Sensor',
     fr: 'capteur de couleurs',
     de: 'Frabsensor',
+    nl: 'Kleurensensor',
   },
   '#robot-front#': {
     en: 'Front',
     fr: 'avant',
     de: 'Vorne',
+    nl: 'Voorkant',
   },
   '#robot-left#': {
     en: 'Left',
     fr: 'gauche',
     de: 'Links',
+    nl: 'Links',
   },
   '#robot-right#': {
     en: 'Right',
     fr: 'droite',
     de: 'Rechts',
+    nl: 'Rechts',
   },
   '#robot-back#': {
     en: 'Back',
@@ -86,32 +102,39 @@ i18n.append({
     en: 'Arm',
     fr: 'bras',
     de: 'Arm',
+    nl: 'Arm',
   },
   '#robot-ultrasonic#': {
     en: 'Ultrasonic Distance',
     fr: 'télémètre à ultrasons',
     de: 'Unltraschallabstand',
+    nl: 'Ultrasonische afstand',
   },
   '#robot-gyro#': {
     en: 'Gyro',
     fr: 'gyroscope',
     de: 'Gyroskop',
+    nl: 'Gyroscoop',
   },
   '#robot-laser#': {
     en: 'Laser Range Sensor',
     fr: 'télémètre laser',
     de: 'Laserentfernungssensor',
+    nl: 'Laser afstandsensor',
   },
   '#robot-pen#': {
     en: 'Pen',
+    nl: 'Pen',
   },
   '#robot-touch#': {
     en: 'Touch Sensor',
+    nl: 'Drukknopsensor',
   },
   '#robot-singleFollowerShort#': {
     en: 'Single Sensor Line Follower',
     fr: 'Suiveur de ligne à un capteur (Single Sensor Line Follower)',
     de: 'Einsensor Linienverfolger',
+    nl: 'Enkele sensor lijnvolger',
   },
   '#robot-singleFollowerLong#': {
     en:
@@ -126,11 +149,16 @@ i18n.append({
       '<p>Dieser Roboter ist mit einem einzigen Farbsensor für das Folgen von Linien ausgestattet</p>' +
       '<p>Ein Elektromagnet unter dem Roboter ermöglicht dir das Aufheben von magnetischen Objekten</p>' +
       '<p>Es ist gut, um die Grundlagen der Linienverfolgung zu erlernen, aber einige Linienverfolgungskarten erfordern Doppelsensoren.</p>',
+    nl:
+      '<p>Deze robot is uitgerust met een enkele kleurensensor voor lijn volgen.</p>' +
+      '<p>Een elektromagneet aan de onderkant van de robot laat je magnetische objecten oppikken.</p>' +
+      '<p>Het is goed om de basis van lijnvolgen te leren, maar sommige lijnvolg arena\'s vereisen dubbele sensors.</p>',
   },
   '#robot-doubleFollowerShort#': {
     en: 'Double Sensor Line Follower',
     fr: 'Suiveur de ligne à deux capteurs (Double Sensor Line Follower)',
     de: 'Doppelsensoren Linienverfolger',
+    nl: 'Dubbele sensor lijnvolger',
   },
   '#robot-doubleFollowerLong#': {
     en:
@@ -142,11 +170,15 @@ i18n.append({
     de:
       '<p>Dieser Roboter ist mit zwei Farbsensoren zur Linienverfolgung ausgestattet</p>' +
       '<p>Ein Elektromagnet unter dem Roboter elaubt es dir magnetische Objekte aufzuheben, und ein Gyroskop und GPS elaubt genaue Bewegungen, selbst wenn der Roboter nicht auf der Linie ist.</p>',
+    nl:
+      '<p>Deze robot is uitgerust met een dubbele kleurensensor voor lijn volgen.</p>' +
+      '<p>Een elektromagneet aan de onderkant van de robot laat je magnetische objecten oppikken en een gyroscoop en GPS laten nauwkeurige beweging toe, zelfs als de robot van de lijn raakt.</p>',
   },
   '#robot-paintballShort#': {
     en: 'Paintball ',
     fr: 'Lanceur de paintball (Paintball)',
     de: 'Paintball',
+    nl: 'Paintball',
   },
   '#robot-paintballLong#': {
     en:
@@ -161,11 +193,16 @@ i18n.append({
       '<p>Dieser Roboter ähnelt dem Doppelsensor Linienverfolger, aber mit einem extra Paintball-Launcher auf einem motorisiertem Arm. ' +
       'Der Ultraschallsensor wurde auch mit einem lange Reichweite (5m) Laserentfernungssensor ersetzt.</p>' +
       '<p>Lese die <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball-Launcher-Dokumentationen</a> um zu lernen wie man ein Paintball schießt.</p>',
+    nl:
+      '<p>Deze robot is vergelijkbaar met de dubbele sensor lijnvolger, maar met de toevoeging van een paintball kanon, gemonteerd op een gemotoriseerde arm. ' +
+      'De ultrasonische afstandsensor is ook vervangen door een lange afstand (5m) laser afstandsensor.</p>'  +
+      '<p>Lees de <a href="https://github.com/QuirkyCort/gears/wiki/Paintball-Launcher" target="_blank">Paintball kanon documentatie</a> om te leren hoe een paintball te lanceren.</p>',
   },
   '#robot-mazeShort#': {
     en: 'Maze Runner',
     fr: 'Coureur de labyrinthe (Maze Runner)',
     de: 'Labyrinth Läufer (Maze Runner)',
+    nl: 'Doolhofloper',
   },
   '#robot-mazeLong#': {
     en:
@@ -177,11 +214,15 @@ i18n.append({
     de:
       '<p>Dieser Roboter ist mit drei Ultraschallsensor ausgestattet um die Navigation im Labyrinth zu erleichtern und ein Farbsensor um den Endpunkt zu detektieren.</p>' +
       '<p>Ein Elektromagnet unter dem Roboter ermöglicht es dir magnetische Objekte aufzuheben und ein Gyroskop hilft dem Roboter sich gerade zu bewegen</p>',
+    nl:
+      '<p>Deze robot is uitgerust met drie ultrasonische sensors voor doolhof navigatie en een kleurensensor om het eindpunt te detecteren.</p>' +
+      '<p>Een elektromagneet aan de onderkant van de robot laat je magnetische objecten oppikken en een gyroscoop helpt de robot om recht te rijden.</p>',
   },
   '#robot-maze2Short#': {
     en: 'Maze Runner MkII',
     fr: 'Coureur de labyrinthe MkII (Maze Runner)',
     de: 'Labyrinth Läufer MKII (Maze Runner)',
+    nl: 'Doolhofloper MKII',
   },
   '#robot-maze2Long#': {
     en:
@@ -193,11 +234,15 @@ i18n.append({
     de:
       '<p>Das hier ist ein verbesserter Labyrinth Läufer, der die originalen drei Ultraschallsensoren mit einem einzigen Laserentfernungsfinder und einem vorwärts zeigenden Farbsensor ,der auf einer Drehplattform befestigt ist, ersetzt.</p>' +
       '<p>Der vorwärts zeigenden Farbsensor ist für eine große Reichweite (30cm) und eine enge Sicht (30 Grad) konfihuriert.</p>',
+    nl:
+      '<p>Dit is een geavanceerde doolhofloper robot die de originele drie-ultrasonische sensor vervangt door een enkele laser afstandsensor en een voorwaarts gerichte kleurensensor, gemonteerd op een zwenkplatform.</p>' +
+      '<p>De voorwaarts gerichte kleurensensor is speciaal geconfigureerd voor lange afstand (30cm) en smal zicht (30 graden).</p>',
   },
   '#robot-towShort#': {
     en: 'Tow Truck',
     fr: 'Remorqueur (Tow Truck)',
     de: 'Apschleppfahrzeug',
+    nl: 'Sleepwagen',
   },
   '#robot-towLong#': {
     en:
@@ -209,11 +254,15 @@ i18n.append({
     de:
       '<p>Dieser Roboter is mit einem an einem Arm befestigten Magnet ausgerüstet.</p>' +
       '<p>Es kann magnetische Objekte entweder aufheben oder abschleppen. Sei nur vorsichtig, dass du beim drehen nichts anstößt!</p>',
+    nl:
+      '<p>Deze robot is uitgerust met een magneet aan een arm.</p>' +
+      '<p>Het kan magnetische objecten oppakken of verslepen. Wees voorzichtig om geen objecten om te stoten bij het omdraaien!</p>',
   },
   '#robot-craneShort#': {
     en: 'Crane',
     fr: 'Grue (Crane)',
     de: 'Kran',
+    nl: 'Kraan',
   },
   '#robot-craneLong#': {
     en:
@@ -231,6 +280,11 @@ i18n.append({
       '<p>Er kann höher und weiter reichen als die anderen Roboter ' +
       'und ein Farbsensor am Ende von Arm erlaubt es ihm zu erkennen, was er aufhebt.</p>' +
       '<p>Wenn du den Roboter nutzt, falte den Arm um zu verhindern, dass du den Ultraschallsensor behinderst.</p>',
+    nl:
+      '<p>Deze robot is uitgerust met een elektromagneet aan het eind van een twee-segmenten kraanarm.</p>' +
+      '<p>Het kan hoger en verder reiken dan de andere robots ' +
+      'en een kleurensensor aan het eind van de arm helpt in het identificeren van wat het oppakt.</p>' +
+      '<p>Als je deze robot gebruikt, vouw dan de armen samen, om te voorkomen dat het de ultrasonische sensor blokkeerd.</p>',
   },
   '#robot-cageShort#': {
     en: 'Cage Bot',
