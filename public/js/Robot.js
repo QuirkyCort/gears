@@ -475,8 +475,12 @@ function Robot() {
 
   // Render loop
   this.render = function(delta) {
-    self.leftWheel.render(delta);
-    self.rightWheel.render(delta);
+    if (typeof self.leftWheel != 'undefined') {
+      self.leftWheel.render(delta);
+    }
+    if (typeof self.rightWheel != 'undefined') {
+      self.rightWheel.render(delta);
+    }
 
     self.components.forEach(function(component) {
       if (typeof component.render == 'function') {

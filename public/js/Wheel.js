@@ -179,6 +179,13 @@ function Wheel(scene, options) {
   };
 
   this.render = function(delta) {
+    if (
+      typeof self.mesh.physicsImpostor == 'undefined'
+      || self.mesh.physicsImpostor == null
+    ) {
+      return;
+    }
+
     self.mesh.physicsImpostor.applyForce(self.TIRE_DOWNWARDS_FORCE, self.mesh.getAbsolutePosition());
     if (self.mode == self.modes.RUN) {
       self.setMotorSpeed(delta);
