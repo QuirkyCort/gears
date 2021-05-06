@@ -1050,6 +1050,18 @@ let MSGS = {
     nl: 'Ga naar de Configurator',
     de: 'Gehe zum Konfigurator',
   },
+  '#arena-show_names#': {
+    en: 'Show Names',
+  },
+  '#arena-individual_colors#': {
+    en: 'Individual Colors',
+  },
+  '#arena-team_colors#': {
+    en: 'Team Colors',
+  },
+  '#arena-custom_colors#': {
+    en: 'Custom Colors',
+  },
   '#sim-world#': {
     en: 'World',
     fr: 'Univers',

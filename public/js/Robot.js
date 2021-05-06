@@ -12,13 +12,20 @@ function Robot() {
   this.actuatorCount = 2;
   this.componentIndex = 0;
 
-  this.playerColors = [
+  this.playerIndividualColors = [
     new BABYLON.Color3(0.2, 0.94, 0.94),
     new BABYLON.Color3(0.2, 0.94, 0.2),
     new BABYLON.Color3(0.94, 0.94, 0.2),
     new BABYLON.Color3(0.94, 0.2, 0.2),
     new BABYLON.Color3(0.94, 0.2, 0.94),
     new BABYLON.Color3(0.2, 0.2, 0.94)
+  ];
+
+  this.playerTeamColors = [
+    new BABYLON.Color3(0.09, 0.09, 0.902),
+    new BABYLON.Color3(0.09, 0.495, 0.9),
+    new BABYLON.Color3(0.9, 0.09, 0.09),
+    new BABYLON.Color3(0.9, 0.09, 0.495),
   ];
 
   this.defaultOptions = {
@@ -57,10 +64,9 @@ function Robot() {
         faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
       }
 
-      if (self.player == 'single') {
+      function setCustomColors() {
         if (options.imageURL != '') {
-          var texture = new BABYLON.Texture(options.imageURL, scene);
-          bodyMat.diffuseTexture = texture;
+          bodyMat.diffuseTexture = new BABYLON.Texture(options.imageURL, scene);
           faceUV[0] = new BABYLON.Vector4(0,   0,   1/3, 1/2);
           faceUV[1] = new BABYLON.Vector4(1/3, 0,   2/3, 1/2);
           faceUV[2] = new BABYLON.Vector4(2/3, 0,   1,   1/2);
@@ -70,8 +76,24 @@ function Robot() {
         } else {
           bodyMat = babylon.getMaterial(scene, options.color);
         }
+      }
+
+      if (self.player == 'single') {
+        setCustomColors();
       } else {
-        bodyMat.diffuseColor = self.playerColors[self.player];
+        // Arena mode
+        let robotColorMode = null;
+        if (typeof arena != 'undefined') {
+          robotColorMode = arena.robotColorMode;
+        }
+
+        if (robotColorMode == 'team') {
+          bodyMat.diffuseColor = self.playerTeamColors[self.player];
+        } else if (robotColorMode == 'custom') {
+          setCustomColors();
+        } else {
+          bodyMat.diffuseColor = self.playerIndividualColors[self.player];
+        }
       }
       bodyMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
       bodyMat.freeze();

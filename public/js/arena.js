@@ -2,6 +2,7 @@ var arena = new function() {
   var self = this;
 
   self.showFPS = false;
+  self.robotColorMode = 'individual';
 
   // Run on page load
   this.init = function() {
@@ -42,18 +43,48 @@ var arena = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'Show Names', line: false, callback: self.toggleShowName},
+        {html: i18n.get('#arena-show_names#'), line: true, callback: self.toggleShowName},
+        {html: i18n.get('#arena-individual_colors#'), line: false, callback: self.setIndividualColors},
+        {html: i18n.get('#arena-team_colors#'), line: false, callback: self.setTeamColors},
+        {html: i18n.get('#arena-custom_colors#'), line: true, callback: self.setCustomColors},
         {html: i18n.get('#main-display_fps#'), line: false, callback: arenaPanel.toggleFPS }
       ];
       if (self.showNames) {
         menuItems[0].html = '<span class="tick">&#x2713;</span> ' + menuItems[0].html;
       }
-      if (self.showFPS) {
+      if (self.robotColorMode == 'individual') {
         menuItems[1].html = '<span class="tick">&#x2713;</span> ' + menuItems[1].html;
+      }
+      if (self.robotColorMode == 'team') {
+        menuItems[2].html = '<span class="tick">&#x2713;</span> ' + menuItems[2].html;
+      }
+      if (self.robotColorMode == 'custom') {
+        menuItems[3].html = '<span class="tick">&#x2713;</span> ' + menuItems[3].html;
+      }
+      if (arenaPanel.showFPS) {
+        menuItems[4].html = '<span class="tick">&#x2713;</span> ' + menuItems[4].html;
       }
 
       menuDropDown(self.$optionsMenu, menuItems, {className: 'optionsMenuDropDown'});
     }
+  };
+
+  // Set robot colors to individual mode
+  this.setIndividualColors = function() {
+    self.robotColorMode = 'individual';
+    arenaPanel.resetSim();
+  };
+
+  // Set robot colors to team mode
+  this.setTeamColors = function() {
+    self.robotColorMode = 'team';
+    arenaPanel.resetSim();
+  };
+
+  // Set robot colors to custom mode
+  this.setCustomColors = function() {
+    self.robotColorMode = 'custom';
+    arenaPanel.resetSim();
   };
 
   // Toggle display of name
