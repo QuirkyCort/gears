@@ -475,10 +475,10 @@ function Robot() {
 
   // Render loop
   this.render = function(delta) {
-    if (typeof self.leftWheel != 'undefined') {
+    if (self.leftWheel != null) {
       self.leftWheel.render(delta);
     }
-    if (typeof self.rightWheel != 'undefined') {
+    if (self.rightWheel != null) {
       self.rightWheel.render(delta);
     }
 
