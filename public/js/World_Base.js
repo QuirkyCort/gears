@@ -306,17 +306,17 @@ var World_Base = function() {
     faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
 
     var boxOptions = {
-      width: self.processedOptions.groundWidth,
+      width: self.processedOptions.groundLength,
       height: 10,
-      depth: self.processedOptions.groundLength,
-      faceUV: faceUV
+      depth: self.processedOptions.groundWidth,
+      faceUV: faceUV,
+      wrap: true
     };
 
     var ground = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
     ground.material = groundMat;
     ground.receiveShadows = true;
     ground.position.y = -5;
-    ground.rotation.y = Math.PI / 2;
 
     // Physics
     ground.physicsImpostor = new BABYLON.PhysicsImpostor(
