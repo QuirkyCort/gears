@@ -13,6 +13,7 @@ Features
   - linear actuator
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
   - LED (use ev3dev api or new?)
+  - IR array (single camera with orthographic view?)
 - Prevent jumping over wall when backing up. (Increasing wall friction doesn't work...)
 - Set duty_cycle_sp. Useful for aligning to wall.
 - Buttons

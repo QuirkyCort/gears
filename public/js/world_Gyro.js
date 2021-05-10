@@ -51,7 +51,7 @@ var world_Gyro = new function() {
   ];
 
   this.imagesURL = {
-    straight: 'textures/maps/Gyro/Straight.png',
+    straight: 'textures/maps/Gyro/Straight1.png',
     square: 'textures/maps/Gyro/Square.png',
     randomDirection: 'textures/maps/Gyro/Square.png',
   };
@@ -111,7 +111,7 @@ var world_Gyro = new function() {
   };
 
   // Load image into ground tile
-  this.loadImageTile = function (scene, imageSrc, size, pos=[0,0], rot=Math.PI/2) {
+  this.loadImageTile = function (scene, imageSrc, size, pos=[0,0], rot=0) {
     var groundMat = new BABYLON.StandardMaterial('ground', scene);
     if (imageSrc) {
       var groundTexture = new BABYLON.Texture(imageSrc, scene);
@@ -127,10 +127,11 @@ var world_Gyro = new function() {
     faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
 
     var boxOptions = {
-        width: size[0],
+        width: size[1],
         height: 10,
-        depth: size[1],
-        faceUV: faceUV
+        depth: size[0],
+        faceUV: faceUV,
+        wrap: true
     };
 
     var ground = BABYLON.MeshBuilder.CreateBox('box', boxOptions, scene);
@@ -163,8 +164,27 @@ var world_Gyro = new function() {
       if (self.options.image == 'straight') {
         self.loadImageTile(
           scene,
-          self.imagesURL[self.options.image],
-          [self.options.width*5, self.options.straightRunWidth]
+          'textures/maps/Gyro/Straight1.png',
+          [self.options.width, self.options.straightRunWidth],
+          [0, -1.5*257.5]
+        );
+        self.loadImageTile(
+          scene,
+          'textures/maps/Gyro/Straight2.png',
+          [self.options.width, self.options.straightRunWidth],
+          [0, -0.5*257.5]
+        );
+        self.loadImageTile(
+          scene,
+          'textures/maps/Gyro/Straight3.png',
+          [self.options.width, self.options.straightRunWidth],
+          [0, 0.5*257.5]
+        );
+        self.loadImageTile(
+          scene,
+          'textures/maps/Gyro/Straight4.png',
+          [self.options.width, self.options.straightRunWidth],
+          [0, 1.5*257.5]
         );
       } else if (self.options.image == 'square') {
         self.loadImageTile(
@@ -172,28 +192,28 @@ var world_Gyro = new function() {
           self.imagesURL[self.options.image],
           [self.options.width, self.options.length],
           [-self.options.width/2, self.options.length/2],
-          Math.PI / 2
+          0
         );
         self.loadImageTile(
           scene,
           self.imagesURL[self.options.image],
           [self.options.width, self.options.length],
           [self.options.length/2, self.options.width/2],
-          Math.PI
+          Math.PI / 2
         );
         self.loadImageTile(
           scene,
           self.imagesURL[self.options.image],
           [self.options.width, self.options.length],
           [self.options.width/2, -self.options.length/2],
-          -Math.PI / 2
+          -Math.PI
         );
         self.loadImageTile(
           scene,
           self.imagesURL[self.options.image],
           [self.options.width, self.options.length],
           [-self.options.length/2, -self.options.width/2],
-          0
+          -Math.PI / 2
         );
       } else if (self.options.image == 'randomDirection') {
         let theta = Math.random() * 360;
@@ -214,7 +234,7 @@ var world_Gyro = new function() {
           self.imagesURL[self.options.image],
           [self.options.width, self.options.length],
           [x, y],
-          -(theta - Math.PI)
+          -(theta - Math.PI / 2)
         );
         self.addBox(scene, [25,18,18], [x*2,y*2], -(theta - Math.PI), 0, self.obstacleMat)
       }
