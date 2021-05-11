@@ -61,6 +61,8 @@ var World_Base = function() {
 
   this.objectDefault = {
     type: 'box',
+    modelURL: '',
+    modelScale: 10,
     position: [0,0,0],
     size: [10,10,10],
     rotationMode: 'degrees',
@@ -374,7 +376,7 @@ var World_Base = function() {
 
   // Create the scene
   this.load = function (scene) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(async function(resolve, reject) {
       var groundMat = new BABYLON.StandardMaterial('ground', scene);
       var groundTexture = new BABYLON.Texture(self.processedOptions.image, scene);
       groundMat.diffuseTexture = groundTexture;
@@ -462,10 +464,10 @@ var World_Base = function() {
         let indexObj = { index: 0 };
         for (let i=0; i<self.processedOptions.objects.length; i++) {
           if (self.processedOptions.objects[i].type == 'compound') {
-            self.addCompound(scene, self.processedOptions.objects[i], indexObj);
+            await self.addCompound(scene, self.processedOptions.objects[i], indexObj);
           } else {
             let options = self.mergeObjectOptionsWithDefault(self.processedOptions.objects[i]);
-            let mesh = self.addObject(scene, options, indexObj.index);
+            let mesh = await self.addObject(scene, options, indexObj.index);
             self.addPhysics(scene, mesh, options);
             indexObj.index++;
             if (typeof options.callback == 'function') {
@@ -489,7 +491,7 @@ var World_Base = function() {
   };
 
   // Add a compound object
-  this.addCompound = function(scene, object, indexObj) {
+  this.addCompound = async function(scene, object, indexObj) {
     if (! (object.objects instanceof Array)) {
       return;
     }
@@ -498,12 +500,12 @@ var World_Base = function() {
     }
 
     let options = self.mergeObjectOptionsWithDefault(object.objects[0])
-    let parentMesh = self.addObject(scene, options, indexObj.index);
+    let parentMesh = await self.addObject(scene, options, indexObj.index);
     indexObj.index++;
 
     for (let i=1; i<object.objects.length; i++) {
       let childOptions = self.mergeObjectOptionsWithDefault(object.objects[i])
-      let childMesh = self.addObject(scene, childOptions, indexObj.index);
+      let childMesh = await self.addObject(scene, childOptions, indexObj.index);
       childOptions.physicsOptions = {
         mass: 0,
         friction: 0,
@@ -530,7 +532,7 @@ var World_Base = function() {
   };
 
   // Add a single object
-  this.addObject = function(scene, options, index) {
+  this.addObject = async function(scene, options, index) {
     if (options.position.length < 3) {
       options.position.push(0);
     }
@@ -546,6 +548,8 @@ var World_Base = function() {
 
     let meshOptions = {
       material: babylon.getMaterial(scene, options.color),
+      modelURL: options.modelURL,
+      modelScale: options.modelScale,
       size: [
         options.size[0],
         options.size[1],
@@ -566,7 +570,7 @@ var World_Base = function() {
 
     let imageURL = options.imageURL;
     if (VALID_IMAGETYPES.indexOf(meshOptions.imageType) != -1 && imageURL != '') {
-      var material = new BABYLON.StandardMaterial('imageObject', scene);
+      var material = new BABYLON.StandardMaterial('imageObject' + imageURL, scene);
       var texture = new BABYLON.Texture(imageURL, scene);
       material.diffuseTexture = texture;
       material.diffuseTexture.uScale = options.uScale;
@@ -582,6 +586,8 @@ var World_Base = function() {
       var objectMesh = self.addCylinder(scene, meshOptions);
     } else if (options.type == 'sphere') {
       var objectMesh = self.addSphere(scene, meshOptions);
+    } else if (options.type == 'model') {
+      var objectMesh = await self.addModel(scene, meshOptions);
     } else {
       console.log('Invalid object type');
       return null;
@@ -614,6 +620,52 @@ var World_Base = function() {
     }
 
     return objectMesh;
+  };
+
+  // Add model
+  this.addModel = async function(scene, options) {
+    let id = 'worldBaseObject';
+    if (typeof options.index != 'undefined') {
+      id += '_model' + options.index;
+    }
+
+    results = await BABYLON.SceneLoader.ImportMeshAsync(null, '', options.modelURL, scene);
+    var meshes = results.meshes;
+    meshes[0].scaling.x = options.modelScale;
+    meshes[0].scaling.y = options.modelScale;
+    meshes[0].scaling.z = options.modelScale;
+
+    // Get bounding box
+    let min = meshes[0].getBoundingInfo().boundingBox.minimumWorld;
+    let max = meshes[0].getBoundingInfo().boundingBox.maximumWorld;
+    
+    for(let i=1; i<meshes.length; i++){
+      let meshMin = meshes[i].getBoundingInfo().boundingBox.minimumWorld;
+      let meshMax = meshes[i].getBoundingInfo().boundingBox.maximumWorld;
+
+      min = BABYLON.Vector3.Minimize(min, meshMin);
+      max = BABYLON.Vector3.Maximize(max, meshMax);
+    }
+
+    let bounding = new BABYLON.BoundingInfo(min, max);
+
+    // Build bounding box mesh
+    var meshOptions = {
+      width: bounding.boundingBox.extendSize.x * options.modelScale * 2,
+      depth: bounding.boundingBox.extendSize.z * options.modelScale * 2,
+      height: bounding.boundingBox.extendSize.y * options.modelScale * 2
+    };
+    var mesh = BABYLON.MeshBuilder.CreateBox(id, meshOptions, scene);
+    mesh.visibility = 0.5;
+  
+    mesh.position = options.position;
+    mesh.rotation = options.rotation;
+
+    meshes[0].position = bounding.boundingBox.center.scale(options.modelScale).negate();
+    meshes[0].parent = mesh;
+    meshes[0].visibility = 0;
+
+    return mesh;
   };
 
   // Add sphere
@@ -766,6 +818,8 @@ var World_Base = function() {
         imposterType = BABYLON.PhysicsImpostor.CylinderImpostor;
       } else if (options.type == 'sphere') {
         imposterType = BABYLON.PhysicsImpostor.SphereImpostor;
+      } else if (options.type == 'model') {
+        imposterType = BABYLON.PhysicsImpostor.BoxImpostor;
       } else {
         console.log('Invalid object type when creating physics imposter');
         return;

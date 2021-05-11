@@ -112,7 +112,7 @@ var world_Gyro = new function() {
 
   // Load image into ground tile
   this.loadImageTile = function (scene, imageSrc, size, pos=[0,0], rot=0) {
-    var groundMat = new BABYLON.StandardMaterial('ground', scene);
+    var groundMat = new BABYLON.StandardMaterial('ground' + imageSrc, scene);
     if (imageSrc) {
       var groundTexture = new BABYLON.Texture(imageSrc, scene);
       groundMat.diffuseTexture = groundTexture;

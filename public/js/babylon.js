@@ -243,8 +243,10 @@ var babylon = new function() {
             mesh.rttMaterial.disableLighting = true;
             if (mesh.diffuseTexture) {
               mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
-            } else {
+            } else if (mesh.diffuseColor) {
               mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
+            } else if (mesh.albedoColor) {
+              mesh.rttMaterial.emissiveColor = mesh.rttMaterial.albedoColor;
             }
             mesh.rttMaterial.freeze();
           } else {
