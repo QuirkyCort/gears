@@ -824,24 +824,24 @@ ul.menuDropDownRightAlign {
       width: 3em;
       text-align: right; }
 
-.dialogWindow .selectImage {
+.dialogWindow .selectImage, .dialogWindow .selectModel {
   max-height: 60vh;
   display: flex;
   flex-direction: column; }
-  .dialogWindow .selectImage .images {
+  .dialogWindow .selectImage .images, .dialogWindow .selectModel .images {
     border: solid 1px white;
     margin-top: 0.5em;
     padding: 0.5em;
     overflow-y: auto;
     max-height: 20em; }
-    .dialogWindow .selectImage .images .row {
+    .dialogWindow .selectImage .images .row, .dialogWindow .selectModel .images .row {
       display: flex; }
-      .dialogWindow .selectImage .images .row .description {
+      .dialogWindow .selectImage .images .row .description, .dialogWindow .selectModel .images .row .description {
         border: solid 1px white;
         flex-grow: 1;
         padding: 0 0.5em; }
-      .dialogWindow .selectImage .images .row .select {
+      .dialogWindow .selectImage .images .row .select, .dialogWindow .selectModel .images .row .select {
         border: solid 1px white;
         padding: 0.5em; }
-    .dialogWindow .selectImage .images .row.hide {
+    .dialogWindow .selectImage .images .row.hide, .dialogWindow .selectModel .images .row.hide {
       display: none; }

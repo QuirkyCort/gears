@@ -376,6 +376,11 @@ var World_Base = function() {
 
   // Create the scene
   this.load = function (scene) {
+    // Disable auto-playing of animation
+    BABYLON.SceneLoader.OnPluginActivatedObservable.add(function (plugin) {
+      plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
+    }, undefined, undefined, undefined, true);
+    
     return new Promise(async function(resolve, reject) {
       var groundMat = new BABYLON.StandardMaterial('ground', scene);
       var groundTexture = new BABYLON.Texture(self.processedOptions.image, scene);
@@ -506,15 +511,19 @@ var World_Base = function() {
     for (let i=1; i<object.objects.length; i++) {
       let childOptions = self.mergeObjectOptionsWithDefault(object.objects[i])
       let childMesh = await self.addObject(scene, childOptions, indexObj.index);
-      childOptions.physicsOptions = {
-        mass: 0,
-        friction: 0,
-        restitution: 0,
-        dampLinear: 0,
-        dampAngular: 0
+      if (childOptions.physicsOptions != false && childOptions.physicsOptions != 'false') {
+        childOptions.physicsOptions = {
+          mass: 0,
+          friction: 0,
+          restitution: 0,
+          dampLinear: 0,
+          dampAngular: 0
+        }          
+        childMesh.parent = parentMesh;
+        self.addPhysics(scene, childMesh, childOptions);
+      } else {
+        childMesh.parent = parentMesh;
       }
-      childMesh.parent = parentMesh;
-      self.addPhysics(scene, childMesh, childOptions);
       indexObj.index++;
     }
 
@@ -629,39 +638,62 @@ var World_Base = function() {
       id += '_model' + options.index;
     }
 
-    results = await BABYLON.SceneLoader.ImportMeshAsync(null, '', options.modelURL, scene);
+    try {
+      results = await BABYLON.SceneLoader.ImportMeshAsync(null, '', options.modelURL, scene);
+    }
+    catch (err) {
+      results = await BABYLON.SceneLoader.ImportMeshAsync(null, '', 'models/Misc/placeholder.gltf', scene);
+    }
     var meshes = results.meshes;
-    meshes[0].scaling.x = options.modelScale;
-    meshes[0].scaling.y = options.modelScale;
-    meshes[0].scaling.z = options.modelScale;
+
+    // Make all meshes unpickable
+    for (let i=0; i<meshes.length; i++) {
+      meshes[i].isPickable = false;
+    }
 
     // Get bounding box
-    let min = meshes[0].getBoundingInfo().boundingBox.minimumWorld;
-    let max = meshes[0].getBoundingInfo().boundingBox.maximumWorld;
+    let min = meshes[1].getBoundingInfo().boundingBox.minimumWorld;
+    let max = meshes[1].getBoundingInfo().boundingBox.maximumWorld;
     
-    for(let i=1; i<meshes.length; i++){
-      let meshMin = meshes[i].getBoundingInfo().boundingBox.minimumWorld;
-      let meshMax = meshes[i].getBoundingInfo().boundingBox.maximumWorld;
+    for (let i=1; i<meshes.length; i++) {
+      meshes[i].computeWorldMatrix(true)
+      let meshBounds = meshes[i].getBoundingInfo().boundingBox;
 
-      min = BABYLON.Vector3.Minimize(min, meshMin);
-      max = BABYLON.Vector3.Maximize(max, meshMax);
+      if (meshBounds.extendSize.x != 0 && meshBounds.extendSize.y != 0 && meshBounds.extendSize.z != 0) {
+        let meshMin = meshBounds.minimumWorld;
+        let meshMax = meshBounds.maximumWorld;
+
+        min = BABYLON.Vector3.Minimize(min, meshMin);
+        max = BABYLON.Vector3.Maximize(max, meshMax);
+      }
     }
 
     let bounding = new BABYLON.BoundingInfo(min, max);
+    var bx = bounding.boundingBox.extendSize.x * options.modelScale * 2;
+    var by = bounding.boundingBox.extendSize.y * options.modelScale * 2;
+    var bz = bounding.boundingBox.extendSize.z * options.modelScale * 2;
 
     // Build bounding box mesh
     var meshOptions = {
-      width: bounding.boundingBox.extendSize.x * options.modelScale * 2,
-      depth: bounding.boundingBox.extendSize.z * options.modelScale * 2,
-      height: bounding.boundingBox.extendSize.y * options.modelScale * 2
+      width: bx,
+      depth: bz,
+      height: by
     };
     var mesh = BABYLON.MeshBuilder.CreateBox(id, meshOptions, scene);
-    mesh.visibility = 0.5;
+    mesh.visibility = 0;
   
     mesh.position = options.position;
     mesh.rotation = options.rotation;
 
-    meshes[0].position = bounding.boundingBox.center.scale(options.modelScale).negate();
+    // Set up scale and parent
+    meshes[0].scaling.x = options.modelScale;
+    meshes[0].scaling.y = options.modelScale;
+    meshes[0].scaling.z = options.modelScale;
+
+    let offset = bounding.boundingBox.center.scale(options.modelScale);
+    meshes[0].position.x = -offset.x;
+    meshes[0].position.y = -offset.y;
+    meshes[0].position.z = offset.z;
     meshes[0].parent = mesh;
     meshes[0].visibility = 0;
 

@@ -249,7 +249,7 @@ var builder = new function() {
         options: [
           ['Fixed', 'fixed'],
           ['Moveable', 'moveable'],
-          ['Physicsless', false]
+          ['Physicsless', 'false']
         ],
       },
       {
@@ -343,7 +343,7 @@ var builder = new function() {
         options: [
           ['Fixed', 'fixed'],
           ['Moveable', 'moveable'],
-          ['Physicsless', false]
+          ['Physicsless', 'false']
         ],
       },
       {
@@ -437,7 +437,96 @@ var builder = new function() {
         options: [
           ['Fixed', 'fixed'],
           ['Moveable', 'moveable'],
-          ['Physicsless', false]
+          ['Physicsless', 'false']
+        ],
+      },
+      {
+        option: 'magnetic',
+        type: 'boolean',
+      },
+      {
+        option: 'laserDetection',
+        type: 'select',
+        options: [
+          ['Default', null],
+          ['Invisible (Ray passes through)', 'invisible'],
+          ['Absorb with no reflection', 'absorb'],
+          ['Normal', 'normal']
+        ],
+        help: 'Defaults to invisible for physicless objects, and normal for all others.'
+      },
+      {
+        option: 'ultrasonicDetection',
+        type: 'select',
+        options: [
+          ['Default', null],
+          ['Invisible (Ray passes through)', 'invisible'],
+          ['Absorb with no reflection', 'absorb'],
+          ['Normal', 'normal']
+        ],
+        help: 'Defaults to invisible for physicless objects, and normal for all others.'
+      },
+    ]
+  };
+
+
+  this.modelTemplate = {
+    optionsConfigurations: [
+      {
+        type: 'buttons',
+        buttons: [
+          {
+            label: 'Drop to ground',
+            callback: 'moveToGround'
+          }
+        ]
+      },
+      {
+        option: 'position',
+        type: 'vectors',
+        min: '-100',
+        max: '100',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'rotation',
+        type: 'vectors',
+        min: '-180',
+        max: '180',
+        step: '5',
+        reset: true
+      },
+      {
+        type: 'buttons',
+        buttons: [
+          {
+            label: 'Select built-in model',
+            callback: 'selectModel'
+          }
+        ]
+      },
+      {
+        option: 'modelURL',
+        type: 'strText',
+        reset: true,
+        help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
+      },
+      {
+        option: 'modelScale',
+        type: 'slider',
+        min: '5',
+        max: '200',
+        step: '5',
+        reset: true
+      },
+      {
+        option: 'physicsOptions',
+        type: 'select',
+        options: [
+          ['Fixed', 'fixed'],
+          ['Moveable', 'moveable'],
+          ['Physicsless', 'false']
         ],
       },
       {
@@ -489,6 +578,12 @@ var builder = new function() {
   this.sphereDefault = {
     ...this.objectDefault,
     type: 'sphere',
+    imageType: 'sphere',
+  };
+
+  this.modelDefault = {
+    ...this.objectDefault,
+    type: 'model',
     imageType: 'sphere',
   };
 
@@ -602,6 +697,70 @@ var builder = new function() {
     $buttons.click(function() { $dialog.close(); });
   };
 
+  // Select built in models
+  this.selectModel = function(objectOptions) {
+    let $body = $('<div class="selectModel"></div>');
+    let $filter = $(
+      '<div class="filter">Filter by Type: ' +
+        '<select>' +
+          '<option selected value="any">Any</option>' +
+        '</select>' +
+      '</div>'
+    );
+    let $select = $filter.find('select');
+    for (category of BUILT_IN_MODELS_CATEGORIES) {
+      $select.append('<option>' + category + '</option');
+    }
+
+    let $imageList = $('<div class="images"></div>');
+
+    BUILT_IN_MODELS.forEach(function(model){
+      let basename = model.url.split('/').pop();
+
+      let $row = $('<div class="row"></div>');
+      let category = model.category.replace(/\W/g, '');
+      $row.addClass(category);
+
+      let $descriptionBox = $('<div class="description"></div>');
+      let $basename = $('<p class="bold"></p>').text(basename);
+      $descriptionBox.append($basename);
+
+      let $selectBox = $('<div class="select"><button>Select</button></div>');
+      let $select = $selectBox.find('button');
+      $select.prop('url', model.url);
+
+      $select.click(function(e){
+        objectOptions.modelURL = e.target.url;
+        self.resetScene(false);
+        $dialog.close();
+      });
+
+      $row.append($descriptionBox);
+      $row.append($selectBox);
+      $imageList.append($row);
+    });
+
+    $body.append($filter);
+    $body.append($imageList);
+
+    $select.change(function(){
+      let filter = $select.val();
+
+      $imageList.find('.row').removeClass('hide');
+      if (filter != 'any') {
+        $imageList.find(':not(.row.' + filter.replace(/\W/g, '') + ')').addClass('hide');
+      }
+    });
+
+    let $buttons = $(
+      '<button type="button" class="cancel btn-light">Cancel</button>'
+    );
+
+    let $dialog = dialog('Select Built-In Image', $body, $buttons);
+
+    $buttons.click(function() { $dialog.close(); });
+  };
+
   // Object drag end
   this.dragEnd = function(event) {
     let selected = self.$objectsList.find('li.selected');
@@ -621,6 +780,13 @@ var builder = new function() {
     if (typeof selected[0].objectIndex != 'undefined') {
       let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;
       let mesh = babylon.scene.getMeshByID(id);
+
+      // Models takes a while to load
+      if (mesh == null) {
+        setTimeout(self.applyDragToSelected, 200);
+        return;
+      }
+
       mesh.addBehavior(self.pointerDragBehavior);
     }
   };
@@ -684,6 +850,10 @@ var builder = new function() {
         let y2 = -(objectOptions.size[1] / 2) * Math.sin(angle) + -(objectOptions.size[0] / 2) * Math.cos(angle);
 
         objectOptions.position[2] = -y2 + groundY;
+
+      } else if (selected[0].name == 'model') {
+        let extendSize = mesh.getBoundingInfo().boundingBox.extendSizeWorld;
+        objectOptions.position[2] = extendSize.y + groundY;
       }
       self.resetScene(false);
     }
@@ -1055,6 +1225,8 @@ var builder = new function() {
       displayOptionsConfigurations(self.cylinderTemplate);
     } else if (name == 'sphere') {
       displayOptionsConfigurations(self.sphereTemplate);
+    } else if (name == 'model') {
+      displayOptionsConfigurations(self.modelTemplate);
     }
   };
 
@@ -1116,7 +1288,7 @@ var builder = new function() {
     let $select = $('<select></select>');
     let $description = $('<div class="description"><div class="text"></div></div>');
 
-    let objectTypes = ['Box', 'Cylinder', 'Sphere', 'Compound'];
+    let objectTypes = ['Box', 'Cylinder', 'Sphere', 'Model', 'Compound'];
 
     objectTypes.forEach(function(type){
       let $object = $('<option></option>');
@@ -1147,6 +1319,8 @@ var builder = new function() {
         object = JSON.parse(JSON.stringify(self.cylinderDefault));
       } else if ($select.val() == 'Sphere') {
         object = JSON.parse(JSON.stringify(self.sphereDefault));
+      } else if ($select.val() == 'Model') {
+        object = JSON.parse(JSON.stringify(self.modelDefault));
       } else if ($select.val() == 'Compound') {
         object = JSON.parse(JSON.stringify(self.compoundDefault));
       }
@@ -1165,7 +1339,7 @@ var builder = new function() {
   // Clone selected object
   this.cloneObject = function() {
     let $selected = self.getSelectedComponent();
-    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'compound'];
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound'];
     if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
       toastMsg('Only objects can be cloned');
       return;
@@ -1206,7 +1380,7 @@ var builder = new function() {
   // Delete selected object
   this.deleteObject = function() {
     let $selected = self.getSelectedComponent();
-    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'compound']
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound']
     if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
       toastMsg('Only objects can be deleted');
       return;
@@ -1266,6 +1440,13 @@ var builder = new function() {
     if (typeof index != 'undefined') {
       let id = 'worldBaseObject_' + $selected[0].name + index;
       let body = babylon.scene.getMeshByID(id);
+      
+      // Models takes a while to load
+      if (body == null) {
+        setTimeout(self.highlightSelected, 200);
+        return;
+      }
+
       let size = body.getBoundingInfo().boundingBox.extendSize;
       let options = {
         height: size.y * 2,
