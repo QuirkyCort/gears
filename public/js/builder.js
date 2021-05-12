@@ -711,8 +711,14 @@ var builder = new function() {
     for (category of BUILT_IN_MODELS_CATEGORIES) {
       $select.append('<option>' + category + '</option');
     }
+    let $search = $(
+      '<div class="search">Search: ' +
+        '<input type="text"></input>' +
+      '</div>'
+    );
+    let $searchInput = $search.find('input');
 
-    let $imageList = $('<div class="images"></div>');
+    let $itemList = $('<div class="items"></div>');
 
     BUILT_IN_MODELS.forEach(function(model){
       let basename = model.url.split('/').pop();
@@ -737,24 +743,46 @@ var builder = new function() {
 
       $row.append($descriptionBox);
       $row.append($selectBox);
-      $imageList.append($row);
+      $itemList.append($row);
     });
 
     $body.append($filter);
-    $body.append($imageList);
+    $body.append($search);
+    $body.append($itemList);
 
-    $select.change(function(){
+    function filterList(){
       let filter = $select.val();
+      let search = $searchInput.val().trim().toLowerCase();
 
-      $imageList.find('.row').removeClass('hide');
-      if (filter != 'any') {
-        $imageList.find(':not(.row.' + filter.replace(/\W/g, '') + ')').addClass('hide');
-      }
-    });
+      let count = 0;
+      $itemList[0].childNodes.forEach(function(item){
+        let itemText = item.childNodes[0].textContent.toLowerCase();
+        if (
+          (filter == 'any' || item.classList.contains(filter.replace(/\W/g, '')))
+          && (search == '' || itemText.indexOf(search) != -1)
+        ) {
+          item.classList.remove('hide');
+          count++;
+        } else {
+          item.classList.add('hide');
+        }
+      });
+
+      updateSearchCount(count);
+    }
+
+    $select.change(filterList);
+    $searchInput.on('input', filterList);
 
     let $buttons = $(
-      '<button type="button" class="cancel btn-light">Cancel</button>'
+      '<div class="searchCount"></div><button type="button" class="cancel btn-light">Cancel</button>'
     );
+
+    function updateSearchCount(count) {
+      $buttons.siblings('.searchCount').text(count + ' models found');
+    }
+
+    updateSearchCount($itemList[0].childNodes.length);
 
     let $dialog = dialog('Select Built-In Image', $body, $buttons);
 

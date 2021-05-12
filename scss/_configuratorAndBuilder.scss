@@ -129,7 +129,22 @@
     display: flex;
     flex-direction: column;
 
-    .images {
+    .search {
+      display: flex;
+      margin-top: 0.5em;
+
+      input {
+        font-size: 100%;
+        width: 100%;
+        background: none;
+        color: white;
+        border: solid 1px white;
+        padding: 0 0.2em;
+        margin-left: 0.5em;
+      }
+    }
+
+    .images, .items {
       border: solid 1px white;
       margin-top: 0.5em;
       padding: 0.5em;
@@ -155,5 +170,9 @@
         display: none;
       }
     }
+  }
+  
+  .searchCount {
+    margin-right: auto;
   }
 }

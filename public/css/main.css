@@ -828,20 +828,33 @@ ul.menuDropDownRightAlign {
   max-height: 60vh;
   display: flex;
   flex-direction: column; }
-  .dialogWindow .selectImage .images, .dialogWindow .selectModel .images {
+  .dialogWindow .selectImage .search, .dialogWindow .selectModel .search {
+    display: flex;
+    margin-top: 0.5em; }
+    .dialogWindow .selectImage .search input, .dialogWindow .selectModel .search input {
+      font-size: 100%;
+      width: 100%;
+      background: none;
+      color: white;
+      border: solid 1px white;
+      padding: 0 0.2em;
+      margin-left: 0.5em; }
+  .dialogWindow .selectImage .images, .dialogWindow .selectImage .items, .dialogWindow .selectModel .images, .dialogWindow .selectModel .items {
     border: solid 1px white;
     margin-top: 0.5em;
     padding: 0.5em;
     overflow-y: auto;
     max-height: 20em; }
-    .dialogWindow .selectImage .images .row, .dialogWindow .selectModel .images .row {
+    .dialogWindow .selectImage .images .row, .dialogWindow .selectImage .items .row, .dialogWindow .selectModel .images .row, .dialogWindow .selectModel .items .row {
       display: flex; }
-      .dialogWindow .selectImage .images .row .description, .dialogWindow .selectModel .images .row .description {
+      .dialogWindow .selectImage .images .row .description, .dialogWindow .selectImage .items .row .description, .dialogWindow .selectModel .images .row .description, .dialogWindow .selectModel .items .row .description {
         border: solid 1px white;
         flex-grow: 1;
         padding: 0 0.5em; }
-      .dialogWindow .selectImage .images .row .select, .dialogWindow .selectModel .images .row .select {
+      .dialogWindow .selectImage .images .row .select, .dialogWindow .selectImage .items .row .select, .dialogWindow .selectModel .images .row .select, .dialogWindow .selectModel .items .row .select {
         border: solid 1px white;
         padding: 0.5em; }
-    .dialogWindow .selectImage .images .row.hide, .dialogWindow .selectModel .images .row.hide {
+    .dialogWindow .selectImage .images .row.hide, .dialogWindow .selectImage .items .row.hide, .dialogWindow .selectModel .images .row.hide, .dialogWindow .selectModel .items .row.hide {
       display: none; }
+.dialogWindow .searchCount {
+  margin-right: auto; }
