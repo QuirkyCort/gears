@@ -647,7 +647,14 @@ var builder = new function() {
       '</div>'
     );
     let $select = $filter.find('select');
-    let $imageList = $('<div class="images"></div>');
+    let $search = $(
+      '<div class="search">Search: ' +
+        '<input type="text"></input>' +
+      '</div>'
+    );
+    let $searchInput = $search.find('input');
+
+    let $itemList = $('<div class="images"></div>');
 
     BUILT_IN_IMAGES.forEach(function(image){
       let basename = image.url.split('/').pop();
@@ -662,39 +669,87 @@ var builder = new function() {
       $descriptionBox.append($description);
 
       let $selectBox = $('<div class="select"><button>Select</button></div>');
-      let $select = $selectBox.find('button');
-      $select.prop('url', image.url);
+      let $selectBtn = $selectBox.find('button');
+      $selectBtn.prop('url', image.url);
 
-      $select.click(function(e){
+      $selectBtn.click(function(e){
         objectOptions.imageURL = e.target.url;
         self.resetScene(false);
+
+        // Save search
+        self.selectImage_filterType = $select.val();
+        self.selectImage_searchText = $searchInput.val();
+        self.selectImage_scroll = $itemList[0].scrollTop;
+
         $dialog.close();
       });
 
       $row.append($descriptionBox);
       $row.append($selectBox);
-      $imageList.append($row);
+      $itemList.append($row);
     });
 
     $body.append($filter);
-    $body.append($imageList);
+    $body.append($search);
+    $body.append($itemList);
 
-    $select.change(function(){
+    function filterList(){
       let filter = $select.val();
+      let search = $searchInput.val().trim().toLowerCase();
 
-      $imageList.find('.row').removeClass('hide');
-      if (filter != 'any') {
-        $imageList.find(':not(.row.' + filter + ')').addClass('hide');
-      }
-    });
+      let count = 0;
+      $itemList[0].childNodes.forEach(function(item){
+        let itemText = item.childNodes[0].textContent.toLowerCase();
+        if (
+          (filter == 'any' || item.classList.contains(filter.replace(/\W/g, '')))
+          && (search == '' || itemText.indexOf(search) != -1)
+        ) {
+          item.classList.remove('hide');
+          count++;
+        } else {
+          item.classList.add('hide');
+        }
+      });
+
+      updateSearchCount(count);
+    }
+
+    $select.change(filterList);
+    $searchInput.on('input', filterList);
 
     let $buttons = $(
-      '<button type="button" class="cancel btn-light">Cancel</button>'
+      '<div class="searchCount"></div><button type="button" class="cancel btn-light">Cancel</button>'
     );
 
+    function updateSearchCount(count) {
+      $buttons.siblings('.searchCount').text(count + ' image textures found');
+    }
+
+    updateSearchCount($itemList[0].childNodes.length);
+
+    function setScroll() {
+      $itemList[0].scrollTop = self.selectImage_scroll;
+      if ($itemList[0].scrollTop == 0) {
+        setTimeout(setScroll, 200);
+      }
+    }
+
+    if (self.selectImage_filterType) {
+      $select.val(self.selectImage_filterType);
+      $searchInput.val(self.selectImage_searchText);
+      filterList();
+      setScroll();
+    }
     let $dialog = dialog('Select Built-In Image', $body, $buttons);
 
-    $buttons.click(function() { $dialog.close(); });
+    $buttons.click(function() {
+      // Save search
+      self.selectImage_filterType = $select.val();
+      self.selectImage_searchText = $searchInput.val();
+      self.selectImage_scroll = $itemList[0].scrollTop;
+      
+      $dialog.close();
+    });
   };
 
   // Select built in models
@@ -804,7 +859,7 @@ var builder = new function() {
       setScroll();
     }
 
-    let $dialog = dialog('Select Built-In Image', $body, $buttons);
+    let $dialog = dialog('Select Built-In Model', $body, $buttons);
 
     $buttons.click(function() {
       // Save search
