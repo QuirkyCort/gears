@@ -241,12 +241,12 @@ var babylon = new function() {
             mesh.rttMaterial = mesh.material.clone();
             mesh.rttMaterial.id = rttID;
             mesh.rttMaterial.disableLighting = true;
-            if (mesh.diffuseTexture) {
+            if (mesh.rttMaterial.diffuseTexture) {
               mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
-            } else if (mesh.diffuseColor) {
-              mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
-            } else if (mesh.albedoColor) {
+            } else if (mesh.rttMaterial.albedoColor) {
               mesh.rttMaterial.emissiveColor = mesh.rttMaterial.albedoColor;
+            } else {
+              mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
             }
             mesh.rttMaterial.freeze();
           } else {
