@@ -221,7 +221,7 @@ var babylon = new function() {
         if (robot.disabled == true) {
           return;
         }
-        robot.loadMeshes(self.scene.meshes.filter(mesh => mesh.id != 'RTT'));
+        robot.loadMeshes(self.scene.meshes.filter(mesh => mesh.id != 'RTT' && mesh.id != 'marker1' && mesh.id != 'marker2'));
       })
 
       // We should also pre-build the RTT materials for performance
