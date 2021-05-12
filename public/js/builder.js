@@ -732,12 +732,18 @@ var builder = new function() {
       $descriptionBox.append($basename);
 
       let $selectBox = $('<div class="select"><button>Select</button></div>');
-      let $select = $selectBox.find('button');
-      $select.prop('url', model.url);
+      let $selectBtn = $selectBox.find('button');
+      $selectBtn.prop('url', model.url);
 
-      $select.click(function(e){
+      $selectBtn.click(function(e){
         objectOptions.modelURL = e.target.url;
         self.resetScene(false);
+
+        // Save search
+        self.selectModel_filterType = $select.val();
+        self.selectModel_searchText = $searchInput.val();
+        self.selectModel_scroll = $itemList[0].scrollTop;
+
         $dialog.close();
       });
 
@@ -784,9 +790,30 @@ var builder = new function() {
 
     updateSearchCount($itemList[0].childNodes.length);
 
+    function setScroll() {
+      $itemList[0].scrollTop = self.selectModel_scroll;
+      if ($itemList[0].scrollTop == 0) {
+        setTimeout(setScroll, 200);
+      }
+    }
+
+    if (self.selectModel_filterType) {
+      $select.val(self.selectModel_filterType);
+      $searchInput.val(self.selectModel_searchText);
+      filterList();
+      setScroll();
+    }
+
     let $dialog = dialog('Select Built-In Image', $body, $buttons);
 
-    $buttons.click(function() { $dialog.close(); });
+    $buttons.click(function() {
+      // Save search
+      self.selectModel_filterType = $select.val();
+      self.selectModel_searchText = $searchInput.val();
+      self.selectModel_scroll = $itemList[0].scrollTop;
+      
+      $dialog.close();
+    });
   };
 
   // Object drag end
