@@ -686,6 +686,7 @@ var World_Base = function() {
   
     mesh.position = options.position;
     mesh.rotation = options.rotation;
+    mesh.scaling.z = -1; // Flip coordinates of GLTF
 
     // Set up scale and parent
     meshes[0].scaling.x = options.modelScale;

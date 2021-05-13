@@ -733,9 +733,11 @@ var builder = new function() {
     updateSearchCount($itemList[0].childNodes.length);
 
     function setScroll() {
-      $itemList[0].scrollTop = self.selectImage_scroll;
-      if ($itemList[0].scrollTop == 0) {
-        setTimeout(setScroll, 200);
+      if (self.selectImage_scroll != 0) {
+        $itemList[0].scrollTop = self.selectImage_scroll;
+        if ($itemList[0].scrollTop == 0) {
+          setTimeout(setScroll, 200);
+        }  
       }
     }
 
@@ -851,9 +853,11 @@ var builder = new function() {
     updateSearchCount($itemList[0].childNodes.length);
 
     function setScroll() {
-      $itemList[0].scrollTop = self.selectModel_scroll;
-      if ($itemList[0].scrollTop == 0) {
-        setTimeout(setScroll, 200);
+      if (self.selectModel_scroll != 0) {
+        $itemList[0].scrollTop = self.selectModel_scroll;
+        if ($itemList[0].scrollTop == 0) {
+          setTimeout(setScroll, 200);
+        }  
       }
     }
 
