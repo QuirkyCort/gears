@@ -521,6 +521,11 @@ var builder = new function() {
         reset: true
       },
       {
+        type: 'custom',
+        option: 'modelAnimation',
+        generatorFunction: 'selectAnimation'
+      },
+      {
         option: 'physicsOptions',
         type: 'select',
         options: [
@@ -871,6 +876,63 @@ var builder = new function() {
     });
   };
 
+  // Select animation from model
+  this.selectAnimation = function(objectOptions, $div) {
+    let currentVal = objectOptions.modelAnimation;
+
+    let selected = self.$objectsList.find('li.selected');
+    let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;
+    let mesh = babylon.scene.getMeshByID(id);
+
+    if (typeof $div == 'undefined') {
+      $div = $('<div>Loading Model...</div>');
+    }
+
+    if (mesh == null) {
+      // model not loaded yet
+      setTimeout(function(){
+        self.selectAnimation(objectOptions, $div);
+      }, 200);
+    } else {
+      if (mesh.animations.length > 0) {
+        let $select = $('<select></select>');
+        let $opt = $('<option>None</option>');
+        $select.append($opt);
+  
+        mesh.animations.forEach(function(animation){
+          $opt = $('<option></option>');
+          $opt.text(animation);
+          $select.append($opt);
+        });
+
+        if (mesh.animations.indexOf(currentVal) == -1) {
+          currentVal = 'None';
+          objectOptions.modelAnimation = 'None';
+        }
+  
+        if (currentVal) {
+          $select.val(currentVal);
+        }
+
+        $select.change(function(){
+          self.saveHistory();
+          objectOptions.modelAnimation = $select.val();
+          self.resetScene(false);
+        });
+  
+        $div.text('');
+        $div.append($select);
+  
+      } else {
+        objectOptions.modelAnimation = 'None';
+        $div.text('');
+        $div.append($('<div>No animations in this model</div>'));
+      }
+    }
+
+    return $div;
+  };
+
   // Object drag end
   this.dragEnd = function(event) {
     let selected = self.$objectsList.find('li.selected');
@@ -1017,6 +1079,14 @@ var builder = new function() {
       }
 
       $div.append($buttonsBox);
+
+      return $div;
+    }
+
+    function genCustom(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      $div.append(getTitle(opt));
+      $div.append(self[opt.generatorFunction](currentOptions))
 
       return $div;
     }
@@ -1317,6 +1387,8 @@ var builder = new function() {
           self.$settingsArea.append(genColor(optionConfiguration, object));
         } else if (optionConfiguration.type == 'buttons') {
           self.$settingsArea.append(genButtons(optionConfiguration, object));
+        } else if (optionConfiguration.type == 'custom') {
+          self.$settingsArea.append(genCustom(optionConfiguration, object));
         }
       });
     }

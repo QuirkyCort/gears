@@ -63,6 +63,7 @@ var World_Base = function() {
     type: 'box',
     modelURL: '',
     modelScale: 10,
+    modelAnimation: 'None',
     position: [0,0,0],
     size: [10,10,10],
     rotationMode: 'degrees',
@@ -559,6 +560,7 @@ var World_Base = function() {
       material: babylon.getMaterial(scene, options.color),
       modelURL: options.modelURL,
       modelScale: options.modelScale,
+      modelAnimation: options.modelAnimation,
       size: [
         options.size[0],
         options.size[1],
@@ -696,6 +698,21 @@ var World_Base = function() {
     meshes[0].position.z = offset.z;
     meshes[0].parent = mesh;
     meshes[0].visibility = 0;
+
+    // Save animation group in mesh
+    mesh.animations = [];
+    results.animationGroups.forEach(function(animationGroup){
+      mesh.animations.push(animationGroup.name);
+    });
+
+    // Start animation
+    if (options.modelAnimation && options.modelAnimation != 'None') {
+      results.animationGroups.forEach(function(animationGroup){
+        if (animationGroup.name == options.modelAnimation) {
+          animationGroup.start(true);
+        }
+      })
+    }
 
     return mesh;
   };
