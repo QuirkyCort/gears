@@ -380,7 +380,7 @@ var World_Base = function() {
     // Disable auto-playing of animation
     BABYLON.SceneLoader.OnPluginActivatedObservable.add(function (plugin) {
       plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
-    }, undefined, undefined, undefined, true);
+    });
     
     return new Promise(async function(resolve, reject) {
       var groundMat = new BABYLON.StandardMaterial('ground', scene);
@@ -843,6 +843,8 @@ var World_Base = function() {
           group: 1,
           mask: -1
         }
+      } else if (options.physicsOptions == 'false') {
+        options.physicsOptions = false;
       } else {
         console.log('Invalid physicsOption for object. Using default.');
         options.physicsOptions = {
