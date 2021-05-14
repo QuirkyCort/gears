@@ -1322,6 +1322,9 @@ let MSGS = {
     nl: 'Ongeldige map configuraties',
     de: 'Falsche Kartenkonfiguration',
   },
+  '#sim-not_found#': {
+    en: 'File not found',
+  },
   '#blockly-save#': {
     en: 'Save Now',
     fr: 'Enregistrer maintenant',

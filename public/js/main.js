@@ -869,27 +869,22 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20210319;
+    let current = 20210514;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>19 Mar 2021</h3>' +
+          '<h3>14 May 2021 (The Eye Candy update)</h3>' +
           '<ul>' +
-          '<li>Missions: Added mission models to WRO 2021 Elementary and Junior.</li>' +
-          '<li>Blocks: Added defaults to "if" and "while".</li>' +
-          '<li>World builder / Robot Configurator: Click on objects to select.</li>' +
-          '<li>World builder / Robot Configurator: Graphical color chooser.</li>' +
-          '<li>World builder: Drag and drop editing.</li>' +
-          '<li>World builder: Built-in image texture library.</li>' +
-          '<li>World builder: Drop object to ground button.</li>' +
-          '</ul>' +
-          '<h3>16 Mar 2021</h3>' +
-          '<ul>' +
-          '<li>Added World Builder for easy creation of custom worlds.</li>' +
-          '<li>"image world" has been split into "custom world" and "missions world". The old image world is still available, but will be gradually deprecated in the distant future.</li>' +
-          '<li>The new "custom world" has more features for custom world building than the old "image world", such as timer, image texture on objects, cylindrical grounds, and tiling of images.</li>' +
+          '<li>GearsBot now supports models in the GLTF format, and you can add them to your custom world using the world builder.</li>' +
+          '<li>Over 1,900 models has been added to the built-in library, and you can also specify your own model via a URL.</li>' +
+          '<li>Animations in the models are supported, and some of the built-in models are animated (...try "Characters" or "Animals").</li>' +
+          '<li>You can check out a demo <a href="http://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fquirkycort.github.io%2Fgears-contributions%2Fworlds%2Fcustom-world%2FDemo%2FmodelsDemo.json">here</a>.</li>' +
+          '<li>' +
+          'I\'ve also started a <a href="https://github.com/QuirkyCort/gears-contributions">new repository for contributed worlds and robot designs</a>. ' +
+          'Drop me a pull request or email if you have anything you\'ll like to share.' +
+          '</li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){

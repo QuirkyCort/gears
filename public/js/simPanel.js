@@ -861,6 +861,32 @@ var simPanel = new function() {
     });
   };
 
+  // Load from URL
+  this.loadWorldURL = function(url) {
+    return fetch(url)
+      .then(function(response) {
+        if (response.ok) {
+          return response.text();
+        } else {
+          toastMsg(i18n.get('#sim-not_found#'));
+          return Promise.reject(new Error('invalid_map'));
+        }
+      })
+      .then(function(response) {
+        let loadedSave = JSON.parse(response);
+        let world = worlds.find(world => world.name == loadedSave.worldName);
+
+        if (typeof world == 'undefined') {
+          toastMsg(i18n.get('#sim-invalid_map#'));
+          return;
+        }
+
+        babylon.world = worlds.find(world => world.name == loadedSave.worldName);
+        self.worldOptionsSetting = loadedSave.options;
+        self.resetSim();
+      });
+  };
+
   // Save to file
   this.saveWorld = function() {
     let world = babylon.world;
