@@ -189,28 +189,31 @@
   <script src="js/pythonPanel.js?v=84d500ff"></script>
   <script src="js/pythonLibPanel.js?v=01359988"></script>
   <script src="js/simPanel.js?v=cc214350"></script>
-  <script src="js/main.js?v=6e712d8b"></script>
+  <script src="js/main.js?v=e86321af"></script>
 
   <script>
     // Init classes
     blockly.init();
 
     // Load world if specified
-    function loadWhenReady(url) {
-      if (typeof babylon.scene != 'undefined' && babylon.scene.isReady()) {
-        simPanel.loadWorldURL(worldJSON);
-      } else {
-        setTimeout(
-          url => loadWhenReady(url),
-          100
-        );
+    (function(){
+      function loadWhenReady() {
+        if (typeof babylon.scene != 'undefined' && babylon.scene.isReady()) {
+          let worldJSON = readGET('worldJSON');
+          if (worldJSON) {
+            simPanel.loadWorldURL(decodeURIComponent(worldJSON));
+          }
+          let robotJSON = readGET('robotJSON');
+          if (robotJSON) {
+            main.loadRobotURL(decodeURIComponent(robotJSON));
+          }
+        } else {
+          setTimeout(loadWhenReady, 100);
+        }
       }
-    }
-    let worldJSON = readGET('worldJSON');
-    if (worldJSON) {
-      worldJSON = decodeURIComponent(worldJSON);
-      loadWhenReady(worldJSON);
-    }
+
+      loadWhenReady();
+    })();
   </script>
 </body>
 </html>

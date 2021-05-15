@@ -148,6 +148,32 @@ var main = new function() {
     });
   };
 
+  // Load robot from URL
+  this.loadRobotURL = function(url) {
+    return fetch(url)
+      .then(function(response) {
+        if (response.ok) {
+          return response.text();
+        } else {
+          toastMsg(i18n.get('#sim-not_found#'));
+          return Promise.reject(new Error('invalid_map'));
+        }
+      })
+      .then(function(response) {
+        robot.options = JSON.parse(response);
+        let i = robotTemplates.findIndex(r => r.name == robot.options.name);
+        if (i == -1) {
+          robotTemplates.push(JSON.parse(response));
+        } else {
+          robotTemplates[i] = JSON.parse(response);
+        }
+        babylon.resetScene();
+        skulpt.hardInterrupt = true;
+        simPanel.setRunIcon('run');
+        simPanel.initSensorsPanel();
+      });
+  };
+
   // About page
   this.openAbout = function() {
     let $body = $(
@@ -212,6 +238,7 @@ var main = new function() {
       let menuItems = [
         {html: 'Wiki', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears/wiki'); }},
         {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
+        {html: 'URL Generator', line: false, callback: function() { self.openPage('genURL.html'); }},
         {html: i18n.get('#main-whats_new#'), line: false, callback: function() { self.showWhatsNew(true); }},
         {html: i18n.get('#main-about#'), line: true, callback: self.openAbout },
         {html: i18n.get('#main-display_fps#'), line: false, callback: simPanel.toggleFPS }
