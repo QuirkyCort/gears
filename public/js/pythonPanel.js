@@ -44,7 +44,13 @@ var pythonPanel = new function() {
     if (self.modified == false) {
       self.loadPythonFromBlockly();
     }
+    self.$pythonCode.removeClass('hide');
   };
+
+  // Run when panel is inactive
+  this.onInActive = function() {
+    self.$pythonCode.addClass('hide');
+  };  
 
   // Load ace editor
   this.loadPythonEditor = function() {

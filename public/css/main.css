@@ -135,6 +135,9 @@ nav {
   height: 100%;
   font-size: 120%; }
 
+#pythonCode.hide {
+  display: none; }
+
 .pythonModule {
   width: 100%;
   height: 100%;
@@ -215,6 +218,9 @@ ul.menuDropDownRightAlign {
     right: 0;
     left: auto;
     width: max-content; }
+
+.blocklyEditor.hide {
+  display: none; }
 
 #renderCanvas {
   width: 100%;

@@ -207,12 +207,14 @@ var blocklyPanel = new function() {
     } else {
       self.setDisable(false);
     }
+    self.$panel.removeClass('hide');
   };
 
   // Run when panel is inactive
   this.onInActive = function() {
     Blockly.DropDownDiv.hide()
     Blockly.WidgetDiv.hide()
+    self.$panel.addClass('hide');
   };
 
   // Disable blockly by covering with blank div
