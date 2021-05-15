@@ -381,6 +381,13 @@ var World_Base = function() {
     BABYLON.SceneLoader.OnPluginActivatedObservable.add(function (plugin) {
       plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
     });
+
+    if (typeof simPanel != 'undefined') {
+      self.panel = simPanel;
+    } else if (typeof arenaPanel != 'undefined') {
+      self.panel = arenaPanel;
+    }
+
     
     return new Promise(async function(resolve, reject) {
       var groundMat = new BABYLON.StandardMaterial('ground', scene);
@@ -488,7 +495,7 @@ var World_Base = function() {
         self.renderTimeout = 0;
         self.startTime = null;
         self.timeLimitReached = false;
-        simPanel.showWorldInfoPanel();
+        self.panel.showWorldInfoPanel();
         self.drawTimer(true);
       }
 
@@ -916,14 +923,18 @@ var World_Base = function() {
 
   // draw the timer panel
   self.drawTimer = function(rebuild) {
+    if (typeof self.panel == 'undefined') {
+      return;
+    }
+
     if (rebuild || typeof self.$time == 'undefined') {
-      simPanel.clearWorldInfoPanel();
+      self.panel.clearWorldInfoPanel();
       let $info = $(
         '<div class="mono row">' +
           '<div class="center time"></div>' +
         '</div>'
       );
-      simPanel.drawWorldInfo($info);
+      self.panel.drawWorldInfo($info);
 
       self.$time = $info.find('.time');
     }
@@ -938,17 +949,7 @@ var World_Base = function() {
         self.timeLimitReached = true;
         self.$time.addClass('warn');
         if (self.processedOptions.timerEnd == 'stopRobot') {
-          simPanel.stopSim();
-
-          var counts = 15;
-          function repeatedReset() {
-            if (counts > 0) {
-              setTimeout(repeatedReset, 100);
-              robot.reset();
-            }
-            counts--;
-          }
-          repeatedReset();
+          self.panel.stopSim(true);
         }
       }
     }

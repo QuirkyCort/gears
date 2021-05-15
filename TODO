@@ -19,12 +19,11 @@ Features
 - Buttons
 - Load zip file
 - Touch sensor extendable touch surface
-- Add damping physics option
 - Switch to monaco?
 - Add support for Lego Python?
 - Configure physics option in builder
+- Option to cast / receive shadows
 - import/export compound objects in builder
-- GLTF loader; Physics body using bounding box, or set to false and made part of compound body?
 - Rewrite python imports for trivial files in js
 - Blockly slider field https://google.github.io/blockly-samples/plugins/field-slider/test/
 - Review UI events with new Blockly version https://groups.google.com/g/blockly/c/4StIgJJXPwY/m/VSHqnqADAgAJ

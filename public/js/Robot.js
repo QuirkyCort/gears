@@ -486,8 +486,12 @@ function Robot() {
 
   // Reset robot
   this.reset = function() {
-    self.leftWheel.reset();
-    self.rightWheel.reset();
+    if (self.leftWheel) {
+      self.leftWheel.reset();
+    }
+    if (self.rightWheel) {
+      self.rightWheel.reset();
+    }
     self.components.forEach(function(component) {
       if (typeof component.reset == 'function') {
         component.reset();

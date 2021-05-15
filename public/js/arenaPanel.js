@@ -391,8 +391,13 @@ var arenaPanel = new function() {
       babylon.world.startSim();
     }
   };
+
   // stop the simulator
-  this.stopSim = function() {
+  this.stopSim = function(stopRobot) {
+    if (typeof stopRobot == 'undefined') {
+      let stopRobot = false;
+    }
+
     playerFrames.forEach(function(playerFrame){
       if (playerFrame.skulpt.running) {
         playerFrame.skulpt.hardInterrupt = true;
@@ -403,9 +408,17 @@ var arenaPanel = new function() {
       babylon.world.stopSim();
     }
 
-    robots.forEach(function(robot){
-      robot.stopAll();
-    });
+    if (stopRobot) {
+      function repeatedReset(count) {
+        if (count > 0) {
+          robots.forEach(function(robot){
+            robot.reset();
+          });
+          setTimeout(function() { repeatedReset(count - 1) }, 100);
+        }
+      }
+      repeatedReset(15);  
+    }
   };
 
   // Reset simulator

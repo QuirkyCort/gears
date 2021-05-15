@@ -903,9 +903,28 @@ var simPanel = new function() {
   };
 
   // Stop the simulator
-  this.stopSim = function() {
+  this.stopSim = function(stopRobot) {
+    if (typeof stopRobot == 'undefined') {
+      let stopRobot = false;
+    }
+    
     skulpt.hardInterrupt = true;
     self.setRunIcon('run');
+
+    if (typeof babylon.world.stopSim == 'function') {
+      babylon.world.stopSim();
+    }
+
+
+    if (stopRobot) {
+      function repeatedReset(count) {
+        if (count > 0) {
+          robot.reset();
+          setTimeout(function() { repeatedReset(count - 1) }, 100);
+        }
+      }
+      repeatedReset(15);  
+    }
   };
 
   // Run the simulator
