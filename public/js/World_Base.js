@@ -942,11 +942,11 @@ var World_Base = function() {
 
           var counts = 15;
           function repeatedReset() {
-            if (c > 0) {
+            if (counts > 0) {
               setTimeout(repeatedReset, 100);
               robot.reset();
             }
-            c--;
+            counts--;
           }
           repeatedReset();
         }
