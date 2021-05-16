@@ -157,7 +157,7 @@
       }
 
       // All good. Generate URL
-      let URL = 'https://gears.aposteriori.com.sg/index.html?'
+      let URL = window.location.href.replace('genURL.html', 'index.html') + '?';
       if (worldURL) {
         URL += 'worldJSON=' + encodeURIComponent(worldURL) + '&';
       }
