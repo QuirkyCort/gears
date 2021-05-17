@@ -1052,15 +1052,19 @@ let MSGS = {
   },
   '#arena-show_names#': {
     en: 'Show Names',
+    nl: 'Toon namen',
   },
   '#arena-individual_colors#': {
     en: 'Individual Colors',
+    nl: 'Individuele kleuren',
   },
   '#arena-team_colors#': {
     en: 'Team Colors',
+    nl: 'Team kleuren',
   },
   '#arena-custom_colors#': {
     en: 'Custom Colors',
+    nl: 'Aangepaste kleuren',
   },
   '#sim-world#': {
     en: 'World',
@@ -1319,11 +1323,12 @@ let MSGS = {
     en: 'Invalid map configurations',
     fr: 'Configuration de la carte invalide',
     el: 'Μη έγκυρες διαμορφώσεις χάρτη',
-    nl: 'Ongeldige map configuraties',
+    nl: 'Ongeldige mapconfiguratie',
     de: 'Falsche Kartenkonfiguration',
   },
   '#sim-not_found#': {
     en: 'File not found',
+    nl: 'Bestand niet gevonden',
   },
   '#blockly-save#': {
     en: 'Save Now',
