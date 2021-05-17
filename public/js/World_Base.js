@@ -902,7 +902,7 @@ var World_Base = function() {
 
   // startSim
   self.startSim = function() {
-    if (self.processedOptions.timer != 'none' && self.startTime == null) {
+    if (self.processedOptions.timer != 'none') {
       self.startTime = Date.now();
     }
   };
@@ -925,6 +925,17 @@ var World_Base = function() {
   self.drawTimer = function(rebuild) {
     if (typeof self.panel == 'undefined') {
       return;
+    }
+
+    let programRunning = false;
+    if (typeof skulpt != 'undefined' && skulpt.running) {
+      programRunning = true;
+    } else if (typeof playerFrames != 'undefined') {
+      playerFrames.forEach(function(playerFrame){
+        if (playerFrame.skulpt.running) {
+          programRunning = true;
+        }
+      });
     }
 
     if (rebuild || typeof self.$time == 'undefined') {
@@ -957,7 +968,7 @@ var World_Base = function() {
     if (self.processedOptions.timer == 'up') {
       var time = elapsedTime;
       var sign = '';
-      if (time >= self.processedOptions.timerDuration) {
+      if (time >= self.processedOptions.timerDuration && programRunning) {
         if (self.processedOptions.timerEnd != 'continue') {
           time = self.processedOptions.timerDuration;
         }
@@ -967,7 +978,7 @@ var World_Base = function() {
     } else if (self.processedOptions.timer == 'down') {
       var time = self.processedOptions.timerDuration - elapsedTime;
       var sign = '';
-      if (time <= 0) {
+      if (time <= 0 && programRunning) {
         if (self.processedOptions.timerEnd == 'continue') {
           if (time < 0) {
             sign = '-';
@@ -980,7 +991,7 @@ var World_Base = function() {
       }
     }
 
-    if (typeof time != 'undefined') {
+    if (typeof time != 'undefined' && (programRunning || rebuild)) {
       let timeStr = sign + Math.floor(time/60) + ':' + ('0' + time % 60).slice(-2);
 
       function updateIfChanged(text, $dom) {
