@@ -1555,7 +1555,7 @@ var configurator = new function() {
   };
 
   // Load robot from json file
-  this.loadRobot = function() {
+  this.loadRobotLocal = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
     hiddenElement.accept = 'application/json,.json';
@@ -1683,7 +1683,7 @@ var configurator = new function() {
 
       let menuItems = [
         {html: 'Select Robot', line: true, callback: self.selectRobot},
-        {html: 'Load from file', line: false, callback: self.loadRobot},
+        {html: 'Load from file', line: false, callback: self.loadRobotLocal},
         {html: 'Save to file', line: true, callback: self.saveRobot},
       ];
 

@@ -28,7 +28,7 @@ var arena = new function() {
 
       let menuItems = [
         {html: i18n.get('#main-select_world#'), line: true, callback: arenaPanel.selectWorld},
-        {html: i18n.get('#main-world_load_file#'), line: false, callback: arenaPanel.loadWorld},
+        {html: i18n.get('#main-world_load_file#'), line: false, callback: arenaPanel.loadWorldLocal},
         {html: i18n.get('#main-world_save_file#'), line: false, callback: arenaPanel.saveWorld},
       ];
 

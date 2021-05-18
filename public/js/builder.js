@@ -1781,7 +1781,7 @@ var builder = new function() {
   };
 
   // Load robot from json file
-  this.loadWorld = function() {
+  this.loadWorldLocal = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
     hiddenElement.accept = 'application/json,.json';
@@ -1807,7 +1807,7 @@ var builder = new function() {
 
       let menuItems = [
         {html: 'New World', line: true, callback: self.newWorld},
-        {html: 'Load from file', line: false, callback: self.loadWorld},
+        {html: 'Load from file', line: false, callback: self.loadWorldLocal},
         {html: 'Save to file', line: true, callback: self.saveWorld},
       ];
 

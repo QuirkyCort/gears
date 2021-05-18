@@ -123,8 +123,42 @@ var main = new function() {
     hiddenElement.dispatchEvent(new MouseEvent('click'));
   };
 
-  // Load robot from json file
-  this.loadRobot = function() {
+  // Load robot
+  this.loadRobot = function(json) {
+    try {
+      data = JSON.parse(json);
+
+      // Is it a world file?
+      if (typeof data.worldName != 'undefined') {
+        showErrorModal(i18n.get('#main-invalid_robot_file_world#'));
+        return;
+      }
+
+      // Is it a robot file?
+      if (typeof data.bodyHeight == 'undefined') {
+        showErrorModal(i18n.get('#main-invalid_robot_file_robot#'));
+        return;
+      }
+
+      robot.options = data;
+      let i = robotTemplates.findIndex(r => r.name == robot.options.name);
+      if (i == -1) {
+        robotTemplates.push({...data});
+      } else {
+        robotTemplates[i] = {...data};
+      }
+      babylon.resetScene();
+      skulpt.hardInterrupt = true;
+      simPanel.setRunIcon('run');
+      simPanel.initSensorsPanel();
+    } catch (e) {
+      showErrorModal(i18n.get('#main-invalid_robot_file_json#'));
+    }
+
+  };
+
+  // Load robot from local json file
+  this.loadRobotLocal = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
     hiddenElement.accept = 'application/json,.json';
@@ -132,17 +166,7 @@ var main = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        robot.options = JSON.parse(this.result);
-        let i = robotTemplates.findIndex(r => r.name == robot.options.name);
-        if (i == -1) {
-          robotTemplates.push(JSON.parse(this.result));
-        } else {
-          robotTemplates[i] = JSON.parse(this.result);
-        }
-        babylon.resetScene();
-        skulpt.hardInterrupt = true;
-        simPanel.setRunIcon('run');
-        simPanel.initSensorsPanel();
+        self.loadRobot(this.result);
       };
       reader.readAsText(e.target.files[0]);
     });
@@ -160,17 +184,7 @@ var main = new function() {
         }
       })
       .then(function(response) {
-        robot.options = JSON.parse(response);
-        let i = robotTemplates.findIndex(r => r.name == robot.options.name);
-        if (i == -1) {
-          robotTemplates.push(JSON.parse(response));
-        } else {
-          robotTemplates[i] = JSON.parse(response);
-        }
-        babylon.resetScene();
-        skulpt.hardInterrupt = true;
-        simPanel.setRunIcon('run');
-        simPanel.initSensorsPanel();
+        self.loadRobot(response);
       });
   };
 
@@ -393,7 +407,7 @@ var main = new function() {
       let menuItems = [
         {html: i18n.get('#main-select_robot#'), line: false, callback: self.selectRobot},
         {html: i18n.get('#main-robot_configurator#'), line: true, callback: self.configuratorWindow},
-        {html: i18n.get('#main-robot_load_file#'), line: false, callback: self.loadRobot},
+        {html: i18n.get('#main-robot_load_file#'), line: false, callback: self.loadRobotLocal},
         {html: i18n.get('#main-robot_save_file#'), line: true, callback: self.saveRobot},
         {html: i18n.get('#main-display_position#'), line: false, callback: self.displayPosition},
         {html: i18n.get('#main-save_position#'), line: false, callback: self.savePosition},
@@ -414,7 +428,7 @@ var main = new function() {
         {html: i18n.get('#main-select_world#'), line: false, callback: simPanel.selectWorld},
         {html: i18n.get('#main-world_builder#'), line: false, callback: self.worldBuilderWindow},
         {html: i18n.get('#main-arena#'), line: true, callback: self.arenaWindow},
-        {html: i18n.get('#main-world_load_file#'), line: false, callback: simPanel.loadWorld},
+        {html: i18n.get('#main-world_load_file#'), line: false, callback: simPanel.loadWorldLocal},
         {html: i18n.get('#main-world_save_file#'), line: false, callback: simPanel.saveWorld},
       ];
 

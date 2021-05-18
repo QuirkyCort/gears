@@ -485,8 +485,34 @@ var arenaPanel = new function() {
     }
   };
 
+  // Load world
+  this.loadWorld = function(json) {
+    try {
+      let loadedSave = JSON.parse(json);
+  
+      // Is it a world file?
+      if (typeof loadedSave.bodyHeight != 'undefined') {
+        showErrorModal(i18n.get('#sim-invalid_world_file_robot#'));
+        return;
+      }
+
+      // Is it a world file?
+      let world = worlds.find(world => world.name == loadedSave.worldName);
+      if (typeof world == 'undefined') {
+        showErrorModal(i18n.get('#sim-invalid_map#'));
+        return;
+      }
+  
+      babylon.world = worlds.find(world => world.name == loadedSave.worldName);
+      self.worldOptionsSetting = loadedSave.options;
+      self.resetSim();  
+    } catch (e) {
+      showErrorModal(i18n.get('#sim-invalid_world_file_json#'));
+    }
+  };
+
   // Load from file
-  this.loadWorld = function() {
+  this.loadWorldLocal = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
     hiddenElement.accept = 'application/json,.json';
@@ -494,17 +520,7 @@ var arenaPanel = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        let loadedSave = JSON.parse(this.result);
-        let world = worlds.find(world => world.name == loadedSave.worldName);
-
-        if (typeof world == 'undefined') {
-          toastMsg(i18n.get('#sim-invalid_map#'));
-          return;
-        }
-
-        babylon.world = worlds.find(world => world.name == loadedSave.worldName);
-        self.worldOptionsSetting = loadedSave.options;
-        self.resetSim();
+        self.loadWorld(this.result);
       };
       reader.readAsText(e.target.files[0]);
     });

@@ -1050,6 +1050,15 @@ let MSGS = {
     nl: 'Ga naar de Configurator',
     de: 'Gehe zum Konfigurator',
   },
+  '#main-invalid_robot_file_json#': {
+    en: 'Invalid robot file (Not JSON)',
+  },
+  '#main-invalid_robot_file_world#': {
+    en: 'Invalid robot file (...looks like a world configurations file)',
+  },
+  '#main-invalid_robot_file_robot#': {
+    en: 'Invalid robot file (Missing robot configuration data)',
+  },
   '#arena-show_names#': {
     en: 'Show Names',
     nl: 'Toon namen',
@@ -1325,6 +1334,12 @@ let MSGS = {
     el: 'Μη έγκυρες διαμορφώσεις χάρτη',
     nl: 'Ongeldige mapconfiguratie',
     de: 'Falsche Kartenkonfiguration',
+  },
+  '#sim-invalid_world_file_json#': {
+    en: 'Invalid world file (Not JSON)',
+  },
+  '#sim-invalid_world_file_robot#': {
+    en: 'Invalid world file (...looks like a robot configurations file)',
   },
   '#sim-not_found#': {
     en: 'File not found',
