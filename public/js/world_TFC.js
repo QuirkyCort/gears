@@ -186,7 +186,7 @@ var world_TFC = new function() {
       } else if (self.options.startPos == 'bottomLeft') {
         self.robotStart.position = new BABYLON.Vector3(-80, 0, -65);
       } else if (self.options.startPos == 'bottomRight') {
-        self.robotStart.position = new BABYLON.Vector3(50, 0, -60);
+        self.robotStart.position = new BABYLON.Vector3(40, 0, -70);
       } else if (self.options.startPos == 'topLeft') {
         self.robotStart.position = new BABYLON.Vector3(-85, 0, 80);
       } else if (self.options.startPos == 'topRight') {
