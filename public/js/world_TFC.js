@@ -317,10 +317,13 @@ var world_TFC = new function() {
       var passagePos2State = 0;
       var candlePosState = 0;
       if (self.options.random){
-        dogPosState = Math.floor(Math.random() * 3);
-        passagePos1State = Math.floor(Math.random() * 2);
-        passagePos2State = Math.floor(Math.random() * 2);
-        candlePosState = Math.floor(Math.random() * 11);
+        while ((dogPosState==0 && passagePos1State==0) || (dogPosState==2 && passagePos1State==1) || (passagePos2State==4 && candlePosState==1) || (passagePos2State==5 && candlePosState==0) || (passagePos1State==0 &&candlePosState==6) || (passagePos1State==1 &&candlePosState==7)) {
+          dogPosState = Math.floor(Math.random() * 3);
+          passagePos1State = Math.floor(Math.random() * 2);
+          passagePos2State = Math.floor(Math.random() * 2);
+          candlePosState = Math.floor(Math.random() * 11);
+        }
+        
       }
       else {
         dogPosState = self.options.dogPos;

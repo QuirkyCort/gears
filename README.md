@@ -6,7 +6,7 @@ This simulator was created to allow anyone to experiment with robotics without o
 
 Try it out at https://gears.aposteriori.com.sg
 
-...or the latest version from github https://quirkycort.github.io/gears/public/
+...or the latest version from github https://yuvix25.github.io/gears/public/
 
 It uses the Ev3dev api (...and some early support for Pybricks), so the code can run on an actual Lego Mindstorm EV3 if you have one.
 
