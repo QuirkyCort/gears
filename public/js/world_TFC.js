@@ -184,16 +184,14 @@ var world_TFC = new function() {
       if (self.options.startPos == 'top') {
         self.robotStart.position = new BABYLON.Vector3(-23, 0, 97);
       } else if (self.options.startPos == 'bottomLeft') {
-        self.robotStart.position = new BABYLON.Vector3(-60, 0, -60);
+        self.robotStart.position = new BABYLON.Vector3(-75, 0, -60);
       } else if (self.options.startPos == 'bottomRight') {
         let z = -(self.options.width / 2 - 12.5) + 1;
-        self.robotStart.position = new BABYLON.Vector3(0, 0, z);
+        self.robotStart.position = new BABYLON.Vector3(75, 0, -60);
       } else if (self.options.startPos == 'topLeft') {
-        let x = (self.options.length / 2 - 12.5);
-        let z = -(self.options.width / 2 - 12.5) + 1;
-        self.robotStart.position = new BABYLON.Vector3(x, 0, z);
+        self.robotStart.position = new BABYLON.Vector3(-75, 0, 60);
       } else if (self.options.startPos == 'topRight') {
-        self.robotStart = self.arenaStart[0];
+        self.robotStart.position = new BABYLON.Vector3(75, 0, 60);
       }
 
       if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
