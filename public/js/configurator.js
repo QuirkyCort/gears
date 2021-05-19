@@ -158,6 +158,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -219,6 +220,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -304,6 +306,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -346,6 +349,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -421,6 +425,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -466,6 +471,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -515,6 +521,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -548,6 +555,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
       ]
@@ -575,6 +583,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -666,6 +675,7 @@ var configurator = new function() {
           min: '-180',
           max: '180',
           step: '5',
+          deg2rad: true,
           reset: true
         },
         {
@@ -769,343 +779,17 @@ var configurator = new function() {
   this.showComponentOptions = function(component) {
     self.$settingsArea.empty();
 
-    function getTitle(opt) {
-      let $title = $('<div class="configurationTitle"></div>');
-      let $toolTip = $('<span> </span><div class="tooltip">?<div class="tooltiptext"></div></div>');
-      $title.text(opt.option);
-
-      if (opt.help) {
-        $toolTip.find('.tooltiptext').text(opt.help);
-        $title.append($toolTip);
-      }
-      if (opt.helpSide) {
-        $toolTip.addClass(opt.helpSide);
-      } else {
-        $toolTip.addClass('left');
-      }
-
-      return $title;
-    }
-
-    function genButtons(opt, currentOptions) {
-      let $div = $('<div class="configuration"></div>');
-      let $buttonsBox = $('<div class="color"></div>');
-
-      for (let button of opt.buttons) {
-        let $button = $('<button></button>');
-        $button.text(button.label);
-        $button.click(function() {
-          self[button.callback](currentOptions);
-        });
-        $buttonsBox.append($button);
-      }
-
-      $div.append($buttonsBox);
-
-      return $div;
-    }
-
-    function genColor(opt, currentOptions) {
-      let $div = $('<div class="configuration"></div>');
-      let $colorBox = $('<div class="color"><input type="color"><input type="text"></div>');
-      let $alphaBox = $('<div class="slider">Opacity: <input type="range"></div>');
-      let $color = $colorBox.find('input[type=color]');
-      let $text = $colorBox.find('input[type=text]');
-      let $alpha = $alphaBox.find('input');
-      $alpha.attr('min', 0);
-      $alpha.attr('max', 255);
-      $alpha.attr('step', 1);
-      let currentVal = currentOptions[opt.option];
-
-      if (typeof currentVal == 'undefined') {
-        currentVal = '#f09c0d';
-      }
-
-      function setInputs(currentVal) {
-        // Strip hex
-        if (currentVal[0] == '#') {
-          currentVal = currentVal.slice(1);
-        }
-
-        // Convert 3/4 notation to 6/8
-        if (currentVal.length < 6) {
-          let tmp = '';
-          for (let c of currentVal) {
-            tmp = c + c;
-          }
-          currentVal = tmp;
-        }
-
-        // Split into color and alpha
-        let currentValColor = currentVal.slice(0,6).toLowerCase();
-        let currentValAlpha = currentVal.slice(6,8);
-        if (currentValAlpha == '') {
-          currentValAlpha = 255;
-        } else {
-          currentValAlpha = parseInt(currentValAlpha, 16);
-        }
-
-        $color.val('#' + currentValColor);
-        $alpha.val(currentValAlpha);
-        $text.val('#' + currentValColor + ('0' + currentValAlpha.toString(16)).slice(-2));
-      }
-
-      setInputs(currentVal);
-
-      function setColor() {
-        let valColor = $color.val();
-        let valAlpha = $alpha.val();
-        valAlpha = ('0' + parseInt(valAlpha).toString(16)).slice(-2);
-
-        let val = valColor + valAlpha;
-        self.saveHistory();
-        currentOptions[opt.option] = val;
-        $text.val(val);
-        if (opt.reset) {
-          self.resetScene(false);
-        }
-      }
-
-      $color.change(setColor);
-      $alpha.change(setColor);
-      $text.change(function(){
-        let val = $text.val();
-        setInputs(val);
-        self.saveHistory();
-        currentOptions[opt.option] = val;
-        if (opt.reset) {
-          self.resetScene(false);
-        }
-      });
-
-      $div.append(getTitle(opt));
-      $div.append($colorBox);
-      $div.append($alphaBox);
-
-      return $div;
-    }
-
-    function genSliderBox(opt, currentValue, callback) {
-      let $sliderBox = $(
-        '<div class="slider">' +
-          '<input type="range">' +
-          '<input type="text">' +
-        '</div>'
-      );
-      let $slider = $sliderBox.find('input[type=range]');
-      let $input = $sliderBox.find('input[type=text]');
-
-      $slider.attr('min', opt.min);
-      $slider.attr('max', opt.max);
-      $slider.attr('step', opt.step);
-      $slider.attr('value', currentValue);
-      $input.val(currentValue);
-
-      $slider.on('input', function(){
-        $input.val($slider.val());
-      });
-      $slider.on('change', function(){
-        self.saveHistory();
-        callback(parseFloat($slider.val()));
-        if (opt.reset) {
-          self.resetScene(false);
-        }
-      })
-      $input.change(function(){
-        self.saveHistory();
-        callback(parseFloat($input.val()));
-        $slider.val($input.val());
-        if (opt.reset) {
-          self.resetScene(false);
-        }
-      });
-
-      return $sliderBox;
-    }
-
-    function genVectors(opt, currentOptions) {
-      let $div = $('<div class="configuration"></div>');
-
-      $div.append(getTitle(opt));
-
-      if (currentOptions[opt.option] == null) {
-        currentOptions[opt.option] = [0,0,0];
-      }
-
-      currentOptions[opt.option].forEach(function(currentOption, i){
-        let slider = null;
-
-        if (opt.option == 'rotation') {
-          slider = genSliderBox(opt, currentOption / Math.PI * 180, function(val) {
-            currentOptions[opt.option][i] = val / 180 * Math.PI;
-          });
-        } else {
-          slider = genSliderBox(opt, currentOption, function(val) {
-            currentOptions[opt.option][i] = val;
-          });
-        }
-        $div.append(slider);
-      })
-
-      return $div;
-    }
-
-    function genSlider(opt, currentOptions) {
-      let $div = $('<div class="configuration"></div>');
-
-      $div.append(getTitle(opt));
-      $div.append(genSliderBox(opt, currentOptions[opt.option], function(val) {
-        currentOptions[opt.option] = val;
-      }));
-
-      return $div;
-    }
-
-    function genFloatText(opt, currentOptions) {
-      let $div = $('<div class="configuration"></div>');
-      let $textBox = $('<div class="text"><input type="text"></div>');
-      let $input = $textBox.find('input');
-      let currentVal = currentOptions[opt.option];
-
-      $input.val(currentVal);
-
-      $input.change(function(){
-        let val = parseFloat($input.val())
-        if (isNaN(val)) {
-          toastMsg('Not a valid number');
-        } else {
-          self.saveHistory();
-          currentOptions[opt.option] = val;
-          if (opt.reset) {
-            self.resetScene(false);
-          }
-        }
-      });
-
-      $div.append(getTitle(opt));
-      $div.append($textBox);
-
-      return $div;
-    }
-
-    function genIntText(opt, currentOptions) {
-      let $div = $('<div class="configuration"></div>');
-      let $textBox = $('<div class="text"><input type="text"></div>');
-      let $input = $textBox.find('input');
-      let currentVal = currentOptions[opt.option];
-
-      $input.val(currentVal);
-
-      $input.change(function(){
-        let val = parseInt($input.val())
-        if (isNaN(val)) {
-          toastMsg('Not a valid number');
-        } else {
-          self.saveHistory();
-          currentOptions[opt.option] = val;
-          if (opt.reset) {
-            self.resetScene(false);
-          }
-        }
-      });
-
-      $div.append(getTitle(opt));
-      $div.append($textBox);
-
-      return $div;
-    }
-
-    function genStrText(opt, currentOptions) {
-      let $div = $('<div class="configuration"></div>');
-      let $textBox = $('<div class="text"><input type="text"></div>');
-      let $input = $textBox.find('input');
-      let currentVal = currentOptions[opt.option];
-
-      $input.val(currentVal);
-
-      $input.change(function(){
-        self.saveHistory();
-        currentOptions[opt.option] = $input.val();
-        if (opt.reset) {
-          self.resetScene(false);
-        }
-      });
-
-      $div.append(getTitle(opt));
-      $div.append($textBox);
-
-      return $div;
-    }
-
-    function genBoolean(opt, currentOptions) {
-      let $div = $('<div class="configuration"></div>');
-      let $checkBox = $('<div class="text"><input type="checkbox"></div>');
-      let $input = $checkBox.find('input');
-      let currentVal = currentOptions[opt.option];
-
-      $input.prop('checked', currentVal);
-
-      $input.change(function(){
-        self.saveHistory();
-        currentOptions[opt.option] = $input.prop('checked');
-        if (opt.reset) {
-          self.resetScene(false);
-        }
-      });
-
-      $div.append(getTitle(opt));
-      $div.append($checkBox);
-
-      return $div;
-    }
-
-
-    let $componentName = $('<div class="componentName"></div>');
-    if (typeof component.bodyMass != 'undefined') {
-      $componentName.text('Body');
-    } else {
-      $componentName.text(component.type);
-    }
-    self.$settingsArea.append($componentName);
+    genConfig = new GenConfig(self, self.$settingsArea);
 
     if (typeof component.options == 'undefined' || component.options == null) {
       component.options = {};
     }
 
-    function displayOptionsConfiguration(optionConfiguration, options) {
-      if (optionConfiguration.type == 'vectors') {
-        self.$settingsArea.append(genVectors(optionConfiguration, options));
-      } else if (optionConfiguration.type == 'slider') {
-        self.$settingsArea.append(genSlider(optionConfiguration, options));
-      } else if (optionConfiguration.type == 'floatText') {
-        self.$settingsArea.append(genFloatText(optionConfiguration, options));
-      } else if (optionConfiguration.type == 'intText') {
-        self.$settingsArea.append(genIntText(optionConfiguration, options));
-      } else if (optionConfiguration.type == 'strText') {
-        self.$settingsArea.append(genStrText(optionConfiguration, options));
-      } else if (optionConfiguration.type == 'boolean') {
-        self.$settingsArea.append(genBoolean(optionConfiguration, options));
-      } else if (optionConfiguration.type == 'color') {
-        self.$settingsArea.append(genColor(optionConfiguration, options));
-      } else if (optionConfiguration.type == 'buttons') {
-        self.$settingsArea.append(genButtons(optionConfiguration, options));
-      }
-    }
-
     if (typeof component.bodyMass != 'undefined') { // main body
-      let bodyTemplate = self.bodyTemplate;
-      bodyTemplate.optionsConfigurations.forEach(function(optionConfiguration){
-        displayOptionsConfiguration(optionConfiguration, component);
-      });
+      genConfig.displayOptionsConfigurations(self.bodyTemplate, component);
     } else {
       let componentTemplate = self.componentTemplates.find(componentTemplate => componentTemplate.name == component.type);
-      componentTemplate.optionsConfigurations.forEach(function(optionConfiguration){
-        let options = component.options;
-        if (optionConfiguration.option == 'position' || optionConfiguration.option == 'rotation') {
-          options = component;
-        }
-        displayOptionsConfiguration(optionConfiguration, options);
-      });
+      genConfig.displayOptionsConfigurations(componentTemplate, component);
     }
     if (component.type == 'Pen') {
       self.penSpecialCaseSetup(component);

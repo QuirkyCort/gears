@@ -38,4 +38,3 @@ Coding (Sharing)
 Bugs
 - Variables not disappearing from toolbox immediately upon delete
 - Loading a map file will set hidden options that cannot be cleared through GUI.
-- Check json for correct type before loading

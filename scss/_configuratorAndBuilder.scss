@@ -76,7 +76,8 @@
 
   .settingsArea {
     flex-grow: 1;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .buttons {
@@ -120,6 +121,10 @@
       width: 3em;
       text-align: right;
     }
+  }
+
+  .tooltip .tooltiptext {
+    max-width: 10em;
   }
 }
 

@@ -800,7 +800,8 @@ ul.menuDropDownRightAlign {
   flex-direction: column; }
   .settingsWindow .settingsArea {
     flex-grow: 1;
-    overflow: auto; }
+    overflow-y: auto;
+    overflow-x: hidden; }
   .settingsWindow .buttons {
     display: flex;
     width: 100%;
@@ -829,6 +830,8 @@ ul.menuDropDownRightAlign {
     .settingsWindow .slider input[type=text] {
       width: 3em;
       text-align: right; }
+  .settingsWindow .tooltip .tooltiptext {
+    max-width: 10em; }
 
 .dialogWindow .selectImage, .dialogWindow .selectModel {
   max-height: 60vh;
