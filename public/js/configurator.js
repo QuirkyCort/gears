@@ -779,7 +779,7 @@ var configurator = new function() {
   this.showComponentOptions = function(component) {
     self.$settingsArea.empty();
 
-    genConfig = new GenConfig(self, self.$settingsArea);
+    let genConfig = new GenConfig(self, self.$settingsArea);
 
     if (typeof component.options == 'undefined' || component.options == null) {
       component.options = {};

@@ -49,12 +49,16 @@ function GenConfig(caller, $settingsArea) {
   }
 
   gen.custom = function(opt, currentOptions) {
+    let $custom = caller[opt.generatorFunction](opt, currentOptions);
+    if ($custom == false) {
+      return;
+    }
+
     let $div = $('<div class="configuration"></div>');
     $div.append(self.getTitle(opt));
-    $div.append(caller[opt.generatorFunction](opt, currentOptions))
-
-    return $div;
-  }
+    $div.append($custom);
+    return $div;  
+}
 
   gen.color = function(opt, currentOptions) {
     let $div = $('<div class="configuration"></div>');

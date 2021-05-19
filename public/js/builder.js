@@ -245,12 +245,57 @@ var builder = new function() {
       },
       {
         option: 'physicsOptions',
-        type: 'select',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
         options: [
           ['Fixed', 'fixed'],
           ['Moveable', 'moveable'],
-          ['Physicsless', 'false']
+          ['Physicsless', 'false'],
+          ['Custom', 'custom']
         ],
+        reset: true
+      },
+      {
+        option: 'physics_mass',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Default for moveable objects is 100. Set this to 0 to make it a fixed object.'
+      },
+      {
+        option: 'physics_friction',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Default for objects is 0.1, while the ground is 1.0 by default.'
+      },
+      {
+        option: 'physics_restitution',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Affects the bounciness of the object'
+      },
+      {
+        option: 'physics_dampLinear',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Dampens linear movements.'
+      },
+      {
+        option: 'physics_dampAngular',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Dampens rotations.'
+      },
+      {
+        option: 'physics_group',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Sets the physics group bitmask (default is 1). Use together with mask.'
+      },
+      {
+        option: 'physics_mask',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'A bitmask which sets which physics group this object will interact with. Default is -1 (all groups).'
       },
       {
         option: 'magnetic',
@@ -339,12 +384,57 @@ var builder = new function() {
       },
       {
         option: 'physicsOptions',
-        type: 'select',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
         options: [
           ['Fixed', 'fixed'],
           ['Moveable', 'moveable'],
-          ['Physicsless', 'false']
+          ['Physicsless', 'false'],
+          ['Custom', 'custom']
         ],
+        reset: true
+      },
+      {
+        option: 'physics_mass',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Default for moveable objects is 100. Set this to 0 to make it a fixed object.'
+      },
+      {
+        option: 'physics_friction',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Default for objects is 0.1, while the ground is 1.0 by default.'
+      },
+      {
+        option: 'physics_restitution',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Affects the bounciness of the object'
+      },
+      {
+        option: 'physics_dampLinear',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Dampens linear movements.'
+      },
+      {
+        option: 'physics_dampAngular',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Dampens rotations.'
+      },
+      {
+        option: 'physics_group',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Sets the physics group bitmask (default is 1). Use together with mask.'
+      },
+      {
+        option: 'physics_mask',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'A bitmask which sets which physics group this object will interact with. Default is -1 (all groups).'
       },
       {
         option: 'magnetic',
@@ -433,12 +523,57 @@ var builder = new function() {
       },
       {
         option: 'physicsOptions',
-        type: 'select',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
         options: [
           ['Fixed', 'fixed'],
           ['Moveable', 'moveable'],
-          ['Physicsless', 'false']
+          ['Physicsless', 'false'],
+          ['Custom', 'custom']
         ],
+        reset: true
+      },
+      {
+        option: 'physics_mass',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Default for moveable objects is 100. Set this to 0 to make it a fixed object.'
+      },
+      {
+        option: 'physics_friction',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Default for objects is 0.1, while the ground is 1.0 by default.'
+      },
+      {
+        option: 'physics_restitution',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Affects the bounciness of the object'
+      },
+      {
+        option: 'physics_dampLinear',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Dampens linear movements.'
+      },
+      {
+        option: 'physics_dampAngular',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Dampens rotations.'
+      },
+      {
+        option: 'physics_group',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Sets the physics group bitmask (default is 1). Use together with mask.'
+      },
+      {
+        option: 'physics_mask',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'A bitmask which sets which physics group this object will interact with. Default is -1 (all groups).'
       },
       {
         option: 'magnetic',
@@ -527,12 +662,57 @@ var builder = new function() {
       },
       {
         option: 'physicsOptions',
-        type: 'select',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
         options: [
           ['Fixed', 'fixed'],
           ['Moveable', 'moveable'],
-          ['Physicsless', 'false']
+          ['Physicsless', 'false'],
+          ['Custom', 'custom']
         ],
+        reset: true
+      },
+      {
+        option: 'physics_mass',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Default for moveable objects is 100. Set this to 0 to make it a fixed object.'
+      },
+      {
+        option: 'physics_friction',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Default for objects is 0.1, while the ground is 1.0 by default.'
+      },
+      {
+        option: 'physics_restitution',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Affects the bounciness of the object'
+      },
+      {
+        option: 'physics_dampLinear',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Dampens linear movements.'
+      },
+      {
+        option: 'physics_dampAngular',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Dampens rotations.'
+      },
+      {
+        option: 'physics_group',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'Sets the physics group bitmask (default is 1). Use together with mask.'
+      },
+      {
+        option: 'physics_mask',
+        type: 'custom',
+        generatorFunction: 'setPhysicsOptions',
+        help: 'A bitmask which sets which physics group this object will interact with. Default is -1 (all groups).'
       },
       {
         option: 'magnetic',
@@ -937,6 +1117,97 @@ var builder = new function() {
     return $div;
   };
 
+  // Set custom physics options
+  this.setPhysicsOptions = function(opt, objectOptions) {
+    function genSelect (opt, currentVal, setter) {
+      let $div = $('<div class="configuration"></div>');
+      let $select = $('<select></select>');
+  
+      opt.options.forEach(function(option){
+        let $opt = $('<option></option>');
+        $opt.prop('value', option[1]);
+        $opt.text(option[0]);
+        if (option[1] == currentVal) {
+          $opt.attr('selected', true);
+        }
+  
+        $select.append($opt);
+      });
+  
+      $select.change(function(){
+        self.saveHistory();
+        setter($select.val());
+        if (opt.reset) {
+          self.resetScene(false);
+        }
+      });
+  
+      $div.append($select);
+      return $div;
+    }
+
+    function genFloatText(opt, currentVal, setter) {
+      let $div = $('<div class="configuration"></div>');
+      let $textBox = $('<div class="text"><input type="text"></div>');
+      let $input = $textBox.find('input');
+  
+      $input.val(currentVal);
+  
+      $input.change(function(){
+        let trimmed = $input.val().trim();
+        if (trimmed == '') {
+          self.saveHistory();
+          setter('');
+          if (opt.reset) {
+            self.resetScene(false);
+          }
+          return;
+        }
+
+        let val = parseFloat(trimmed);
+        if (isNaN(val)) {
+          toastMsg('Not a valid number');
+        } else {
+          self.saveHistory();
+          setter(val);
+          if (opt.reset) {
+            self.resetScene(false);
+          }
+        }
+      });
+  
+      $div.append($textBox);  
+      return $div;
+    }
+
+    if (opt.option == 'physicsOptions') {
+      let currentVal = objectOptions[opt.option];
+      if (typeof objectOptions.physicsOptions == 'object') {
+        currentVal = 'custom';
+      }
+      return genSelect(opt, currentVal, function(val){
+        if (val == 'custom') {
+          objectOptions[opt.option] = {};
+        } else {
+          objectOptions[opt.option] = val;
+        }
+      });
+    } else {
+      if (typeof objectOptions.physicsOptions != 'object') {
+        return false;
+      }
+
+      let option = opt.option.replace('physics_', '');
+      return genFloatText(opt, objectOptions.physicsOptions[option], function(val){
+        if (val == '') {
+          delete objectOptions.physicsOptions[option];
+        } else {
+          objectOptions.physicsOptions[option] = val;
+        }
+      });
+    }
+  };
+
   // Object drag end
   this.dragEnd = function(event) {
     let selected = self.$objectsList.find('li.selected');
@@ -1041,7 +1312,7 @@ var builder = new function() {
     let currentOptions = li.object;
     self.$settingsArea.empty();
 
-    genConfig = new GenConfig(self, self.$settingsArea);
+    let genConfig = new GenConfig(self, self.$settingsArea);
 
     if (name == 'ground') {
       genConfig.displayOptionsConfigurations(self.groundTemplate, currentOptions);
