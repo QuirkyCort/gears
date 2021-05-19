@@ -637,7 +637,7 @@ var builder = new function() {
   };
 
   // Select built in images
-  this.selectImage = function(objectOptions) {
+  this.selectImage = function(opt, objectOptions) {
     let $body = $('<div class="selectImage"></div>');
     let $filter = $(
       '<div class="filter">Filter by Type: ' +
@@ -881,7 +881,7 @@ var builder = new function() {
   };
 
   // Select animation from model
-  this.selectAnimation = function(objectOptions, $div) {
+  this.selectAnimation = function(opt, objectOptions, $div) {
     let currentVal = objectOptions.modelAnimation;
 
     let selected = self.$objectsList.find('li.selected');
@@ -895,7 +895,7 @@ var builder = new function() {
     if (mesh == null) {
       // model not loaded yet
       setTimeout(function(){
-        self.selectAnimation(objectOptions, $div);
+        self.selectAnimation(opt, objectOptions, $div);
       }, 200);
     } else {
       if (mesh.animations.length > 0) {
@@ -993,7 +993,7 @@ var builder = new function() {
   };
 
   // Drop object to ground level
-  this.moveToGround = function(objectOptions) {
+  this.moveToGround = function(opt, objectOptions) {
     let selected = self.$objectsList.find('li.selected');
     if (typeof selected[0].objectIndex != 'undefined') {
       let id = 'worldBaseObject_' + selected[0].name + selected[0].objectIndex;

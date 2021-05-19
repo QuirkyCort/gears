@@ -38,7 +38,7 @@ function GenConfig(caller, $settingsArea) {
       let $button = $('<button></button>');
       $button.text(button.label);
       $button.click(function() {
-        caller[button.callback](currentOptions);
+        caller[button.callback](opt, currentOptions);
       });
       $buttonsBox.append($button);
     }
@@ -51,7 +51,7 @@ function GenConfig(caller, $settingsArea) {
   gen.custom = function(opt, currentOptions) {
     let $div = $('<div class="configuration"></div>');
     $div.append(self.getTitle(opt));
-    $div.append(caller[opt.generatorFunction](currentOptions))
+    $div.append(caller[opt.generatorFunction](opt, currentOptions))
 
     return $div;
   }

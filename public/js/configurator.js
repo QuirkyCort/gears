@@ -797,7 +797,7 @@ var configurator = new function() {
   };
 
   // Select built in images
-  this.selectImage = function(objectOptions) {
+  this.selectImage = function(opt, objectOptions) {
     let $body = $('<div class="selectImage"></div>');
     let $filter = $(
       '<div class="filter">Filter by Type: ' +
