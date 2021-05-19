@@ -151,11 +151,11 @@ var world_TFC = new function() {
       }
     }
 
-    let topPos = new BABYLON.Vector3(-23, 0, 97);
-    let bottomLeft = new BABYLON.Vector3(-80, 0, -65);
-    let bottomRight = new BABYLON.Vector3(40, 0, -70);
-    let topLeft = new BABYLON.Vector3(-85, 0, 80);
-    let topRight = new BABYLON.Vector3(40, 0, 50);
+    var topPos = new BABYLON.Vector3(-23, 0, 97);
+    var bottomLeft = new BABYLON.Vector3(-80, 0, -65);
+    var bottomRight = new BABYLON.Vector3(40, 0, -70);
+    var topLeft = new BABYLON.Vector3(-85, 0, 80);
+    var topRight = new BABYLON.Vector3(40, 0, 50);
 
     return new Promise(function(resolve, reject) {
 
