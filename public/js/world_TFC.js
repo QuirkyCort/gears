@@ -314,20 +314,23 @@ var world_TFC = new function() {
         candlePosState = self.options.candlePos;
       }
 
-      switch (+startPosState){
-        case 0:
-          self.robotStart.position = bottomLeft;
-          break;
-        case 1:
-          self.robotStart.position = bottomRight;
-          break;
-        case 2:
-          self.robotStart.position = topLeft;
-          break;
-        case 3:
-          self.robotStart.position = topRight;
-          break;
+      if (self.options.random){
+        switch (+startPosState){
+          case 0:
+            self.robotStart.position = bottomLeft;
+            break;
+          case 1:
+            self.robotStart.position = bottomRight;
+            break;
+          case 2:
+            self.robotStart.position = topLeft;
+            break;
+          case 3:
+            self.robotStart.position = topRight;
+            break;
+        }
       }
+      
 
       var dogPos = [0, 0, 0]
       switch(+dogPosState){
