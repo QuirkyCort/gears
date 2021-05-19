@@ -323,6 +323,10 @@ var world_TFC = new function() {
           passagePos2State = Math.floor(Math.random() * 2);
           candlePosState = Math.floor(Math.random() * 11);
         }
+        console.log(dogPosState);
+        console.log(passagePos1State);
+        console.log(passagePos2State);
+        console.log(candlePosState);
         
       }
       else {
