@@ -136,6 +136,12 @@ var world_TFC = new function() {
     candlePos: 0,
   };
 
+  var topPos = new BABYLON.Vector3(-23, 0, 97);
+  var bottomLeft = new BABYLON.Vector3(-80, 0, -65);
+  var bottomRight = new BABYLON.Vector3(40, 0, -70);
+  var topLeft = new BABYLON.Vector3(-85, 0, 80);
+  var topRight = new BABYLON.Vector3(40, 0, 50);
+
   // Set options, including default
   this.setOptions = function(options) {
     let tmpOptions = {};
@@ -150,12 +156,6 @@ var world_TFC = new function() {
         self.options[name] = options[name];
       }
     }
-
-    var topPos = new BABYLON.Vector3(-23, 0, 97);
-    var bottomLeft = new BABYLON.Vector3(-80, 0, -65);
-    var bottomRight = new BABYLON.Vector3(40, 0, -70);
-    var topLeft = new BABYLON.Vector3(-85, 0, 80);
-    var topRight = new BABYLON.Vector3(40, 0, 50);
 
     return new Promise(function(resolve, reject) {
 
