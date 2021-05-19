@@ -99,21 +99,12 @@ var world_TFC = new function() {
       title: 'Starting Position',
       type: 'select',
       options: [
-        ['Center', 'center'],
-        ['Bottom Left', 'bottomLeft'],
-        ['Bottom Center', 'bottomCenter'],
-        ['Bottom Right', 'bottomRight'],
-        ['Player 0', 'P0'],
-        ['Player 1', 'P1'],
-        ['Player 2', 'P2'],
-        ['Player 3', 'P3'],
+        ['Top', 'top'],
+        ['Bottom Left Room', 'bottomLeft'],
+        ['Bottom Right Room', 'bottomRight'],
+        ['Top Left Room', 'topLeft'],
+        ['Top Right Room', 'topRight'],
       ]
-    },
-    {
-      option: 'startPosXY',
-      title: 'Starting Position (x, y)',
-      type: 'text',
-      help: 'Enter using this format "x, y" (in cm, without quotes) and it will override the above. Center of image is "0, 0".'
     },
     {
       option: 'startRot',
@@ -137,8 +128,7 @@ var world_TFC = new function() {
     wallRestitution: 0.1,
     obstacles: [],
     magnetics: [],
-    startPos: 'center',
-    startPosXY: '-23, 97',
+    startPos: 'top',
     startRot: '180',
     dogPos: 0,
     passagePos1: 0,
@@ -191,33 +181,21 @@ var world_TFC = new function() {
         rotation: new BABYLON.Vector3(0, 0, 0)
       };
 
-      if (self.options.startPos == 'center') {
-        self.robotStart.position = new BABYLON.Vector3(0, 0, -6);
+      if (self.options.startPos == 'top') {
+        self.robotStart.position = new BABYLON.Vector3(-23, 0, 97);
       } else if (self.options.startPos == 'bottomLeft') {
-        let x = -(self.options.length / 2 - 12.5);
-        let z = -(self.options.width / 2 - 12.5) + 1;
-        self.robotStart.position = new BABYLON.Vector3(x, 0, z);
-      } else if (self.options.startPos == 'bottomCenter') {
+        self.robotStart.position = new BABYLON.Vector3(-37.75, 0, 52.5);
+      } else if (self.options.startPos == 'bottomRight') {
         let z = -(self.options.width / 2 - 12.5) + 1;
         self.robotStart.position = new BABYLON.Vector3(0, 0, z);
-      } else if (self.options.startPos == 'bottomRight') {
+      } else if (self.options.startPos == 'topLeft') {
         let x = (self.options.length / 2 - 12.5);
         let z = -(self.options.width / 2 - 12.5) + 1;
         self.robotStart.position = new BABYLON.Vector3(x, 0, z);
-      } else if (self.options.startPos == 'P0') {
+      } else if (self.options.startPos == 'topRight') {
         self.robotStart = self.arenaStart[0];
-      } else if (self.options.startPos == 'P1') {
-        self.robotStart = self.arenaStart[1];
-      } else if (self.options.startPos == 'P2') {
-        self.robotStart = self.arenaStart[2];
-      } else if (self.options.startPos == 'P3') {
-        self.robotStart = self.arenaStart[3];
       }
 
-      if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
-        let xy = self.options.startPosXY.split(',');
-        self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), 0, parseFloat(xy[1]));
-      }
       if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
         self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
       }
