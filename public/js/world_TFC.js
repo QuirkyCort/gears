@@ -151,6 +151,11 @@ var world_TFC = new function() {
       }
     }
 
+    let topPos = new BABYLON.Vector3(-23, 0, 97);
+    let bottomLeft = new BABYLON.Vector3(-80, 0, -65);
+    let bottomRight = new BABYLON.Vector3(40, 0, -70);
+    let topLeft = new BABYLON.Vector3(-85, 0, 80);
+    let topRight = new BABYLON.Vector3(40, 0, 50);
 
     return new Promise(function(resolve, reject) {
 
@@ -182,15 +187,15 @@ var world_TFC = new function() {
       };
 
       if (self.options.startPos == 'top') {
-        self.robotStart.position = new BABYLON.Vector3(-23, 0, 97);
+        self.robotStart.position = topPos;
       } else if (self.options.startPos == 'bottomLeft') {
-        self.robotStart.position = new BABYLON.Vector3(-80, 0, -65);
+        self.robotStart.position = bottomLeft;
       } else if (self.options.startPos == 'bottomRight') {
-        self.robotStart.position = new BABYLON.Vector3(40, 0, -70);
+        self.robotStart.position = bottomRight;
       } else if (self.options.startPos == 'topLeft') {
-        self.robotStart.position = new BABYLON.Vector3(-85, 0, 80);
+        self.robotStart.position = topLeft;
       } else if (self.options.startPos == 'topRight') {
-        self.robotStart.position = new BABYLON.Vector3(40, 0, 50);
+        self.robotStart.position = topRight;
       }
 
       if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
@@ -291,12 +296,14 @@ var world_TFC = new function() {
       var passagePos1State = 0;
       var passagePos2State = 0;
       var candlePosState = 0;
+      var startPosState = 0;
       if (self.options.random){
         while ((dogPosState==0 && passagePos1State==0) || (dogPosState==2 && passagePos1State==1) || (candlePosState==4 && passagePos2State==1) || (candlePosState==5 && passagePos2State==0) || (passagePos1State==0 &&candlePosState==6) || (passagePos1State==1 &&candlePosState==7)) {
           dogPosState = Math.floor(Math.random() * 3);
           passagePos1State = Math.floor(Math.random() * 2);
           passagePos2State = Math.floor(Math.random() * 2);
           candlePosState = Math.floor(Math.random() * 11);
+          startPosState = Math.floor(Math.random() * 4)
         }
         
       }
@@ -307,6 +314,20 @@ var world_TFC = new function() {
         candlePosState = self.options.candlePos;
       }
 
+      switch (+startPosState){
+        case 0:
+          self.robotStart.position = bottomLeft;
+          break;
+        case 1:
+          self.robotStart.position = bottomRight;
+          break;
+        case 2:
+          self.robotStart.position = topLeft;
+          break;
+        case 3:
+          self.robotStart.position = topRight;
+          break;
+      }
 
       var dogPos = [0, 0, 0]
       switch(+dogPosState){
