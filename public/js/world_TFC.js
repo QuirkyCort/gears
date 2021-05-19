@@ -184,7 +184,7 @@ var world_TFC = new function() {
       if (self.options.startPos == 'top') {
         self.robotStart.position = new BABYLON.Vector3(-23, 0, 97);
       } else if (self.options.startPos == 'bottomLeft') {
-        self.robotStart.position = new BABYLON.Vector3(-5, 0, 10);
+        self.robotStart.position = new BABYLON.Vector3(-50, 0, -52.5);
       } else if (self.options.startPos == 'bottomRight') {
         let z = -(self.options.width / 2 - 12.5) + 1;
         self.robotStart.position = new BABYLON.Vector3(0, 0, z);
