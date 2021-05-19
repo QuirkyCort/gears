@@ -7,6 +7,9 @@ var World_Base = function() {
     '<p>This world is used as a base for other worlds.</p>';
 
   this.options = {};
+  this.animationList = [];
+  this.renderTime = 0;
+
   this.robotStart = {
     position: new BABYLON.Vector3(0, 0, 0), // Overridden by position setting,
     rotation: new BABYLON.Vector3(0, 0, 0)
@@ -61,13 +64,15 @@ var World_Base = function() {
 
   this.objectDefault = {
     type: 'box',
+    position: [0,0,0],
+    rotationMode: 'degrees',
+    rotation: [0,0,0],
+    animationMode: 'none',
+    animationKeys: [],
+    size: [10,10,10],
     modelURL: '',
     modelScale: 10,
     modelAnimation: 'None',
-    position: [0,0,0],
-    size: [10,10,10],
-    rotationMode: 'degrees',
-    rotation: [0,0,0],
     color: '#80E680',
     imageType: 'repeat',
     imageURL: '',
@@ -473,6 +478,7 @@ var World_Base = function() {
       }
 
       // General objects
+      self.animationList = [];
       if (self.processedOptions.objects instanceof Array) {
         let indexObj = { index: 0 };
         for (let i=0; i<self.processedOptions.objects.length; i++) {
@@ -637,7 +643,77 @@ var World_Base = function() {
       objectMesh.ultrasonicDetection = options.ultrasonicDetection;
     }
 
+    // Add to animation list
+    self.addAnimation(objectMesh, options);
+
     return objectMesh;
+  };
+
+  // Add animation to animationList
+  this.addAnimation = function(mesh, options) {
+    let VALID_ANIMATIONMODES = ['loop', 'bounce'];
+    if (VALID_ANIMATIONMODES.indexOf(options.animationMode) == -1) {
+      return;
+    }
+
+    let keys = [];
+    for (let key of options.animationKeys) {
+      keys.push([
+        Math.round(key.time * 1000),
+        {
+          position: key.position,
+          rotation: [
+            key.rotation[0] * Math.PI / 180,
+            key.rotation[1] * Math.PI / 180,
+            key.rotation[2] * Math.PI / 180
+          ]
+        }
+      ])
+    }
+    let valid = true;
+    keys.sort(function(a, b){
+      if (b[0] == a[0]) {
+        toastMsg('Invalid animation (Duplicate key timing)');
+        valid = false;
+      } else if (b[0] > a[0]) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    if (valid == false) {
+      return;
+    }
+
+    if (keys.length == 0) {
+      return;
+    }
+
+    if (keys.length < 2) {
+      toastMsg('Invalid animation (Less than 2 keys)');
+      return;
+    }
+    if (keys[0][0] != 0) {
+      toastMsg('Invalid animation (Start time not 0)');
+      return;
+    }
+
+    if (options.animationMode == 'bounce') {
+      let midTime = keys[keys.length-1][0];
+      for (let i=keys.length-1; i>=0; i--) {
+        let key = JSON.parse(JSON.stringify(keys[i]));
+        key[0] = midTime + (midTime - key[0]);
+        keys.push(key);
+      }
+    }
+
+    let duration = keys[keys.length-1][0];
+    let animation = {
+      object: mesh,
+      duration: duration,
+      keys: keys
+    };
+    self.animationList.push(animation);
   };
 
   // Add model
@@ -907,8 +983,59 @@ var World_Base = function() {
     }
   };
 
-  // set the render functions for drawing timer
+  // set the render function
   self.render = function(delta){
+    self.renderTime += delta;
+
+    // Fast loop
+    self.animationList.forEach(function(animation){
+      let animationTime = self.renderTime % animation.duration;
+      let prevKey = null;
+      let nextKey = null;
+
+      for (let i=0; i<animation.keys.length; i++) {
+        if (animationTime < animation.keys[i][0]) {
+          nextKey = animation.keys[i];
+          if (i > 0) {
+            prevKey = animation.keys[i-1];
+          }
+          break;
+        }
+      }
+      if (nextKey == null) {
+        nextKey = animation.keys[animation.keys.length-1];
+        prevKey = animation.keys[animation.keys.length-2];
+      }
+
+      let keyTime;
+      if (prevKey[0] == 0) {
+        keyTime = animationTime;
+      } else {
+        keyTime = animationTime % prevKey[0];
+      }
+      let keyDuration = nextKey[0] - prevKey[0];
+      let ratio = keyTime / keyDuration;
+
+      if (typeof prevKey[1].position != 'undefined' && typeof nextKey[1].position != 'undefined') {
+        let diff = nextKey[1].position[0] - prevKey[1].position[0];
+        animation.object.position.x = prevKey[1].position[0] + ratio * diff;
+        diff = nextKey[1].position[1] - prevKey[1].position[1];
+        animation.object.position.z = prevKey[1].position[1] + ratio * diff;
+        diff = nextKey[1].position[2] - prevKey[1].position[2];
+        animation.object.position.y = prevKey[1].position[2] + ratio * diff;
+      }
+      if (typeof prevKey[1].rotation != 'undefined' && typeof nextKey[1].rotation != 'undefined') {
+        let diff = nextKey[1].rotation[0] - prevKey[1].rotation[0];
+        let rotX = prevKey[1].rotation[0] + ratio * diff;
+        diff = nextKey[1].rotation[1] - prevKey[1].rotation[1];
+        let rotY = prevKey[1].rotation[1] + ratio * diff;
+        diff = nextKey[1].rotation[2] - prevKey[1].rotation[2];
+        let rotZ = prevKey[1].rotation[2] + ratio * diff;
+
+        animation.object.rotationQuaternion = BABYLON.Quaternion.FromEulerAngles(rotX, rotY, rotZ);
+      }
+    });
+
     // Only run every 100ms
     self.renderTimeout += delta;
     if (self.renderTimeout < 100) {
@@ -916,10 +1043,16 @@ var World_Base = function() {
     }
     self.renderTimeout = 0;
 
+    // Slow loop
+    self.renderTimer(delta);
+  }
+
+  // Render the timer
+  self.renderTimer = function(delta) {
     if (typeof self.processedOptions != 'undefined' && self.processedOptions.timer != 'none') {
       self.drawTimer(false);
     }
-  }
+  };
 
   // draw the timer panel
   self.drawTimer = function(rebuild) {
