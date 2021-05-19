@@ -1684,6 +1684,43 @@ var builder = new function() {
     hiddenElement.dispatchEvent(new MouseEvent('click'));
   };
 
+  // Load object from json file
+  this.loadObjectLocal = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'application/json,.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        self.saveHistory();
+
+        let objects = JSON.parse(this.result).objects;
+        self.worldOptions.objects.push(objects[0]);
+
+        self.resetScene();
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+  };
+
+  // Save selected object to json file
+  this.saveObject = function() {
+    let $selected = self.getSelectedComponent();
+
+    let save = {
+      objects: []
+    };
+
+    save.objects.push($selected[0].object);
+
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(save, null, 2));
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'custom_object.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
   // New world using defaults
   this.newWorld = function() {
     let options = {
@@ -1697,7 +1734,7 @@ var builder = new function() {
     });
   };
 
-  // Load robot from json file
+  // Load world from json file
   this.loadWorldLocal = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
@@ -1724,8 +1761,11 @@ var builder = new function() {
 
       let menuItems = [
         {html: 'New World', line: true, callback: self.newWorld},
-        {html: 'Load from file', line: false, callback: self.loadWorldLocal},
-        {html: 'Save to file', line: true, callback: self.saveWorld},
+        {html: 'Load world from file', line: false, callback: self.loadWorldLocal},
+        {html: 'Save world to file', line: true, callback: self.saveWorld},
+        {html: 'Load object from file', line: false, callback: self.loadObjectLocal},
+        {html: 'Save object to file', line: false, callback: self.saveObject},
+        
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
