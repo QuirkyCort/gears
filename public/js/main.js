@@ -258,7 +258,7 @@ var main = new function() {
         {html: i18n.get('#main-display_fps#'), line: false, callback: simPanel.toggleFPS }
       ];
       if (simPanel.showFPS) {
-        menuItems[4].html = '<span class="tick">&#x2713;</span> ' + menuItems[4].html;
+        menuItems[5].html = '<span class="tick">&#x2713;</span> ' + menuItems[5].html;
       }
 
       menuDropDown(self.$helpMenu, menuItems, {className: 'helpMenuDropDown'});
@@ -910,12 +910,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20210514;
+    let current = 20210520;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>20 May 2021 (The animation update)</h3>' +
+          '<ul>' +
+          '<li>You can now animate your world objects using the world builder.</li>' +
+          '<li>Unlike the model animation, this is fully configurable and moves the physics model as well.</li>' +
+          '<li>You can check out a demo <a href="http://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fquirkycort.github.io%2Fgears-contributions%2Fworlds%2Fcustom-world%2FDemo%2FanimationDemo.json">here</a>.</li>' +
+          '</ul>' +
           '<h3>14 May 2021 (The Eye Candy update)</h3>' +
           '<ul>' +
           '<li>GearsBot now supports models in the GLTF format, and you can add them to your custom world using the world builder.</li>' +
