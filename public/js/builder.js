@@ -1364,7 +1364,7 @@ var builder = new function() {
           if (b.time == a.time) {
             toastMsg('Invalid animation (Duplicate key timing)');
             valid = false;
-          } else if (b[0] > a[0]) {
+          } else if (b.time > a.time) {
             return -1;
           } else {
             return 1;
