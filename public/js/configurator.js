@@ -241,7 +241,7 @@ var configurator = new function() {
         },
         {
           option: 'color',
-          type: 'strText',
+          type: 'color',
           help: 'Color in hex',
           reset: true
         },
@@ -277,7 +277,7 @@ var configurator = new function() {
         },
         {
           option: 'color',
-          type: 'strText',
+          type: 'color',
           help: 'Color in hex',
           reset: true
         },
