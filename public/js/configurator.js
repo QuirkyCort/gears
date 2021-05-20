@@ -482,10 +482,10 @@ var configurator = new function() {
         },
         {
           option: 'armColor',
-          type: 'strText',
+          type: 'color',
           help: 'Color in hex',
           reset: true
-        },
+        },  
         {
           option: 'minAngle',
           type: 'floatText',
@@ -789,7 +789,17 @@ var configurator = new function() {
       genConfig.displayOptionsConfigurations(self.bodyTemplate, component);
     } else {
       let componentTemplate = self.componentTemplates.find(componentTemplate => componentTemplate.name == component.type);
-      genConfig.displayOptionsConfigurations(componentTemplate, component);
+      componentTemplate.optionsConfigurations.forEach(function(optionConfiguration){
+        let options = component.options;
+        if (optionConfiguration.option == 'position' || optionConfiguration.option == 'rotation') {
+          options = component;
+        }
+        if (typeof genConfig.gen[optionConfiguration.type] != 'undefined') {
+          self.$settingsArea.append(genConfig.gen[optionConfiguration.type](optionConfiguration, options));
+        } else {
+          console.log('Unrecognized configuration type');
+        }
+      });
     }
     if (component.type == 'Pen') {
       self.penSpecialCaseSetup(component);

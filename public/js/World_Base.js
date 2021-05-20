@@ -9,6 +9,7 @@ var World_Base = function() {
   this.options = {};
   this.animationList = [];
   this.renderTime = 0;
+  this.animate = true;
 
   this.robotStart = {
     position: new BABYLON.Vector3(0, 0, 0), // Overridden by position setting,
@@ -393,6 +394,7 @@ var World_Base = function() {
       self.panel = arenaPanel;
     }
 
+    self.renderTime = 0;
     
     return new Promise(async function(resolve, reject) {
       var groundMat = new BABYLON.StandardMaterial('ground', scene);
@@ -651,7 +653,7 @@ var World_Base = function() {
 
   // Add animation to animationList
   this.addAnimation = function(mesh, options) {
-    let VALID_ANIMATIONMODES = ['loop', 'bounce'];
+    let VALID_ANIMATIONMODES = ['loop', 'alternate'];
     if (VALID_ANIMATIONMODES.indexOf(options.animationMode) == -1) {
       return;
     }
@@ -673,7 +675,7 @@ var World_Base = function() {
     let valid = true;
     keys.sort(function(a, b){
       if (b[0] == a[0]) {
-        toastMsg('Invalid animation (Duplicate key timing)');
+        console.log('Invalid animation (Duplicate key timing)');
         valid = false;
       } else if (b[0] > a[0]) {
         return -1;
@@ -690,17 +692,17 @@ var World_Base = function() {
     }
 
     if (keys.length < 2) {
-      toastMsg('Invalid animation (Less than 2 keys)');
+      console.log('Invalid animation (Less than 2 keys)');
       return;
     }
     if (keys[0][0] != 0) {
-      toastMsg('Invalid animation (Start time not 0)');
+      console.log('Invalid animation (Start time not 0)');
       return;
     }
 
-    if (options.animationMode == 'bounce') {
+    if (options.animationMode == 'alternate') {
       let midTime = keys[keys.length-1][0];
-      for (let i=keys.length-1; i>=0; i--) {
+      for (let i=keys.length-2; i>=0; i--) {
         let key = JSON.parse(JSON.stringify(keys[i]));
         key[0] = midTime + (midTime - key[0]);
         keys.push(key);
@@ -988,6 +990,23 @@ var World_Base = function() {
     self.renderTime += delta;
 
     // Fast loop
+    if (self.animate) {
+      self.renderAnimation(delta);
+    }
+
+    // Only run every 100ms
+    self.renderTimeout += delta;
+    if (self.renderTimeout < 100) {
+      return;
+    }
+    self.renderTimeout = 0;
+
+    // Slow loop
+    self.renderTimer(delta);
+  }
+
+  // Render animation
+  self.renderAnimation = function(delta) {
     self.animationList.forEach(function(animation){
       let animationTime = self.renderTime % animation.duration;
       let prevKey = null;
@@ -1011,7 +1030,7 @@ var World_Base = function() {
       if (prevKey[0] == 0) {
         keyTime = animationTime;
       } else {
-        keyTime = animationTime % prevKey[0];
+        keyTime = animationTime - prevKey[0];
       }
       let keyDuration = nextKey[0] - prevKey[0];
       let ratio = keyTime / keyDuration;
@@ -1035,17 +1054,7 @@ var World_Base = function() {
         animation.object.rotationQuaternion = BABYLON.Quaternion.FromEulerAngles(rotX, rotY, rotZ);
       }
     });
-
-    // Only run every 100ms
-    self.renderTimeout += delta;
-    if (self.renderTimeout < 100) {
-      return;
-    }
-    self.renderTimeout = 0;
-
-    // Slow loop
-    self.renderTimer(delta);
-  }
+  };
 
   // Render the timer
   self.renderTimer = function(delta) {

@@ -83,9 +83,9 @@
   .buttons {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     box-sizing: border-box;
-    font-size: 120%;
+    font-size: 90%;
 
     div {
       border: solid 2px #bbbbbb;
@@ -123,13 +123,17 @@
     }
   }
 
+  input[type=number] {
+    width: 3em;
+  }
+
   .tooltip .tooltiptext {
     max-width: 10em;
   }
 }
 
 .dialogWindow {
-  .selectImage, .selectModel {
+  .selectImage, .selectModel, .editAnimationKeys {
     max-height: 60vh;
     display: flex;
     flex-direction: column;
@@ -173,6 +177,25 @@
 
       .row.hide {
         display: none;
+      }
+    }
+
+    table {
+      border: solid 1px white;
+
+      th {
+        border: solid 1px white;
+      }
+      
+      th, td {
+        width: 3em;
+        text-align: center;
+
+        input {
+          width: 100%;
+          font-size: 100%;
+          box-sizing: border-box;
+        }
       }
     }
   }

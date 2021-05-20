@@ -1,6 +1,7 @@
 function GenConfig(caller, $settingsArea) {
   var self = this;
   var gen = {};
+  this.gen = gen;
 
   this.getTitle = function(opt) {
     let $title = $('<div class="configurationTitle"></div>');
@@ -32,7 +33,7 @@ function GenConfig(caller, $settingsArea) {
 
   gen.buttons = function(opt, currentOptions) {
     let $div = $('<div class="configuration"></div>');
-    let $buttonsBox = $('<div class="color"></div>');
+    let $buttonsBox = $('<div class="buttons"></div>');
 
     for (let button of opt.buttons) {
       let $button = $('<button></button>');

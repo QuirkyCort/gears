@@ -805,9 +805,9 @@ ul.menuDropDownRightAlign {
   .settingsWindow .buttons {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     box-sizing: border-box;
-    font-size: 120%; }
+    font-size: 90%; }
     .settingsWindow .buttons div {
       border: solid 2px #bbbbbb;
       padding: 0.3em 0.5em;
@@ -830,17 +830,19 @@ ul.menuDropDownRightAlign {
     .settingsWindow .slider input[type=text] {
       width: 3em;
       text-align: right; }
+  .settingsWindow input[type=number] {
+    width: 3em; }
   .settingsWindow .tooltip .tooltiptext {
     max-width: 10em; }
 
-.dialogWindow .selectImage, .dialogWindow .selectModel {
+.dialogWindow .selectImage, .dialogWindow .selectModel, .dialogWindow .editAnimationKeys {
   max-height: 60vh;
   display: flex;
   flex-direction: column; }
-  .dialogWindow .selectImage .search, .dialogWindow .selectModel .search {
+  .dialogWindow .selectImage .search, .dialogWindow .selectModel .search, .dialogWindow .editAnimationKeys .search {
     display: flex;
     margin-top: 0.5em; }
-    .dialogWindow .selectImage .search input, .dialogWindow .selectModel .search input {
+    .dialogWindow .selectImage .search input, .dialogWindow .selectModel .search input, .dialogWindow .editAnimationKeys .search input {
       font-size: 100%;
       width: 100%;
       background: none;
@@ -848,22 +850,33 @@ ul.menuDropDownRightAlign {
       border: solid 1px white;
       padding: 0 0.2em;
       margin-left: 0.5em; }
-  .dialogWindow .selectImage .images, .dialogWindow .selectImage .items, .dialogWindow .selectModel .images, .dialogWindow .selectModel .items {
+  .dialogWindow .selectImage .images, .dialogWindow .selectImage .items, .dialogWindow .selectModel .images, .dialogWindow .selectModel .items, .dialogWindow .editAnimationKeys .images, .dialogWindow .editAnimationKeys .items {
     border: solid 1px white;
     margin-top: 0.5em;
     padding: 0.5em;
     overflow-y: auto;
     max-height: 20em; }
-    .dialogWindow .selectImage .images .row, .dialogWindow .selectImage .items .row, .dialogWindow .selectModel .images .row, .dialogWindow .selectModel .items .row {
+    .dialogWindow .selectImage .images .row, .dialogWindow .selectImage .items .row, .dialogWindow .selectModel .images .row, .dialogWindow .selectModel .items .row, .dialogWindow .editAnimationKeys .images .row, .dialogWindow .editAnimationKeys .items .row {
       display: flex; }
-      .dialogWindow .selectImage .images .row .description, .dialogWindow .selectImage .items .row .description, .dialogWindow .selectModel .images .row .description, .dialogWindow .selectModel .items .row .description {
+      .dialogWindow .selectImage .images .row .description, .dialogWindow .selectImage .items .row .description, .dialogWindow .selectModel .images .row .description, .dialogWindow .selectModel .items .row .description, .dialogWindow .editAnimationKeys .images .row .description, .dialogWindow .editAnimationKeys .items .row .description {
         border: solid 1px white;
         flex-grow: 1;
         padding: 0 0.5em; }
-      .dialogWindow .selectImage .images .row .select, .dialogWindow .selectImage .items .row .select, .dialogWindow .selectModel .images .row .select, .dialogWindow .selectModel .items .row .select {
+      .dialogWindow .selectImage .images .row .select, .dialogWindow .selectImage .items .row .select, .dialogWindow .selectModel .images .row .select, .dialogWindow .selectModel .items .row .select, .dialogWindow .editAnimationKeys .images .row .select, .dialogWindow .editAnimationKeys .items .row .select {
         border: solid 1px white;
         padding: 0.5em; }
-    .dialogWindow .selectImage .images .row.hide, .dialogWindow .selectImage .items .row.hide, .dialogWindow .selectModel .images .row.hide, .dialogWindow .selectModel .items .row.hide {
+    .dialogWindow .selectImage .images .row.hide, .dialogWindow .selectImage .items .row.hide, .dialogWindow .selectModel .images .row.hide, .dialogWindow .selectModel .items .row.hide, .dialogWindow .editAnimationKeys .images .row.hide, .dialogWindow .editAnimationKeys .items .row.hide {
       display: none; }
+  .dialogWindow .selectImage table, .dialogWindow .selectModel table, .dialogWindow .editAnimationKeys table {
+    border: solid 1px white; }
+    .dialogWindow .selectImage table th, .dialogWindow .selectModel table th, .dialogWindow .editAnimationKeys table th {
+      border: solid 1px white; }
+    .dialogWindow .selectImage table th, .dialogWindow .selectImage table td, .dialogWindow .selectModel table th, .dialogWindow .selectModel table td, .dialogWindow .editAnimationKeys table th, .dialogWindow .editAnimationKeys table td {
+      width: 3em;
+      text-align: center; }
+      .dialogWindow .selectImage table th input, .dialogWindow .selectImage table td input, .dialogWindow .selectModel table th input, .dialogWindow .selectModel table td input, .dialogWindow .editAnimationKeys table th input, .dialogWindow .editAnimationKeys table td input {
+        width: 100%;
+        font-size: 100%;
+        box-sizing: border-box; }
 .dialogWindow .searchCount {
   margin-right: auto; }

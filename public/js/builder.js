@@ -204,6 +204,22 @@ var builder = new function() {
         reset: true
       },
       {
+        option: 'animationMode',
+        type: 'select',
+        options: [
+          ['None', 'none'],
+          ['Loop', 'loop'],
+          ['Alternate', 'alternate'],
+        ],
+        reset: true,
+        help: 'Loop: Restart from beginning. Alternate: Alternate between back and forth.'
+      },
+      {
+        option: 'animationKeys',
+        type: 'custom',
+        generatorFunction: 'setAnimationKeys',
+      },
+      {
         option: 'size',
         type: 'vectors',
         min: '1',
@@ -791,6 +807,7 @@ var builder = new function() {
     self.$panelControls = $('.panelControlsArea .panelControls');
     self.$panels = $('.panels .panel');
     self.$fileMenu = $('.fileMenu');
+    self.$worldMenu = $('.worldMenu');
 
     self.$addObject = $('.addObject');
     self.$cloneObject = $('.cloneObject');
@@ -801,6 +818,7 @@ var builder = new function() {
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
+    self.$worldMenu.click(self.toggleWorldMenu);
 
     self.$addObject.click(self.addObject);
     self.$cloneObject.click(self.cloneObject);
@@ -811,6 +829,8 @@ var builder = new function() {
     babylon.setCameraMode('arc')
 
     self.pointerDragBehavior.onDragEndObservable.add(self.dragEnd);
+
+    babylon.world.animate = false;
 
     self.saveHistory();
     self.resetScene();
@@ -1206,6 +1226,180 @@ var builder = new function() {
         }
       });
     }
+  };
+
+
+  // Set custom animation keys options
+  this.setAnimationKeys = function(opt, objectOptions) {
+    if (objectOptions.animationMode == 'none') {
+      return '';
+    }
+
+    if (typeof objectOptions.animationKeys == 'undefined') {
+      objectOptions.animationKeys = [];
+    }
+
+    let $div = $('<div class="configuration"></div>');
+    let $buttonsBox = $('<div class="buttons"></div>');
+    let $keyCount = $('<span></span>');
+    $keyCount.text(objectOptions.animationKeys.length);
+    let $keyTime = $('<input type="number"></input>');
+    let maxTime = 0;
+    objectOptions.animationKeys.forEach(animationKey => maxTime = Math.max(animationKey.time, maxTime));
+    $keyTime.val(maxTime);
+
+    function edit() {
+      console.log(objectOptions.animationKeys);
+      let $body = $('<div class="editAnimationKeys"></div>');
+      let $table = $(
+        '<table class="animationKeys">' +
+          '<thead>' +
+            '<tr>' +
+              '<th>Time</th>' +
+              '<th colspan="3">Position</th>' +
+              '<th colspan="3">Rotation</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody></tbody>' +
+        '</table>'
+      );
+      let $tbody = $table.find('tbody');
+  
+      objectOptions.animationKeys.forEach(function(animationKey){
+        function round(input) {
+          return Math.round(input*100) / 100;
+        }
+        let $row = $('<tr></tr>');
+        $row[0].animationKey = animationKey;
+        let $time = $('<input type="number"></input>').val(animationKey.time);
+        $row.append($('<td></td>').append($time));
+        $row.append($('<td></td>').text(round(animationKey.position[0])));
+        $row.append($('<td></td>').text(round(animationKey.position[1])));
+        $row.append($('<td></td>').text(round(animationKey.position[2])));
+        $row.append($('<td></td>').text(round(animationKey.rotation[0])));
+        $row.append($('<td></td>').text(round(animationKey.rotation[1])));
+        $row.append($('<td></td>').text(round(animationKey.rotation[2])));
+        let $delete = $('<button class="delete">Delete</button>')
+        $row.append($('<td></td>').append($delete));
+
+        $delete.click(function(){
+          $row.remove();
+        });
+
+        $tbody.append($row);
+      });
+      $body.append($table);
+  
+      let $buttons = $(
+        '<button type="button" class="cancel btn-light">Cancel</button>' +
+        '<button type="button" class="ok btn-light">Ok</button>'
+      );
+  
+      let $dialog = dialog('Select Built-In Image', $body, $buttons);
+  
+      $buttons.siblings('.cancel').click(function() {
+        $dialog.close();
+      });
+      $buttons.siblings('.ok').click(function() {
+        let animationKeys = [];
+        $tbody.children().each(function(i, ele){
+          let animationKey = ele.animationKey;
+          animationKey.time = parseFloat(ele.children[0].children[0].value);
+          animationKeys.push(animationKey);
+        });
+        let valid = true;
+        animationKeys.sort(function(a, b){
+          if (b.time == a.time) {
+            toastMsg('Invalid animation (Duplicate key timing)');
+            valid = false;
+          } else if (b[0] > a[0]) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        if (animationKeys[0].time != 0) {
+          toastMsg('Invalid animation (Start time not 0)');
+          return;
+        }
+
+        if (valid) {
+          objectOptions.animationKeys = animationKeys;
+          $dialog.close();
+          self.resetScene();
+        }
+      });
+    }
+
+    function addKey() {
+      let time = $keyTime.val();
+      if (time.trim() == '') {
+        time = 0;
+      } else {
+        try {
+          time = parseFloat(time);
+        } catch (e) {
+          toastMsg('Error: Invalid time');
+          return;
+        }
+      }
+      if (objectOptions.animationKeys.length == 0 && time != 0) {
+        toastMsg('Error: First key must be at time 0');
+        return;
+      }
+
+      if (objectOptions.animationKeys.filter(animationKey => animationKey.time == time).length > 0) {
+        toastMsg('Error: Key time must be unique');
+        return;
+      }
+      
+      let key = {
+        time: time,
+        position: [...objectOptions.position],
+        rotation: [...objectOptions.rotation]
+      };
+
+      objectOptions.animationKeys.push(key);
+      objectOptions.animationKeys.sort(function(a, b){
+        if (b.time > a.time) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+
+      self.resetScene();
+    }
+    
+    let buttons = [
+      {
+        label: 'Edit',
+        callback: edit
+      },
+      {
+        label: 'Add Key',
+        callback: addKey
+      }
+    ];
+
+    $buttonsBox.append('<span>Key Time (s):</span>');
+    $buttonsBox.append($keyTime);
+
+    let $button = $('<button></button>');
+    $button.text('Add Key');
+    $button.click(addKey);
+    $buttonsBox.append($button);
+
+    $button = $('<button></button>');
+    $button.text('Edit');
+    $button.click(edit);
+    $buttonsBox.append($button);
+    $buttonsBox.append('<span>&nbsp;</span>');
+    $buttonsBox.append($keyCount);
+
+    $div.append($buttonsBox);
+
+    return $div;
   };
 
   // Object drag end
@@ -1769,6 +1963,31 @@ var builder = new function() {
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
+    }
+  };
+
+  // Toggle worldmenu
+  this.toggleWorldMenu = function(e) {
+    if ($('.worldMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      function toggleAnimate() {
+        if (babylon.world.animate) {
+          babylon.world.animate = false;
+        } else {
+          babylon.world.animate = true;
+        }
+      }
+
+      let menuItems = [
+        {html: i18n.get('Animate'), line: false, callback: toggleAnimate }
+      ];
+      if (babylon.world.animate) {
+        menuItems[0].html = '<span class="tick">&#x2713;</span> ' + menuItems[0].html;
+      }
+
+      menuDropDown(self.$worldMenu, menuItems, {className: 'worldMenuDropDown'});
     }
   };
 
