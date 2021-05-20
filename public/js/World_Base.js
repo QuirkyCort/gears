@@ -83,6 +83,8 @@ var World_Base = function() {
     magnetic: false,
     laserDetection: null,
     ultrasonicDetection: null,
+    receiveShadows: false,
+    castShadows: false,
     isPickable: true
   };
 
@@ -589,6 +591,8 @@ var World_Base = function() {
       rotation: new BABYLON.Vector3(rotationRad[0], rotationRad[1], rotationRad[2]),
       physicsOptions: options.physicsOptions,
       imageType: options.imageType,
+      receiveShadows: options.receiveShadows,
+      castShadows: options.castShadows,
       index: index
     };
 
@@ -800,6 +804,12 @@ var World_Base = function() {
       })
     }
 
+
+    meshes.forEach(mesh => mesh.receiveShadows = options.receiveShadows);
+    if (options.castShadows) {
+      scene.shadowGenerator.addShadowCaster(meshes[0]);
+    }
+
     return mesh;
   };
 
@@ -821,6 +831,10 @@ var World_Base = function() {
 
     mesh.position = options.position;
     mesh.rotation = options.rotation;
+    mesh.receiveShadows = options.receiveShadows;
+    if (options.castShadows) {
+      scene.shadowGenerator.addShadowCaster(mesh);
+    }
 
     return mesh;
   };
@@ -853,6 +867,10 @@ var World_Base = function() {
 
     mesh.position = options.position;
     mesh.rotation = options.rotation;
+    mesh.receiveShadows = options.receiveShadows;
+    if (options.castShadows) {
+      scene.shadowGenerator.addShadowCaster(mesh);
+    }
 
     return mesh;
   };
@@ -902,6 +920,10 @@ var World_Base = function() {
 
     mesh.position = options.position;
     mesh.rotation = options.rotation;
+    mesh.receiveShadows = options.receiveShadows;
+    if (options.castShadows) {
+      scene.shadowGenerator.addShadowCaster(mesh);
+    }
 
     return mesh;
   };

@@ -340,6 +340,16 @@ var builder = new function() {
         ],
         help: 'Defaults to invisible for physicless objects, and normal for all others.'
       },
+      {
+        option: 'receiveShadows',
+        type: 'boolean',
+        reset: true
+      },
+      {
+        option: 'castShadows',
+        type: 'boolean',
+        reset: true
+      },
     ]
   };
 
@@ -495,6 +505,16 @@ var builder = new function() {
           ['Normal', 'normal']
         ],
         help: 'Defaults to invisible for physicless objects, and normal for all others.'
+      },
+      {
+        option: 'receiveShadows',
+        type: 'boolean',
+        reset: true
+      },
+      {
+        option: 'castShadows',
+        type: 'boolean',
+        reset: true
       },
     ]
   };
@@ -652,6 +672,16 @@ var builder = new function() {
         ],
         help: 'Defaults to invisible for physicless objects, and normal for all others.'
       },
+      {
+        option: 'receiveShadows',
+        type: 'boolean',
+        reset: true
+      },
+      {
+        option: 'castShadows',
+        type: 'boolean',
+        reset: true
+      },
     ]
   };
 
@@ -807,6 +837,16 @@ var builder = new function() {
           ['Normal', 'normal']
         ],
         help: 'Defaults to invisible for physicless objects, and normal for all others.'
+      },
+      {
+        option: 'receiveShadows',
+        type: 'boolean',
+        reset: true
+      },
+      {
+        option: 'castShadows',
+        type: 'boolean',
+        reset: true
       },
     ]
   };
