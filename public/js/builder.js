@@ -196,19 +196,19 @@ var builder = new function() {
         reset: true
       },
       {
-        option: 'size',
-        type: 'vectors',
-        min: '1',
-        max: '100',
-        step: '1',
-        reset: true
-      },
-      {
         option: 'rotation',
         type: 'vectors',
         min: '-180',
         max: '180',
         step: '5',
+        reset: true
+      },
+      {
+        option: 'size',
+        type: 'vectors',
+        min: '1',
+        max: '100',
+        step: '1',
         reset: true
       },
       {
@@ -346,19 +346,19 @@ var builder = new function() {
         reset: true
       },
       {
-        option: 'size',
-        type: 'vectors',
-        min: '1',
-        max: '100',
-        step: '1',
-        reset: true
-      },
-      {
         option: 'rotation',
         type: 'vectors',
         min: '-180',
         max: '180',
         step: '5',
+        reset: true
+      },
+      {
+        option: 'size',
+        type: 'vectors',
+        min: '1',
+        max: '100',
+        step: '1',
         reset: true
       },
       {
@@ -485,19 +485,19 @@ var builder = new function() {
         reset: true
       },
       {
-        option: 'size',
-        type: 'vectors',
-        min: '1',
-        max: '100',
-        step: '1',
-        reset: true
-      },
-      {
         option: 'rotation',
         type: 'vectors',
         min: '-180',
         max: '180',
         step: '5',
+        reset: true
+      },
+      {
+        option: 'size',
+        type: 'vectors',
+        min: '1',
+        max: '100',
+        step: '1',
         reset: true
       },
       {
