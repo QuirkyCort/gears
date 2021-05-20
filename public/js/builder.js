@@ -218,6 +218,7 @@ var builder = new function() {
         option: 'animationKeys',
         type: 'custom',
         generatorFunction: 'setAnimationKeys',
+        help: 'Position object, set time, and add key. You need at least two keys for animation to work.'
       },
       {
         option: 'size',
@@ -370,6 +371,23 @@ var builder = new function() {
         reset: true
       },
       {
+        option: 'animationMode',
+        type: 'select',
+        options: [
+          ['None', 'none'],
+          ['Loop', 'loop'],
+          ['Alternate', 'alternate'],
+        ],
+        reset: true,
+        help: 'Loop: Restart from beginning. Alternate: Alternate between back and forth.'
+      },
+      {
+        option: 'animationKeys',
+        type: 'custom',
+        generatorFunction: 'setAnimationKeys',
+        help: 'Position object, set time, and add key. You need at least two keys for animation to work.'
+      },
+      {
         option: 'size',
         type: 'vectors',
         min: '1',
@@ -507,6 +525,23 @@ var builder = new function() {
         max: '180',
         step: '5',
         reset: true
+      },
+      {
+        option: 'animationMode',
+        type: 'select',
+        options: [
+          ['None', 'none'],
+          ['Loop', 'loop'],
+          ['Alternate', 'alternate'],
+        ],
+        reset: true,
+        help: 'Loop: Restart from beginning. Alternate: Alternate between back and forth.'
+      },
+      {
+        option: 'animationKeys',
+        type: 'custom',
+        generatorFunction: 'setAnimationKeys',
+        help: 'Position object, set time, and add key. You need at least two keys for animation to work.'
       },
       {
         option: 'size',
@@ -647,6 +682,23 @@ var builder = new function() {
         max: '180',
         step: '5',
         reset: true
+      },
+      {
+        option: 'animationMode',
+        type: 'select',
+        options: [
+          ['None', 'none'],
+          ['Loop', 'loop'],
+          ['Alternate', 'alternate'],
+        ],
+        reset: true,
+        help: 'Loop: Restart from beginning. Alternate: Alternate between back and forth.'
+      },
+      {
+        option: 'animationKeys',
+        type: 'custom',
+        generatorFunction: 'setAnimationKeys',
+        help: 'Position object, set time, and add key. You need at least two keys for animation to work.'
       },
       {
         type: 'buttons',
@@ -960,7 +1012,7 @@ var builder = new function() {
   };
 
   // Select built in models
-  this.selectModel = function(objectOptions) {
+  this.selectModel = function(opt, objectOptions) {
     let $body = $('<div class="selectModel"></div>');
     let $filter = $(
       '<div class="filter">Filter by Type: ' +
