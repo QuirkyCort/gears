@@ -1284,7 +1284,47 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
 
     var armMat = babylon.getMaterial(scene, self.options.armColor);
 
-    var arm = BABYLON.MeshBuilder.CreateBox('arm', {height: 1, width: 1, depth: self.options.armLength}, scene);;
+    let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
+    if (VALID_IMAGETYPES.indexOf(self.options.imageType) != -1 && self.options.imageURL != '') {
+      armMat = new BABYLON.StandardMaterial('imageObject' + self.options.imageURL, scene);
+      var texture = new BABYLON.Texture(self.options.imageURL, scene);
+      armMat.diffuseTexture = texture;
+      armMat.diffuseTexture.uScale = self.options.uScale;
+      armMat.diffuseTexture.vScale = self.options.vScale;
+      armMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    }
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+      faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+
+    if (self.options.imageType == 'top') {
+      faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+    } else if (self.options.imageType == 'front') {
+      faceUV[1] = new BABYLON.Vector4(0, 0, 1, 1);
+    } else if (self.options.imageType == 'repeat') {
+      for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 1, 1);
+      }
+    } else if (self.options.imageType == 'all') {
+      faceUV[0] = new BABYLON.Vector4(0,   0,   1/3, 1/2);
+      faceUV[1] = new BABYLON.Vector4(1/3, 0,   2/3, 1/2);
+      faceUV[2] = new BABYLON.Vector4(2/3, 0,   1,   1/2);
+      faceUV[3] = new BABYLON.Vector4(0,   1/2, 1/3, 1);
+      faceUV[4] = new BABYLON.Vector4(1/3, 1/2, 2/3, 1);
+      faceUV[5] = new BABYLON.Vector4(2/3, 1/2, 1,   1);
+    }
+
+    let armOptions = {
+      height: 1,
+      width: 1,
+      depth: self.options.armLength,
+      faceUV: faceUV,
+      wrap: true
+    };
+
+    var arm = BABYLON.MeshBuilder.CreateBox('arm', armOptions, scene);;
     self.arm = arm;
     self.end = arm;
     arm.material = armMat;
@@ -1360,6 +1400,10 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       maxAngle: 180,
       mass: 100,
       armColor: 'A3CF0D',
+      imageType: 'repeat',
+      imageURL: '',
+      uScale: 1,
+      vScale: 1,
       components: []
     };
 

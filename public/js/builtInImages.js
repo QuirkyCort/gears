@@ -10,14 +10,29 @@ BUILT_IN_IMAGES = [
     description: 'Box full of Gears!'
   },
   {
-    url: 'textures/box/caution51.png',
-    type: 'box',
-    description: 'Yellow and black caution strips. This one is meant for rectangular surfaces.'
-  },
-  {
     url: 'textures/box/cautionSquare.png',
     type: 'box',
     description: 'Yellow and black caution strips. This one is meant for square surfaces.'
+  },
+  {
+    url: 'textures/box/caution51.png',
+    type: 'box',
+    description: 'Yellow and black caution strips. This one is meant for a horizontal rectangular surfaces. Ratio of 5:1.'
+  },
+  {
+    url: 'textures/box/caution101.png',
+    type: 'box',
+    description: 'Yellow and black caution strips. This one is meant for a horizontal rectangular surfaces. Ratio of 10:1.'
+  },
+  {
+    url: 'textures/box/caution51v.png',
+    type: 'box',
+    description: 'Yellow and black caution strips. This one is meant for a vertical rectangular surfaces. Ratio of 5:1.'
+  },
+  {
+    url: 'textures/box/caution101v.png',
+    type: 'box',
+    description: 'Yellow and black caution strips. This one is meant for a vertical rectangular surfaces. Ratio of 10:1.'
   },
   {
     url: 'textures/box/metal.jpg',

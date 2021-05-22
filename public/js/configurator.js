@@ -518,7 +518,11 @@ var configurator = new function() {
         rotation: [0, 0, 0],
         components: [],
         options: {
-          armColor: 'A3CF0D'
+          armColor: 'A3CF0D',
+          imageType: 'repeat',
+          imageURL: '',
+          uScale: 1,
+          vScale: 1,
         }
       },
       optionsConfigurations: [
@@ -550,7 +554,30 @@ var configurator = new function() {
           type: 'color',
           help: 'Color in hex',
           reset: true
-        },  
+        },
+        {
+          option: 'imageType',
+          type: 'select',
+          options: [
+            ['None', 'none'],
+            ['Repeat on every face', 'repeat'],
+            ['Only on top face', 'top'],
+            ['Only on front face', 'front'],
+            ['Map across all faces', 'all']
+          ],
+          reset: true
+        },
+        {
+          option: 'imageURL',
+          type: 'selectImage',
+          reset: true
+        },
+        {
+          option: 'imageURL',
+          type: 'strText',
+          reset: true,
+          help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
+        },
         {
           option: 'minAngle',
           type: 'floatText',
