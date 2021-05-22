@@ -112,13 +112,21 @@ var configurator = new function() {
         reset: true
       },
       {
-        type: 'buttons',
-        buttons: [
-          {
-            label: 'Select built-in image',
-            callback: 'selectImage'
-          }
-        ]
+        option: 'imageType',
+        type: 'select',
+        options: [
+          ['None', 'none'],
+          ['Repeat on every face', 'repeat'],
+          ['Only on top face', 'top'],
+          ['Only on front face', 'front'],
+          ['Map across all faces', 'all']
+        ],
+        reset: true
+      },
+      {
+        option: 'imageURL',
+        type: 'selectImage',
+        reset: true
       },
       {
         option: 'imageURL',
@@ -126,7 +134,6 @@ var configurator = new function() {
         reset: true,
         help: 'URL for robot body image. Will not work with most webhosts; Imgur will work.'
       },
-
     ]
   };
 
@@ -141,7 +148,11 @@ var configurator = new function() {
           height: 1,
           width: 1,
           depth: 1,
-          color: 'A3CF0D'
+          color: 'A3CF0D',
+          imageType: 'repeat',
+          imageURL: '',
+          uScale: 1,
+          vScale: 1
         }
       },
       optionsConfigurations: [
@@ -192,6 +203,29 @@ var configurator = new function() {
           help: 'Color in hex',
           reset: true
         },
+        {
+          option: 'imageType',
+          type: 'select',
+          options: [
+            ['None', 'none'],
+            ['Repeat on every face', 'repeat'],
+            ['Only on top face', 'top'],
+            ['Only on front face', 'front'],
+            ['Map across all faces', 'all']
+          ],
+          reset: true
+        },
+        {
+          option: 'imageURL',
+          type: 'selectImage',
+          reset: true
+        },
+        {
+          option: 'imageURL',
+          type: 'strText',
+          reset: true,
+          help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
+        },  
       ]
     },
     {
@@ -203,7 +237,11 @@ var configurator = new function() {
         options: {
           height: 1,
           diameter: 1,
-          color: 'A3CF0D'
+          color: 'A3CF0D',
+          imageType: 'cylinder',
+          imageURL: '',
+          uScale: 1,
+          vScale: 1
         }
       },
       optionsConfigurations: [
@@ -246,6 +284,17 @@ var configurator = new function() {
           help: 'Color in hex',
           reset: true
         },
+        {
+          option: 'imageURL',
+          type: 'selectImage',
+          reset: true
+        },
+        {
+          option: 'imageURL',
+          type: 'strText',
+          reset: true,
+          help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
+        },  
       ]
     },
     {
@@ -256,7 +305,11 @@ var configurator = new function() {
         rotation: [0, 0, 0],
         options: {
           diameter: 1,
-          color: 'A3CF0D'
+          color: 'A3CF0D',
+          imageType: 'sphere',
+          imageURL: '',
+          uScale: 1,
+          vScale: 1
         }
       },
       optionsConfigurations: [
@@ -282,6 +335,17 @@ var configurator = new function() {
           help: 'Color in hex',
           reset: true
         },
+        {
+          option: 'imageURL',
+          type: 'selectImage',
+          reset: true
+        },
+        {
+          option: 'imageURL',
+          type: 'strText',
+          reset: true,
+          help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
+        },  
       ]
     },
     {
@@ -987,6 +1051,8 @@ var configurator = new function() {
       self.loadIntoComponentsWindow(robot.options);
       self.showComponentOptions(robot.options);
     }
+    let $target = self.$componentList.find('li.selected');
+    self.showComponentOptions($target[0].component);
     self.highlightSelected();
   }
 

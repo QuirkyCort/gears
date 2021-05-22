@@ -353,6 +353,8 @@ var robotTemplates = [
     casterFriction: 0, // Warning: No effect due to parenting
 
     color: '#F09C0D',
+    imageType: 'all',
+    imageURL: '',
 
     components: [
       {
@@ -437,6 +439,8 @@ var robotTemplates = [
     casterFriction: 0, // Warning: No effect due to parenting
 
     color: '#F09C0D',
+    imageType: 'all',
+    imageURL: '',
 
     components: [
       {
@@ -523,6 +527,8 @@ var robotTemplates = [
     casterFriction: 0, // Warning: No effect due to parenting
 
     color: '#F09C0D',
+    imageType: 'all',
+    imageURL: '',
 
     components: [
       {
@@ -626,6 +632,8 @@ var robotTemplates = [
     casterFriction: 0, // Warning: No effect due to parenting
 
     color: '#F09C0D',
+    imageType: 'all',
+    imageURL: '',
 
     components: [
       {
@@ -731,6 +739,8 @@ var robotTemplates = [
     casterFriction: 0, // Warning: No effect due to parenting
 
     color: '#F09C0D',
+    imageType: 'all',
+    imageURL: '',
 
     components: [
       {
@@ -841,6 +851,8 @@ var robotTemplates = [
     casterFriction: 0, // Warning: No effect due to parenting
 
     color: '#F09C0D',
+    imageType: 'all',
+    imageURL: '',
 
     components: [
       {
@@ -950,6 +962,8 @@ var robotTemplates = [
     casterFriction: 0, // Warning: No effect due to parenting
 
     color: '#F09C0D',
+    imageType: 'all',
+    imageURL: '',
 
     components: [
       {
@@ -1050,6 +1064,7 @@ var robotTemplates = [
     "bodyFriction": 0,
     "casterFriction": 0,
     "color": "#ff0000",
+    "imageType": "all",
     "imageURL": "textures/robot/captureBotBody.png",
     "components": [
       {

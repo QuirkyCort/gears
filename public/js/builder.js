@@ -238,6 +238,7 @@ var builder = new function() {
         option: 'imageType',
         type: 'select',
         options: [
+          ['None', 'none'],
           ['Repeat on every face', 'repeat'],
           ['Only on top face', 'top'],
           ['Only on front face', 'front'],

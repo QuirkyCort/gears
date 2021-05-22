@@ -30,6 +30,7 @@ function Robot() {
 
   this.defaultOptions = {
     color: '#f09c0d',
+    imageType: 'all',
     imageURL: ''
   };
 
@@ -65,14 +66,26 @@ function Robot() {
       }
 
       function setCustomColors() {
-        if (options.imageURL != '') {
+        let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
+        if (VALID_IMAGETYPES.indexOf(options.imageType) != -1 && options.imageURL != '') {
+          if (options.imageType == 'top') {
+            faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+          } else if (options.imageType == 'front') {
+            faceUV[1] = new BABYLON.Vector4(0, 0, 1, 1);
+          } else if (options.imageType == 'repeat') {
+            for (var i = 0; i < 6; i++) {
+              faceUV[i] = new BABYLON.Vector4(0, 0, 1, 1);
+            }
+          } else if (options.imageType == 'all') {
+            faceUV[0] = new BABYLON.Vector4(0,   0,   1/3, 1/2);
+            faceUV[1] = new BABYLON.Vector4(1/3, 0,   2/3, 1/2);
+            faceUV[2] = new BABYLON.Vector4(2/3, 0,   1,   1/2);
+            faceUV[3] = new BABYLON.Vector4(0,   1/2, 1/3, 1);
+            faceUV[4] = new BABYLON.Vector4(1/3, 1/2, 2/3, 1);
+            faceUV[5] = new BABYLON.Vector4(2/3, 1/2, 1,   1);
+          }
+
           bodyMat.diffuseTexture = new BABYLON.Texture(options.imageURL, scene);
-          faceUV[0] = new BABYLON.Vector4(0,   0,   1/3, 1/2);
-          faceUV[1] = new BABYLON.Vector4(1/3, 0,   2/3, 1/2);
-          faceUV[2] = new BABYLON.Vector4(2/3, 0,   1,   1/2);
-          faceUV[3] = new BABYLON.Vector4(0,   1/2, 1/3, 1);
-          faceUV[4] = new BABYLON.Vector4(1/3, 1/2, 2/3, 1);
-          faceUV[5] = new BABYLON.Vector4(2/3, 1/2, 1,   1);
         } else {
           bodyMat = babylon.getMaterial(scene, options.color);
         }

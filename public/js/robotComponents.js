@@ -307,10 +307,45 @@ function BoxBlock(scene, parent, pos, rot, options) {
     self.setOptions(options);
 
     var bodyMat = babylon.getMaterial(scene, self.options.color);
+
+    let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
+    if (VALID_IMAGETYPES.indexOf(self.options.imageType) != -1 && self.options.imageURL != '') {
+      bodyMat = new BABYLON.StandardMaterial('imageObject' + self.options.imageURL, scene);
+      var texture = new BABYLON.Texture(self.options.imageURL, scene);
+      bodyMat.diffuseTexture = texture;
+      bodyMat.diffuseTexture.uScale = self.options.uScale;
+      bodyMat.diffuseTexture.vScale = self.options.vScale;
+      bodyMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    }
+
+    var faceUV = new Array(6);
+    for (var i = 0; i < 6; i++) {
+      faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+    }
+
+    if (self.options.imageType == 'top') {
+      faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+    } else if (self.options.imageType == 'front') {
+      faceUV[1] = new BABYLON.Vector4(0, 0, 1, 1);
+    } else if (self.options.imageType == 'repeat') {
+      for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 1, 1);
+      }
+    } else if (self.options.imageType == 'all') {
+      faceUV[0] = new BABYLON.Vector4(0,   0,   1/3, 1/2);
+      faceUV[1] = new BABYLON.Vector4(1/3, 0,   2/3, 1/2);
+      faceUV[2] = new BABYLON.Vector4(2/3, 0,   1,   1/2);
+      faceUV[3] = new BABYLON.Vector4(0,   1/2, 1/3, 1);
+      faceUV[4] = new BABYLON.Vector4(1/3, 1/2, 2/3, 1);
+      faceUV[5] = new BABYLON.Vector4(2/3, 1/2, 1,   1);
+    }
+
     let bodyOptions = {
       height: self.options.height,
       width: self.options.width,
-      depth: self.options.depth
+      depth: self.options.depth,
+      faceUV: faceUV,
+      wrap: true,
     };
     var body = BABYLON.MeshBuilder.CreateBox('boxBody', bodyOptions, scene);
     self.body = body;
@@ -341,7 +376,11 @@ function BoxBlock(scene, parent, pos, rot, options) {
       height: 1,
       width: 1,
       depth: 1,
-      color: 'A3CF0D'
+      color: 'A3CF0D',
+      imageType: 'repeat',
+      imageURL: '',
+      uScale: 1,
+      vScale: 1
     };
 
     for (let name in options) {
@@ -370,10 +409,30 @@ function CylinderBlock(scene, parent, pos, rot, options) {
     self.setOptions(options);
 
     var bodyMat = babylon.getMaterial(scene, self.options.color);
+
+    let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
+    if (VALID_IMAGETYPES.indexOf(self.options.imageType) != -1 && self.options.imageURL != '') {
+      bodyMat = new BABYLON.StandardMaterial('imageObject' + self.options.imageURL, scene);
+      var texture = new BABYLON.Texture(self.options.imageURL, scene);
+      bodyMat.diffuseTexture = texture;
+      bodyMat.diffuseTexture.uScale = self.options.uScale;
+      bodyMat.diffuseTexture.vScale = self.options.vScale;
+      bodyMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    }
+
     let bodyOptions = {
       height: self.options.height,
       diameter: self.options.diameter
     };
+
+    if (self.options.imageType == 'cylinder') {
+      var faceUV = new Array(3);
+      faceUV[0] = new BABYLON.Vector4(0,   0,   1/4, 1);
+      faceUV[1] = new BABYLON.Vector4(3/4, 0,   1/4, 1);
+      faceUV[2] = new BABYLON.Vector4(3/4, 0,   1,   1);
+      bodyOptions.faceUV = faceUV;
+    }
+
     var body = BABYLON.MeshBuilder.CreateCylinder('cylinderBody', bodyOptions, scene);
     self.body = body;
     body.component = self;
@@ -402,7 +461,11 @@ function CylinderBlock(scene, parent, pos, rot, options) {
     self.options = {
       height: 1,
       diameter: 1,
-      color: 'A3CF0D'
+      color: 'A3CF0D',
+      imageType: 'cylinder',
+      imageURL: '',
+      uScale: 1,
+      vScale: 1
     };
 
     for (let name in options) {
@@ -431,6 +494,17 @@ function SphereBlock(scene, parent, pos, rot, options) {
     self.setOptions(options);
 
     var bodyMat = babylon.getMaterial(scene, self.options.color);
+
+    let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
+    if (VALID_IMAGETYPES.indexOf(self.options.imageType) != -1 && self.options.imageURL != '') {
+      bodyMat = new BABYLON.StandardMaterial('imageObject' + self.options.imageURL, scene);
+      var texture = new BABYLON.Texture(self.options.imageURL, scene);
+      bodyMat.diffuseTexture = texture;
+      bodyMat.diffuseTexture.uScale = self.options.uScale;
+      bodyMat.diffuseTexture.vScale = self.options.vScale;
+      bodyMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    }
+
     let bodyOptions = {
       diameter: self.options.diameter
     };
@@ -461,7 +535,11 @@ function SphereBlock(scene, parent, pos, rot, options) {
   this.setOptions = function(options) {
     self.options = {
       diameter: 1,
-      color: 'A3CF0D'
+      color: 'A3CF0D',
+      imageType: 'sphere',
+      imageURL: '',
+      uScale: 1,
+      vScale: 1
     };
 
     for (let name in options) {
