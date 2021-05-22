@@ -74,7 +74,7 @@ function GenConfig(caller, $settingsArea) {
     let currentVal = currentOptions[opt.option];
 
     if (typeof currentVal == 'undefined') {
-      currentVal = '#f09c0d';
+      currentVal = '#FFFFFF';
     }
 
     function setInputs(currentVal) {

@@ -352,6 +352,8 @@ var robotTemplates = [
     bodyFriction: 0,
     casterFriction: 0, // Warning: No effect due to parenting
 
+    color: '#F09C0D',
+
     components: [
       {
         type: 'ColorSensor',
@@ -433,6 +435,8 @@ var robotTemplates = [
     wheelFriction: 10,
     bodyFriction: 0,
     casterFriction: 0, // Warning: No effect due to parenting
+
+    color: '#F09C0D',
 
     components: [
       {
@@ -517,6 +521,8 @@ var robotTemplates = [
     wheelFriction: 10,
     bodyFriction: 0,
     casterFriction: 0, // Warning: No effect due to parenting
+
+    color: '#F09C0D',
 
     components: [
       {
@@ -618,6 +624,8 @@ var robotTemplates = [
     wheelFriction: 10,
     bodyFriction: 0,
     casterFriction: 0, // Warning: No effect due to parenting
+
+    color: '#F09C0D',
 
     components: [
       {
@@ -721,6 +729,8 @@ var robotTemplates = [
     wheelFriction: 10,
     bodyFriction: 0,
     casterFriction: 0, // Warning: No effect due to parenting
+
+    color: '#F09C0D',
 
     components: [
       {
@@ -830,6 +840,8 @@ var robotTemplates = [
     bodyFriction: 0,
     casterFriction: 0, // Warning: No effect due to parenting
 
+    color: '#F09C0D',
+
     components: [
       {
         type: 'ColorSensor',
@@ -936,6 +948,8 @@ var robotTemplates = [
     wheelFriction: 10,
     bodyFriction: 0,
     casterFriction: 0, // Warning: No effect due to parenting
+
+    color: '#F09C0D',
 
     components: [
       {

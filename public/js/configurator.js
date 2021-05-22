@@ -21,6 +21,7 @@ var configurator = new function() {
       bodyFriction: 0,
       casterFriction: 0,
       casterOffsetZ: 0,
+      color: '#F09C0D'
     },
     optionsConfigurations: [
       {

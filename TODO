@@ -14,6 +14,7 @@ Features
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
   - LED (use ev3dev api or new?)
   - IR array (single camera with orthographic view?)
+  - Ball (point constraint)
 - Prevent jumping over wall when backing up. (Increasing wall friction doesn't work...)
 - Set duty_cycle_sp. Useful for aligning to wall.
 - Buttons
@@ -26,6 +27,10 @@ Features
 - Review UI events with new Blockly version https://groups.google.com/g/blockly/c/4StIgJJXPwY/m/VSHqnqADAgAJ
 - Change multi-page approach to use multiple, independent workspaces instead
 - Sync to github!
+- Compound in Compound
+- Image texture in robot
+- Models in robot
+- Add default color to robot components
 
 Coding (Sharing)
 - Remote coach view of student's work
