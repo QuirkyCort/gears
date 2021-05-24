@@ -2000,10 +2000,19 @@ var builder = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        self.saveHistory();
-
         let objects = JSON.parse(this.result).objects;
-        self.worldOptions.objects.push(objects[0]);
+
+        self.saveHistory();
+        
+        let selected = self.getSelectedComponent()[0];
+        if (
+          selected.name == 'compound'
+          && (objects.type != 'Compound' || selected.object.objects.length > 0)
+        ) {
+          selected.object.objects.push(objects[0]);
+        } else {
+          self.worldOptions.objects.push(objects[0]);
+        }
 
         self.resetScene();
       };

@@ -568,8 +568,8 @@ var World_Base = function() {
         } else {
           childMesh.parent = parentMesh;
         }  
+        indexObj.index++;
       }
-      indexObj.index++;
     }
 
     return parentMesh;
