@@ -1727,7 +1727,10 @@ var builder = new function() {
         object = JSON.parse(JSON.stringify(self.compoundDefault));
       }
 
-      if (selected.name == 'compound' && $select.val() != 'Compound') {
+      if (
+        selected.name == 'compound'
+        && ($select.val() != 'Compound' || selected.object.objects.length > 0)
+      ) {
         selected.object.objects.push(object);
       } else {
         self.worldOptions.objects.push(object);

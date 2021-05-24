@@ -488,7 +488,10 @@ var World_Base = function() {
         let indexObj = { index: 0 };
         for (let i=0; i<self.processedOptions.objects.length; i++) {
           if (self.processedOptions.objects[i].type == 'compound') {
-            await self.addCompound(scene, self.processedOptions.objects[i], indexObj);
+            let mesh = await self.addCompound(scene, self.processedOptions.objects[i], indexObj);
+            if (mesh) {
+              self.addPhysics(scene, mesh, self.processedOptions.objects[i].objects[0]);
+            }
           } else {
             let options = self.mergeObjectOptionsWithDefault(self.processedOptions.objects[i]);
             let mesh = await self.addObject(scene, options, indexObj.index);
@@ -522,31 +525,52 @@ var World_Base = function() {
     if (object.objects.length == 0) {
       return;
     }
+    if (object.objects[0].type == 'compound') {
+      console.log('Invalid compound: Cannot have a compound as first object');
+      return;
+    }
 
     let options = self.mergeObjectOptionsWithDefault(object.objects[0])
     let parentMesh = await self.addObject(scene, options, indexObj.index);
     indexObj.index++;
 
     for (let i=1; i<object.objects.length; i++) {
-      let childOptions = self.mergeObjectOptionsWithDefault(object.objects[i])
-      let childMesh = await self.addObject(scene, childOptions, indexObj.index);
-      if (childOptions.physicsOptions != false && childOptions.physicsOptions != 'false') {
-        childOptions.physicsOptions = {
-          mass: 0,
-          friction: 0,
-          restitution: 0,
-          dampLinear: 0,
-          dampAngular: 0
-        }          
-        childMesh.parent = parentMesh;
-        self.addPhysics(scene, childMesh, childOptions);
+      if (object.objects[i].type == 'compound') {
+        let childMesh = await self.addCompound(scene, object.objects[i], indexObj);
+        if (
+          childMesh
+          && object.objects[i].objects[0].physicsOptions != false
+          && object.objects[i].objects[0].physicsOptions != 'false'
+        ) {
+          object.objects[i].objects[0].physicsOptions = {
+            mass: 0,
+            friction: 0,
+            restitution: 0,
+            dampLinear: 0,
+            dampAngular: 0            
+          };
+          childMesh.parent = parentMesh;
+          self.addPhysics(scene, childMesh, object.objects[i].objects[0]);  
+        }
       } else {
-        childMesh.parent = parentMesh;
+        let childOptions = self.mergeObjectOptionsWithDefault(object.objects[i])
+        let childMesh = await self.addObject(scene, childOptions, indexObj.index);
+        if (childOptions.physicsOptions != false && childOptions.physicsOptions != 'false') {
+          childOptions.physicsOptions = {
+            mass: 0,
+            friction: 0,
+            restitution: 0,
+            dampLinear: 0,
+            dampAngular: 0
+          };         
+          childMesh.parent = parentMesh;
+          self.addPhysics(scene, childMesh, childOptions);
+        } else {
+          childMesh.parent = parentMesh;
+        }  
       }
       indexObj.index++;
     }
-
-    self.addPhysics(scene, parentMesh, options);
 
     return parentMesh;
   };
