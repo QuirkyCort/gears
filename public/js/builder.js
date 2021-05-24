@@ -1411,7 +1411,7 @@ var builder = new function() {
             return 1;
           }
         });
-        if (animationKeys[0].time != 0) {
+        if (animationKeys.length > 0 && animationKeys[0].time != 0) {
           toastMsg('Invalid animation (Start time not 0)');
           return;
         }
