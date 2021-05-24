@@ -190,9 +190,9 @@ function GenConfig(caller, $settingsArea) {
           }
 
           // Save search
-          self.selectImage_filterType = $select.val();
-          self.selectImage_searchText = $searchInput.val();
-          self.selectImage_scroll = $itemList[0].scrollTop;
+          caller.selectImage_filterType = $select.val();
+          caller.selectImage_searchText = $searchInput.val();
+          caller.selectImage_scroll = $itemList[0].scrollTop;
 
           $dialog.close();
         });
@@ -241,17 +241,17 @@ function GenConfig(caller, $settingsArea) {
       updateSearchCount($itemList[0].childNodes.length);
 
       function setScroll() {
-        if (self.selectImage_scroll != 0) {
-          $itemList[0].scrollTop = self.selectImage_scroll;
+        if (caller.selectImage_scroll != 0) {
+          $itemList[0].scrollTop = caller.selectImage_scroll;
           if ($itemList[0].scrollTop == 0) {
             setTimeout(setScroll, 200);
           }  
         }
       }
 
-      if (self.selectImage_filterType) {
-        $select.val(self.selectImage_filterType);
-        $searchInput.val(self.selectImage_searchText);
+      if (caller.selectImage_filterType) {
+        $select.val(caller.selectImage_filterType);
+        $searchInput.val(caller.selectImage_searchText);
         filterList();
         setScroll();
       }
@@ -259,9 +259,9 @@ function GenConfig(caller, $settingsArea) {
 
       $buttons.click(function() {
         // Save search
-        self.selectImage_filterType = $select.val();
-        self.selectImage_searchText = $searchInput.val();
-        self.selectImage_scroll = $itemList[0].scrollTop;
+        caller.selectImage_filterType = $select.val();
+        caller.selectImage_searchText = $searchInput.val();
+        caller.selectImage_scroll = $itemList[0].scrollTop;
         
         $dialog.close();
       });
@@ -276,7 +276,141 @@ function GenConfig(caller, $settingsArea) {
     $div.append($buttonsBox);
 
     return $div;
+  };
 
+  gen.selectModel = function(opt, currentOptions) {
+    function selectModelDialog() {
+      let $body = $('<div class="selectModel"></div>');
+      let $filter = $(
+        '<div class="filter">Filter by Type: ' +
+          '<select>' +
+            '<option selected value="any">Any</option>' +
+          '</select>' +
+        '</div>'
+      );
+      let $select = $filter.find('select');
+      for (category of BUILT_IN_MODELS_CATEGORIES) {
+        $select.append('<option>' + category + '</option');
+      }
+      let $search = $(
+        '<div class="search">Search: ' +
+          '<input type="text"></input>' +
+        '</div>'
+      );
+      let $searchInput = $search.find('input');
+  
+      let $itemList = $('<div class="items"></div>');
+  
+      BUILT_IN_MODELS.forEach(function(model){
+        let basename = model.url.split('/').pop();
+  
+        let $row = $('<div class="row"></div>');
+        let category = model.category.replace(/\W/g, '');
+        $row.addClass(category);
+  
+        let $descriptionBox = $('<div class="description"></div>');
+        let $basename = $('<p class="bold"></p>').text(basename);
+        $descriptionBox.append($basename);
+  
+        let $selectBox = $('<div class="select"><button>Select</button></div>');
+        let $selectBtn = $selectBox.find('button');
+        $selectBtn.prop('url', model.url);
+  
+        $selectBtn.click(function(e){
+          caller.saveHistory();
+          currentOptions[opt.option] = e.target.url;
+          if (opt.reset) {
+            caller.resetScene(false);
+          }
+  
+          // Save search
+          caller.selectModel_filterType = $select.val();
+          caller.selectModel_searchText = $searchInput.val();
+          caller.selectModel_scroll = $itemList[0].scrollTop;
+  
+          $dialog.close();
+        });
+  
+        $row.append($descriptionBox);
+        $row.append($selectBox);
+        $itemList.append($row);
+      });
+  
+      $body.append($filter);
+      $body.append($search);
+      $body.append($itemList);
+  
+      function filterList(){
+        let filter = $select.val();
+        let search = $searchInput.val().trim().toLowerCase();
+  
+        let count = 0;
+        $itemList[0].childNodes.forEach(function(item){
+          let itemText = item.childNodes[0].textContent.toLowerCase();
+          if (
+            (filter == 'any' || item.classList.contains(filter.replace(/\W/g, '')))
+            && (search == '' || itemText.indexOf(search) != -1)
+          ) {
+            item.classList.remove('hide');
+            count++;
+          } else {
+            item.classList.add('hide');
+          }
+        });
+  
+        updateSearchCount(count);
+      }
+  
+      $select.change(filterList);
+      $searchInput.on('input', filterList);
+  
+      let $buttons = $(
+        '<div class="searchCount"></div><button type="button" class="cancel btn-light">Cancel</button>'
+      );
+  
+      function updateSearchCount(count) {
+        $buttons.siblings('.searchCount').text(count + ' models found');
+      }
+  
+      updateSearchCount($itemList[0].childNodes.length);
+  
+      function setScroll() {
+        if (caller.selectModel_scroll != 0) {
+          $itemList[0].scrollTop = caller.selectModel_scroll;
+          if ($itemList[0].scrollTop == 0) {
+            setTimeout(setScroll, 200);
+          }  
+        }
+      }
+  
+      if (caller.selectModel_filterType) {
+        $select.val(caller.selectModel_filterType);
+        $searchInput.val(caller.selectModel_searchText);
+        filterList();
+        setScroll();
+      }
+  
+      let $dialog = dialog('Select Built-In Model', $body, $buttons);
+  
+      $buttons.click(function() {
+        // Save search
+        caller.selectModel_filterType = $select.val();
+        caller.selectModel_searchText = $searchInput.val();
+        caller.selectModel_scroll = $itemList[0].scrollTop;
+        
+        $dialog.close();
+      });
+    }
+
+    let $div = $('<div class="configuration"></div>');
+    let $buttonsBox = $('<div class="buttons"></div>');
+
+    let $button = $('<button>Select built-in model</button>');
+    $button.click(selectModelDialog);
+    $buttonsBox.append($button);
+    $div.append($buttonsBox);
+
+    return $div;
   };
 
   gen.sliderBox = function(opt, currentValue, callback) {
