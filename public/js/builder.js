@@ -6,13 +6,9 @@ var builder = new function() {
   this.groundTemplate = {
     optionsConfigurations: [
       {
-        type: 'buttons',
-        buttons: [
-          {
-            label: 'Select built-in image',
-            callback: 'selectImage'
-          }
-        ]
+        option: 'imageURL',
+        type: 'selectImage',
+        reset: true
       },
       {
         option: 'imageURL',
@@ -257,13 +253,9 @@ var builder = new function() {
         reset: true
       },
       {
-        type: 'buttons',
-        buttons: [
-          {
-            label: 'Select built-in image',
-            callback: 'selectImage'
-          }
-        ]
+        option: 'imageURL',
+        type: 'selectImage',
+        reset: true
       },
       {
         option: 'imageURL',
@@ -423,13 +415,9 @@ var builder = new function() {
         reset: true
       },
       {
-        type: 'buttons',
-        buttons: [
-          {
-            label: 'Select built-in image',
-            callback: 'selectImage'
-          }
-        ]
+        option: 'imageURL',
+        type: 'selectImage',
+        reset: true
       },
       {
         option: 'imageURL',
@@ -589,13 +577,9 @@ var builder = new function() {
         reset: true
       },
       {
-        type: 'buttons',
-        buttons: [
-          {
-            label: 'Select built-in image',
-            callback: 'selectImage'
-          }
-        ]
+        option: 'imageURL',
+        type: 'selectImage',
+        reset: true
       },
       {
         option: 'imageURL',
@@ -937,129 +921,6 @@ var builder = new function() {
 
     self.saveHistory();
     self.resetScene();
-  };
-
-  // Select built in images
-  this.selectImage = function(opt, objectOptions) {
-    let $body = $('<div class="selectImage"></div>');
-    let $filter = $(
-      '<div class="filter">Filter by Type: ' +
-        '<select>' +
-          '<option selected value="any">Any</option>' +
-          '<option value="box">Box</option>' +
-          '<option value="cylinder">Cylinder</option>' +
-          '<option value="sphere">Sphere</option>' +
-          '<option value="ground">Ground</option>' +
-          '<option value="robot">Robot</option>' +
-        '</select>' +
-      '</div>'
-    );
-    let $select = $filter.find('select');
-    let $search = $(
-      '<div class="search">Search: ' +
-        '<input type="text"></input>' +
-      '</div>'
-    );
-    let $searchInput = $search.find('input');
-
-    let $itemList = $('<div class="images"></div>');
-
-    BUILT_IN_IMAGES.forEach(function(image){
-      let basename = image.url.split('/').pop();
-
-      let $row = $('<div class="row"></div>');
-      $row.addClass(image.type);
-
-      let $descriptionBox = $('<div class="description"></div>');
-      let $basename = $('<p class="bold"></p>').text(basename + ' (' + image.type + ')');
-      let $description = $('<p></p>').text(image.description);
-      $descriptionBox.append($basename);
-      $descriptionBox.append($description);
-
-      let $selectBox = $('<div class="select"><button>Select</button></div>');
-      let $selectBtn = $selectBox.find('button');
-      $selectBtn.prop('url', image.url);
-
-      $selectBtn.click(function(e){
-        objectOptions.imageURL = e.target.url;
-        self.resetScene(false);
-
-        // Save search
-        self.selectImage_filterType = $select.val();
-        self.selectImage_searchText = $searchInput.val();
-        self.selectImage_scroll = $itemList[0].scrollTop;
-
-        $dialog.close();
-      });
-
-      $row.append($descriptionBox);
-      $row.append($selectBox);
-      $itemList.append($row);
-    });
-
-    $body.append($filter);
-    $body.append($search);
-    $body.append($itemList);
-
-    function filterList(){
-      let filter = $select.val();
-      let search = $searchInput.val().trim().toLowerCase();
-
-      let count = 0;
-      $itemList[0].childNodes.forEach(function(item){
-        let itemText = item.childNodes[0].textContent.toLowerCase();
-        if (
-          (filter == 'any' || item.classList.contains(filter.replace(/\W/g, '')))
-          && (search == '' || itemText.indexOf(search) != -1)
-        ) {
-          item.classList.remove('hide');
-          count++;
-        } else {
-          item.classList.add('hide');
-        }
-      });
-
-      updateSearchCount(count);
-    }
-
-    $select.change(filterList);
-    $searchInput.on('input', filterList);
-
-    let $buttons = $(
-      '<div class="searchCount"></div><button type="button" class="cancel btn-light">Cancel</button>'
-    );
-
-    function updateSearchCount(count) {
-      $buttons.siblings('.searchCount').text(count + ' image textures found');
-    }
-
-    updateSearchCount($itemList[0].childNodes.length);
-
-    function setScroll() {
-      if (self.selectImage_scroll != 0) {
-        $itemList[0].scrollTop = self.selectImage_scroll;
-        if ($itemList[0].scrollTop == 0) {
-          setTimeout(setScroll, 200);
-        }  
-      }
-    }
-
-    if (self.selectImage_filterType) {
-      $select.val(self.selectImage_filterType);
-      $searchInput.val(self.selectImage_searchText);
-      filterList();
-      setScroll();
-    }
-    let $dialog = dialog('Select Built-In Image', $body, $buttons);
-
-    $buttons.click(function() {
-      // Save search
-      self.selectImage_filterType = $select.val();
-      self.selectImage_searchText = $searchInput.val();
-      self.selectImage_scroll = $itemList[0].scrollTop;
-      
-      $dialog.close();
-    });
   };
 
   // Select built in models
