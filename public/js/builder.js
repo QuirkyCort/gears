@@ -176,6 +176,16 @@ var builder = new function() {
     ]
   };
 
+  this.animationTemplate = {
+    optionsConfigurations: [
+      {
+        option: 'restartAnimationOnRun',
+        type: 'boolean',
+      },
+    ]
+  };
+
+
   this.boxTemplate = {
     optionsConfigurations: [
       {
@@ -1609,6 +1619,8 @@ var builder = new function() {
       genConfig.displayOptionsConfigurations(self.timerTemplate, currentOptions);
     } else if (name == 'robot') {
       genConfig.displayOptionsConfigurations(self.robotTemplate, currentOptions);
+    } else if (name == 'animation') {
+      genConfig.displayOptionsConfigurations(self.animationTemplate, currentOptions);
     } else if (name == 'box') {
       genConfig.displayOptionsConfigurations(self.boxTemplate, currentOptions);
     } else if (name == 'cylinder') {
@@ -1904,6 +1916,11 @@ var builder = new function() {
 
     $li = $('<li>Robot</li>');
     $li[0].name = 'robot';
+    $li[0].object = options;
+    $ul.append($li);
+
+    $li = $('<li>Animation</li>');
+    $li[0].name = 'animation';
     $li[0].object = options;
     $ul.append($li);
 

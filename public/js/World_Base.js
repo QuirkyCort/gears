@@ -53,6 +53,7 @@ var World_Base = function() {
     wallFriction: 0.1,
     groundRestitution: 0.0,
     wallRestitution: 0.1,
+    restartAnimationOnRun: false,
     objects: [],
     startPos: 'center',
     startPosXYZStr: '',
@@ -1004,6 +1005,10 @@ var World_Base = function() {
   self.startSim = function() {
     if (self.processedOptions.timer != 'none') {
       self.startTime = Date.now();
+    }
+
+    if (self.processedOptions.restartAnimationOnRun) {
+      self.renderTime = 0;
     }
   };
 
