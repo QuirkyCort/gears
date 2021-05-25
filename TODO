@@ -35,5 +35,4 @@ Coding (Sharing)
 - Host an arena match and allow others to submit code/robots
 
 Bugs
-- Variables not disappearing from toolbox immediately upon delete
 - Loading a map file will set hidden options that cannot be cleared through GUI.

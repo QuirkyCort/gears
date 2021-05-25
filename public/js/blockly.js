@@ -98,8 +98,6 @@ var blockly = new function() {
     self.displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function(workspace){
       let blocks = self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
 
-      let shadow = Blockly.Xml.textToDom('<value name="ARG0"><shadow type="math_number"><field name="NUM">0</field></shadow></value>');
-
       for (let block of blocks) {
         let blockType = block.getAttribute('type');
         if (blockType == 'procedures_callnoreturn' || blockType == 'procedures_callreturn') {
@@ -162,6 +160,9 @@ var blockly = new function() {
 
     if (primaryEvent instanceof Blockly.Events.Create) {
       self.assignOrphenToPage(blocklyPanel.currentPage);
+    }
+    if (primaryEvent instanceof Blockly.Events.VarDelete) {
+      self.displayedWorkspace.getToolbox().refreshSelection()
     }
   };
 
