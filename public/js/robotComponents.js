@@ -2618,7 +2618,7 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
 
     var mainBodyMat = babylon.getMaterial(scene, 'A39C0D');
 
-    var body = BABYLON.MeshBuilder.CreateBox('sliderBody', {height: 5, width: 2, depth: 1}, scene);
+    var body = BABYLON.MeshBuilder.CreateBox('sliderBody', {height: 2, width: 5, depth: 1}, scene);
     self.body = body;
     body.component = self;
     self.body.material = mainBodyMat;
@@ -2674,15 +2674,18 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
     axis1.setIdentity();
     axis2.setIdentity();
 
-    axis1.getBasis().setEulerZYX(0,0,Math.PI/2);
-    axis2.getBasis().setEulerZYX(0,0,Math.PI/2);
-
     axis1.setOrigin(new Ammo.btVector3(
       self.body.position.x,
       self.body.position.y,
-      self.body.position.z + 1
+      self.body.position.z
     )); 
-    axis2.setOrigin(new Ammo.btVector3(0, 0, 0));
+    axis2.setOrigin(new Ammo.btVector3(0, 0, -1));
+
+    let babylonQuaternion = self.body.rotationQuaternion;
+    let ammoQuaternion = new Ammo.btQuaternion();
+    ammoQuaternion.setValue(babylonQuaternion.x, babylonQuaternion.y, babylonQuaternion.z, babylonQuaternion.w);
+
+    axis1.setRotation(ammoQuaternion);
 
     self.joint = new Ammo.btSliderConstraint(self.body.parent.physicsImpostor.physicsBody, self.platform.physicsImpostor.physicsBody, axis1, axis2, true);
 
