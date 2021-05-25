@@ -428,6 +428,14 @@ function Robot() {
           componentConfig.rotation,
           'in' + (++self.sensorCount),
           componentConfig.options);
+      } else if (componentConfig.type == 'SliderActuator') {
+        component = new SliderActuator(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'out' + PORT_LETTERS[(++self.motorCount)],
+          componentConfig.options);
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
       }
