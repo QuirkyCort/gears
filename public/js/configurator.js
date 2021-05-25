@@ -659,7 +659,21 @@ var configurator = new function() {
         position: [0, 5, 0],
         rotation: [0, 0, 0],
         components: [],
-        options: null
+        options: {
+          mass: 100,
+          restitution: 0.1,
+          friction: 1,
+          degreesPerCm: 360,
+          width: 2,
+          baseLength: 5,
+          baseThickness: 1,
+          platformLength: 2,
+          platformThickness: 1,
+          platformColor: '808080',
+          max: 10,
+          min: -10,
+          startPos: 0,
+        }
       },
       optionsConfigurations: [
         {
@@ -678,6 +692,73 @@ var configurator = new function() {
           step: '5',
           deg2rad: true,
           reset: true
+        },
+        {
+          option: 'friction',
+          type: 'slider',
+          min: '0',
+          max: '1',
+          step: '0.05',
+          help: 'This will also apply to all child objects'
+        },
+        {
+          option: 'degreesPerCm',
+          type: 'floatText',
+          help: 'The degrees of rotation required to produce one cm of linear movement'
+        },
+        {
+          option: 'width',
+          type: 'slider',
+          min: '0',
+          max: '5',
+          step: '0.1',
+          reset: true,
+          help: 'Width of both the base and moving platform'
+        },
+        {
+          option: 'baseLength',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '0.5',
+          reset: true,
+          help: 'Length of the base'
+        },
+        {
+          option: 'baseThickness',
+          type: 'floatText',
+          reset: true,
+        },
+        {
+          option: 'platformColor',
+          type: 'color',
+          reset: true
+        },
+        {
+          option: 'platformLength',
+          type: 'floatText',
+          reset: true,
+        },
+        {
+          option: 'platformThickness',
+          type: 'floatText',
+          reset: true,
+        },
+        {
+          option: 'startPos',
+          type: 'floatText',
+          reset: true,
+          help: 'Starting position of the moving platform'
+        },
+        {
+          option: 'max',
+          type: 'floatText',
+          help: 'Max position'
+        },
+        {
+          option: 'min',
+          type: 'floatText',
+          help: 'Min position'
         },
       ]
     },
