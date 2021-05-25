@@ -2733,6 +2733,8 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
         (self.positionDirectionReversed == false && self.position >= self.position_target) ||
         (self.positionDirectionReversed && self.position <= self.position_target)
       ) {
+        self.position = self.position_target;
+        self.setPosition();
         self.stop();
       }
     } else if (self.mode == self.modes.STOP) {

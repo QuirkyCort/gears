@@ -408,6 +408,11 @@ var simPanel = new function() {
           motor.port + ': ' + i18n.get('#sim-swivel#'),
           [i18n.get('#sim-position#')]
           );
+      } else if (motor.type == 'LinearActuator') {
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-linear#'),
+          [i18n.get('#sim-position#')]
+          );  
       } else if (motor.type == 'PaintballLauncherActuator') {
         tmp = genDiv(
           motor.port + ': ' + i18n.get('#sim-paintball#'),
@@ -459,6 +464,8 @@ var simPanel = new function() {
       } else if (sensor[0].type == 'TouchSensor') {
         sensor[1][0].text(sensor[0].isPressed());
       } else if (sensor[0].type == 'SwivelActuator') {
+        sensor[1][0].text(Math.round(sensor[0].position));
+      } else if (sensor[0].type == 'LinearActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'PaintballLauncherActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));

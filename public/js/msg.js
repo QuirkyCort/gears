@@ -1280,6 +1280,9 @@ let MSGS = {
     nl: 'Draai aandrijving',
     de: 'schwenkbarer Antrieb',
   },
+  '#sim-linear#': {
+    en: 'Linear Actuator',
+  },
   '#sim-paintball#': {
     en: 'Paintball Launcher',
     fr: 'Lanceur de paintball',
