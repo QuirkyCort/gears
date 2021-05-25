@@ -59,6 +59,9 @@ i18n.append({
     de: 'Schwenkplattform',
     nl: 'Draaiplatform',
   },
+  '#robot-linear#': {
+    en: 'Linear Actuator',
+  },
   '#robot-paintball#': {
     en: 'Paintball Launcher',
     fr: 'lanceur de paintball',

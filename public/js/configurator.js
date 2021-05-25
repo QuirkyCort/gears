@@ -653,6 +653,35 @@ var configurator = new function() {
       ]
     },
     {
+      name: 'LinearActuator',
+      defaultConfig: {
+        type: 'LinearActuator',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        components: [],
+        options: null
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vectors',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vectors',
+          min: '-180',
+          max: '180',
+          step: '5',
+          deg2rad: true,
+          reset: true
+        },
+      ]
+    },
+    {
       name: 'PaintballLauncherActuator',
       defaultConfig: {
         type: 'PaintballLauncherActuator',
@@ -1090,8 +1119,9 @@ var configurator = new function() {
       $selected.text() != 'Body'
       && $selected[0].component.type != 'ArmActuator'
       && $selected[0].component.type != 'SwivelActuator'
+      && $selected[0].component.type != 'LinearActuator'
     ) {
-      toastMsg('Components can only be added to Body, ArmActuators, and SwivelActuators.');
+      toastMsg('Components can only be added to Body and Actuators.');
       return;
     }
 
@@ -1218,7 +1248,7 @@ var configurator = new function() {
   // Load robot into components window
   this.loadIntoComponentsWindow = function(options) {
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'PaintballLauncherActuator'];
+    let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'LinearActuator', 'PaintballLauncherActuator'];
     let DUMB_BLOCKS = ['Box', 'Cylinder', 'Sphere'];
     let motorCount = 2;
     let sensorCount = 0;
@@ -1315,6 +1345,8 @@ var configurator = new function() {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-motorizedArm#</li>';
       } else if (motor.type == 'SwivelActuator') {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-swivel#</li>';
+      } else if (motor.type == 'LinearActuator') {
+        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-linear#</li>';
       } else if (motor.type == 'PaintballLauncherActuator') {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-paintball#</li>';
       } else if (motor.type == 'MagnetActuator') {

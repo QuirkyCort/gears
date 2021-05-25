@@ -428,8 +428,8 @@ function Robot() {
           componentConfig.rotation,
           'in' + (++self.sensorCount),
           componentConfig.options);
-      } else if (componentConfig.type == 'SliderActuator') {
-        component = new SliderActuator(
+      } else if (componentConfig.type == 'LinearActuator') {
+        component = new LinearActuator(
           self.scene,
           parent,
           componentConfig.position,

@@ -2531,11 +2531,11 @@ function TouchSensor(scene, parent, pos, rot, port, options) {
   this.init();
 }
 
-// Motorized slider
-function SliderActuator(scene, parent, pos, rot, port, options) {
+// Motorized linear
+function LinearActuator(scene, parent, pos, rot, port, options) {
   var self = this;
 
-  this.type = 'SliderActuator';
+  this.type = 'LinearActuator';
   this.port = port;
   this.options = null;
 
