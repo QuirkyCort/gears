@@ -2618,7 +2618,7 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
 
     var mainBodyMat = babylon.getMaterial(scene, 'A39C0D');
 
-    var body = BABYLON.MeshBuilder.CreateBox('sliderBody', {height: 2, width: 5, depth: 1}, scene);
+    var body = BABYLON.MeshBuilder.CreateBox('sliderBody', {height: self.options.width, width: self.options.baseLength, depth: self.options.baseThickness}, scene);
     self.body = body;
     body.component = self;
     self.body.material = mainBodyMat;
@@ -2629,9 +2629,9 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
     scene.shadowGenerator.addShadowCaster(body);
 
-    var platformMat = babylon.getMaterial(scene, '808080');
+    var platformMat = babylon.getMaterial(scene, self.options.platformColor);
 
-    var platform = BABYLON.MeshBuilder.CreateBox('platform', {height: 2, width: 2, depth: 1}, scene);;
+    var platform = BABYLON.MeshBuilder.CreateBox('platform', {height: self.options.width, width: self.options.platformLength, depth: self.options.platformThickness}, scene);;
     self.platform = platform;
     platform.component = self;
     self.end = platform;
@@ -2642,8 +2642,11 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
     platform.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
     platform.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
     platform.position = self.bodyPosition.clone();
-    platform.translate(BABYLON.Axis.Z, 1, BABYLON.Space.LOCAL);
+    platform.translate(BABYLON.Axis.Z, (self.options.baseThickness + self.options.platformThickness) / 2, BABYLON.Space.LOCAL);
+    platform.translate(BABYLON.Axis.X, self.options.startPos, BABYLON.Space.LOCAL);
     parent.removeChild(platform);
+
+    self.positionAdjustment = self.options.startPos * self.options.degreesPerCm;
   };
 
   this.loadImpostor = function() {
@@ -2679,7 +2682,7 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
       self.body.position.y,
       self.body.position.z
     )); 
-    axis2.setOrigin(new Ammo.btVector3(0, 0, -1));
+    axis2.setOrigin(new Ammo.btVector3(0, 0, -(self.options.baseThickness + self.options.platformThickness) / 2));
 
     let babylonQuaternion = self.body.rotationQuaternion;
     let ammoQuaternion = new Ammo.btQuaternion();
@@ -2696,6 +2699,8 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
 
     let physicsWorld = babylon.scene.getPhysicsEngine().getPhysicsPlugin().world;
     physicsWorld.addConstraint(self.joint);
+
+    self.setPosition();
   };
 
   this.setOptions = function(options) {
@@ -2704,6 +2709,15 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
       restitution: 0.1,
       friction: 1,
       degreesPerCm: 360,
+      width: 2,
+      baseLength: 5,
+      baseThickness: 1,
+      platformLength: 2,
+      platformThickness: 1,
+      platformColor: '808080',
+      max: 10,
+      min: -10,
+      startPos: 0,
       components: []
     };
 
@@ -2761,6 +2775,12 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
       positionDelta = -positionDelta;
     }
     self.position += positionDelta;
+
+    if ((self.position + self.positionAdjustment) > (self.options.max * self.options.degreesPerCm)) {
+      self.position = (self.options.max * self.options.degreesPerCm) - self.positionAdjustment;
+    } else if ((self.position + self.positionAdjustment) < (self.options.min * self.options.degreesPerCm)) {
+      self.position = (self.options.min * self.options.degreesPerCm) - self.positionAdjustment;
+    }
   };
 
   this.init();
