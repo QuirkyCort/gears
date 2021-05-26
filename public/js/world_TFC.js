@@ -125,7 +125,7 @@ var world_TFC = new function() {
   ];
 
   this.defaultOptions = {
-    image: 'textures/maps/grid.png',
+    image: 'textures/maps/tfc.png',
     width: 244,
     length: 244,
     wall: true,
