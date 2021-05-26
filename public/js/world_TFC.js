@@ -109,7 +109,17 @@ var world_TFC = new function() {
     {
       option: 'startRot',
       title: 'Starting Rotation (degrees)',
-      type: 'text',
+      type: 'select',
+      options: [
+        ['0', '0'],
+        ['45', '45'],
+        ['90', '90'],
+        ['135', '135'],
+        ['180', '180'],
+        ['225', '225'],
+        ['270', '270'],
+        ['315', '315'],
+      ],
       help: 'Set the starting rotation in degrees. Positive rotation is clockwise.'
     }
   ];
@@ -297,15 +307,16 @@ var world_TFC = new function() {
       var passagePos2State = 0;
       var candlePosState = 0;
       var startPosState = 0;
+      var startRot = 0;
       if (self.options.random){
         while ((dogPosState==0 && passagePos1State==0) || (dogPosState==2 && passagePos1State==1) || (candlePosState==4 && passagePos2State==1) || (candlePosState==5 && passagePos2State==0) || (passagePos1State==0 &&candlePosState==6) || (passagePos1State==1 &&candlePosState==7)) {
           dogPosState = Math.floor(Math.random() * 3);
           passagePos1State = Math.floor(Math.random() * 2);
           passagePos2State = Math.floor(Math.random() * 2);
           candlePosState = Math.floor(Math.random() * 11);
-          startPosState = Math.floor(Math.random() * 4)
+          startPosState = Math.floor(Math.random() * 4);
+          startRot = Math.floor(Math.random() * 8) * 45;
         }
-        
       }
       else {
         dogPosState = self.options.dogPos;
@@ -315,6 +326,8 @@ var world_TFC = new function() {
       }
 
       if (self.options.random){
+        self.robotStart.rotation.y = startRot / 180 * Math.PI;
+
         switch (+startPosState){
           case 0:
             self.robotStart.position = bottomLeft;
