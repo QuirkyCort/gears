@@ -2616,7 +2616,7 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
   this.init = function() {
     self.setOptions(options);
 
-    var mainBodyMat = babylon.getMaterial(scene, 'A39C0D');
+    var mainBodyMat = babylon.getMaterial(scene, self.options.baseColor);
 
     var body = BABYLON.MeshBuilder.CreateBox('sliderBody', {height: self.options.width, width: self.options.baseLength, depth: self.options.baseThickness}, scene);
     self.body = body;
@@ -2677,17 +2677,18 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
     axis1.setIdentity();
     axis2.setIdentity();
 
-    axis1.setOrigin(new Ammo.btVector3(
-      self.body.position.x,
-      self.body.position.y,
-      self.body.position.z
-    )); 
-    axis2.setOrigin(new Ammo.btVector3(0, 0, -(self.options.baseThickness + self.options.platformThickness) / 2));
+    let offset = new BABYLON.Vector3(0, 0, (self.options.baseThickness + self.options.platformThickness) / 2 + 0.01);
+    offset.rotateByQuaternionToRef(self.body.rotationQuaternion, offset);
 
-    let babylonQuaternion = self.body.rotationQuaternion;
+    axis1.setOrigin(new Ammo.btVector3(
+      self.body.position.x + offset.x,
+      self.body.position.y + offset.y,
+      self.body.position.z + offset.z
+    )); 
+
+    let babylonQuaternion = BABYLON.Quaternion.FromEulerAngles(self.rotation.x, self.rotation.y, self.rotation.z);
     let ammoQuaternion = new Ammo.btQuaternion();
     ammoQuaternion.setValue(babylonQuaternion.x, babylonQuaternion.y, babylonQuaternion.z, babylonQuaternion.w);
-
     axis1.setRotation(ammoQuaternion);
 
     self.joint = new Ammo.btSliderConstraint(self.body.parent.physicsImpostor.physicsBody, self.platform.physicsImpostor.physicsBody, axis1, axis2, true);
@@ -2707,11 +2708,12 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
     self.options = {
       mass: 100,
       restitution: 0.1,
-      friction: 1,
+      friction: 0.1,
       degreesPerCm: 360,
       width: 2,
       baseLength: 5,
       baseThickness: 1,
+      baseColor: 'A39C0D',
       platformLength: 2,
       platformThickness: 1,
       platformColor: '808080',

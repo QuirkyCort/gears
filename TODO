@@ -10,7 +10,6 @@ Features
 - Implement Pybricks support (...run, not just generate code)
 - More components
   - claw
-  - linear actuator
   - camera (array of rgb/hsv for image recognition. Is skulpt fast enough? Without numpy?)
   - LED (use ev3dev api or new?)
   - IR array (single camera with orthographic view?)

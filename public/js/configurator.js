@@ -662,9 +662,10 @@ var configurator = new function() {
         options: {
           mass: 100,
           restitution: 0.1,
-          friction: 1,
+          friction: 0.1,
           degreesPerCm: 360,
           width: 2,
+          baseColor: 'A39C0D',
           baseLength: 5,
           baseThickness: 1,
           platformLength: 2,
@@ -694,17 +695,19 @@ var configurator = new function() {
           reset: true
         },
         {
-          option: 'friction',
-          type: 'slider',
-          min: '0',
-          max: '1',
-          step: '0.05',
-          help: 'This will also apply to all child objects'
+          option: 'mass',
+          type: 'floatText',
+          help: 'If chaining actuators, it\'s recommended to reduce mass of child actuators'
         },
         {
           option: 'degreesPerCm',
           type: 'floatText',
           help: 'The degrees of rotation required to produce one cm of linear movement'
+        },
+        {
+          option: 'baseColor',
+          type: 'color',
+          reset: true
         },
         {
           option: 'width',
@@ -726,7 +729,10 @@ var configurator = new function() {
         },
         {
           option: 'baseThickness',
-          type: 'floatText',
+          type: 'slider',
+          min: '0',
+          max: '5',
+          step: '0.1',
           reset: true,
         },
         {
@@ -736,17 +742,26 @@ var configurator = new function() {
         },
         {
           option: 'platformLength',
-          type: 'floatText',
+          type: 'slider',
+          min: '0',
+          max: '5',
+          step: '0.1',
           reset: true,
         },
         {
           option: 'platformThickness',
-          type: 'floatText',
+          type: 'slider',
+          min: '0',
+          max: '5',
+          step: '0.1',
           reset: true,
         },
         {
           option: 'startPos',
-          type: 'floatText',
+          type: 'slider',
+          min: '-10',
+          max: '10',
+          step: '0.5',
           reset: true,
           help: 'Starting position of the moving platform'
         },
