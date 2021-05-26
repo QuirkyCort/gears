@@ -2614,6 +2614,15 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
 
   // Used in JS
   this.init = function() {
+    function getPhysicsParent(mesh) {
+      if (mesh.parent != null) {
+        return getPhysicsParent(mesh.parent);
+      } else {
+        return mesh;
+      }
+    }
+    parent = getPhysicsParent(parent);
+
     self.setOptions(options);
 
     var mainBodyMat = babylon.getMaterial(scene, self.options.baseColor);
