@@ -2708,7 +2708,7 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
     self.options = {
       mass: 100,
       restitution: 0.1,
-      friction: 0.1,
+      friction: 1,
       degreesPerCm: 360,
       width: 2,
       baseLength: 5,

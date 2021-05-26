@@ -662,7 +662,7 @@ var configurator = new function() {
         options: {
           mass: 100,
           restitution: 0.1,
-          friction: 0.1,
+          friction: 1,
           degreesPerCm: 360,
           width: 2,
           baseColor: 'A39C0D',
@@ -774,6 +774,14 @@ var configurator = new function() {
           option: 'min',
           type: 'floatText',
           help: 'Min position'
+        },
+        {
+          option: 'friction',
+          type: 'slider',
+          min: '0',
+          max: '1',
+          step: '0.05',
+          help: 'This will also apply to all child objects'
         },
       ]
     },
