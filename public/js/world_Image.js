@@ -2,10 +2,10 @@ var world_Image = new function() {
   var self = this;
 
   this.name = 'image';
-  this.shortDescription = 'Generate from image';
-  this.longDescription =
-    '<p>This world is automatically generated from the selected image.</p>' +
-    '<p>You can use your own image or choose one of the provided images. The 3D world will be generated at a scale of 1px to 1mm.</p>';
+  this.shortDescription = 'Generate from image (deprecated)';	
+  this.longDescription =	
+    '<p>This world is deprecated. Most of it\'s capabilities are now replaced by Custom World and Mission World.</p>' +	
+    '<p>This world is kept around mainly for compatibility with old custom maps.</p>';
   this.thumbnail = 'images/worlds/fll.jpg';
 
   this.options = {};
@@ -46,7 +46,7 @@ var world_Image = new function() {
     {
       option: 'imageScale',
       title: 'Image Scale Factor',
-      type: 'text',
+      type: 'float',
       help: 'Scales the image (eg. when set to 2, each pixel will equal 2mm). Default to 1.'
     },
     {
@@ -171,7 +171,7 @@ var world_Image = new function() {
     imageURL: '',
     length: 100,
     width: 100,
-    imageScale: '1',
+    imageScale: 1,
     wall: true,
     missions: true,
     wallHeight: 7.7,
@@ -182,9 +182,9 @@ var world_Image = new function() {
     wallRestitution: 0.1,
     obstacles: [],
     magnetics: [],
-    startPos: 'center',
-    startPosXY: '-70, -40',
-    startRot: '',
+    // startPos: 'center',
+    // startPosXY: '-70, -40',
+    // startRot: '',
     objects: [],
     startPos: 'imageDefault',
     startPosXY: '',
@@ -223,14 +223,17 @@ var world_Image = new function() {
     return new Promise(function(resolve, reject) {
       var img = new Image();
       img.crossOrigin = "anonymous";
-      img.onload = function() {
-        let scale = 1;
-        if (self.options.imageScale.trim()) {
-          scale = parseFloat(self.options.imageScale);
-        }
+      img.onerror = function() {	
+        showErrorModal(	
+          '<p>Gears cannot load this image.</p>' +	
+          '<p>Either the image URL is wrong, or the server that hosts this image do not allow cross origin access (...most servers do not).</p>' +	
+          '<p>Try hosting the image on Imgur. They are known to allow cross origin access.</p>'	
+        );	
+      };
 
-        self.options.length = this.width / 10.0 * scale;
-        self.options.width = this.height / 10.0 * scale;
+      img.onload = function() {
+        self.options.length = this.width / 10.0 * self.options.imageScale;
+        self.options.width = this.height / 10.0 * self.options.imageScale;
 
         let xPos = self.options.length / 2 - 12;
         let yPos = self.options.width / 2 - 12;
@@ -404,49 +407,49 @@ var world_Image = new function() {
 
       
       // 2020 Missions:
-      if (self.options.image == 'textures/maps/FLL2020.jpg' && self.options.missions){
-        // Step Counter (M02):
-        self.addObstacles(scene, [[[40, -53, 0], [30, 7, 7]]])
+      // if (self.options.image == 'textures/maps/FLL2020.jpg' && self.options.missions){
+      //   // Step Counter (M02):
+      //   self.addObstacles(scene, [[[40, -53, 0], [30, 7, 7]]])
 
-        // Slide (M03):
-        self.addObstacles(scene, [[[0, -2, 0], [4, 10, 10], [0, 50, 0]]])
+      //   // Slide (M03):
+      //   self.addObstacles(scene, [[[0, -2, 0], [4, 10, 10], [0, 50, 0]]])
 
-        // Bench (M04):
-        self.addObstacles(scene, [[[-67, 15, 0], [20, 7, 7], [0, -165, 0]]])
+      //   // Bench (M04):
+      //   self.addObstacles(scene, [[[-67, 15, 0], [20, 7, 7], [0, -165, 0]]])
 
-        // Basketball (M05):
-        self.addObstacles(scene, [[[-52, 49, 0], [7, 7, 20], [0, -133, 0]]])
+      //   // Basketball (M05):
+      //   self.addObstacles(scene, [[[-52, 49, 0], [7, 7, 20], [0, -133, 0]]])
 
-        // Push ups (M06):
-        self.addObstacles(scene, [[[12, -7, 0], [5, 10, 2]], 
-                                  [[15, -10, 0], [3, 3, 20]], 
-                                  [[27, -10, 17], [24, 3, 3]], 
-                                  [[39, -10, 0], [3, 3, 20]], 
-                                  [[42, -7, 0], [5, 10, 2]]])
+      //   // Push ups (M06):
+      //   self.addObstacles(scene, [[[12, -7, 0], [5, 10, 2]], 
+      //                             [[15, -10, 0], [3, 3, 20]], 
+      //                             [[27, -10, 17], [24, 3, 3]], 
+      //                             [[39, -10, 0], [3, 3, 20]], 
+      //                             [[42, -7, 0], [5, 10, 2]]])
 
-        // Boccia (M08):
-        self.addObstacles(scene, [[[-32, 57, 0], [20, 3, 8]], 
-                                  [[-32, 60, 8], [10, 10, 3]]])
+      //   // Boccia (M08):
+      //   self.addObstacles(scene, [[[-32, 57, 0], [20, 3, 8]], 
+      //                             [[-32, 60, 8], [10, 10, 3]]])
 
-        // Tire Flip (M09):
-        self.addObstacles(scene, [[[55, -13, 0], [7, 7, 3]], 
-                                  [[55, 0, 0], [10, 10, 5]]])
+      //   // Tire Flip (M09):
+      //   self.addObstacles(scene, [[[55, -13, 0], [7, 7, 3]], 
+      //                             [[55, 0, 0], [10, 10, 5]]])
 
-        self.addObstacles(scene, [[[42, 39, 0], [5, 15, 10]]])
+      //   self.addObstacles(scene, [[[42, 39, 0], [5, 15, 10]]])
 
-        // Cell Phone (M10):
-        self.addObstacles(scene, [[[55, 48, 0], [10, 5, 2], [0, 45, 0]]])
+      //   // Cell Phone (M10):
+      //   self.addObstacles(scene, [[[55, 48, 0], [10, 5, 2], [0, 45, 0]]])
 
-        // Treadmill (M11):
-        self.addObstacles(scene, [[[105, -41, 0], [10, 10, 5]]])
+      //   // Treadmill (M11):
+      //   self.addObstacles(scene, [[[105, -41, 0], [10, 10, 5]]])
 
-        // Row Machine (M12):
-        self.addObstacles(scene, [[[108, -8, 0], [5, 5, 10]], 
-                                  [[101, -11, 0], [5, 5, 2]]])
+      //   // Row Machine (M12):
+      //   self.addObstacles(scene, [[[108, -8, 0], [5, 5, 10]], 
+      //                             [[101, -11, 0], [5, 5, 2]]])
 
-        // Weight Machine (M13):
-        self.addObstacles(scene, [[[103, 44, 0], [20, 5, 10]]])
-      }
+      //   // Weight Machine (M13):
+      //   self.addObstacles(scene, [[[103, 44, 0], [20, 5, 10]]])
+      // }
 
       
 
@@ -704,12 +707,12 @@ var world_Image = new function() {
       }
       let rot = [0, 0, 0];
       if (obstacles[i][2]) {
-        for (let r=0; r < obstacles[i][2].length; r++){
-          obstacles[i][2][r] = obstacles[i][2][r] * (Math.PI/180)
-        }
+        // for (let r=0; r < obstacles[i][2].length; r++){
+        //   obstacles[i][2][r] = obstacles[i][2][r] * (Math.PI/180)
+        // }
         rot = obstacles[i][2];
       }
-      let defaultColor = '#666666';
+      let defaultColor = '#E6808080';
       let color = defaultColor;
       if (obstacles[i][3]) {
         color = obstacles[i][3];
