@@ -2,9 +2,9 @@ var world_Image = new function() {
   var self = this;
 
   this.name = 'image';
-  this.shortDescription = 'Generate from image (deprecated)';	
-  this.longDescription =	
-    '<p>This world is deprecated. Most of it\'s capabilities are now replaced by Custom World and Mission World.</p>' +	
+  this.shortDescription = 'Generate from image (deprecated)';
+  this.longDescription =
+    '<p>This world is deprecated. Most of it\'s capabilities are now replaced by Custom World and Mission World.</p>' +
     '<p>This world is kept around mainly for compatibility with old custom maps.</p>';
   this.thumbnail = 'images/worlds/fll.jpg';
 
@@ -21,12 +21,12 @@ var world_Image = new function() {
       title: 'Select Image',
       type: 'select',
       options: [
-        ['FLL 2020', 'textures/maps/FLL2020.jpg'],
-        ['FLL 2019', 'textures/maps/FLL2019.jpg'],
-        ['FLL 2018', 'textures/maps/FLL2018.jpg'],
-        ['WRO 2020', 'textures/maps/WRO-2020-Regular-Junior.jpg'],
-        ['WRO 2019', 'textures/maps/WRO-2019-Regular-Junior.jpg'],
-        ['WRO 2018', 'textures/maps/WRO-2018-Regular-Junior.png'],
+        ['FLL 2020', 'textures/maps/FLL/FLL2020.jpg'],
+        ['FLL 2019', 'textures/maps/FLL/FLL2019.jpg'],
+        ['FLL 2018', 'textures/maps/FLL/FLL2018.jpg'],
+        ['WRO 2020', 'textures/maps/WRO/WRO-2020-Regular-Junior.jpg'],
+        ['WRO 2019', 'textures/maps/WRO/WRO-2019-Regular-Junior.jpg'],
+        ['WRO 2018', 'textures/maps/WRO/WRO-2018-Regular-Junior.png'],
       ],
       help: 'You can override this by setting an image URL or uploading a file'
     },
@@ -125,11 +125,11 @@ var world_Image = new function() {
 
   // Default starting position for this image in x, z, rotY (radians)
   this.imageStartPos = {
-    'textures/maps/FLL2020.jpg': [-70, -40, 0],
+    'textures/maps/FLL/FLL2020.jpg': [-70, -40, 0],
   },
 
   this.missions = {
-    'textures/maps/FLL2020.jpg': {
+    'textures/maps/FLL/FLL2020.jpg': {
       obstacles: [
         // Step Counter (M02):
         [[40, -53, 0], [30, 7, 7], [0,0,0], '#666666'],
@@ -167,7 +167,7 @@ var world_Image = new function() {
   }
 
   this.defaultOptions = {
-    image: 'textures/maps/FLL2020.jpg',
+    image: 'textures/maps/FLL/FLL2020.jpg',
     imageURL: '',
     length: 100,
     width: 100,
@@ -182,9 +182,6 @@ var world_Image = new function() {
     wallRestitution: 0.1,
     obstacles: [],
     magnetics: [],
-    // startPos: 'center',
-    // startPosXY: '-70, -40',
-    // startRot: '',
     objects: [],
     startPos: 'imageDefault',
     startPosXY: '',
@@ -223,14 +220,13 @@ var world_Image = new function() {
     return new Promise(function(resolve, reject) {
       var img = new Image();
       img.crossOrigin = "anonymous";
-      img.onerror = function() {	
-        showErrorModal(	
-          '<p>Gears cannot load this image.</p>' +	
-          '<p>Either the image URL is wrong, or the server that hosts this image do not allow cross origin access (...most servers do not).</p>' +	
-          '<p>Try hosting the image on Imgur. They are known to allow cross origin access.</p>'	
-        );	
+      img.onerror = function() {
+        showErrorModal(
+          '<p>Gears cannot load this image.</p>' +
+          '<p>Either the image URL is wrong, or the server that hosts this image do not allow cross origin access (...most servers do not).</p>' +
+          '<p>Try hosting the image on Imgur. They are known to allow cross origin access.</p>'
+        );
       };
-
       img.onload = function() {
         self.options.length = this.width / 10.0 * self.options.imageScale;
         self.options.width = this.height / 10.0 * self.options.imageScale;
@@ -314,7 +310,11 @@ var world_Image = new function() {
 
         if (typeof self.options.startPosXY != 'undefined' && self.options.startPosXY.trim() != '') {
           let xy = self.options.startPosXY.split(',');
-          self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), 0, parseFloat(xy[1]));
+          let alt = 0;
+          if (xy.length > 2) {
+            alt = parseFloat(xy[2]);
+          }
+          self.robotStart.position = new BABYLON.Vector3(parseFloat(xy[0]), alt, parseFloat(xy[1]));
         }
         if (typeof self.options.startRot != 'undefined' && self.options.startRot.trim() != '') {
           self.robotStart.rotation.y = parseFloat(self.options.startRot) / 180 * Math.PI;
@@ -404,55 +404,6 @@ var world_Image = new function() {
         wallRight.position.x = (options.length + options.wallThickness) / 2;
         wallRight.material = wallMat;
       }
-
-      
-      // 2020 Missions:
-      // if (self.options.image == 'textures/maps/FLL2020.jpg' && self.options.missions){
-      //   // Step Counter (M02):
-      //   self.addObstacles(scene, [[[40, -53, 0], [30, 7, 7]]])
-
-      //   // Slide (M03):
-      //   self.addObstacles(scene, [[[0, -2, 0], [4, 10, 10], [0, 50, 0]]])
-
-      //   // Bench (M04):
-      //   self.addObstacles(scene, [[[-67, 15, 0], [20, 7, 7], [0, -165, 0]]])
-
-      //   // Basketball (M05):
-      //   self.addObstacles(scene, [[[-52, 49, 0], [7, 7, 20], [0, -133, 0]]])
-
-      //   // Push ups (M06):
-      //   self.addObstacles(scene, [[[12, -7, 0], [5, 10, 2]], 
-      //                             [[15, -10, 0], [3, 3, 20]], 
-      //                             [[27, -10, 17], [24, 3, 3]], 
-      //                             [[39, -10, 0], [3, 3, 20]], 
-      //                             [[42, -7, 0], [5, 10, 2]]])
-
-      //   // Boccia (M08):
-      //   self.addObstacles(scene, [[[-32, 57, 0], [20, 3, 8]], 
-      //                             [[-32, 60, 8], [10, 10, 3]]])
-
-      //   // Tire Flip (M09):
-      //   self.addObstacles(scene, [[[55, -13, 0], [7, 7, 3]], 
-      //                             [[55, 0, 0], [10, 10, 5]]])
-
-      //   self.addObstacles(scene, [[[42, 39, 0], [5, 15, 10]]])
-
-      //   // Cell Phone (M10):
-      //   self.addObstacles(scene, [[[55, 48, 0], [10, 5, 2], [0, 45, 0]]])
-
-      //   // Treadmill (M11):
-      //   self.addObstacles(scene, [[[105, -41, 0], [10, 10, 5]]])
-
-      //   // Row Machine (M12):
-      //   self.addObstacles(scene, [[[108, -8, 0], [5, 5, 10]], 
-      //                             [[101, -11, 0], [5, 5, 2]]])
-
-      //   // Weight Machine (M13):
-      //   self.addObstacles(scene, [[[103, 44, 0], [20, 5, 10]]])
-      // }
-
-      
-
 
       // Physics
       ground.physicsImpostor = new BABYLON.PhysicsImpostor(
@@ -586,7 +537,6 @@ var world_Image = new function() {
 
     if (options.magnetic) {
       objectMesh.isMagnetic = true;
-      objectMesh.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
     }
 
     if (typeof options.laserDetection == 'undefined') {
@@ -707,9 +657,6 @@ var world_Image = new function() {
       }
       let rot = [0, 0, 0];
       if (obstacles[i][2]) {
-        // for (let r=0; r < obstacles[i][2].length; r++){
-        //   obstacles[i][2][r] = obstacles[i][2][r] * (Math.PI/180)
-        // }
         rot = obstacles[i][2];
       }
       let defaultColor = '#E6808080';
@@ -807,9 +754,6 @@ var world_Image = new function() {
         physicsOptions,
         scene
       );
-      if (magnetic) {
-        box.physicsImpostor.physicsBody.setDamping(0.8, 0.8);
-      }
     }
 
     return box;
