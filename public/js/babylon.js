@@ -71,8 +71,9 @@ var babylon = new function() {
 
     // Shadows
     scene.shadowGenerator = new BABYLON.ShadowGenerator(512, lightDir);
+    scene.shadowGenerator.forceBackFacesOnly = true;
     // scene.shadowGenerator.bias = 0.00005;
-    // scene.shadowGenerator.depthScale = 50;
+    // scene.shadowGenerator.depthScale = 5000;
     // scene._shadowsEnabled = false;
 
     // Optimizer
