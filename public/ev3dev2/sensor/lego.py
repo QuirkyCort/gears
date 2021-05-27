@@ -55,6 +55,9 @@ class ColorSensor:
     elif hsv[1] < 20:
       return self.COLOR_WHITE
 
+    elif hsv[0] < 45 and hsv[2] < 50:
+      return self.COLOR_BROWN
+
     elif hsv[0] < 30:
       return self.COLOR_RED
 

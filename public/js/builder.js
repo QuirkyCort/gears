@@ -1088,7 +1088,6 @@ var builder = new function() {
     $keyTime.val(maxTime);
 
     function edit() {
-      console.log(objectOptions.animationKeys);
       let $body = $('<div class="editAnimationKeys"></div>');
       let $table = $(
         '<table class="animationKeys">' +
@@ -1134,7 +1133,7 @@ var builder = new function() {
         '<button type="button" class="ok btn-light">Ok</button>'
       );
   
-      let $dialog = dialog('Select Built-In Image', $body, $buttons);
+      let $dialog = dialog('Edit animation keys', $body, $buttons);
   
       $buttons.siblings('.cancel').click(function() {
         $dialog.close();

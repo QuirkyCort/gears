@@ -6,7 +6,7 @@ var skulpt = new function() {
     './ev3dev2/motor.py': 'ev3dev2/motor.py?v=f13c634c',
     './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
     './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
-    './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=df2c0534',
+    './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=4464b27b',
     './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=bba8d7d8',
     './simPython.js': 'js/simPython.js?v=d9091c9f'
   };
