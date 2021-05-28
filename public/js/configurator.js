@@ -522,6 +522,10 @@ var configurator = new function() {
         rotation: [0, 0, 0],
         components: [],
         options: {
+          armLength: 18,
+          minAngle: -5,
+          maxAngle: 180,
+          mass: 100,
           armColor: 'A3CF0D',
           imageType: 'repeat',
           imageURL: '',
@@ -639,7 +643,9 @@ var configurator = new function() {
         position: [0, 5, 0],
         rotation: [0, 0, 0],
         components: [],
-        options: null
+        options: {
+          mass: 100
+        }
       },
       optionsConfigurations: [
         {
