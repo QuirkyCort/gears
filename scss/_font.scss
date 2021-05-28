@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?luj0sj');
-  src:  url('../fonts/icomoon.eot?luj0sj#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?luj0sj') format('truetype'),
-    url('../fonts/icomoon.woff?luj0sj') format('woff'),
-    url('../fonts/icomoon.svg?luj0sj#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?tw0suc');
+  src:  url('../fonts/icomoon.eot?tw0suc#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?tw0suc') format('truetype'),
+    url('../fonts/icomoon.woff?tw0suc') format('woff'),
+    url('../fonts/icomoon.svg?tw0suc#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,27 +25,36 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-virtualJoystickIndicator:before {
-  content: "\e902";
-}
-.icon-virtualJoystick:before {
-  content: "\e906";
-}
-.icon-joystick:before {
-  content: "\e907";
-}
-.icon-ruler:before {
+.icon-cameraArc:before {
   content: "\e900";
 }
-.icon-camera:before {
+.icon-cameraTop:before {
   content: "\e901";
 }
-.icon-stop:before {
+.icon-cameraFollow:before {
+  content: "\e902";
+}
+.icon-ruler:before {
   content: "\e903";
 }
-.icon-play:before {
+.icon-camera:before {
   content: "\e904";
 }
-.icon-globe:before {
+.icon-virtualJoystickIndicator:before {
   content: "\e905";
+}
+.icon-stop:before {
+  content: "\e906";
+}
+.icon-play:before {
+  content: "\e907";
+}
+.icon-globe:before {
+  content: "\e908";
+}
+.icon-virtualJoystick:before {
+  content: "\e909";
+}
+.icon-joystick:before {
+  content: "\e90a";
 }

@@ -58,15 +58,37 @@
   user-select: none;
 }
 
-.camera {
+.cameraSelector {
   position: absolute;
-  color: white;
+  overflow: hidden;
+  color: #444;
+  background: rgba(255,255,255,0.5);
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   opacity: 0.8;
-  top: 2em;
-  right: 2em;
-  font-size: 200%;
+  top: 1em;
+  right: 1.5em;
+  height: 5em;
+  font-size: 300%;
+  transition: 0.5s height;
   cursor: pointer;
   user-select: none;
+
+  > div {
+    margin: 0.2em;
+  }
+
+  .hide {
+    display: none;
+  }
+}
+
+.cameraSelector.closed {
+  color: white;
+  background: none;
+  height: 1.3em;
 }
 
 .ruler {
@@ -391,7 +413,7 @@
   color: white;
   opacity: 0.8;
   top: 2em;
-  right: 8em;
+  right: 5.5em;
   font-size: 200%;
   cursor: pointer;
   user-select: none;

@@ -276,15 +276,32 @@ ul.menuDropDownRightAlign {
   cursor: pointer;
   user-select: none; }
 
-.camera {
+.cameraSelector {
   position: absolute;
-  color: white;
+  overflow: hidden;
+  color: #444;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   opacity: 0.8;
-  top: 2em;
-  right: 2em;
-  font-size: 200%;
+  top: 1em;
+  right: 1.5em;
+  height: 5em;
+  font-size: 300%;
+  transition: 0.5s height;
   cursor: pointer;
   user-select: none; }
+  .cameraSelector > div {
+    margin: 0.2em; }
+  .cameraSelector .hide {
+    display: none; }
+
+.cameraSelector.closed {
+  color: white;
+  background: none;
+  height: 1.3em; }
 
 .ruler {
   position: absolute;
@@ -515,7 +532,7 @@ ul.menuDropDownRightAlign {
   color: white;
   opacity: 0.8;
   top: 2em;
-  right: 8em;
+  right: 5.5em;
   font-size: 200%;
   cursor: pointer;
   user-select: none; }
@@ -606,8 +623,8 @@ ul.menuDropDownRightAlign {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?luj0sj");
-  src: url("../fonts/icomoon.eot?luj0sj#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?luj0sj") format("truetype"), url("../fonts/icomoon.woff?luj0sj") format("woff"), url("../fonts/icomoon.svg?luj0sj#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?tw0suc");
+  src: url("../fonts/icomoon.eot?tw0suc#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?tw0suc") format("truetype"), url("../fonts/icomoon.woff?tw0suc") format("woff"), url("../fonts/icomoon.svg?tw0suc#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
@@ -624,29 +641,38 @@ ul.menuDropDownRightAlign {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.icon-virtualJoystickIndicator:before {
-  content: "\e902"; }
-
-.icon-virtualJoystick:before {
-  content: "\e906"; }
-
-.icon-joystick:before {
-  content: "\e907"; }
-
-.icon-ruler:before {
+.icon-cameraArc:before {
   content: "\e900"; }
 
-.icon-camera:before {
+.icon-cameraTop:before {
   content: "\e901"; }
 
-.icon-stop:before {
+.icon-cameraFollow:before {
+  content: "\e902"; }
+
+.icon-ruler:before {
   content: "\e903"; }
 
-.icon-play:before {
+.icon-camera:before {
   content: "\e904"; }
 
-.icon-globe:before {
+.icon-virtualJoystickIndicator:before {
   content: "\e905"; }
+
+.icon-stop:before {
+  content: "\e906"; }
+
+.icon-play:before {
+  content: "\e907"; }
+
+.icon-globe:before {
+  content: "\e908"; }
+
+.icon-virtualJoystick:before {
+  content: "\e909"; }
+
+.icon-joystick:before {
+  content: "\e90a"; }
 
 #arenaFrame {
   background-color: white;

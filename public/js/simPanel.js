@@ -18,7 +18,9 @@ var simPanel = new function() {
     self.$runSim = $('.runSim');
     self.$world = $('.world');
     self.$reset = $('.reset');
+    self.$cameraSelector = $('.cameraSelector');
     self.$camera = $('.camera');
+    self.$cameraOptions = $('.cameraOptions');
     self.$sensors = $('.sensors');
     self.$ruler = $('.ruler');
     self.$joystick = $('.joystick');
@@ -38,7 +40,8 @@ var simPanel = new function() {
     self.$runSim.click(self.runSim);
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
-    self.$camera.click(self.switchCamera);
+    self.$camera.click(self.toggleCameraSelector);
+    self.$cameraOptions.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
     self.$joystickIcon.click(self.toggleJoystick);
 
@@ -155,7 +158,6 @@ var simPanel = new function() {
 
   // Toggle virtual joystick
   this.toggleJoystick = function() {
-    console.log('t')
     self.$joystick.toggleClass('closed');
   };
 
@@ -164,7 +166,6 @@ var simPanel = new function() {
     self.$world.text(i18n.get('#sim-world#'));
     self.$reset.text(i18n.get('#sim-reset#'));
     self.$sensors.text(i18n.get('#sim-sensors#'));
-    self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-follow#'));
   };
 
   // toggle ruler
@@ -484,21 +485,31 @@ var simPanel = new function() {
   };
 
   // switch camera
-  this.switchCamera = function() {
-    if (babylon.cameraMode == 'arc') {
-      babylon.setCameraMode('follow');
-      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-follow#'));
-
-    } else if (babylon.cameraMode == 'follow') {
-      babylon.setCameraMode('orthoTop');
-      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-top#'));
-
-    } else if (babylon.cameraMode == 'orthoTop') {
+  this.switchCamera = function(e) {
+    if (e.currentTarget.classList.contains('cameraArc')) {
       babylon.setCameraMode('arc');
-      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-arc#'));
+      self.$camera.html('<span class="icon-cameraArc"></span>');
+
+    } else if (e.currentTarget.classList.contains('cameraFollow')) {
+      babylon.setCameraMode('follow');
+      self.$camera.html('<span class="icon-cameraFollow"></span>');
+
+    } else if (e.currentTarget.classList.contains('cameraTop')) {
+      babylon.setCameraMode('orthoTop');
+      self.$camera.html('<span class="icon-cameraTop"></span>');
     }
+
+    self.$cameraSelector.addClass('closed');
   };
 
+  // Toggle camera selector
+  this.toggleCameraSelector = function() {
+    let current = self.$camera.children()[0].className.replace('icon-', '');
+    self.$cameraSelector.children().removeClass('hide');
+    self.$cameraSelector.find('.' + current).addClass('hide');
+    self.$cameraSelector.toggleClass('closed');
+  };
+  
   // Select world map
   this.selectWorld = function() {
     let $body = $('<div class="selectWorld"></div>');

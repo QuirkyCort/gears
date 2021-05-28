@@ -41,12 +41,15 @@ var babylon = new function() {
     scene.enablePhysics(gravityVector, physicsPlugin);
 
     var cameraArc = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2, Math.PI / 5, 200, new BABYLON.Vector3(0, 0, 0), scene);
+    cameraArc.origAlpha = -Math.PI / 2;
+    cameraArc.origBeta = Math.PI / 5;
     cameraArc.panningAxis = new BABYLON.Vector3(1, 1, 0);
     cameraArc.wheelPrecision = 3;
     cameraArc.lowerRadiusLimit = 10;
     cameraArc.panningSensibility = 100;
-    cameraArc.angularSensibilityX = 2000;
-    cameraArc.angularSensibilityY = 2000;
+    cameraArc.angularSensibility = 2000;
+    cameraArc.angularSensibilityX = cameraArc.angularSensibility;
+    cameraArc.angularSensibilityY = cameraArc.angularSensibility;
     cameraArc.attachControl(self.canvas, true);
     self.cameraArc = cameraArc;
     self.setCameraMode('follow');
@@ -126,11 +129,23 @@ var babylon = new function() {
     }
 
     if (self.cameraMode == 'follow') {
+      if (self.cameraArc.origAlpha !== null) {
+        self.cameraArc.alpha = self.cameraArc.origAlpha;
+      }
+      if (self.cameraArc.origBeta !== null) {
+        self.cameraArc.beta = self.cameraArc.origBeta;
+      }
+      self.cameraArc.origAlpha = null;
+      self.cameraArc.origBeta = null;
       self.cameraArc.lockedTarget = robot.body;
       self.cameraArc._panningMouseButton = 1;
       babylon.cameraArc.mode = BABYLON.Camera.PERSPECTIVE_CAMERA
       self.cameraArc.inputs.attached.keyboard.attachControl();
+      self.cameraArc.angularSensibilityX = self.cameraArc.angularSensibility;
+      self.cameraArc.angularSensibilityY = self.cameraArc.angularSensibility;
     } else if (self.cameraMode == 'orthoTop') {
+      self.cameraArc.origAlpha = self.cameraArc.alpha;
+      self.cameraArc.origBeta = self.cameraArc.beta;
       let target = self.cameraArc.getTarget().clone();
       self.cameraArc.lockedTarget = null;
       self.cameraArc.setTarget(target);
@@ -141,13 +156,25 @@ var babylon = new function() {
       self.cameraArc.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
       self.zoomOrtho();
       self.cameraArc.inputs.attached.keyboard.detachControl();
+      self.cameraArc.angularSensibilityX = 10000000;
+      self.cameraArc.angularSensibilityY = 10000000;
     } else if (self.cameraMode == 'arc') {
+      if (self.cameraArc.origAlpha !== null) {
+        self.cameraArc.alpha = self.cameraArc.origAlpha;
+      }
+      if (self.cameraArc.origBeta !== null) {
+        self.cameraArc.beta = self.cameraArc.origBeta;
+      }
+      self.cameraArc.origAlpha = null;
+      self.cameraArc.origBeta = null;
       let target = self.cameraArc.getTarget().clone();
       self.cameraArc.lockedTarget = null;
       self.cameraArc.setTarget(target);
       self.cameraArc._panningMouseButton = 1;
       babylon.cameraArc.mode = BABYLON.Camera.PERSPECTIVE_CAMERA;
       self.cameraArc.inputs.attached.keyboard.attachControl();
+      self.cameraArc.angularSensibilityX = self.cameraArc.angularSensibility;
+      self.cameraArc.angularSensibilityY = self.cameraArc.angularSensibility;
     }
   }
 
