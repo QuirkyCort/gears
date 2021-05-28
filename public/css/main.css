@@ -276,7 +276,7 @@ ul.menuDropDownRightAlign {
   cursor: pointer;
   user-select: none; }
 
-.cameraSelector {
+.cameraSelector, .cameraSelectorShort {
   position: absolute;
   overflow: hidden;
   color: #444;
@@ -290,18 +290,21 @@ ul.menuDropDownRightAlign {
   right: 1.5em;
   height: 5em;
   font-size: 300%;
-  transition: 0.5s height;
+  transition: 0.3s height;
   cursor: pointer;
   user-select: none; }
-  .cameraSelector > div {
+  .cameraSelector > div, .cameraSelectorShort > div {
     margin: 0.2em; }
-  .cameraSelector .hide {
+  .cameraSelector .hide, .cameraSelectorShort .hide {
     display: none; }
 
-.cameraSelector.closed {
+.cameraSelectorShort {
+  height: 3.5em; }
+
+.cameraSelector.closed, .cameraSelectorShort.closed {
   color: white;
   background: none;
-  height: 1.3em; }
+  height: 1.3em !important; }
 
 .ruler {
   position: absolute;

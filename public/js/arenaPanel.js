@@ -18,7 +18,9 @@ var arenaPanel = new function() {
     self.$stopSim = $('.stopSim');
     self.$world = $('.world');
     self.$reset = $('.reset');
+    self.$cameraSelector = $('.cameraSelectorShort');
     self.$camera = $('.camera');
+    self.$cameraOptions = $('.cameraOptions');
     self.$fps = $('.fps');
 
     self.$worldInfoPanel = $('.worldInfo');
@@ -30,7 +32,8 @@ var arenaPanel = new function() {
     self.$stopSim.click(self.stopSim);
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
-    self.$camera.click(self.switchCamera);
+    self.$camera.click(self.toggleCameraSelector);
+    self.$cameraOptions.click(self.switchCamera);
 
     babylon.setCameraMode('arc');
   };
@@ -75,15 +78,25 @@ var arenaPanel = new function() {
   };
 
   // switch camera
-  this.switchCamera = function() {
-    if (babylon.cameraMode == 'arc') {
-      babylon.setCameraMode('orthoTop');
-      self.$camera.html('<span class="icon-camera"></span> Top');
-
-    } else if (babylon.cameraMode == 'orthoTop') {
+  this.switchCamera = function(e) {
+    if (e.currentTarget.classList.contains('cameraArc')) {
       babylon.setCameraMode('arc');
-      self.$camera.html('<span class="icon-camera"></span> Arc');
+      self.$camera.html('<span class="icon-cameraArc"></span>');
+
+    } else if (e.currentTarget.classList.contains('cameraTop')) {
+      babylon.setCameraMode('orthoTop');
+      self.$camera.html('<span class="icon-cameraTop"></span>');
     }
+
+    self.$cameraSelector.addClass('closed');
+  };
+
+  // Toggle camera selector
+  this.toggleCameraSelector = function() {
+    let current = self.$camera.children()[0].className.replace('icon-', '');
+    self.$cameraSelector.children().removeClass('hide');
+    self.$cameraSelector.find('.' + current).addClass('hide');
+    self.$cameraSelector.toggleClass('closed');
   };
 
   // Select world map
