@@ -1332,13 +1332,16 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     arm.position.z += (self.options.armLength / 2) - 1;
 
     pivot.parent = parent;
-    pivot.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
-    pivot.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
-    pivot.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+    pivot.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL);
+    pivot.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL);
+    pivot.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL);
     pivot.position = self.bodyPosition.clone();
-    pivot.position.y += 0.5;
+    pivot.translate(BABYLON.Axis.Y, 0.5, BABYLON.Space.LOCAL);
+    pivot.rotate(BABYLON.Axis.X, -(self.options.startAngle * Math.PI / 180), BABYLON.Space.LOCAL);
     parent.removeChild(pivot);
     arm.parent = pivot;
+
+    self.positionAdjustment = self.options.startAngle;
   };
 
   this.loadImpostor = function() {
@@ -1373,10 +1376,10 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
   this.loadJoints = function() {
     let mainPivot = BABYLON.Vector3.Zero();
     mainPivot.y += 0.5;
+    mainPivot.rotateByQuaternionToRef(self.body.rotationQuaternion, mainPivot);
     let connectedPivot = BABYLON.Vector3.Zero();
     let axisVec = new BABYLON.Vector3(1, 0, 0);
-    let rotationQuaternion = BABYLON.Quaternion.FromEulerVector(self.rotation);
-    axisVec.rotateByQuaternionAroundPointToRef(rotationQuaternion, BABYLON.Vector3.Zero(), axisVec);
+    axisVec.rotateByQuaternionAroundPointToRef(self.body.rotationQuaternion, BABYLON.Vector3.Zero(), axisVec);
 
     self.joint = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
       mainPivot: mainPivot,
@@ -1398,6 +1401,7 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       armLength: 18,
       minAngle: -5,
       maxAngle: 180,
+      startAngle: 0,
       mass: 100,
       armColor: 'A3CF0D',
       imageType: 'repeat',

@@ -526,6 +526,7 @@ var configurator = new function() {
           minAngle: -5,
           maxAngle: 180,
           mass: 100,
+          startPos: 0,
           armColor: 'A3CF0D',
           imageType: 'repeat',
           imageURL: '',
@@ -600,6 +601,10 @@ var configurator = new function() {
           option: 'mass',
           type: 'floatText',
           help: 'If chaining actuators, it\'s recommended to reduce mass of child actuators'
+        },
+        {
+          option: 'startAngle',
+          type: 'floatText'
         }
       ]
     },
