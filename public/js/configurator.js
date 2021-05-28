@@ -604,7 +604,8 @@ var configurator = new function() {
         },
         {
           option: 'startAngle',
-          type: 'floatText'
+          type: 'floatText',
+          reset: true
         }
       ]
     },
