@@ -144,6 +144,7 @@ var configurator = new function() {
   this.componentTemplates = [
     {
       name: 'Box',
+      category: 'Blocks',
       defaultConfig: {
         type: 'Box',
         position: [0, 5, 0],
@@ -234,6 +235,7 @@ var configurator = new function() {
     },
     {
       name: 'Cylinder',
+      category: 'Blocks',
       defaultConfig: {
         type: 'Cylinder',
         position: [0, 5, 0],
@@ -303,6 +305,7 @@ var configurator = new function() {
     },
     {
       name: 'Sphere',
+      category: 'Blocks',
       defaultConfig: {
         type: 'Sphere',
         position: [0, 5, 0],
@@ -354,6 +357,7 @@ var configurator = new function() {
     },
     {
       name: 'ColorSensor',
+      category: 'Sensors',
       defaultConfig: {
         type: 'ColorSensor',
         position: [0, 5, 0],
@@ -397,6 +401,7 @@ var configurator = new function() {
     },
     {
       name: 'UltrasonicSensor',
+      category: 'Sensors',
       defaultConfig: {
         type: 'UltrasonicSensor',
         position: [0, 5, 0],
@@ -434,7 +439,90 @@ var configurator = new function() {
       ]
     },
     {
+      name: 'LaserRangeSensor',
+      category: 'Sensors',
+      defaultConfig: {
+        type: 'LaserRangeSensor',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: null
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vectors',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vectors',
+          min: '-180',
+          max: '180',
+          step: '5',
+          deg2rad: true,
+          reset: true
+        },
+        {
+          option: 'rayLength',
+          type: 'floatText',
+          help: 'Anything further than this will not be detected. Leave blank to use default.'
+        },
+      ]
+    },
+    {
+      name: 'TouchSensor',
+      category: 'Sensors',
+      defaultConfig: {
+        type: 'TouchSensor',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: {
+          width: 2,
+          depth: 2,
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vectors',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vectors',
+          min: '-180',
+          max: '180',
+          step: '5',
+          deg2rad: true,
+          reset: true
+        },
+        {
+          option: 'width',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'depth',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+      ]
+    },
+    {
       name: 'GyroSensor',
+      category: 'Sensors',
       defaultConfig: {
         type: 'GyroSensor',
         position: [0, 5, 0],
@@ -454,6 +542,7 @@ var configurator = new function() {
     },
     {
       name: 'GPSSensor',
+      category: 'Sensors',
       defaultConfig: {
         type: 'GPSSensor',
         position: [0, 5, 0],
@@ -473,6 +562,7 @@ var configurator = new function() {
     },
     {
       name: 'MagnetActuator',
+      category: 'Actuators',
       defaultConfig: {
         type: 'MagnetActuator',
         position: [0, 5, 0],
@@ -516,6 +606,7 @@ var configurator = new function() {
     },
     {
       name: 'ArmActuator',
+      category: 'Actuators',
       defaultConfig: {
         type: 'ArmActuator',
         position: [0, 5, 0],
@@ -634,40 +725,8 @@ var configurator = new function() {
       ]
     },
     {
-      name: 'LaserRangeSensor',
-      defaultConfig: {
-        type: 'LaserRangeSensor',
-        position: [0, 5, 0],
-        rotation: [0, 0, 0],
-        options: null
-      },
-      optionsConfigurations: [
-        {
-          option: 'position',
-          type: 'vectors',
-          min: '-20',
-          max: '20',
-          step: '1',
-          reset: true
-        },
-        {
-          option: 'rotation',
-          type: 'vectors',
-          min: '-180',
-          max: '180',
-          step: '5',
-          deg2rad: true,
-          reset: true
-        },
-        {
-          option: 'rayLength',
-          type: 'floatText',
-          help: 'Anything further than this will not be detected. Leave blank to use default.'
-        },
-      ]
-    },
-    {
       name: 'SwivelActuator',
+      category: 'Actuators',
       defaultConfig: {
         type: 'SwivelActuator',
         position: [0, 5, 0],
@@ -738,6 +797,7 @@ var configurator = new function() {
     },
     {
       name: 'LinearActuator',
+      category: 'Actuators',
       defaultConfig: {
         type: 'LinearActuator',
         position: [0, 5, 0],
@@ -871,6 +931,7 @@ var configurator = new function() {
     },
     {
       name: 'PaintballLauncherActuator',
+      category: 'Actuators',
       defaultConfig: {
         type: 'PaintballLauncherActuator',
         position: [0, 5, 0],
@@ -934,6 +995,7 @@ var configurator = new function() {
     },
     {
       name: 'Pen',
+      category: 'Others',
       defaultConfig: {
         type: 'Pen',
         position: [0, 5, 0],
@@ -956,53 +1018,6 @@ var configurator = new function() {
           type: 'boolean',
           help: 'If true, the drawn trace will be visible from both sides.'
         }
-      ]
-    },
-    {
-      name: 'TouchSensor',
-      defaultConfig: {
-        type: 'TouchSensor',
-        position: [0, 5, 0],
-        rotation: [0, 0, 0],
-        options: {
-          width: 2,
-          depth: 2,
-        }
-      },
-      optionsConfigurations: [
-        {
-          option: 'position',
-          type: 'vectors',
-          min: '-20',
-          max: '20',
-          step: '1',
-          reset: true
-        },
-        {
-          option: 'rotation',
-          type: 'vectors',
-          min: '-180',
-          max: '180',
-          step: '5',
-          deg2rad: true,
-          reset: true
-        },
-        {
-          option: 'width',
-          type: 'slider',
-          min: '1',
-          max: '20',
-          step: '1',
-          reset: true
-        },
-        {
-          option: 'depth',
-          type: 'slider',
-          min: '1',
-          max: '20',
-          step: '1',
-          reset: true
-        },
       ]
     },
   ];
@@ -1317,11 +1332,25 @@ var configurator = new function() {
     let $select = $('<select></select>');
     let $description = $('<div class="description"><div class="text"></div></div>');
 
+    let groups = [];
     self.componentTemplates.forEach(function(componentTemplate){
-      let $component = $('<option></option>');
-      $component.prop('value', componentTemplate.name);
-      $component.text(componentTemplate.name);
-      $select.append($component);
+      if (groups.indexOf(componentTemplate.category) == -1) {
+        groups.push(componentTemplate.category);
+      }
+    });
+
+    groups.forEach(function(group){
+      let $group = $('<optgroup label="' + group + '"></optgroup>');
+      self.componentTemplates.forEach(function(componentTemplate){
+        if (componentTemplate.category != group) {
+          return;
+        }
+        let $component = $('<option></option>');
+        $component.prop('value', componentTemplate.name);
+        $component.text(componentTemplate.name);
+        $group.append($component);
+      });
+      $select.append($group);
     });
 
     $body.append($select);
