@@ -134,6 +134,10 @@ var configurator = new function() {
         reset: true,
         help: 'URL for robot body image. Will not work with most webhosts; Imgur will work.'
       },
+      {
+        option: 'bodyMass',
+        type: 'floatText',
+      }
     ]
   };
 
@@ -588,6 +592,11 @@ var configurator = new function() {
           type: 'floatText',
           help: 'Highest possible angle for arm. Leave blank to use default.'
         },
+        {
+          option: 'mass',
+          type: 'floatText',
+          help: 'If chaining actuators, it\'s recommended to reduce mass of child actuators'
+        }
       ]
     },
     {
@@ -650,6 +659,11 @@ var configurator = new function() {
           deg2rad: true,
           reset: true
         },
+        {
+          option: 'mass',
+          type: 'floatText',
+          help: 'If chaining actuators, it\'s recommended to reduce mass of child actuators'
+        }
       ]
     },
     {
