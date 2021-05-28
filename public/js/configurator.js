@@ -526,7 +526,7 @@ var configurator = new function() {
           minAngle: -5,
           maxAngle: 180,
           mass: 100,
-          startPos: 0,
+          startAngle: 0,
           armColor: 'A3CF0D',
           imageType: 'repeat',
           imageURL: '',
