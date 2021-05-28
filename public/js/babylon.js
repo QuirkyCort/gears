@@ -51,6 +51,9 @@ var babylon = new function() {
     self.cameraArc = cameraArc;
     self.setCameraMode('follow');
 
+    // Controls for Orthographic camera
+    scene.onPointerObservable.add(self.zoomOrtho, BABYLON.PointerEventTypes.POINTERWHEEL);
+
     // Add GUI layer
     if (typeof BABYLON.GUI != 'undefined') {
       self.gui = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
@@ -90,6 +93,32 @@ var babylon = new function() {
     return scene;
   };
 
+  // Set othographic camera zoom
+  this.zoomOrtho = function(p) {
+    if (self.cameraMode != 'orthoTop') {
+      return;      
+    }
+
+    let wheelDelta = 0;
+    if (typeof p != 'undefined') {
+      var event = p.event;  
+      if (event.wheelDelta) {
+          wheelDelta = event.wheelDelta;
+      } else {
+          wheelDelta = -(event.deltaY || event.detail) * 60;
+      }  
+    }
+
+    self.cameraArc.orthoRadius -= wheelDelta / 12;
+
+    let zoomScale = self.cameraArc.orthoRadius / 2.5;
+    let aspectRatio = self.canvas.width / self.canvas.height;
+    self.cameraArc.orthoTop = 1 * zoomScale;
+    self.cameraArc.orthoBottom = -1 * zoomScale;
+    self.cameraArc.orthoLeft = -aspectRatio * zoomScale;
+    self.cameraArc.orthoRight = aspectRatio * zoomScale;
+  };
+
   // Set camera mode
   this.setCameraMode = function(mode) {
     if (typeof mode != 'undefined') {
@@ -99,19 +128,26 @@ var babylon = new function() {
     if (self.cameraMode == 'follow') {
       self.cameraArc.lockedTarget = robot.body;
       self.cameraArc._panningMouseButton = 1;
-
+      babylon.cameraArc.mode = BABYLON.Camera.PERSPECTIVE_CAMERA
+      self.cameraArc.inputs.attached.keyboard.attachControl();
     } else if (self.cameraMode == 'orthoTop') {
+      let target = self.cameraArc.getTarget().clone();
       self.cameraArc.lockedTarget = null;
+      self.cameraArc.setTarget(target);
       self.cameraArc.alpha = -Math.PI / 2;
       self.cameraArc.beta = 0;
       self.cameraArc._panningMouseButton = 0; // change functionality from left to right mouse button
-
+      self.cameraArc.orthoRadius = self.cameraArc.radius;
+      self.cameraArc.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
+      self.zoomOrtho();
+      self.cameraArc.inputs.attached.keyboard.detachControl();
     } else if (self.cameraMode == 'arc') {
-      // self.cameraArc.lockedTarget = new BABYLON.Vector3(0, 0, 0);
-      // self.cameraArc.alpha = -Math.PI / 2;
-      // self.cameraArc.beta = Math.PI / 5;
+      let target = self.cameraArc.getTarget().clone();
       self.cameraArc.lockedTarget = null;
+      self.cameraArc.setTarget(target);
       self.cameraArc._panningMouseButton = 1;
+      babylon.cameraArc.mode = BABYLON.Camera.PERSPECTIVE_CAMERA;
+      self.cameraArc.inputs.attached.keyboard.attachControl();
     }
   }
 
