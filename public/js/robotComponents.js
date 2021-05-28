@@ -1255,11 +1255,11 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     body.visibility = false;
     body.parent = parent;
     body.position = self.bodyPosition;
-    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
-    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
-    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL);
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL);
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL);
 
-    var armBaseMat = babylon.getMaterial(scene, 'A39C0D')
+    var armBaseMat = babylon.getMaterial(scene, self.options.baseColor);
 
     var armBase = BABYLON.MeshBuilder.CreateBox('armBase', {height: 3, width: 0.5, depth: 3}, scene);
     armBase.material = armBaseMat;
@@ -1273,9 +1273,9 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
     armBase2.position.x = 0.75;
     scene.shadowGenerator.addShadowCaster(armBase2);
 
-    var pivotMat = babylon.getMaterial(scene, '808080');
+    var pivotMat = babylon.getMaterial(scene, self.options.pivotColor);
 
-    var pivot = BABYLON.MeshBuilder.CreateBox('pivot', {height: 0.5, width: 2.4, depth: 0.5}, scene);;
+    var pivot = BABYLON.MeshBuilder.CreateBox('pivot', {height: 0.5, wdth: 2.4, depth: 0.5}, scene);;
     self.pivot = pivot;
     pivot.component = self;
     pivot.material = pivotMat;
@@ -1366,8 +1366,8 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
         mass: self.options.mass,
-        restitution: 0.4,
-        friction: 0.1
+        restitution: self.options.restitution,
+        friction: self.options.friction
       },
       scene
     );
@@ -1403,11 +1403,15 @@ function ArmActuator(scene, parent, pos, rot, port, options) {
       maxAngle: 180,
       startAngle: 0,
       mass: 100,
+      baseColor: 'A39C0D',
+      pivotColor: '808080',
       armColor: 'A3CF0D',
       imageType: 'repeat',
       imageURL: '',
       uScale: 1,
       vScale: 1,
+      restitution: 0.4,
+      friction: 0.1,
       components: []
     };
 
@@ -1717,9 +1721,9 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
   this.init = function() {
     self.setOptions(options);
 
-    var swivelBodyMat = babylon.getMaterial(scene, 'A39C0D');
+    var swivelBodyMat = babylon.getMaterial(scene, self.options.baseColor);
 
-    var body = BABYLON.MeshBuilder.CreateBox('swivelBody', {height: 1, width: 3, depth: 3}, scene);
+    var body = BABYLON.MeshBuilder.CreateBox('swivelBody', {height: 1, width: self.options.width, depth: self.options.width}, scene);
     self.body = body;
     body.component = self;
     self.body.material = swivelBodyMat;
@@ -1730,9 +1734,9 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
     body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
     scene.shadowGenerator.addShadowCaster(body);
 
-    var platformMat = babylon.getMaterial(scene, '808080');
+    var platformMat = babylon.getMaterial(scene, self.options.platformColor);
 
-    var platform = BABYLON.MeshBuilder.CreateCylinder('platform', {height: 0.5, diameter: 2.5, tessellation:12}, scene);;
+    var platform = BABYLON.MeshBuilder.CreateCylinder('platform', {height: 0.5, diameter: self.options.width / 3 * 2.5, tessellation:12}, scene);;
     self.platform = platform;
     platform.component = self;
     self.end = platform;
@@ -1761,8 +1765,8 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
       BABYLON.PhysicsImpostor.BoxImpostor,
       {
         mass: self.options.mass,
-        restitution: 0.4,
-        friction: 0.1
+        restitution: self.options.restitution,
+        friction: self.options.friction
       },
       scene
     );
@@ -1795,6 +1799,11 @@ function SwivelActuator(scene, parent, pos, rot, port, options) {
   this.setOptions = function(options) {
     self.options = {
       mass: 100,
+      baseColor: 'A39C0D',
+      platformColor: '808080',
+      width: 3,
+      restitution: 0.4,
+      friction: 0.1,
       components: []
     };
 

@@ -527,11 +527,15 @@ var configurator = new function() {
           maxAngle: 180,
           mass: 100,
           startAngle: 0,
+          baseColor: 'A39C0D',
+          pivotColor: '808080',
           armColor: 'A3CF0D',
           imageType: 'repeat',
           imageURL: '',
           uScale: 1,
           vScale: 1,
+          restitution: 0.4,
+          friction: 0.1
         }
       },
       optionsConfigurations: [
@@ -556,6 +560,18 @@ var configurator = new function() {
           option: 'armLength',
           type: 'floatText',
           help: 'Length of arm in cm. Leave blank to use default.',
+          reset: true
+        },
+        {
+          option: 'baseColor',
+          type: 'color',
+          help: 'Color in hex',
+          reset: true
+        },
+        {
+          option: 'pivotColor',
+          type: 'color',
+          help: 'Color in hex',
           reset: true
         },
         {
@@ -606,7 +622,15 @@ var configurator = new function() {
           option: 'startAngle',
           type: 'floatText',
           reset: true
-        }
+        },
+        {
+          option: 'friction',
+          type: 'slider',
+          min: '0',
+          max: '1',
+          step: '0.05',
+          help: 'This will also apply to all child objects'
+        },
       ]
     },
     {
@@ -650,7 +674,12 @@ var configurator = new function() {
         rotation: [0, 0, 0],
         components: [],
         options: {
-          mass: 100
+          mass: 100,
+          baseColor: 'A39C0D',
+          platformColor: '808080',
+          width: 3,
+          restitution: 0.4,
+          friction: 0.1
         }
       },
       optionsConfigurations: [
@@ -672,10 +701,39 @@ var configurator = new function() {
           reset: true
         },
         {
+          option: 'baseColor',
+          type: 'color',
+          help: 'Color in hex',
+          reset: true
+        },
+        {
+          option: 'platformColor',
+          type: 'color',
+          help: 'Color in hex',
+          reset: true
+        },
+        {
+          option: 'width',
+          type: 'slider',
+          min: '1',
+          max: '20',
+          step: '0.5',
+          reset: true,
+          help: 'Width of the base'
+        },
+        {
           option: 'mass',
           type: 'floatText',
           help: 'If chaining actuators, it\'s recommended to reduce mass of child actuators'
-        }
+        },
+        {
+          option: 'friction',
+          type: 'slider',
+          min: '0',
+          max: '1',
+          step: '0.05',
+          help: 'This will also apply to all child objects'
+        },
       ]
     },
     {
