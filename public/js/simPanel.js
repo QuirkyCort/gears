@@ -208,39 +208,39 @@ var simPanel = new function() {
     }
 
     self.$joystick[0].addEventListener('keydown', event => {
-      if (event.isComposing || event.keyCode === 229) {
+      if (event.isComposing) {
         return;
       }
       if (self.$joystick.hasClass('closed')) {
         return;
       }
       
-      if (event.keyCode == 37) {
+      if (event.key == 'ArrowLeft') {
         left = true;
-      } else if (event.keyCode == 38) {
+      } else if (event.key == 'ArrowUp') {
         up = true;
-      } else if (event.keyCode == 39) {
+      } else if (event.key == 'ArrowRight') {
         right = true;
-      } else if (event.keyCode == 40) {
+      } else if (event.key == 'ArrowDown') {
         down = true;
       }
       drive();
     });
 
     self.$joystick[0].addEventListener('keyup', event => {
-      if (event.isComposing || event.keyCode === 229) {
+      if (event.isComposing) {
         return;
       }
       if (self.$joystick.hasClass('closed')) {
         return;
       }
-      if (event.keyCode == 37) {
+      if (event.key == 'ArrowLeft') {
         left = false;
-      } else if (event.keyCode == 38) {
+      } else if (event.key == 'ArrowUp') {
         up = false;
-      } else if (event.keyCode == 39) {
+      } else if (event.key == 'ArrowRight') {
         right = false;
-      } else if (event.keyCode == 40) {
+      } else if (event.key == 'ArrowDown') {
         down = false;
       }
       drive();
