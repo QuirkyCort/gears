@@ -192,14 +192,17 @@ var babylon = new function() {
 
     self.scene = self.createScene();
 
-    // Restore camera
-    self.setCameraMode(mode);
-    self.cameraArc.position = pos;
-    self.cameraArc.absoluteRotation = rot;
-    self.cameraArc.upVector = up;
-    self.cameraArc.target = target;
+    self.loadMeshes(self.scene).then(function(){
+      // Restore camera
+      self.setCameraMode(mode);
+      self.cameraArc.position = pos;
+      self.cameraArc.absoluteRotation = rot;
+      self.cameraArc.upVector = up;
+      self.cameraArc.target = target;
+      self.cameraArc.origAlpha = null;
+      self.cameraArc.origBeta = null;
+    });
 
-    self.loadMeshes(self.scene);
     if (
       typeof main == 'undefined'
       || main.$navs.siblings('.active').attr('id') == 'navSim'
@@ -266,7 +269,7 @@ var babylon = new function() {
       }
     });
 
-    Promise.all(loader).then(function() {
+    return Promise.all(loader).then(function() {
       self.setCameraMode(); // Set after loading mesh as camera may be locked to mesh
 
       // RTT test

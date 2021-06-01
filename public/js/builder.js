@@ -1488,33 +1488,30 @@ var builder = new function() {
     self.saveHistory();
     let object = JSON.parse(JSON.stringify($selected[0].object));
     let parentCompound = self.findParentCompound($selected[0].objectIndex);
-    if (parentCompound !== null) {
-      parentCompound.objects.push(object);
-    } else {
-      self.worldOptions.objects.push(object);
-    }
+    parentCompound.objects.push(object);
     self.resetScene();
   };
 
   // Find the parent of a child object
   this.findParentCompound = function(objectIndex) {
-    let currentIndex = 0;
-    let parentCompound = null;
-    for (let i=0; i<self.worldOptions.objects.length; i++) {
-      if (self.worldOptions.objects[i].type == 'compound') {
-        parentCompound = self.worldOptions.objects[i];
-        for (let j=0; j<self.worldOptions.objects[i].objects.length; j++) {
-          if (currentIndex == objectIndex) {
-            return parentCompound;
-          }
-          currentIndex++;
-        }
-        parentCompound = null;
-      } else {
+    let currentIndex = -1;
+
+    function findParent(parent) {
+      for (let i=0; i<parent.objects.length; i++) {
         currentIndex++;
+        if (currentIndex == objectIndex) {
+          return parent;
+        } else if (parent.objects[i].type == 'compound') {
+          let result = findParent(parent.objects[i]);
+          if (result != null) {
+            return result;
+          }
+        }
       }
+      return null;
     }
-    return null;
+
+    return findParent(self.worldOptions);
   };
 
   // Delete selected object
@@ -1632,7 +1629,7 @@ var builder = new function() {
     }
   }
 
-  // Load world into objectss window
+  // Load world into objects window
   this.loadIntoObjectsWindow = function(options) {
     let objectIndex = 0;
 
@@ -1679,6 +1676,7 @@ var builder = new function() {
       $item.text(object.type);
       $item[0].name = object.type;
       $item[0].object = object;
+      $item[0].objectIndex = objectIndex++;
       if (object.type == 'compound') {
         let $subList = $('<ul></ul>');
         object.objects.forEach(function(object){
@@ -1687,8 +1685,6 @@ var builder = new function() {
           $subList.append($subItem);
         });
         $item.append($subList);
-      } else {
-        $item[0].objectIndex = objectIndex++;
       }
 
       return $item;

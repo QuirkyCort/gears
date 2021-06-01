@@ -526,10 +526,11 @@ var World_Base = function() {
       return;
     }
     if (object.objects[0].type == 'compound') {
-      console.log('Invalid compound: Cannot have a compound as first object');
+      toastMsg('Invalid compound: Cannot have a compound as first object');
       return;
     }
 
+    indexObj.index++;
     let options = self.mergeObjectOptionsWithDefault(object.objects[0])
     let parentMesh = await self.addObject(scene, options, indexObj.index);
     indexObj.index++;
