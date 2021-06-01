@@ -359,7 +359,8 @@ ul.menuDropDownRightAlign {
   align-items: end;
   width: 7em;
   overflow: hidden;
-  transition: 0.5s width; }
+  transition: 0.5s width;
+  outline: none; }
   .joystick .icon {
     margin-right: 0.5em;
     font-size: 120%; }

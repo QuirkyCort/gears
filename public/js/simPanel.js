@@ -47,6 +47,7 @@ var simPanel = new function() {
 
     if (self.$virtualJoystick.length > 0) {
       self.setupJoystick();
+      self.setupJoystickKeyControls();
     }
 
     self.updateTextLanguage();
@@ -154,6 +155,103 @@ var simPanel = new function() {
     }
     self.$virtualJoystick[0].addEventListener('pointerup', resetJoystick);
     self.$virtualJoystick[0].addEventListener('pointerleave', resetJoystick);
+  };
+
+  // Key controls for joystick 
+  this.setupJoystickKeyControls = function() {
+    let left, right, up, down;
+
+    function moveTank(leftWheel, rightWheel) {
+      robot.leftWheel.speed_sp = leftWheel;
+      robot.rightWheel.speed_sp = rightWheel;
+      if (leftWheel == 0) {
+        robot.leftWheel.stop();
+      } else {
+        robot.leftWheel.runForever();
+      }
+      if (rightWheel == 0) {
+        robot.rightWheel.stop();
+      } else {
+        robot.rightWheel.runForever();
+      }
+    }
+
+    function drive() {
+      let l, r;
+      let SPEED = 400;
+
+      if (up) {
+        l = SPEED;
+        r = SPEED;
+        if (left) {
+          l = 0;
+        } else if (right) {
+          r = 0;
+        }
+      } else if (down) {
+        l = -SPEED;
+        r = -SPEED;
+        if (left) {
+          r = 0;
+        } else if (right) {
+          l = 0;
+        }
+      } else if (left) {
+        l = -SPEED / 2;
+        r = SPEED / 2;
+      } else if (right) {
+        l = SPEED / 2;
+        r = -SPEED / 2;
+      }
+
+      moveTank(l, r);
+    }
+
+    self.$joystick[0].addEventListener('keydown', event => {
+      if (event.isComposing || event.keyCode === 229) {
+        return;
+      }
+      if (self.$joystick.hasClass('closed')) {
+        return;
+      }
+      
+      if (event.keyCode == 37) {
+        left = true;
+      } else if (event.keyCode == 38) {
+        up = true;
+      } else if (event.keyCode == 39) {
+        right = true;
+      } else if (event.keyCode == 40) {
+        down = true;
+      }
+      drive();
+    });
+
+    self.$joystick[0].addEventListener('keyup', event => {
+      if (event.isComposing || event.keyCode === 229) {
+        return;
+      }
+      if (self.$joystick.hasClass('closed')) {
+        return;
+      }
+      if (event.keyCode == 37) {
+        left = false;
+      } else if (event.keyCode == 38) {
+        up = false;
+      } else if (event.keyCode == 39) {
+        right = false;
+      } else if (event.keyCode == 40) {
+        down = false;
+      }
+      drive();
+    });
+
+    self.$joystick[0].addEventListener('focusout', event => {
+      left = false;
+      right = false;
+      up = false;
+      down = false;
+    });
   };
 
   // Toggle virtual joystick
