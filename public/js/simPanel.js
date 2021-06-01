@@ -251,6 +251,7 @@ var simPanel = new function() {
       right = false;
       up = false;
       down = false;
+      drive();
     });
   };
 
