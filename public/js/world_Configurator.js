@@ -47,14 +47,22 @@ var world_Configurator = new function() {
           frontUVs: faceUV
       };
 
-      var ground = BABYLON.MeshBuilder.CreatePlane('plane', planeOptions, scene);
-      ground.material = groundMat;
-      ground.rotation.x = Math.PI / 2;
-      ground.isPickable = false;
+      self.ground = BABYLON.MeshBuilder.CreatePlane('plane', planeOptions, scene);
+      self.ground.material = groundMat;
+      self.ground.rotation.x = Math.PI / 2;
 
       resolve();
     });
   };
+
+  // hide ground if camera is below it
+  this.render = function() {
+    if (babylon.cameraArc.position.y < 0) {
+      self.ground.isPickable = false;
+    } else {
+      self.ground.isPickable = true;
+    }
+  }
 }
 
 // Init class

@@ -1285,11 +1285,13 @@ var configurator = new function() {
         $components.removeClass('selected');
 
         let component = getComponent(hit.pickedMesh);
-        let $target = self.$componentList.find('li[componentIndex=' + component.componentIndex + ']');
-        $target.addClass('selected');
-        self.showComponentOptions($target[0].component);
-
-        self.highlightSelected();
+        if (component) {
+          let $target = self.$componentList.find('li[componentIndex=' + component.componentIndex + ']');
+          $target.addClass('selected');
+          self.showComponentOptions($target[0].component);
+  
+          self.highlightSelected();  
+        }
       }
     }
   };
