@@ -358,8 +358,9 @@ ul.menuDropDownRightAlign {
   display: flex;
   align-items: end;
   width: 7em;
+  height: 4.8em;
   overflow: hidden;
-  transition: 0.5s width;
+  transition: 0.5s width, 0.5s height;
   outline: none; }
   .joystick .icon {
     margin-right: 0.5em;
@@ -381,11 +382,16 @@ ul.menuDropDownRightAlign {
       color: #bbb;
       top: 0;
       left: 0; }
+  .joystick .keyboard {
+    position: absolute;
+    top: 4em;
+    left: 0.5em; }
 
 .joystick.closed {
   color: white;
   background: none;
-  width: 1.3em; }
+  width: 1.3em;
+  height: 1.3em; }
 
 .console {
   position: absolute;
@@ -627,8 +633,8 @@ ul.menuDropDownRightAlign {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?tw0suc");
-  src: url("../fonts/icomoon.eot?tw0suc#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?tw0suc") format("truetype"), url("../fonts/icomoon.woff?tw0suc") format("woff"), url("../fonts/icomoon.svg?tw0suc#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?iagjad");
+  src: url("../fonts/icomoon.eot?iagjad#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?iagjad") format("truetype"), url("../fonts/icomoon.woff?iagjad") format("woff"), url("../fonts/icomoon.svg?iagjad#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
@@ -644,6 +650,9 @@ ul.menuDropDownRightAlign {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-keyboard:before {
+  content: "\e90b"; }
 
 .icon-cameraArc:before {
   content: "\e900"; }

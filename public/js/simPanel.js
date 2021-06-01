@@ -27,6 +27,7 @@ var simPanel = new function() {
     self.$joystickIcon = $('.icon-joystick');
     self.$virtualJoystick = $('.icon-virtualJoystick');
     self.$virtualJoystickIndicator = $('.icon-virtualJoystickIndicator');
+    self.$keyboard = $('.keyboard');
     self.$fps = $('.fps');
 
     setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors, self.$joystickIcon]);
@@ -44,6 +45,7 @@ var simPanel = new function() {
     self.$cameraOptions.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
     self.$joystickIcon.click(self.toggleJoystick);
+    self.$keyboard.click(self.keyboardHelp);
 
     if (self.$virtualJoystick.length > 0) {
       self.setupJoystick();
@@ -253,6 +255,19 @@ var simPanel = new function() {
       down = false;
       drive();
     });
+  };
+
+  // Help message for keyboard controls
+  self.keyboardHelp = function() {
+    let options = {
+      title: 'Keyboard Controls',
+      message:
+        '<p>' +
+        'Use the arrow keys to manually drive the robot. ' +
+        'The virtual joystick window must be opened and selected (...click on it) for keyboard controls to work. ' +
+        '</p>'
+    }
+    acknowledgeDialog(options);
   };
 
   // Toggle virtual joystick

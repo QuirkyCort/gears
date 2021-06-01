@@ -158,8 +158,9 @@
   display: flex;
   align-items: end;
   width: 7em;
+  height: 4.8em;
   overflow: hidden;
-  transition: 0.5s width;
+  transition: 0.5s width, 0.5s height;
   outline: none;
 
   .icon {
@@ -191,12 +192,19 @@
       left: 0;
     }
   }
+
+  .keyboard {
+    position: absolute;
+    top: 4em;
+    left: 0.5em;
+  }
 }
 
 .joystick.closed {
   color: white;
   background: none;
   width: 1.3em;
+  height: 1.3em;
 }
 
 .console {
