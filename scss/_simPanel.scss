@@ -72,7 +72,7 @@
   right: 1.5em;
   height: 5em;
   font-size: 300%;
-  transition: 0.3s height;
+  transition: 0.3s height, 0.3s color, 0.3s background-color;
   cursor: pointer;
   user-select: none;
 
@@ -111,7 +111,7 @@
   align-items: center;
   width: 13em;
   overflow: hidden;
-  transition: 0.5s width;
+  transition: 0.5s width, 0.5s color, 0.5s background-color;
 
   .icon {
     margin-right: 0.5em;
@@ -156,11 +156,11 @@
   cursor: pointer;
   user-select: none;
   display: flex;
-  align-items: end;
+  align-items: flex-start;
   width: 7em;
   height: 4.8em;
   overflow: hidden;
-  transition: 0.5s width, 0.5s height;
+  transition: 0.5s width, 0.5s height, 0.5s color, 0.5s background-color;
   outline: none;
 
   .icon {
@@ -444,6 +444,8 @@
   width: 14em;
   max-height: 70%;
   overflow-y: auto;
+  opacity: 1;
+  transition: 0.5s opacity, 0.5s max-height, 0.5s padding;
 
   .sensorReading {
     margin-bottom: 0.5em;
@@ -470,7 +472,10 @@
 }
 
 .sensorReadings.hide {
-  display: none;
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 @keyframes flash {

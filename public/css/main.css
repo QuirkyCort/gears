@@ -290,7 +290,7 @@ ul.menuDropDownRightAlign {
   right: 1.5em;
   height: 5em;
   font-size: 300%;
-  transition: 0.3s height;
+  transition: 0.3s height, 0.3s color, 0.3s background-color;
   cursor: pointer;
   user-select: none; }
   .cameraSelector > div, .cameraSelectorShort > div {
@@ -322,7 +322,7 @@ ul.menuDropDownRightAlign {
   align-items: center;
   width: 13em;
   overflow: hidden;
-  transition: 0.5s width; }
+  transition: 0.5s width, 0.5s color, 0.5s background-color; }
   .ruler .icon {
     margin-right: 0.5em;
     font-size: 120%; }
@@ -356,11 +356,11 @@ ul.menuDropDownRightAlign {
   cursor: pointer;
   user-select: none;
   display: flex;
-  align-items: end;
+  align-items: flex-start;
   width: 7em;
   height: 4.8em;
   overflow: hidden;
-  transition: 0.5s width, 0.5s height;
+  transition: 0.5s width, 0.5s height, 0.5s color, 0.5s background-color;
   outline: none; }
   .joystick .icon {
     margin-right: 0.5em;
@@ -558,7 +558,9 @@ ul.menuDropDownRightAlign {
   font-size: 100%;
   width: 14em;
   max-height: 70%;
-  overflow-y: auto; }
+  overflow-y: auto;
+  opacity: 1;
+  transition: 0.5s opacity, 0.5s max-height, 0.5s padding; }
   .sensorReadings .sensorReading {
     margin-bottom: 0.5em; }
     .sensorReadings .sensorReading .sensorType {
@@ -574,7 +576,10 @@ ul.menuDropDownRightAlign {
         width: 30%; }
 
 .sensorReadings.hide {
-  display: none; }
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0; }
 
 @keyframes flash {
   0% {
