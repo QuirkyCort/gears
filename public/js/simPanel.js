@@ -40,7 +40,15 @@ var simPanel = new function() {
     self.$consoleClear.click(self.clearConsole);
     self.$runSim.click(self.runSim);
     self.$world.click(self.selectWorld);
-    self.$reset.click(self.resetSim);
+    self.$reset.click(function() {
+      if (babylon.cameraMode == 'follow') {
+        self.resetSim().then(function(){
+          babylon.resetCamera();
+        });
+      } else {
+        self.resetSim();
+      }
+    });
     self.$camera.click(self.toggleCameraSelector);
     self.$cameraOptions.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
