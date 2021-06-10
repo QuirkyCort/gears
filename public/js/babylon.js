@@ -41,17 +41,9 @@ var babylon = new function() {
     scene.enablePhysics(gravityVector, physicsPlugin);
 
     var cameraArc = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2, Math.PI / 5, 200, new BABYLON.Vector3(0, 0, 0), scene);
-    cameraArc.origAlpha = -Math.PI / 2;
-    cameraArc.origBeta = Math.PI / 5;
-    cameraArc.panningAxis = new BABYLON.Vector3(1, 1, 0);
-    cameraArc.wheelPrecision = 3;
-    cameraArc.lowerRadiusLimit = 10;
-    cameraArc.panningSensibility = 100;
-    cameraArc.angularSensibility = 2000;
-    cameraArc.angularSensibilityX = cameraArc.angularSensibility;
-    cameraArc.angularSensibilityY = cameraArc.angularSensibility;
     cameraArc.attachControl(self.canvas, true);
     self.cameraArc = cameraArc;
+    self.resetCamera();
     self.setCameraMode('follow');
 
     // Controls for Orthographic camera
@@ -120,6 +112,22 @@ var babylon = new function() {
     self.cameraArc.orthoBottom = -1 * zoomScale;
     self.cameraArc.orthoLeft = -aspectRatio * zoomScale;
     self.cameraArc.orthoRight = aspectRatio * zoomScale;
+  };
+
+  // Set camera to default
+  this.resetCamera = function() {
+    self.cameraArc.alpha = -Math.PI / 2;
+    self.cameraArc.beta = Math.PI / 5;
+    self.cameraArc.radius = 200;
+    self.cameraArc.origAlpha = -Math.PI / 2;
+    self.cameraArc.origBeta = Math.PI / 5;
+    self.cameraArc.panningAxis = new BABYLON.Vector3(1, 1, 0);
+    self.cameraArc.wheelPrecision = 3;
+    self.cameraArc.lowerRadiusLimit = 10;
+    self.cameraArc.panningSensibility = 100;
+    self.cameraArc.angularSensibility = 2000;
+    self.cameraArc.angularSensibilityX = self.cameraArc.angularSensibility;
+    self.cameraArc.angularSensibilityY = self.cameraArc.angularSensibility;
   };
 
   // Set camera mode
@@ -192,17 +200,6 @@ var babylon = new function() {
 
     self.scene = self.createScene();
 
-    self.loadMeshes(self.scene).then(function(){
-      // Restore camera
-      self.setCameraMode(mode);
-      self.cameraArc.position = pos;
-      self.cameraArc.absoluteRotation = rot;
-      self.cameraArc.upVector = up;
-      self.cameraArc.target = target;
-      self.cameraArc.origAlpha = null;
-      self.cameraArc.origBeta = null;
-    });
-
     if (
       typeof main == 'undefined'
       || main.$navs.siblings('.active').attr('id') == 'navSim'
@@ -212,6 +209,17 @@ var babylon = new function() {
         self.scene.render();
       });
     }
+
+    return self.loadMeshes(self.scene).then(function(){
+      // Restore camera
+      self.setCameraMode(mode);
+      self.cameraArc.position = pos;
+      self.cameraArc.absoluteRotation = rot;
+      self.cameraArc.upVector = up;
+      self.cameraArc.target = target;
+      self.cameraArc.origAlpha = null;
+      self.cameraArc.origBeta = null;
+    });
   };
 
   // Remove all RTT cameras

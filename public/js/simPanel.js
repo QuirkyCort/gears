@@ -278,8 +278,6 @@ var simPanel = new function() {
   // Update text already in html
   this.updateTextLanguage = function() {
     self.$world.text(i18n.get('#sim-world#'));
-    self.$reset.text(i18n.get('#sim-reset#'));
-    self.$sensors.text(i18n.get('#sim-sensors#'));
   };
 
   // toggle ruler
@@ -611,6 +609,11 @@ var simPanel = new function() {
     } else if (e.currentTarget.classList.contains('cameraTop')) {
       babylon.setCameraMode('orthoTop');
       self.$camera.html('<span class="icon-cameraTop"></span>');
+
+    } else if (e.currentTarget.classList.contains('resetCamera')) {
+      babylon.resetCamera();
+      babylon.setCameraMode('follow');
+      self.$camera.html('<span class="icon-cameraFollow"></span>');
     }
 
     self.$cameraSelector.addClass('closed');
@@ -963,7 +966,11 @@ var simPanel = new function() {
     $buttons.siblings('.confirm').click(function(){
       babylon.world = worlds.find(world => world.name == $select.val());
       self.worldOptionsSetting = worldOptionsSetting;
-      self.resetSim();
+      self.resetSim().then(function(){
+        babylon.resetCamera();
+        babylon.setCameraMode('follow');
+        self.$camera.html('<span class="icon-cameraFollow"></span>');
+      });
       $dialog.close();
     });
   };
@@ -988,7 +995,11 @@ var simPanel = new function() {
   
       babylon.world = worlds.find(world => world.name == loadedSave.worldName);
       self.worldOptionsSetting = loadedSave.options;
-      self.resetSim();  
+      self.resetSim().then(function(){
+        babylon.resetCamera();
+        babylon.setCameraMode('follow');
+        self.$camera.html('<span class="icon-cameraFollow"></span>');
+      });  
     } catch (e) {
       showErrorModal(i18n.get('#sim-invalid_world_file_json#'));
     }
@@ -1093,13 +1104,13 @@ var simPanel = new function() {
 
   // Reset simulator
   this.resetSim = function() {
-    babylon.world.setOptions(self.worldOptionsSetting).then(function(){
+    return babylon.world.setOptions(self.worldOptionsSetting).then(function(){
       self.clearWorldInfoPanel();
       self.hideWorldInfoPanel();
-      babylon.resetScene();
       skulpt.hardInterrupt = true;
       self.setRunIcon('run');
       self.initSensorsPanel();
+      return babylon.resetScene();
     });
   };
 
