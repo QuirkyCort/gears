@@ -60,8 +60,6 @@ var simPanel = new function() {
       self.setupJoystickKeyControls();
     }
 
-    self.updateTextLanguage();
-
     self.$ruler[0].addEventListener('pointerup', function(e){
       if (e.pointerType == 'touch') {
         self.touchDevice = true;
@@ -281,11 +279,6 @@ var simPanel = new function() {
   // Toggle virtual joystick
   this.toggleJoystick = function() {
     self.$joystick.toggleClass('closed');
-  };
-
-  // Update text already in html
-  this.updateTextLanguage = function() {
-    self.$world.text(i18n.get('#sim-world#'));
   };
 
   // toggle ruler

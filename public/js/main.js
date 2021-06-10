@@ -910,12 +910,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20210520;
+    let current = 20210610;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>10 Jun 2021 (Linear Actuators)</h3>' +
+          '<ul>' +
+          '<li>Linear actuators are now available in the robot configurator. Try a demo <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FDemo%2FlinearActuatorForkLiftDemo.json&robotJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Frobots%2FDemo%2FlinearActuatorForklift.json">here</a></li>' +
+          '<li>Robots can now be manually driven using keyboard controls when the joystick panel is open.</li>' +
+          '<li>More buttons are now replaced with icons. Hopefully, this will make Gears more accessible to international users.</li>' +
+          '</ul>' +
           '<h3>20 May 2021 (The animation update)</h3>' +
           '<ul>' +
           '<li>You can now animate your world objects using the world builder.</li>' +
