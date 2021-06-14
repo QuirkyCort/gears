@@ -951,10 +951,10 @@ var main = new function() {
     let options = {
       title: 'News',
       message:
-        '<h3>Robo Compete virtual competition</h3>' +
+        '<h3>Online Open MINT Masters 2021</h3>' +
         '<p>'+
-        'MINT Genie from Germany is running the Robo Compete virtual competition using Gears. ' +
-        'Competition date is on 5 Dec 2020, and registration is open <a href="https://www.mintgenie.de/event-info/robo-compete" target="_blank">here</a>.' +
+        'The Annette Gymnasium Münster MINT-EC school is organizing a robot SUMO competition using Gears. ' +
+        'Registration is open <a href="https://sites.google.com/view/online-open-mint-masters-2021/startseite" target="_blank">here</a>.' +
         '</p>'
     }
     acknowledgeDialog(options);
