@@ -1110,8 +1110,9 @@ var simPanel = new function() {
       self.hideWorldInfoPanel();
       skulpt.hardInterrupt = true;
       self.setRunIcon('run');
-      self.initSensorsPanel();
-      return babylon.resetScene();
+      return babylon.resetScene().then(function(){
+        self.initSensorsPanel();
+      });
     });
   };
 
