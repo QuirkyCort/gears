@@ -564,7 +564,11 @@ function Robot() {
     if (dest == 'all') {
       dest = ALL;
     } else if (dest == 'team') {
-      dest = TEAM_MATES[self.player];
+      if (self.player == 'single') {
+        dest = [1]
+      } else {
+        dest = TEAM_MATES[self.player];
+      }
     } else if (typeof dest == 'number') {
       dest = [dest];
     }
