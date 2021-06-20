@@ -468,7 +468,7 @@ var $builtinmodule = function(name) {
     });
 
     $loc.send = new Sk.builtin.func(function(self, dest, mailbox, value) {
-      return Sk.ffi.remapToPy(robot.radioSend(dest.v, mailbox.v, value.v));
+      return Sk.ffi.remapToPy(robot.radioSend(dest.v, mailbox.v, Sk.ffi.remapToJs(value)));
     });
 
     $loc.available = new Sk.builtin.func(function(self, mailbox) {
