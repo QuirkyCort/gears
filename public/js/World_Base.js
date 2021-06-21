@@ -396,8 +396,6 @@ var World_Base = function() {
     } else if (typeof arenaPanel != 'undefined') {
       self.panel = arenaPanel;
     }
-
-    self.renderTime = 0;
     
     return new Promise(async function(resolve, reject) {
       var groundMat = new BABYLON.StandardMaterial('ground', scene);
@@ -741,7 +739,9 @@ var World_Base = function() {
 
     let duration = keys[keys.length-1][0];
     let animation = {
+      active: true,
       object: mesh,
+      renderTime: 0,
       duration: duration,
       keys: keys
     };
@@ -1033,14 +1033,14 @@ var World_Base = function() {
     }
 
     if (self.processedOptions.restartAnimationOnRun) {
-      self.renderTime = 0;
+      self.animationList.forEach(function(animation){
+        animation.renderTime = 0;
+      });
     }
   };
 
   // set the render function
   self.render = function(delta){
-    self.renderTime += delta;
-
     // Fast loop
     if (self.animate) {
       self.renderAnimation(delta);
@@ -1060,7 +1060,11 @@ var World_Base = function() {
   // Render animation
   self.renderAnimation = function(delta) {
     self.animationList.forEach(function(animation){
-      let animationTime = self.renderTime % animation.duration;
+      if (animation.active == false) {
+        return;
+      }
+      animation.renderTime += delta;
+      let animationTime = animation.renderTime % animation.duration;
       let prevKey = null;
       let nextKey = null;
 
