@@ -910,34 +910,24 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20210610;
+    let current = 20210709;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>9 Jul 2021 (FLL RePLAY)</h3>' +
+          '<ul>' +
+          '<li>This is an re-imagined version of FLL RePLAY, implemented in Gears.</li>' +
+          '<li>Many of the missions work differently, and the dimensions do not match the actual FLL models, but it can still be a fun challenge to program.</li>' +
+          '<li>You can find the world file <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/FLL" target="_blank">here</a>...' +
+          '<li>...or you can load it directly into Gears with <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FFLL%2FFLL%25202020%2520Replay.json">this link</a>.' +
+          '</ul>' +
           '<h3>10 Jun 2021 (Linear Actuators)</h3>' +
           '<ul>' +
           '<li>Linear actuators are now available in the robot configurator. Try a demo <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FDemo%2FlinearActuatorForkLiftDemo.json&robotJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Frobots%2FDemo%2FlinearActuatorForklift.json">here</a></li>' +
           '<li>Robots can now be manually driven using keyboard controls when the joystick panel is open.</li>' +
           '<li>More buttons are now replaced with icons. Hopefully, this will make Gears more accessible to international users.</li>' +
-          '</ul>' +
-          '<h3>20 May 2021 (The animation update)</h3>' +
-          '<ul>' +
-          '<li>You can now animate your world objects using the world builder.</li>' +
-          '<li>Unlike the model animation, this is fully configurable and moves the physics model as well.</li>' +
-          '<li>You can check out a demo <a href="http://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fquirkycort.github.io%2Fgears-contributions%2Fworlds%2Fcustom-world%2FDemo%2FanimationDemo.json">here</a>.</li>' +
-          '</ul>' +
-          '<h3>14 May 2021 (The Eye Candy update)</h3>' +
-          '<ul>' +
-          '<li>GearsBot now supports models in the GLTF format, and you can add them to your custom world using the world builder.</li>' +
-          '<li>Over 1,900 models has been added to the built-in library, and you can also specify your own model via a URL.</li>' +
-          '<li>Animations in the models are supported, and some of the built-in models are animated (...try "Characters" or "Animals").</li>' +
-          '<li>You can check out a demo <a href="http://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fquirkycort.github.io%2Fgears-contributions%2Fworlds%2Fcustom-world%2FDemo%2FmodelsDemo.json">here</a>.</li>' +
-          '<li>' +
-          'I\'ve also started a <a href="https://github.com/QuirkyCort/gears-contributions">new repository for contributed worlds and robot designs</a>. ' +
-          'Drop me a pull request or email if you have anything you\'ll like to share.' +
-          '</li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){
