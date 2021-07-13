@@ -495,21 +495,23 @@ var simPanel = new function() {
       i++;
     }
 
-    let tmp = genDiv(
-      'outA: ' + i18n.get('#sim-left_motor#'),
-      [i18n.get('#sim-position#')]
-    );
-    self.$sensorsPanel.append(tmp[0]);
-    self.sensors.push([robot.leftWheel, tmp[1]]);
-    tmp = genDiv(
-      'outB: ' + i18n.get('#sim-right_motor#'),
-      [i18n.get('#sim-position#')]
-    );
-    self.$sensorsPanel.append(tmp[0]);
-    self.sensors.push([robot.rightWheel, tmp[1]]);
+    if (robot.options.wheels) {
+      let tmp = genDiv(
+        'outA: ' + i18n.get('#sim-left_motor#'),
+        [i18n.get('#sim-position#')]
+      );
+      self.$sensorsPanel.append(tmp[0]);
+      self.sensors.push([robot.leftWheel, tmp[1]]);
+      tmp = genDiv(
+        'outB: ' + i18n.get('#sim-right_motor#'),
+        [i18n.get('#sim-position#')]
+      );
+      self.$sensorsPanel.append(tmp[0]);
+      self.sensors.push([robot.rightWheel, tmp[1]]);
+    }
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    i = 3;
+    i = robot.options.wheels ? 3 : 1;
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'ArmActuator') {
@@ -537,7 +539,12 @@ var simPanel = new function() {
           motor.port + ': ' + i18n.get('#sim-magnet#'),
           [i18n.get('#sim-magnet_power#')]
           );
-      }
+      } else if (motor.type == 'WheelActuator') {
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-wheel#'),
+          [i18n.get('#sim-position#')]
+          );
+        }
 
       if (tmp) {
         self.$sensorsPanel.append(tmp[0]);

@@ -340,6 +340,7 @@ var robotTemplates = [
     bodyWidth: 14,
     bodyLength: 16,
 
+    wheels: true,
     wheelDiameter: 5.6,
     wheelWidth: 0.8,
     wheelToBodyOffset: 0.2,
@@ -350,6 +351,7 @@ var robotTemplates = [
     bodyMass: 1000,
     wheelMass: 200,
     casterMass: 0, // Warning: No effect due to parenting
+    caster: true,
 
     wheelFriction: 10,
     bodyFriction: 0,
@@ -426,6 +428,7 @@ var robotTemplates = [
     bodyWidth: 14,
     bodyLength: 16,
 
+    wheels: true,
     wheelDiameter: 5.6,
     wheelWidth: 0.8,
     wheelToBodyOffset: 0.2,
@@ -436,6 +439,7 @@ var robotTemplates = [
     bodyMass: 1000,
     wheelMass: 200,
     casterMass: 0, // Warning: No effect due to parenting
+    caster: true,
 
     wheelFriction: 10,
     bodyFriction: 0,
@@ -514,6 +518,7 @@ var robotTemplates = [
     bodyWidth: 14,
     bodyLength: 16,
 
+    wheels: true,
     wheelDiameter: 5.6,
     wheelWidth: 0.8,
     wheelToBodyOffset: 0.2,
@@ -524,6 +529,7 @@ var robotTemplates = [
     bodyMass: 1000,
     wheelMass: 200,
     casterMass: 0, // Warning: No effect due to parenting
+    caster: true,
 
     wheelFriction: 10,
     bodyFriction: 0,
@@ -619,6 +625,7 @@ var robotTemplates = [
     bodyWidth: 14,
     bodyLength: 16,
 
+    wheels: true,
     wheelDiameter: 5.6,
     wheelWidth: 0.8,
     wheelToBodyOffset: 0.2,
@@ -629,6 +636,7 @@ var robotTemplates = [
     bodyMass: 1000,
     wheelMass: 200,
     casterMass: 0, // Warning: No effect due to parenting
+    caster: true,
 
     wheelFriction: 10,
     bodyFriction: 0,
@@ -726,6 +734,7 @@ var robotTemplates = [
     bodyWidth: 14,
     bodyLength: 16,
 
+    wheels: true,
     wheelDiameter: 5.6,
     wheelWidth: 0.8,
     wheelToBodyOffset: 0.2,
@@ -736,6 +745,7 @@ var robotTemplates = [
     bodyMass: 1000,
     wheelMass: 200,
     casterMass: 0, // Warning: No effect due to parenting
+    caster: true,
 
     wheelFriction: 10,
     bodyFriction: 0,
@@ -838,6 +848,7 @@ var robotTemplates = [
     bodyWidth: 14,
     bodyLength: 16,
 
+    wheels: true,
     wheelDiameter: 5.6,
     wheelWidth: 0.8,
     wheelToBodyOffset: 0.2,
@@ -848,6 +859,7 @@ var robotTemplates = [
     bodyMass: 1000,
     wheelMass: 200,
     casterMass: 0, // Warning: No effect due to parenting
+    caster: true,
 
     wheelFriction: 10,
     bodyFriction: 0,
@@ -949,6 +961,7 @@ var robotTemplates = [
     bodyWidth: 14,
     bodyLength: 16,
 
+    wheels: true,
     wheelDiameter: 5.6,
     wheelWidth: 0.8,
     wheelToBodyOffset: 0.2,
@@ -959,6 +972,7 @@ var robotTemplates = [
     bodyMass: 1000,
     wheelMass: 200,
     casterMass: 0, // Warning: No effect due to parenting
+    caster: true,
 
     wheelFriction: 10,
     bodyFriction: 0,
@@ -1063,6 +1077,7 @@ var robotTemplates = [
     "bodyMass": 1000,
     "wheelMass": 200,
     "casterMass": 0,
+    "caster":true,
     "wheelFriction": 10,
     "bodyFriction": 0,
     "casterFriction": 0,

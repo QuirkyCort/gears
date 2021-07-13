@@ -8,11 +8,13 @@ var configurator = new function() {
       bodyHeight: 4,
       bodyWidth: 14,
       bodyLength: 16,
+      wheels: true,
       wheelDiameter: 5.6,
       wheelWidth: 0.8,
       wheelToBodyOffset: 0.2,
       bodyEdgeToWheelCenterY: 1,
       bodyEdgeToWheelCenterZ: 2,
+      caster: true,
       casterDiameter: 0,
       bodyMass: 1000,
       wheelMass: 200,
@@ -46,6 +48,11 @@ var configurator = new function() {
         min: '1',
         max: '30',
         step: '0.5',
+        reset: true
+      },
+      {
+        option: 'wheels',
+        type: 'boolean',
         reset: true
       },
       {
@@ -86,6 +93,11 @@ var configurator = new function() {
         min: '0.1',
         max: '20',
         step: '0.1',
+        reset: true
+      },
+      {
+        option: 'caster',
+        type: 'boolean',
         reset: true
       },
       {
@@ -994,6 +1006,56 @@ var configurator = new function() {
       ]
     },
     {
+      name: 'WheelActuator',
+      category: 'Actuators',
+      defaultConfig: {
+        type: 'WheelActuator',
+        position: [0, 2.8, 0],
+        rotation: [0, 0, 0],
+        options: {
+          wheelDiameter: 5.6,
+          wheelWidth: 0.8,
+          wheelMass: 200,
+          wheelFriction: 10,
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vectors',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vectors',
+          min: '-180',
+          max: '180',
+          step: '5',
+          deg2rad: true,
+          reset: true
+        },
+        {
+          option: 'wheelDiameter',
+          type: 'slider',
+          min: '1',
+          max: '10',
+          step: '0.1',
+          reset: true
+        },
+        {
+          option: 'wheelWidth',
+          type: 'slider',
+          min: '0.2',
+          max: '4',
+          step: '0.1',
+          reset: true
+        },
+      ]
+    },
+    {
       name: 'Pen',
       category: 'Others',
       defaultConfig: {
@@ -1434,7 +1496,15 @@ var configurator = new function() {
 
       wireframe = BABYLON.MeshBuilder.CreateBox('wireframeComponentSelector', options, babylon.scene);
       wireframe.material = wireframeMat;
-      wireframe.position = body.absolutePosition;
+
+      // Something about wheel makes absolutePosition not work
+      if (robot.getComponentByIndex(index).constructor.name == "Wheel"){
+        wireframe.position = body.position;
+      }
+      else{
+        wireframe.position = body.absolutePosition;
+      }
+
       wireframe.rotationQuaternion = body.absoluteRotationQuaternion;
       wireframe.enableEdgesRendering();
       wireframe.edgesWidth = 10;
@@ -1467,9 +1537,9 @@ var configurator = new function() {
   // Load robot into components window
   this.loadIntoComponentsWindow = function(options) {
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'LinearActuator', 'PaintballLauncherActuator'];
+    let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'LinearActuator', 'PaintballLauncherActuator','WheelActuator'];
     let DUMB_BLOCKS = ['Box', 'Cylinder', 'Sphere'];
-    let motorCount = 2;
+    let motorCount = options.wheels ? 2 : 0;
     let sensorCount = 0;
     let componentIndex = 0;
 
@@ -1553,11 +1623,12 @@ var configurator = new function() {
       }
       i++;
     }
-    let ports =
+    let ports = robot.options.wheels ?
       '<li>#robot-port# A : #robot-leftWheel#</li>' +
-      '<li>#robot-port# B : #robot-rightWheel#</li>';
+      '<li>#robot-port# B : #robot-rightWheel#</li>' : "";
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    i = 3;
+    //i = 3;
+    i = robot.options.wheels ? 3 : 1;
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'ArmActuator') {
@@ -1570,6 +1641,8 @@ var configurator = new function() {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-paintball#</li>';
       } else if (motor.type == 'MagnetActuator') {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-electromagnet#</li>';
+      } else if (motor.type == 'WheelActuator') {
+        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-wheel#</li>';
       }
       i++;
     }

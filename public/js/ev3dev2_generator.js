@@ -55,6 +55,14 @@ var ev3dev2_generator = new function() {
 
   // Generate python code
   this.genCode = function() {
+    let wheelCode = robot.options.wheels ? 
+    ('motorA = LargeMotor(OUTPUT_A)\n' +
+    'motorB = LargeMotor(OUTPUT_B)\n' +
+    'left_motor = motorA\n' +
+    'right_motor = motorB\n' +
+    'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
+    'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n') :
+    '';
     let code =
       '#!/usr/bin/env python3\n' +
       `\n` +
@@ -68,12 +76,7 @@ var ev3dev2_generator = new function() {
       'from ev3dev2.sensor.virtual import *\n' +
       '\n' +
       '# Create the sensors and motors objects\n' +
-      'motorA = LargeMotor(OUTPUT_A)\n' +
-      'motorB = LargeMotor(OUTPUT_B)\n' +
-      'left_motor = motorA\n' +
-      'right_motor = motorB\n' +
-      'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
-      'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
+      wheelCode +
       '\n' +
       'spkr = Sound()\n' +
       'radio = Radio()\n' +
@@ -110,7 +113,7 @@ var ev3dev2_generator = new function() {
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var motorsCode = '';
-    i = 3;
+    i = robot.options.wheels ? 3 : 1;
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
@@ -123,6 +126,8 @@ var ev3dev2_generator = new function() {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Linear Actuator\n';
       } else if (motor.type == 'PaintballLauncherActuator') {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Paintball Launcher\n';
+      } else if (motor.type == 'WheelActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Wheel Actuator\n';
       }
       i++;
     }
