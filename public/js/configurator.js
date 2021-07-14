@@ -1282,10 +1282,10 @@ var configurator = new function() {
         }
 
         let $components = self.$componentList.find('li');
-        $components.removeClass('selected');
 
         let component = getComponent(hit.pickedMesh);
         if (component) {
+          $components.removeClass('selected');
           let $target = self.$componentList.find('li[componentIndex=' + component.componentIndex + ']');
           $target.addClass('selected');
           self.showComponentOptions($target[0].component);
