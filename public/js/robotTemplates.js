@@ -1050,7 +1050,7 @@ var robotTemplates = [
     "name": "cage",
     "shortDescription": "#robot-cageShort#",
     "longDescription": "#robot-cageLong#",
-    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : #robot-motorizedArm#</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-color#</li><li>#robot-port# 2 : #robot-color#</li><li>#robot-port# 3 : #robot-ultrasonic#</li><li>#robot-port# 4 : #robot-gyro#</li><li>#robot-port# 5 : GPS</li><li>#robot-port# 6 : #robot-color#</li></ul>",
+    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel# (#robot-left#)</li><li>#robot-port# B : #robot-rightWheel# (#robot-right#)</li><li>#robot-port# C : #robot-motorizedArm#</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-color#</li><li>#robot-port# 2 : #robot-color#</li><li>#robot-port# 3 : #robot-color# (#robot-front#)</li><li>#robot-port# 4 : #robot-ultrasonic#</li><li>#robot-port# 5 : #robot-gyro#</li><li>#robot-port# 6 : GPS</li></ul>",
     "thumbnail": "images/robots/cage.jpg",
     "bodyHeight": 4,
     "bodyWidth": 14,
