@@ -208,6 +208,7 @@ var blocklyPanel = new function() {
       self.setDisable(false);
     }
     self.$panel.removeClass('hide');
+    window.dispatchEvent(new Event('resize'));
   };
 
   // Run when panel is inactive
