@@ -32,7 +32,6 @@ function Wheel(scene, parent, pos, rot, port, options) {
     RUN_TIL_TIME: 4
   };
   //this.state = '';
-  this.state = 'holding';
   this.states = {
     RUNNING: 'running',
     RAMPING: 'ramping',
@@ -41,6 +40,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
     STATE_STALLED: 'stalled',
     NONE: ''
   };
+  this.state = this.states.HOLDING;
 
   this.speed_sp = 0;
   this._speed_sp = 0;
@@ -48,6 +48,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
   this.position = 0;
   this.speed = 0;
 
+  this.position_target = 0;
   this.prevPosition = 0;
   this.mode = this.modes.STOP;
   this.actualPosition = 0;
