@@ -892,6 +892,7 @@ var builder = new function() {
     self.$panels = $('.panels .panel');
     self.$fileMenu = $('.fileMenu');
     self.$worldMenu = $('.worldMenu');
+    self.$snapMenu = $('.snapMenu');
 
     self.$addObject = $('.addObject');
     self.$cloneObject = $('.cloneObject');
@@ -903,6 +904,7 @@ var builder = new function() {
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
     self.$worldMenu.click(self.toggleWorldMenu);
+    self.$snapMenu.click(self.toggleSnapMenu);
 
     self.$addObject.click(self.addObject);
     self.$cloneObject.click(self.cloneObject);
@@ -1269,9 +1271,23 @@ var builder = new function() {
     if (typeof selected[0].object != 'undefined') {
       self.saveHistory();
       let pos = self.pointerDragBehavior.attachedNode.position;
-      selected[0].object.position[0] = pos.x;
-      selected[0].object.position[1] = pos.z;
-      selected[0].object.position[2] = pos.y;
+
+      function notClose(a, b) {
+        if (Math.abs(a - b) > 0.01) {
+          return true;
+        }
+        return false;
+      }
+
+      if (notClose(selected[0].object.position[0], pos.x)) {
+        selected[0].object.position[0] = self.roundToSnap(pos.x);
+      }
+      if (notClose(selected[0].object.position[1], pos.z)) {
+        selected[0].object.position[1] = self.roundToSnap(pos.z);
+      }
+      if (notClose(selected[0].object.position[2], pos.y)) {
+        selected[0].object.position[2] = self.roundToSnap(pos.y);
+      }
       self.resetScene(false);
     }
   };
@@ -1864,6 +1880,57 @@ var builder = new function() {
       }
 
       menuDropDown(self.$worldMenu, menuItems, {className: 'worldMenuDropDown'});
+    }
+  };
+
+  // Snapping
+  this.snapStep = 0;
+  this.roundToSnap = function(value) {
+    if (self.snapStep == 0) {
+      return value;
+    }
+    let inv = 1.0 / self.snapStep;
+    return Math.round(value * inv) / inv;
+  }
+
+  // Toggle snapmenu
+  this.toggleSnapMenu = function(e) {
+    if ($('.snapMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      function snapNone() {
+        self.snapStep = 0;
+      }
+      function snap05() {
+        self.snapStep = 0.5;
+      }
+      function snap08() {
+        self.snapStep = 0.8;
+      }
+      function snap10() {
+        self.snapStep = 1;
+      }
+
+      let menuItems = [
+        {html: 'No Snapping', line: false, callback: snapNone},
+        {html: 'Snap to 0.5cm', line: false, callback: snap05},
+        {html: 'Snap to 0.8cm', line: false, callback: snap08},
+        {html: 'Snap to 1cm', line: false, callback: snap10},
+      ];
+      var tickIndex;
+      if (self.snapStep == 0) {
+        tickIndex = 0;
+      } else if (self.snapStep == 0.5) {
+        tickIndex = 1;
+      } else if (self.snapStep == 0.8) {
+        tickIndex = 2;
+      } else if (self.snapStep == 1) {
+        tickIndex = 3;
+      }
+      menuItems[tickIndex].html = '<span class="tick">&#x2713;</span> ' + menuItems[tickIndex].html;
+
+      menuDropDown(self.$snapMenu, menuItems, {className: 'snapMenuDropDown'});
     }
   };
 
