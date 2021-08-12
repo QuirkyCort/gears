@@ -573,7 +573,7 @@ ul.menuDropDownRightAlign {
         color: darkblue; }
       .sensorReadings .sensorReading table.sensorValues td.sensorValue {
         text-align: right;
-        width: 30%; }
+        min-width: 2em; }
 
 .sensorReadings.hide {
   opacity: 0;

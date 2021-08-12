@@ -1196,6 +1196,14 @@ let MSGS = {
     nl: 'Kleurensensor',
     de: 'Farbsensor',
   },
+  '#sim-color#': {
+    en: 'Color',
+    fr: 'Couleur',
+    el: 'χρώμα',
+    nl: 'Kleur',
+    de: 'Farbe',
+    pt: 'Cor',
+  },
   '#sim-red#': {
     en: 'Red',
     fr: 'Rouge',

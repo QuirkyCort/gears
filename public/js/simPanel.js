@@ -452,7 +452,7 @@ var simPanel = new function() {
       if (sensor.type == 'ColorSensor') {
         tmp = genDiv(
           sensor.port + ': ' + i18n.get('#sim-color_sensor#'),
-          [i18n.get('#sim-red#'), i18n.get('#sim-green#'), i18n.get('#sim-blue#'), i18n.get('#sim-intensity#')]
+          [i18n.get('#sim-color#'), i18n.get('#sim-red#'), i18n.get('#sim-green#'), i18n.get('#sim-blue#'), i18n.get('#sim-intensity#')]
         );
       } else if (sensor.type == 'UltrasonicSensor') {
         tmp = genDiv(
@@ -563,10 +563,14 @@ var simPanel = new function() {
     self.sensors.forEach(function(sensor) {
       if (sensor[0].type == 'ColorSensor') {
         let rgb = sensor[0].getRGB();
-        sensor[1][0].text(Math.round(rgb[0]));
-        sensor[1][1].text(Math.round(rgb[1]));
-        sensor[1][2].text(Math.round(rgb[2]));
-        sensor[1][3].text(Math.round(rgb[0] / 2.55));
+        let hsv = Colors.toHSV(rgb);
+        let color = Colors.toColor(hsv);
+        let colorName = Colors.toColorName(color);
+        sensor[1][0].text(color + ' : ' + colorName);
+        sensor[1][1].text(Math.round(rgb[0]));
+        sensor[1][2].text(Math.round(rgb[1]));
+        sensor[1][3].text(Math.round(rgb[2]));
+        sensor[1][4].text(Math.round(rgb[0] / 2.55));
       } else if (sensor[0].type == 'UltrasonicSensor') {
         sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
       } else if (sensor[0].type == 'GyroSensor') {

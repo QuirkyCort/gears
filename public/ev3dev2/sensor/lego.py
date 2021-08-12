@@ -6,26 +6,6 @@ SENSOR_DELAY = 0.001
 class ColorSensor:
   _DRIVER_NAME = 'lego-ev3-color'
 
-  COLOR_NOCOLOR = 0 # HSV values from https://lego.fandom.com/wiki/Colour_Palette
-  COLOR_BLACK = 1   # 0, 0, 0
-  COLOR_BLUE = 2    # 207, 64, 78
-  COLOR_GREEN = 3   # 120, 100, 60
-  COLOR_YELLOW = 4  # 60, 100, 100
-  COLOR_RED = 5     # 0, 100, 100
-  COLOR_WHITE = 6   # 0, 0, 100
-  COLOR_BROWN = 7   # 24, 79, 25
-
-  COLORS = (
-      'NoColor',
-      'Black',
-      'Blue',
-      'Green',
-      'Yellow',
-      'Red',
-      'White',
-      'Brown',
-    )
-
   MODE_COL_REFLECT = 'COL-REFLECT'
   MODE_COL_AMBIENT = 'COL-AMBIENT'
   MODE_COL_COLOR = 'COL-COLOR'
@@ -47,35 +27,12 @@ class ColorSensor:
   @property
   def color(self):
     time.sleep(SENSOR_DELAY)
-    hsv = self.hsv
-
-    if hsv[2] < 30:
-      return self.COLOR_BLACK
-
-    elif hsv[1] < 20:
-      return self.COLOR_WHITE
-
-    elif hsv[0] < 45 and hsv[2] < 50:
-      return self.COLOR_BROWN
-
-    elif hsv[0] < 30:
-      return self.COLOR_RED
-
-    elif hsv[0] < 90:
-      return self.COLOR_YELLOW
-
-    elif hsv[0] < 163:
-      return self.COLOR_GREEN
-
-    elif hsv[0] < 283:
-      return self.COLOR_BLUE
-
-    else:
-      return self.COLOR_RED
+    return self.sensor.color()
 
   @property
   def color_name(self):
-    return self.COLORS[self.color]
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.colorName()
 
   @property
   def raw(self):

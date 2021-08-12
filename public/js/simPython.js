@@ -154,116 +154,41 @@ var $builtinmodule = function(name) {
     });
 
     $loc.valueLAB = new Sk.builtin.func(function(self) {
-      var rgb;
-      var xyz = [0, 0, 0];
-      var lab = [0, 0, 0];
-
-      rgb = self.sensor.getRGB();
-
-      for (let i=0; i<3; i++) {
-        let c = rgb[i] / 255;
-        if (c > 0.04045) {
-          rgb[i] = Math.pow((c + 0.055) / 1.055, 2.4);
-        } else {
-          rgb[i] = c / 12.92;
-        }
-      }
-
-      xyz[0] = (rgb[0] * 0.4124 + rgb[1] * 0.3576 + rgb[2] * 0.1805) / 0.95047;
-      xyz[1] = (rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722) / 1.00000;
-      xyz[2] = (rgb[0] * 0.0193 + rgb[1] * 0.1192 + rgb[2] * 0.9505) / 1.08883;
-
-      for (let i=0; i<3; i++) {
-        if (xyz[i] > 0.008856) {
-          xyz[i] = Math.pow(xyz[i], 1/3);
-        } else {
-          xyz[i] = (7.787 * xyz[i]) + 16/116;
-        }
-      }
-
-      lab[0] = (116 * xyz[1]) - 16;
-      lab[1] = 500 * (xyz[0] - xyz[1]);
-      lab[2] = 200 * (xyz[1] - xyz[2]);
+      let rgb = self.sensor.getRGB();
+      let lab = Colors.toLAB(rgb);
 
       return Sk.ffi.remapToPy(lab);
     });
 
     $loc.valueHSV = new Sk.builtin.func(function(self) {
-      var rgb;
-      var hsv = [0, 0, 0];
-
-      rgb = self.sensor.getRGB();
-      for (let i=0; i<3; i++) {
-        rgb[i] = rgb[i] / 255;
-      }
-
-      var cMax = Math.max(...rgb);
-      var cMin = Math.min(...rgb);
-      var diff = cMax - cMin;
-
-      if (cMax == cMin) {
-        hsv[0] = 0;
-      } else if (cMax == rgb[0]) {
-        hsv[0] = 60 * (rgb[1] - rgb[2]) / diff;
-      } else if (cMax == rgb[1]) {
-        hsv[0] = 60 * (2 + (rgb[2] - rgb[0]) / diff);
-      } else {
-        hsv[0] = 60 * (4 + (rgb[0] - rgb[1]) / diff);
-      }
-      if (hsv[0] < 0) {
-        hsv[0] += 360;
-      }
-
-      if (cMax == 0) {
-        hsv[1] = 0;
-      } else {
-        hsv[1] = diff / cMax * 100;
-      }
-
-      hsv[2] = cMax * 100;
+      let rgb = self.sensor.getRGB();
+      let hsv = Colors.toHSV(rgb);
 
       return Sk.ffi.remapToPy(hsv);
     });
 
     $loc.valueHLS = new Sk.builtin.func(function(self) {
-      var rgb = [0, 0, 0];
-      var hls = [0, 0, 0];
-
-      if (self.side == 'left') {
-        rgb = sim.robotStates.sensor1;
-      } else if (self.side == 'right') {
-        rgb = sim.robotStates.sensor2;
-      }
-      for (let i=0; i<3; i++) {
-        rgb[i] = rgb[i] / 255;
-      }
-
-      var cMax = Math.max(...rgb);
-      var cMin = Math.min(...rgb);
-      var diff = cMax - cMin;
-
-      if (cMax == cMin) {
-        hls[0] = 0;
-      } else if (cMax == rgb[0]) {
-        hls[0] = 60 * (rgb[1] - rgb[2]) / diff;
-      } else if (cMax == rgb[1]) {
-        hls[0] = 60 * (2 + (rgb[2] - rgb[0]) / diff);
-      } else {
-        hls[0] = 60 * (4 + (rgb[0] - rgb[1]) / diff);
-      }
-      if (hls[0] < 0) {
-        hls[0] += 360;
-      }
-
-      if (cMax == 0 || cMin == 255) {
-        hls[2] = 0;
-      } else {
-        hls[2] = diff / (1 - Math.abs(cMax + cMin - 1)) * 100;
-      }
-
-      hls[1] = (cMax + cMin) / 2 * 100;
+      let rgb = self.sensor.getRGB();
+      let hls = Colors.toHLS(rgb);
 
       return Sk.ffi.remapToPy(hls);
+    });
+
+    $loc.color = new Sk.builtin.func(function(self) {
+      let rgb = self.sensor.getRGB();
+      let hsv = Colors.toHSV(rgb);
+      let color = Colors.toColor(hsv);
+
+      return Sk.ffi.remapToPy(color);
+    });
+
+    $loc.colorName = new Sk.builtin.func(function(self) {
+      let rgb = self.sensor.getRGB();
+      let hsv = Colors.toHSV(rgb);
+      let color = Colors.toColor(hsv);
+      let colorName = Colors.toColorName(color);
+
+      return Sk.ffi.remapToPy(colorName);
     });
 
   }, 'ColorSensor', []);
