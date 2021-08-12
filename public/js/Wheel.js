@@ -110,8 +110,8 @@ function Wheel(scene, parent, pos, rot, port, options) {
     faceUV[1] = new BABYLON.Vector4(200/828, 3/4, 1, 1);
     faceUV[2] = new BABYLON.Vector4(0, 0, 200/828, 1);
     let wheelOptions = {
-      height: self.options.wheelWidth,
-      diameter: self.options.wheelDiameter,
+      height: self.options.width,
+      diameter: self.options.diameter,
       tessellation: 24,
       faceUV: faceUV
     };
@@ -136,9 +136,9 @@ function Wheel(scene, parent, pos, rot, port, options) {
       self.mesh,
       BABYLON.PhysicsImpostor.CylinderImpostor,
       {
-        mass: options.wheelMass,
+        mass: options.mass,
         restitution: 0.8,
-        friction: options.wheelFriction
+        friction: options.friction
       },
       scene
     );
@@ -195,13 +195,12 @@ function Wheel(scene, parent, pos, rot, port, options) {
     parent.physicsImpostor.addJoint(self.mesh.physicsImpostor, self.joint);
   };
 
-
   this.setOptions = function(options) {
     self.options = {
-      wheelDiameter: 5.6,
-      wheelWidth: 0.8,
-      wheelMass: 200,
-      wheelFriction: 10
+      diameter: 5.6,
+      width: 0.8,
+      mass: 200,
+      friction: 10
     };
 
     for (let name in options) {

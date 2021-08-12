@@ -1013,10 +1013,10 @@ var configurator = new function() {
         position: [0, 2.8, 0],
         rotation: [0, 0, 0],
         options: {
-          wheelDiameter: 5.6,
-          wheelWidth: 0.8,
-          wheelMass: 200,
-          wheelFriction: 10,
+          diameter: 5.6,
+          width: 0.8,
+          mass: 200,
+          friction: 10,
         }
       },
       optionsConfigurations: [
@@ -1038,7 +1038,7 @@ var configurator = new function() {
           reset: true
         },
         {
-          option: 'wheelDiameter',
+          option: 'diameter',
           type: 'slider',
           min: '1',
           max: '10',
@@ -1046,7 +1046,7 @@ var configurator = new function() {
           reset: true
         },
         {
-          option: 'wheelWidth',
+          option: 'width',
           type: 'slider',
           min: '0.2',
           max: '4',

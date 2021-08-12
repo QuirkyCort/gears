@@ -223,10 +223,10 @@ function Robot() {
 
       // Wheels
       driveWheelOptions = {
-        wheelDiameter: options.wheelDiameter,
-        wheelWidth: options.wheelWidth,
-        wheelMass: options.wheelMass,
-        wheelFriction: options.wheelFriction
+        diameter: options.wheelDiameter,
+        width: options.wheelWidth,
+        mass: options.wheelMass,
+        friction: options.wheelFriction
       };
 
       if (options.wheels){
