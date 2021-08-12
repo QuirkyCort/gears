@@ -576,7 +576,7 @@ var simPanel = new function() {
         sensor[1][0].text(Math.round(position[0] * 10) / 10);
         sensor[1][1].text(Math.round(position[2] * 10) / 10);
         sensor[1][2].text(Math.round(position[1] * 10) / 10);
-      } else if (sensor[0].type == 'wheel') {
+      } else if (sensor[0].type == 'WheelActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'ArmActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
