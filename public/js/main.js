@@ -911,24 +911,26 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20210709;
+    let current = 20210812;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>12 Aug 2021 (Wheels, Drag, Snap)</h3>' +
+          '<ul>' +
+          '<li>You can now add wheels to the robot (contributed by Steven Murray). <a href="https://youtu.be/Mq4urBJPNng" target="_blank">Video of multi-wheels robots.</a></li>' +
+          '<li>You can now drag to position components in the robot configurator.</li>' +
+          '<li>In both the world builder and robot configurator, drag to position now works in all axis.</li>' +
+          '<li>Snap to position now available in both world builder and robot configurator.</li>' +
+          '<li>Sensor view now shows color name and numbers.</li>' +
+          '</ul>' +
           '<h3>9 Jul 2021 (FLL RePLAY)</h3>' +
           '<ul>' +
           '<li>This is an re-imagined version of FLL RePLAY, implemented in Gears.</li>' +
           '<li>Many of the missions work differently, and the dimensions do not match the actual FLL models, but it can still be a fun challenge to program.</li>' +
           '<li>You can find the world file <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/FLL" target="_blank">here</a>...' +
           '<li>...or you can load it directly into Gears with <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FFLL%2FFLL%25202020%2520Replay.json">this link</a>.' +
-          '</ul>' +
-          '<h3>10 Jun 2021 (Linear Actuators)</h3>' +
-          '<ul>' +
-          '<li>Linear actuators are now available in the robot configurator. Try a demo <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FDemo%2FlinearActuatorForkLiftDemo.json&robotJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Frobots%2FDemo%2FlinearActuatorForklift.json">here</a></li>' +
-          '<li>Robots can now be manually driven using keyboard controls when the joystick panel is open.</li>' +
-          '<li>More buttons are now replaced with icons. Hopefully, this will make Gears more accessible to international users.</li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){
@@ -942,10 +944,12 @@ var main = new function() {
     let options = {
       title: 'News',
       message:
-        '<h3>Online Open MINT Masters 2021</h3>' +
+        '<h3>Lebanese Virtual Robotics Championship 2021</h3>' +
         '<p>'+
-        'The Annette Gymnasium Münster MINT-EC school is organizing a robot SUMO competition using Gears. ' +
-        'Registration is open <a href="https://sites.google.com/view/online-open-mint-masters-2021/startseite" target="_blank">here</a>.' +
+        'Congrats to the 1st Lebanese Virtual Robotics Championship for a successful event! <br>' +
+        '<a href="https://www.facebook.com/VirtualRoboticsChampionship/posts/127415569590434" target="_blank">Results</a> ' +
+        '<a href="https://www.facebook.com/watch/live/?v=343850580554643&ref=watch_permalink" target="_blank">Video 1</a> ' +
+        '<a href="https://www.facebook.com/watch/live/?v=818894112024336&ref=watch_permalink" target="_blank">Video 2</a> ' +
         '</p>'
     }
     acknowledgeDialog(options);

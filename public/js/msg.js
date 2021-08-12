@@ -880,8 +880,8 @@ let MSGS = {
     de: 'Speichern unter',
   },
   '#main-world_builder#': {
-    en: 'World Builder (Experimental)',
-    nl: 'Wereld bouwer (Experimenteel)',
+    en: 'World Builder',
+    nl: 'Wereld bouwer',
   },
   '#main-select_robot#': {
     en: 'Select Robot',
