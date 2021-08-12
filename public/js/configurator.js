@@ -1153,6 +1153,8 @@ var configurator = new function() {
     },
   ];
 
+  this.pointerDragPlaneNormal = new BABYLON.Vector3(0,1,0);
+
   // Run on page load
   this.init = function() {
     if (typeof babylon.scene == 'undefined') {
@@ -1164,6 +1166,9 @@ var configurator = new function() {
     self.$panelControls = $('.panelControlsArea .panelControls');
     self.$panels = $('.panels .panel');
     self.$fileMenu = $('.fileMenu');
+    self.$robotMenu = $('.robotMenu');
+    self.$snapMenu = $('.snapMenu');
+
     self.$robotName = $('#robotName');
 
     self.$addComponent = $('.addComponent');
@@ -1174,6 +1179,8 @@ var configurator = new function() {
 
     self.$navs.click(self.tabClicked);
     self.$fileMenu.click(self.toggleFileMenu);
+    self.$robotMenu.click(self.toggleRobotMenu);
+    self.$snapMenu.click(self.toggleSnapMenu);
 
     self.$addComponent.click(self.addComponent);
     self.$deleteComponent.click(self.deleteComponent);
@@ -1183,11 +1190,106 @@ var configurator = new function() {
 
     babylon.scene.physicsEnabled = false;
     babylon.setCameraMode('arc')
+    babylon.renders.push(self.render);
 
     self.saveHistory();
     self.resetScene();
     self.saveRobotOptions();
   };
+
+  // Apply pointerDragBehavior to selected mesh
+  this.applyDragToSelected = function() {
+    let selected = self.$componentList.find('li.selected');
+    if (selected.length < 1) {
+      return;
+    }
+
+    let index = selected[0].componentIndex;
+    if (typeof index != 'undefined') {
+      let dragBody = robot.getComponentByIndex(index).body;
+
+      if (dragBody.getBehaviorByName('PointerDrag')) {
+        return;
+      }
+
+      let selected = self.$componentList.find('li.selected');
+      if (typeof selected[0].component == 'undefined') {
+        return;
+      }
+
+      let dragPointStart;
+      let dragOrigPos;
+
+      // Object drag start
+      function dragStart(event) {
+        dragPointStart = event.dragPlanePoint;
+        dragOrigPos = dragBody.absolutePosition.clone();
+        return;
+      }
+
+      // Object drag
+      function drag(event) {
+        let absPos = dragOrigPos.add(event.dragPlanePoint.subtract(dragPointStart));
+        dragBody.setAbsolutePosition(absPos);
+        return;
+      }
+
+      // Object drag end
+      function dragEnd(event) {
+        self.saveHistory();
+        let pos = dragBody.position;
+
+        function notClose(a, b) {
+          if (Math.abs(a - b) > 0.01) {
+            return true;
+          }
+          return false;
+        }
+
+        if (notClose(selected[0].component.position[0], pos.x)) {
+          selected[0].component.position[0] = self.roundToSnap(pos.x);
+        }
+        if (notClose(selected[0].component.position[1], pos.y)) {
+          selected[0].component.position[1] = self.roundToSnap(pos.y);
+        }
+        if (notClose(selected[0].component.position[2], pos.z)) {
+          selected[0].component.position[2] = self.roundToSnap(pos.z);
+        }
+        self.resetScene(false);
+      };
+
+      let pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: self.pointerDragPlaneNormal});
+      pointerDragBehavior.useObjectOrientationForDragging = false;
+      pointerDragBehavior.moveAttached = false;
+
+      pointerDragBehavior.onDragStartObservable.add(dragStart);
+      pointerDragBehavior.onDragObservable.add(drag);
+      pointerDragBehavior.onDragEndObservable.add(dragEnd);
+
+      dragBody.addBehavior(pointerDragBehavior);
+    }
+  };
+  
+  // Runs every frame
+  this.render = function(delta) {
+    let camera = babylon.scene.activeCamera;
+    let dir = camera.getTarget().subtract(camera.position);
+    let x2 = dir.x ** 2;
+    let y2 = dir.y ** 2;
+    let z2 = dir.z ** 2;
+    let max = Math.max(x2, y2, z2);
+
+    self.pointerDragPlaneNormal.x = 0;
+    self.pointerDragPlaneNormal.y = 0;
+    self.pointerDragPlaneNormal.z = 0;
+    if (x2 == max) {
+      self.pointerDragPlaneNormal.x = 1;
+    } else if (y2 == max) {
+      self.pointerDragPlaneNormal.y = 1;
+    } else {
+      self.pointerDragPlaneNormal.z = 1;
+    }
+  }
 
   // Save history
   this.saveHistory = function() {
@@ -1428,7 +1530,8 @@ var configurator = new function() {
             self.showComponentOptions($components[0].component);
           }
   
-          self.highlightSelected();  
+          self.highlightSelected();
+          self.applyDragToSelected();
         }
       }
     }
@@ -1453,6 +1556,7 @@ var configurator = new function() {
     let $target = self.$componentList.find('li.selected');
     self.showComponentOptions($target[0].component);
     self.highlightSelected();
+    self.applyDragToSelected();
   }
 
   // Add a new component to selected
@@ -1541,6 +1645,7 @@ var configurator = new function() {
 
       self.showComponentOptions(e.target.component);
       self.highlightSelected();
+      self.applyDragToSelected();
     }
   };
 
@@ -1870,12 +1975,76 @@ var configurator = new function() {
       e.stopPropagation();
 
       let menuItems = [
-        {html: 'Select Robot', line: true, callback: self.selectRobot},
         {html: 'Load from file', line: false, callback: self.loadRobotLocal},
         {html: 'Save to file', line: true, callback: self.saveRobot},
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
+    }
+  };
+
+  // Toggle robotmenu
+  this.toggleRobotMenu = function(e) {
+    if ($('.robotMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: 'Select Robot', line: false, callback: self.selectRobot},
+      ];
+
+      menuDropDown(self.$robotMenu, menuItems, {className: 'robotMenuDropDown'});
+    }
+  };
+
+  // Snapping
+  this.snapStep = 0;
+  this.roundToSnap = function(value) {
+    if (self.snapStep == 0) {
+      return value;
+    }
+    let inv = 1.0 / self.snapStep;
+    return Math.round(value * inv) / inv;
+  }
+
+  // Toggle snapmenu
+  this.toggleSnapMenu = function(e) {
+    if ($('.snapMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      function snapNone() {
+        self.snapStep = 0;
+      }
+      function snap05() {
+        self.snapStep = 0.5;
+      }
+      function snap08() {
+        self.snapStep = 0.8;
+      }
+      function snap10() {
+        self.snapStep = 1;
+      }
+
+      let menuItems = [
+        {html: 'No Snapping', line: false, callback: snapNone},
+        {html: 'Snap to 0.5cm', line: false, callback: snap05},
+        {html: 'Snap to 0.8cm', line: false, callback: snap08},
+        {html: 'Snap to 1cm', line: false, callback: snap10},
+      ];
+      var tickIndex;
+      if (self.snapStep == 0) {
+        tickIndex = 0;
+      } else if (self.snapStep == 0.5) {
+        tickIndex = 1;
+      } else if (self.snapStep == 0.8) {
+        tickIndex = 2;
+      } else if (self.snapStep == 1) {
+        tickIndex = 3;
+      }
+      menuItems[tickIndex].html = '<span class="tick">&#x2713;</span> ' + menuItems[tickIndex].html;
+
+      menuDropDown(self.$snapMenu, menuItems, {className: 'snapMenuDropDown'});
     }
   };
 
