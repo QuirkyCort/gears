@@ -7,6 +7,7 @@ let MSGS = {
     el: 'Κίνηση',
     nl: 'Beweging',
     de: 'Bewegung',
+    pt: 'Movimento',
   },
   '#blk-motor#': {
     en: 'Motor',
@@ -16,6 +17,7 @@ let MSGS = {
     el: 'Κινητήρες',
     nl: 'Motor',
     de: 'Motor',
+    pt: 'Motor',
   },
   '#blk-sensors#': {
     en: 'Sensors',
@@ -25,6 +27,7 @@ let MSGS = {
     el: 'Αισθητήρες',
     nl: 'Sensoren',
     de: 'Sensor',
+    pt: 'Sensores',
   },
   '#blk-sound#': {
     en: 'Sound',
@@ -34,6 +37,7 @@ let MSGS = {
     el: 'Ήχος',
     nl: 'Geluid',
     de: 'Ton',
+    pt: 'Sons',
   },
   '#blk-pen-category#': {
     en: 'Pen (Experimental)',
@@ -51,6 +55,7 @@ let MSGS = {
     el: 'Έλεγχος',
     nl: 'Controle',
     de: 'Kontrolle',
+    pt: 'Controle',
   },
   '#blk-logic#': {
     en: 'Logic',
@@ -60,6 +65,7 @@ let MSGS = {
     el: 'Λογική',
     nl: 'Logica',
     de: 'Logik',
+    pt: 'Lógica',
   },
   '#blk-loops#': {
     en: 'Loops',
@@ -69,6 +75,7 @@ let MSGS = {
     el: 'Επανάληψη',
     nl: 'Lussen',
     de: 'Schleife',
+    pt: 'Loops',
   },
   '#blk-math#': {
     en: 'Math',
@@ -78,6 +85,7 @@ let MSGS = {
     el: 'Μαθηματικά',
     nl: 'Rekenen',
     de: 'Mathematik',
+    pt: 'Matemática',
   },
   '#blk-text#': {
     en: 'Text',
@@ -87,6 +95,7 @@ let MSGS = {
     el: 'Κείμενο',
     nl: 'Tekst',
     de: 'Text',
+    pt: 'Texto',
   },
   '#blk-lists#': {
     en: 'Lists',
@@ -96,6 +105,7 @@ let MSGS = {
     el: 'Λίστες',
     nl: 'Lijsten',
     de: 'Listen',
+    pt: 'Listas',
   },
   '#blk-variables#': {
     en: 'Variables',
@@ -105,6 +115,7 @@ let MSGS = {
     el: 'Μεταβλητές',
     nl: 'Variabelen',
     de: 'Variabeln',
+    pt: 'Variáveis',
   },
   '#blk-functions#': {
     en: 'Functions',
@@ -114,6 +125,7 @@ let MSGS = {
     el: 'Συναρτήσεις',
     nl: 'Functies',
     de: 'Funktionen',
+    pt: 'Funções',
   },
   '#blk-when_started#': {
     en: 'When Started',
@@ -122,6 +134,7 @@ let MSGS = {
     el: 'Κατά την εκκίνηση',
     nl: 'Als gestart',
     de: 'Wenn gestartet',
+    pt: 'Quando Começar',
   },
   '#blk-sleep_for#': {
     en: 'sleep for',
@@ -129,6 +142,7 @@ let MSGS = {
     el: 'περίμενε για',
     nl: 'slaap voor',
     de: 'schlafe für',
+    pt: 'espere por',
   },
   '#blk-seconds#': {
     en: 'seconds',
@@ -136,6 +150,7 @@ let MSGS = {
     el: 'δευτερόλεπτα',
     nl: 'seconden',
     de: 'Sekunden',
+    pt: 'segundos',
   },
   '#blk-milliseconds#': {
     en: 'milliseconds',
@@ -143,6 +158,7 @@ let MSGS = {
     el: 'χιλιοστά του δευτερολέπτου',
     nl: 'milliseconden',
     de: 'Millisekunden',
+    pt: 'millisegundos',
   },
   '#blk-stop_moving_and#': {
     en: 'stop moving and',
@@ -150,6 +166,7 @@ let MSGS = {
     el: 'σταμάτα την κίνηση και',
     nl: 'stop beweging en',
     de: 'stoppe Bewegung und',
+    pt: 'pare de se mover e',
   },
   '#blk-brake#': {
     en: 'brake',
@@ -157,6 +174,7 @@ let MSGS = {
     el: 'διακοπή και έξοδος',
     nl: 'remmen',
     de: 'bremsen',
+    pt: 'parar',
   },
   '#blk-coast#': {
     en: 'coast',
@@ -171,6 +189,7 @@ let MSGS = {
     el: 'ανάμεινε',
     de: 'halten',
     nl: 'wachten',
+    pt: 'aguarde',
   },
   '#blk-stop_motor_on_port#': {
     en: 'stop motor on port',
@@ -178,6 +197,7 @@ let MSGS = {
     el: 'σταμάτα τον κινητήρα στη θύρα',
     nl: 'stop motor op poort',
     de: 'stoppe den Motor an Port',
+    pt: 'pare o motor na porta',
   },
   '#blk-and#': {
     en: 'and',
@@ -199,6 +219,7 @@ let MSGS = {
     el: 'και ταχύτητα',
     nl: 'en snelheid',
     de: 'und Geschwindigkeit',
+    pt: 'and speed',
   },
   '#blk-degrees#': {
     en: 'degrees',
@@ -206,6 +227,7 @@ let MSGS = {
     el: 'μοίρες',
     nl: 'graden',
     de: 'Grad',
+    pt: 'graus',
   },
   '#blk-rotations#': {
     en: 'rotations',
@@ -213,6 +235,7 @@ let MSGS = {
     el: 'περιστροφές',
     nl: 'rotaties',
     de: 'Rotation',
+    pt: 'rotações',
   },
   '#blk-move_steering_tooltip#': {
     en: 'direction ranges from -100 (left) to 0 (straight) to 100 (right)',
@@ -234,6 +257,7 @@ let MSGS = {
     el: 'Τερματισμός προγράμματος',
     nl: 'programma stoppen',
     de: 'beende Programm',
+    pt: 'sair do programa',
   },
   '#blk-position_of_motor_on_port#': {
     en: 'position of motor on port',
@@ -241,6 +265,7 @@ let MSGS = {
     el: 'θέση του κινητήρα στη θύρα',
     nl: 'positie van motor op poort',
     de: 'Position des Motors an dem Port',
+    pt: 'posição do motor na porta',
   },
   '#blk-in_degrees#': {
     en: 'in degrees',
@@ -248,6 +273,7 @@ let MSGS = {
     el: 'σε μοίρες',
     nl: 'in graden',
     de: 'in Grad',
+    pt: 'em graus',
   },
   '#blk-speed_of_motor_on_port#': {
     en: 'speed of motor on port',
@@ -255,6 +281,7 @@ let MSGS = {
     el: 'ταχύτητα του κινητήρα στη θύρα',
     nl: 'snelheid van motor op poort',
     de: 'Geschwindigkeit des Motors an dem Port',
+    pt: 'velocidade do motor na porta',
   },
   '#blk-reset_position_of_motor_on_port#': {
     en: 'reset position of motor on port',
@@ -262,6 +289,7 @@ let MSGS = {
     el: 'επαναφορά της θέσης του κινητήρα στη θύρα',
     nl: 'reset positie van motor op poort',
     de: 'setzte Position des Motors zurück an dem Port',
+    pt: 'reiniciar posição do motor na porta',
   },
   '#blk-both_wheels#': {
     en: 'Both wheels',
@@ -269,6 +297,7 @@ let MSGS = {
     el: 'Και οι δύο ρόδες',
     nl: 'beide wielen',
     de: 'beide Räder',
+    pt: 'ambas as rodas',
   },
   '#blk-left_wheel#': {
     en: 'Left Wheel',
@@ -276,6 +305,7 @@ let MSGS = {
     el: 'Αριστερή ρόδα',
     nl: 'linker wiel',
     de: 'linkes Rad',
+    pt: 'roda direira',
   },
   '#blk-right_wheel#': {
     en: 'Right Wheel',
@@ -283,6 +313,7 @@ let MSGS = {
     el: 'Δεξιά ρόδα',
     nl: 'rechter wiel',
     de: 'rechtes Rad',
+    pt: 'roda esquerda',
   },
   '#blk-move_tank_with_left_speed#': {
     en: 'move tank with left speed',
@@ -290,6 +321,7 @@ let MSGS = {
     el: 'move tank με αριστερή ταχύτητα',
     nl: 'beweeg tank met linker snelheid',
     de: 'bewege den Panzer mit einer linken Geschwindigkeit',
+    pt: 'mova o tanque com velocidade para a esquerda',
   },
   '#blk-and_right_speed#': {
     en: 'and right speed',
@@ -297,6 +329,7 @@ let MSGS = {
     el: 'και δεξιά ταχύτητα',
     nl: 'en rechter snelheid',
     de: 'und rechte Geschwindigkeit',
+    pt: 'com velocidade para a direita',
   },
   '#blk-touch_sensor#': {
     en: 'touch_sensor',
@@ -389,6 +422,7 @@ let MSGS = {
     el: 'αισθητήρας χρώματος',
     nl: 'kleurensensor',
     de: 'Farbensensor',
+    pt: 'sensor de cor',
   },
   '#blk-on_port#': {
     en: 'on port',
@@ -396,6 +430,7 @@ let MSGS = {
     el: 'στην θύρα',
     nl: 'op poort',
     de: 'an dem Port',
+    pt: 'na porta',
   },
   '#blk-reflected_light_intensity#': {
     en: 'reflected light intensity',
@@ -403,6 +438,7 @@ let MSGS = {
     el: 'ένταση αντανακλώμενου φωτός',
     nl: 'intensiteit gereflecteerd licht',
     de: 'reflektierte Lichtintensitaet',
+    pt: 'intensidade de luz refletida',
   },
   '#blk-color#': {
     en: 'color',
@@ -410,6 +446,7 @@ let MSGS = {
     el: 'χρώμα',
     nl: 'kleur',
     de: 'Farbe',
+    pt: 'cor',
   },
   '#blk-color_name#': {
     en: 'color name',
@@ -417,6 +454,7 @@ let MSGS = {
     el: 'όνομα χρώματος',
     nl: 'kleurnaam',
     de: 'Farbenname',
+    pt: 'nome da cor',
   },
   '#blk-red#': {
     en: 'red',
@@ -424,6 +462,7 @@ let MSGS = {
     el: 'κόκκινο',
     nl: 'rood',
     de: 'rot',
+    pt: 'vermelho',
   },
   '#blk-green#': {
     en: 'green',
@@ -431,6 +470,7 @@ let MSGS = {
     el: 'πράσινο',
     nl: 'groen',
     de: 'gruen',
+    pt: 'verde',
   },
   '#blk-blue#': {
     en: 'blue',
@@ -438,6 +478,7 @@ let MSGS = {
     el: 'μπλε',
     nl: 'blauw',
     de: 'blau',
+    pt: 'azul',
   },
   '#blk-rgb#': {
     en: 'rgb (list)',
@@ -452,6 +493,7 @@ let MSGS = {
     el: 'αισθητήρας απόστασης υπερήχων στην θύρα',
     nl: 'ultrasonische afstand op poort',
     de: 'Ultraschalldistanz am Port',
+    pt: 'distancia ultrasonica na porta',
   },
   '#blk-laser_distance_on_port#': {
     en: 'laser distance on port',
@@ -470,6 +512,7 @@ let MSGS = {
     el: 'γυροσκόπιο',
     nl: 'gyroscoop',
     de: 'Gyroskop',
+    pt: 'giroscópio',
   },
   '#blk-angle#': {
     en: 'angle',
@@ -477,6 +520,7 @@ let MSGS = {
     el: 'γωνία',
     nl: 'hoek',
     de: 'Winkel',
+    pt: 'ângulo',
   },
   '#blk-rate#': {
     en: 'rate',
@@ -484,6 +528,7 @@ let MSGS = {
     el: 'ρυθμός',
     nl: 'bochtscherpte',
     de: 'Rate',
+    pt: 'taxa',
   },
   '#blk-pitchAngle#': {
     en: 'pitch angle',
@@ -507,6 +552,7 @@ let MSGS = {
     el: 'επαναφορά γυροσκόπιου στη θύρα',
     nl: 'reset gyroscoop op poort',
     de: 'setze Gyroskop zurück am Port',
+    pt: 'reinicia o giroscópio na porta',
   },
   '#blk-run_motor_on_port#': {
     en: 'run motor on port',
@@ -514,6 +560,7 @@ let MSGS = {
     el: 'ξεκίνα τον κινητήρα στη θύρα',
     nl: 'start motor op poort',
     de: 'nutze den Motor am Port',
+    pt: 'ligando o motor na porta',
   },
   '#blk-at#': {
     en: 'at',
@@ -521,6 +568,7 @@ let MSGS = {
     el: 'στο',
     nl: 'op',
     de: 'bei',
+    pt: 'em',
   },
   '#blk-run_motor_tooltip#': {
     en: 'motor will continue running until given a different command',
@@ -528,6 +576,7 @@ let MSGS = {
     el: 'ο κινητήρας θα συνεχίσει να λειτουργεί μέχρι να δοθεί διαφορετική εντολή',
     nl: 'Motor zal continue draaien totdat een ander commando wordt gegeven',
     de: 'Motor wird sich weiter bewegen bis ein anderes Kommando gegeben wird',
+    pt: 'o motor continuará funcionando até receber um comando diferente',
   },
   '#blk-to_position#': {
     en: 'to position',
@@ -535,6 +584,7 @@ let MSGS = {
     el: 'στη θέση',
     nl: 'naar positie',
     de: 'zur Position',
+    pt: 'para posição',
   },
   '#blk-say#': {
     en: 'say',
@@ -542,6 +592,7 @@ let MSGS = {
     el: 'πες',
     nl: 'zeg',
     de: 'sag',
+    pt: 'fale',
   },
   '#blk-and_dont_wait#': {
     en: 'and don\'t wait',
