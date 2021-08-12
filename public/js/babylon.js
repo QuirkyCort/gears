@@ -394,6 +394,9 @@ var babylon = new function() {
     return mat;
   };
 
+  // List of render functions to call
+  this.renders = [];
+
   // Render loop
   this.render = function() {
     var delta = self.scene.getEngine().getDeltaTime();
@@ -415,6 +418,10 @@ var babylon = new function() {
     if (self.world.render) {
       self.world.render(delta);
     }
+
+    self.renders.forEach(function(render){
+      render(delta);
+    });
   };
 }
 

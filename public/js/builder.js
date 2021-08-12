@@ -876,7 +876,8 @@ var builder = new function() {
     objects: []
   };
 
-  this.pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0,1,0)});
+  this.pointerDragPlaneNormal = new BABYLON.Vector3(0,1,0);
+  this.pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: this.pointerDragPlaneNormal});
   this.pointerDragBehavior.useObjectOrientationForDragging = false;
 
   // Run on page load
@@ -909,7 +910,8 @@ var builder = new function() {
     self.$undo.click(self.undo);
 
     babylon.scene.physicsEnabled = false;
-    babylon.setCameraMode('arc')
+    babylon.setCameraMode('arc');
+    babylon.renders.push(self.render);
 
     self.pointerDragBehavior.onDragEndObservable.add(self.dragEnd);
 
@@ -918,6 +920,27 @@ var builder = new function() {
     self.saveHistory();
     self.resetScene();
   };
+
+  // Runs every frame
+  this.render = function(delta) {
+    let camera = babylon.scene.activeCamera;
+    let dir = camera.getTarget().subtract(camera.position);
+    let x2 = dir.x ** 2;
+    let y2 = dir.y ** 2;
+    let z2 = dir.z ** 2;
+    let max = Math.max(x2, y2, z2);
+
+    self.pointerDragPlaneNormal.x = 0;
+    self.pointerDragPlaneNormal.y = 0;
+    self.pointerDragPlaneNormal.z = 0;
+    if (x2 == max) {
+      self.pointerDragPlaneNormal.x = 1;
+    } else if (y2 == max) {
+      self.pointerDragPlaneNormal.y = 1;
+    } else {
+      self.pointerDragPlaneNormal.z = 1;
+    }
+  }
 
   // Select animation from model
   this.selectAnimation = function(opt, objectOptions, $div) {
