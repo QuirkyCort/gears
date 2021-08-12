@@ -2264,6 +2264,7 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
   this.init();
 }
 
+// Pen
 function Pen(scene, parent, pos, rot, port, options) {
   var self = this;
 
@@ -2437,6 +2438,7 @@ function Pen(scene, parent, pos, rot, port, options) {
   this.init();
 }
 
+// Touch sensor
 function TouchSensor(scene, parent, pos, rot, port, options) {
   var self = this;
 
@@ -2804,6 +2806,118 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
       self.position = (self.options.max * self.options.degreesPerCm) - self.positionAdjustment;
     } else if ((self.position + self.positionAdjustment) < (self.options.min * self.options.degreesPerCm)) {
       self.position = (self.options.min * self.options.degreesPerCm) - self.positionAdjustment;
+    }
+  };
+
+  this.init();
+}
+
+// Passive wheel
+function WheelPassive(scene, parent, pos, rot, options) {
+  var self = this;
+
+  this.type = 'WheelPassive';
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var wheelMat = scene.getMaterialByID('wheelPassive');
+    if (wheelMat == null) {
+      var wheelMat = new BABYLON.StandardMaterial('wheelPassive', scene);
+      var wheelTexture = new BABYLON.Texture('textures/robot/wheelPassive.png', scene);
+      wheelMat.diffuseTexture = wheelTexture;
+      wheelMat.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+      wheelMat.freeze();
+    }
+
+    var faceUV = new Array(3);
+    faceUV[0] = new BABYLON.Vector4(0, 0, 200/828, 1);
+    faceUV[1] = new BABYLON.Vector4(200/828, 3/4, 1, 1);
+    faceUV[2] = new BABYLON.Vector4(0, 0, 200/828, 1);
+    let wheelOptions = {
+      height: self.options.width,
+      diameter: self.options.diameter,
+      tessellation: 24,
+      faceUV: faceUV
+    };
+
+    self.mesh = BABYLON.MeshBuilder.CreateCylinder('wheelPassive', wheelOptions, scene);
+    self.body = self.mesh;
+    self.body.component = self;
+    self.mesh.material = wheelMat;
+    
+    self.mesh.parent = parent;
+    self.mesh.position = self.position;
+    self.mesh.rotation.z = -Math.PI / 2;
+    self.mesh.rotate(BABYLON.Axis.Y, rot[1], BABYLON.Space.LOCAL);
+    self.mesh.rotate(BABYLON.Axis.X, rot[0], BABYLON.Space.LOCAL);
+    self.mesh.rotate(BABYLON.Axis.Z, rot[2], BABYLON.Space.LOCAL);
+    parent.removeChild(self.mesh);
+
+    scene.shadowGenerator.addShadowCaster(self.mesh);
+  };
+
+  this.loadImpostor = function(){
+    self.mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+      self.mesh,
+      BABYLON.PhysicsImpostor.CylinderImpostor,
+      {
+        mass: options.mass,
+        restitution: options.restitution,
+        friction: options.friction
+      },
+      scene
+    );
+  };
+
+  this.loadJoints = function(){
+    var wheel2world = self.mesh.absoluteRotationQuaternion;
+    
+    let zero = BABYLON.Vector3.Zero();
+    var world2body = parent.absoluteRotationQuaternion;
+    world2body = BABYLON.Quaternion.Inverse(world2body);
+
+    var mainPivot = self.mesh.position.subtract(parent.position);
+    mainPivot.rotateByQuaternionAroundPointToRef(world2body, zero, mainPivot);
+
+    var mainAxis = new BABYLON.Vector3(0, 1, 0);
+    mainAxis.rotateByQuaternionAroundPointToRef(wheel2world, zero, mainAxis);
+    mainAxis.rotateByQuaternionAroundPointToRef(world2body, zero, mainAxis);
+
+    self.wheelVector = new BABYLON.Vector3(1,0,0);
+    self.bodyVector = new BABYLON.Vector3(0,0,0);
+    self.wheelVector.rotateByQuaternionAroundPointToRef(wheel2world, zero, self.bodyVector);
+    self.bodyVector.rotateByQuaternionAroundPointToRef(world2body, zero, self.bodyVector);
+    self.normalVector = new BABYLON.Vector3(0,1,0)
+
+    self.joint = new BABYLON.HingeJoint({
+      mainPivot: mainPivot,
+      connectedPivot: new BABYLON.Vector3(0, 0, 0),
+      mainAxis: mainAxis,
+      connectedAxis: new BABYLON.Vector3(0, 1, 0),
+    });
+    parent.physicsImpostor.addJoint(self.mesh.physicsImpostor, self.joint);
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      diameter: 5.6,
+      width: 0.8,
+      mass: 200,
+      friction: 10,
+      restitution: 0.8
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
     }
   };
 

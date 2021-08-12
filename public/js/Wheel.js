@@ -118,6 +118,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
 
     self.mesh = BABYLON.MeshBuilder.CreateCylinder('wheel', wheelOptions, scene);
     self.body = self.mesh;
+    self.body.component = self;
     self.mesh.material = wheelMat;
     
     self.mesh.parent = parent;

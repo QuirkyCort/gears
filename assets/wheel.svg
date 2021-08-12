@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -14,7 +12,7 @@
    viewBox="0 0 744.09448819 1052.3622047"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="wheel.svg"
    inkscape:export-filename="/var/www/html/gers/public/textures/robot/wheel.png"
    inkscape:export-xdpi="57.798172"
@@ -51,22 +49,23 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="538.71389"
-     inkscape:cy="326.99117"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="996.87584"
+     inkscape:cy="-37.790746"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1855"
-     inkscape:window-height="1056"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="false"
      inkscape:bbox-paths="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true" />
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:document-rotation="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -834,5 +833,193 @@
          id="rect4194-0"
          style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
+    <circle
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle960"
+       cx="247.14287"
+       cy="-77.459229"
+       r="155.71428"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       style="opacity:1;fill:#c1c1c1;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle962"
+       cx="247.14287"
+       cy="-77.459229"
+       r="118.57143"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       style="opacity:1;fill:#dadada;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle964"
+       cx="247.14287"
+       cy="-77.459229"
+       r="106.50036"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path966"
+       d="m 231.62252,-180.76056 h 31.04069 v 87.03597 h -31.04069 z"
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.6736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       r="20.714285"
+       cy="-139.03134"
+       cx="247.14287"
+       id="circle968"
+       style="fill:#cbcbcb;fill-opacity:1;fill-rule:evenodd;stroke:#989898;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path972"
+       d="m 328.79688,-142.57837 15.52035,26.88203 -75.37536,43.51798 -15.52035,-26.882026 z"
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.6736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       r="20.714285"
+       cy="-314.30643"
+       cx="56.442299"
+       id="circle974"
+       style="fill:#cbcbcb;fill-opacity:1;fill-rule:evenodd;stroke:#989898;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       transform="rotate(60)"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.6736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 344.31719,-39.33172 -15.52034,26.88202 -75.37536,-43.51798 15.52034,-26.88203 z"
+       id="path978"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       style="opacity:1;fill:#cbcbcb;fill-opacity:1;fill-rule:evenodd;stroke:#989898;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle980"
+       cx="-190.70053"
+       cy="-236.79236"
+       r="20.714285"
+       transform="rotate(120)"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.6736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 149.96854,-115.69627 15.52034,-26.88202 75.37536,43.51798 -15.52034,26.88203 z"
+       id="path982"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       style="opacity:1;fill:#cbcbcb;fill-opacity:1;fill-rule:evenodd;stroke:#989898;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle984"
+       cx="190.70053"
+       cy="113.75766"
+       r="20.714285"
+       transform="rotate(-60)"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.6736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 165.48889,-12.4497 -15.52035,-26.88202 75.37536,-43.51799 15.52035,26.88203 z"
+       id="path986"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       style="opacity:1;fill:#cbcbcb;fill-opacity:1;fill-rule:evenodd;stroke:#989898;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle988"
+       cx="-56.442352"
+       cy="191.27164"
+       r="20.714285"
+       transform="rotate(-120)"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.6736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 262.66321,25.73258 h -31.04069 v -87.03597 h 31.04069 z"
+       id="path990"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       style="opacity:1;fill:#cbcbcb;fill-opacity:1;fill-rule:evenodd;stroke:#989898;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle992"
+       cx="-247.14287"
+       cy="15.996643"
+       r="20.714285"
+       transform="scale(-1)"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <circle
+       style="opacity:1;fill:#c1c1c1;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle994"
+       cx="247.14287"
+       cy="-77.459229"
+       r="31.428572"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       style="opacity:1;fill:#d0d0d0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 243.21416,-98.53052 v 17.14258 h -17.14258 v 7.85742 h 17.14258 v 17.14258 h 7.85742 v -17.14258 h 17.14258 v -7.85742 h -17.14258 v -17.14258 z"
+       id="path996"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <rect
+       style="opacity:1;fill:#464646;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3.45604;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect998"
+       width="978.41803"
+       height="77"
+       x="402.85715"
+       y="-233.17351"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#252525;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 402.85715,-194.17171 H 1381.2752"
+       id="path1000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#252525;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 402.85715,-214.52885 H 1381.2752"
+       id="path1002"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#252525;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 402.85715,-175.95742 H 1381.2752"
+       id="path1004"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/var/www/html/gers/public/textures/robot/circle960.png"
+       inkscape:export-xdpi="57.798172"
+       inkscape:export-ydpi="57.798172" />
   </g>
 </svg>

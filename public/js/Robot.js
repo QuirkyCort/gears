@@ -382,6 +382,13 @@ function Robot() {
           componentConfig.position,
           componentConfig.rotation,
           componentConfig.options);
+      } else if (componentConfig.type == 'WheelPassive') {
+        component = new WheelPassive(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          componentConfig.options);
       } else if (componentConfig.type == 'MagnetActuator') {
         component = new MagnetActuator(
           self.scene,
