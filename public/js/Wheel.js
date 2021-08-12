@@ -1,5 +1,18 @@
-function Wheel(scene, options) {
+function Wheel(scene, parent, pos, rot, port, options) {
   var self = this;
+
+  this.type = 'WheelActuator';
+  this.port = port;
+  this.options = null;
+
+  this.components = [];
+
+  this.bodyPosition = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.bodyVector = null;
+  this.wheelVector = null;
 
   this.mesh = null;
   this.joint = null;
@@ -11,15 +24,15 @@ function Wheel(scene, options) {
   this.MAX_SPEED = 800 / 180 * Math.PI;
   this.MAX_ACCELERATION = 20;  // degrees / msec^2
   this.TIRE_DOWNWARDS_FORCE = new BABYLON.Vector3(0, -4000, 0);
-
-  this.type = 'wheel';
+  
   this.modes = {
     STOP: 1,
     RUN: 2,
     RUN_TO_POS: 3,
     RUN_TIL_TIME: 4
   };
-  this.state = '';
+  //this.state = '';
+  this.state = 'holding';
   this.states = {
     RUNNING: 'running',
     RAMPING: 'ramping',
@@ -79,19 +92,9 @@ function Wheel(scene, options) {
       self.state = self.states.NONE;
     }
   };
+  this.init = function() {
+    self.setOptions(options);
 
-  this.reset = function() {
-    self.positionAdjustment += self.position;
-    self.position = 0;
-    self.position_target = 0;
-    self.mode = self.modes.STOP;
-    self.state = self.states.HOLDING;
-  };
-
-  //
-  // Used in JS
-  //
-  this.load = function(pos, startPos, startRot, body, pivot) {
     var wheelMat = scene.getMaterialByID('wheel');
     if (wheelMat == null) {
       var wheelMat = new BABYLON.StandardMaterial('wheel', scene);
@@ -106,36 +109,28 @@ function Wheel(scene, options) {
     faceUV[1] = new BABYLON.Vector4(200/828, 3/4, 1, 1);
     faceUV[2] = new BABYLON.Vector4(0, 0, 200/828, 1);
     let wheelOptions = {
-      height: options.wheelWidth,
-      diameter: options.wheelDiameter,
+      height: self.options.wheelWidth,
+      diameter: self.options.wheelDiameter,
       tessellation: 24,
       faceUV: faceUV
     };
 
     self.mesh = BABYLON.MeshBuilder.CreateCylinder('wheel', wheelOptions, scene);
+    self.body = self.mesh;
     self.mesh.material = wheelMat;
+    
+    self.mesh.parent = parent;
+    self.mesh.position = self.bodyPosition;
     self.mesh.rotation.z = -Math.PI / 2;
-    self.mesh.position.x = pos[0];
-    self.mesh.position.y = pos[1];
-    self.mesh.position.z = pos[2];
+    self.mesh.rotate(BABYLON.Axis.Y, rot[1], BABYLON.Space.LOCAL);
+    self.mesh.rotate(BABYLON.Axis.X, rot[0], BABYLON.Space.LOCAL);
+    self.mesh.rotate(BABYLON.Axis.Z, rot[2], BABYLON.Space.LOCAL);
+    parent.removeChild(self.mesh);
+
     scene.shadowGenerator.addShadowCaster(self.mesh);
+  };
 
-    let transformNode = BABYLON.MeshBuilder.CreateBox('root', {width:1,depth:1,height:1}, scene);
-    self.mesh.parent = transformNode;
-    transformNode.rotate(BABYLON.Axis.Y, startRot.y, BABYLON.Space.LOCAL);
-    transformNode.rotate(BABYLON.Axis.X, startRot.x, BABYLON.Space.LOCAL);
-    transformNode.rotate(BABYLON.Axis.Z, startRot.z, BABYLON.Space.LOCAL);
-    transformNode.position.addInPlace(startPos);
-    transformNode.removeChild(self.mesh);
-    transformNode.dispose();
-
-    self.s = new BABYLON.Quaternion.FromEulerAngles(0,0,self.mesh.rotation.z);
-    self.s_i = BABYLON.Quaternion.Inverse(self.s);
-    self.axis0 = new BABYLON.Quaternion(0,1,0,0);
-    self.axis1 = self.s.multiply(self.axis0).multiply(self.s_i);
-    self.v1 = new BABYLON.Vector3(self.axis1.x, self.axis1.y, self.axis1.z);
-    self.v1.normalize();
-
+  this.loadImpostor = function(){
     self.mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
       self.mesh,
       BABYLON.PhysicsImpostor.CylinderImpostor,
@@ -168,18 +163,71 @@ function Wheel(scene, options) {
         ];
       }
     });
+  };
+
+  this.loadJoints = function(){
+    var wheel2world = self.mesh.absoluteRotationQuaternion;
+    
+    let zero = BABYLON.Vector3.Zero();
+    var world2body = parent.absoluteRotationQuaternion;
+    world2body = BABYLON.Quaternion.Inverse(world2body);
+
+    var mainPivot = self.mesh.position.subtract(parent.position);
+    mainPivot.rotateByQuaternionAroundPointToRef(world2body, zero, mainPivot);
+
+    var mainAxis = new BABYLON.Vector3(0, 1, 0);
+    mainAxis.rotateByQuaternionAroundPointToRef(wheel2world, zero, mainAxis);
+    mainAxis.rotateByQuaternionAroundPointToRef(world2body, zero, mainAxis);
+
+    self.wheelVector = new BABYLON.Vector3(1,0,0);
+    self.bodyVector = new BABYLON.Vector3(0,0,0);
+    self.wheelVector.rotateByQuaternionAroundPointToRef(wheel2world, zero, self.bodyVector);
+    self.bodyVector.rotateByQuaternionAroundPointToRef(world2body, zero, self.bodyVector);
+    self.normalVector = new BABYLON.Vector3(0,1,0)
 
     self.joint = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
-      mainPivot: pivot,
+      mainPivot: mainPivot,
       connectedPivot: new BABYLON.Vector3(0, 0, 0),
-      mainAxis: new BABYLON.Vector3(1, 0, 0),
+      mainAxis: mainAxis,
       connectedAxis: new BABYLON.Vector3(0, 1, 0),
     });
-    body.physicsImpostor.addJoint(self.mesh.physicsImpostor, self.joint);
+    parent.physicsImpostor.addJoint(self.mesh.physicsImpostor, self.joint);
   };
+
+
+  this.setOptions = function(options) {
+    self.options = {
+      wheelDiameter: 5.6,
+      wheelWidth: 0.8,
+      wheelMass: 200,
+      wheelFriction: 10
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.reset = function() {
+    self.positionAdjustment += self.position;
+    self.position = 0;
+    self.position_target = 0;
+    self.mode = self.modes.STOP;
+    self.state = self.states.HOLDING;
+  };
+
+  //
+  // Used in JS
+  //
 
   this.render = function(delta) {
     if (
+      typeof self.mesh == 'undefined' ||
+      self.mesh == null ||
       typeof self.mesh.physicsImpostor == 'undefined'
       || self.mesh.physicsImpostor == null
     ) {
@@ -269,51 +317,18 @@ function Wheel(scene, options) {
     self.angularVelocity = (position - self.actualPosition) / delta * 1000;
     self.actualPosition = position;
     self.position = position - self.positionAdjustment;
-
-    self.prevv2 = v2
   };
+  this.getRotation = function(){
+    let rotatedBodyVector = new BABYLON.Vector3(0,0,0);
+    let rotatedWheelVector = new BABYLON.Vector3(0,0,0);
+    let rotatedNormalVector = new BABYLON.Vector3(0,0,0);
+    let zero = BABYLON.Vector3.Zero();
 
-  this.getRotation = function(s, e) {
-    var r = e.multiply(self.s_i);
+    this.bodyVector.rotateByQuaternionAroundPointToRef(parent.absoluteRotationQuaternion, zero, rotatedBodyVector);
+    this.wheelVector.rotateByQuaternionAroundPointToRef(self.mesh.absoluteRotationQuaternion, zero, rotatedWheelVector);
+    this.normalVector.rotateByQuaternionAroundPointToRef(self.mesh.absoluteRotationQuaternion, zero, rotatedNormalVector);
 
-    var axis2 = e.multiply(self.axis0).multiply(BABYLON.Quaternion.Inverse(e));
-
-    v2 = new BABYLON.Vector3(axis2.x, axis2.y, axis2.z);
-    v2.normalize();
-
-    q1_xyz = self.v1.cross(v2);
-    var q1_dot = BABYLON.Vector3.Dot(self.v1, v2);
-    var q1_w = 1 + q1_dot;
-    if (q1_w< 0.1) {
-      if (Math.abs(self.v1.x)> Math.abs(self.v1.z)) {
-        var q1 = new BABYLON.Quaternion(-self.v1.y, self.v1.x, 0, 0)
-      } else {
-        var q1 = new BABYLON.Quaternion(0,-self.v1.z, self.v1.y, 0)
-      }
-    } else {
-      var q1 = new BABYLON.Quaternion(q1_xyz.x, q1_xyz.y, q1_xyz.z, q1_w);
-    }
-
-    q1.normalize();
-    var q2 = BABYLON.Quaternion.Inverse(r).multiply(q1);
-    q2.normalize();
-    var d = 2 * Math.acos(q2.w);
-
-    var q2_xyz = new BABYLON.Vector3(q2.x, q2.y, q2.z);
-    q2_xyz.normalize();
-
-    var flip = false;
-    if (BABYLON.Vector3.Dot(q2_xyz, v2) > 0) {
-      flip = !flip;
-    }
-    if (q1_dot < 0) {
-      flip = !flip;
-    }
-
-    if (flip) {
-      return 2 * Math.PI - d;
-    } else {
-      return d;
-    }
-  };
+    return BABYLON.Vector3.GetAngleBetweenVectors(rotatedBodyVector, rotatedWheelVector, rotatedNormalVector);
+  }
+  this.init();
 }

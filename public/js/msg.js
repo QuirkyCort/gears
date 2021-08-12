@@ -1283,6 +1283,9 @@ let MSGS = {
   '#sim-linear#': {
     en: 'Linear Actuator',
   },
+  '#sim-wheel#': {
+    en: 'Wheel Actuator',
+  },
   '#sim-paintball#': {
     en: 'Paintball Launcher',
     fr: 'Lanceur de paintball',

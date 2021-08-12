@@ -31,7 +31,9 @@ function Robot() {
   this.defaultOptions = {
     color: '#f09c0d',
     imageType: 'all',
-    imageURL: ''
+    imageURL: '',
+    caster: true,
+    wheels: true
   };
 
   this.mailboxes = {};
@@ -137,47 +139,51 @@ function Robot() {
       body.paintballCollide = self.paintballCollide;
 
       // Rear caster
-      var casterMat = new BABYLON.StandardMaterial('caster', scene);
-      casterMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.6);
-      casterMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
-      casterMat.freeze();
+      if (options.caster) {
 
-      let casterOptions = {
-        diameter: options.wheelDiameter,
-        segments: 5
-      }
-      if (typeof options.casterDiameter != 'undefined' && options.casterDiameter > 0) {
-        casterOptions.diameter = options.casterDiameter;
-      }
-      var caster = BABYLON.MeshBuilder.CreateSphere("sphere", casterOptions, scene);
-      caster.material = casterMat;
-      caster.position.y = -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY - options.wheelDiameter / 2 + casterOptions.diameter / 2;
-      caster.position.z = -(options.bodyLength / 2) + (casterOptions.diameter / 2);
-      if (typeof options.casterOffsetZ != 'undefined') {
-        caster.position.z += options.casterOffsetZ;
-      }
+        var casterMat = new BABYLON.StandardMaterial('caster', scene);
+        casterMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.6);
+        casterMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+        casterMat.freeze();
 
-      scene.shadowGenerator.addShadowCaster(caster);
-      caster.parent = body;
+        let casterOptions = {
+          diameter: options.wheelDiameter,
+          segments: 5
+        }
+        if (typeof options.casterDiameter != 'undefined' && options.casterDiameter > 0) {
+          casterOptions.diameter = options.casterDiameter;
+        }
+        var caster = BABYLON.MeshBuilder.CreateSphere("sphere", casterOptions, scene);
+        caster.material = casterMat;
+        caster.position.y = -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY - options.wheelDiameter / 2 + casterOptions.diameter / 2;
+        caster.position.z = -(options.bodyLength / 2) + (casterOptions.diameter / 2);
+        if (typeof options.casterOffsetZ != 'undefined') {
+          caster.position.z += options.casterOffsetZ;
+        }
 
+        scene.shadowGenerator.addShadowCaster(caster);
+        caster.parent = body;
+
+        caster.physicsImpostor = new BABYLON.PhysicsImpostor(
+          caster,
+          BABYLON.PhysicsImpostor.SphereImpostor,
+          {
+            mass: options.casterMass,
+            restitution: 0.0,
+            friction: options.casterFriction
+          },
+          scene
+        );
+      }
       // Add components
       self.components = [];
       self.sensorCount = 0;
-      self.motorCount = 2;
+      self.motorCount = options.wheels ? 2 : 0;
+
       self.componentIndex = 0;
       self.loadComponents(self.options.components, self.components, self.body);
 
       // Add Physics
-      caster.physicsImpostor = new BABYLON.PhysicsImpostor(
-        caster,
-        BABYLON.PhysicsImpostor.SphereImpostor,
-        {
-          mass: options.casterMass,
-          restitution: 0.0,
-          friction: options.casterFriction
-        },
-        scene
-      );
       body.physicsImpostor = new BABYLON.PhysicsImpostor(
         body,
         BABYLON.PhysicsImpostor.BoxImpostor,
@@ -188,7 +194,7 @@ function Robot() {
         },
         scene
       );
-
+      
       // Hold position if speed is too low
       var origin = body.physicsImpostor.physicsBody.getWorldTransform().getOrigin();
       var lastOrigin = [
@@ -214,42 +220,46 @@ function Robot() {
       // Add joints
       self.loadJoints(self.components);
 
-      // Wheels
-      self.leftWheel = new Wheel(scene, options);
-      self.rightWheel = new Wheel(scene, options);
-      self.leftWheel.load(
-        [
-          -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset,
-          options.wheelDiameter / 2,
-          (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
-        ],
-        startPos,
-        startRot,
-        body,
-        new BABYLON.Vector3(
-          -(options.bodyWidth / 2) - options.wheelToBodyOffset - options.wheelWidth / 2,
-          -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
-          options.bodyLength / 2 - options.bodyEdgeToWheelCenterZ
-        )
-      );
-      self.rightWheel.load(
-        [
-          (options.wheelWidth + options.bodyWidth) / 2 + options.wheelToBodyOffset,
-          options.wheelDiameter / 2,
-          (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
-        ],
-        startPos,
-        startRot,
-        body,
-        new BABYLON.Vector3(
-          (options.bodyWidth / 2) + options.wheelToBodyOffset + options.wheelWidth / 2,
-          -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
-          options.bodyLength / 2 - options.bodyEdgeToWheelCenterZ
-        )
-      );
-      self.leftWheel.stop();
-      self.rightWheel.stop();
 
+      // Wheels
+      driveWheelOptions = {
+        wheelDiameter: options.wheelDiameter,
+        wheelWidth: options.wheelWidth,
+        wheelMass: options.wheelMass,
+        wheelFriction: options.wheelFriction
+      };
+
+      if (options.wheels){
+        self.leftWheel = new Wheel(
+          scene,
+          body,
+          [
+            -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset,
+            -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
+            (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
+          ],
+          [0,0,0],
+          'outA',
+          driveWheelOptions
+        );
+        self.leftWheel.loadImpostor();
+        self.leftWheel.loadJoints();
+        
+        self.rightWheel = new Wheel(
+          scene,
+          body,
+          [
+            (options.wheelWidth + options.bodyWidth) / 2 + options.wheelToBodyOffset,
+            -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
+            (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
+          ],
+          [0,0,0],
+          'outB',
+          driveWheelOptions
+        );
+        self.rightWheel.loadImpostor();
+        self.rightWheel.loadJoints();
+      }
       resolve();
     });
   };
@@ -406,6 +416,14 @@ function Robot() {
           componentConfig.options);
       } else if (componentConfig.type == 'PaintballLauncherActuator') {
         component = new PaintballLauncherActuator(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'out' + PORT_LETTERS[(++self.motorCount)],
+          componentConfig.options);
+      } else if (componentConfig.type == 'WheelActuator') {
+        component = new Wheel(
           self.scene,
           parent,
           componentConfig.position,
