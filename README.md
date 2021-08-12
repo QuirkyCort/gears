@@ -45,6 +45,7 @@ Steven Murray
 * Football Arena
 * ObjectTracker
 * Improvements to magnet
+* Wheel Actuators
 
 humbug99
 * Pen
@@ -68,6 +69,7 @@ Translations by:
 * Ελληνικά: Eduact, https://eduact.org/en
 * Español: edurobotic
 * Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix), germanicianus
+* Português: Mateus Lima
 
 License
 ---
