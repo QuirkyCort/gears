@@ -187,13 +187,19 @@ function Wheel(scene, parent, pos, rot, port, options) {
     self.bodyVector.rotateByQuaternionAroundPointToRef(world2body, zero, self.bodyVector);
     self.normalVector = new BABYLON.Vector3(0,1,0)
 
+    let targetBody = parent;
+    while (targetBody.parent) {
+      mainPivot.addInPlace(targetBody.position);
+      targetBody = targetBody.parent;
+    }
+
     self.joint = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
       mainPivot: mainPivot,
       connectedPivot: new BABYLON.Vector3(0, 0, 0),
       mainAxis: mainAxis,
       connectedAxis: new BABYLON.Vector3(0, 1, 0),
     });
-    parent.physicsImpostor.addJoint(self.mesh.physicsImpostor, self.joint);
+    targetBody.physicsImpostor.addJoint(self.mesh.physicsImpostor, self.joint);
   };
 
   this.setOptions = function(options) {
