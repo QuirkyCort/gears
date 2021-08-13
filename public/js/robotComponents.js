@@ -718,6 +718,25 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
   this.init = function() {
     self.setOptions(options);
 
+    var body = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody', {height: 2, width: 5, depth: 2.5}, scene);
+    self.body = body;
+    body.component = self;
+    body.visibility = false;
+    body.isPickable = false;
+    body.parent = parent;
+    body.position = self.position;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+
     var bodyMat = new BABYLON.StandardMaterial('ultrasonicSensorBody', scene);
     var bodyTexture = new BABYLON.Texture('textures/robot/ultrasonic.png', scene);
     bodyMat.diffuseTexture = bodyTexture;
@@ -729,32 +748,17 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
 
     let bodyOptions = {
-      height: 2,
-      width: 5,
-      depth: 2,
+      height: 2 - 0.01,
+      width: 5 - 0.01,
+      depth: 2 - 0.01,
       faceUV: faceUV
     };
 
-    var body = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBodyRear', bodyOptions, scene);
-    self.body = body;
-    body.component = self;
-    body.material = bodyMat;
-    scene.shadowGenerator.addShadowCaster(body);
-    body.position.z -= 0.25;
-    body.parent = parent;
-    body.position = self.position;
-    body.translate(BABYLON.Axis.Z, -0.25, BABYLON.Space.LOCAL);
-    body.physicsImpostor = new BABYLON.PhysicsImpostor(
-      body,
-      BABYLON.PhysicsImpostor.BoxImpostor,
-      {
-        mass: 0
-      },
-      scene
-    );
-    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL);
-    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL);
-    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL);
+    var rearBody = BABYLON.MeshBuilder.CreateBox('ultrasonicSensorBody', bodyOptions, scene);
+    rearBody.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(rearBody);
+    rearBody.position.z -= 0.25;
+    rearBody.parent = body;
 
     var eyeMat = babylon.getMaterial(scene, 'E600E6');
 
@@ -762,7 +766,7 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     eyeL.material = eyeMat;
     eyeL.rotation.x = -Math.PI / 2;
     eyeL.position.x = -1.5;
-    eyeL.position.z = 1.25;
+    eyeL.position.z = 1;
     scene.shadowGenerator.addShadowCaster(eyeL);
     eyeL.parent = body;
 
@@ -770,7 +774,7 @@ function UltrasonicSensor(scene, parent, pos, rot, port, options) {
     eyeR.material = eyeMat;
     eyeR.rotation.x = -Math.PI / 2;
     eyeR.position.x = 1.5;
-    eyeR.position.z = 1.25;
+    eyeR.position.z = 1;
     scene.shadowGenerator.addShadowCaster(eyeR);
     eyeR.parent = body;
 
@@ -2960,6 +2964,8 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
 // Passive wheel
 function WheelPassive(scene, parent, pos, rot, options) {
   var self = this;
+
+  this.parent = parent;
 
   this.type = 'WheelPassive';
   this.options = null;

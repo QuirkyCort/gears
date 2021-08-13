@@ -1,6 +1,8 @@
 function Wheel(scene, parent, pos, rot, port, options) {
   var self = this;
 
+  this.parent = parent;
+
   this.type = 'WheelActuator';
   this.port = port;
   this.options = null;
@@ -93,6 +95,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
       self.state = self.states.NONE;
     }
   };
+
   this.init = function() {
     self.setOptions(options);
 
@@ -325,6 +328,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
     self.actualPosition = position;
     self.position = position - self.positionAdjustment;
   };
+
   this.getRotation = function(){
     let rotatedBodyVector = new BABYLON.Vector3(0,0,0);
     let rotatedWheelVector = new BABYLON.Vector3(0,0,0);
@@ -336,6 +340,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
     this.normalVector.rotateByQuaternionAroundPointToRef(self.mesh.absoluteRotationQuaternion, zero, rotatedNormalVector);
 
     return BABYLON.Vector3.GetAngleBetweenVectors(rotatedBodyVector, rotatedWheelVector, rotatedNormalVector);
-  }
+  };
+
   this.init();
 }

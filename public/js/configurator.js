@@ -1220,9 +1220,17 @@ var configurator = new function() {
       let dragPointStart;
       let dragOrigPos;
 
+      function notClose(a, b) {
+        if (Math.abs(a - b) > 0.01) {
+          return true;
+        }
+        return false;
+      }
+
       // Object drag start
       function dragStart(event) {
         dragPointStart = event.dragPlanePoint;
+        dragBody.computeWorldMatrix(true);
         dragOrigPos = dragBody.absolutePosition.clone();
         return;
       }
@@ -1231,6 +1239,19 @@ var configurator = new function() {
       function drag(event) {
         let absPos = dragOrigPos.add(event.dragPlanePoint.subtract(dragPointStart));
         dragBody.setAbsolutePosition(absPos);
+
+        if (notClose(selected[0].component.position[0], dragBody.position.x)) {
+          dragBody.position.x = self.roundToSnap(dragBody.position.x);
+        }
+        if (notClose(selected[0].component.position[1], dragBody.position.y)) {
+          dragBody.position.y = self.roundToSnap(dragBody.position.y);
+        }
+        if (notClose(selected[0].component.position[2], dragBody.position.z)) {
+          dragBody.position.z = self.roundToSnap(dragBody.position.z);
+        }
+
+        dragBody.computeWorldMatrix(true);
+
         return;
       }
 
@@ -1239,11 +1260,8 @@ var configurator = new function() {
         self.saveHistory();
         let pos = dragBody.position;
 
-        function notClose(a, b) {
-          if (Math.abs(a - b) > 0.01) {
-            return true;
-          }
-          return false;
+        if (dragBody.parent == null && typeof dragBody.component.parent != 'undefined') {
+          pos = pos.subtract(dragBody.component.parent.absolutePosition);
         }
 
         if (notClose(selected[0].component.position[0], pos.x)) {
@@ -1266,6 +1284,7 @@ var configurator = new function() {
       pointerDragBehavior.onDragObservable.add(drag);
       pointerDragBehavior.onDragEndObservable.add(dragEnd);
 
+      dragBody.isPickable = true;
       dragBody.addBehavior(pointerDragBehavior);
     }
   };
@@ -1288,6 +1307,10 @@ var configurator = new function() {
       self.pointerDragPlaneNormal.y = 1;
     } else {
       self.pointerDragPlaneNormal.z = 1;
+    }
+
+    if (self.wireframe && typeof self.wireframe.body != 'undefined') {
+      self.wireframe.body.computeWorldMatrix(true);
     }
   }
 
@@ -1678,13 +1701,10 @@ var configurator = new function() {
       wireframe = BABYLON.MeshBuilder.CreateBox('wireframeComponentSelector', options, babylon.scene);
       wireframe.material = wireframeMat;
 
-      // Something about wheel makes absolutePosition not work
-      if (robot.getComponentByIndex(index).constructor.name == "Wheel"){
-        wireframe.position = body.position;
-      }
-      else{
-        wireframe.position = body.absolutePosition;
-      }
+      wireframe.body = body;
+      self.wireframe = wireframe;    
+
+      wireframe.position = body.absolutePosition;
 
       wireframe.rotationQuaternion = body.absoluteRotationQuaternion;
       wireframe.enableEdgesRendering();
