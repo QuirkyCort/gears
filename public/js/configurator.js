@@ -1207,6 +1207,7 @@ var configurator = new function() {
     let index = selected[0].componentIndex;
     if (typeof index != 'undefined') {
       let dragBody = robot.getComponentByIndex(index).body;
+      let dragBodyPos;
 
       if (dragBody.getBehaviorByName('PointerDrag')) {
         return;
@@ -1217,9 +1218,6 @@ var configurator = new function() {
         return;
       }
 
-      let dragPointStart;
-      let dragOrigPos;
-
       function notClose(a, b) {
         if (Math.abs(a - b) > 0.01) {
           return true;
@@ -1229,30 +1227,22 @@ var configurator = new function() {
 
       // Object drag start
       function dragStart(event) {
-        dragPointStart = event.dragPlanePoint;
-        dragBody.computeWorldMatrix(true);
-        dragOrigPos = dragBody.absolutePosition.clone();
-        return;
+        dragBodyPos = dragBody.position.clone();
       }
 
       // Object drag
       function drag(event) {
-        let absPos = dragOrigPos.add(event.dragPlanePoint.subtract(dragPointStart));
-        dragBody.setAbsolutePosition(absPos);
+        dragBodyPos.addInPlace(event.delta);
 
-        if (notClose(selected[0].component.position[0], dragBody.position.x)) {
-          dragBody.position.x = self.roundToSnap(dragBody.position.x);
+        if (notClose(selected[0].component.position[0], dragBodyPos.x)) {
+          dragBody.position.x = self.roundToSnap(dragBodyPos.x);
         }
-        if (notClose(selected[0].component.position[1], dragBody.position.y)) {
-          dragBody.position.y = self.roundToSnap(dragBody.position.y);
+        if (notClose(selected[0].component.position[1], dragBodyPos.y)) {
+          dragBody.position.y = self.roundToSnap(dragBodyPos.y);
         }
-        if (notClose(selected[0].component.position[2], dragBody.position.z)) {
-          dragBody.position.z = self.roundToSnap(dragBody.position.z);
+        if (notClose(selected[0].component.position[2], dragBodyPos.z)) {
+          dragBody.position.z = self.roundToSnap(dragBodyPos.z);
         }
-
-        dragBody.computeWorldMatrix(true);
-
-        return;
       }
 
       // Object drag end

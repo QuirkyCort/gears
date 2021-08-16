@@ -943,7 +943,6 @@ var builder = new function() {
       dragPointStart = event.dragPlanePoint;
       dragBody.computeWorldMatrix(true);
       dragOrigPos = dragBody.absolutePosition.clone();
-      return;
     }
 
     // Object drag
@@ -959,8 +958,6 @@ var builder = new function() {
       if (notClose(selected[0].object.position[2], dragBodyPos.y)) {
         dragBody.position.y = self.roundToSnap(dragBodyPos.y);
       }
-
-      return;
     }
 
     // Object drag end
