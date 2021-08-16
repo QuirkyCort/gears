@@ -876,10 +876,6 @@ var builder = new function() {
     objects: []
   };
 
-  this.pointerDragPlaneNormal = new BABYLON.Vector3(0,1,0);
-  this.pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: this.pointerDragPlaneNormal});
-  this.pointerDragBehavior.useObjectOrientationForDragging = false;
-
   // Run on page load
   this.init = function() {
     if (typeof babylon.scene == 'undefined') {
@@ -915,13 +911,86 @@ var builder = new function() {
     babylon.setCameraMode('arc');
     babylon.renders.push(self.render);
 
-    self.pointerDragBehavior.onDragEndObservable.add(self.dragEnd);
+    self.setupDrag();
 
     babylon.world.animate = false;
 
     self.saveHistory();
     self.resetScene();
   };
+
+  // Setup drag
+  this.setupDrag = function() {
+    let dragBody;
+    let dragBodyPos;
+    let dragPointStart;
+    let dragOrigPos;
+    let selected;
+
+    function notClose(a, b) {
+      if (Math.abs(a - b) > 0.01) {
+        return true;
+      }
+      return false;
+    }
+
+    // Object drag start
+    function dragStart(event) {
+      dragBody = self.pointerDragBehavior.attachedNode;
+      dragBodyPos = dragBody.position.clone();
+      selected = self.$objectsList.find('li.selected');
+
+      dragPointStart = event.dragPlanePoint;
+      dragBody.computeWorldMatrix(true);
+      dragOrigPos = dragBody.absolutePosition.clone();
+      return;
+    }
+
+    // Object drag
+    function drag(event) {      
+      dragBodyPos.addInPlace(event.delta);
+
+      if (notClose(selected[0].object.position[0], dragBodyPos.x)) {
+        dragBody.position.x = self.roundToSnap(dragBodyPos.x);
+      }
+      if (notClose(selected[0].object.position[1], dragBodyPos.z)) {
+        dragBody.position.z = self.roundToSnap(dragBodyPos.z);
+      }
+      if (notClose(selected[0].object.position[2], dragBodyPos.y)) {
+        dragBody.position.y = self.roundToSnap(dragBodyPos.y);
+      }
+
+      return;
+    }
+
+    // Object drag end
+    function dragEnd(event) {
+      if (typeof selected[0].object != 'undefined') {
+        self.saveHistory();
+        let pos = self.pointerDragBehavior.attachedNode.position;
+
+        if (notClose(selected[0].object.position[0], pos.x)) {
+          selected[0].object.position[0] = self.roundToSnap(pos.x);
+        }
+        if (notClose(selected[0].object.position[1], pos.z)) {
+          selected[0].object.position[1] = self.roundToSnap(pos.z);
+        }
+        if (notClose(selected[0].object.position[2], pos.y)) {
+          selected[0].object.position[2] = self.roundToSnap(pos.y);
+        }
+        self.resetScene(false);
+      }
+    };
+
+    self.pointerDragPlaneNormal = new BABYLON.Vector3(0,1,0);
+    self.pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: this.pointerDragPlaneNormal});
+    self.pointerDragBehavior.useObjectOrientationForDragging = false;
+    self.pointerDragBehavior.moveAttached = false;
+  
+    self.pointerDragBehavior.onDragStartObservable.add(dragStart);
+    self.pointerDragBehavior.onDragObservable.add(drag);
+    self.pointerDragBehavior.onDragEndObservable.add(dragEnd);
+  }
 
   // Runs every frame
   this.render = function(delta) {
@@ -1263,33 +1332,6 @@ var builder = new function() {
     $div.append($buttonsBox);
 
     return $div;
-  };
-
-  // Object drag end
-  this.dragEnd = function(event) {
-    let selected = self.$objectsList.find('li.selected');
-    if (typeof selected[0].object != 'undefined') {
-      self.saveHistory();
-      let pos = self.pointerDragBehavior.attachedNode.position;
-
-      function notClose(a, b) {
-        if (Math.abs(a - b) > 0.01) {
-          return true;
-        }
-        return false;
-      }
-
-      if (notClose(selected[0].object.position[0], pos.x)) {
-        selected[0].object.position[0] = self.roundToSnap(pos.x);
-      }
-      if (notClose(selected[0].object.position[1], pos.z)) {
-        selected[0].object.position[1] = self.roundToSnap(pos.z);
-      }
-      if (notClose(selected[0].object.position[2], pos.y)) {
-        selected[0].object.position[2] = self.roundToSnap(pos.y);
-      }
-      self.resetScene(false);
-    }
   };
 
   // Apply pointerDragBehavior to selected mesh
