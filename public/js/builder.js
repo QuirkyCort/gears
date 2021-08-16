@@ -923,8 +923,6 @@ var builder = new function() {
   this.setupDrag = function() {
     let dragBody;
     let dragBodyPos;
-    let dragPointStart;
-    let dragOrigPos;
     let selected;
 
     function notClose(a, b) {
@@ -950,13 +948,13 @@ var builder = new function() {
       dragBodyPos.addInPlace(event.delta);
 
       if (notClose(selected[0].object.position[0], dragBodyPos.x)) {
-        dragBody.position.x = self.roundToSnap(dragBodyPos.x);
+        dragBody.position.x = self.roundToSnap(dragBodyPos.x, self.snapStep[0]);
       }
       if (notClose(selected[0].object.position[1], dragBodyPos.z)) {
-        dragBody.position.z = self.roundToSnap(dragBodyPos.z);
+        dragBody.position.z = self.roundToSnap(dragBodyPos.z, self.snapStep[1]);
       }
       if (notClose(selected[0].object.position[2], dragBodyPos.y)) {
-        dragBody.position.y = self.roundToSnap(dragBodyPos.y);
+        dragBody.position.y = self.roundToSnap(dragBodyPos.y, self.snapStep[2]);
       }
     }
 
@@ -967,13 +965,13 @@ var builder = new function() {
         let pos = self.pointerDragBehavior.attachedNode.position;
 
         if (notClose(selected[0].object.position[0], pos.x)) {
-          selected[0].object.position[0] = self.roundToSnap(pos.x);
+          selected[0].object.position[0] = self.roundToSnap(pos.x, self.snapStep[0]);
         }
         if (notClose(selected[0].object.position[1], pos.z)) {
-          selected[0].object.position[1] = self.roundToSnap(pos.z);
+          selected[0].object.position[1] = self.roundToSnap(pos.z, self.snapStep[1]);
         }
         if (notClose(selected[0].object.position[2], pos.y)) {
-          selected[0].object.position[2] = self.roundToSnap(pos.y);
+          selected[0].object.position[2] = self.roundToSnap(pos.y, self.snapStep[2]);
         }
         self.resetScene(false);
       }
@@ -1923,12 +1921,12 @@ var builder = new function() {
   };
 
   // Snapping
-  this.snapStep = 0;
-  this.roundToSnap = function(value) {
-    if (self.snapStep == 0) {
+  this.snapStep = [0, 0, 0];
+  this.roundToSnap = function(value, snap) {
+    if (snap == 0) {
       return value;
     }
-    let inv = 1.0 / self.snapStep;
+    let inv = 1.0 / snap;
     return Math.round(value * inv) / inv;
   }
 
@@ -1939,32 +1937,32 @@ var builder = new function() {
       e.stopPropagation();
 
       function snapNone() {
-        self.snapStep = 0;
+        self.snapStep = [0, 0, 0];
       }
       function snap05() {
-        self.snapStep = 0.5;
+        self.snapStep = [0.5, 0.5, 0.5];
       }
-      function snap08() {
-        self.snapStep = 0.8;
+      function snapLego() {
+        self.snapStep = [0.4, 0.4, 0.48];
       }
       function snap10() {
-        self.snapStep = 1;
+        self.snapStep = [1, 1, 1];
       }
 
       let menuItems = [
         {html: 'No Snapping', line: false, callback: snapNone},
+        {html: 'Snap to Lego (xy: 0.4, z: 0.48)', line: false, callback: snapLego},
         {html: 'Snap to 0.5cm', line: false, callback: snap05},
-        {html: 'Snap to 0.8cm', line: false, callback: snap08},
         {html: 'Snap to 1cm', line: false, callback: snap10},
       ];
-      var tickIndex;
-      if (self.snapStep == 0) {
+      var tickIndex = 0;
+      if (self.snapStep[0] == 0) {
         tickIndex = 0;
-      } else if (self.snapStep == 0.5) {
+      } else if (self.snapStep[0] == 0.4) {
         tickIndex = 1;
-      } else if (self.snapStep == 0.8) {
+      } else if (self.snapStep[0] == 0.5) {
         tickIndex = 2;
-      } else if (self.snapStep == 1) {
+      } else if (self.snapStep[0] == 1) {
         tickIndex = 3;
       }
       menuItems[tickIndex].html = '<span class="tick">&#x2713;</span> ' + menuItems[tickIndex].html;
