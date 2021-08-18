@@ -186,7 +186,7 @@ var simPanel = new function() {
 
     function drive() {
       let l, r;
-      let SPEED = 400;
+      let SPEED = 200;
 
       if (up) {
         l = SPEED;
