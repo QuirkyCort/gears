@@ -2970,6 +2970,8 @@ function WheelPassive(scene, parent, pos, rot, options) {
   this.type = 'WheelPassive';
   this.options = null;
 
+  this.components = [];
+
   this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
   this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
 
@@ -2998,6 +3000,7 @@ function WheelPassive(scene, parent, pos, rot, options) {
 
     self.mesh = BABYLON.MeshBuilder.CreateCylinder('wheelPassive', wheelOptions, scene);
     self.body = self.mesh;
+    self.end = self.mesh;
     self.body.component = self;
     self.mesh.material = wheelMat;
     
@@ -3060,7 +3063,8 @@ function WheelPassive(scene, parent, pos, rot, options) {
       width: 0.8,
       mass: 200,
       friction: 10,
-      restitution: 0.8
+      restitution: 0.8,
+      components: []
     };
 
     for (let name in options) {

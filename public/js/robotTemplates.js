@@ -133,6 +133,9 @@ i18n.append({
     en: 'Touch Sensor',
     nl: 'Drukknopsensor',
   },
+  '#robot-wheel#': {
+    en: 'Wheel'
+  },
   '#robot-singleFollowerShort#': {
     en: 'Single Sensor Line Follower',
     fr: 'Suiveur de ligne à un capteur (Single Sensor Line Follower)',

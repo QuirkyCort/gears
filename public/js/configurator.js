@@ -1012,11 +1012,13 @@ var configurator = new function() {
         type: 'WheelActuator',
         position: [0, 2.8, 0],
         rotation: [0, 0, 0],
+        components: [],
         options: {
           diameter: 5.6,
           width: 0.8,
           mass: 200,
           friction: 10,
+          restitution: 0.8
         }
       },
       optionsConfigurations: [
@@ -1053,6 +1055,24 @@ var configurator = new function() {
           step: '0.1',
           reset: true
         },
+        {
+          option: 'mass',
+          type: 'floatText',
+        },
+        {
+          option: 'friction',
+          type: 'slider',
+          min: '0',
+          max: '10',
+          step: '0.1',
+        },
+        {
+          option: 'restitution',
+          type: 'slider',
+          min: '0',
+          max: '1',
+          step: '0.05',
+        },        
       ]
     },
     {
@@ -1062,6 +1082,7 @@ var configurator = new function() {
         type: 'WheelPassive',
         position: [0, 5, 0],
         rotation: [0, 0, 0],
+        components: [],
         options: {
           diameter: 5.6,
           width: 0.8,
@@ -1575,11 +1596,10 @@ var configurator = new function() {
   // Add a new component to selected
   this.addComponent = function() {
     let $selected = self.getSelectedComponent();
+    let COMPATIBLE_TYPES = ['ArmActuator', 'SwivelActuator', 'LinearActuator', 'WheelActuator', 'WheelPassive'];
     if (
       $selected.text() != 'Body'
-      && $selected[0].component.type != 'ArmActuator'
-      && $selected[0].component.type != 'SwivelActuator'
-      && $selected[0].component.type != 'LinearActuator'
+      && COMPATIBLE_TYPES.indexOf($selected[0].component.type) == -1
     ) {
       toastMsg('Components can only be added to Body and Actuators.');
       return;
@@ -1624,6 +1644,9 @@ var configurator = new function() {
     $buttons.siblings('.confirm').click(function(){
       self.saveHistory();
       let component = self.componentTemplates.find(componentTemplate => componentTemplate.name == $select.val())
+      if (typeof $selected[0].component.components == 'undefined') {
+        $selected[0].component.components = [];
+      }
       $selected[0].component.components.push(JSON.parse(JSON.stringify(component.defaultConfig)));
       self.resetScene();
       $dialog.close();

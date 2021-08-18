@@ -121,6 +121,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
 
     self.mesh = BABYLON.MeshBuilder.CreateCylinder('wheel', wheelOptions, scene);
     self.body = self.mesh;
+    self.end = self.mesh;
     self.body.component = self;
     self.mesh.material = wheelMat;
     
@@ -141,7 +142,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
       BABYLON.PhysicsImpostor.CylinderImpostor,
       {
         mass: options.mass,
-        restitution: 0.8,
+        restitution: options.restitution,
         friction: options.friction
       },
       scene
@@ -210,7 +211,9 @@ function Wheel(scene, parent, pos, rot, port, options) {
       diameter: 5.6,
       width: 0.8,
       mass: 200,
-      friction: 10
+      friction: 10,
+      restitution: 0.8,
+      components: []
     };
 
     for (let name in options) {
