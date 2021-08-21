@@ -495,7 +495,7 @@ var simPanel = new function() {
       i++;
     }
 
-    if (robot.options.wheels) {
+    if (robot.processedOptions.wheels) {
       let tmp = genDiv(
         'outA: ' + i18n.get('#sim-left_motor#'),
         [i18n.get('#sim-position#')]
@@ -511,7 +511,7 @@ var simPanel = new function() {
     }
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    i = robot.options.wheels ? 3 : 1;
+    i = robot.processedOptions.wheels ? 3 : 1;
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'ArmActuator') {

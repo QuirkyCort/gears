@@ -113,7 +113,7 @@ var ev3dev2_generator = new function() {
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var motorsCode = '';
-    i = robot.options.wheels ? 3 : 1;
+    i = robot.processedOptions.wheels ? 3 : 1;
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
