@@ -2,6 +2,7 @@ function Robot() {
   var self = this;
 
   this.options = {};
+  this.processedOptions = {};
 
   this.body = null;
   this.leftWheel = null;
@@ -45,6 +46,7 @@ function Robot() {
   // Create the scene
   this.load = function (scene, robotStart) {
     var options = {...self.defaultOptions};
+    self.processedOptions = options;
     Object.assign(options, self.options);
     self.scene = scene;
 

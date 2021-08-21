@@ -55,7 +55,7 @@ var ev3dev2_generator = new function() {
 
   // Generate python code
   this.genCode = function() {
-    let wheelCode = robot.options.wheels ? 
+    let wheelCode = robot.processedOptions.wheels ? 
     ('motorA = LargeMotor(OUTPUT_A)\n' +
     'motorB = LargeMotor(OUTPUT_B)\n' +
     'left_motor = motorA\n' +
