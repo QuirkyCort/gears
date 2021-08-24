@@ -1253,7 +1253,15 @@ var configurator = new function() {
 
       // Object drag
       function drag(event) {
-        dragBodyPos.addInPlace(event.delta);
+        let delta = event.delta;
+        
+        if (dragBody.parent) {
+          let matrix = dragBody.parent.getWorldMatrix().clone().invert();
+          matrix.setTranslation(BABYLON.Vector3.Zero());
+          delta = BABYLON.Vector3.TransformCoordinates(delta, matrix);  
+        }
+
+        dragBodyPos.addInPlace(delta);
 
         if (notClose(selected[0].component.position[0], dragBodyPos.x)) {
           dragBody.position.x = self.roundToSnap(dragBodyPos.x, self.snapStep[0]);
@@ -1713,6 +1721,7 @@ var configurator = new function() {
 
       wireframe = BABYLON.MeshBuilder.CreateBox('wireframeComponentSelector', options, babylon.scene);
       wireframe.material = wireframeMat;
+      wireframe.isPickable = false;
 
       wireframe.body = body;
       self.wireframe = wireframe;    
