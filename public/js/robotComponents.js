@@ -21,23 +21,24 @@ Colors = {
 
   toHSV: function(rgb) {
     var hsv = [0, 0, 0];
+    var normRgb = [0, 0, 0]
 
     for (let i=0; i<3; i++) {
-      rgb[i] = rgb[i] / 255;
+      normRgb[i] = rgb[i] / 255;
     }
 
-    var cMax = Math.max(...rgb);
-    var cMin = Math.min(...rgb);
+    var cMax = Math.max(...normRgb);
+    var cMin = Math.min(...normRgb);
     var diff = cMax - cMin;
 
     if (cMax == cMin) {
       hsv[0] = 0;
-    } else if (cMax == rgb[0]) {
-      hsv[0] = 60 * (rgb[1] - rgb[2]) / diff;
-    } else if (cMax == rgb[1]) {
-      hsv[0] = 60 * (2 + (rgb[2] - rgb[0]) / diff);
+    } else if (cMax == normRgb[0]) {
+      hsv[0] = 60 * (normRgb[1] - normRgb[2]) / diff;
+    } else if (cMax == normRgb[1]) {
+      hsv[0] = 60 * (2 + (normRgb[2] - normRgb[0]) / diff);
     } else {
-      hsv[0] = 60 * (4 + (rgb[0] - rgb[1]) / diff);
+      hsv[0] = 60 * (4 + (normRgb[0] - normRgb[1]) / diff);
     }
     if (hsv[0] < 0) {
       hsv[0] += 360;
@@ -57,21 +58,20 @@ Colors = {
   toLAB: function(rgb) {
     var xyz = [0, 0, 0];
     var lab = [0, 0, 0];
-
-    rgb = self.sensor.getRGB();
+    var normRgb = [0, 0, 0]
 
     for (let i=0; i<3; i++) {
       let c = rgb[i] / 255;
       if (c > 0.04045) {
-        rgb[i] = Math.pow((c + 0.055) / 1.055, 2.4);
+        normRgb[i] = Math.pow((c + 0.055) / 1.055, 2.4);
       } else {
-        rgb[i] = c / 12.92;
+        normRgb[i] = c / 12.92;
       }
     }
 
-    xyz[0] = (rgb[0] * 0.4124 + rgb[1] * 0.3576 + rgb[2] * 0.1805) / 0.95047;
-    xyz[1] = (rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722) / 1.00000;
-    xyz[2] = (rgb[0] * 0.0193 + rgb[1] * 0.1192 + rgb[2] * 0.9505) / 1.08883;
+    xyz[0] = (normRgb[0] * 0.4124 + normRgb[1] * 0.3576 + normRgb[2] * 0.1805) / 0.95047;
+    xyz[1] = (normRgb[0] * 0.2126 + normRgb[1] * 0.7152 + normRgb[2] * 0.0722) / 1.00000;
+    xyz[2] = (normRgb[0] * 0.0193 + normRgb[1] * 0.1192 + normRgb[2] * 0.9505) / 1.08883;
 
     for (let i=0; i<3; i++) {
       if (xyz[i] > 0.008856) {
@@ -90,23 +90,24 @@ Colors = {
 
   toHLS: function(rgb) {
     var hls = [0, 0, 0];
+    var normRgb = [0, 0, 0]
 
     for (let i=0; i<3; i++) {
-      rgb[i] = rgb[i] / 255;
+      normRgb[i] = rgb[i] / 255;
     }
 
-    var cMax = Math.max(...rgb);
-    var cMin = Math.min(...rgb);
+    var cMax = Math.max(...normRgb);
+    var cMin = Math.min(...normRgb);
     var diff = cMax - cMin;
 
     if (cMax == cMin) {
       hls[0] = 0;
-    } else if (cMax == rgb[0]) {
-      hls[0] = 60 * (rgb[1] - rgb[2]) / diff;
-    } else if (cMax == rgb[1]) {
-      hls[0] = 60 * (2 + (rgb[2] - rgb[0]) / diff);
+    } else if (cMax == normRgb[0]) {
+      hls[0] = 60 * (normRgb[1] - normRgb[2]) / diff;
+    } else if (cMax == normRgb[1]) {
+      hls[0] = 60 * (2 + (normRgb[2] - normRgb[0]) / diff);
     } else {
-      hls[0] = 60 * (4 + (rgb[0] - rgb[1]) / diff);
+      hls[0] = 60 * (4 + (normRgb[0] - normRgb[1]) / diff);
     }
     if (hls[0] < 0) {
       hls[0] += 360;
