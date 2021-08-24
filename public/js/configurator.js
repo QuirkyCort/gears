@@ -312,7 +312,7 @@ var configurator = new function() {
           type: 'strText',
           reset: true,
           help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
-        },  
+        },
       ]
     },
     {
