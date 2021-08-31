@@ -680,7 +680,6 @@ var builder = new function() {
     ]
   };
 
-
   this.modelTemplate = {
     optionsConfigurations: [
       {
@@ -842,6 +841,41 @@ var builder = new function() {
     ]
   };
 
+  this.hingeTemplate = {
+    optionsConfigurations: [
+      {
+        option: 'position',
+        type: 'vectors',
+        min: '-100',
+        max: '100',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'rotation',
+        type: 'vectors',
+        min: '-180',
+        max: '180',
+        step: '5',
+        reset: true
+      },
+      {
+        option: 'size',
+        type: 'vectors',
+        min: '1',
+        max: '100',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'color',
+        type: 'color',
+        help: 'Color in hex',
+        reset: true
+      },
+    ]
+  };
+
   this.objectDefault = {
     ...world_Custom.objectDefault,
     position: [0,0,20],
@@ -873,6 +907,11 @@ var builder = new function() {
 
   this.compoundDefault = {
     type: 'compound',
+    objects: []
+  };
+
+  this.hingeDefault = {
+    type: 'hinge',
     objects: []
   };
 
@@ -962,7 +1001,12 @@ var builder = new function() {
     function dragEnd(event) {
       if (typeof selected[0].object != 'undefined') {
         self.saveHistory();
-        let pos = self.pointerDragBehavior.attachedNode.position;
+        let node = self.pointerDragBehavior.attachedNode;
+        let pos = node.position.clone();
+
+        if (typeof node.pseudoParent != 'undefined') {
+          pos.subtractInPlace(node.pseudoParent.absolutePosition);
+        }
 
         if (notClose(selected[0].object.position[0], pos.x)) {
           selected[0].object.position[0] = self.roundToSnap(pos.x, self.snapStep[0]);
@@ -1440,6 +1484,8 @@ var builder = new function() {
       genConfig.displayOptionsConfigurations(self.sphereTemplate, currentOptions);
     } else if (name == 'model') {
       genConfig.displayOptionsConfigurations(self.modelTemplate, currentOptions);
+    } else if (name == 'hinge') {
+      genConfig.displayOptionsConfigurations(self.hingeTemplate, currentOptions);
     }
   };
 
@@ -1501,7 +1547,7 @@ var builder = new function() {
     let $select = $('<select></select>');
     let $description = $('<div class="description"><div class="text"></div></div>');
 
-    let objectTypes = ['Box', 'Cylinder', 'Sphere', 'Model', 'Compound'];
+    let objectTypes = ['Box', 'Cylinder', 'Sphere', 'Model', 'Compound', 'Hinge'];
 
     objectTypes.forEach(function(type){
       let $object = $('<option></option>');
@@ -1536,12 +1582,16 @@ var builder = new function() {
         object = JSON.parse(JSON.stringify(self.modelDefault));
       } else if ($select.val() == 'Compound') {
         object = JSON.parse(JSON.stringify(self.compoundDefault));
+      } else if ($select.val() == 'Hinge') {
+        object = JSON.parse(JSON.stringify(self.hingeDefault));
       }
 
       if (
         selected.name == 'compound'
         && ($select.val() != 'Compound' || selected.object.objects.length > 0)
       ) {
+        selected.object.objects.push(object);
+      } else if (selected.name == 'hinge') {
         selected.object.objects.push(object);
       } else {
         self.worldOptions.objects.push(object);
@@ -1577,7 +1627,7 @@ var builder = new function() {
         currentIndex++;
         if (currentIndex == objectIndex) {
           return parent;
-        } else if (parent.objects[i].type == 'compound') {
+        } else if (parent.objects[i].type == 'compound' || parent.objects[i].type == 'hinge') {
           let result = findParent(parent.objects[i]);
           if (result != null) {
             return result;
@@ -1753,7 +1803,7 @@ var builder = new function() {
       $item[0].name = object.type;
       $item[0].object = object;
       $item[0].objectIndex = objectIndex++;
-      if (object.type == 'compound') {
+      if (object.type == 'compound' || object.type == 'hinge') {
         let $subList = $('<ul></ul>');
         object.objects.forEach(function(object){
           let $subItem = listObject(object);
