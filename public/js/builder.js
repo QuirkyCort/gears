@@ -913,6 +913,8 @@ var builder = new function() {
   this.hingeDefault = {
     type: 'hinge',
     objects: [],
+    position: [20,0,0],
+    size: [10,2,0],
     hide: true
   };
 

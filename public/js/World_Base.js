@@ -676,8 +676,9 @@ var World_Base = function() {
     let meshOptions = {
       material: material,
       size: [
-        10,
-        2
+        options.size[0],
+        options.size[1],
+        options.size[2]
       ],
       position: new BABYLON.Vector3(
         options.position[0],
@@ -702,15 +703,16 @@ var World_Base = function() {
       part2Mesh = await self.addObject(scene, childOptions, indexObj);
       part2Mesh.parent = part1Mesh;
       part2Mesh.pseudoParent = part1Mesh;
+
       if (part2Mesh) {
         self.parentsToRemove.push([part1Mesh, part2Mesh]);
       }
-    }
 
-    self.hinges.push({
-      part1Mesh: part1Mesh,
-      part2Mesh: part2Mesh
-    });
+      self.hinges.push({
+        part1Mesh: part1Mesh,
+        part2Mesh: part2Mesh
+      });
+    }
 
     return part1Mesh;
   };
