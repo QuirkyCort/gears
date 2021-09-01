@@ -529,20 +529,26 @@ var World_Base = function() {
       }
 
       let mainPivot = hingedObject.part1Mesh.position.clone();
-      let matrix = hingedObject.part1Mesh.getWorldMatrix().clone().invert();
-      let connectedPivot = BABYLON.Vector3.TransformCoordinates(hingedObject.part2Mesh.absolutePosition, matrix);
-      connectedPivot.scaleInPlace(-1);
+
+      let matrix = hingedObject.part2Mesh.getWorldMatrix().clone().invert();
+      let connectedPivot = BABYLON.Vector3.TransformCoordinates(hingedObject.part1Mesh.absolutePosition, matrix);
 
       let axisVec = new BABYLON.Vector3(0, 1, 0);
       let parentRotInv = BABYLON.Quaternion.Inverse(hingedObject.part1Mesh.parent.absoluteRotationQuaternion);
       let rotation = hingedObject.part1Mesh.absoluteRotationQuaternion.multiply(parentRotInv);
-      axisVec.rotateByQuaternionAroundPointToRef(rotation, BABYLON.Vector3.Zero(), axisVec);
+      axisVec.rotateByQuaternionToRef(rotation, axisVec);
+
+      let connectedAxis = new BABYLON.Vector3(0, 1, 0);
+      connectedAxis.rotateByQuaternionToRef(hingedObject.part1Mesh.absoluteRotationQuaternion, connectedAxis);
+      matrix = hingedObject.part2Mesh.getWorldMatrix().clone().invert();
+      matrix.setTranslation(BABYLON.Vector3.Zero());
+      connectedAxis = BABYLON.Vector3.TransformCoordinates(connectedAxis, matrix);
 
       self.joint = new BABYLON.PhysicsJoint(BABYLON.PhysicsJoint.HingeJoint, {
         mainPivot: mainPivot,
         connectedPivot: connectedPivot,
         mainAxis: axisVec,
-        connectedAxis: new BABYLON.Vector3(0, 1, 0),
+        connectedAxis: connectedAxis,
       });
 
       let targetBody = hingedObject.part1Mesh;
