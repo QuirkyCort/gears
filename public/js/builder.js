@@ -985,17 +985,24 @@ var builder = new function() {
     }
 
     // Object drag
-    function drag(event) {      
-      dragBodyPos.addInPlace(event.delta);
+    function drag(event) {
+      let delta = event.delta;
+
+      if (dragBody.parent) {
+        let matrix = dragBody.parent.getWorldMatrix().clone().invert();
+        matrix.setTranslation(BABYLON.Vector3.Zero());
+        delta = BABYLON.Vector3.TransformCoordinates(delta, matrix);  
+      }
+      dragBodyPos.addInPlace(delta);
 
       if (notClose(selected[0].object.position[0], dragBodyPos.x)) {
         dragBody.position.x = self.roundToSnap(dragBodyPos.x, self.snapStep[0]);
       }
-      if (notClose(selected[0].object.position[1], dragBodyPos.z)) {
-        dragBody.position.z = self.roundToSnap(dragBodyPos.z, self.snapStep[1]);
-      }
-      if (notClose(selected[0].object.position[2], dragBodyPos.y)) {
+      if (notClose(selected[0].object.position[1], dragBodyPos.y)) {
         dragBody.position.y = self.roundToSnap(dragBodyPos.y, self.snapStep[2]);
+      }
+      if (notClose(selected[0].object.position[2], dragBodyPos.z)) {
+        dragBody.position.z = self.roundToSnap(dragBodyPos.z, self.snapStep[1]);
       }
     }
 
@@ -1007,7 +1014,8 @@ var builder = new function() {
         let pos = node.position.clone();
 
         if (typeof node.pseudoParent != 'undefined') {
-          pos.subtractInPlace(node.pseudoParent.absolutePosition);
+          let matrix = node.pseudoParent.getWorldMatrix().clone().invert();
+          pos = BABYLON.Vector3.TransformCoordinates(pos, matrix);
         }
 
         if (notClose(selected[0].object.position[0], pos.x)) {

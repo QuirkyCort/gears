@@ -632,9 +632,6 @@ var World_Base = function() {
     if (! (object.objects instanceof Array)) {
       return [null, null];
     }
-    if (object.objects.length == 0) {
-      return [null, null];
-    }
     if (object.objects.length > 1) {
       console.log('Warning: Hinges may only contain one child');
     }
@@ -674,6 +671,8 @@ var World_Base = function() {
       index: indexObj.index
     };
     let part1Mesh = self.addCylinder(scene, meshOptions);
+    part1Mesh.id = 'worldBaseObject_hinge' + indexObj.index;
+
     part1Mesh.parent = parentMesh;
     part1Mesh.computeWorldMatrix(true);
     self.addPhysics(scene, part1Mesh, meshOptions);
@@ -684,23 +683,25 @@ var World_Base = function() {
 
     indexObj.index++;
 
-    let childOptions = self.mergeObjectOptionsWithDefault(object.objects[0])
     let childMesh = null;
-    if (childOptions.type == 'compound') {
-      childMesh = await self.addCompound(scene, childOptions, indexObj, part1Mesh);
-    } else {
-      childMesh = await self.addObject(scene, childOptions, indexObj.index, part1Mesh);
-      indexObj.index++;
-      if (typeof options.callback == 'function') {
-        options.callback(mesh);
-      }
-    }
-
-    if (childMesh) {
+    if (object.objects.length > 0) {
+      let childOptions = self.mergeObjectOptionsWithDefault(object.objects[0])
       if (childOptions.type == 'compound') {
-        self.addPhysics(scene, childMesh, childOptions.objects[0]);
+        childMesh = await self.addCompound(scene, childOptions, indexObj, part1Mesh);
       } else {
-        self.addPhysics(scene, childMesh, childOptions);
+        childMesh = await self.addObject(scene, childOptions, indexObj.index, part1Mesh);
+        indexObj.index++;
+        if (typeof options.callback == 'function') {
+          options.callback(mesh);
+        }
+      }
+
+      if (childMesh) {
+        if (childOptions.type == 'compound') {
+          self.addPhysics(scene, childMesh, childOptions.objects[0]);
+        } else {
+          self.addPhysics(scene, childMesh, childOptions);
+        }
       }
     }
 
