@@ -529,7 +529,9 @@ var World_Base = function() {
       }
 
       let mainPivot = hingedObject.part1Mesh.position.clone();
-      let connectedPivot = hingedObject.part1Mesh.absolutePosition.subtract(hingedObject.part2Mesh.absolutePosition);
+      let matrix = hingedObject.part1Mesh.getWorldMatrix().clone().invert();
+      let connectedPivot = BABYLON.Vector3.TransformCoordinates(hingedObject.part2Mesh.absolutePosition, matrix);
+      connectedPivot.scaleInPlace(-1);
 
       let axisVec = new BABYLON.Vector3(0, 1, 0);
       let parentRotInv = BABYLON.Quaternion.Inverse(hingedObject.part1Mesh.parent.absoluteRotationQuaternion);
