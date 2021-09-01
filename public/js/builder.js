@@ -868,9 +868,9 @@ var builder = new function() {
         reset: true
       },
       {
-        option: 'color',
-        type: 'color',
-        help: 'Color in hex',
+        option: 'hide',
+        type: 'boolean',
+        help: 'If set, the hinge will be hidden',
         reset: true
       },
     ]
@@ -912,7 +912,8 @@ var builder = new function() {
 
   this.hingeDefault = {
     type: 'hinge',
-    objects: []
+    objects: [],
+    hide: true
   };
 
   // Run on page load
@@ -953,6 +954,7 @@ var builder = new function() {
     self.setupDrag();
 
     babylon.world.animate = false;
+    babylon.world.overrideHide = true;
 
     self.saveHistory();
     self.resetScene();

@@ -100,6 +100,7 @@ var World_Base = function() {
   };
 
   this.hinges = [];
+  this.overrideHide = false;
 
   // Set default options
   this.mergeOptionsWithDefault = function(options) {
@@ -651,9 +652,14 @@ var World_Base = function() {
         rotationRad[i] = options.rotation[i];
       }
     }
+    
+    let material = babylon.getMaterial(scene, "f00a");
+    if (options.hide) {
+      material = babylon.getMaterial(scene, "f005");
+    }
 
     let meshOptions = {
-      material: babylon.getMaterial(scene, "f007"),
+      material: material,
       size: [
         10,
         2
@@ -671,6 +677,10 @@ var World_Base = function() {
     part1Mesh.parent = parentMesh;
     part1Mesh.computeWorldMatrix(true);
     self.addPhysics(scene, part1Mesh, meshOptions);
+
+    if (options.hide && !self.overrideHide) {
+      part1Mesh.isVisible = false;
+    }
 
     indexObj.index++;
 
