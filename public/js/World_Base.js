@@ -99,7 +99,6 @@ var World_Base = function() {
     mask: -1
   };
 
-  this.hinges = [];
   this.overrideHide = false;
 
   // Set default options
@@ -485,27 +484,27 @@ var World_Base = function() {
 
       // General objects
       self.hinges = [];
+      self.parentsToRemove = [];
       self.animationList = [];
+      self.physicsToAdd = [];
+
       if (self.processedOptions.objects instanceof Array) {
         let indexObj = { index: 0 };
         for (let i=0; i<self.processedOptions.objects.length; i++) {
-          if (self.processedOptions.objects[i].type == 'compound') {
-            let mesh = await self.addCompound(scene, self.processedOptions.objects[i], indexObj);
-            if (mesh) {
-              self.addPhysics(scene, mesh, self.processedOptions.objects[i].objects[0]);
-            }
-          } else {
-            let options = self.mergeObjectOptionsWithDefault(self.processedOptions.objects[i]);
-            let mesh = await self.addObject(scene, options, indexObj.index);
-            self.addPhysics(scene, mesh, options);
-            indexObj.index++;
-            if (typeof options.callback == 'function') {
-              options.callback(mesh);
-            }
-          }
+          await self.addObject(scene, self.processedOptions.objects[i], indexObj);
         }
       }
 
+      // Compute all world matrices in order
+      self.computeAllWorldMatrices(scene.meshes);
+
+      // Remove designated parents, keeping transform
+      self.removeParents(self.parentsToRemove);
+
+      // Add physics imposters
+      self.addPhysicsToAll(scene, self.physicsToAdd);
+
+      // Add hinges
       self.addHingeJoints();
 
       // Show the info panel if timer is requested
@@ -521,6 +520,31 @@ var World_Base = function() {
     });
   };
 
+  // Compute all world matrices in order
+  this.computeAllWorldMatrices = function(meshes) {
+    for (let mesh of meshes) {
+      mesh.computeWorldMatrix(true);
+      let childMeshes = mesh.getChildMeshes();
+      if (childMeshes.length > 0) {
+        self.computeAllWorldMatrices(childMeshes);
+      }
+    }
+  };
+
+  // Add physics body to designated
+  this.addPhysicsToAll = function(scene, physicsToAdd) {
+    for (let meshAndOptions of physicsToAdd) {
+      self.addPhysics(scene, meshAndOptions[0], meshAndOptions[1]);
+    }
+  };
+
+  // Remove designated parents.
+  this.removeParents = function(parentsToRemove) {
+    for (let parentChild of parentsToRemove) {
+      parentChild[0].removeChild(parentChild[1]);
+    }
+  };
+
   // Add all hinge joints
   this.addHingeJoints = function() {
     for (let hingedObject of self.hinges) {
@@ -528,40 +552,67 @@ var World_Base = function() {
         continue;
       }
 
-      let mainPivot = hingedObject.part1Mesh.position.clone();
+      let targetBody = hingedObject.part1Mesh;
+      while (targetBody.parent) {
+        targetBody = targetBody.parent;
+      }
 
-      let matrix = hingedObject.part2Mesh.getWorldMatrix().clone().invert();
+      let matrix = targetBody.getWorldMatrix().clone().invert();
+      let mainPivot = BABYLON.Vector3.TransformCoordinates(hingedObject.part1Mesh.absolutePosition, matrix);
+
+      matrix = hingedObject.part2Mesh.getWorldMatrix().clone().invert();
       let connectedPivot = BABYLON.Vector3.TransformCoordinates(hingedObject.part1Mesh.absolutePosition, matrix);
 
-      let axisVec = new BABYLON.Vector3(0, 1, 0);
-      let parentRotInv = BABYLON.Quaternion.Inverse(hingedObject.part1Mesh.parent.absoluteRotationQuaternion);
-      let rotation = hingedObject.part1Mesh.absoluteRotationQuaternion.multiply(parentRotInv);
-      axisVec.rotateByQuaternionToRef(rotation, axisVec);
+      let hingeWorldAxis = new BABYLON.Vector3(0, 1, 0);
+      matrix = hingedObject.part1Mesh.getWorldMatrix().clone();
+      matrix.setTranslation(BABYLON.Vector3.Zero());
+      hingeWorldAxis = BABYLON.Vector3.TransformCoordinates(hingeWorldAxis, matrix);
 
-      let connectedAxis = new BABYLON.Vector3(0, 1, 0);
-      connectedAxis.rotateByQuaternionToRef(hingedObject.part1Mesh.absoluteRotationQuaternion, connectedAxis);
+      matrix = targetBody.getWorldMatrix().clone().invert();
+      matrix.setTranslation(BABYLON.Vector3.Zero());
+      let mainAxis = BABYLON.Vector3.TransformCoordinates(hingeWorldAxis, matrix);
+
       matrix = hingedObject.part2Mesh.getWorldMatrix().clone().invert();
       matrix.setTranslation(BABYLON.Vector3.Zero());
-      connectedAxis = BABYLON.Vector3.TransformCoordinates(connectedAxis, matrix);
+      let connectedAxis = BABYLON.Vector3.TransformCoordinates(hingeWorldAxis, matrix);
 
       self.joint = new BABYLON.PhysicsJoint(BABYLON.PhysicsJoint.HingeJoint, {
         mainPivot: mainPivot,
         connectedPivot: connectedPivot,
-        mainAxis: axisVec,
+        mainAxis: mainAxis,
         connectedAxis: connectedAxis,
       });
 
-      let targetBody = hingedObject.part1Mesh;
-      while (targetBody.parent) {
-        // mainPivot.addInPlace(targetBody.position);
-        targetBody = targetBody.parent;
-      }
       targetBody.physicsImpostor.addJoint(hingedObject.part2Mesh.physicsImpostor, self.joint);
     }
   };
 
+  // Add an object of any type
+  this.addObject = async function(scene, object, indexObj) {
+    let mesh = null;
+
+    let options = self.mergeObjectOptionsWithDefault(object);
+    
+    if (options.type == 'compound') {
+      mesh = await self.addCompound(scene, options, indexObj);
+    } else if (options.type == 'hinge') {
+      mesh = await self.addHinge(scene, options, indexObj);
+    } else {
+      mesh = await self.addBlock(scene, options, indexObj.index);
+      indexObj.index++;
+      if (typeof options.callback == 'function') {
+        options.callback(mesh);
+      }
+      if (mesh) {
+        self.physicsToAdd.push([mesh, options]);
+      }  
+    }
+
+    return mesh;
+  };
+
   // Add a compound object
-  this.addCompound = async function(scene, object, indexObj, pseudoParent) {
+  this.addCompound = async function(scene, object, indexObj) {
     if (! (object.objects instanceof Array)) {
       return;
     }
@@ -572,73 +623,32 @@ var World_Base = function() {
       toastMsg('Invalid compound: Cannot have a compound as first object');
       return;
     }
-
-    indexObj.index++;
-    let options = self.mergeObjectOptionsWithDefault(object.objects[0])
-    let parentMesh = await self.addObject(scene, options, indexObj.index);
-    indexObj.index++;
-
-    if (typeof pseudoParent != 'undefined') {
-      parentMesh.pseudoParent = pseudoParent;
-
-      parentMesh.parent = pseudoParent;
-      parentMesh.computeWorldMatrix(true);
-      pseudoParent.removeChild(parentMesh);
+    if (object.objects[0].type == 'hinge') {
+      toastMsg('Invalid compound: Cannot have a hinge as first object');
+      return;
     }
+
+    indexObj.index++;
+    let options = self.mergeObjectOptionsWithDefault(object.objects[0]);
+    let parentMesh = await self.addBlock(scene, options, indexObj.index);
+    indexObj.index++;
 
     for (let i=1; i<object.objects.length; i++) {
-      if (object.objects[i].type == 'compound') {
-        let childMesh = await self.addCompound(scene, object.objects[i], indexObj);
-        if (
-          childMesh
-          && object.objects[i].objects[0].physicsOptions != false
-          && object.objects[i].objects[0].physicsOptions != 'false'
-        ) {
-          object.objects[i].objects[0].physicsOptions = {
-            mass: 0,
-            friction: 0,
-            restitution: 0,
-            dampLinear: 0,
-            dampAngular: 0            
-          };
-          childMesh.parent = parentMesh;
-          self.addPhysics(scene, childMesh, object.objects[i].objects[0]);  
-        }
-      } else if (object.objects[i].type == 'hinge') {
-        let childOptions = self.mergeObjectOptionsWithDefault(object.objects[i])
-        let meshes = await self.addHinge(scene, parentMesh, childOptions, indexObj);
-        self.hinges.push({
-          options: childOptions,
-          part1Mesh: meshes[0],
-          part2Mesh: meshes[1]
-        });
-      } else {
-        let childOptions = self.mergeObjectOptionsWithDefault(object.objects[i])
-        let childMesh = await self.addObject(scene, childOptions, indexObj.index);
-        if (childOptions.physicsOptions != false && childOptions.physicsOptions != 'false') {
-          childOptions.physicsOptions = {
-            mass: 0,
-            friction: 0,
-            restitution: 0,
-            dampLinear: 0,
-            dampAngular: 0
-          };         
-          childMesh.parent = parentMesh;
-          self.addPhysics(scene, childMesh, childOptions);
-        } else {
-          childMesh.parent = parentMesh;
-        }  
-        indexObj.index++;
+      let childMesh = await self.addObject(scene, object.objects[i], indexObj);
+      if (childMesh) {
+        childMesh.parent = parentMesh;
       }
     }
+
+    self.physicsToAdd.push([parentMesh, options])
 
     return parentMesh;
   };
 
   // Add a hinge object
-  this.addHinge = async function(scene, parentMesh, object, indexObj) {
+  this.addHinge = async function(scene, object, indexObj) {
     if (! (object.objects instanceof Array)) {
-      return [null, null];
+      return null;
     }
     if (object.objects.length > 1) {
       console.log('Warning: Hinges may only contain one child');
@@ -680,40 +690,29 @@ var World_Base = function() {
     };
     let part1Mesh = self.addCylinder(scene, meshOptions);
     part1Mesh.id = 'worldBaseObject_hinge' + indexObj.index;
-
-    part1Mesh.parent = parentMesh;
-    part1Mesh.computeWorldMatrix(true);
-    self.addPhysics(scene, part1Mesh, meshOptions);
+    indexObj.index++;
 
     if (options.hide && !self.overrideHide) {
       part1Mesh.isVisible = false;
     }
 
-    indexObj.index++;
-
-    let childMesh = null;
+    let part2Mesh = null;
     if (object.objects.length > 0) {
       let childOptions = self.mergeObjectOptionsWithDefault(object.objects[0])
-      if (childOptions.type == 'compound') {
-        childMesh = await self.addCompound(scene, childOptions, indexObj, part1Mesh);
-      } else {
-        childMesh = await self.addObject(scene, childOptions, indexObj.index, part1Mesh);
-        indexObj.index++;
-        if (typeof options.callback == 'function') {
-          options.callback(mesh);
-        }
-      }
-
-      if (childMesh) {
-        if (childOptions.type == 'compound') {
-          self.addPhysics(scene, childMesh, childOptions.objects[0]);
-        } else {
-          self.addPhysics(scene, childMesh, childOptions);
-        }
+      part2Mesh = await self.addObject(scene, childOptions, indexObj);
+      part2Mesh.parent = part1Mesh;
+      part2Mesh.pseudoParent = part1Mesh;
+      if (part2Mesh) {
+        self.parentsToRemove.push([part1Mesh, part2Mesh]);
       }
     }
 
-    return [part1Mesh, childMesh];
+    self.hinges.push({
+      part1Mesh: part1Mesh,
+      part2Mesh: part2Mesh
+    });
+
+    return part1Mesh;
   };
 
   // Merge with default object options
@@ -724,8 +723,8 @@ var World_Base = function() {
     return options;
   };
 
-  // Add a single object
-  this.addObject = async function(scene, options, index, pseudoParent) {
+  // Add a single block object
+  this.addBlock = async function(scene, options, index) {
     if (options.position.length < 3) {
       options.position.push(0);
     }
@@ -788,15 +787,6 @@ var World_Base = function() {
       console.log('Invalid object type');
       return null;
     }
-
-    if (typeof pseudoParent != 'undefined') {
-      objectMesh.pseudoParent = pseudoParent;
-
-      objectMesh.parent = pseudoParent;
-      objectMesh.computeWorldMatrix(true);
-      pseudoParent.removeChild(objectMesh);
-    }
-
 
     if (options.magnetic) {
       objectMesh.isMagnetic = true;
@@ -1536,6 +1526,4 @@ var World_Base = function() {
     }
     return arr;
   };
-
-
 }
