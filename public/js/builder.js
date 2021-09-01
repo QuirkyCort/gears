@@ -1598,15 +1598,32 @@ var builder = new function() {
         object = JSON.parse(JSON.stringify(self.hingeDefault));
       }
 
-      if (
-        selected.name == 'compound'
-        && ($select.val() != 'Compound' || selected.object.objects.length > 0)
-      ) {
-        selected.object.objects.push(object);
-      } else if (selected.name == 'hinge') {
-        selected.object.objects.push(object);
+      if ($select.val() == 'Compound') {
+        if (selected.name == 'compound') { 
+          if (selected.object.objects.length == 0) {
+            toastMsg('First object in a compound cannot be another compound');
+          } else {
+            selected.object.objects.push(object);
+          }
+        } else {
+          self.worldOptions.objects.push(object);
+        }
+
+      } else if ($select.val() == 'Hinge') {
+        if (selected.name != 'compound') {
+          toastMsg('Hinges can only be added to compounds');
+        } else if (selected.object.objects.length == 0) {
+          toastMsg('First object in a compound cannot be a hinge');
+        } else {
+          selected.object.objects.push(object);
+        }
+
       } else {
-        self.worldOptions.objects.push(object);
+        if (selected.name == 'compound' || selected.name == 'hinge') {
+          selected.object.objects.push(object);
+        } else {
+          self.worldOptions.objects.push(object);
+        }
       }
 
       self.resetScene();
@@ -1655,7 +1672,7 @@ var builder = new function() {
   // Delete selected object
   this.deleteObject = function() {
     let $selected = self.getSelectedComponent();
-    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound']
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound', 'hinge']
     if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
       toastMsg('Only objects can be deleted');
       return;
