@@ -200,6 +200,11 @@ BUILT_IN_IMAGES = [
     description: 'Fire rescue warehouse map.'
   },
   {
+    url: 'textures/maps/FLL/FLL2021.jpg',
+    type: 'ground',
+    description: 'First Lego League 2021 : Cargo Connect'
+  },
+  {
     url: 'textures/maps/FLL/FLL2020.jpg',
     type: 'ground',
     description: 'First Lego League 2020 : RePlay'

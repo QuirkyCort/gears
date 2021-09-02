@@ -2061,6 +2061,9 @@ var configurator = new function() {
       function snap25() {
         self.snapStep = [0.25, 0.25, 0.25];
       }
+      function snapTechnic() {
+        self.snapStep = [0.4, 0.4, 0.4];
+      }
       function snap05() {
         self.snapStep = [0.5, 0.5, 0.5];
       }
@@ -2074,21 +2077,24 @@ var configurator = new function() {
       let menuItems = [
         {html: 'No Snapping', line: false, callback: snapNone},
         {html: 'Snap to 0.25cm', line: false, callback: snap25},
+        {html: 'Snap to 0.4cm (Lego Technic)', line: false, callback: snapTechnic},
         {html: 'Snap to Lego (xy: 0.4, z: 0.48)', line: false, callback: snapLego},
         {html: 'Snap to 0.5cm', line: false, callback: snap05},
         {html: 'Snap to 1cm', line: false, callback: snap10},
       ];
       var tickIndex = 0;
-      if (self.snapStep[0] == 0) {
+      if (self.snapStep[2] == 0) {
         tickIndex = 0;
-      } else if (self.snapStep[0] == 0.25) {
+      } else if (self.snapStep[2] == 0.25) {
         tickIndex = 1;
-      } else if (self.snapStep[0] == 0.4) {
+      } else if (self.snapStep[2] == 0.4) {
         tickIndex = 2;
-      } else if (self.snapStep[0] == 0.5) {
+      } else if (self.snapStep[2] == 0.48) {
         tickIndex = 3;
-      } else if (self.snapStep[0] == 1) {
+      } else if (self.snapStep[2] == 0.5) {
         tickIndex = 4;
+      } else if (self.snapStep[2] == 1) {
+        tickIndex = 5;
       }
       menuItems[tickIndex].html = '<span class="tick">&#x2713;</span> ' + menuItems[tickIndex].html;
 
