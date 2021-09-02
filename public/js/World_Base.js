@@ -701,17 +701,16 @@ var World_Base = function() {
     if (object.objects.length > 0) {
       let childOptions = self.mergeObjectOptionsWithDefault(object.objects[0])
       part2Mesh = await self.addObject(scene, childOptions, indexObj);
-      part2Mesh.parent = part1Mesh;
-      part2Mesh.pseudoParent = part1Mesh;
 
       if (part2Mesh) {
+        part2Mesh.parent = part1Mesh;
+        part2Mesh.pseudoParent = part1Mesh;
         self.parentsToRemove.push([part1Mesh, part2Mesh]);
+        self.hinges.push({
+          part1Mesh: part1Mesh,
+          part2Mesh: part2Mesh
+        });
       }
-
-      self.hinges.push({
-        part1Mesh: part1Mesh,
-        part2Mesh: part2Mesh
-      });
     }
 
     return part1Mesh;

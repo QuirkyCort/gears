@@ -1599,31 +1599,37 @@ var builder = new function() {
       }
 
       if ($select.val() == 'Compound') {
-        if (selected.name == 'compound') { 
-          if (selected.object.objects.length == 0) {
+        if (selected.name == 'compound' && selected.object.objects.length == 0) {
             toastMsg('First object in a compound cannot be another compound');
-          } else {
-            selected.object.objects.push(object);
-          }
-        } else {
-          self.worldOptions.objects.push(object);
+            $dialog.close();
+            return;
         }
+      }
 
-      } else if ($select.val() == 'Hinge') {
+      if ($select.val() == 'Hinge') {
         if (selected.name != 'compound') {
           toastMsg('Hinges can only be added to compounds');
+          $dialog.close();
+          return;
         } else if (selected.object.objects.length == 0) {
           toastMsg('First object in a compound cannot be a hinge');
-        } else {
-          selected.object.objects.push(object);
+          $dialog.close();
+          return;
         }
+      }
 
-      } else {
-        if (selected.name == 'compound' || selected.name == 'hinge') {
-          selected.object.objects.push(object);
-        } else {
-          self.worldOptions.objects.push(object);
+      if (selected.name == 'hinge') {
+        if (selected.object.objects.length > 0) {
+          toastMsg('Hinges can only contain one object');
+          $dialog.close();
+          return
         }
+      }
+
+      if (selected.name == 'compound' || selected.name == 'hinge') {
+        selected.object.objects.push(object);
+      } else {
+        self.worldOptions.objects.push(object);
       }
 
       self.resetScene();
@@ -1634,7 +1640,7 @@ var builder = new function() {
   // Clone selected object
   this.cloneObject = function() {
     let $selected = self.getSelectedComponent();
-    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound'];
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound', 'hinge'];
     if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
       toastMsg('Only objects can be cloned');
       return;
