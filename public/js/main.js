@@ -911,12 +911,19 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20210812;
+    let current = 20210903;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>3 Sep 2021 (Hinges &amp; FLL Cargo Connect)</h3>' +
+          '<ul>' +
+          '<li>Hinges are now available in the world builder.</li>' +
+          '<li>FLL Cargo Connect mission models are in-progress...</li>' +
+          '<li>You can find the world file <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/FLL" target="_blank">here</a> or load it directly into Gears with <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FFLL%2FFLL%25202021%2520Cargo%2520Connect.json">this link</a>.' +
+          '<li>When completed, this will be added to the main menu.</li>' +
+          '</ul>' +
           '<h3>12 Aug 2021 (Wheels, Drag, Snap)</h3>' +
           '<ul>' +
           '<li>You can now add wheels to the robot (contributed by Steven Murray). <a href="https://youtu.be/Mq4urBJPNng" target="_blank">Video of multi-wheels robots.</a></li>' +
@@ -924,13 +931,6 @@ var main = new function() {
           '<li>In both the world builder and robot configurator, drag to position now works in all axis.</li>' +
           '<li>Snap to position now available in both world builder and robot configurator.</li>' +
           '<li>Sensor view now shows color name and numbers.</li>' +
-          '</ul>' +
-          '<h3>9 Jul 2021 (FLL RePLAY)</h3>' +
-          '<ul>' +
-          '<li>This is an re-imagined version of FLL RePLAY, implemented in Gears.</li>' +
-          '<li>Many of the missions work differently, and the dimensions do not match the actual FLL models, but it can still be a fun challenge to program.</li>' +
-          '<li>You can find the world file <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/FLL" target="_blank">here</a>...' +
-          '<li>...or you can load it directly into Gears with <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FFLL%2FFLL%25202020%2520Replay.json">this link</a>.' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){
