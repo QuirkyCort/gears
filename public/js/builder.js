@@ -2024,8 +2024,8 @@ var builder = new function() {
       function snapNone() {
         self.snapStep = [0, 0, 0];
       }
-      function snap05() {
-        self.snapStep = [0.5, 0.5, 0.5];
+      function snap02() {
+        self.snapStep = [0.2, 0.2, 0.2];
       }
       function snapTechnic() {
         self.snapStep = [0.4, 0.4, 0.4];
@@ -2033,12 +2033,16 @@ var builder = new function() {
       function snapLego() {
         self.snapStep = [0.4, 0.4, 0.48];
       }
+      function snap05() {
+        self.snapStep = [0.5, 0.5, 0.5];
+      }
       function snap10() {
         self.snapStep = [1, 1, 1];
       }
 
       let menuItems = [
         {html: 'No Snapping', line: false, callback: snapNone},
+        {html: 'Snap to 0.2cm', line: false, callback: snap02},
         {html: 'Snap to 0.4cm (Lego Technic)', line: false, callback: snapTechnic},
         {html: 'Snap to Lego (xy: 0.4, z: 0.48)', line: false, callback: snapLego},
         {html: 'Snap to 0.5cm', line: false, callback: snap05},
@@ -2047,14 +2051,16 @@ var builder = new function() {
       var tickIndex = 0;
       if (self.snapStep[2] == 0) {
         tickIndex = 0;
-      } else if (self.snapStep[2] == 0.4) {
+      } else if (self.snapStep[2] == 0.2) {
         tickIndex = 1;
-      } else if (self.snapStep[2] == 0.48) {
+      } else if (self.snapStep[2] == 0.4) {
         tickIndex = 2;
-      } else if (self.snapStep[2] == 0.5) {
+      } else if (self.snapStep[2] == 0.48) {
         tickIndex = 3;
-      } else if (self.snapStep[2] == 1) {
+      } else if (self.snapStep[2] == 0.5) {
         tickIndex = 4;
+      } else if (self.snapStep[2] == 1) {
+        tickIndex = 5;
       }
       menuItems[tickIndex].html = '<span class="tick">&#x2713;</span> ' + menuItems[tickIndex].html;
 
