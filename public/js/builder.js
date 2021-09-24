@@ -1951,8 +1951,17 @@ var builder = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
+        let loadedJson = JSON.parse(this.result);
+
+        if (loadedJson.worldName != 'custom') {
+          let msg = 'Only "custom" worlds can be edited in the world builder.<br>';
+          msg += 'This json file is for a "' + loadedJson.worldName + '" world.';
+          showErrorModal(msg);
+          return;
+        }
+
         self.worldOptions = JSON.parse(JSON.stringify(worlds[0].defaultOptions));
-        Object.assign(self.worldOptions, JSON.parse(this.result).options);
+        Object.assign(self.worldOptions, loadedJson.options);
         self.clearHistory();
         self.saveHistory();
         self.resetScene();

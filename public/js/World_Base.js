@@ -34,6 +34,8 @@ var World_Base = function() {
     },
   ];
 
+  this.DEFAULT_IMAGE = 'textures/maps/custom.png';
+
   this.defaultOptions = {
     imageURL: '',
     groundType: 'box',     // none, box, cylinder
@@ -156,11 +158,12 @@ var World_Base = function() {
     self.processedOptions = processOptionsObject(self.options);
 
     if (
-      typeof self.processedOptions != 'undefined'
-      && typeof self.processedOptions.imageURL != 'undefined'
+      typeof self.processedOptions.imageURL != 'undefined'
       && self.processedOptions.imageURL.trim() != ''
     ) {
       self.processedOptions.image = self.processedOptions.imageURL;
+    } else {
+      self.processedOptions.image = self.DEFAULT_IMAGE;
     }
 
     if (
