@@ -83,7 +83,7 @@ var world_Grid = new function() {
   ];
 
   this.defaultOptions = Object.assign(this.defaultOptions, {
-    image: 'textures/maps/grid.png',
+    imageURL: 'textures/maps/grid.png',
     imageScale: '2.353',
     length: 400,
     width: 400,

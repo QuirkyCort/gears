@@ -132,7 +132,7 @@ var world_Football = new function() {
 
   this.defaultOptions = Object.assign(this.defaultOptions, {
     challenge: 'football',
-    image: 'textures/maps/Arena/soccerfield.png?v=7008dcf9',
+    imageURL: 'textures/maps/Arena/soccerfield.png?v=7008dcf9',
     wall: true,
     wallHeight: 20,
     wallThickness: 5,
