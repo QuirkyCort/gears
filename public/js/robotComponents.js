@@ -2664,15 +2664,18 @@ function TouchSensor(scene, parent, pos, rot, port, options) {
       self.realSensor.physicsImpostor.physicsBody.setCollisionFlags(4);
       self.pressed = false;
     });
-    scene.meshes.forEach(function(mesh){
+  };
+
+  this.loadMeshes = function(meshes) {
+    meshes.forEach(function(mesh){
       if (mesh.parent != null || mesh == parent || mesh == self.realSensor) return;
       if (mesh.physicsImpostor) {
         self.realSensor.physicsImpostor.registerOnPhysicsCollide(mesh.physicsImpostor, function(own, other){
           self.pressed = true;
         });
       }
-    })
-  };
+    });
+  }
 
   this.setOptions = function(options) {
     self.options = {
