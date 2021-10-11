@@ -16,7 +16,7 @@ var blockly = new function() {
     horizontalLayout : false,
     toolboxPosition : 'start',
     css : true,
-    media : 'https://blockly-demo.appspot.com/static/media/',
+    media : 'blockly/3.20200402.1/media/',
     rtl : false,
     scrollbars : true,
     sounds : true,
