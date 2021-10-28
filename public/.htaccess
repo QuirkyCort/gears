@@ -1,4 +1,4 @@
-<filesMatch ".(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|json|py)$">
+<filesMatch ".(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|json|py|mp3|glb|gltf)$">
   Header set Cache-Control "max-age=2592000, immutable, public"
 </filesMatch>
 <filesMatch ".(html)$">
