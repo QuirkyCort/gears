@@ -255,6 +255,7 @@ var main = new function() {
         {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
         {html: 'URL Generator', line: false, callback: function() { self.openPage('genURL.html'); }},
         {html: i18n.get('#main-whats_new#'), line: false, callback: function() { self.showWhatsNew(true); }},
+        {html: i18n.get('#main-privacy#'), line: false, callback: function() { self.openPage('privacy.html'); }},
         {html: i18n.get('#main-about#'), line: true, callback: self.openAbout },
         {html: i18n.get('#main-display_fps#'), line: false, callback: simPanel.toggleFPS }
       ];

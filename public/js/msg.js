@@ -1007,6 +1007,9 @@ let MSGS = {
     nl: 'Over',
     de: 'Über',
   },
+  '#main-privacy#': {
+    en: 'Privacy Policy',
+  },
   '#main-arenaTitle#': {
     en: 'GearsBot Arena',
     tlh: 'GearsBot \'anSa\'',
