@@ -733,7 +733,7 @@ var builder = new function() {
         option: 'modelURL',
         type: 'strText',
         reset: true,
-        help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
+        help: 'URL for GLTF (.glb/.gltf) models. Will not work with most webhosts; Github will work.'
       },
       {
         option: 'modelScale',
