@@ -54,8 +54,8 @@ var blockly = new function() {
       .then(response => response.text())
       .then(function(response) {
         response = i18n.replace(response);
-        var xml = (new DOMParser()).parseFromString(response, "text/xml");
-        options.toolbox = xml.getElementById('toolbox');
+        self.toolboxXml = (new DOMParser()).parseFromString(response, "text/xml");
+        options.toolbox = self.toolboxXml.getElementById('toolbox');
         self.workspace = Blockly.inject('blocklyHiddenDiv', options);
         self.displayedWorkspace = Blockly.inject('blocklyDiv', options);
         self.displayedWorkspace.addChangeListener(self.mirrorEvent);
@@ -71,6 +71,53 @@ var blockly = new function() {
           self.workspace.addChangeListener(self.checkModified);
         }, 1000);
       });
+  };
+
+  // Filter blocks from toolbox. Load from URL.
+  this.loadToolboxFilterURL = function(url) {
+    return fetch(url)
+      .then(function(response) {
+        if (response.ok) {
+          return response.text();
+        } else {
+          toastMsg(i18n.get('#sim-not_found#'));
+          return Promise.reject(new Error('invalid_blocks_filter'));
+        }
+      })
+      .then(function(response) {
+        self.loadToolboxFilter(JSON.parse(response));
+      });
+  };
+
+  // Filter blocks from toolbox
+  this.loadToolboxFilter = function(filter) {
+    if (typeof self.displayedWorkspace == 'undefined') {
+      setTimeout(function(){ self.loadToolboxFilter(filter); }, 500);
+      return;
+    }
+
+    let filteredXml = self.toolboxXml.cloneNode(true);
+
+    if (typeof filter.deny != 'undefined') {
+      if (typeof filter.deny.categories != 'undefined') {
+        for (let deny of filter.deny.categories) {
+          let toRemove = filteredXml.querySelector('[name="' + deny + '"]');
+          if (toRemove) {
+            toRemove.remove();
+          }
+        }
+      }
+      if (typeof filter.deny.blocks != 'undefined') {
+        for (let deny of filter.deny.blocks) {
+          let toRemove = filteredXml.querySelector('[type="' + deny + '"]').remove();
+          if (toRemove) {
+            toRemove.remove();
+          }
+        }
+      }
+    }
+
+    self.displayedWorkspace.updateToolbox(filteredXml.getElementById('toolbox'));  
   };
 
   // Register variables and procedures toolboxes callbacks

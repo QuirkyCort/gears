@@ -218,13 +218,20 @@
     (function(){
       function loadWhenReady() {
         if (typeof babylon.scene != 'undefined' && babylon.scene.isReady()) {
+          
           let worldJSON = readGET('worldJSON');
           if (worldJSON) {
             simPanel.loadWorldURL(decodeURIComponent(worldJSON));
           }
+
           let robotJSON = readGET('robotJSON');
           if (robotJSON) {
             main.loadRobotURL(decodeURIComponent(robotJSON));
+          }
+          
+          let filterBlocksJSON = readGET('filterBlocksJSON');
+          if (filterBlocksJSON) {
+            blockly.loadToolboxFilterURL(decodeURIComponent(filterBlocksJSON));
           }
         } else {
           setTimeout(loadWhenReady, 100);

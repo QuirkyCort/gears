@@ -181,7 +181,7 @@ var main = new function() {
           return response.text();
         } else {
           toastMsg(i18n.get('#sim-not_found#'));
-          return Promise.reject(new Error('invalid_map'));
+          return Promise.reject(new Error('invalid_robot'));
         }
       })
       .then(function(response) {

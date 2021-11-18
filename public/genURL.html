@@ -46,6 +46,10 @@
       <input id="robotURL" type="text" placeholder="URL to the robot configurations json file"></input>
     </div>
     <div>
+      <label>Blocks Filter URL (<a href="samples/filter.json">Download Sample</a>)</label>
+      <input id="blocksURL" type="text" placeholder="URL to the blocks filter json file"></input>
+    </div>
+    <div>
       <button id="gen">Generate URL</button>
     </div>
     <div id="output">
@@ -124,11 +128,12 @@
     genBtn.onclick = function() {
       let worldURL = document.getElementById('worldURL').value.trim();
       let robotURL = document.getElementById('robotURL').value.trim();
+      let blocksURL = document.getElementById('blocksURL').value.trim();
 
       errors.innerHTML = '';
       
       // At least one
-      if (! worldURL && ! robotURL) {
+      if (! worldURL && ! robotURL && ! blocksURL) {
         errorOut('No URLs provided');
       }
 
@@ -139,6 +144,9 @@
       if (robotURL && ! isURL(robotURL)) {
         errorOut('The provided Robot URL is not a valid URL');
       }
+      if (blocksURL && ! isURL(blocksURL)) {
+        errorOut('The provided Blocks Filter URL is not a valid URL');
+      }
 
       // Check if is http
       if (worldURL && ! isHTTPS(worldURL)) {
@@ -146,6 +154,9 @@
       }
       if (robotURL && ! isHTTPS(robotURL)) {
         errorOut('Robot URL must be served over https. Gears uses https and browser security will not allow a mix of http and https.');
+      }
+      if (blocksURL && ! isHTTPS(blocksURL)) {
+        errorOut('Blocks Filter URL must be served over https. Gears uses https and browser security will not allow a mix of http and https.');
       }
 
       // Check CORS
@@ -155,6 +166,9 @@
       if (robotURL && isURL(robotURL)) {
         checkFetch(robotURL, 'robotURL');
       }
+      if (blocksURL && isURL(blocksURL)) {
+        checkFetch(blocksURL, 'blocksURL');
+      }
 
       // All good. Generate URL
       let URL = window.location.href.replace('genURL.html', 'index.html') + '?';
@@ -163,6 +177,9 @@
       }
       if (robotURL) {
         URL += 'robotJSON=' + encodeURIComponent(robotURL) + '&';
+      }
+      if (blocksURL) {
+        URL += 'filterBlocksJSON=' + encodeURIComponent(blocksURL) + '&';
       }
       URL = URL.slice(0, -1)
       resultsOut(
