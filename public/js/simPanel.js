@@ -233,6 +233,8 @@ var simPanel = new function() {
         down = true;
       }
       drive();
+      
+      event.preventDefault();
     });
 
     self.$joystick[0].addEventListener('keyup', event => {
