@@ -4,143 +4,169 @@ i18n.append({
     fr: 'Dimensions',
     de: 'Dimensionen',
     nl: 'Dimensies',
+    he: 'מימדים',
   },
   '#robot-wheelDiameter#': {
     en: 'Wheel Diameter',
     fr: 'Diamètre des roues',
     de: 'Raddurchmesser',
     nl: 'Wieldiameter',
+    he: 'קוטר גלגל',
   },
   '#robot-wheelSpacing#': {
     en: 'Wheel Spacing',
     fr: 'Espace entre les roues',
     de: 'Radabstand',
     nl: 'Wielafstand',
+    he: 'מרווח גלגלים',
   },
   '#robot-actuators#': {
     en: 'Actuators',
     fr: 'Actionneurs',
     de: 'Antrieb',
     nl: 'Aandrijving',
+    he: 'מפעילים',
   },
   '#robot-port#': {
     en: 'Port',
     fr: 'Port',
     de: 'Port',
     nl: 'Poort',
+    he: 'יציאה',
   },
   '#robot-leftWheel#': {
     en: 'Left Wheel',
     fr: 'roue gauche',
     de: 'linkes Rad',
     nl: 'Linker wiel',
+    he: 'גלגל שמאל',
   },
   '#robot-rightWheel#': {
     en: 'Right Wheel',
     fr: 'roue droite',
     de: 'rechtes Rad',
     nl: 'Rechter wiel',
+    he: 'גלגל ימים',
   },
   '#robot-electromagnet#': {
     en: 'Electromagnet',
     fr: 'électroaimant',
     de: 'Elektromagnet',
     nl: 'Elektromagneet',
+    he: 'אלקטרומגנט',
   },
   '#robot-motorizedArm#': {
     en: 'Motorized Arm',
     fr: 'bras motorisé',
     de: 'motorisierter Arm',
     nl: 'gemotoriseerde Arm',
+    he: 'זרוע ממונעת',
   },
   '#robot-swivel#': {
     en: 'Swivel Platform',
     fr: 'tourelle',
     de: 'Schwenkplattform',
     nl: 'Draaiplatform',
+    he: 'משטח סיבוב',
   },
   '#robot-linear#': {
     en: 'Linear Actuator',
+    he: 'מפעיל קו ישר',
   },
   '#robot-paintball#': {
     en: 'Paintball Launcher',
     fr: 'lanceur de paintball',
     de: 'Paintball Launcher',
     nl: 'Paintball kanon',
+    he: 'משגר פיינטבול',
   },
   '#robot-sensors#': {
     en: 'Sensors',
     fr: 'Capteurs',
     de: 'Sensoren',
     nl: 'Sensoren',
+    he: 'חיישנים',
   },
   '#robot-color#': {
     en: 'Color Sensor',
     fr: 'capteur de couleurs',
     de: 'Frabsensor',
     nl: 'Kleurensensor',
+    he: 'חיישן צבע',
   },
   '#robot-front#': {
     en: 'Front',
     fr: 'avant',
     de: 'Vorne',
     nl: 'Voorkant',
+    he: 'קדמי',
   },
   '#robot-left#': {
     en: 'Left',
     fr: 'gauche',
     de: 'Links',
     nl: 'Links',
+    he: 'שמאל',
   },
   '#robot-right#': {
     en: 'Right',
     fr: 'droite',
     de: 'Rechts',
     nl: 'Rechts',
+    he: 'ימין',
   },
   '#robot-back#': {
     en: 'Back',
+    he: 'אחורי',
   },
   '#robot-arm#': {
     en: 'Arm',
     fr: 'bras',
     de: 'Arm',
     nl: 'Arm',
+    he: 'זרוע',
   },
   '#robot-ultrasonic#': {
     en: 'Ultrasonic Distance',
     fr: 'télémètre à ultrasons',
     de: 'Unltraschallabstand',
     nl: 'Ultrasonische afstand',
+    he: 'מרחק אולטראקולי',
   },
   '#robot-gyro#': {
     en: 'Gyro',
     fr: 'gyroscope',
     de: 'Gyroskop',
     nl: 'Gyroscoop',
+    he: 'ג`ירו',
   },
   '#robot-laser#': {
     en: 'Laser Range Sensor',
     fr: 'télémètre laser',
     de: 'Laserentfernungssensor',
     nl: 'Laser afstandsensor',
+    he: 'חיישן טווח לייזר',
   },
   '#robot-pen#': {
     en: 'Pen',
     nl: 'Pen',
+    he: 'עט',
   },
   '#robot-touch#': {
     en: 'Touch Sensor',
     nl: 'Drukknopsensor',
+    he: 'חיישן מגע',
   },
   '#robot-wheel#': {
     en: 'Wheel'
+    he: 'גלגל',
   },
   '#robot-singleFollowerShort#': {
     en: 'Single Sensor Line Follower',
     fr: 'Suiveur de ligne à un capteur (Single Sensor Line Follower)',
     de: 'Einsensor Linienverfolger',
     nl: 'Enkele sensor lijnvolger',
+    he: 'חיישן עקיבת קו',
   },
   '#robot-singleFollowerLong#': {
     en:
@@ -165,6 +191,7 @@ i18n.append({
     fr: 'Suiveur de ligne à deux capteurs (Double Sensor Line Follower)',
     de: 'Doppelsensoren Linienverfolger',
     nl: 'Dubbele sensor lijnvolger',
+    he: 'חיישן עקיבת קו כפול',
   },
   '#robot-doubleFollowerLong#': {
     en:
@@ -185,6 +212,7 @@ i18n.append({
     fr: 'Lanceur de paintball (Paintball)',
     de: 'Paintball',
     nl: 'Paintball',
+    he: 'פיינטבול',
   },
   '#robot-paintballLong#': {
     en:
@@ -209,6 +237,7 @@ i18n.append({
     fr: 'Coureur de labyrinthe (Maze Runner)',
     de: 'Labyrinth Läufer (Maze Runner)',
     nl: 'Doolhofloper',
+    he: 'רץ במבוך',
   },
   '#robot-mazeLong#': {
     en:
@@ -269,6 +298,7 @@ i18n.append({
     fr: 'Grue (Crane)',
     de: 'Kran',
     nl: 'Kraan',
+    he: 'עגורן',
   },
   '#robot-craneLong#': {
     en:
@@ -294,6 +324,7 @@ i18n.append({
   },
   '#robot-cageShort#': {
     en: 'Cage Bot',
+    he: 'רובוט כלוב',
   },
   '#robot-cageLong#': {
     en:
@@ -303,6 +334,7 @@ i18n.append({
   },
   '#robot-footballShort#': {
     en: 'Football',
+    he: 'כדורגל',
   },
   '#robot-footballLong#': {
     en:
