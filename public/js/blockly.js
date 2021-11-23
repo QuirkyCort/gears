@@ -17,7 +17,7 @@ var blockly = new function() {
     toolboxPosition : 'start',
     css : true,
     media : 'blockly/3.20200402.1/media/',
-    rtl : false,
+    rtl : RTL,
     scrollbars : true,
     sounds : true,
     oneBasedIndex : false

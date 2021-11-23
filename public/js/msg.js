@@ -1025,6 +1025,7 @@ let MSGS = {
     el: 'Διαμορφωτής ρομπότ',
     nl: 'Robot configurator',
     de: 'Roboterkonfigurator',
+    he: 'בניית רובוט',
   },
   '#main-robot_load_file#': {
     en: 'Load from file',
@@ -1845,6 +1846,12 @@ let MSGS_KEYS = Object.keys(MSGS);
 let LANG = localStorage.getItem('LANG');
 if (!LANG || LANG == '' || LANG == 'undefined') {
   LANG = 'en';
+}
+
+const RTL_LANGS = ['he'];
+let RTL = false;
+if (RTL_LANGS.indexOf(LANG) != -1) {
+  RTL = true;
 }
 
 var i18n = new function() {

@@ -46,7 +46,7 @@ i18n.append({
     fr: 'roue droite',
     de: 'rechtes Rad',
     nl: 'Rechter wiel',
-    he: 'גלגל ימים',
+    he: 'גלגל ימין'
   },
   '#robot-electromagnet#': {
     en: 'Electromagnet',
