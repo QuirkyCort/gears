@@ -742,6 +742,7 @@ let MSGS = {
     el: 'θέση (λίστα)',
     nl: 'positie (lijst)',
     de: 'position(Liste)',
+    he: 'מקום',
   },
   '#blk-gps_tooltip#': {
     en: 'Virtual sensor that provides the robot\'s position',
@@ -982,10 +983,12 @@ let MSGS = {
   '#main-worlds#': {
     en: 'Worlds',
     nl: 'Werelden',
+    he: 'עולמות',
   },
   '#main-select_world#': {
     en: 'Select World',
     nl: 'Selecteer wereld',
+    he: 'בחירת עולם',
   },
   '#main-world_load_file#': {
     en: 'Load from file',
@@ -993,6 +996,7 @@ let MSGS = {
     el: 'Φόρτωση από αρχείο',
     nl: 'Laden van bestand',
     de: 'Öffne eine Datei',
+    he: 'טעינה מקובץ',
   },
   '#main-world_save_file#': {
     en: 'Save to file',
@@ -1000,10 +1004,12 @@ let MSGS = {
     el: 'Αποθήκευση σε αρχείο',
     nl: 'Opslaan naar bestand',
     de: 'Speichern unter',
+    he: 'שמירה לקובץ',
   },
   '#main-world_builder#': {
     en: 'World Builder',
     nl: 'Wereld bouwer',
+    he: 'בניית עולם',
   },
   '#main-select_robot#': {
     en: 'Select Robot',
@@ -1011,6 +1017,7 @@ let MSGS = {
     el: 'Επιλέξτε Ρομπότ',
     nl: 'Selecteer robot',
     de: 'ausgewählter Roboter',
+    he: 'בחירת רובוט',
   },
   '#main-robot_configurator#': {
     en: 'Robot Configurator',
@@ -1025,6 +1032,7 @@ let MSGS = {
     el: 'Φόρτωση από αρχείο',
     nl: 'Laden van bestand',
     de: 'Öffne eine Datei',
+    he: 'טעינה מקובץ',
   },
   '#main-robot_save_file#': {
     en: 'Save to file',
@@ -1032,6 +1040,7 @@ let MSGS = {
     el: 'Αποθήκευση σε αρχείο',
     nl: 'Opslaan naar bestand',
     de: 'Speichern unter',
+    he: 'שמירה לקובץ',
   },
   '#main-display_position#': {
     en: 'Display current position',
