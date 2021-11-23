@@ -158,7 +158,7 @@ i18n.append({
     he: 'חיישן מגע',
   },
   '#robot-wheel#': {
-    en: 'Wheel'
+    en: 'Wheel',
     he: 'גלגל',
   },
   '#robot-singleFollowerShort#': {

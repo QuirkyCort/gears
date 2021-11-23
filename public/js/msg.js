@@ -742,7 +742,6 @@ let MSGS = {
     el: 'θέση (λίστα)',
     nl: 'positie (lijst)',
     de: 'position(Liste)',
-    he: 'תנועה',
   },
   '#blk-gps_tooltip#': {
     en: 'Virtual sensor that provides the robot\'s position',
@@ -983,12 +982,10 @@ let MSGS = {
   '#main-worlds#': {
     en: 'Worlds',
     nl: 'Werelden',
-    he: 'תנועה',
   },
   '#main-select_world#': {
     en: 'Select World',
     nl: 'Selecteer wereld',
-    he: 'תנועה',
   },
   '#main-world_load_file#': {
     en: 'Load from file',
@@ -996,7 +993,6 @@ let MSGS = {
     el: 'Φόρτωση από αρχείο',
     nl: 'Laden van bestand',
     de: 'Öffne eine Datei',
-    he: 'תנועה',
   },
   '#main-world_save_file#': {
     en: 'Save to file',
@@ -1004,12 +1000,10 @@ let MSGS = {
     el: 'Αποθήκευση σε αρχείο',
     nl: 'Opslaan naar bestand',
     de: 'Speichern unter',
-    he: 'תנועה',
   },
   '#main-world_builder#': {
     en: 'World Builder',
     nl: 'Wereld bouwer',
-    he: 'תנועה',
   },
   '#main-select_robot#': {
     en: 'Select Robot',
@@ -1017,7 +1011,6 @@ let MSGS = {
     el: 'Επιλέξτε Ρομπότ',
     nl: 'Selecteer robot',
     de: 'ausgewählter Roboter',
-    he: 'תנועה',
   },
   '#main-robot_configurator#': {
     en: 'Robot Configurator',
@@ -1025,7 +1018,6 @@ let MSGS = {
     el: 'Διαμορφωτής ρομπότ',
     nl: 'Robot configurator',
     de: 'Roboterkonfigurator',
-    he: 'תנועה',
   },
   '#main-robot_load_file#': {
     en: 'Load from file',
@@ -1033,7 +1025,6 @@ let MSGS = {
     el: 'Φόρτωση από αρχείο',
     nl: 'Laden van bestand',
     de: 'Öffne eine Datei',
-    he: 'תנועה',
   },
   '#main-robot_save_file#': {
     en: 'Save to file',
@@ -1041,7 +1032,6 @@ let MSGS = {
     el: 'Αποθήκευση σε αρχείο',
     nl: 'Opslaan naar bestand',
     de: 'Speichern unter',
-    he: 'תנועה',
   },
   '#main-display_position#': {
     en: 'Display current position',
@@ -1253,7 +1243,7 @@ let MSGS = {
     de:
       '<p>Der GearsBot Roboterkonfigurator erlaubt es dir einen bereits vorhandenen Roboter oder einen neuen Roboter anzupassen.</p>' +
       '<p>Nachdem du deine Anpassung beendet hast, speicher deine Kreation zu einer Datei und komme zurück um sie zu laden</p>',
-    he: 'תנועה',
+    he:
       '<p>עמוד תצורת הרובוטת מאפשר לך לאפיין רובוט קיים או ליצור תכנון חדש לרובוט.</p>' +
       '<p>לאחר שהשלמת את ההתאמות, שמור את יצירתך לקובץ וחזור לכאן לטעון אותה.</p>',
   },

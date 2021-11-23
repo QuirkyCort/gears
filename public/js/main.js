@@ -82,6 +82,7 @@ var main = new function() {
         {html: 'English', line: false, callback: function() { setLang('en'); }},
         {html: 'Español', line: false, callback: function() { setLang('es'); }},
         {html: 'Français', line: false, callback: function() { setLang('fr'); }},
+        {html: 'עברית', line: false, callback: function() { setLang('he'); }},
         {html: 'Nederlands', line: false, callback: function() { setLang('nl'); }},
         {html: 'Português', line: false, callback: function() { setLang('pt'); }},
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
