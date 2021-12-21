@@ -261,7 +261,7 @@ var main = new function() {
         {html: i18n.get('#main-display_fps#'), line: false, callback: simPanel.toggleFPS }
       ];
       if (simPanel.showFPS) {
-        menuItems[5].html = '<span class="tick">&#x2713;</span> ' + menuItems[5].html;
+        menuItems[6].html = '<span class="tick">&#x2713;</span> ' + menuItems[6].html;
       }
 
       menuDropDown(self.$helpMenu, menuItems, {className: 'helpMenuDropDown'});
