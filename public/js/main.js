@@ -925,6 +925,7 @@ var main = new function() {
           '<li>Some components such as the Pen and GPS are currently not supported in Pybricks.</li>' +
           '<li>You can mix Pybricks and Ev3dev Python code in the simulator, but that won\'t run on a real device.</li>' +
           '<li>The auto-generated Pybricks code have also been fixed.</li>' +
+          '<li><a href="https://github.com/QuirkyCort/gears/wiki/Pybricks-API-Support" target="_blank">See here for the status of the Pybricks API.</a></li>' +
           '</ul>' +
           '<h3>3 Sep 2021 (Hinges &amp; FLL Cargo Connect)</h3>' +
           '<ul>' +
