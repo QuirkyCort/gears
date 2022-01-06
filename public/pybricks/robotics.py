@@ -17,12 +17,12 @@ class DriveBase:
     self.axle_track = axle_track
 
     self.wheel_circumference = PI * wheel_diameter
-    self.axle_circumferennce = PI * axle_track
+    self.axle_circumference = PI * axle_track
 
     self.max_speed = left_motor._MAX_SPEED / 360 * self.wheel_circumference
     self.max_acceleration = left_motor._ABS_ACCELERATION / 360 * self.wheel_circumference
-    self.max_turn = self.max_speed / self.axle_circumferennce * 360
-    self.max_turn_acceleration = self.max_acceleration / self.axle_circumferennce * 360
+    self.max_turn = self.max_speed / self.axle_circumference * 360
+    self.max_turn_acceleration = self.max_acceleration / self.axle_circumference * 360
 
     self.speed_sp = self.max_speed / 2
     self.speed_accel_sp = self.max_acceleration / 2
@@ -53,10 +53,8 @@ class DriveBase:
       if angle >= end_angle_abs:
         break
       elif angle > start_ramp_down_angle:
-        d = (angle - start_ramp_down_angle)
-        if d < 0:
-          d = 0
-        speed = target_angular_speed - (angular_acceleration * (2 * d / angular_acceleration) ** 0.5)
+        d = end_angle_abs - angle
+        speed = angular_acceleration * (2 * d / angular_acceleration) ** 0.5
       elif angle > end_ramp_up_angle:
         speed = target_angular_speed
       else:
@@ -75,14 +73,17 @@ class DriveBase:
 
   def turn(self, angle):
     speed = 0
-    # target_angular_speed = self.speed_sp / self.wheel_circumference * 360
-    target_angular_speed = self.turn_sp / self.wheel_circumference * 360
-    end_angle = distance / self.wheel_circumference * 360
+    target_angular_speed = (self.turn_sp / 360) * self.axle_circumference / self.wheel_circumference * 360
+    end_angle = (angle / 360) * self.axle_circumference / self.wheel_circumference * 360
     end_angle_abs = abs(end_angle)
-    left_target_angle = self.left_motor.angle() + end_angle
-    right_target_angle = self.right_motor.angle() + end_angle
-    start_angle = (self.left_motor.angle() + self.right_motor.angle()) / 2
-    angular_acceleration = self.speed_accel_sp / self.wheel_circumference * 360
+
+    left_start_angle = self.left_motor.angle()
+    right_start_angle = self.right_motor.angle()
+
+    left_target_angle = left_start_angle + end_angle
+    right_target_angle = right_start_angle - end_angle
+
+    angular_acceleration = (self.turn_accel_sp / 360) * self.axle_circumference / self.wheel_circumference * 360
 
     ramp_angle = 0.5 * target_angular_speed ** 2 / angular_acceleration
 
@@ -91,21 +92,20 @@ class DriveBase:
 
     while True:
       time.sleep(SENSOR_DELAY)
-      angle = (self.left_motor.angle() + self.right_motor.angle()) / 2 - start_angle
-      if distance < 0:
-        angle = -angle
+      if angle > 0:
+        current_angle = ((self.left_motor.angle() - left_start_angle) - (self.right_motor.angle() - right_start_angle)) / 2
+      else:
+        current_angle = ((self.right_motor.angle() - right_start_angle) - (self.left_motor.angle() - left_start_angle)) / 2
       
-      if angle >= end_angle_abs:
+      if current_angle >= end_angle_abs:
         break
-      elif angle > start_ramp_down_angle:
-        d = (angle - start_ramp_down_angle)
-        if d < 0:
-          d = 0
-        speed = target_angular_speed - (angular_acceleration * (2 * d / angular_acceleration) ** 0.5)
-      elif angle > end_ramp_up_angle:
+      elif current_angle > start_ramp_down_angle:
+        d = end_angle_abs - current_angle
+        speed = angular_acceleration * (2 * d / angular_acceleration) ** 0.5
+      elif current_angle > end_ramp_up_angle:
         speed = target_angular_speed
       else:
-        d = angle
+        d = current_angle
         if d < 0:
           d = 0
         speed = angular_acceleration * (2 * d / angular_acceleration) ** 0.5
@@ -141,7 +141,7 @@ class DriveBase:
     left_speed = drive_speed
     right_speed = drive_speed
 
-    delta_speed = turn_rate / 360 * self.axle_circumferennce
+    delta_speed = turn_rate / 360 * self.axle_circumference
 
     left_speed += delta_speed
     right_speed -= delta_speed

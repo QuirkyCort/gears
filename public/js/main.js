@@ -919,20 +919,18 @@ var main = new function() {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>6 Jan 2022 (Pybricks)</h3>' +
+          '<ul>' +
+          '<li>Pybricks code are now runnable.</li>' +
+          '<li>Most methods in DriveBase, Motors, TouchSensor, ColorSensor, UltrasonicSensor, and GyroSensor are supported.</li>' +
+          '<li>You can also mix Pybricks and Ev3dev code in the simulator, but that won\'t run on a real device.</li>' +
+          '</ul>' +
           '<h3>3 Sep 2021 (Hinges &amp; FLL Cargo Connect)</h3>' +
           '<ul>' +
           '<li>Hinges are now available in the world builder.</li>' +
           '<li>FLL Cargo Connect mission models are in-progress...</li>' +
           '<li>You can find the world file <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/FLL" target="_blank">here</a> or load it directly into Gears with <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FFLL%2FFLL%25202021%2520Cargo%2520Connect.json">this link</a>.' +
           '<li>When completed, this will be added to the main menu.</li>' +
-          '</ul>' +
-          '<h3>12 Aug 2021 (Wheels, Drag, Snap)</h3>' +
-          '<ul>' +
-          '<li>You can now add wheels to the robot (contributed by Steven Murray). <a href="https://youtu.be/Mq4urBJPNng" target="_blank">Video of multi-wheels robots.</a></li>' +
-          '<li>You can now drag to position components in the robot configurator.</li>' +
-          '<li>In both the world builder and robot configurator, drag to position now works in all axis.</li>' +
-          '<li>Snap to position now available in both world builder and robot configurator.</li>' +
-          '<li>Sensor view now shows color name and numbers.</li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){
