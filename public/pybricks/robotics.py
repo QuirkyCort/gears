@@ -29,6 +29,12 @@ class DriveBase:
     self.turn_sp = self.max_turn / 2
     self.turn_accel_sp = self.max_turn_acceleration / 2
 
+    self.left_base_angle = self.left_motor.angle()
+    self.right_base_angle = self.right_motor.angle()
+
+    self.drive_speed = 0
+    self.turn_rate = 0
+
   def straight(self, distance):
     speed = 0
     target_angular_speed = self.speed_sp / self.wheel_circumference * 360
@@ -138,6 +144,8 @@ class DriveBase:
     self.turn_accel_sp = turn_acceleration
 
   def drive(self, drive_speed, turn_rate):
+    self.drive_speed = drive_speed
+    self.turn_rate = turn_rate
     left_speed = drive_speed
     right_speed = drive_speed
 
@@ -154,14 +162,17 @@ class DriveBase:
     self.right_motor.stop()
 
   def distance(self):
-    pass
+    average_angle = ((self.left_motor.angle() - self.left_base_angle) + (self.right_motor.angle() - self.right_base_angle)) / 2
+    return average_angle / 360 * self.wheel_circumference
 
   def angle(self):
-    pass
+    delta_angle = (self.left_motor.angle() - self.left_base_angle) - (self.right_motor.angle() - self.right_base_angle)
+    delta_dist = delta_angle / 2 / 360 * self.wheel_circumference
+    return delta_dist / self.axle_circumference * 360
 
   def state(self):
-    pass
+    return (self.distance(), self.drive_speed, self.angle(), self.turn_rate)
 
   def reset(self):
-    pass
-
+    self.left_base_angle = self.left_motor.angle()
+    self.right_base_angle = self.right_motor.angle()

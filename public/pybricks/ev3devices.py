@@ -16,6 +16,7 @@ class Motor:
 
   def __init__(self, port, positive_direction=Direction.CLOCKWISE, gears=None):
     self.motor = simPython.Motor(port)
+    self.motor.polarity(positive_direction)
 
   def _wait(self, cond, timeout=None):
     """

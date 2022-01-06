@@ -11,8 +11,8 @@ class Color:
 
 
 class Direction:
-  CLOCKWISE = 1
-  COUNTERCLOCKWISE = 2
+  CLOCKWISE = 'normal'
+  COUNTERCLOCKWISE = 'inversed'
 
 
 class Port:
