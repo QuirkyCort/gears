@@ -2,13 +2,18 @@ var skulpt = new function() {
   var self = this;
 
   this.externalLibs = {
-    './ev3dev2/__init__.py': 'ev3dev2/__init__.py?v=698096cb',
+    './ev3dev2/__init__.py': false,
     './ev3dev2/motor.py': 'ev3dev2/motor.py?v=f13c634c',
     './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
     './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
     './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=64cc5ea0',
     './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=bba8d7d8',
-    './simPython.js': 'js/simPython.js?v=a4d0be46'
+    './simPython.js': 'js/simPython.js?v=a4d0be46',
+    './pybricks/__init__.py': false,
+    './pybricks/parameters.py': 'pybricks/parameters.py?v=1',
+    './pybricks/tools.py': 'pybricks/tools.py?v=1',
+    './pybricks/ev3devices.py': 'pybricks/ev3devices.py?v=1',
+    './pybricks/robotics.py': 'pybricks/robotics.py?v=1',
   };
   this.preloadedLibs = {};
 
@@ -79,16 +84,22 @@ var skulpt = new function() {
 
   // Files preloader
   this.preload = function () {
-    for (key in self.externalLibs) {
-      (function(key, url){
-        fetch(url)
+    function fetchPreload(key, url){
+      fetch(url)
         .then(function(r){
           return r.text();
         })
         .then(function(r){
           self.preloadedLibs[key] = r;
         });
-      })(key, self.externalLibs[key]);
+    }
+
+    for (key in self.externalLibs) {
+      if (self.externalLibs[key] === false) {
+        self.preloadedLibs[key] = '';
+      } else {
+        fetchPreload(key, self.externalLibs[key]);
+      }
     }
   };
 
