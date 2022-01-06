@@ -1,6 +1,15 @@
 var pybricks_generator = new function() {
   var self = this;
 
+  this.autoPorts = {
+    ColorSensor: 1,
+    UltrasonicSensor: 1,
+    GyroSensor: 1,
+    GPSSensor: 1,
+    TouchSensor: 1,
+    Pen: 1
+  };
+
   // Load Python generators
   this.load = function() {
     Blockly.Python.INDENT = '    ';
@@ -42,17 +51,17 @@ var pybricks_generator = new function() {
       '#!/usr/bin/env pybricks-micropython\n' +
       '\n' +
       '# Import the necessary libraries\n' +
-      'from pybricks.ev3devices import *\n' +
       'from pybricks.parameters import Port\n' +
+      'from pybricks.hubs import EV3Brick\n' +
+      'from pybricks.ev3devices import *\n' +
       'from pybricks.tools import wait\n' +
       'from pybricks.robotics import DriveBase\n' +
-      'from pybricks.virtual import *\n' +
       '\n' +
       '# Create the sensors and motors objects\n' +
       'ev3 = EV3Brick()\n' +
       '\n' +
-      'motorA = Motor(PORT.A)\n' +
-      'motorB = Motor(PORT.B)\n' +
+      'motorA = Motor(Port.A)\n' +
+      'motorB = Motor(Port.B)\n' +
       'left_motor = motorA\n' +
       'right_motor = motorB\n' +
       '\n';
@@ -62,15 +71,19 @@ var pybricks_generator = new function() {
     var sensor = null;
     while (sensor = robot.getComponentByPort('in' + i)) {
       if (sensor.type == 'ColorSensor') {
-        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(PORT.S' + i + ')\n';
+        sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(Port.S' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'UltrasonicSensor') {
-        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(PORT.S' + i + ')\n';
+        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(Port.S' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'LaserRangeSensor') {
-        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(PORT.S' + i + ') # Laser Range Sensor\n';
+        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(Port.S' + i + ') # Laser Range Sensor\n';
+        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'GyroSensor') {
-        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(PORT.S' + i + ')\n';
-      } else if (sensor.type == 'GPSSensor') {
-        sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(port.s' + i + ')\n';
+        sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(Port.S' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
+      // } else if (sensor.type == 'GPSSensor') {
+      //   sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(Port.s' + i + ')\n';
       }
       i++;
     }
@@ -81,13 +94,13 @@ var pybricks_generator = new function() {
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Magnet\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Magnet\n';
       } else if (motor.type == 'ArmActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Arm\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Arm\n';
       } else if (motor.type == 'SwivelActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Swivel\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Swivel\n';
       } else if (motor.type == 'PaintballLauncherActuator') {
-        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(PORT.' + PORT_LETTERS[i] + ') # Paintball Launcher\n';
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Paintball Launcher\n';
       }
       i++;
     }
@@ -121,23 +134,23 @@ var pybricks_generator = new function() {
       'def get_speed_steering(steer, speed):\n' +
       '  left_speed = speed\n' +
       '  right_speed = speed\n' +
-      '  speed_factor = (50 - abs(float(steering))) / 50.0\n' +
-      '  if steering >= 0:\n' +
+      '  speed_factor = (50 - abs(float(steer))) / 50.0\n' +
+      '  if steer >= 0:\n' +
       '    right_speed *= speed_factor\n' +
       '  else:\n' +
       '    left_speed *= speed_factor\n' +
       '  return (left_speed, right_speed)\n' +
       '\n' +
       'def move_steering(steer, speed):\n' +
-      '  (left_speed, right_speed) = get_speed_steering(steering, speed)\n' +
+      '  (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
       '  move_tank(left_speed, right_speed)\n' +
       '\n' +
       'def move_steering_for_degrees(steer, speed, degrees):\n' +
-      '  (left_speed, right_speed) = get_speed_steering(steering, speed)\n' +
+      '  (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
       '  move_tank_for_degrees(left_speed, right_speed, degrees)\n' +
       '\n' +
       'def move_steering_for_milliseconds(steer, speed, milliseconds):\n' +
-      '  (left_speed, right_speed) = get_speed_steering(steering, speed)\n' +
+      '  (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
       '  move_tank_for_degrees(left_speed, right_speed, milliseconds)\n\n';
 
     code += '# Here is where your code starts\n\n';
@@ -146,6 +159,12 @@ var pybricks_generator = new function() {
     return code
   };
 
+  this.getPort = function(port, sensorType) {
+    if (port == 'AUTO') {
+      return self.autoPorts[sensorType];
+    }
+    return port;
+  };
 
   //
   // Python Generators
@@ -421,6 +440,7 @@ var pybricks_generator = new function() {
   this.color_sensor = function(block) {
     var dropdown_type = block.getFieldValue('type');
     var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'ColorSensor');
     var typeStr = '';
 
     if (dropdown_type == 'INTENSITY') {
@@ -447,6 +467,7 @@ var pybricks_generator = new function() {
   this.ultrasonic_sensor = function(block) {
     var dropdown_port = block.getFieldValue('port');
     var dropdown_units = block.getFieldValue('units');
+    dropdown_port = self.getPort(dropdown_port, 'UltrasonicSensor');
 
     if (dropdown_units == 'CM') {
       var multiplier = ' * 0.1';
@@ -463,7 +484,8 @@ var pybricks_generator = new function() {
   // gyro
   this.gyro_sensor = function(block) {
     var dropdown_type = block.getFieldValue('type');
-    var dropdown_port = block.getFieldValue('port')
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'GyroSensor');
 
     if (dropdown_type == 'ANGLE') {
       var typeStr = 'angle()';
@@ -477,9 +499,10 @@ var pybricks_generator = new function() {
 
   // gyro reset
   this.reset_gyro = function(block) {
-    var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'GyroSensor');
 
-    var code = 'gyro_sensor_in' + value_port + '.reset_angle()\n';
+    var code = 'gyro_sensor_in' + dropdown_port + '.reset_angle()\n';
     return code;
   };
 

@@ -447,7 +447,7 @@ var main = new function() {
 
       let menuItems = [
         {html: 'Ev3dev Mode', line: false, callback: self.switchToEv3dev},
-        {html: 'Pybricks Mode (Currently not working with simulator)', line: true, callback: self.switchToPybricks},
+        {html: 'Pybricks Mode', line: true, callback: self.switchToPybricks},
         {html: 'Zoom In', line: false, callback: pythonPanel.zoomIn},
         {html: 'Zoom Out', line: false, callback: pythonPanel.zoomOut},
         {html: 'Reset Zoom', line: false, callback: pythonPanel.zoomReset},
@@ -913,7 +913,7 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20210903;
+    let current = 20220106;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
@@ -921,9 +921,10 @@ var main = new function() {
         message:
           '<h3>6 Jan 2022 (Pybricks)</h3>' +
           '<ul>' +
-          '<li>Pybricks code are now runnable.</li>' +
-          '<li>Most methods in DriveBase, Motors, TouchSensor, ColorSensor, UltrasonicSensor, and GyroSensor are supported.</li>' +
-          '<li>You can also mix Pybricks and Ev3dev code in the simulator, but that won\'t run on a real device.</li>' +
+          '<li>Pybricks code are now runnable, with support for most methods in DriveBase, Motors, TouchSensor, ColorSensor, UltrasonicSensor, and GyroSensor.</li>' +
+          '<li>Some components such as the Pen and GPS are currently not supported in Pybricks.</li>' +
+          '<li>You can mix Pybricks and Ev3dev Python code in the simulator, but that won\'t run on a real device.</li>' +
+          '<li>The auto-generated Pybricks code have also been fixed.</li>' +
           '</ul>' +
           '<h3>3 Sep 2021 (Hinges &amp; FLL Cargo Connect)</h3>' +
           '<ul>' +
