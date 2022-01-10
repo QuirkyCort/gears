@@ -4,6 +4,17 @@
 var $builtinmodule = function(name) {
   var mod = {};
 
+  mod.System = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+    });
+
+    $loc.reset_simulator = new Sk.builtin.func(function(self, command) {
+      simPanel.resetSim(false);
+    });
+  }, 'System', []);
+
   mod.Motor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 

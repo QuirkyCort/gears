@@ -1117,12 +1117,18 @@ var simPanel = new function() {
   };
 
   // Reset simulator
-  this.resetSim = function() {
+  this.resetSim = function(resetPython) {
+    if (typeof resetPython == 'undefined') {
+      resetPython = true;
+    }
+
     return babylon.world.setOptions(self.worldOptionsSetting).then(function(){
       self.clearWorldInfoPanel();
       self.hideWorldInfoPanel();
-      skulpt.hardInterrupt = true;
-      self.setRunIcon('run');
+      if (resetPython) {
+        skulpt.hardInterrupt = true;
+        self.setRunIcon('run');  
+      }
       return babylon.resetScene().then(function(){
         self.initSensorsPanel();
       });
