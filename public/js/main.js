@@ -218,6 +218,7 @@ var main = new function() {
           '<li>Ελληνικά: <a href="https://eduact.org/en" target="_blank">Eduact</a></li>' +
           '<li>Español: edurobotic</li>' +
           '<li>Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix), germanicianus</li>' +
+          '<li>עברית: Koby Fruchtnis</li>' +
         '</ul>' +
         '<h3>Contact</h3>' +
         '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +

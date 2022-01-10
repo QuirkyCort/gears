@@ -70,6 +70,7 @@ Translations by:
 * Español: edurobotic
 * Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix), germanicianus
 * Português: Mateus Lima
+* עברית: Koby Fruchtnis
 
 License
 ---
