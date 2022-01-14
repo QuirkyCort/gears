@@ -127,7 +127,7 @@ var pybricks_generator = new function() {
       '  if abs(left) > abs(right):\n' +
       '    right_motor.run_angle(right, right_degrees, wait=False)\n' +
       '    left_motor.run_angle(left, left_degrees, wait=True)\n' +
-      '  else:' +
+      '  else:\n' +
       '    left_motor.run_angle(left, left_degrees, wait=False)\n' +
       '    right_motor.run_angle(right, right_degrees, wait=True)\n' +
       '\n' +
