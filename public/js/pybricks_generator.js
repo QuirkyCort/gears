@@ -124,8 +124,12 @@ var pybricks_generator = new function() {
       '  else:\n' +
       '    left_degrees = abs(left / float(right)) * degrees\n' +
       '    right_degrees = degrees\n' +
-      '  left_motor.run_angle(left, left_degrees, wait=False)\n' +
-      '  right_motor.run_angle(right, right_degrees, wait=True)\n' +
+      '  if abs(left) > abs(right):\n' +
+      '    right_motor.run_angle(right, right_degrees, wait=False)\n' +
+      '    left_motor.run_angle(left, left_degrees, wait=True)\n' +
+      '  else:' +
+      '    left_motor.run_angle(left, left_degrees, wait=False)\n' +
+      '    right_motor.run_angle(right, right_degrees, wait=True)\n' +
       '\n' +
       'def move_tank_for_milliseconds(left, right, milliseconds):\n' +
       '  left_motor.run_time(left, milliseconds, wait=False)\n' +
