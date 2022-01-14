@@ -118,7 +118,7 @@ var pybricks_generator = new function() {
       '  if degrees == 0 or (left == 0 and right == 0):\n' +
       '    left_degrees = 0\n' +
       '    right_degrees = 0\n' +
-      '  elif abs(left_speed_var) > abs(right_speed_var):\n' +
+      '  elif abs(left) > abs(right):\n' +
       '    left_degrees = degrees\n' +
       '    right_degrees = abs(right / float(left)) * degrees\n' +
       '  else:\n' +
@@ -151,7 +151,7 @@ var pybricks_generator = new function() {
       '\n' +
       'def move_steering_for_milliseconds(steer, speed, milliseconds):\n' +
       '  (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
-      '  move_tank_for_degrees(left_speed, right_speed, milliseconds)\n\n';
+      '  move_tank_for_milliseconds(left_speed, right_speed, milliseconds)\n\n';
 
     code += '# Here is where your code starts\n\n';
 
