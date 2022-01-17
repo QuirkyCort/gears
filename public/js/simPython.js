@@ -86,7 +86,8 @@ var $builtinmodule = function(name) {
       if (typeof pos != 'undefined') {
         self.motor.positionAdjustment += self.motor.position - pos.v;
         self.motor.position = pos.v;
-        self.motor.prevPosition = pos.v % 360;
+        self.motor.position_target = pos.v;
+        self.motor.prevPosition = pos.v;
       } else {
         return self.motor.position;
       }

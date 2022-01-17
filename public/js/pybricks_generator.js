@@ -99,8 +99,12 @@ var pybricks_generator = new function() {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Arm\n';
       } else if (motor.type == 'SwivelActuator') {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Swivel\n';
+      } else if (motor.type == 'LinearActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Linear Actuator\n';
       } else if (motor.type == 'PaintballLauncherActuator') {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Paintball Launcher\n';
+      } else if (motor.type == 'WheelActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = Motor(Port.' + PORT_LETTERS[i] + ') # Wheel Actuator\n';
       }
       i++;
     }

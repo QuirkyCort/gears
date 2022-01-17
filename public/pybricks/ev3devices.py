@@ -78,7 +78,7 @@ class Motor:
   def angle(self):
     return self.motor.position()
 
-  def reset_angle(self, angle=None):
+  def reset_angle(self, angle=0):
     return self.motor.position(angle)
 
   def stop(self):
