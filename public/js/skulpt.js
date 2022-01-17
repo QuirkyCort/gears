@@ -8,12 +8,12 @@ var skulpt = new function() {
     './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
     './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=64cc5ea0',
     './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=bba8d7d8',
-    './simPython.js': 'js/simPython.js?v=5b34f137',
+    './simPython.js': 'js/simPython.js?v=d63f52e1',
     './pybricks/__init__.py': false,
     './pybricks/parameters.py': 'pybricks/parameters.py?v=f36d9f82',
     './pybricks/tools.py': 'pybricks/tools.py?v=20eafcfc',
     './pybricks/hubs.py': 'pybricks/hubs.py?v=6bfa9c21',
-    './pybricks/ev3devices.py': 'pybricks/ev3devices.py?v=ac6642f1',
+    './pybricks/ev3devices.py': 'pybricks/ev3devices.py?v=7a0c889d',
     './pybricks/robotics.py': 'pybricks/robotics.py?v=bf287d71',
   };
   this.preloadedLibs = {};

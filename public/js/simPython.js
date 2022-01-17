@@ -58,19 +58,19 @@ var $builtinmodule = function(name) {
       if (typeof stop_action != 'undefined') {
         self.motor.stop_action = stop_action.v;
       } else {
-        return self.motor.stop_action;
+        return Sk.ffi.remapToPy(self.motor.stop_action);
       }
     });
 
     $loc.state = new Sk.builtin.func(function(self) {
-      return self.motor.state;
+      return Sk.ffi.remapToPy(self.motor.state);
     });
 
     $loc.speed_sp = new Sk.builtin.func(function(self, speed_sp) {
       if (typeof speed_sp != 'undefined') {
         self.motor.speed_sp = speed_sp.v;
       } else {
-        return self.motor.speed_sp;
+        return Sk.ffi.remapToPy(self.motor.speed_sp);
       }
     });
 
@@ -78,7 +78,7 @@ var $builtinmodule = function(name) {
       if (typeof time_sp != 'undefined') {
         self.motor.time_sp = time_sp.v;
       } else {
-        return self.motor.time_sp;
+        return Sk.ffi.remapToPy(self.motor.time_sp);
       }
     });
 
@@ -89,7 +89,7 @@ var $builtinmodule = function(name) {
         self.motor.position_target = pos.v;
         self.motor.prevPosition = pos.v;
       } else {
-        return self.motor.position;
+        return Sk.ffi.remapToPy(self.motor.position);
       }
     });
 
@@ -97,7 +97,7 @@ var $builtinmodule = function(name) {
       if (typeof polarity != 'undefined') {
         self.motor.polarity = polarity.v;
       } else {
-        return self.motor.polarity;
+        return Sk.ffi.remapToPy(self.motor.polarity);
       }
     });
 
@@ -105,12 +105,12 @@ var $builtinmodule = function(name) {
       if (typeof position_sp != 'undefined') {
         self.motor.position_sp = position_sp.v;
       } else {
-        return self.motor.position_sp;
+        return Sk.ffi.remapToPy(self.motor.position_sp);
       }
     });
 
     $loc.speed = new Sk.builtin.func(function(self) {
-      return self.motor.speed;
+      return Sk.ffi.remapToPy(self.motor.speed);
     });
 
   }, 'Motor', []);
