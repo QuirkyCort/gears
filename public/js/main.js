@@ -640,7 +640,7 @@ var main = new function() {
         console.log(reader.error);
       };
       reader.readAsText(e.target.files[0]);
-      let filename = e.target.files[0].name.replace(/.py/, '');
+      let filename = e.target.files[0].name.replace(/\.py/, '');
       self.$projectName.val(filename);
       self.saveProjectName();
     });
