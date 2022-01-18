@@ -469,12 +469,18 @@ var main = new function() {
   this.switchToEv3dev = function() {
     blockly.generator = ev3dev2_generator;
     blockly.generator.load();
+    if (! pythonPanel.modified) {
+      pythonPanel.loadPythonFromBlockly();
+    }
   };
 
   // switch to pybricks
   this.switchToPybricks = function() {
     blockly.generator = pybricks_generator;
     blockly.generator.load();
+    if (! pythonPanel.modified) {
+      pythonPanel.loadPythonFromBlockly();
+    }
   };
 
   // Toggle filemenu
