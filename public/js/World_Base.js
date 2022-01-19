@@ -946,17 +946,16 @@ var World_Base = function() {
   
     mesh.position = options.position;
     mesh.rotation = options.rotation;
-    mesh.scaling.z = -1; // Flip coordinates of GLTF
 
     // Set up scale and parent
     meshes[0].scaling.x = options.modelScale;
     meshes[0].scaling.y = options.modelScale;
-    meshes[0].scaling.z = options.modelScale;
+    meshes[0].scaling.z = -options.modelScale;
 
     let offset = bounding.boundingBox.center.scale(options.modelScale);
     meshes[0].position.x = -offset.x;
     meshes[0].position.y = -offset.y;
-    meshes[0].position.z = offset.z;
+    meshes[0].position.z = -offset.z;
     meshes[0].parent = mesh;
     meshes[0].visibility = 0;
 
