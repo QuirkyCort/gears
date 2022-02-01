@@ -920,12 +920,17 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20220106;
+    let current = 20220201;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>1 Feb 2022 (WRO 2022)</h3>' +
+          '<ul>' +
+          '<li>Robot missions for WRO 2022 have been added to Missions World.</li>' +
+          '<li>Note that the blue water blocks for the Junior mission are not present as those are placed on the robot by hand in the actual competition.</li>' +
+          '</ul>' +
           '<h3>6 Jan 2022 (Pybricks)</h3>' +
           '<ul>' +
           '<li>Pybricks code are now runnable, with support for most methods in DriveBase, Motors, TouchSensor, ColorSensor, UltrasonicSensor, and GyroSensor.</li>' +
@@ -933,13 +938,6 @@ var main = new function() {
           '<li>You can mix Pybricks and Ev3dev Python code in the simulator, but that won\'t run on a real device.</li>' +
           '<li>The auto-generated Pybricks code have also been fixed.</li>' +
           '<li><a href="https://github.com/QuirkyCort/gears/wiki/Pybricks-API-Support" target="_blank">See here for the status of the Pybricks API.</a></li>' +
-          '</ul>' +
-          '<h3>3 Sep 2021 (Hinges &amp; FLL Cargo Connect)</h3>' +
-          '<ul>' +
-          '<li>Hinges are now available in the world builder.</li>' +
-          '<li>FLL Cargo Connect mission models are in-progress...</li>' +
-          '<li>You can find the world file <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/FLL" target="_blank">here</a> or load it directly into Gears with <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FFLL%2FFLL%25202021%2520Cargo%2520Connect.json">this link</a>.' +
-          '<li>When completed, this will be added to the main menu.</li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){

@@ -21,6 +21,9 @@ var world_Missions = new function() {
       title: 'Select Mission',
       type: 'select',
       options: [
+        ['2022 WRO (Elementary)', 'worlds/missions/WRO/WRO-2022-Regular-Elementary.json?v=b1416e42'],
+        ['2022 WRO (Junior)', 'worlds/missions/WRO/WRO-2022-Regular-Junior.json?v=d3b135ba'],
+        ['2022 WRO (Senior)', 'worlds/missions/WRO/WRO-2022-Regular-Senior.json?v=b6e40d9d'],
         ['2021 FLL (Cargo Connect)', 'worlds/missions/FLL/FLL2021.json?v=b31b8262'],
         ['2021 WRO (Elementary)', 'worlds/missions/WRO/WRO-2021-Regular-Elementary.json?v=45448002'],
         ['2021 WRO (Junior)', 'worlds/missions/WRO/WRO-2021-Regular-Junior.json?v=151e42f8'],
@@ -103,7 +106,7 @@ var world_Missions = new function() {
   ];
 
   this.defaultOptions = Object.assign(this.defaultOptions, {
-    jsonFile: 'worlds/missions/FLL/FLL2021.json',
+    jsonFile: 'worlds/missions/WRO/WRO-2022-Regular-Elementary.json',
     showTimer: true,
     missions: true,
     wallHeight: 7.7,

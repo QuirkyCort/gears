@@ -235,6 +235,21 @@ BUILT_IN_IMAGES = [
     description: 'White ground with red border. For use with a cylindrical ground.'
   },
   {
+    url: 'textures/maps/WRO/WRO-2022-Regular-Senior.png',
+    type: 'ground',
+    description: 'WRO 2022 Senior'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2022-Regular-Junior.png',
+    type: 'ground',
+    description: 'WRO 2022 Junior'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2022-Regular-Elementary.png',
+    type: 'ground',
+    description: 'WRO 2022 Elementary'
+  },
+  {
     url: 'textures/maps/WRO/WRO-2021-Regular-Senior.jpg',
     type: 'ground',
     description: 'WRO 2021 Senior'
