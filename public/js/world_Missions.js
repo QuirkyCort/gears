@@ -57,7 +57,7 @@ var world_Missions = new function() {
       title: 'Missions',
       type: 'checkbox',
       label: 'Mission Objects Present',
-      help: '(Currently supports only the FLL 2020 mission)'
+      help: 'Mission objects are only available for some missions.'
     },
     {
       option: 'wallHeight',
