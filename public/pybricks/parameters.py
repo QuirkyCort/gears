@@ -63,3 +63,11 @@ class Stop:
   COAST = 'coast'
   BRAKE = 'brake'
   HOLD = 'hold'
+
+
+class Button:
+  DOWN = 2
+  LEFT = 4
+  CENTER = 5
+  RIGHT = 6
+  UP = 8

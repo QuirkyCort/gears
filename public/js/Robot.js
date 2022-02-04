@@ -39,6 +39,15 @@ function Robot() {
 
   this.mailboxes = {};
 
+  this.hubButtons = {
+    backspace: false,
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+    enter: false
+  };
+
   // Run on page load
   this.init = function() {
   };
@@ -645,6 +654,16 @@ function Robot() {
     } else if (typeof self.mailboxes[mailbox] != 'undefined') {
       self.mailboxes[mailbox] = [];
     }
+  };
+
+  // Set button
+  this.setHubButton = function(btn, state) {
+    self.hubButtons[btn] = state;
+  };
+
+  // Get buttons
+  this.getHubButtons = function() {
+    return self.hubButtons;
   };
 
   this.objectTrackerGetByName = function(name){

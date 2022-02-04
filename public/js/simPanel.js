@@ -27,10 +27,12 @@ var simPanel = new function() {
     self.$joystickIcon = $('.joystick > .icon');
     self.$virtualJoystick = $('.icon-virtualJoystick');
     self.$virtualJoystickIndicator = $('.icon-virtualJoystickIndicator');
+    self.$hubButtons = $('.hubButtons');
+    self.$hubButtonsIcon = $('.hubButtons > .icon');
     self.$keyboard = $('.keyboard');
     self.$fps = $('.fps');
 
-    setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors, self.$joystickIcon]);
+    setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors, self.$joystickIcon, self.$hubButtonsIcon]);
 
     self.$sensorsPanel = $('.sensorReadings');
     self.$worldInfoPanel = $('.worldInfo');
@@ -52,10 +54,15 @@ var simPanel = new function() {
     self.$camera.click(self.toggleCameraSelector);
     self.$cameraOptions.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
-    self.$joystickIcon.click(self.toggleJoystick);
-    self.$keyboard.click(self.keyboardHelp);
+
+    if (self.$hubButtons.length > 0) {
+      self.$hubButtonsIcon.click(self.toggleHubButtons);
+      self.setupHubButtons();
+    }
 
     if (self.$virtualJoystick.length > 0) {
+      self.$joystickIcon.click(self.toggleJoystick);
+      self.$keyboard.click(self.keyboardHelp);
       self.setupJoystick();
       self.setupJoystickKeyControls();
     }
@@ -281,6 +288,46 @@ var simPanel = new function() {
   // Toggle virtual joystick
   this.toggleJoystick = function() {
     self.$joystick.toggleClass('closed');
+  };
+
+  // Setup hub buttons
+  this.setupHubButtons = function() {
+    let backspace = 'backspace';
+    let up = 'up';
+    let down = 'down';
+    let left = 'left';
+    let right = 'right';
+    let enter = 'enter';
+
+    let buttons = {};
+    buttons[backspace] = $('.hubButtons .icon-buttonsBackspace');
+    buttons[up] = $('.hubButtons .icon-buttonsUp');
+    buttons[down] = $('.hubButtons .icon-buttonsDown');
+    buttons[left] = $('.hubButtons .icon-buttonsLeft');
+    buttons[right] = $('.hubButtons .icon-buttonsRight');
+    buttons[enter] = $('.hubButtons .icon-buttonsEnter');
+
+    function setBtn(key, state) {
+      return function(evt) {
+        if (state) {
+          evt.target.classList.add('pressed');
+        } else {
+          evt.target.classList.remove('pressed');
+        }
+        robot.setHubButton(key, state);
+      }
+    }
+
+    for (let btn in buttons) {
+      buttons[btn][0].addEventListener('pointerdown', setBtn(btn, true));
+      buttons[btn][0].addEventListener('pointerup', setBtn(btn, false));
+      buttons[btn][0].addEventListener('pointerout', setBtn(btn, false));
+    }
+  };
+
+  // Toggle hub buttons
+  this.toggleHubButtons = function() {
+    self.$hubButtons.toggleClass('closed');
   };
 
   // toggle ruler

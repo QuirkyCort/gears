@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?atvbh');
-  src:  url('../fonts/icomoon.eot?atvbh#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?atvbh') format('truetype'),
-    url('../fonts/icomoon.woff?atvbh') format('woff'),
-    url('../fonts/icomoon.svg?atvbh#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?blx05n');
+  src:  url('../fonts/icomoon.eot?blx05n#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?blx05n') format('truetype'),
+    url('../fonts/icomoon.woff?blx05n') format('woff'),
+    url('../fonts/icomoon.svg?blx05n#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-buttonsDown:before {
+  content: "\e90e";
+}
+.icon-buttonsLeft:before {
+  content: "\e90f";
+}
+.icon-buttonsRight:before {
+  content: "\e910";
+}
+.icon-buttonsUp:before {
+  content: "\e911";
+}
+.icon-buttons:before {
+  content: "\e912";
+}
+.icon-buttonsBackspace:before {
+  content: "\e913";
+}
+.icon-buttonsEnter:before {
+  content: "\e914";
+}
 .icon-sensors:before {
   content: "\e90d";
 }

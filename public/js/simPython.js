@@ -425,5 +425,93 @@ var $builtinmodule = function(name) {
 
   }, 'Radio', []);
 
+  mod.HubButtons = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+    });
+
+    $loc.pybricks_pressed = new Sk.builtin.func(function(self) {
+      let map = {
+        down: 2,
+        left: 4,
+        enter: 5,
+        right: 6,
+        up: 8
+      }
+
+      let pressed = [];
+
+      let hubButtons = robot.getHubButtons(); 
+      for (let btn in hubButtons) {
+        if (hubButtons[btn] && btn in map) {
+          pressed.push(map[btn]);
+        }
+      }
+
+      return Sk.ffi.remapToPy(pressed);
+    });
+
+    $loc.ev3dev_buttons_pressed = new Sk.builtin.func(function(self) {
+      let pressed = [];
+
+      let hubButtons = robot.getHubButtons();
+      for (let btn in hubButtons) {
+        if (hubButtons[btn]) {
+          pressed.push(btn);
+        }
+      }
+
+      return Sk.ffi.remapToPy(pressed);
+    });
+
+    $loc.ev3dev_any = new Sk.builtin.func(function(self) {
+      let hubButtons = robot.getHubButtons();
+      for (let btn in hubButtons) {
+        if (hubButtons[btn]) {
+          return Sk.ffi.remapToPy(true);
+        }
+      }
+
+      return Sk.ffi.remapToPy(false);
+    });
+
+    $loc.ev3dev_check_buttons = new Sk.builtin.func(function(self, buttons) {
+      buttons = Sk.ffi.remapToJs(buttons);
+      let hubButtons = robot.getHubButtons();
+      let pressed = [];
+
+      for (let btn in hubButtons) {
+        if (hubButtons[btn]) {
+          pressed.push(btn);
+        }
+      }
+
+      if (buttons.length != pressed.length) {
+        return Sk.ffi.remapToPy(false);
+      }
+
+      for (let btn of pressed) {
+        if (buttons.indexOf(btn) == -1) {
+          return Sk.ffi.remapToPy(false);
+        }
+      }
+
+      return Sk.ffi.remapToPy(true);
+    });
+
+    $loc.getButton = new Sk.builtin.func(function(self, button) {
+      button = Sk.ffi.remapToJs(button);
+      let hubButtons = robot.getHubButtons();
+
+      return Sk.ffi.remapToPy(hubButtons[button]);
+    });
+
+    $loc.getButtons = new Sk.builtin.func(function(self) {
+      return Sk.ffi.remapToPy(robot.getHubButtons());
+    });
+
+  }, 'HubButtons', []);
+
   return mod;
 };

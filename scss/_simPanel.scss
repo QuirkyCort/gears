@@ -168,10 +168,10 @@
     font-size: 120%;
   }
 
-  .row1, .row2 {
-    font-size: 50%;
-    white-space: nowrap;
-  }
+  // .row1, .row2 {
+  //   font-size: 50%;
+  //   white-space: nowrap;
+  // }
 
   .virtualJoystick {
     position: relative;
@@ -201,6 +201,113 @@
 }
 
 .joystick.closed {
+  color: white;
+  background: none;
+  width: 1.3em;
+  height: 1.3em;
+}
+
+.hubButtons {
+  position: absolute;
+  color: black;
+  background: rgba(255,255,255,0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 8em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  width: 6.5em;
+  height: 4.8em;
+  overflow: hidden;
+  transition: 0.5s width, 0.5s height, 0.5s color, 0.5s background-color;
+  outline: none;
+
+  .icon {
+    margin-right: 0.5em;
+    font-size: 120%;
+  }
+
+  .controls {
+    font-size: 135%;
+    color: #bbb;
+
+    .icon-buttonsBackspace, .icon-buttonsUp, .icon-buttonsDown, .icon-buttonsLeft, .icon-buttonsRight, .icon-buttonsEnter {
+      position: absolute;
+    }
+    
+    .pressed {
+      color: #888;
+    }
+
+    .icon-buttonsBackspace {
+      left: 1.6em;
+      top: 0.2em;
+    }
+    
+    .icon-buttonsUp {
+      left: 2.7em;
+      top: 0.28em;
+    }
+    
+    .icon-buttonsDown {
+      left: 2.7em;
+      top: 2.5em;
+    }
+    
+    .icon-buttonsLeft {
+      top: 1.4em;
+      left: 1.6em;
+    }
+    
+    .icon-buttonsRight {
+      top: 1.4em;
+      left: 3.8em;
+    }
+    
+    .icon-buttonsEnter {
+      top: 1.4em;
+      left: 2.7em;
+    }
+  }
+
+  // .row1, .row2 {
+  //   font-size: 50%;
+  //   white-space: nowrap;
+  // }
+
+  // .virtualJoystick {
+  //   position: relative;
+  //   font-size: 150px;
+  //   height: 150px;
+
+  //   .icon-virtualJoystickIndicator {
+  //     position: absolute;
+  //     color: #ddd;
+  //     top: 0;
+  //     left: 0;
+  //   }
+
+  //   .icon-virtualJoystick {
+  //     position: absolute;
+  //     color: #bbb;
+  //     top: 0;
+  //     left: 0;
+  //   }
+  // }
+
+  // .keyboard {
+  //   position: absolute;
+  //   top: 4em;
+  //   left: 0.5em;
+  // }
+}
+
+.hubButtons.closed {
   color: white;
   background: none;
   width: 1.3em;

@@ -37,5 +37,16 @@ class EV3Brick:
       if which == '_all_' or which == 'PCM':
         self.pcm_volume = volume
 
+  class Buttons:
+    def __init__(self):
+      self._buttons = simPython.HubButtons()
+
+    def pressed(self):
+      time.sleep(SENSOR_DELAY)
+      return self._buttons.pybricks_pressed()
+
   def __init__(self):
     self.speaker = self.Speaker()
+    self.buttons = self.Buttons()
+
+  
