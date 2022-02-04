@@ -1953,5 +1953,209 @@
   "colour": 330,
   "tooltip": "#blk-radio_empty_tooltip#",
   "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Radio"
+},
+{
+  "type": "set_movement_motors",
+  "message0": "#blk-set_movement_motors# %1 #blk-and# %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "left_port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "right_port",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ],
+        [
+          "J",
+          "J"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "#blk-set_movement_motors_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "wait_until_button",
+  "message0": "#blk-wait_until# %1 #blk-button# %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "button",
+      "options": [
+        [
+          "#blk-center#",
+          "CENTER"
+        ],
+        [
+          "#blk-left#",
+          "LEFT"
+        ],
+        [
+          "#blk-right#",
+          "RIGHT"
+        ],
+        [
+          "#blk-up#",
+          "UP"
+        ],
+        [
+          "#blk-down#",
+          "DOWN"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "state",
+      "options": [
+        [
+          "#blk-is_pressed#",
+          "PRESSED"
+        ],
+        [
+          "#blk-is_released#",
+          "RELEASED"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "button_state",
+  "message0": "%1 #blk-button# %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "button",
+      "options": [
+        [
+          "#blk-center#",
+          "CENTER"
+        ],
+        [
+          "#blk-left#",
+          "LEFT"
+        ],
+        [
+          "#blk-right#",
+          "RIGHT"
+        ],
+        [
+          "#blk-up#",
+          "UP"
+        ],
+        [
+          "#blk-down#",
+          "DOWN"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "state",
+      "options": [
+        [
+          "#blk-is_pressed#",
+          "PRESSED"
+        ],
+        [
+          "#blk-is_released#",
+          "RELEASED"
+        ]
+      ]
+    }
+  ],
+  "output": "Boolean",
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
 }
 ]

@@ -20,6 +20,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['move_steering'] = self.move_steering;
     Blockly.Python['move_steering_for'] = self.move_steering_for;
     Blockly.Python['stop'] = self.stop;
+    Blockly.Python['set_movement_motors'] = self.set_movement_motors;
     Blockly.Python['run_motor'] = self.run_motor;
     Blockly.Python['run_motor_for'] = self.run_motor_for;
     Blockly.Python['run_motor_to'] = self.run_motor_to;
@@ -46,6 +47,8 @@ var ev3dev2_generator = new function() {
     Blockly.Python['penSetWidth'] = self.penSetWidth;
     Blockly.Python['touch_state'] = self.touch_state;
     Blockly.Python['wait_for_state'] = self.wait_for_state;
+    Blockly.Python['button_state'] = self.button_state;
+    Blockly.Python['wait_until_button'] = self.wait_until_button;
     Blockly.Python['radio_send'] = self.radio_send;
     Blockly.Python['radio_available'] = self.radio_available;
     Blockly.Python['radio_read'] = self.radio_read;
@@ -71,6 +74,7 @@ var ev3dev2_generator = new function() {
       'import math\n' +
       'from ev3dev2.motor import *\n' +
       'from ev3dev2.sound import Sound\n' +
+      'from ev3dev2.button import Button\n' +
       'from ev3dev2.sensor import *\n' +
       'from ev3dev2.sensor.lego import *\n' +
       'from ev3dev2.sensor.virtual import *\n' +
@@ -79,6 +83,7 @@ var ev3dev2_generator = new function() {
       wheelCode +
       '\n' +
       'spkr = Sound()\n' +
+      'btn = Button()\n' +
       'radio = Radio()\n' +
       '\n';
 
@@ -285,6 +290,20 @@ var ev3dev2_generator = new function() {
     }
 
     var code = 'tank_drive.off(brake=' + brake + ')\n';
+
+    return code;
+  };
+
+  // Set motors for move steering and move tank
+  this.set_movement_motors = function(block) {
+    var left_port = block.getFieldValue('left_port');
+    var right_port = block.getFieldValue('right_port');
+
+    var code = 
+      'left_motor = motor' + left_port + '\n' +
+      'right_motor = motor' + right_port + '\n' +
+      'tank_drive = MoveTank(OUTPUT_' + left_port + ', OUTPUT_' + right_port + ')\n' +
+      'steering_drive = MoveSteering(OUTPUT_' + left_port + ', OUTPUT_' + right_port + ')\n';
 
     return code;
   };
@@ -678,6 +697,50 @@ var ev3dev2_generator = new function() {
     }
 
     var code = 'touch_sensor_in' + dropdown_port + '.wait_for_' + stateStr + '()\n';
+    return code;
+  };
+
+  this.button_state = function(block) {
+    const map_button = {
+      'UP': 'up',
+      'DOWN': 'down',
+      'LEFT': 'left',
+      'RIGHT': 'right',
+      'CENTER': 'enter'
+    };
+
+    let button = map_button[block.getFieldValue('button')];
+    let state = block.getFieldValue('state');
+
+    if (state == 'PRESSED') {
+      var code = 'btn.' + button;
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    } else {
+      var code = 'not btn.' + button;
+      return [code, Blockly.Python.ORDER_RELATIONAL];
+    }
+  };
+
+  this.wait_until_button = function(block) {
+    const map_button = {
+      'UP': 'up',
+      'DOWN': 'down',
+      'LEFT': 'left',
+      'RIGHT': 'right',
+      'CENTER': 'enter'
+    };
+
+    let button = map_button[block.getFieldValue('button')];
+    let state = block.getFieldValue('state');
+
+    let code;
+    if (state == 'PRESSED') {
+      code = 'btn.wait_for_pressed';
+    } else {
+      code = 'btn.wait_for_released'
+    }
+
+    code += '([\'' + button + '\'])\n';
     return code;
   };
 

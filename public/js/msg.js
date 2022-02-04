@@ -856,6 +856,33 @@ let MSGS = {
     nl: 'Verwijderd alle berichten uit het postvak',
     he: 'מחק את כל ההודעות בתיבת הדואר',
   },
+  '#blk-set_movement_motors#': {
+    en: 'Set movement motors to',
+  },
+  '#blk-set_movement_motors_tooltip#': {
+    en: 'Only needed if not using the default of ports A and B',
+  },
+  '#blk-wait_until#': {
+    en: 'Wait until',
+  },
+  '#blk-button#': {
+    en: 'button',
+  },
+  '#blk-center#': {
+    en: 'Center',
+  },
+  '#blk-left#': {
+    en: 'Left',
+  },
+  '#blk-right#': {
+    en: 'Right',
+  },
+  '#blk-up#': {
+    en: 'Up',
+  },
+  '#blk-down#': {
+    en: 'Down',
+  },
   '#main-blocks#': {
     en: 'Blocks',
     tlh: 'Porgh',

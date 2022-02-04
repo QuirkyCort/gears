@@ -67,6 +67,10 @@
     <block type="stop">
       <field name="stop_action">HOLD</field>
     </block>
+    <block type="set_movement_motors">
+      <field name="left_port">A</field>
+      <field name="right_port">B</field>
+    </block>
   </category>
   <category name="#blk-motor#" colour="#5b67a5">
     <block type="run_motor">
@@ -155,7 +159,14 @@
       <field name="state">PRESSED</field>
       <field name="port">AUTO</field>
     </block>
-
+    <block type="button_state">
+      <field name="button">CENTER</field>
+      <field name="state">PRESSED</field>
+    </block>
+    <block type="wait_until_button">
+      <field name="button">CENTER</field>
+      <field name="state">PRESSED</field>
+    </block>
   </category>
   <category name="#blk-sound#" colour="#a5745b">
     <block type="say">

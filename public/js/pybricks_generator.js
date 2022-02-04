@@ -20,6 +20,7 @@ var pybricks_generator = new function() {
     Blockly.Python['move_steering'] = self.move_steering;
     Blockly.Python['move_steering_for'] = self.move_steering_for;
     Blockly.Python['stop'] = self.stop;
+    Blockly.Python['set_movement_motors'] = self.set_movement_motors;
     Blockly.Python['run_motor'] = self.run_motor;
     Blockly.Python['run_motor_for'] = self.run_motor_for;
     Blockly.Python['run_motor_to'] = self.run_motor_to;
@@ -31,6 +32,8 @@ var pybricks_generator = new function() {
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
     Blockly.Python['reset_gyro'] = self.reset_gyro;
+    Blockly.Python['button_state'] = self.button_state;
+    Blockly.Python['wait_until_button'] = self.wait_until_button;
     Blockly.Python['say'] = self.say;
     Blockly.Python['beep'] = self.beep;
     Blockly.Python['play_tone'] = self.play_tone;
@@ -51,7 +54,7 @@ var pybricks_generator = new function() {
       '#!/usr/bin/env pybricks-micropython\n' +
       '\n' +
       '# Import the necessary libraries\n' +
-      'from pybricks.parameters import Port\n' +
+      'from pybricks.parameters import *\n' +
       'from pybricks.hubs import EV3Brick\n' +
       'from pybricks.ev3devices import *\n' +
       'from pybricks.tools import wait\n' +
@@ -315,6 +318,18 @@ var pybricks_generator = new function() {
         'left_motor.hold()\n' +
         'right_motor.hold()\n';
     }
+
+    return code;
+  };
+
+  // Set motors for move steering and move tank
+  this.set_movement_motors = function(block) {
+    var left_port = block.getFieldValue('left_port');
+    var right_port = block.getFieldValue('right_port');
+
+    var code = 
+      'left_motor = motor' + left_port + '\n' +
+      'right_motor = motor' + right_port + '\n';
 
     return code;
   };
@@ -616,6 +631,51 @@ var pybricks_generator = new function() {
     var code = 'pen.setWidth(' + value_width + ')\n';
     return code;
   };
+
+  this.button_state = function(block) {
+    const map_button = {
+      'UP': 'Button.UP',
+      'DOWN': 'Button.DOWN',
+      'LEFT': 'Button.LEFT',
+      'RIGHT': 'Button.RIGHT',
+      'CENTER': 'Button.CENTER'
+    };
+
+    let button = map_button[block.getFieldValue('button')];
+    let state = block.getFieldValue('state');
+
+    if (state == 'PRESSED') {
+      var code = button + ' in ev3.buttons.pressed()';
+      return [code, Blockly.Python.ORDER_RELATIONAL];
+    } else {
+      var code = 'not ' + button + ' in ev3.buttons.pressed()';
+      return [code, Blockly.Python.ORDER_RELATIONAL];
+    }
+  };
+
+  this.wait_until_button = function(block) {
+    const map_button = {
+      'UP': 'Button.UP',
+      'DOWN': 'Button.DOWN',
+      'LEFT': 'Button.LEFT',
+      'RIGHT': 'Button.RIGHT',
+      'CENTER': 'Button.CENTER'
+    };
+
+    let button = map_button[block.getFieldValue('button')];
+    let state = block.getFieldValue('state');
+
+    let code = 'while '
+    if (state == 'PRESSED') {
+      code += 'not ' + button + ' in ev3.buttons.pressed():\n';
+    } else {
+      code += button + ' in ev3.buttons.pressed():\n';
+    }
+    code += '  pass\n';
+
+    return code;
+  };
+
 
 }
 

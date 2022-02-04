@@ -920,12 +920,20 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20220201;
+    let current = 20220204;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>4 Feb 2022 (Hub Buttons, Movement Motors)</h3>' +
+          '<ul>' +
+          '<li>Hub buttons are now available for use.</li>' +
+          '<li>' +
+          'You can now set the movement motors using blocks. ' +
+          'For most people, this will be unnecessary as it will default to motors A and B which all the built-in robots uses, but it may still be useful for those with a specially configured robot.' +
+          '</li>' +
+          '</ul>' +
           '<h3>1 Feb 2022 (WRO 2022)</h3>' +
           '<ul>' +
           '<li>Robot missions for WRO 2022 have been added to Missions World.</li>' +
