@@ -14,7 +14,7 @@ var skulpt = new function() {
     './pybricks/parameters.py': 'pybricks/parameters.py?v=2db482b9',
     './pybricks/tools.py': 'pybricks/tools.py?v=20eafcfc',
     './pybricks/hubs.py': 'pybricks/hubs.py?v=10641eef',
-    './pybricks/ev3devices.py': 'pybricks/ev3devices.py?v=7a0c889d',
+    './pybricks/ev3devices.py': 'pybricks/ev3devices.py?v=c20c5c68',
     './pybricks/robotics.py': 'pybricks/robotics.py?v=bf287d71',
   };
   this.preloadedLibs = {};

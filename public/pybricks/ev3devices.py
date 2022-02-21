@@ -73,9 +73,11 @@ class Motor:
     return self._wait(lambda state: self._STATE_RUNNING not in state or self._STATE_STALLED in state, timeout)
 
   def speed(self):
+    time.sleep(SENSOR_DELAY)
     return self.motor.speed()
 
   def angle(self):
+    time.sleep(SENSOR_DELAY)
     return self.motor.position()
 
   def reset_angle(self, angle=0):
