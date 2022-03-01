@@ -15,7 +15,6 @@ class EV3Brick:
       self.pcm_volume = 100
 
     def beep(self, frequency=500, duration=100):
-      print(self.beep_volume)
       self.sound.set_volume(self.beep_volume)
       if duration < 0:
         self.sound.play_tone(frequency, self.LONG_ENOUGH, self.DEFAULT_DELAY)

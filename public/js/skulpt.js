@@ -13,7 +13,7 @@ var skulpt = new function() {
     './pybricks/__init__.py': false,
     './pybricks/parameters.py': 'pybricks/parameters.py?v=2db482b9',
     './pybricks/tools.py': 'pybricks/tools.py?v=20eafcfc',
-    './pybricks/hubs.py': 'pybricks/hubs.py?v=10641eef',
+    './pybricks/hubs.py': 'pybricks/hubs.py?v=7fa5cb11',
     './pybricks/ev3devices.py': 'pybricks/ev3devices.py?v=c20c5c68',
     './pybricks/robotics.py': 'pybricks/robotics.py?v=bf287d71',
   };

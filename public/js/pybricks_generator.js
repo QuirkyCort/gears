@@ -552,7 +552,7 @@ var pybricks_generator = new function() {
     var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
     var dropdown_block = block.getFieldValue('block');
 
-    var code = 'ev3.speaker.beep(' + value_frequency + ', ' + value_duration + ')\n';
+    var code = 'ev3.speaker.beep(' + value_frequency + ', ' + value_duration + ' * 1000)\n';
     return code;
   }
 
