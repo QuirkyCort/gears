@@ -32,8 +32,6 @@ var pybricks_generator = new function() {
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
     Blockly.Python['reset_gyro'] = self.reset_gyro;
-    Blockly.Python['button_state'] = self.button_state;
-    Blockly.Python['wait_until_button'] = self.wait_until_button;
     Blockly.Python['say'] = self.say;
     Blockly.Python['beep'] = self.beep;
     Blockly.Python['play_tone'] = self.play_tone;
@@ -41,11 +39,14 @@ var pybricks_generator = new function() {
     Blockly.Python['exit'] = self.exit;
     Blockly.Python['time'] = self.time;
     Blockly.Python['gps_sensor'] = self.gps_sensor;
-    Blockly.Python['addPen'] = self.addPen;
     Blockly.Python['penDown'] = self.penDown;
     Blockly.Python['penUp'] = self.penUp;
     Blockly.Python['penSetColor'] = self.penSetColor;
     Blockly.Python['penSetWidth'] = self.penSetWidth;
+    Blockly.Python['touch_state'] = self.touch_state;
+    Blockly.Python['wait_for_state'] = self.wait_for_state;
+    Blockly.Python['button_state'] = self.button_state;
+    Blockly.Python['wait_until_button'] = self.wait_until_button;
   };
 
   // Generate python code
@@ -84,6 +85,12 @@ var pybricks_generator = new function() {
         self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'GyroSensor') {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(Port.S' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
+      } else if (sensor.type == 'GPSSensor') {
+        sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(Port.S' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
+      } else if (sensor.type == 'TouchSensor') {
+        sensorsCode += 'touch_sensor_in' + i + ' = TouchSensor(Port.S' + i + ')\n';
         self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'Pen') {
         sensorsCode += 'pen_in' + i + ' = Pen(Port.S' + i + ')\n';
@@ -588,6 +595,7 @@ var pybricks_generator = new function() {
   this.gps_sensor = function(block) {
     var dropdown_type = block.getFieldValue('type');
     var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'GPSSensor');
 
     if (dropdown_type == 'X') {
       var typeStr = 'x';
@@ -637,6 +645,39 @@ var pybricks_generator = new function() {
 
     var value_width = Blockly.Python.valueToCode(block, 'width', Blockly.Python.ORDER_ATOMIC);
     var code = 'pen_in' + dropdown_port + '.setWidth(' + value_width + ')\n';
+    return code;
+  };
+
+  this.touch_state = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var dropdown_state = block.getFieldValue('state');
+    dropdown_port = self.getPort(dropdown_port, 'TouchSensor');
+
+    var code;
+    if (dropdown_state == 'PRESSED') {
+      code = 'touch_sensor_in' + dropdown_port + '.pressed()';
+    } else if (dropdown_state == 'RELEASED') {
+      code = 'not touch_sensor_in' + dropdown_port + '.pressed()';
+    }
+
+    return [code, Blockly.Python.ORDER_LOGICAL_NOT];
+  };
+
+  this.wait_for_state = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var dropdown_state = block.getFieldValue('state');
+    dropdown_port = self.getPort(dropdown_port, 'TouchSensor');
+
+    var code;
+    if (dropdown_state == 'PRESSED') {
+      code = 'while not touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
+    } else if (dropdown_state == 'RELEASED') {
+      code = 'while touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
+    } else if (dropdown_state == 'BUMPED') {
+      code = 'while not touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
+      code += 'while touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
+    }
+
     return code;
   };
 

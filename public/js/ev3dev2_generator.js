@@ -40,7 +40,6 @@ var ev3dev2_generator = new function() {
     Blockly.Python['exit'] = self.exit;
     Blockly.Python['time'] = self.time;
     Blockly.Python['gps_sensor'] = self.gps_sensor;
-    Blockly.Python['addPen'] = self.addPen;
     Blockly.Python['penDown'] = self.penDown;
     Blockly.Python['penUp'] = self.penUp;
     Blockly.Python['penSetColor'] = self.penSetColor;

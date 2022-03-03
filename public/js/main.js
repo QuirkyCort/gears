@@ -920,12 +920,17 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20220205;
+    let current = 20220303;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>3 Mar 2022 (Pen, GPS, TouchSensor)</h3>' +
+          '<ul>' +
+          '<li>Pen, GPS, and TouchSensors are now usable in Pybricks.</li>' +
+          '<li>Note that the GPS and Pen are virtual devices, so be sure to remove them before using the auto-generated Pybricks code on a real EV3 robot. </li>' +
+          '</ul>' +
           '<h3>5 Feb 2022 (Hub Buttons, Movement Motors)</h3>' +
           '<ul>' +
           '<li>Hub buttons are now available for use. Find the blocks in the sensors category, and control the buttons in the simulator panel.</li>' +
@@ -938,14 +943,6 @@ var main = new function() {
           '<ul>' +
           '<li>Robot missions for WRO 2022 have been added to Missions World.</li>' +
           '<li>Note that the blue water blocks for the Junior mission are not present as those are placed on the robot by hand in the actual competition.</li>' +
-          '</ul>' +
-          '<h3>6 Jan 2022 (Pybricks)</h3>' +
-          '<ul>' +
-          '<li>Pybricks code are now runnable, with support for most methods in DriveBase, Motors, TouchSensor, ColorSensor, UltrasonicSensor, and GyroSensor.</li>' +
-          '<li>Some components such as the Pen and GPS are currently not supported in Pybricks.</li>' +
-          '<li>You can mix Pybricks and Ev3dev Python code in the simulator, but that won\'t run on a real device.</li>' +
-          '<li>The auto-generated Pybricks code have also been fixed.</li>' +
-          '<li><a href="https://github.com/QuirkyCort/gears/wiki/Pybricks-API-Support" target="_blank">See here for the status of the Pybricks API.</a></li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){
