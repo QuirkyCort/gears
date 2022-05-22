@@ -956,12 +956,12 @@ var main = new function() {
     let options = {
       title: 'News',
       message:
-        '<h3>Lebanese Virtual Robotics Championship 2021</h3>' +
-        '<p>'+
-        'Congrats to the 1st Lebanese Virtual Robotics Championship for a successful event! <br>' +
-        '<a href="https://www.facebook.com/VirtualRoboticsChampionship/posts/127415569590434" target="_blank">Results</a> ' +
-        '<a href="https://www.facebook.com/watch/live/?v=343850580554643&ref=watch_permalink" target="_blank">Video 1</a> ' +
-        '<a href="https://www.facebook.com/watch/live/?v=818894112024336&ref=watch_permalink" target="_blank">Video 2</a> ' +
+        '<h3>Open MINT Masters</h3>' +
+        '<p>' +
+        'Registration for the online Open MINT Masters is open for teams of up to 5 pax, age 10 to 19. ' +
+        'The event is open to all teams around the world and registration closes on 31 May 2022.' +
+        '</p><p>' +
+        '<a href="http://m-learning.info" target="_blank">Find out more and register here.</a> (Site is in German, but readable via Google translate on Chrome.)' +
         '</p>'
     }
     acknowledgeDialog(options);
