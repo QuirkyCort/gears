@@ -2157,5 +2157,63 @@
   "colour": 160,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "color",
+  "message0": "%1 #blk-as# %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "color",
+      "options": [
+        [
+          "#blk-black#",
+          "BLACK"
+        ],
+        [
+          "#blk-blue#",
+          "BLUE"
+        ],
+        [
+          "#blk-green#",
+          "GREEN"
+        ],
+        [
+          "#blk-yellow#",
+          "YELLOW"
+        ],
+        [
+          "#blk-red#",
+          "RED"
+        ],
+        [
+          "#blk-white#",
+          "WHITE"
+        ],
+        [
+          "#blk-brown#",
+          "BROWN"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "#blk-color_number#",
+          "NUMBER"
+        ],
+        [
+          "#blk-color_name#",
+          "NAME"
+        ]
+      ]
+    }
+  ],
+  "output": "Boolean",
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
 }
 ]

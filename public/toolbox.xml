@@ -132,6 +132,10 @@
       <field name="type">INTENSITY</field>
       <field name="port">AUTO</field>
     </block>
+    <block type="color">
+      <field name="color">BLACK</field>
+      <field name="type">NUMBER</field>
+    </block>
     <block type="ultrasonic_sensor">
       <field name="port">AUTO</field>
       <field name="units">CM</field>

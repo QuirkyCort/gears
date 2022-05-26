@@ -497,6 +497,9 @@ let MSGS = {
     pt: 'intensidade de luz refletida',
     he: 'עוצמת אור מוחזרת',
   },
+  '#blk-as#': {
+    en: 'as',
+  },
   '#blk-color#': {
     en: 'color',
     fr: 'couleur',
@@ -506,6 +509,9 @@ let MSGS = {
     pt: 'cor',
     he: 'צֶבַע',
   },
+  '#blk-color_number#': {
+    en: 'color number',
+  },
   '#blk-color_name#': {
     en: 'color name',
     fr: 'nom de la couleur',
@@ -514,6 +520,18 @@ let MSGS = {
     de: 'Farbenname',
     pt: 'nome da cor',
     he: 'שם צבע',
+  },
+  '#blk-black#': {
+    en: 'black',
+  },
+  '#blk-yellow#': {
+    en: 'yellow',
+  },
+  '#blk-white#': {
+    en: 'white',
+  },
+  '#blk-brown#': {
+    en: 'brown',
   },
   '#blk-red#': {
     en: 'red',

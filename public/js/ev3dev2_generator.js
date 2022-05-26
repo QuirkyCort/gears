@@ -29,6 +29,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['position'] = self.position;
     Blockly.Python['reset_motor'] = self.reset_motor;
     Blockly.Python['color_sensor'] = self.color_sensor;
+    Blockly.Python['color'] = self.color;
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
     Blockly.Python['laser_sensor'] = self.laser_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
@@ -786,6 +787,39 @@ var ev3dev2_generator = new function() {
 
     var code = 'radio.empty(\'' + text_mailbox + '\')\n';
     return code;
+  };
+
+  this.color = function(block) {
+    const map_to_number = {
+      'BLACK': 1,
+      'BLUE': 2,
+      'GREEN': 3,
+      'YELLOW': 4,
+      'RED': 5,
+      'WHITE': 6,
+      'BROWN': 7,
+    };
+
+    const map_to_name = {
+      'BLACK': 'Black',
+      'BLUE': 'Blue',
+      'GREEN': 'Green',
+      'YELLOW': 'Yellow',
+      'RED': 'Red',
+      'WHITE': 'White',
+      'BROWN': 'Brown',
+    };
+
+    let color = block.getFieldValue('color');
+    let type = block.getFieldValue('type');
+
+    if (type == 'NUMBER') {
+      var code = map_to_number[color];
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    } else {
+      var code = '\'' + map_to_name[color] + '\'';
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    }
   };
 }
 

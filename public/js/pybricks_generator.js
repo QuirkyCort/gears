@@ -29,6 +29,7 @@ var pybricks_generator = new function() {
     Blockly.Python['position'] = self.position;
     Blockly.Python['reset_motor'] = self.reset_motor;
     Blockly.Python['color_sensor'] = self.color_sensor;
+    Blockly.Python['color'] = self.color;
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
     Blockly.Python['reset_gyro'] = self.reset_gyro;
@@ -458,10 +459,10 @@ var pybricks_generator = new function() {
 
     if (dropdown_port == 'BOTH') {
       var code =
-        'left_motor.reset_angle()\n' +
-        'right_motor.reset_angle()\n';
+        'left_motor.reset_angle(0)\n' +
+        'right_motor.reset_angle(0)\n';
     } else {
-      var code = 'motor' + dropdown_port + '.reset_angle()\n';
+      var code = 'motor' + dropdown_port + '.reset_angle(0)\n';
     }
 
     return code;
@@ -725,6 +726,22 @@ var pybricks_generator = new function() {
     return code;
   };
 
+  this.color = function(block) {
+    // Pybricks doesn't use color name
+    const map_to_param = {
+      'BLACK': 'Color.BLACK',
+      'BLUE': 'Color.BLUE',
+      'GREEN': 'Color.GREEN',
+      'YELLOW': 'Color.YELLOW',
+      'RED': 'Color.RED',
+      'WHITE': 'Color.WHITE',
+      'BROWN': 'Color.BROWN',
+    };
 
+    let color = block.getFieldValue('color');
+
+    var code = map_to_param[color];
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
 }
 
