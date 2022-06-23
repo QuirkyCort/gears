@@ -126,6 +126,14 @@ var pybricks_generator = new function() {
 
     code +=
       '# Pybricks lacks move_tank and move_steering, so we\'ll add in our own\n' +
+      'def move_tank_dc(left, right):\n' +
+      '  left_motor.dc(left)\n' +
+      '  right_motor.dc(right)\n' +
+      '\n' +
+      'def move_steering_dc(steer, dc):\n' +
+      '  (left_dc, right_dc) = get_speed_steering(steer, dc)\n' +
+      '  move_tank_dc(left_dc, right_dc)\n' +
+      '\n' +
       'def move_tank(left, right):\n' +
       '  left_motor.run(left)\n' +
       '  right_motor.run(right)\n' +
