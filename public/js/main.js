@@ -86,6 +86,7 @@ var main = new function() {
         {html: 'Nederlands', line: false, callback: function() { setLang('nl'); }},
         {html: 'Português', line: false, callback: function() { setLang('pt'); }},
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
+        {html: 'Русский', line: false, callback: function() { setLang('ru'); }},
       ];
 
       menuDropDown(self.$languageMenu, menuItems, {className: 'languageMenuDropDown', align: 'right'});
