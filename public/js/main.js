@@ -569,7 +569,7 @@ var main = new function() {
     }
 
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:application/xml;base64,' + btoa(unescape(encodeURIComponent(blockly.getXmlText())));;
+    hiddenElement.href = 'data:application/xml;base64,' + encodeURIComponent(blockly.getXmlText());
     hiddenElement.target = '_blank';
     hiddenElement.download = filename + '.xml';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
@@ -623,7 +623,7 @@ var main = new function() {
       code = blockly.generator.genCode();
     }
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/x-python;base64,' + btoa(unescape(encodeURIComponent(code)));
+    hiddenElement.href = 'data:text/x-python;base64,' + encodeURIComponent(code);
     hiddenElement.target = '_blank';
     hiddenElement.download = filename + '.py';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
