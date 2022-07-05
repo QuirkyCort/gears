@@ -449,69 +449,81 @@ let MSGS = {
     nl: 'stuur bericht naar',
     de: 'sende Nachricht an',
     he: 'שלח הודעה',
+    ru: 'Отправить сообщение',
   },
   '#blk-via_mailbox#': {
     en: 'via mailbox',
     nl: 'via postvak',
     de: 'über Mailbox',
     he: 'דרך תיבת דואר',
+    ru: 'через почтовый ящик',
   },
   '#blk-robot#': {
     en: 'robot',
     nl: 'robot',
     de: 'Roboter',
     he: 'רובוט',
+    ru: 'робот',
   },
   '#blk-team_mates#': {
     en: 'team mates',
     nl: 'team-leden',
     de: 'Teammitglieder',
     he: 'חברי צוות',
+    ru: 'члены команды',
   },
   '#blk-all#': {
     en: 'all',
     nl: 'allemaal',
     de: 'alle',
     he: 'כולם',
+    ru: 'все',
   },
   '#blk-messages_available#': {
     en: 'number of messages in mailbox',
     nl: 'aantal berichten in postvak',
     de: 'Anzahl an Nachrichten in der Mailbox',
     he: 'הודעות זמינות',
+    ru: 'количество сообщений в почтовом ящике',
   },
   '#blk-read_message#': {
     en: 'read next message in mailbox',
     nl: 'lees volgende bericht in postvak',
     de: 'lese nächste Narichten in der Mailbox',
     he: 'קרא הודעה',
+    ru: 'прочитать следующее сообщение в почтовом ящике',
   },
   '#blk-read_content#': {
     en: 'read content of next message in mailbox',
     nl: 'lees inhoud van volgende bericht in postvak',
     de: 'lese den Inhalt der nächsten Nachricht in der Mailbox',
     he: 'קרא תוכן',
+    ru: 'прочитать содержимое следующего сообщения в ящике',
   },
   '#blk-empty_mailbox#': {
     en: 'empty mailbox',
     nl: 'postvak legen',
     de: 'leere Mailbox',
     he: 'רוקן תיבת דואר',
+    ru: 'очистить почтовый ящик',
   },
   '#blk-radio_send_tooltip#': {
     en: 'Any type of messages can be sent, including numbers, text, and lists',
     nl: 'Ieder type bericht kan gestuurd worden, inclusief nummers, tekst en lijsten',
     de: 'Jede Art einer Nachricht kann gesendet werdem, sowie Zahlen, Text und Listen',
+    ru: 'Можно отправлять сообщения различных типов - числа, текст и списки',
   },
   '#blk-radio_read_tooltip#': {
     en: 'Returns the oldest message and remove it from the mailbox. Return value is a list containing both the message content and the sender id.',
     nl: 'Geeft het oudste bericht weer en verwijdert het uit het postvak. Weergegeven waarde is een lijst met zowel de berichtinhoud als de ID van de verzender.',
     de: 'Sendet die älteste Naricht zurück und entfernt sie von der Mailbox. Der zurückgegebene Wert ist eine Liste mit dem Inhalt der Naricht und die ID des Absenders.',
+    ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение является списком, который содержит само сообщение а также идентификатор отправителя.',
   },
   '#blk-radio_read_content_tooltip#': {
     en: 'Returns the oldest message and remove it from the mailbox. Return value contains only the message content.',
     nl: 'Geeft het oudste bericht weer en verwijdert het uit het postvak. Weergegeven waarde bevat enkel de berichtinhoud.',
     de: 'Sendet die älteste Naricht zurück und entfernt sie von der Mailbox. Der zurückgegebene Wert ist der Inhalt der Nachricht.',
+    ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение содержит только само сообщение.',
   },
   '#blk-color_sensor#': {
     en: 'color_sensor',
@@ -639,6 +651,7 @@ let MSGS = {
     en: 'laser distance on port',
     nl: 'laser afstand op poort',
     he: 'מרחק לייזר ביציאה',
+    ru: 'расстояние с лазерного дальномера порт',
   },
   '#blk-in#': {
     en: 'in',
@@ -1278,6 +1291,7 @@ let MSGS = {
     nl: 'Huidige wereld laat opslaan van positie niet toe',
     de: 'Die aktuelle Umgebung erlaubt das Sichern der Position nicht',
     he: 'עולם נוכחי לא מאפשר שמירת מיקום',
+    ru: 'Текущая обстановка не позволяет сохранить выбранную позицию',
   },
   '#main-cannot_save_rotation#': {
     en: 'Current world doesn\'t allow saving of rotation',
@@ -1333,6 +1347,7 @@ let MSGS = {
   '#main-privacy#': {
     en: 'Privacy Policy',
     he: 'מדיניות פרטיות',
+    ru: 'Политика конфиденциальности',
   },
   '#main-arenaTitle#': {
     en: 'GearsBot Arena',
@@ -1377,7 +1392,11 @@ let MSGS = {
     he: 
       '<p>הזירה מאפשר לעד 4 רובוטים להתחרות או לשתף פעולה אחד עם השני.</p>' +
       '<p>תכנת את הרובוט שלך דרך העמוד בו אתה נמצא כעת, ויצא את התוכנית והרובוט כחבילת זיפ (Files -> Export Zip...).' +
-      'אתה יכול לטעון את חבילת הזיפ לתוך הזירה ולהריץ אותה מול שחקנים אחרים.</p>',    
+      'אתה יכול לטעון את חבילת הזיפ לתוך הזירה ולהריץ אותה מול שחקנים אחרים.</p>',
+    ru:
+      '<p>С помощью Арены GearsBot до 4 роботов могут принять участие в совместном решении задачи или соревноваться друг с другом.</p>' +
+      '<p>Создайте программу для вашего робота на GearsBot (текущая страница), и экспортируйте программу и настройки робота в zip-архив (Файл  -> Экспортировать zip-архив). ' +
+      'После этого загрузите zip-архив в Арене GearsBot чтобы соревноваться с другими игроками.</p>',
   },
   '#main-arenaGo#': {
     en: 'Go to Arena',
@@ -1393,6 +1412,7 @@ let MSGS = {
   '#main-worldBuilder_title#': {
     en: 'GearsBot World Builder',
     nl: 'GearsBot Wereld bouwer',
+    ru: 'Редактор окружения GearsBot',
   },
   '#main-worldBuilder_description#': {
     en:
@@ -1404,9 +1424,13 @@ let MSGS = {
     he: 
       '<p>בונה העולמות מאפשר לך ליצור עולם משלך.</p>' +
       '<p>לאחר שהשלמת את יצירת העולם, שמור את יצירתך כקובץ וחזור לכאן על מנת להטעין אותו</p>',
+    ru:
+        '<p>Редактор окружения GearsBot позволяет создавать собственные уровни.</p>' +
+        '<p>После того, как вы завершите редактирования окружения, сохраните вашу работу и вернитесь на эту страницу, чтобы загрузить файл окружения.</p>',
   },
   '#main-worldBuilder_go#': {
     en: 'Go to World Builder',
+    ru: 'Открыть Редактор окружения',
   },
   '#main-configurator_title#': {
     en: 'GearsBot Robot Configurator',
@@ -1415,6 +1439,7 @@ let MSGS = {
     nl: 'GearsBot Robot Configurator',
     de: 'GearsBot Roboterkonfigurator',
     he: 'תצורת הרובוט',
+    ru: 'Конфигуратор робота GearsBot',
   },
   '#main-configurator_description#': {
     en:
@@ -1435,6 +1460,9 @@ let MSGS = {
     he:
       '<p>עמוד תצורת הרובוטת מאפשר לך לאפיין רובוט קיים או ליצור תכנון חדש לרובוט.</p>' +
       '<p>לאחר שהשלמת את ההתאמות, שמור את יצירתך לקובץ וחזור לכאן לטעון אותה.</p>',
+    ru:
+      '<p>Конфигуратор робота GearsBot позволяет изменить настройки существующего робота или создать собственного.</p>' +
+      '<p>После завершения конфигурации, сохраните ее в файл и загрузите на этой странице.</p>',
   },
   '#main-configurator_go#': {
     en: 'Go to Configurator',
@@ -1443,14 +1471,17 @@ let MSGS = {
     nl: 'Ga naar de Configurator',
     de: 'Gehe zum Konfigurator',
     he: 'לך למסך תצורה',
+    ru: 'Перейти в конфигуратор',
   },
   '#main-invalid_robot_file_json#': {
     en: 'Invalid robot file (Not JSON)',
     he: 'קובץ רובוט לא חוקי (לא JSON)',
+    ru: 'Неверный файл с настройками робота (Не JSON)',
   },
   '#main-invalid_robot_file_world#': {
     en: 'Invalid robot file (...looks like a world configurations file)',
     he: 'קובץ רובוט לא חוקי (...נראה כמו קובץ תצורות עולמי)',
+    ru: 'Неверный файл с настройками робота (... похож на файл окружения)',
   },
   '#main-invalid_robot_file_robot#': {
     en: 'Invalid robot file (Missing robot configuration data)',
@@ -1460,21 +1491,25 @@ let MSGS = {
     en: 'Show Names',
     nl: 'Toon namen',
     he: 'הצג שמות',
+    ru: 'Показывать имена',
   },
   '#arena-individual_colors#': {
     en: 'Individual Colors',
     nl: 'Individuele kleuren',
     he: 'צבעים בדידים',
+    ru: 'Индивидуальная расцветка',
   },
   '#arena-team_colors#': {
     en: 'Team Colors',
     nl: 'Team kleuren',
     he: 'צבעי צוות',
+    ru: 'Командная расцветка',
   },
   '#arena-custom_colors#': {
     en: 'Custom Colors',
     nl: 'Aangepaste kleuren',
     he: 'צבעים מותאמים אישית',
+    ru: 'Пользовательская расцветка',
   },
   '#sim-world#': {
     en: 'World',
@@ -1670,6 +1705,7 @@ let MSGS = {
     nl: 'Laser afstand sensor',
     de: 'Laser-Entfernungssensor',
     he: 'חיישן טווח לייזר',
+    ru: 'Лазерный дальномер',
   },
   '#sim-pen#': {
     en: 'Pen',
@@ -1714,11 +1750,13 @@ let MSGS = {
     en: 'Electromagnet',
     nl: 'Electromagneet',
     he: 'אלקטרומגנט',
+    ru: 'Электромагнит',
   },
   '#sim-magnet_power#': {
     en: 'Magnet Power (%)',
     nl: 'Magneet kracht (%)',
     he: 'כוח מגנט (%)',
+    ru: 'Сила магнита (%)',
   },
   '#sim-right_motor#': {
     en: 'Right Motor',
@@ -1736,6 +1774,7 @@ let MSGS = {
     nl: 'Arm aandrijving',
     de: 'Armantrieb',
     he: 'מפעיל זרוע',
+    ru: 'Привод рычага',
   },
   '#sim-swivel#': {
     en: 'Swivel Actuator',
@@ -1744,6 +1783,7 @@ let MSGS = {
     nl: 'Draai aandrijving',
     de: 'schwenkbarer Antrieb',
     he: 'מפעיל סיבוב',
+    ru: 'Поворотный привод',
   },
   '#sim-linear#': {
     en: 'Linear Actuator',
@@ -1760,6 +1800,7 @@ let MSGS = {
     nl: 'Paintball kanon',
     de: 'Paintball Launcher',
     he: 'משגר פיינטבול',
+    ru: 'Пейнтбольная ракетница',
   },
   '#sim-save#': {
     en: 'Save',
@@ -1821,6 +1862,7 @@ let MSGS = {
     nl: 'Ongeldige mapconfiguratie',
     de: 'Falsche Kartenkonfiguration',
     he: 'תצורת מפה לא תקינה',
+    ru: 'Неверная конфигурация окружения',
   },
   '#sim-invalid_world_file_json#': {
     en: 'Invalid world file (Not JSON)',
@@ -1829,11 +1871,13 @@ let MSGS = {
   '#sim-invalid_world_file_robot#': {
     en: 'Invalid world file (...looks like a robot configurations file)',
     he: 'קובץ עולם לא חוקי (...נראה כמו קובץ תצורות רובוט)',
+    ru: 'Неверный файл конфигурации окружения (... похож на конфигурацию робота)',
   },
   '#sim-not_found#': {
     en: 'File not found',
     nl: 'Bestand niet gevonden',
     he: 'הקובץ לא נמצא',
+    ru: 'Файл не найден',
   },
   '#blockly-save#': {
     en: 'Save Now',
@@ -1878,21 +1922,25 @@ let MSGS = {
     en: 'Blocks moved to',
     nl: 'Blokken verplaatst naar',
     he: 'בלוקים הועברו ל',
+    ru: 'Блоки перемещены в',
   },
   '#blockly-no_selected#': {
     en: 'No blocks selected',
     nl: 'Geen blokken geselecteerd',
     he: 'לא נבחרו בלוקים',
+    ru: 'Нет выделенных блоков',
   },
   '#blockly-cannot_move#': {
     en: 'Cannot move "When Started" block',
     nl: 'Kan "Als gestart" blok niet verplaatsen',
     he: 'לא ניתן להעביר בלוק "התחלה"',
+    ru: 'Нельзя переместить блок "Когда программа стартует"',
   },
   '#blockly-cannot_move_child#': {
     en: 'Only top level blocks can be moved',
     nl: 'Enkel top level blokken kunnen worden verplaatst',
     he: 'רק הבלוקים ברמה העליונה יכולים להיות מוזזים',
+    ru: 'Только блоки верхнего уровня можно переместить',
   },
   '#blockly-rename_page#': {
     en: 'Rename Current Page',
@@ -1981,6 +2029,7 @@ let MSGS = {
     nl: 'Kan huidige pagina niet hernoemen',
     de: 'Die Hauptseite kann nicht umbennant werden',
     he: 'לא ניתן לשנות את שם העמוד הראשי',
+    ru: 'Нельзя переименовать Главную страницу',
   },
   '#blockly-new_page_name#': {
     en: 'New page name',
