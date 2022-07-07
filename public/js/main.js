@@ -87,6 +87,7 @@ var main = new function() {
         {html: 'Português', line: false, callback: function() { setLang('pt'); }},
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
         {html: 'Русский', line: false, callback: function() { setLang('ru'); }},
+        {html: 'Magyar', line: false, callback: function() { setLang('hu'); }},
       ];
 
       menuDropDown(self.$languageMenu, menuItems, {className: 'languageMenuDropDown', align: 'right'});
@@ -120,7 +121,7 @@ var main = new function() {
   // Save robot to json file
   this.saveRobot = function() {
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(robot.options, null, 2));
+    hiddenElement.href = 'data:application/json;charset=UTF-8,' + encodeURIComponent(JSON.stringify(robot.options, null, 2));
     hiddenElement.target = '_blank';
     hiddenElement.download = robot.options.name + 'Robot.json';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
@@ -221,6 +222,7 @@ var main = new function() {
           '<li>Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix), germanicianus</li>' +
           '<li>עברית: Koby Fruchtnis</li>' +
           '<li>Русский: Pavel Khoroshevich &lt;khoroshevich.pa@gmail.com&gt;</li>' +
+          '<li>Magyar: Niethammer Zoltán</li>' +
         '</ul>' +
         '<h3>Contact</h3>' +
         '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +
@@ -570,7 +572,7 @@ var main = new function() {
     }
 
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:application/xml;base64,' + btoa(unescape(encodeURIComponent(blockly.getXmlText())));;
+    hiddenElement.href = 'data:application/xml;charset=UTF-8,' + encodeURIComponent(blockly.getXmlText());;
     hiddenElement.target = '_blank';
     hiddenElement.download = filename + '.xml';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
@@ -624,7 +626,7 @@ var main = new function() {
       code = blockly.generator.genCode();
     }
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/x-python;base64,' + btoa(unescape(encodeURIComponent(code)));
+    hiddenElement.href = 'data:text/x-python;charset=UTF-8,' + encodeURIComponent(code);
     hiddenElement.target = '_blank';
     hiddenElement.download = filename + '.py';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
@@ -662,7 +664,7 @@ var main = new function() {
     let code = null;
     code = pythonLibPanel.editor.getValue();
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/x-python;base64,' + btoa(code);
+    hiddenElement.href = 'data:text/x-python;charset=UTF-8,' + encodeURIComponent(code);
     hiddenElement.target = '_blank';
     hiddenElement.download = moduleName + '.py';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
@@ -922,29 +924,22 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20220303;
+    let current = 20220707;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>7 Jul 2022 (Russian and Hungarian)</h3>' +
+          '<ul>' +
+          '<li>Added Russian translation by Pavel Khoroshevich.</li>' +
+          '<li>Added Hungarian translation by Niethammer Zoltán.</li>' +
+          '<li>Fixes for file saves. Should now work when there are unicode characters in the Blocks / Python program.</li>' +
+          '</ul>' +
           '<h3>3 Mar 2022 (Pen, GPS, TouchSensor)</h3>' +
           '<ul>' +
           '<li>Pen, GPS, and TouchSensors are now usable in Pybricks.</li>' +
           '<li>Note that the GPS and Pen are virtual devices, so be sure to remove them before using the auto-generated Pybricks code on a real EV3 robot. </li>' +
-          '</ul>' +
-          '<h3>5 Feb 2022 (Hub Buttons, Movement Motors)</h3>' +
-          '<ul>' +
-          '<li>Hub buttons are now available for use. Find the blocks in the sensors category, and control the buttons in the simulator panel.</li>' +
-          '<li>' +
-          'You can now set the movement motors using blocks. ' +
-          'For most people, this will be unnecessary as it will default to motors A and B which all the built-in robots uses, but it may still be useful for those with a specially configured robot.' +
-          '</li>' +
-          '</ul>' +
-          '<h3>1 Feb 2022 (WRO 2022)</h3>' +
-          '<ul>' +
-          '<li>Robot missions for WRO 2022 have been added to Missions World.</li>' +
-          '<li>Note that the blue water blocks for the Junior mission are not present as those are placed on the robot by hand in the actual competition.</li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){
