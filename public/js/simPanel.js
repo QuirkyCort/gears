@@ -112,6 +112,10 @@ var simPanel = new function() {
   // Setup virtual joystick
   this.setupJoystick = function() {
     function moveSteering(steering, speed) {
+      if (typeof babylon.world.manualMoved == 'function') {
+        babylon.world.manualMoved();
+      }
+
       if (steering > 1) {
         steering = 1;
       } else if (steering < -1) {
@@ -172,11 +176,15 @@ var simPanel = new function() {
     self.$virtualJoystick[0].addEventListener('pointerleave', resetJoystick);
   };
 
-  // Key controls for joystick 
+  // Key controls for joystick
   this.setupJoystickKeyControls = function() {
     let left, right, up, down;
 
     function moveTank(leftWheel, rightWheel) {
+      if (typeof babylon.world.manualMoved == 'function') {
+        babylon.world.manualMoved();
+      }
+
       robot.leftWheel.speed_sp = leftWheel;
       robot.rightWheel.speed_sp = rightWheel;
       if (leftWheel == 0) {
@@ -229,7 +237,7 @@ var simPanel = new function() {
       if (self.$joystick.hasClass('closed')) {
         return;
       }
-      
+
       if (event.key == 'ArrowLeft') {
         left = true;
       } else if (event.key == 'ArrowUp') {
@@ -240,7 +248,7 @@ var simPanel = new function() {
         down = true;
       }
       drive();
-      
+
       event.preventDefault();
     });
 
@@ -577,7 +585,7 @@ var simPanel = new function() {
         tmp = genDiv(
           motor.port + ': ' + i18n.get('#sim-linear#'),
           [i18n.get('#sim-position#')]
-          );  
+          );
       } else if (motor.type == 'PaintballLauncherActuator') {
         tmp = genDiv(
           motor.port + ': ' + i18n.get('#sim-paintball#'),
@@ -687,7 +695,7 @@ var simPanel = new function() {
     self.$cameraSelector.find('.' + current).addClass('hide');
     self.$cameraSelector.toggleClass('closed');
   };
-  
+
   // Select world map
   this.selectWorld = function() {
     let $body = $('<div class="selectWorld"></div>');
@@ -1040,7 +1048,7 @@ var simPanel = new function() {
   this.loadWorld = function(json) {
     try {
       let loadedSave = JSON.parse(json);
-  
+
       // Is it a world file?
       if (typeof loadedSave.bodyHeight != 'undefined') {
         showErrorModal(i18n.get('#sim-invalid_world_file_robot#'));
@@ -1053,14 +1061,14 @@ var simPanel = new function() {
         showErrorModal(i18n.get('#sim-invalid_map#'));
         return;
       }
-  
+
       babylon.world = worlds.find(world => world.name == loadedSave.worldName);
       self.worldOptionsSetting = loadedSave.options;
       self.resetSim().then(function(){
         babylon.resetCamera();
         babylon.setCameraMode('follow');
         self.$camera.html('<span class="icon-cameraFollow"></span>');
-      });  
+      });
     } catch (e) {
       showErrorModal(i18n.get('#sim-invalid_world_file_json#'));
     }
@@ -1117,7 +1125,7 @@ var simPanel = new function() {
     if (typeof stopRobot == 'undefined') {
       let stopRobot = false;
     }
-    
+
     skulpt.hardInterrupt = true;
     self.setRunIcon('run');
 
@@ -1133,7 +1141,7 @@ var simPanel = new function() {
           setTimeout(function() { repeatedReset(count - 1) }, 100);
         }
       }
-      repeatedReset(15);  
+      repeatedReset(15);
     }
   };
 
@@ -1174,7 +1182,7 @@ var simPanel = new function() {
       self.hideWorldInfoPanel();
       if (resetPython) {
         skulpt.hardInterrupt = true;
-        self.setRunIcon('run');  
+        self.setRunIcon('run');
       }
       return babylon.resetScene().then(function(){
         self.initSensorsPanel();
