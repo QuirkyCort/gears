@@ -919,6 +919,13 @@ ul.menuDropDownRightAlign {
     .componentsWindow .componentsList li.ulHolder, .componentsWindow .objectsList li.ulHolder, .objectsWindow .componentsList li.ulHolder, .objectsWindow .objectsList li.ulHolder {
       list-style-type: none; }
 
+.objectID {
+  position: absolute;
+  top: 0.5em;
+  right: 2em;
+  width: 20em;
+  color: white; }
+
 .settingsWindow {
   position: absolute;
   color: white;

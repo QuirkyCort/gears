@@ -60,6 +60,14 @@
   }
 }
 
+.objectID {
+  position: absolute;
+  top: 0.5em;
+  right: 2em;
+  width: 20em;
+  color: white;
+}
+
 .settingsWindow {
   position: absolute;
   color: white;
@@ -186,7 +194,7 @@
       th {
         border: solid 1px white;
       }
-      
+
       th, td {
         width: 3em;
         text-align: center;
@@ -199,7 +207,7 @@
       }
     }
   }
-  
+
   .searchCount {
     margin-right: auto;
   }

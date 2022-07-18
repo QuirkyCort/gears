@@ -937,6 +937,7 @@ var builder = new function() {
     self.$deleteObject = $('.deleteObject');
     self.$objectsList = $('.objectsList');
     self.$settingsArea = $('.settingsArea');
+    self.$objectID = $('.objectID');
     self.$undo = $('.undo');
 
     self.$navs.click(self.tabClicked);
@@ -993,7 +994,7 @@ var builder = new function() {
       if (dragBody.parent) {
         let matrix = dragBody.parent.getWorldMatrix().clone().invert();
         matrix.setTranslation(BABYLON.Vector3.Zero());
-        delta = BABYLON.Vector3.TransformCoordinates(delta, matrix);  
+        delta = BABYLON.Vector3.TransformCoordinates(delta, matrix);
       }
       dragBodyPos.addInPlace(delta);
 
@@ -1037,7 +1038,7 @@ var builder = new function() {
     self.pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: this.pointerDragPlaneNormal});
     self.pointerDragBehavior.useObjectOrientationForDragging = false;
     self.pointerDragBehavior.moveAttached = false;
-  
+
     self.pointerDragBehavior.onDragStartObservable.add(dragStart);
     self.pointerDragBehavior.onDragObservable.add(drag);
     self.pointerDragBehavior.onDragEndObservable.add(dragEnd);
@@ -1086,7 +1087,7 @@ var builder = new function() {
         let $select = $('<select></select>');
         let $opt = $('<option>None</option>');
         $select.append($opt);
-  
+
         mesh.animations.forEach(function(animation){
           $opt = $('<option></option>');
           $opt.text(animation);
@@ -1097,7 +1098,7 @@ var builder = new function() {
           currentVal = 'None';
           objectOptions.modelAnimation = 'None';
         }
-  
+
         if (currentVal) {
           $select.val(currentVal);
         }
@@ -1107,10 +1108,10 @@ var builder = new function() {
           objectOptions.modelAnimation = $select.val();
           self.resetScene(false);
         });
-  
+
         $div.text('');
         $div.append($select);
-  
+
       } else {
         objectOptions.modelAnimation = 'None';
         $div.text('');
@@ -1126,7 +1127,7 @@ var builder = new function() {
     function genSelect (opt, currentVal, setter) {
       let $div = $('<div class="configuration"></div>');
       let $select = $('<select></select>');
-  
+
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
         $opt.prop('value', option[1]);
@@ -1134,10 +1135,10 @@ var builder = new function() {
         if (option[1] == currentVal) {
           $opt.attr('selected', true);
         }
-  
+
         $select.append($opt);
       });
-  
+
       $select.change(function(){
         self.saveHistory();
         setter($select.val());
@@ -1145,7 +1146,7 @@ var builder = new function() {
           self.resetScene(false);
         }
       });
-  
+
       $div.append($select);
       return $div;
     }
@@ -1154,9 +1155,9 @@ var builder = new function() {
       let $div = $('<div class="configuration"></div>');
       let $textBox = $('<div class="text"><input type="text"></div>');
       let $input = $textBox.find('input');
-  
+
       $input.val(currentVal);
-  
+
       $input.change(function(){
         let trimmed = $input.val().trim();
         if (trimmed == '') {
@@ -1179,8 +1180,8 @@ var builder = new function() {
           }
         }
       });
-  
-      $div.append($textBox);  
+
+      $div.append($textBox);
       return $div;
     }
 
@@ -1247,7 +1248,7 @@ var builder = new function() {
         '</table>'
       );
       let $tbody = $table.find('tbody');
-  
+
       objectOptions.animationKeys.forEach(function(animationKey){
         function round(input) {
           return Math.round(input*100) / 100;
@@ -1272,14 +1273,14 @@ var builder = new function() {
         $tbody.append($row);
       });
       $body.append($table);
-  
+
       let $buttons = $(
         '<button type="button" class="cancel btn-light">Cancel</button>' +
         '<button type="button" class="ok btn-light">Ok</button>'
       );
-  
+
       let $dialog = dialog('Edit animation keys', $body, $buttons);
-  
+
       $buttons.siblings('.cancel').click(function() {
         $dialog.close();
       });
@@ -1335,7 +1336,7 @@ var builder = new function() {
         toastMsg('Error: Key time must be unique');
         return;
       }
-      
+
       let key = {
         time: time,
         position: [...objectOptions.position],
@@ -1353,7 +1354,7 @@ var builder = new function() {
 
       self.resetScene();
     }
-    
+
     let buttons = [
       {
         label: 'Edit',
@@ -1473,6 +1474,14 @@ var builder = new function() {
   // Show options
   this.showObjectOptions = function(li) {
     let name = li.name;
+
+    let OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'hinge']
+    if (OBJECTS.indexOf(name) != -1) {
+      self.$objectID.text('worldBaseObject_' + li.name + li.objectIndex);
+    } else {
+      self.$objectID.text('');
+    }
+
     let currentOptions = li.object;
     self.$settingsArea.empty();
 
@@ -1738,7 +1747,7 @@ var builder = new function() {
     if (typeof index != 'undefined') {
       let id = 'worldBaseObject_' + $selected[0].name + index;
       let body = babylon.scene.getMeshByID(id);
-      
+
       // Models takes a while to load
       if (body == null) {
         setTimeout(self.highlightSelected, 200);
@@ -1895,7 +1904,7 @@ var builder = new function() {
         let objects = JSON.parse(this.result).objects;
 
         self.saveHistory();
-        
+
         let selected = self.getSelectedComponent()[0];
         if (
           selected.name == 'compound'
@@ -1982,7 +1991,7 @@ var builder = new function() {
         {html: 'Save world to file', line: true, callback: self.saveWorld},
         {html: 'Load object from file', line: false, callback: self.loadObjectLocal},
         {html: 'Save object to file', line: false, callback: self.saveObject},
-        
+
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
