@@ -3,7 +3,7 @@
 import os, re, hashlib
 
 LOG_LEVEL = 1
-SCAN_DIRS = ['', 'js']
+SCAN_DIRS = ['', 'js', 'js/worlds', 'js/worlds/extra']
 SCRIPT_PATH = os.path.realpath(__file__)
 BASE_DIR = os.path.split(SCRIPT_PATH)[0] + '/public'
 
