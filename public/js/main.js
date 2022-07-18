@@ -822,11 +822,11 @@ var main = new function() {
             <span>.py</span>
           </span>
           <span class="py-mod-controls">
-            <i class="fa fa-cloud-upload upload-py-mod"
+            <i class="icon-upload upload-py-mod"
                title="Upload python module"></i>
-            <i class="fa fa-cloud-download download-py-mod"
+            <i class="icon-download download-py-mod"
                title="Download python module"></i>
-            <i class="fa fa-minus-circle del-py-mod"
+            <i class="icon-deleteFile del-py-mod"
                title="Delete this python module"></i>
           </span>
         </li>`
@@ -924,22 +924,26 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20220707;
+    let current = 20220719;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>19 Jul 2022 (Clean-up)</h3>' +
+          '<p>Removed "Test World" and "Image World".</p>' +
+          '<p>' +
+          '"Test World" was only ever meant for internal testing, while "Image World" has long since been replaced by the more capable "Custom World". ' +
+          'Removing them helps to keep GearsBot lean and improve loading time.' +
+          '</p>' +
+          '<p>' +
+          'If you need to use these worlds, you can load them with a custom URL <a href="https://gears.aposteriori.com.sg/index.html?worldScripts=world_Image,world_Test">https://gears.aposteriori.com.sg/index.html?worldScripts=world_Image,world_Test</a>.' +
+          '</p>' +
           '<h3>7 Jul 2022 (Russian and Hungarian)</h3>' +
           '<ul>' +
           '<li>Added Russian translation by Pavel Khoroshevich.</li>' +
           '<li>Added Hungarian translation by Niethammer Zoltán.</li>' +
           '<li>Fixes for file saves. Should now work when there are unicode characters in the Blocks / Python program.</li>' +
-          '</ul>' +
-          '<h3>3 Mar 2022 (Pen, GPS, TouchSensor)</h3>' +
-          '<ul>' +
-          '<li>Pen, GPS, and TouchSensors are now usable in Pybricks.</li>' +
-          '<li>Note that the GPS and Pen are virtual devices, so be sure to remove them before using the auto-generated Pybricks code on a real EV3 robot. </li>' +
           '</ul>'
       }
       acknowledgeDialog(options, function(){

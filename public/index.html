@@ -10,7 +10,7 @@
   <link rel="icon" href="favicon-167.png" sizes="167x167">
   <link rel="icon" href="favicon-192.png" sizes="192x192">
 
-  <link rel="stylesheet" href="css/main.css?v=1ef6f960">
+  <link rel="stylesheet" href="css/main.css?v=ebb741a4">
   <link rel="stylesheet" href="css/widgets.css?v=9692a428">
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
@@ -34,7 +34,7 @@
   <script src="js/common/widgets.js?v=1f9e01aa"></script>
 
   <!-- Add icon library -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
   <title>GearsBot</title>
 </head>
@@ -56,11 +56,11 @@
             Python
           </span>
           <span class="py-mod-controls">
-            <i class="fa fa-cloud-upload upload-py-mod"
+            <i class="icon-upload upload-py-mod"
                title="Upload python main"></i>
-            <i class="fa fa-cloud-download download-py-mod"
+            <i class="icon-download download-py-mod"
               title="Download python main"></i>
-            <i class="fa fa-plus-circle add-py-mod"
+            <i class="icon-newFile add-py-mod"
               title="Add python module"></i>
           </span>
         </li>
@@ -188,20 +188,18 @@
   <script src="js/pybricks_generator.js?v=9422329e"></script>
   <script src="js/blockly.js?v=402e6465"></script>
   <script src="js/skulpt.js?v=ea802993"></script>
-  <script src="js/World_Base.js?v=db8512ff"></script>
-  <script src="js/world_Grid.js?v=3ed03b45"></script>
-  <script src="js/world_LineFollowing.js?v=8e36de6c"></script>
-  <script src="js/world_Gyro.js?v=15f87e04"></script>
-  <script src="js/world_Paintball.js?v=04201b61"></script>
-  <script src="js/world_Sumo.js?v=e7b48574"></script>
-  <script src="js/world_FireRescue.js?v=e72671e3"></script>
-  <script src="js/world_Maze.js?v=068748cc"></script>
-  <script src="js/world_Missions.js?v=fc78534c"></script>
-  <script src="js/world_Custom.js?v=a56a2eb0"></script>
-  <script src="js/world_Football.js?v=ab1b9783"></script>
-  <script src="js/world_Arena.js?v=c1828281"></script>
-  <script src="js/world_Test.js?v=709d5654"></script>
-  <script src="js/world_Image.js?v=571c26b3"></script>
+  <script src="js/worlds/World_Base.js?v=db8512ff"></script>
+  <script src="js/worlds/world_Grid.js?v=3ed03b45"></script>
+  <script src="js/worlds/world_LineFollowing.js?v=8e36de6c"></script>
+  <script src="js/worlds/world_Gyro.js?v=15f87e04"></script>
+  <script src="js/worlds/world_Paintball.js?v=04201b61"></script>
+  <script src="js/worlds/world_Sumo.js?v=e7b48574"></script>
+  <script src="js/worlds/world_FireRescue.js?v=e72671e3"></script>
+  <script src="js/worlds/world_Maze.js?v=068748cc"></script>
+  <script src="js/worlds/world_Missions.js?v=fc78534c"></script>
+  <script src="js/worlds/world_Custom.js?v=a56a2eb0"></script>
+  <script src="js/worlds/world_Football.js?v=ab1b9783"></script>
+  <script src="js/worlds/world_Arena.js?v=c1828281"></script>
   <script src="js/robotComponents.js?v=70339366"></script>
   <script src="js/robotTemplates.js?v=c254ce16"></script>
   <script src="js/Wheel.js?v=7a844d9d"></script>
@@ -220,38 +218,76 @@
   <script src="js/pythonPanel.js?v=84d500ff"></script>
   <script src="js/pythonLibPanel.js?v=01359988"></script>
   <script src="js/simPanel.js?v=7952489d"></script>
-  <script src="js/main.js?v=3f5f1ef5"></script>
+  <script src="js/main.js?v=3a74cba6"></script>
 
   <script>
     // Init classes
     blockly.init();
 
-    // Load world if specified
-    (function(){
-      function loadWhenReady() {
-        if (typeof babylon.scene != 'undefined' && babylon.scene.isReady()) {
-          
-          let worldJSON = readGET('worldJSON');
-          if (worldJSON) {
-            simPanel.loadWorldURL(decodeURIComponent(worldJSON));
-          }
+    function loadWorldFromGET() {
+      let worldJSON = readGET('worldJSON');
+      if (worldJSON) {
+        simPanel.loadWorldURL(decodeURIComponent(worldJSON));
+      }
+    }
 
-          let robotJSON = readGET('robotJSON');
-          if (robotJSON) {
-            main.loadRobotURL(decodeURIComponent(robotJSON));
-          }
-          
-          let filterBlocksJSON = readGET('filterBlocksJSON');
-          if (filterBlocksJSON) {
-            blockly.loadToolboxFilterURL(decodeURIComponent(filterBlocksJSON));
-          }
-        } else {
-          setTimeout(loadWhenReady, 100);
+    function loadRobotFromGET() {
+      let robotJSON = readGET('robotJSON');
+      if (robotJSON) {
+        main.loadRobotURL(decodeURIComponent(robotJSON));
+      }
+    }
+
+    function loadFilterFromGET() {
+      let filterBlocksJSON = readGET('filterBlocksJSON');
+      if (filterBlocksJSON) {
+        blockly.loadToolboxFilterURL(decodeURIComponent(filterBlocksJSON));
+      }
+    }
+
+    function loadScript(scriptName) {
+      var script = document.createElement('script');
+      script.src = scriptName;
+
+      document.documentElement.firstChild.appendChild(script);
+
+      return new Promise(resolve => {
+        script.onload = function() {
+          resolve();
         }
+      })
+    }
+
+    function loadWorldScriptFromGET() {
+      let scripts= readGET('worldScripts');
+
+      if (!scripts) {
+        return new Promise(resolve => {
+          resolve();
+        })
       }
 
-      loadWhenReady();
-    })();
+      let scriptsPromises = [];
+      for (let script of scripts.split(',')) {
+        scriptsPromises.push(loadScript('js/worlds/extra/' + script + '.js?v=' + Date.now()));
+      }
+
+      return Promise.all(scriptsPromises);
+    }
+
+    // Load world if specified
+    async function loadWhenReady() {
+      if (typeof babylon.scene != 'undefined' && babylon.scene.isReady()) {
+        await loadWorldScriptFromGET();
+        loadWorldFromGET();
+        loadRobotFromGET();
+        loadFilterFromGET();
+      } else {
+        setTimeout(loadWhenReady, 100);
+      }
+    }
+
+    loadWhenReady();
   </script>
 </body>
 </html>
