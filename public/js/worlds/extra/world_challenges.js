@@ -20,10 +20,10 @@ var world_challenges = new function() {
       type: 'select',
       options: [
         ['Basic: Move', 'worlds/challenges/basic-1.json?v=e606cc9e'],
-        ['Basic: Maze 3x3 Red', 'worlds/challenges/maze33-1.json?v=e73481a6'],
-        ['Basic: Maze 3x3 Pink', 'worlds/challenges/maze33-2.json?v=ab4888d8'],
-        ['Basic: Maze 4x4 Red', 'worlds/challenges/maze44-1.json?v=f190848e'],
-        ['Basic: Maze 4x4 Pink', 'worlds/challenges/maze44-2.json?v=dc315613']
+        ['Basic: Maze 3x3 Red', 'worlds/challenges/maze33-1.json?v=21e1b747'],
+        ['Basic: Maze 3x3 Pink', 'worlds/challenges/maze33-2.json?v=04fc823b'],
+        ['Basic: Maze 4x4 Red', 'worlds/challenges/maze44-1.json?v=ae48c097'],
+        ['Basic: Maze 4x4 Pink', 'worlds/challenges/maze44-2.json?v=a0d7325d']
       ]
     },
   ];
