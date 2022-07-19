@@ -21,6 +21,8 @@ var world_challenges = new function() {
       options: [
         ['Basic: Move', 'worlds/challenges/basic-1.json?v=36019081'],
         ['Basic: Sequential Movements', 'worlds/challenges/basic-2.json?v=6b84cb3c'],
+        ['Basic: Turns', 'worlds/challenges/basic-3.json?v=475b7598'],
+        ['Basic: Curve Turn', 'worlds/challenges/basic-4.json?v=1ea5caa8'],
         ['Maze: 3x3 Red', 'worlds/challenges/maze33-1.json?v=70f038b9'],
         ['Maze: 3x3 Pink', 'worlds/challenges/maze33-2.json?v=5efa7436'],
         ['Maze: 4x4 Red', 'worlds/challenges/maze44-1.json?v=5f7438d4'],
@@ -51,8 +53,8 @@ var world_challenges = new function() {
     Object.assign(self.options, self.defaultOptions);
   };
 
-  // Logic for basic-1
-  this.renderBasic1 = function(delta) {
+  // Logic for intersecting one box
+  this.renderIntersectOne = function(delta, completionCode) {
     let endBox = babylon.scene.getMeshByID('worldBaseObject_box0');
 
     if (
@@ -66,7 +68,7 @@ var world_challenges = new function() {
       acknowledgeDialog({
         title: 'COMPLETED!',
         message: $(
-          '<p>Completion code: UNICORN</p>' +
+          '<p>Completion code: ' + completionCode + '</p>' +
           '<p>Time: ' + time + ' seconds</p>'
         )
       });
@@ -103,7 +105,11 @@ var world_challenges = new function() {
         completed++;
       }
     }
-    if (completed == 4) {
+    if (
+      endBox
+      && endBox.intersectsPoint(robot.body.absolutePosition)
+      && skulpt.running == false
+    ) {
       self.ended = true;
       let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
 
@@ -111,6 +117,40 @@ var world_challenges = new function() {
         title: 'COMPLETED!',
         message: $(
           '<p>Completion code: GIRAFFE</p>' +
+          '<p>Time: ' + time + ' seconds</p>'
+        )
+      });
+    }
+  };
+
+  // Logic for basic-4
+  this.renderBasic4 = function(delta) {
+    let endBox = babylon.scene.getMeshByID('worldBaseObject_box3');
+    let tree = babylon.scene.getMeshByID('worldBaseObject_cylinder1');
+    let treeBox = babylon.scene.getMeshByID('worldBaseObject_box4');
+    let box5 = babylon.scene.getMeshByID('worldBaseObject_box5');
+
+    if (
+      box5
+      && box5.intersectsPoint(robot.body.absolutePosition)
+    ) {
+      box5.challengeState = 1;
+    }
+
+    if (
+      endBox
+      && endBox.intersectsPoint(robot.body.absolutePosition)
+      && skulpt.running == false
+      && box5.challengeState == 1
+      && treeBox.intersectsPoint(tree.absolutePosition)
+    ) {
+      self.ended = true;
+      let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
+
+      acknowledgeDialog({
+        title: 'COMPLETED!',
+        message: $(
+          '<p>Completion code: BEAVER</p>' +
           '<p>Time: ' + time + ' seconds</p>'
         )
       });
@@ -156,9 +196,13 @@ var world_challenges = new function() {
     }
 
     if (self.options.jsonFile.includes('basic-1.json')) {
-      self.renderBasic1(delta);
+      self.renderIntersectOne(delta, 'UNICORN');
     } else if (self.options.jsonFile.includes('basic-2.json')) {
       self.renderBasic2(delta);
+    } else if (self.options.jsonFile.includes('basic-3.json')) {
+      self.renderIntersectOne(delta, 'PUPPY');
+    } else if (self.options.jsonFile.includes('basic-4.json')) {
+      self.renderBasic4(delta, 'PUPPY');
     } else if (self.options.jsonFile.includes('maze33-1.json')) {
       self.renderMaze(delta, 'ELEPHANT');
     } else if (self.options.jsonFile.includes('maze33-2.json')) {
