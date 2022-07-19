@@ -19,11 +19,12 @@ var world_challenges = new function() {
       title: 'Select Challenges',
       type: 'select',
       options: [
-        ['Basic: Move', 'worlds/challenges/basic-1.json?v=e606cc9e'],
-        ['Basic: Maze 3x3 Red', 'worlds/challenges/maze33-1.json?v=70f038b9'],
-        ['Basic: Maze 3x3 Pink', 'worlds/challenges/maze33-2.json?v=5efa7436'],
-        ['Basic: Maze 4x4 Red', 'worlds/challenges/maze44-1.json?v=5f7438d4'],
-        ['Basic: Maze 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73']
+        ['Basic: Move', 'worlds/challenges/basic-1.json?v=36019081'],
+        ['Basic: Sequential Movements', 'worlds/challenges/basic-2.json?v=6b84cb3c'],
+        ['Maze: 3x3 Red', 'worlds/challenges/maze33-1.json?v=70f038b9'],
+        ['Maze: 3x3 Pink', 'worlds/challenges/maze33-2.json?v=5efa7436'],
+        ['Maze: 4x4 Red', 'worlds/challenges/maze44-1.json?v=5f7438d4'],
+        ['Maze: 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73']
       ]
     },
   ];
@@ -68,7 +69,51 @@ var world_challenges = new function() {
           '<p>Completion code: UNICORN</p>' +
           '<p>Time: ' + time + ' seconds</p>'
         )
-      })
+      });
+    }
+  };
+
+  // Logic for basic-2
+  this.renderBasic2 = function(delta) {
+    let box0 = babylon.scene.getMeshByID('worldBaseObject_box0');
+    let box1 = babylon.scene.getMeshByID('worldBaseObject_box1');
+    let box2 = babylon.scene.getMeshByID('worldBaseObject_box2');
+    let box3 = babylon.scene.getMeshByID('worldBaseObject_box3');
+
+    for (let box of [box0, box1, box2, box3]) {
+      if (
+        box
+        && box.intersectsPoint(robot.body.absolutePosition)
+      ) {
+        if (typeof box.challengeState == 'undefined') {
+          box.challengeState = 1;
+          box.material = babylon.getMaterial(babylon.scene, 'ffff0070');
+        } else if (box.challengeState == 1) {
+          if (robot.leftWheel.speed < 1 && robot.rightWheel.speed < 1) {
+            box.challengeState = 2;
+            box.material = babylon.getMaterial(babylon.scene, '00ff0070');
+          }
+        }
+      }
+    }
+
+    let completed = 0;
+    for (let box of [box0, box1, box2, box3]) {
+      if (box && box.challengeState == 2) {
+        completed++;
+      }
+    }
+    if (completed == 4) {
+      self.ended = true;
+      let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
+
+      acknowledgeDialog({
+        title: 'COMPLETED!',
+        message: $(
+          '<p>Completion code: GIRAFFE</p>' +
+          '<p>Time: ' + time + ' seconds</p>'
+        )
+      });
     }
   };
 
@@ -90,7 +135,7 @@ var world_challenges = new function() {
           '<p>Completion code: ' + completionCode + '</p>' +
           '<p>Time: ' + time + ' seconds</p>'
         )
-      })
+      });
     }
   };
 
@@ -112,6 +157,8 @@ var world_challenges = new function() {
 
     if (self.options.jsonFile.includes('basic-1.json')) {
       self.renderBasic1(delta);
+    } else if (self.options.jsonFile.includes('basic-2.json')) {
+      self.renderBasic2(delta);
     } else if (self.options.jsonFile.includes('maze33-1.json')) {
       self.renderMaze(delta, 'ELEPHANT');
     } else if (self.options.jsonFile.includes('maze33-2.json')) {

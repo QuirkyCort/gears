@@ -8,7 +8,7 @@
     "uScale": 1,
     "vScale": 1,
     "imageScale": 1,
-    "timer": "up",
+    "timer": "none",
     "timerDuration": 60,
     "timerEnd": "continue",
     "wall": true,
