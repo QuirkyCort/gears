@@ -243,7 +243,7 @@
         "type": "box",
         "position": [
           0,
-          -35,
+          -37,
           0
         ],
         "rotationMode": "degrees",
@@ -255,8 +255,8 @@
         "animationMode": "none",
         "animationKeys": [],
         "size": [
-          40,
-          6.3,
+          60,
+          9.5,
           1
         ],
         "modelURL": "",
