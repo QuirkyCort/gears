@@ -19,7 +19,11 @@ var world_challenges = new function() {
       title: 'Select Challenges',
       type: 'select',
       options: [
-        ['Basic: Move', 'worlds/challenges/basic-1.json?v=2ade5769']
+        ['Basic: Move', 'worlds/challenges/basic-1.json?v=e606cc9e'],
+        ['Basic: Maze 3x3 Red', 'worlds/challenges/maze33-1.json?v=e73481a6'],
+        ['Basic: Maze 3x3 Pink', 'worlds/challenges/maze33-2.json?v=ab4888d8'],
+        ['Basic: Maze 4x4 Red', 'worlds/challenges/maze44-1.json?v=f190848e'],
+        ['Basic: Maze 4x4 Pink', 'worlds/challenges/maze44-2.json?v=dc315613']
       ]
     },
   ];
@@ -54,7 +58,6 @@ var world_challenges = new function() {
       endBox
       && endBox.intersectsPoint(robot.body.absolutePosition)
       && skulpt.running == false
-      && self.ended == false
     ) {
       self.ended = true;
       let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
@@ -63,6 +66,28 @@ var world_challenges = new function() {
         title: 'COMPLETED!',
         message: $(
           '<p>Completion code: UNICORN</p>' +
+          '<p>Time: ' + time + ' seconds</p>'
+        )
+      })
+    }
+  };
+
+  // Logic for maze
+  this.renderMaze = function(delta, completionCode) {
+    let endBox = babylon.scene.getMeshByID('worldBaseObject_box4');
+
+    if (
+      endBox
+      && endBox.intersectsPoint(robot.body.absolutePosition)
+      && skulpt.running == false
+    ) {
+      self.ended = true;
+      let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
+
+      acknowledgeDialog({
+        title: 'COMPLETED!',
+        message: $(
+          '<p>Completion code: ' + completionCode + '</p>' +
           '<p>Time: ' + time + ' seconds</p>'
         )
       })
@@ -81,8 +106,20 @@ var world_challenges = new function() {
   this.render = function(delta){
     self.parent.render(delta);
 
+    if (self.ended) {
+      return;
+    }
+
     if (self.options.jsonFile.includes('basic-1.json')) {
       self.renderBasic1(delta);
+    } else if (self.options.jsonFile.includes('maze33-1.json')) {
+      self.renderMaze(delta, 'ELEPHANT');
+    } else if (self.options.jsonFile.includes('maze33-2.json')) {
+      self.renderMaze(delta, 'HIPPO');
+    } else if (self.options.jsonFile.includes('maze44-1.json')) {
+      self.renderMaze(delta, 'KANGAROO');
+    } else if (self.options.jsonFile.includes('maze44-2.json')) {
+      self.renderMaze(delta, 'KOALA');
     }
   };
 
