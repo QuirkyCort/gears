@@ -10,8 +10,9 @@ var world_challenges = new function() {
   this.name = 'challenges';
   this.shortDescription = 'Challenges';
   this.longDescription =
-    '<p>This world contains various simple challenges.</p>';
-  // this.thumbnail = 'images/worlds/missions.jpg';
+    '<p>This world contains various challenges.</p>' +
+    '<p>A completion code is issued for each completed challenge. This can be used to track students progress.</p>';
+  this.thumbnail = 'images/worlds/challenge.jpg';
 
   this.optionsConfigurations = [
     {
