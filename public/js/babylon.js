@@ -397,13 +397,7 @@ var babylon = new function() {
   // Change material for a mesh, including handling for rtt material
   this.setMaterial = function(mesh, material) {
     mesh.material = material;
-    const _orig_subMeshEffects = [];
-    mesh.subMeshes.forEach((submesh) => {
-      _orig_subMeshEffects.push([submesh.effect, submesh.materialDefines]);
-    });
-    mesh.material.freeze();
-    mesh._saved_orig_material = mesh.material;
-    mesh._orig_subMeshEffects = _orig_subMeshEffects;
+    mesh.isFrozen = false;
 
     let rttID = 'RTT_' + mesh.material.id;
     let mat = self.scene.getMaterialByID(rttID);
@@ -423,10 +417,7 @@ var babylon = new function() {
       mesh.rttMaterial = mat;
     }
 
-    mesh._rtt_subMeshEffects = [];
-    mesh.subMeshes.forEach((submesh) => {
-      mesh._rtt_subMeshEffects.push([submesh.effect, submesh.materialDefines]);
-    });
+    delete mesh._rtt_subMeshEffects;
   };
 
   // List of render functions to call
