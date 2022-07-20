@@ -27,7 +27,8 @@ var world_challenges = new function() {
         ['Maze: 3x3 Red', 'worlds/challenges/maze33-1.json?v=70f038b9'],
         ['Maze: 3x3 Pink', 'worlds/challenges/maze33-2.json?v=5efa7436'],
         ['Maze: 4x4 Red', 'worlds/challenges/maze44-1.json?v=5f7438d4'],
-        ['Maze: 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73']
+        ['Maze: 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73'],
+        ['Actuators: Forklift', 'worlds/challenges/forklift-1.json?v=6212821e']
       ]
     },
     {
@@ -162,6 +163,31 @@ var world_challenges = new function() {
     }
   };
 
+  // Logic for forklift-1
+  this.renderForklift1 = function(delta) {
+    let box = babylon.scene.getMeshByID('worldBaseObject_box1');
+    let tableBox = babylon.scene.getMeshByID('worldBaseObject_box6');
+    let endBox = babylon.scene.getMeshByID('worldBaseObject_box5');
+
+    if (
+      endBox
+      && endBox.intersectsPoint(robot.body.absolutePosition)
+      && skulpt.running == false
+      && tableBox.intersectsPoint(box.absolutePosition)
+    ) {
+      self.ended = true;
+      let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
+
+      acknowledgeDialog({
+        title: 'COMPLETED!',
+        message: $(
+          '<p>Completion code: RHINO</p>' +
+          '<p>Time: ' + time + ' seconds</p>'
+        )
+      });
+    }
+  };
+
   // Create the scene
   this.load = function (scene) {
     self.ended = false;
@@ -174,6 +200,7 @@ var world_challenges = new function() {
         'basic-3.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
         'basic-4.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
         'maze': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
+        'forklift': ['forklift', 'https://raw.githubusercontent.com/QuirkyCort/gears-contributions/main/robots/Demo/linearActuatorForklift.json'],
       }
 
       for (let jsonFile in DEFAULT_ROBOT) {
@@ -212,6 +239,8 @@ var world_challenges = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box4', 'KANGAROO');
     } else if (self.options.jsonFile.includes('maze44-2.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box4', 'KOALA');
+    } else if (self.options.jsonFile.includes('forklift-1.json')) {
+      self.renderForklift1(delta);
     }
   };
 
