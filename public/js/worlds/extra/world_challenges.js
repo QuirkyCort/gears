@@ -23,17 +23,25 @@ var world_challenges = new function() {
         ['Basic: Move', 'worlds/challenges/basic-1.json?v=36019081'],
         ['Basic: Sequential Movements', 'worlds/challenges/basic-2.json?v=6b84cb3c'],
         ['Basic: Turns', 'worlds/challenges/basic-3.json?v=475b7598'],
-        ['Basic: Curve Turn', 'worlds/challenges/basic-4.json?v=705272bd'],
+        ['Basic: Curve Turn', 'worlds/challenges/basic-4.json?v=a86689f6'],
         ['Maze: 3x3 Red', 'worlds/challenges/maze33-1.json?v=70f038b9'],
         ['Maze: 3x3 Pink', 'worlds/challenges/maze33-2.json?v=5efa7436'],
         ['Maze: 4x4 Red', 'worlds/challenges/maze44-1.json?v=5f7438d4'],
         ['Maze: 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73']
       ]
     },
+    {
+      option: 'useDefaultRobot',
+      title: 'Use default robot',
+      type: 'checkbox',
+      label: 'Use the default robot for each challenge. If on, you will not be able to change the robot.',
+      help: 'If you want to use your own robot, uncheck this option.'
+    },
   ];
 
   this.defaultOptions = Object.assign(this.defaultOptions, {
-    jsonFile: this.optionsConfigurations[0].options[0][1]
+    jsonFile: this.optionsConfigurations[0].options[0][1],
+    useDefaultRobot: true
   });
 
   // Set options, including default
@@ -43,7 +51,7 @@ var world_challenges = new function() {
       .then(function(data){
         self.options = {...self.defaultOptions};
         Object.assign(self.options, data.options);
-        // Object.assign(self.options, options);
+        Object.assign(self.options, options);
 
         return self.parent.setOptions();
       });
@@ -158,6 +166,24 @@ var world_challenges = new function() {
   this.load = function (scene) {
     self.ended = false;
     self.started = false;
+
+    if (self.options.useDefaultRobot) {
+      let DEFAULT_ROBOT = {
+        'basic-1.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
+        'basic-2.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
+        'basic-3.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
+        'basic-4.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
+        'maze': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
+      }
+
+      for (let jsonFile in DEFAULT_ROBOT) {
+        if (self.options.jsonFile.includes(jsonFile)) {
+          if (robot.options.name != DEFAULT_ROBOT[jsonFile][0]) {
+            main.loadRobotURL(DEFAULT_ROBOT[jsonFile][1]);
+          }
+        }
+      }
+    }
 
     return this.parent.load(scene);
   };

@@ -135,7 +135,7 @@
         "type": "box",
         "position": [
           -18,
-          -5,
+          0,
           10
         ],
         "rotationMode": "degrees",
@@ -281,7 +281,7 @@
     "startRotStr": "",
     "startPosXYZ": [
       -18,
-      -5,
+      0,
       0
     ],
     "startRot": null,

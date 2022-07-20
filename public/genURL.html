@@ -50,6 +50,11 @@
       <input id="blocksURL" type="text" placeholder="URL to the blocks filter json file"></input>
     </div>
     <div>
+      <label>Extra World Scripts (separate multiple script names with a comma)</label>
+      <input id="worldScripts" type="text" placeholder="Name of extra world JS files"></input><br>
+      Look in the "js/worlds/extra" folder to see what are available. Exclude the ".js" from the above.
+    </div>
+    <div>
       <button id="gen">Generate URL</button>
     </div>
     <div id="output">
@@ -129,9 +134,10 @@
       let worldURL = document.getElementById('worldURL').value.trim();
       let robotURL = document.getElementById('robotURL').value.trim();
       let blocksURL = document.getElementById('blocksURL').value.trim();
+      let worldScripts = document.getElementById('worldScripts').value.trim();
 
       errors.innerHTML = '';
-      
+
       // At least one
       if (! worldURL && ! robotURL && ! blocksURL) {
         errorOut('No URLs provided');
@@ -180,6 +186,9 @@
       }
       if (blocksURL) {
         URL += 'filterBlocksJSON=' + encodeURIComponent(blocksURL) + '&';
+      }
+      if (worldScripts) {
+        URL += 'worldScripts=' + encodeURIComponent(worldScripts) + '&';
       }
       URL = URL.slice(0, -1)
       resultsOut(
