@@ -187,7 +187,7 @@ var world_challenges = new function() {
   this.render = function(delta){
     self.parent.render(delta);
 
-    if (self.ended) {
+    if (self.ended || !self.started) {
       return;
     }
 
