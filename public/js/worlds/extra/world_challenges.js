@@ -89,11 +89,11 @@ var world_challenges = new function() {
       ) {
         if (typeof box.challengeState == 'undefined') {
           box.challengeState = 1;
-          box.material = babylon.getMaterial(babylon.scene, 'ffff0070');
+          babylon.setMaterial(box, babylon.getMaterial(babylon.scene, 'ffff0070'));
         } else if (box.challengeState == 1) {
           if (robot.leftWheel.speed < 1 && robot.rightWheel.speed < 1) {
             box.challengeState = 2;
-            box.material = babylon.getMaterial(babylon.scene, '00ff0070');
+            babylon.setMaterial(box, babylon.getMaterial(babylon.scene, '00ff0070'));
           }
         }
       }
@@ -198,7 +198,7 @@ var world_challenges = new function() {
     } else if (self.options.jsonFile.includes('basic-3.json')) {
       self.renderIntersectOne(delta, 'PUPPY');
     } else if (self.options.jsonFile.includes('basic-4.json')) {
-      self.renderBasic4(delta, 'PUPPY');
+      self.renderBasic4(delta);
     } else if (self.options.jsonFile.includes('maze33-1.json')) {
       self.renderMaze(delta, 'ELEPHANT');
     } else if (self.options.jsonFile.includes('maze33-2.json')) {

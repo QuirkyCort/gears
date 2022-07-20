@@ -91,17 +91,17 @@ var babylon = new function() {
   // Set othographic camera zoom
   this.zoomOrtho = function(p) {
     if (self.cameraMode != 'orthoTop') {
-      return;      
+      return;
     }
 
     let wheelDelta = 0;
     if (typeof p != 'undefined') {
-      var event = p.event;  
+      var event = p.event;
       if (event.wheelDelta) {
           wheelDelta = event.wheelDelta;
       } else {
           wheelDelta = -(event.deltaY || event.detail) * 60;
-      }  
+      }
     }
 
     self.cameraArc.orthoRadius -= wheelDelta / 12;
@@ -392,6 +392,41 @@ var babylon = new function() {
     mat.freeze();
 
     return mat;
+  };
+
+  // Change material for a mesh, including handling for rtt material
+  this.setMaterial = function(mesh, material) {
+    mesh.material = material;
+    const _orig_subMeshEffects = [];
+    mesh.subMeshes.forEach((submesh) => {
+      _orig_subMeshEffects.push([submesh.effect, submesh.materialDefines]);
+    });
+    mesh.material.freeze();
+    mesh._saved_orig_material = mesh.material;
+    mesh._orig_subMeshEffects = _orig_subMeshEffects;
+
+    let rttID = 'RTT_' + mesh.material.id;
+    let mat = self.scene.getMaterialByID(rttID);
+    if (mat == null) {
+      mesh.rttMaterial = mesh.material.clone();
+      mesh.rttMaterial.id = rttID;
+      mesh.rttMaterial.disableLighting = true;
+      if (mesh.rttMaterial.diffuseTexture) {
+        mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
+      } else if (mesh.rttMaterial.albedoColor) {
+        mesh.rttMaterial.emissiveColor = mesh.rttMaterial.albedoColor;
+      } else {
+        mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
+      }
+      mesh.rttMaterial.freeze();
+    } else {
+      mesh.rttMaterial = mat;
+    }
+
+    mesh._rtt_subMeshEffects = [];
+    mesh.subMeshes.forEach((submesh) => {
+      mesh._rtt_subMeshEffects.push([submesh.effect, submesh.materialDefines]);
+    });
   };
 
   // List of render functions to call
