@@ -1064,6 +1064,9 @@ var simPanel = new function() {
 
       babylon.world = worlds.find(world => world.name == loadedSave.worldName);
       self.worldOptionsSetting = loadedSave.options;
+      if (typeof babylon.world.setOptions == 'function') {
+        babylon.world.setOptions(self.worldOptionsSetting);
+      }
       self.resetSim().then(function(){
         babylon.resetCamera();
         babylon.setCameraMode('follow');

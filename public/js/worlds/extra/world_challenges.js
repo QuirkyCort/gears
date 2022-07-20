@@ -43,7 +43,7 @@ var world_challenges = new function() {
       .then(function(data){
         self.options = {...self.defaultOptions};
         Object.assign(self.options, data.options);
-        Object.assign(self.options, options);
+        // Object.assign(self.options, options);
 
         return self.parent.setOptions();
       });
