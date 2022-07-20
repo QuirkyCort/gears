@@ -54,8 +54,8 @@ var world_challenges = new function() {
   };
 
   // Logic for intersecting one box
-  this.renderIntersectOne = function(delta, completionCode) {
-    let endBox = babylon.scene.getMeshByID('worldBaseObject_box0');
+  this.renderIntersectOne = function(delta, meshID, completionCode) {
+    let endBox = babylon.scene.getMeshByID(meshID);
 
     if (
       endBox
@@ -153,28 +153,6 @@ var world_challenges = new function() {
     }
   };
 
-  // Logic for maze
-  this.renderMaze = function(delta, completionCode) {
-    let endBox = babylon.scene.getMeshByID('worldBaseObject_box4');
-
-    if (
-      endBox
-      && endBox.intersectsPoint(robot.body.absolutePosition)
-      && skulpt.running == false
-    ) {
-      self.ended = true;
-      let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
-
-      acknowledgeDialog({
-        title: 'COMPLETED!',
-        message: $(
-          '<p>Completion code: ' + completionCode + '</p>' +
-          '<p>Time: ' + time + ' seconds</p>'
-        )
-      });
-    }
-  };
-
   // Create the scene
   this.load = function (scene) {
     self.ended = false;
@@ -192,21 +170,21 @@ var world_challenges = new function() {
     }
 
     if (self.options.jsonFile.includes('basic-1.json')) {
-      self.renderIntersectOne(delta, 'UNICORN');
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'UNICORN');
     } else if (self.options.jsonFile.includes('basic-2.json')) {
       self.renderBasic2(delta);
     } else if (self.options.jsonFile.includes('basic-3.json')) {
-      self.renderIntersectOne(delta, 'PUPPY');
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PUPPY');
     } else if (self.options.jsonFile.includes('basic-4.json')) {
       self.renderBasic4(delta);
     } else if (self.options.jsonFile.includes('maze33-1.json')) {
-      self.renderMaze(delta, 'ELEPHANT');
+      self.renderIntersectOne(delta, 'worldBaseObject_box4', 'ELEPHANT');
     } else if (self.options.jsonFile.includes('maze33-2.json')) {
-      self.renderMaze(delta, 'HIPPO');
+      self.renderIntersectOne(delta, 'worldBaseObject_box4', 'HIPPO');
     } else if (self.options.jsonFile.includes('maze44-1.json')) {
-      self.renderMaze(delta, 'KANGAROO');
+      self.renderIntersectOne(delta, 'worldBaseObject_box4', 'KANGAROO');
     } else if (self.options.jsonFile.includes('maze44-2.json')) {
-      self.renderMaze(delta, 'KOALA');
+      self.renderIntersectOne(delta, 'worldBaseObject_box4', 'KOALA');
     }
   };
 
