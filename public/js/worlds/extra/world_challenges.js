@@ -29,7 +29,7 @@ var world_challenges = new function() {
         ['Maze: 4x4 Red', 'worlds/challenges/maze44-1.json?v=5f7438d4'],
         ['Maze: 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73'],
         ['Actuators: Forklift 1', 'worlds/challenges/forklift-1.json?v=6212821e'],
-        ['Actuators: Forklift 2', 'worlds/challenges/forklift-2.json?v=6212821e']
+        ['Actuators: Forklift 2', 'worlds/challenges/forklift-2.json?v=75bbe870']
       ]
     },
     {

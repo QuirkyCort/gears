@@ -2,13 +2,14 @@ var babylon = new function() {
   var self = this;
 
   this.DISABLE_ASYNC = true;
+  this.ENABLE_ANTIALIASING = false;
 
   this.world = worlds[0];
 
   // Run on page load
   this.init = function() {
     self.canvas = document.getElementById('renderCanvas');
-    self.engine = new BABYLON.Engine(self.canvas, true);
+    self.engine = new BABYLON.Engine(self.canvas, self.ENABLE_ANTIALIASING);
 
     self.scene = self.createScene(); // Call the createScene function
 
