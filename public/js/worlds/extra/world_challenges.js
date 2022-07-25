@@ -28,7 +28,8 @@ var world_challenges = new function() {
         ['Maze: 3x3 Pink', 'worlds/challenges/maze33-2.json?v=5efa7436'],
         ['Maze: 4x4 Red', 'worlds/challenges/maze44-1.json?v=5f7438d4'],
         ['Maze: 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73'],
-        ['Actuators: Forklift', 'worlds/challenges/forklift-1.json?v=6212821e']
+        ['Actuators: Forklift 1', 'worlds/challenges/forklift-1.json?v=6212821e'],
+        ['Actuators: Forklift 2', 'worlds/challenges/forklift-2.json?v=6212821e']
       ]
     },
     {
@@ -163,8 +164,8 @@ var world_challenges = new function() {
     }
   };
 
-  // Logic for forklift-1
-  this.renderForklift1 = function(delta) {
+  // Logic for forklift. Move one box
+  this.renderForkliftOneBox = function(delta, completionCode) {
     let box = babylon.scene.getMeshByID('worldBaseObject_box1');
     let tableBox = babylon.scene.getMeshByID('worldBaseObject_box6');
     let endBox = babylon.scene.getMeshByID('worldBaseObject_box5');
@@ -181,7 +182,7 @@ var world_challenges = new function() {
       acknowledgeDialog({
         title: 'COMPLETED!',
         message: $(
-          '<p>Completion code: RHINO</p>' +
+          '<p>Completion code: ' + completionCode + '</p>' +
           '<p>Time: ' + time + ' seconds</p>'
         )
       });
@@ -240,7 +241,9 @@ var world_challenges = new function() {
     } else if (self.options.jsonFile.includes('maze44-2.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box4', 'KOALA');
     } else if (self.options.jsonFile.includes('forklift-1.json')) {
-      self.renderForklift1(delta);
+      self.renderForkliftOneBox(delta, 'RHINO');
+    } else if (self.options.jsonFile.includes('forklift-2.json')) {
+      self.renderForkliftOneBox(delta, 'MOOSE');
     }
   };
 
