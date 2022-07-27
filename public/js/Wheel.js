@@ -294,7 +294,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
     } else if (speed < 1) {
       // speed = 0;
     }
-    self.joint.setMotor(speed, 30000);
+    self.joint.setMotor(speed, self.STOP_ACTION_HOLD_FORCE);
   };
 
   this.setMotorSpeed = function(delta, reversed=false) {
