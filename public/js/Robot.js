@@ -205,7 +205,7 @@ function Robot() {
         },
         scene
       );
-      
+
       // Hold position if speed is too low
       var origin = body.physicsImpostor.physicsBody.getWorldTransform().getOrigin();
       var lastOrigin = [
@@ -237,7 +237,8 @@ function Robot() {
         diameter: options.wheelDiameter,
         width: options.wheelWidth,
         mass: options.wheelMass,
-        friction: options.wheelFriction
+        friction: options.wheelFriction,
+        maxAcceleration: options.wheelMaxAcceleration
       };
 
       if (options.wheels){
@@ -255,7 +256,7 @@ function Robot() {
         );
         self.leftWheel.loadImpostor();
         self.leftWheel.loadJoints();
-        
+
         self.rightWheel = new Wheel(
           scene,
           body,

@@ -26,7 +26,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
   this.MAX_SPEED = 800 / 180 * Math.PI;
   this.MAX_ACCELERATION = 20;  // degrees / msec^2
   this.TIRE_DOWNWARDS_FORCE = new BABYLON.Vector3(0, -4000, 0);
-  
+
   this.modes = {
     STOP: 1,
     RUN: 2,
@@ -99,6 +99,8 @@ function Wheel(scene, parent, pos, rot, port, options) {
   this.init = function() {
     self.setOptions(options);
 
+    self.maxAcceleration = self.options.maxAcceleration;
+
     var wheelMat = scene.getMaterialByID('wheel');
     if (wheelMat == null) {
       var wheelMat = new BABYLON.StandardMaterial('wheel', scene);
@@ -124,7 +126,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
     self.end = self.mesh;
     self.body.component = self;
     self.mesh.material = wheelMat;
-    
+
     self.mesh.parent = parent;
     self.mesh.position = self.bodyPosition;
     self.mesh.rotation.z = -Math.PI / 2;
@@ -173,7 +175,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
 
   this.loadJoints = function(){
     var wheel2world = self.mesh.absoluteRotationQuaternion;
-    
+
     let zero = BABYLON.Vector3.Zero();
     var world2body = parent.absoluteRotationQuaternion;
     world2body = BABYLON.Quaternion.Inverse(world2body);
@@ -213,6 +215,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
       mass: 200,
       friction: 10,
       restitution: 0.8,
+      maxAcceleration: self.MAX_ACCELERATION,
       components: []
     };
 
@@ -296,7 +299,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
 
   this.setMotorSpeed = function(delta, reversed=false) {
     let diff = self.speed_sp - self._speed_sp;
-    let diffLimit = delta * self.MAX_ACCELERATION;
+    let diffLimit = delta * self.maxAcceleration;
     if (diff > diffLimit) {
       self._speed_sp += diffLimit;
       self.state = self.states.RAMPING;
