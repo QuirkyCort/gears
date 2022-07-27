@@ -238,7 +238,9 @@ function Robot() {
         width: options.wheelWidth,
         mass: options.wheelMass,
         friction: options.wheelFriction,
-        maxAcceleration: options.wheelMaxAcceleration
+        maxAcceleration: options.wheelMaxAcceleration,
+        stopActionHoldForce: options.wheelStopActionHoldForce,
+        tireDownwardsForce: options.wheelTireDownwardsForce
       };
 
       if (options.wheels){

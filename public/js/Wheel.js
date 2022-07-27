@@ -25,7 +25,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
   this.MOTOR_POWER_DEFAULT = 30000;
   this.MAX_SPEED = 800 / 180 * Math.PI;
   this.MAX_ACCELERATION = 20;  // degrees / msec^2
-  this.TIRE_DOWNWARDS_FORCE = new BABYLON.Vector3(0, -4000, 0);
+  this.TIRE_DOWNWARDS_FORCE = -4000;
 
   this.modes = {
     STOP: 1,
@@ -84,7 +84,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
     self.mode = self.modes.STOP;
 
     if (self.stop_action == 'hold') {
-      self.joint.setMotor(0, self.STOP_ACTION_HOLD_FORCE);
+      self.joint.setMotor(0, self.stopActionHoldForce);
       self.state = self.states.HOLDING;
       self.position_target = self.position;
     } else if (self.stop_action == 'brake') {
@@ -100,6 +100,8 @@ function Wheel(scene, parent, pos, rot, port, options) {
     self.setOptions(options);
 
     self.maxAcceleration = self.options.maxAcceleration;
+    self.stopActionHoldForce = self.options.stopActionHoldForce;
+    self.TIRE_DOWNWARDS_FORCE = new BABYLON.Vector3(0, self.options.tireDownwardsForce, 0);
 
     var wheelMat = scene.getMaterialByID('wheel');
     if (wheelMat == null) {
@@ -216,6 +218,8 @@ function Wheel(scene, parent, pos, rot, port, options) {
       friction: 10,
       restitution: 0.8,
       maxAcceleration: self.MAX_ACCELERATION,
+      stopActionHoldForce: self.STOP_ACTION_HOLD_FORCE,
+      tireDownwardsForce: self.TIRE_DOWNWARDS_FORCE,
       components: []
     };
 
@@ -294,7 +298,7 @@ function Wheel(scene, parent, pos, rot, port, options) {
     } else if (speed < 1) {
       // speed = 0;
     }
-    self.joint.setMotor(speed, self.STOP_ACTION_HOLD_FORCE);
+    self.joint.setMotor(speed, self.stopActionHoldForce);
   };
 
   this.setMotorSpeed = function(delta, reversed=false) {
