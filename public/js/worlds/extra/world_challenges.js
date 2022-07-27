@@ -196,11 +196,8 @@ var world_challenges = new function() {
 
     if (self.options.useDefaultRobot) {
       let DEFAULT_ROBOT = {
-        'basic-1.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
-        'basic-2.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
-        'basic-3.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
-        'basic-4.json': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
-        'maze': ['mazeBasic', 'https://files.aposteriori.com.sg/get/T6uZPZ5Xuj.json'],
+        'basic': ['mazeBasic', 'https://files.aposteriori.com.sg/get/pQov9Yj6tn.json'],
+        'maze': ['mazeBasic', 'https://files.aposteriori.com.sg/get/pQov9Yj6tn.json'],
         'forklift': ['forklift', 'https://raw.githubusercontent.com/QuirkyCort/gears-contributions/main/robots/Demo/linearActuatorForklift.json'],
       }
 
