@@ -55,7 +55,7 @@ var world_challenges = new function() {
         Object.assign(self.options, data.options);
         Object.assign(self.options, options);
 
-        return self.parent.setOptions();
+        return self.parent.setOptions(self.options);
       });
   };
 
