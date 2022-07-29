@@ -275,7 +275,11 @@ function Wheel(scene, parent, pos, rot, port, options) {
     }
 
     self.updatePosition(delta);
-    self.speed = 0.8 * self.speed + 0.2 * ((self.position - self.prevPosition) / delta * 1000);
+    if (delta == 0) {
+      self.speed = 0;
+    } else {
+      self.speed = 0.8 * self.speed + 0.2 * ((self.position - self.prevPosition) / delta * 1000);
+    }
     self.prevPosition = self.position;
 
     self.components.forEach(function(component) {
