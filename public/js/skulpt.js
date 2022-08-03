@@ -3,7 +3,7 @@ var skulpt = new function() {
 
   this.externalLibs = {
     './ev3dev2/__init__.py': false,
-    './ev3dev2/motor.py': 'ev3dev2/motor.py?v=f13c634c',
+    './ev3dev2/motor.py': 'ev3dev2/motor.py?v=08e6bcd6',
     './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
     './ev3dev2/button.py': 'ev3dev2/button.py?v=a7f892ad',
     './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
