@@ -873,6 +873,16 @@ var builder = new function() {
         help: 'If set, the hinge will be hidden',
         reset: true
       },
+      {
+        option: 'speed',
+        type: 'floatText',
+        help: 'Rotation speed in radians per second'
+      },
+      {
+        option: 'maxForce',
+        type: 'floatText',
+        help: 'Maximum force applied to achieve the specified speed'
+      }
     ]
   };
 
@@ -915,7 +925,11 @@ var builder = new function() {
     objects: [],
     position: [20,0,0],
     size: [10,2,0],
-    hide: true
+    hide: true,
+    speed: 0,
+    maxForce: 0,
+    upperLimit: 0,
+    lowerLimit: 0
   };
 
   // Run on page load

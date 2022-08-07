@@ -401,7 +401,7 @@ var World_Base = function() {
     } else if (typeof arenaPanel != 'undefined') {
       self.panel = arenaPanel;
     }
-    
+
     return new Promise(async function(resolve, reject) {
       var groundMat = new BABYLON.StandardMaterial('ground', scene);
       var groundTexture = new BABYLON.Texture(self.processedOptions.image, scene);
@@ -579,14 +579,29 @@ var World_Base = function() {
       matrix.setTranslation(BABYLON.Vector3.Zero());
       let connectedAxis = BABYLON.Vector3.TransformCoordinates(hingeWorldAxis, matrix);
 
-      self.joint = new BABYLON.PhysicsJoint(BABYLON.PhysicsJoint.HingeJoint, {
-        mainPivot: mainPivot,
-        connectedPivot: connectedPivot,
-        mainAxis: mainAxis,
-        connectedAxis: connectedAxis,
-      });
+      if (typeof hingedObject.options.maxForce != 'undefined' && hingedObject.options.maxForce != 0) {
+        self.joint = new BABYLON.MotorEnabledJoint(BABYLON.PhysicsJoint.HingeJoint, {
+          mainPivot: mainPivot,
+          connectedPivot: connectedPivot,
+          mainAxis: mainAxis,
+          connectedAxis: connectedAxis,
+        });
+        targetBody.physicsImpostor.addJoint(hingedObject.part2Mesh.physicsImpostor, self.joint);
 
-      targetBody.physicsImpostor.addJoint(hingedObject.part2Mesh.physicsImpostor, self.joint);
+        let speed = 0;
+        if (typeof hingedObject.options.speed != 'undefined') {
+          speed = hingedObject.options.speed;
+        }
+        self.joint.setMotor(speed, hingedObject.options.maxForce);
+      } else {
+        self.joint = new BABYLON.PhysicsJoint(BABYLON.PhysicsJoint.HingeJoint, {
+          mainPivot: mainPivot,
+          connectedPivot: connectedPivot,
+          mainAxis: mainAxis,
+          connectedAxis: connectedAxis,
+        });
+        targetBody.physicsImpostor.addJoint(hingedObject.part2Mesh.physicsImpostor, self.joint);
+      }
     }
   };
 
@@ -595,7 +610,7 @@ var World_Base = function() {
     let mesh = null;
 
     let options = self.mergeObjectOptionsWithDefault(object);
-    
+
     if (options.type == 'compound') {
       mesh = await self.addCompound(scene, options, indexObj);
     } else if (options.type == 'hinge') {
@@ -608,7 +623,7 @@ var World_Base = function() {
       }
       if (mesh) {
         self.physicsToAdd.push([mesh, options]);
-      }  
+      }
     }
 
     return mesh;
@@ -670,7 +685,7 @@ var World_Base = function() {
         rotationRad[i] = options.rotation[i];
       }
     }
-    
+
     let material = babylon.getMaterial(scene, "f00a");
     if (options.hide) {
       material = babylon.getMaterial(scene, "f005");
@@ -711,7 +726,8 @@ var World_Base = function() {
         self.parentsToRemove.push([part1Mesh, part2Mesh]);
         self.hinges.push({
           part1Mesh: part1Mesh,
-          part2Mesh: part2Mesh
+          part2Mesh: part2Mesh,
+          options: options
         });
       }
     }
@@ -916,7 +932,7 @@ var World_Base = function() {
     // Get bounding box
     let min = meshes[1].getBoundingInfo().boundingBox.minimumWorld;
     let max = meshes[1].getBoundingInfo().boundingBox.maximumWorld;
-    
+
     for (let i=1; i<meshes.length; i++) {
       meshes[i].computeWorldMatrix(true)
       let meshBounds = meshes[i].getBoundingInfo().boundingBox;
@@ -943,7 +959,7 @@ var World_Base = function() {
     };
     var mesh = BABYLON.MeshBuilder.CreateBox(id, meshOptions, scene);
     mesh.visibility = 0;
-  
+
     mesh.position = options.position;
     mesh.rotation = options.rotation;
 
