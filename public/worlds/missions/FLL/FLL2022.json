@@ -5629,7 +5629,9 @@
             "ultrasonicDetection": null,
             "receiveShadows": false,
             "castShadows": false,
-            "isPickable": true
+            "isPickable": true,
+            "speed": 0,
+            "maxForce": 0
           }
         ],
         "position": [
@@ -5708,13 +5710,13 @@
           {
             "type": "box",
             "position": [
-              29.8,
-              51,
+              28.45492122423411,
+              52.32642661805805,
               4.8
             ],
             "rotationMode": "degrees",
             "rotation": [
-              105,
+              65,
               -45,
               90
             ],
@@ -6121,7 +6123,8 @@
                     "vScale": 1,
                     "physicsOptions": {
                       "mass": 20,
-                      "friction": 0.6
+                      "friction": 0.4,
+                      "dampAngular": 1
                     },
                     "magnetic": false,
                     "laserDetection": null,
@@ -6308,8 +6311,9 @@
                     "uScale": 1,
                     "vScale": 1,
                     "physicsOptions": {
-                      "mass": 2,
-                      "friction": 0.6
+                      "mass": 20,
+                      "friction": 0.4,
+                      "dampAngular": 0.9
                     },
                     "magnetic": false,
                     "laserDetection": null,
