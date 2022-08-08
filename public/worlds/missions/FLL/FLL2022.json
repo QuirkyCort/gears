@@ -6123,8 +6123,7 @@
                     "vScale": 1,
                     "physicsOptions": {
                       "mass": 20,
-                      "friction": 0.4,
-                      "dampAngular": 1
+                      "friction": 0.4
                     },
                     "magnetic": false,
                     "laserDetection": null,
@@ -6274,7 +6273,9 @@
             "ultrasonicDetection": null,
             "receiveShadows": false,
             "castShadows": false,
-            "isPickable": true
+            "isPickable": true,
+            "speed": 0,
+            "maxForce": 10
           },
           {
             "type": "hinge",
@@ -6312,8 +6313,7 @@
                     "vScale": 1,
                     "physicsOptions": {
                       "mass": 20,
-                      "friction": 0.4,
-                      "dampAngular": 0.9
+                      "friction": 0.4
                     },
                     "magnetic": false,
                     "laserDetection": null,
@@ -6463,7 +6463,9 @@
             "ultrasonicDetection": null,
             "receiveShadows": false,
             "castShadows": false,
-            "isPickable": true
+            "isPickable": true,
+            "speed": 0,
+            "maxForce": 10
           }
         ],
         "position": [

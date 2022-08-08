@@ -22,14 +22,14 @@ var world_challenges = new function() {
       options: [
         ['Basic: Move', 'worlds/challenges/basic-1.json?v=36019081'],
         ['Basic: Sequential Movements', 'worlds/challenges/basic-2.json?v=6b84cb3c'],
-        ['Basic: Turns 1', 'worlds/challenges/basic-2b.json?v=475b7598'],
+        ['Basic: Turns 1', 'worlds/challenges/basic-2b.json?v=3c1928b8'],
         ['Basic: Turns 2', 'worlds/challenges/basic-3.json?v=475b7598'],
         ['Basic: Curve Turn', 'worlds/challenges/basic-4.json?v=a86689f6'],
         ['Maze: 3x3 Red', 'worlds/challenges/maze33-1.json?v=70f038b9'],
         ['Maze: 3x3 Pink', 'worlds/challenges/maze33-2.json?v=5efa7436'],
         ['Maze: 4x4 Red', 'worlds/challenges/maze44-1.json?v=5f7438d4'],
         ['Maze: 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73'],
-        ['Actuators: Forklift 0', 'worlds/challenges/forklift-0.json?v=6212821e'],
+        ['Actuators: Forklift 0', 'worlds/challenges/forklift-0.json?v=5385c933'],
         ['Actuators: Forklift 1', 'worlds/challenges/forklift-1.json?v=6212821e'],
         ['Actuators: Forklift 2', 'worlds/challenges/forklift-2.json?v=75bbe870']
       ]
