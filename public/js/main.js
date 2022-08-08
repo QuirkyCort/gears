@@ -924,27 +924,27 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20220719;
+    let current = 20220808;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>19 Jul 2022 (Clean-up)</h3>' +
-          '<p>Removed "Test World" and "Image World".</p>' +
+          '<h3>8 Aug 2022 (Superpowered)</h3>' +
+          '<p>Added the FIRST Lego League 2022/2023 Superpowered mission.</p>' +
           '<p>' +
-          '"Test World" was only ever meant for internal testing, while "Image World" has long since been replaced by the more capable "Custom World". ' +
-          'Removing them helps to keep GearsBot lean and improve loading time.' +
+            'It is incomplete for now, with only 4 out of 9 major mission models in place, but I will be adding to it over the coming days (...weeks?). ' +
+            'If you would like to help, contact me to find out how.' +
+          '</p>' +
+          '<h3>8 Aug 2022 (Challenges World)</h3>' +
+          '<p>' +
+            'A new "Challenges" world has been added. ' +
+            'It is using the new script loading system, so you will need to use this URL <a href="https://gears.aposteriori.com.sg/index.html?worldScripts=world_challenges">https://gears.aposteriori.com.sg/index.html?worldScripts=world_challenges</a> to access it.' +
           '</p>' +
           '<p>' +
-          'If you need to use these worlds, you can load them with a custom URL <a href="https://gears.aposteriori.com.sg/index.html?worldScripts=world_Image,world_Test">https://gears.aposteriori.com.sg/index.html?worldScripts=world_Image,world_Test</a>.' +
-          '</p>' +
-          '<h3>7 Jul 2022 (Russian and Hungarian)</h3>' +
-          '<ul>' +
-          '<li>Added Russian translation by Pavel Khoroshevich.</li>' +
-          '<li>Added Hungarian translation by Niethammer Zoltán.</li>' +
-          '<li>Fixes for file saves. Should now work when there are unicode characters in the Blocks / Python program.</li>' +
-          '</ul>'
+            'The "Challenges" world is designed for beginners, and consists of a series of basic coding challenges. ' +
+            'Educators who would like to create their own challenges should look at the <a href="https://github.com/QuirkyCort/gears/blob/master/public/js/worlds/extra/world_challenges.js">source code</a> to learn how.' +
+          '</p>'
       }
       acknowledgeDialog(options, function(){
         localStorage.setItem('whatsNew', current);
