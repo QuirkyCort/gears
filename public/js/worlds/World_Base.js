@@ -1382,7 +1382,10 @@ var World_Base = function() {
 
       return params[0] + self.mulberry32() * (params[1] - params[0]);
     };
-    fns.randchoice = function(string) {
+    fns.randchoice = function(string, rand) {
+      if (typeof rand == 'undefined') {
+        rand = self.mulberry32();
+      }
       if (typeof string != 'string') {
         return string;
       }
@@ -1393,9 +1396,24 @@ var World_Base = function() {
         return null;
       }
 
-      let choice = Math.floor(self.mulberry32() * params.length);
+      let choice = Math.floor(rand * params.length);
       return params[choice];
     };
+    fns.randchoiceA = function(string) {
+      return fns.randchoice(string, self.choiceA);
+    }
+    fns.randchoiceB = function(string) {
+      return fns.randchoice(string, self.choiceB);
+    }
+    fns.randchoiceC = function(string) {
+      return fns.randchoice(string, self.choiceC);
+    }
+    fns.randchoiceD = function(string) {
+      return fns.randchoice(string, self.choiceD);
+    }
+    fns.randchoiceE = function(string) {
+      return fns.randchoice(string, self.choiceE);
+    }
 
     function processFunction(string) {
       let i;
@@ -1522,6 +1540,17 @@ var World_Base = function() {
     } else {
       self.seed = parseFloat(seed);
     }
+
+    let origSeed = self.seed;
+
+    // Used when processing randomization in settings
+    self.choiceA = self.mulberry32();
+    self.choiceB = self.mulberry32();
+    self.choiceC = self.mulberry32();
+    self.choiceD = self.mulberry32();
+    self.choiceE = self.mulberry32();
+
+    self.seed = origSeed;
   };
 
   // Generate random number
