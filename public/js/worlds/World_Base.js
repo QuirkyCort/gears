@@ -1414,6 +1414,42 @@ var World_Base = function() {
     fns.randchoiceE = function(string) {
       return fns.randchoice(string, self.choiceE);
     }
+    fns.shuffle = function(string, shuffleUsed) {
+      if (typeof string != 'string') {
+        return string;
+      }
+      string = string.trim();
+
+      let params = processTerms(string.slice(1, -1));
+      if (params.length == 0) {
+        return null;
+      }
+
+      let choice;
+      while (true) {
+        choice = Math.floor(self.mulberry32() * params.length);
+        if (shuffleUsed.indexOf(choice) == -1) {
+          shuffleUsed.push(choice);
+          break;
+        }
+      }
+      return params[choice];
+    }
+    fns.shuffleA = function(string) {
+      return fns.shuffle(string, self.shuffleUsedA);
+    }
+    fns.shuffleB = function(string) {
+      return fns.shuffle(string, self.shuffleUsedB);
+    }
+    fns.shuffleC = function(string) {
+      return fns.shuffle(string, self.shuffleUsedC);
+    }
+    fns.shuffleD = function(string) {
+      return fns.shuffle(string, self.shuffleUsedD);
+    }
+    fns.shuffleE = function(string) {
+      return fns.shuffle(string, self.shuffleUsedE);
+    }
 
     function processFunction(string) {
       let i;
@@ -1549,6 +1585,12 @@ var World_Base = function() {
     self.choiceC = self.mulberry32();
     self.choiceD = self.mulberry32();
     self.choiceE = self.mulberry32();
+
+    self.shuffleUsedA = [];
+    self.shuffleUsedB = [];
+    self.shuffleUsedC = [];
+    self.shuffleUsedD = [];
+    self.shuffleUsedE = [];
 
     self.seed = origSeed;
   };
