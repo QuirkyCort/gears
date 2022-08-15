@@ -1426,6 +1426,10 @@ var World_Base = function() {
       }
 
       let choice;
+      if (params.length <= shuffleUsed.length) {
+        toastMsg('Insufficient shuffle choices');
+        return params[0];
+      }
       while (true) {
         choice = Math.floor(self.mulberry32() * params.length);
         if (shuffleUsed.indexOf(choice) == -1) {
