@@ -35,6 +35,7 @@ var world_challenges = new function() {
         ['Actuators: Forklift 2', 'worlds/challenges/forklift-2.json?v=75bbe870'],
         ['Sensors: Stop on Red', 'worlds/challenges/sensor-color-stop.json?v=b61db0d8'],
         ['Sensors: Don\'t Hit the Wall', 'worlds/challenges/sensor-ultrasonic-stop.json?v=d82c8d51'],
+        ['Sensors: Cross the Bridge', 'worlds/challenges/sensor-color-bridge.json?v=35e48e81'],
       ]
     },
     {
@@ -285,6 +286,8 @@ var world_challenges = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PEACOCK');
     } else if (self.options.jsonFile.includes('sensor-ultrasonic-stop.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PIGEON');
+    } else if (self.options.jsonFile.includes('sensor-color-bridge.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'DUCK');
     }
   };
 
