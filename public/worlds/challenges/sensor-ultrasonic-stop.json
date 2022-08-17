@@ -96,9 +96,45 @@
       {
         "type": "model",
         "position": [
-          0,
+          -15,
           88,
-          11
+          10.528709294999999
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Kenny.nl - Graveyard/brickWall.glb",
+        "modelScale": 30,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          15,
+          88,
+          10.528709294999999
         ],
         "rotationMode": "degrees",
         "rotation": [
