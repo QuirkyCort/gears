@@ -119,6 +119,9 @@ var World_Base = function() {
   // Set options, NOT including default
   this.setOptions = function(options) {
     function processOptionsObject(options) {
+      if (options === null) {
+        return null;
+      }
       let processed = {};
 
       for (let key in options) {
@@ -815,7 +818,7 @@ var World_Base = function() {
     objectMesh.isPickable = options.isPickable;
 
     if (typeof options.laserDetection == 'undefined' || options.laserDetection == null) {
-      if (options.physicsOptions === false) {
+      if (options.physicsOptions === false || options.physicsOptions === 'false') {
         objectMesh.laserDetection = 'invisible';
       } else {
         objectMesh.laserDetection = 'normal';
@@ -825,7 +828,7 @@ var World_Base = function() {
     }
 
     if (typeof options.ultrasonicDetection == 'undefined' || options.ultrasonicDetection == null) {
-      if (options.physicsOptions === false) {
+      if (options.physicsOptions === false || options.physicsOptions === 'false') {
         objectMesh.ultrasonicDetection = 'invisible';
       } else {
         objectMesh.ultrasonicDetection = 'normal';
