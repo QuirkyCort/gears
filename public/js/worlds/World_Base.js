@@ -1366,7 +1366,10 @@ var World_Base = function() {
     let NUMBERS = '-+0123456789';
 
     let fns = {};
-    fns.randrange = function(string) {
+    fns.randrange = function(string, rand) {
+      if (typeof rand == 'undefined') {
+        rand = self.mulberry32();
+      }
       if (typeof string != 'string') {
         return string;
       }
@@ -1380,8 +1383,23 @@ var World_Base = function() {
         return null;
       }
 
-      return params[0] + self.mulberry32() * (params[1] - params[0]);
+      return params[0] + rand * (params[1] - params[0]);
     };
+    fns.randrangeA = function(string) {
+      return fns.randrange(string, self.choiceA);
+    }
+    fns.randrangeB = function(string) {
+      return fns.randrange(string, self.choiceB);
+    }
+    fns.randrangeC = function(string) {
+      return fns.randrange(string, self.choiceC);
+    }
+    fns.randrangeD = function(string) {
+      return fns.randrange(string, self.choiceD);
+    }
+    fns.randrangeE = function(string) {
+      return fns.randrange(string, self.choiceE);
+    }
     fns.randchoice = function(string, rand) {
       if (typeof rand == 'undefined') {
         rand = self.mulberry32();

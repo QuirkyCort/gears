@@ -22,6 +22,7 @@ var world_challenges = new function() {
       options: [
         ['Basic: Move', 'worlds/challenges/basic-1.json?v=36019081'],
         ['Basic: Sequential Movements', 'worlds/challenges/basic-2.json?v=6b84cb3c'],
+        ['Basic: Move-Turn-Move', 'worlds/challenges/basic-2a.json?v=c0c1abd2'],
         ['Basic: Turns 1', 'worlds/challenges/basic-2b.json?v=3c1928b8'],
         ['Basic: Turns 2', 'worlds/challenges/basic-3.json?v=475b7598'],
         ['Basic: Curve Turn', 'worlds/challenges/basic-4.json?v=a86689f6'],
@@ -31,7 +32,8 @@ var world_challenges = new function() {
         ['Maze: 4x4 Pink', 'worlds/challenges/maze44-2.json?v=513d8b73'],
         ['Actuators: Forklift 0', 'worlds/challenges/forklift-0.json?v=5385c933'],
         ['Actuators: Forklift 1', 'worlds/challenges/forklift-1.json?v=6212821e'],
-        ['Actuators: Forklift 2', 'worlds/challenges/forklift-2.json?v=75bbe870']
+        ['Actuators: Forklift 2', 'worlds/challenges/forklift-2.json?v=75bbe870'],
+        ['Sensors: Stop on Red', 'worlds/challenges/sensor-color-stop.json?v=b61db0d8'],
       ]
     },
     {
@@ -74,6 +76,7 @@ var world_challenges = new function() {
       endBox
       && endBox.intersectsPoint(robot.body.absolutePosition)
       && skulpt.running == false
+      && robot.leftWheel.speed < 1 && robot.rightWheel.speed < 1
     ) {
       self.ended = true;
       let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
@@ -228,6 +231,7 @@ var world_challenges = new function() {
         'basic': ['mazeBasic', 'https://files.aposteriori.com.sg/get/pQov9Yj6tn.json'],
         'maze': ['mazeBasic', 'https://files.aposteriori.com.sg/get/pQov9Yj6tn.json'],
         'forklift': ['forklift', 'https://raw.githubusercontent.com/QuirkyCort/gears-contributions/main/robots/Demo/linearActuatorForklift.json'],
+        'sensor': ['sensorBasic', 'https://files.aposteriori.com.sg/get/qq4BShcP3a.json'],
       }
 
       for (let jsonFile in DEFAULT_ROBOT) {
@@ -253,13 +257,15 @@ var world_challenges = new function() {
     if (self.options.jsonFile.includes('basic-1.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'UNICORN');
     } else if (self.options.jsonFile.includes('basic-2.json')) {
-      self.renderBasic2(delta);
+      self.renderBasic2(delta); // GIRAFFE
+    } else if (self.options.jsonFile.includes('basic-2a.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box4', 'CAT');
     } else if (self.options.jsonFile.includes('basic-2b.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box4', 'WOLF');
     } else if (self.options.jsonFile.includes('basic-3.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PUPPY');
     } else if (self.options.jsonFile.includes('basic-4.json')) {
-      self.renderBasic4(delta);
+      self.renderBasic4(delta); // BEAVER
     } else if (self.options.jsonFile.includes('maze33-1.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box4', 'ELEPHANT');
     } else if (self.options.jsonFile.includes('maze33-2.json')) {
@@ -274,6 +280,8 @@ var world_challenges = new function() {
       self.renderForkliftOneBox(delta, 'RHINO');
     } else if (self.options.jsonFile.includes('forklift-2.json')) {
       self.renderForkliftOneBox(delta, 'MOOSE');
+    } else if (self.options.jsonFile.includes('sensor-color-stop.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PEACOCK');
     }
   };
 

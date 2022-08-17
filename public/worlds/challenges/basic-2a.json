@@ -1,0 +1,651 @@
+{
+  "worldName": "custom",
+  "options": {
+    "imageURL": "",
+    "groundType": "box",
+    "length": 100,
+    "width": 100,
+    "uScale": 0.2,
+    "vScale": 0.2,
+    "imageScale": 1,
+    "timer": "none",
+    "timerDuration": 60,
+    "timerEnd": "continue",
+    "wall": false,
+    "wallHeight": 7.7,
+    "wallThickness": 4.5,
+    "wallColor": "#1A1A1A",
+    "groundFriction": 1,
+    "wallFriction": 0.1,
+    "groundRestitution": 0,
+    "wallRestitution": 0.1,
+    "restartAnimationOnRun": false,
+    "objects": [
+      {
+        "type": "model",
+        "position": [
+          0,
+          0,
+          -1
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/KayKit - Dungeon/tileBrickA_large.gltf.glb",
+        "modelScale": 4,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          0,
+          24,
+          -1
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/KayKit - Dungeon/tileBrickA_large.gltf.glb",
+        "modelScale": 4,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          0,
+          48,
+          -1
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/KayKit - Dungeon/tileBrickA_large.gltf.glb",
+        "modelScale": 4,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          -24,
+          48,
+          -1
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/KayKit - Dungeon/tileBrickA_large.gltf.glb",
+        "modelScale": 4,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -24,
+          48,
+          13
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          23,
+          23,
+          23
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#00ff0070",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          0,
+          -30,
+          0
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          44.2,
+          17.1,
+          1
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/g9eHJ3WEvr.png",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          -22,
+          100,
+          8
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "animationMode": "loop",
+        "animationKeys": [
+          {
+            "time": 0,
+            "position": [
+              -54,
+              56,
+              -15
+            ],
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          },
+          {
+            "time": 5,
+            "position": [
+              -54,
+              -28,
+              -15
+            ],
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          },
+          {
+            "time": 6,
+            "position": [
+              -54,
+              -28,
+              -15
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "time": 11,
+            "position": [
+              -54,
+              56,
+              -15
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "time": 12,
+            "position": [
+              -54,
+              56,
+              -15
+            ],
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        ],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Cute Monsters/Demon.glb",
+        "modelScale": 10,
+        "modelAnimation": "Walk",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          80,
+          64,
+          -15
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          -90,
+          0
+        ],
+        "animationMode": "loop",
+        "animationKeys": [
+          {
+            "time": 0,
+            "position": [
+              80,
+              64,
+              -15
+            ],
+            "rotation": [
+              0,
+              -90,
+              0
+            ]
+          },
+          {
+            "time": 4,
+            "position": [
+              -19,
+              64,
+              -15
+            ],
+            "rotation": [
+              0,
+              -90,
+              0
+            ]
+          },
+          {
+            "time": 5,
+            "position": [
+              -19,
+              64,
+              -15
+            ],
+            "rotation": [
+              0,
+              -270,
+              0
+            ]
+          },
+          {
+            "time": 9,
+            "position": [
+              80,
+              64,
+              -15
+            ],
+            "rotation": [
+              0,
+              -270,
+              0
+            ]
+          },
+          {
+            "time": 10,
+            "position": [
+              80,
+              64,
+              -15
+            ],
+            "rotation": [
+              0,
+              -90,
+              0
+            ]
+          }
+        ],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Cute Monsters/Demon.glb",
+        "modelScale": 10,
+        "modelAnimation": "Jump",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          62,
+          6,
+          -15
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          360,
+          0
+        ],
+        "animationMode": "loop",
+        "animationKeys": [
+          {
+            "time": 0,
+            "position": [
+              62,
+              6,
+              -15
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "time": 1,
+            "position": [
+              62,
+              6,
+              -15
+            ],
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          },
+          {
+            "time": 2,
+            "position": [
+              62,
+              6,
+              -15
+            ],
+            "rotation": [
+              0,
+              360,
+              0
+            ]
+          }
+        ],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Cute Monsters/Demon.glb",
+        "modelScale": 10,
+        "modelAnimation": "Bite_Front",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          55,
+          119,
+          -14.809503622353077
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Cute Monsters/Demon.glb",
+        "modelScale": 10,
+        "modelAnimation": "Dance",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          -45,
+          122,
+          -14.809503622353077
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Cute Monsters/Demon.glb",
+        "modelScale": 10,
+        "modelAnimation": "Dance",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          0,
+          46,
+          -28
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          160,
+          200,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/uN3VYezpSF.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      }
+    ],
+    "startPos": "center",
+    "startPosXYZStr": "",
+    "startRotStr": "",
+    "startPosXYZ": [
+      0,
+      0,
+      0.2
+    ],
+    "startRot": null,
+    "arenaStartPosXYZ": null,
+    "arenaStartRot": null
+  }
+}
