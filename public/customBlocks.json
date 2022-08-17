@@ -2211,7 +2211,7 @@
       ]
     }
   ],
-  "output": "Boolean",
+  "output": "Number",
   "colour": 160,
   "tooltip": "",
   "helpUrl": ""
