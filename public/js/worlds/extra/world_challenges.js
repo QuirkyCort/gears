@@ -39,6 +39,7 @@ var world_challenges = new function() {
         ['Sensors: Left or Right', 'worlds/challenges/sensor-color-leftRight.json?v=576b3cc1'],
         ['Sensors: Left, Right, Forward', 'worlds/challenges/sensor-color-leftRightFwd.json?v=dfb49d28'],
         ['Sensors: Follow the Colors', 'worlds/challenges/centeredSensor-followColor.json?v=4a6bd66e'],
+        ['Sensors: Follow to Yellow', 'worlds/challenges/centeredSensor-follow2Yellow.json?v=d3f89769'],
       ]
     },
     {
@@ -298,6 +299,8 @@ var world_challenges = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'BLUE JAY');
     } else if (self.options.jsonFile.includes('centeredSensor-followColor.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'ROBIN');
+    } else if (self.options.jsonFile.includes('centeredSensor-follow2Yellow.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'GOLDFINCH');
     }
   };
 
