@@ -36,6 +36,8 @@ var world_challenges = new function() {
         ['Sensors: Stop on Red', 'worlds/challenges/sensor-color-stop.json?v=b61db0d8'],
         ['Sensors: Don\'t Hit the Wall', 'worlds/challenges/sensor-ultrasonic-stop.json?v=d82c8d51'],
         ['Sensors: Cross the Bridge', 'worlds/challenges/sensor-color-bridge.json?v=35e48e81'],
+        ['Sensors: Left or Right', 'worlds/challenges/sensor-color-leftRight.json?v=576b3cc1'],
+        ['Sensors: Left, Right, Forward', 'worlds/challenges/sensor-color-leftRightFwd.json?v=dfb49d28'],
       ]
     },
     {
@@ -233,7 +235,7 @@ var world_challenges = new function() {
         'basic': ['mazeBasic', 'https://files.aposteriori.com.sg/get/pQov9Yj6tn.json'],
         'maze': ['mazeBasic', 'https://files.aposteriori.com.sg/get/pQov9Yj6tn.json'],
         'forklift': ['forklift', 'https://raw.githubusercontent.com/QuirkyCort/gears-contributions/main/robots/Demo/linearActuatorForklift.json'],
-        'sensor': ['sensorBasic', 'https://files.aposteriori.com.sg/get/qq4BShcP3a.json'],
+        'sensor': ['sensorBasic', 'https://files.aposteriori.com.sg/get/dRUWUkKoU5.json'],
       }
 
       for (let jsonFile in DEFAULT_ROBOT) {
@@ -288,6 +290,10 @@ var world_challenges = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PIGEON');
     } else if (self.options.jsonFile.includes('sensor-color-bridge.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'DUCK');
+    } else if (self.options.jsonFile.includes('sensor-color-leftRight.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SPARROW');
+    } else if (self.options.jsonFile.includes('sensor-color-leftRightFwd.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'BLUE JAY');
     }
   };
 
