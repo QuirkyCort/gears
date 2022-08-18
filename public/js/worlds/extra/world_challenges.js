@@ -298,6 +298,8 @@ var world_challenges = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SPARROW');
     } else if (self.options.jsonFile.includes('sensor-color-leftRightFwd.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'BLUE JAY');
+    } else if (self.options.jsonFile.includes('centeredSensor-follow2Colors.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'NARWHAL');
     } else if (self.options.jsonFile.includes('centeredSensor-followColor.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'ROBIN');
     } else if (self.options.jsonFile.includes('centeredSensor-follow2Yellow.json')) {
