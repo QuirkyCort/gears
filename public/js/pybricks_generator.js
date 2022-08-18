@@ -48,6 +48,7 @@ var pybricks_generator = new function() {
     Blockly.Python['wait_for_state'] = self.wait_for_state;
     Blockly.Python['button_state'] = self.button_state;
     Blockly.Python['wait_until_button'] = self.wait_until_button;
+    Blockly.Python['wait_until'] = self.wait_until;
   };
 
   // Generate python code
@@ -344,7 +345,7 @@ var pybricks_generator = new function() {
     var left_port = block.getFieldValue('left_port');
     var right_port = block.getFieldValue('right_port');
 
-    var code = 
+    var code =
       'left_motor = motor' + left_port + '\n' +
       'right_motor = motor' + right_port + '\n';
 
@@ -750,6 +751,13 @@ var pybricks_generator = new function() {
 
     var code = map_to_param[color];
     return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.wait_until = function(block) {
+    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+
+    let code = 'while not ' + value_value + ':\n    pass\n';
+    return code;
   };
 }
 

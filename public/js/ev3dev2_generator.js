@@ -49,6 +49,8 @@ var ev3dev2_generator = new function() {
     Blockly.Python['wait_for_state'] = self.wait_for_state;
     Blockly.Python['button_state'] = self.button_state;
     Blockly.Python['wait_until_button'] = self.wait_until_button;
+    Blockly.Python['wait_until'] = self.wait_until;
+
     Blockly.Python['radio_send'] = self.radio_send;
     Blockly.Python['radio_available'] = self.radio_available;
     Blockly.Python['radio_read'] = self.radio_read;
@@ -58,7 +60,7 @@ var ev3dev2_generator = new function() {
 
   // Generate python code
   this.genCode = function() {
-    let wheelCode = robot.processedOptions.wheels ? 
+    let wheelCode = robot.processedOptions.wheels ?
     ('motorA = LargeMotor(OUTPUT_A)\n' +
     'motorB = LargeMotor(OUTPUT_B)\n' +
     'left_motor = motorA\n' +
@@ -299,7 +301,7 @@ var ev3dev2_generator = new function() {
     var left_port = block.getFieldValue('left_port');
     var right_port = block.getFieldValue('right_port');
 
-    var code = 
+    var code =
       'left_motor = motor' + left_port + '\n' +
       'right_motor = motor' + right_port + '\n' +
       'tank_drive = MoveTank(OUTPUT_' + left_port + ', OUTPUT_' + right_port + ')\n' +
@@ -820,6 +822,13 @@ var ev3dev2_generator = new function() {
       var code = '\'' + map_to_name[color] + '\'';
       return [code, Blockly.Python.ORDER_ATOMIC];
     }
+  };
+
+  this.wait_until = function(block) {
+    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+
+    let code = 'while not ' + value_value + ':\n    pass\n';
+    return code;
   };
 }
 
