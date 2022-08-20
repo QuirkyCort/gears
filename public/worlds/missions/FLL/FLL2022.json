@@ -13571,8 +13571,7 @@
                     "uScale": 1,
                     "vScale": 1,
                     "physicsOptions": {
-                      "mass": 100,
-                      "friction": 0.2
+                      "mass": 100
                     },
                     "magnetic": false,
                     "laserDetection": null,
@@ -13873,7 +13872,9 @@
                                     "imageURL": "",
                                     "uScale": 1,
                                     "vScale": 1,
-                                    "physicsOptions": "moveable",
+                                    "physicsOptions": {
+                                      "mass": 50
+                                    },
                                     "magnetic": false,
                                     "laserDetection": null,
                                     "ultrasonicDetection": null,
@@ -14789,6 +14790,42 @@
             "receiveShadows": false,
             "castShadows": false,
             "isPickable": true
+          },
+          {
+            "type": "box",
+            "position": [
+              0,
+              -0.8,
+              7.7
+            ],
+            "rotationMode": "degrees",
+            "rotation": [
+              0,
+              0,
+              37
+            ],
+            "animationMode": "none",
+            "animationKeys": [],
+            "size": [
+              4,
+              0.7,
+              1
+            ],
+            "modelURL": "",
+            "modelScale": 10,
+            "modelAnimation": "None",
+            "color": "#717171ff",
+            "imageType": "repeat",
+            "imageURL": "",
+            "uScale": 1,
+            "vScale": 1,
+            "physicsOptions": "fixed",
+            "magnetic": false,
+            "laserDetection": null,
+            "ultrasonicDetection": null,
+            "receiveShadows": false,
+            "castShadows": false,
+            "isPickable": true
           }
         ],
         "position": [
@@ -14837,7 +14874,7 @@
             ],
             "rotationMode": "degrees",
             "rotation": [
-              53,
+              -53,
               -45,
               90
             ],
@@ -14986,7 +15023,7 @@
             ],
             "rotationMode": "degrees",
             "rotation": [
-              53,
+              -53,
               -45,
               90
             ],
@@ -15135,7 +15172,7 @@
             ],
             "rotationMode": "degrees",
             "rotation": [
-              53,
+              -53,
               -45,
               90
             ],
