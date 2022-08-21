@@ -924,12 +924,15 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20220808;
+    let current = 20220821;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>21 Aug 2022 (Superpowered Complete!)</h3>' +
+          '<p>The FIRST Lego League 2022/2023 Superpowered missions are now complete.</p>' +
+          '<p>View a demo video <a href="https://youtu.be/-aoI6su6m84">on YouTube.</a></p>' +
           '<h3>8 Aug 2022 (Superpowered)</h3>' +
           '<p>Added the FIRST Lego League 2022/2023 Superpowered mission.</p>' +
           '<p>' +
