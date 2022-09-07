@@ -219,7 +219,7 @@ var world_Maze = new function() {
     color3.specularColor = new BABYLON.Color3(0, 0, 0);
     color3.alpha = 0.5;
     var color4 = new BABYLON.StandardMaterial('color4', scene);
-    color4.diffuseColor = new BABYLON.Color3(1, 0, 1);
+    color4.diffuseColor = new BABYLON.Color3(1, 1, 0);
     color4.specularColor = new BABYLON.Color3(0, 0, 0);
     color4.alpha = 0.5;
 
