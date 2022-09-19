@@ -125,7 +125,7 @@ var world_TFC = new function() {
   ];
 
   this.defaultOptions = {
-    imageURL: 'textures/maps/tfc.png',
+    image: 'gears/public/textures/maps/tfc.png',
     width: 244,
     length: 244,
     wall: true,
