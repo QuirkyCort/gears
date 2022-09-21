@@ -125,7 +125,7 @@ var world_TFC = new function() {
   ];
 
   this.defaultOptions = {
-    imageURL: 'https://raw.githubusercontent.com/Yuvix25/gears/master/public/textures/maps/tfc.png',
+    imageURL: 'images/worlds/tfc.png',
     width: 244,
     length: 244,
     wall: true,
