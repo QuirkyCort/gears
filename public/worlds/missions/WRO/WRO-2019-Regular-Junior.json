@@ -1,0 +1,540 @@
+{
+  "worldName": "custom",
+  "options": {
+    "imageURL": "textures/maps/WRO/WRO-2019-Regular-Junior.jpg",
+    "groundType": "box",
+    "length": 100,
+    "width": 100,
+    "uScale": 1,
+    "vScale": 1,
+    "imageScale": 1,
+    "timer": "down",
+    "timerDuration": 120,
+    "timerEnd": "continue",
+    "wall": true,
+    "wallHeight": 7.7,
+    "wallThickness": 4.5,
+    "wallColor": "#1A1A1A",
+    "groundFriction": 1,
+    "wallFriction": 0.1,
+    "groundRestitution": 0,
+    "wallRestitution": 0.1,
+    "objects": [
+      {
+        "type": "box",
+        "position": [
+          43.30049133300781,
+          -42.136573791503906,
+          1.600000023841858
+        ],
+        "size": [
+          3.2,
+          3.2,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#E5C638",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          83.0602798461914,
+          0.7559148669242859,
+          1.600000023841858
+        ],
+        "size": [
+          3.2,
+          3.2,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#0D8A42",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          83.20761108398438,
+          43.86629867553711,
+          1.600000023841858
+        ],
+        "size": [
+          3.2,
+          3.2,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#284FDA",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          63.25401306152344,
+          0.7550894021987915,
+          1.600000023841858
+        ],
+        "size": [
+          3.2,
+          3.2,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#0D8A42",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          63.254642486572266,
+          43.79689025878906,
+          1.600000023841858
+        ],
+        "size": [
+          3.2,
+          3.2,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#E12331",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -98.94225311279297,
+          -40.64061737060547,
+          1.600000023841858
+        ],
+        "size": [
+          3.2,
+          3.2,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#000000ff",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          103.3470458984375,
+          43.737125396728516,
+          1.600000023841858
+        ],
+        "size": [
+          3.2,
+          3.2,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#E12331",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -23.477449417114258,
+          -17.96323585510254,
+          1.600000023841858
+        ],
+        "size": [
+          1.4,
+          12,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#0D8A42",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          1.103701114654541,
+          47.35740661621094,
+          1.600000023841858
+        ],
+        "size": [
+          3.2,
+          3.2,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#000000ff",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -71.58953680896748,
+          -18.237557863386133,
+          1.600000023841855
+        ],
+        "size": [
+          1.4,
+          12,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#E5C638",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -82.30130767822266,
+          -10.910013198852539,
+          1.600000023841858
+        ],
+        "size": [
+          70,
+          1.4,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#E5C638",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -47.55997848510742,
+          45.16017150878906,
+          1.600000023841858
+        ],
+        "size": [
+          1.4,
+          23.5,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#ffffffff",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -34.971519470214844,
+          -10.83889389038086,
+          1.600000023841858
+        ],
+        "size": [
+          24,
+          1.4,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#0D8A42",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -47.44929504394531,
+          -18.172863006591797,
+          1.600000023841858
+        ],
+        "size": [
+          1.4,
+          12,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#ffffffff",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -69.3438491821289,
+          37.060142517089844,
+          1.600000023841858
+        ],
+        "size": [
+          1.4,
+          11,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#E12331",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -57.92380142211914,
+          32.24989318847656,
+          1.600000023841858
+        ],
+        "size": [
+          21,
+          1.4,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#E12331",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -25.2590389251709,
+          36.86183166503906,
+          1.600000023841858
+        ],
+        "size": [
+          1.4,
+          11,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#284FDA",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      },
+      {
+        "type": "box",
+        "position": [
+          -36.707034671179166,
+          32.16303729635804,
+          1.6000000238418592
+        ],
+        "size": [
+          21,
+          1.4,
+          3.2
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "color": "#284FDA",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "moveable",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      }
+    ],
+    "startPos": "center",
+    "startPosXYZStr": "",
+    "startRotStr": "",
+    "startPosXYZ": [
+      103,
+      -43,
+      0
+    ],
+    "startRot": 0,
+    "arenaStartPosXYZ": null,
+    "arenaStartRot": null
+  }
+}

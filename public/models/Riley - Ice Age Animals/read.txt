@@ -1,0 +1,12 @@
+Credit: https://rkuhlf-assets.itch.io/ice-age
+License: Public domain
+
+Three rigged and animated low poly aquatic animals. You can download both the .fbx and .blend versions of the files as a .zip, or you can download and import a unity package (which includes basic animator controllers).
+
+This package contains 
+
+- A woolly mammoth, with idle, walk, and head shake animations
+
+- A saber-tooth tiger, with idle, walk, run, and bite animations
+
+- A giant sloth, with idle and walk animations

@@ -6,26 +6,6 @@ SENSOR_DELAY = 0.001
 class ColorSensor:
   _DRIVER_NAME = 'lego-ev3-color'
 
-  COLOR_NOCOLOR = 0 # HSV values from https://lego.fandom.com/wiki/Colour_Palette
-  COLOR_BLACK = 1   # 0, 0, 0
-  COLOR_BLUE = 2    # 207, 64, 78
-  COLOR_GREEN = 3   # 120, 100, 60
-  COLOR_YELLOW = 4  # 60, 100, 100
-  COLOR_RED = 5     # 0, 100, 100
-  COLOR_WHITE = 6   # 0, 0, 100
-  COLOR_BROWN = 7   # 24, 79, 25
-
-  COLORS = (
-      'NoColor',
-      'Black',
-      'Blue',
-      'Green',
-      'Yellow',
-      'Red',
-      'White',
-      'Brown',
-    )
-
   MODE_COL_REFLECT = 'COL-REFLECT'
   MODE_COL_AMBIENT = 'COL-AMBIENT'
   MODE_COL_COLOR = 'COL-COLOR'
@@ -47,32 +27,12 @@ class ColorSensor:
   @property
   def color(self):
     time.sleep(SENSOR_DELAY)
-    hsv = self.hsv
-
-    if hsv[1] < 20:
-      if hsv[2] < 30:
-        return self.COLOR_BLACK
-      else:
-        return self.COLOR_WHITE
-
-    elif hsv[0] < 30:
-      return self.COLOR_RED
-
-    elif hsv[0] < 90:
-      return self.COLOR_YELLOW
-
-    elif hsv[0] < 163:
-      return self.COLOR_GREEN
-
-    elif hsv[0] < 283:
-      return self.COLOR_BLUE
-
-    else:
-      return self.COLOR_RED
+    return self.sensor.color()
 
   @property
   def color_name(self):
-    return self.COLORS[self.color]
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.colorName()
 
   @property
   def raw(self):
@@ -85,7 +45,7 @@ class ColorSensor:
   @property
   def rgb(self):
     time.sleep(SENSOR_DELAY)
-    rgb = list(self.sensor.value())
+    rgb = self.sensor.value()
     for i in range(3):
       rgb[i] = int(rgb[i])
     return rgb
@@ -93,7 +53,7 @@ class ColorSensor:
   @property
   def lab(self):
     time.sleep(SENSOR_DELAY)
-    lab = list(self.sensor.valueLAB())
+    lab = self.sensor.valueLAB()
     for i in range(3):
       lab[i] = int(lab[i])
     return lab
@@ -101,7 +61,7 @@ class ColorSensor:
   @property
   def hsv(self):
     time.sleep(SENSOR_DELAY)
-    hsv = list(self.sensor.valueHSV())
+    hsv = self.sensor.valueHSV()
     for i in range(3):
       hsv[i] = int(hsv[i])
     return hsv
@@ -109,7 +69,7 @@ class ColorSensor:
   @property
   def hls(self):
     time.sleep(SENSOR_DELAY)
-    hls = list(self.sensor.valueHLS())
+    hls = self.sensor.valueHLS()
     for i in range(3):
       hls[i] = int(hls[i])
     return hls
@@ -142,24 +102,46 @@ class GyroSensor:
 
   def __init__(self, address=None):
     self.sensor = simPython.GyroSensor(address)
+    self.float = False
 
   @property
   def angle(self):
-    time.sleep(SENSOR_DELAY)
     return self.angle_and_rate[0]
 
   @property
   def rate(self):
-    time.sleep(SENSOR_DELAY)
     return self.angle_and_rate[1]
 
   @property
   def angle_and_rate(self):
     time.sleep(SENSOR_DELAY)
-    angle_and_rate = list(self.sensor.angleAndRate())
-    for i in range(2):
-      angle_and_rate[i] = int(angle_and_rate[i])
-    return angle_and_rate
+    return self.sensor.yawAngleAndRate(self.float)
+
+  @property
+  def pitch_angle(self):
+    return self.pitch_angle_and_rate[0]
+
+  @property
+  def pitch_rate(self):
+    return self.pitch_angle_and_rate[1]
+
+  @property
+  def pitch_angle_and_rate(self):
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.pitchAngleAndRate(self.float)
+
+  @property
+  def roll_angle(self):
+    return self.roll_angle_and_rate[0]
+
+  @property
+  def roll_rate(self):
+    return self.roll_angle_and_rate[1]
+
+  @property
+  def roll_angle_and_rate(self):
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.rollAngleAndRate(self.float)
 
   def reset(self):
     self.sensor.reset()
@@ -207,7 +189,7 @@ class UltrasonicSensor:
   @property
   def distance_centimeters(self):
     time.sleep(SENSOR_DELAY)
-    return float(self.sensor.dist())
+    return self.sensor.dist()
 
   @property
   def distance_inches_continuous(self):
@@ -225,6 +207,9 @@ class UltrasonicSensor:
   def other_sensor_present(self):
     time.sleep(SENSOR_DELAY)
     return False
+
+# Alias for clarity
+LaserRangeSensor = UltrasonicSensor
 
 class TouchSensor:
   _DRIVER_NAME = 'lego-ev3-touch'

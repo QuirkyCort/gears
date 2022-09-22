@@ -95,7 +95,7 @@ function popErrorMsg(element, message, pos) {
 function toastMsg(message) {
   var $toast = $('<div class="toastMsg">' + message + '</div>');
   $toast.on('animationend', function() { $toast.remove(); });
-  $('body').append($toast);
+  $('html > body').append($toast);
 }
 
 // Show activity spinner
@@ -103,7 +103,7 @@ function showSpinner() {
   if (typeof $('#activitySpinner')[0] === 'undefined') {
     var spinner = '<div id="activitySpinner"><i class="fas fa-sync fa-spin"></i></div>';
 
-    $('body').append(spinner);
+    $('html > body').append(spinner);
   }
 }
 
@@ -168,7 +168,7 @@ function dialog(title, $bodyContent, $buttons, className='') {
     $box.addClass('animatedHide');
   };
 
-  $('body').append($dialog);
+  $('html > body').append($dialog);
 
   return $dialog;
 }
@@ -198,7 +198,7 @@ function confirmDialog(options, callback) {
   var $dialog = dialog(options.title, bodyContent, $buttons);
 
   $buttons.siblings('.cancel').click(function() { $dialog.close(); });
-  $buttons.siblings('.confirm').click(function() { $dialog.close(callback); });
+  $buttons.siblings('.confirm').click(function() { $dialog.close(); callback(); });
 
   return $dialog;
 }

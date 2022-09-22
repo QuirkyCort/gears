@@ -1,0 +1,112 @@
+{
+  "worldName": "custom",
+  "options": {
+    "imageURL": "textures/maps/FLL/FLL2020.jpg",
+    "groundType": "box",
+    "length": 100,
+    "width": 100,
+    "uScale": 1,
+    "vScale": 1,
+    "imageScale": 1,
+    "timer": "up",
+    "timerDuration": 150,
+    "timerEnd": "continue",
+    "wall": true,
+    "wallHeight": 7.7,
+    "wallThickness": 4.5,
+    "wallColor": "#1A1A1A",
+    "groundFriction": 1,
+    "wallFriction": 0.1,
+    "groundRestitution": 0,
+    "wallRestitution": 0.1,
+    "objects": [
+      {
+        "position": [40,-53,3.5],
+        "size": [30,7,7]
+      },
+      {
+        "position": [0,-2,5],
+        "size": [4,10,10],
+        "rotation": [0,50,0]
+      },
+      {
+        "position": [-67,15,3.5],
+        "size": [20,7,7],
+        "rotation": [0,-165,0]
+      },
+      {
+        "position": [-52,49,10],
+        "size": [7,7,20],
+        "rotation": [0,-133,0]
+      },
+      {
+        "position": [12,-7,1],
+        "size": [5,10,2]
+      },
+      {
+        "position": [15,-10,10],
+        "size": [3,3,20]
+      },
+      {
+        "position": [27,-10,18.5],
+        "size": [24,3,3]
+      },
+      {
+        "position": [39,-10,10],
+        "size": [3,3,20]
+      },
+      {
+        "position": [42,-7,1],
+        "size": [5,10,2]
+      },
+      {
+        "position": [-32,57,4],
+        "size": [20,3,8]
+      },
+      {
+        "position": [-32,60,9.5],
+        "size": [10,10,3]
+      },
+      {
+        "position": [55,-13,1.5],
+        "size": [7,7,3]
+      },
+      {
+        "position": [55,0,2.5],
+        "size": [10,10,5]
+      },
+      {
+        "position": [42,39,5],
+        "size": [5,15,10]
+      },
+      {
+        "position": [55,48,1],
+        "size": [10,5,2],
+        "rotation": [0,45,0]
+      },
+      {
+        "position": [105,-41,2.5],
+        "size": [10,10,5]
+      },
+      {
+        "position": [108,-8,5],
+        "size": [5,5,10]
+      },
+      {
+        "position": [101,-11,1],
+        "size": [5,5,2]
+      },
+      {
+        "position": [103,44,5],
+        "size": [20,5,10]
+      }
+    ],
+    "startPos": "center",
+    "startPosXYZStr": "",
+    "startRotStr": "",
+    "startPosXYZ": [-70, -40, 0],
+    "startRot": 0,
+    "arenaStartPosXYZ": null,
+    "arenaStartRot": null
+  }
+}

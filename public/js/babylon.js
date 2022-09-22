@@ -2,25 +2,25 @@ var babylon = new function() {
   var self = this;
 
   this.DISABLE_ASYNC = true;
+  this.ENABLE_ANTIALIASING = false;
 
   this.world = worlds[0];
 
   // Run on page load
   this.init = function() {
     self.canvas = document.getElementById('renderCanvas');
-    self.engine = new BABYLON.Engine(self.canvas, true);
+    self.engine = new BABYLON.Engine(self.canvas, self.ENABLE_ANTIALIASING);
 
     self.scene = self.createScene(); // Call the createScene function
-    // self.scene.debugLayer.show();
 
     self.world.setOptions().then(function(){
       self.loadMeshes(self.scene);
     });
 
     // Register a render loop to repeatedly render the scene
-    self.engine.runRenderLoop(function () {
-      self.scene.render();
-    });
+    // self.engine.runRenderLoop(function () {
+    //   self.scene.render();
+    // });
 
     // Watch for browser/canvas resize events
     window.addEventListener('resize', function () {
@@ -42,15 +42,13 @@ var babylon = new function() {
     scene.enablePhysics(gravityVector, physicsPlugin);
 
     var cameraArc = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2, Math.PI / 5, 200, new BABYLON.Vector3(0, 0, 0), scene);
-    cameraArc.panningAxis = new BABYLON.Vector3(1, 1, 0);
-    cameraArc.wheelPrecision = 3;
-    cameraArc.lowerRadiusLimit = 10;
-    cameraArc.panningSensibility = 100;
-    cameraArc.angularSensibilityX = 2000;
-    cameraArc.angularSensibilityY = 2000;
     cameraArc.attachControl(self.canvas, true);
     self.cameraArc = cameraArc;
+    self.resetCamera();
     self.setCameraMode('follow');
+
+    // Controls for Orthographic camera
+    scene.onPointerObservable.add(self.zoomOrtho, BABYLON.PointerEventTypes.POINTERWHEEL);
 
     // Add GUI layer
     if (typeof BABYLON.GUI != 'undefined') {
@@ -72,11 +70,65 @@ var babylon = new function() {
 
     // Shadows
     scene.shadowGenerator = new BABYLON.ShadowGenerator(512, lightDir);
+    scene.shadowGenerator.forceBackFacesOnly = true;
     // scene.shadowGenerator.bias = 0.00005;
-    // scene.shadowGenerator.depthScale = 50;
+    // scene.shadowGenerator.depthScale = 5000;
     // scene._shadowsEnabled = false;
 
+    // Optimizer
+    var options = new BABYLON.SceneOptimizerOptions(80, 2000); // 60fps, check every 2000ms
+    options.addOptimization(new BABYLON.HardwareScalingOptimization(0, 2));
+    self.optimizer = new BABYLON.SceneOptimizer(scene, options);
+    self.optimizer.onNewOptimizationAppliedObservable.add(function (optim) {
+      console.log(optim.getDescription());
+    });
+
+    // Debugging
+    // scene.debugLayer.show();
+
     return scene;
+  };
+
+  // Set othographic camera zoom
+  this.zoomOrtho = function(p) {
+    if (self.cameraMode != 'orthoTop') {
+      return;
+    }
+
+    let wheelDelta = 0;
+    if (typeof p != 'undefined') {
+      var event = p.event;
+      if (event.wheelDelta) {
+          wheelDelta = event.wheelDelta;
+      } else {
+          wheelDelta = -(event.deltaY || event.detail) * 60;
+      }
+    }
+
+    self.cameraArc.orthoRadius -= wheelDelta / 12;
+
+    let zoomScale = self.cameraArc.orthoRadius / 2.5;
+    let aspectRatio = self.canvas.width / self.canvas.height;
+    self.cameraArc.orthoTop = 1 * zoomScale;
+    self.cameraArc.orthoBottom = -1 * zoomScale;
+    self.cameraArc.orthoLeft = -aspectRatio * zoomScale;
+    self.cameraArc.orthoRight = aspectRatio * zoomScale;
+  };
+
+  // Set camera to default
+  this.resetCamera = function() {
+    self.cameraArc.alpha = -Math.PI / 2;
+    self.cameraArc.beta = Math.PI / 5;
+    self.cameraArc.radius = 200;
+    self.cameraArc.origAlpha = -Math.PI / 2;
+    self.cameraArc.origBeta = Math.PI / 5;
+    self.cameraArc.panningAxis = new BABYLON.Vector3(1, 1, 0);
+    self.cameraArc.wheelPrecision = 3;
+    self.cameraArc.lowerRadiusLimit = 10;
+    self.cameraArc.panningSensibility = 100;
+    self.cameraArc.angularSensibility = 2000;
+    self.cameraArc.angularSensibilityX = self.cameraArc.angularSensibility;
+    self.cameraArc.angularSensibilityY = self.cameraArc.angularSensibility;
   };
 
   // Set camera mode
@@ -86,21 +138,52 @@ var babylon = new function() {
     }
 
     if (self.cameraMode == 'follow') {
+      if (self.cameraArc.origAlpha !== null) {
+        self.cameraArc.alpha = self.cameraArc.origAlpha;
+      }
+      if (self.cameraArc.origBeta !== null) {
+        self.cameraArc.beta = self.cameraArc.origBeta;
+      }
+      self.cameraArc.origAlpha = null;
+      self.cameraArc.origBeta = null;
       self.cameraArc.lockedTarget = robot.body;
       self.cameraArc._panningMouseButton = 1;
-
+      babylon.cameraArc.mode = BABYLON.Camera.PERSPECTIVE_CAMERA
+      self.cameraArc.inputs.attached.keyboard.attachControl();
+      self.cameraArc.angularSensibilityX = self.cameraArc.angularSensibility;
+      self.cameraArc.angularSensibilityY = self.cameraArc.angularSensibility;
     } else if (self.cameraMode == 'orthoTop') {
+      self.cameraArc.origAlpha = self.cameraArc.alpha;
+      self.cameraArc.origBeta = self.cameraArc.beta;
+      let target = self.cameraArc.getTarget().clone();
       self.cameraArc.lockedTarget = null;
+      self.cameraArc.setTarget(target);
       self.cameraArc.alpha = -Math.PI / 2;
       self.cameraArc.beta = 0;
       self.cameraArc._panningMouseButton = 0; // change functionality from left to right mouse button
-
+      self.cameraArc.orthoRadius = self.cameraArc.radius;
+      self.cameraArc.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
+      self.zoomOrtho();
+      self.cameraArc.inputs.attached.keyboard.detachControl();
+      self.cameraArc.angularSensibilityX = 10000000;
+      self.cameraArc.angularSensibilityY = 10000000;
     } else if (self.cameraMode == 'arc') {
-      // self.cameraArc.lockedTarget = new BABYLON.Vector3(0, 0, 0);
-      // self.cameraArc.alpha = -Math.PI / 2;
-      // self.cameraArc.beta = Math.PI / 5;
+      if (self.cameraArc.origAlpha !== null) {
+        self.cameraArc.alpha = self.cameraArc.origAlpha;
+      }
+      if (self.cameraArc.origBeta !== null) {
+        self.cameraArc.beta = self.cameraArc.origBeta;
+      }
+      self.cameraArc.origAlpha = null;
+      self.cameraArc.origBeta = null;
+      let target = self.cameraArc.getTarget().clone();
       self.cameraArc.lockedTarget = null;
+      self.cameraArc.setTarget(target);
       self.cameraArc._panningMouseButton = 1;
+      babylon.cameraArc.mode = BABYLON.Camera.PERSPECTIVE_CAMERA;
+      self.cameraArc.inputs.attached.keyboard.attachControl();
+      self.cameraArc.angularSensibilityX = self.cameraArc.angularSensibility;
+      self.cameraArc.angularSensibilityY = self.cameraArc.angularSensibility;
     }
   }
 
@@ -113,22 +196,30 @@ var babylon = new function() {
     let up = self.cameraArc.upVector;
     let mode = self.cameraMode;
 
-    self.engine.stopRenderLoop(self.engine._activeRenderLoops[0]);
+    self.engine.stopRenderLoop();
     self.scene.dispose();
 
     self.scene = self.createScene();
-    // self.scene.debugLayer.show();
 
-    // Restore camera
-    self.setCameraMode(mode);
-    self.cameraArc.position = pos;
-    self.cameraArc.absoluteRotation = rot;
-    self.cameraArc.upVector = up;
-    self.cameraArc.target = target;
+    if (
+      typeof main == 'undefined'
+      || main.$navs.siblings('.active').attr('id') == 'navSim'
+      || main.$navs.siblings('.active').attr('id') == 'navArena'
+    ) {
+      self.engine.runRenderLoop(function () {
+        self.scene.render();
+      });
+    }
 
-    self.loadMeshes(self.scene);
-    self.engine.runRenderLoop(function () {
-      self.scene.render();
+    return self.loadMeshes(self.scene).then(function(){
+      // Restore camera
+      self.setCameraMode(mode);
+      self.cameraArc.position = pos;
+      self.cameraArc.absoluteRotation = rot;
+      self.cameraArc.upVector = up;
+      self.cameraArc.target = target;
+      self.cameraArc.origAlpha = null;
+      self.cameraArc.origBeta = null;
     });
   };
 
@@ -187,7 +278,7 @@ var babylon = new function() {
       }
     });
 
-    Promise.all(loader).then(function() {
+    return Promise.all(loader).then(function() {
       self.setCameraMode(); // Set after loading mesh as camera may be locked to mesh
 
       // RTT test
@@ -206,7 +297,7 @@ var babylon = new function() {
         if (robot.disabled == true) {
           return;
         }
-        robot.loadMeshes(self.scene.meshes.filter(mesh => mesh.id != 'RTT'));
+        robot.loadMeshes(self.scene.meshes.filter(mesh => mesh.id != 'RTT' && mesh.id != 'marker1' && mesh.id != 'marker2'));
       })
 
       // We should also pre-build the RTT materials for performance
@@ -226,8 +317,10 @@ var babylon = new function() {
             mesh.rttMaterial = mesh.material.clone();
             mesh.rttMaterial.id = rttID;
             mesh.rttMaterial.disableLighting = true;
-            if (mesh.diffuseTexture) {
+            if (mesh.rttMaterial.diffuseTexture) {
               mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
+            } else if (mesh.rttMaterial.albedoColor) {
+              mesh.rttMaterial.emissiveColor = mesh.rttMaterial.albedoColor;
             } else {
               mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
             }
@@ -258,13 +351,14 @@ var babylon = new function() {
 
   // Get color3 from hex
   this.hexToColor3 = function(rgba) {
+    rgba = rgba.replace(/^#/g, '');
     let color = '#';
 
-    if (rgba.length == 3) {
+    if (rgba.length == 3 || rgba.length == 4) {
       color += rgba[0] + rgba[0];
       color += rgba[1] + rgba[1];
       color += rgba[2] + rgba[2];
-    } else if (rgba.length == 6) {
+    } else if (rgba.length == 6 || rgba.length == 8) {
       color += rgba[0] + rgba[1];
       color += rgba[2] + rgba[3];
       color += rgba[4] + rgba[5];
@@ -285,13 +379,7 @@ var babylon = new function() {
 
     let mat = new BABYLON.StandardMaterial(rgba, scene);
 
-    if (rgba.length == 3 || rgba.length == 4) {
-      mat.diffuseColor = self.hexToColor3(rgba.slice(0,3));
-    }
-
-    if (rgba.length == 6 || rgba.length == 8) {
-      mat.diffuseColor = self.hexToColor3(rgba.slice(0,6));
-    }
+    mat.diffuseColor = self.hexToColor3(rgba);
 
     if (rgba.length == 4) {
       color[3] = parseInt(rgba[3]+rgba[3], 16) / 255;
@@ -307,9 +395,45 @@ var babylon = new function() {
     return mat;
   };
 
+  // Change material for a mesh, including handling for rtt material
+  this.setMaterial = function(mesh, material) {
+    mesh.material = material;
+    mesh.isFrozen = false;
+
+    let rttID = 'RTT_' + mesh.material.id;
+    let mat = self.scene.getMaterialByID(rttID);
+    if (mat == null) {
+      mesh.rttMaterial = mesh.material.clone();
+      mesh.rttMaterial.id = rttID;
+      mesh.rttMaterial.disableLighting = true;
+      if (mesh.rttMaterial.diffuseTexture) {
+        mesh.rttMaterial.emissiveColor = FULL_EMMISSIVE;
+      } else if (mesh.rttMaterial.albedoColor) {
+        mesh.rttMaterial.emissiveColor = mesh.rttMaterial.albedoColor;
+      } else {
+        mesh.rttMaterial.emissiveColor = mesh.rttMaterial.diffuseColor;
+      }
+      mesh.rttMaterial.freeze();
+    } else {
+      mesh.rttMaterial = mat;
+    }
+
+    delete mesh._rtt_subMeshEffects;
+  };
+
+  // List of render functions to call
+  this.renders = [];
+
   // Render loop
   this.render = function() {
     var delta = self.scene.getEngine().getDeltaTime();
+
+    if (typeof simPanel != 'undefined' && simPanel.showFPS) {
+      simPanel.$fps.text(self.engine.getFps().toFixed() + " fps");
+    }
+    if (typeof arenaPanel != 'undefined' && arenaPanel.showFPS) {
+      arenaPanel.$fps.text(self.engine.getFps().toFixed() + " fps");
+    }
 
     robots.forEach(function(robot){
       if (robot.disabled == true) {
@@ -321,17 +445,25 @@ var babylon = new function() {
     if (self.world.render) {
       self.world.render(delta);
     }
+
+    self.renders.forEach(function(render){
+      render(delta);
+    });
   };
 }
 
 // Init class
-babylon.init();
+// babylon.init();
+
+window.addEventListener("DOMContentLoaded", function() {
+  var config = {
+    locateFile: () => 'ammo/ammo-20210414.wasm.wasm'
+  }
+  Ammo(config).then(babylon.init);
+});
 
 // window.addEventListener("DOMContentLoaded", function() {
-//   var config = {
-//     locateFile: () => 'ammo/ammo-20200724.wasm.wasm'
-//   }
-//   Ammo(config).then(babylon.init);
+//   Ammo().then(babylon.init);
 // });
 
 

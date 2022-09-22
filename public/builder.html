@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" href="favicon-32.png" sizes="32x32">
+  <link rel="icon" href="favicon-128.png" sizes="128x128">
+  <link rel="icon" href="favicon-167.png" sizes="167x167">
+  <link rel="icon" href="favicon-192.png" sizes="192x192">
+
+  <link rel="stylesheet" href="css/main.css?v=e4913234">
+  <link rel="stylesheet" href="css/widgets.css?v=9692a428">
+
+  <script src="jquery/jquery-3.5.1.slim.min.js"></script>
+
+  <!-- <script src="ammo/ammo-20210414.js"></script> -->
+  <script src="ammo/ammo-20210414.wasm.js"></script>
+
+  <script src="babylon/4.2.1/babylon.js"></script>
+  <script src="babylon/4.2.1/babylonjs.loaders.min.js"></script>
+  <script src="pep/0.4.3/pep.min.js"></script>
+
+  <script src="js/msg.js"></script>
+  <script src="js/common/widgets.js"></script>
+
+  <title>GearsBot World Builder</title>
+</head>
+
+<body>
+  <header>
+    <img class="gearsIcon" src="favicon-32.png">
+    <div>GearsBot World Builder</div>
+  </header>
+
+  <main>
+    <nav>
+      <ul class="panelTabs">
+        <li id="navWorld" class="active">World</li>
+      </ul>
+      <div class="menuBar">
+        <div class="menuItem fileMenu">File</div>
+        <div class="menuItem worldMenu">World</div>
+        <div class="menuItem snapMenu">Snap</div>
+      </div>
+    </nav>
+    <div class="panels">
+      <div class="panel active" aria-labelledby="navWorld">
+        <canvas id="renderCanvas" touch-action="none"></canvas>
+        <div class="worldInfo hide"></div>
+        <div class="objectsWindow">
+          <div class="buttons">
+            <div class="addObject">Add</div>
+            <div class="cloneObject">Clone</div>
+            <div class="deleteObject">Delete</div>
+          </div>
+          <div class="objectsList"></div>
+          <div class="buttons">
+            <div class="undo">Undo</div>
+          </div>
+        </div>
+        <div class="objectID"></div>
+        <div class="settingsWindow">
+          <div class="settingsArea"></div>
+        </div>
+        <div class="ruler closed" style="top: 1em; left: 10em;">
+          <div class="icon">
+            <span class="icon-ruler"></span>
+          </div>
+          <div class="measurements">
+            <table>
+              <tr>
+                <td class="x">X:</td>
+                <td class="y">Y:</td>
+                <td class="alt">Alt:</td>
+              </tr>
+              <tr>
+                <td class="dist" colspan="2">Distance:</td>
+                <td class="angle">Angle:</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/worlds/World_Base.js?v=37c3d441"></script>
+  <script src="js/worlds/world_Custom.js?v=a56a2eb0"></script>
+  <script src="js/robotComponents.js?v=70339366"></script>
+  <script src="js/robotTemplates.js?v=c254ce16"></script>
+  <script src="js/Wheel.js?v=bb27211a"></script>
+  <script src="js/Robot.js?v=2d34504b"></script>
+  <script>
+    var robots = [];
+
+    var robot = new Robot();
+    robot.options = JSON.parse(JSON.stringify(robotTemplates[0]));
+    robot.player = 'single';
+    robots.push(robot);
+  </script>
+  <script src="js/babylon.js?v=f3411eb4"></script>
+  <script src="js/simPanel.js?v=2cf38c47"></script>
+  <script src="js/builtInImages.js?v=02f21986"></script>
+  <script src="js/builtInModels.js?v=82f73098"></script>
+  <script src="js/GenConfig.js?v=3007e163"></script>
+  <script src="js/builder.js?v=824fc6c3"></script>
+
+</body>
+</html>

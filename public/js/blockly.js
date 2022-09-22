@@ -16,8 +16,8 @@ var blockly = new function() {
     horizontalLayout : false,
     toolboxPosition : 'start',
     css : true,
-    media : 'https://blockly-demo.appspot.com/static/media/',
-    rtl : false,
+    media : 'blockly/3.20200402.1/media/',
+    rtl : RTL,
     scrollbars : true,
     sounds : true,
     oneBasedIndex : false
@@ -50,12 +50,12 @@ var blockly = new function() {
 
   // Load toolbox
   this.loadToolBox = function() {
-    return fetch('toolbox.xml?v=bc1c279c')
+    return fetch('toolbox.xml?v=f52f160b')
       .then(response => response.text())
       .then(function(response) {
         response = i18n.replace(response);
-        var xml = (new DOMParser()).parseFromString(response, "text/xml");
-        options.toolbox = xml.getElementById('toolbox');
+        self.toolboxXml = (new DOMParser()).parseFromString(response, "text/xml");
+        options.toolbox = self.toolboxXml.getElementById('toolbox');
         self.workspace = Blockly.inject('blocklyHiddenDiv', options);
         self.displayedWorkspace = Blockly.inject('blocklyDiv', options);
         self.displayedWorkspace.addChangeListener(self.mirrorEvent);
@@ -65,11 +65,59 @@ var blockly = new function() {
 
         self.workspace.addChangeListener(Blockly.Events.disableOrphans);
         self.displayedWorkspace.addChangeListener(Blockly.Events.disableOrphans);
-        self.loadLocalStorage();
+        // self.loadLocalStorage();
+        setTimeout(self.loadLocalStorage, 200);
         setTimeout(function(){
           self.workspace.addChangeListener(self.checkModified);
         }, 1000);
       });
+  };
+
+  // Filter blocks from toolbox. Load from URL.
+  this.loadToolboxFilterURL = function(url) {
+    return fetch(url)
+      .then(function(response) {
+        if (response.ok) {
+          return response.text();
+        } else {
+          toastMsg(i18n.get('#sim-not_found#'));
+          return Promise.reject(new Error('invalid_blocks_filter'));
+        }
+      })
+      .then(function(response) {
+        self.loadToolboxFilter(JSON.parse(response));
+      });
+  };
+
+  // Filter blocks from toolbox
+  this.loadToolboxFilter = function(filter) {
+    if (typeof self.displayedWorkspace == 'undefined') {
+      setTimeout(function(){ self.loadToolboxFilter(filter); }, 500);
+      return;
+    }
+
+    let filteredXml = self.toolboxXml.cloneNode(true);
+
+    if (typeof filter.deny != 'undefined') {
+      if (typeof filter.deny.categories != 'undefined') {
+        for (let deny of filter.deny.categories) {
+          let toRemove = filteredXml.querySelector('[name="' + deny + '"]');
+          if (toRemove) {
+            toRemove.remove();
+          }
+        }
+      }
+      if (typeof filter.deny.blocks != 'undefined') {
+        for (let deny of filter.deny.blocks) {
+          let toRemove = filteredXml.querySelector('[type="' + deny + '"]').remove();
+          if (toRemove) {
+            toRemove.remove();
+          }
+        }
+      }
+    }
+
+    self.displayedWorkspace.updateToolbox(filteredXml.getElementById('toolbox'));  
   };
 
   // Register variables and procedures toolboxes callbacks
@@ -95,7 +143,21 @@ var blockly = new function() {
     });
 
     self.displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function(workspace){
-      return self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
+      let blocks = self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
+
+      for (let block of blocks) {
+        let blockType = block.getAttribute('type');
+        if (blockType == 'procedures_callnoreturn' || blockType == 'procedures_callreturn') {
+          block.setAttribute('inline', true);
+          let argsNumber = block.getElementsByTagName('arg').length;
+          for (let i=0; i<argsNumber; i++) {
+            let shadow = Blockly.Xml.textToDom('<value name="ARG' + i + '"><shadow type="math_number"><field name="NUM">0</field></shadow></value>');
+            block.append(shadow);
+          }
+        }
+      }
+
+      return blocks;
     });
   };
 
@@ -146,6 +208,9 @@ var blockly = new function() {
     if (primaryEvent instanceof Blockly.Events.Create) {
       self.assignOrphenToPage(blocklyPanel.currentPage);
     }
+    if (primaryEvent instanceof Blockly.Events.VarDelete) {
+      self.displayedWorkspace.getToolbox().refreshSelection()
+    }
   };
 
   // Load default workspace
@@ -159,7 +224,7 @@ var blockly = new function() {
 
   // Load custom blocks
   this.loadCustomBlocks = function() {
-    return fetch('customBlocks.json?v=dde639d9')
+    return fetch('customBlocks.json?v=bffc9104')
       .then(response => response.text())
       .then(function(response) {
         let json = JSON.parse(i18n.replace(response));
@@ -366,6 +431,18 @@ var blockly = new function() {
     });
     self.unsaved = true;
     blocklyPanel.showSave();
+  };
+
+  // Move blocks
+  this.moveSelected = function(selected, to) {
+    function moveBlock(block, to) {
+      block.data = to;
+      block.getChildren().forEach(function(desc) {
+        moveBlock(desc, to);
+      });
+    }
+
+    moveBlock(self.workspace.getBlockById(selected.id), to);
   };
 
   //

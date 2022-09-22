@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?bogrw9');
-  src:  url('../fonts/icomoon.eot?bogrw9#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?bogrw9') format('truetype'),
-    url('../fonts/icomoon.woff?bogrw9') format('woff'),
-    url('../fonts/icomoon.svg?bogrw9#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?r1fe98');
+  src:  url('../fonts/icomoon.eot?r1fe98#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?r1fe98') format('truetype'),
+    url('../fonts/icomoon.woff?r1fe98') format('woff'),
+    url('../fonts/icomoon.svg?r1fe98#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,18 +25,78 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-globe:before {
-  content: "\e904";
+.icon-deleteFile:before {
+  content: "\e917";
 }
-.icon-ruler:before {
+.icon-download:before {
+  content: "\e915";
+}
+.icon-upload:before {
+  content: "\e916";
+}
+.icon-newFile:before {
+  content: "\e919";
+}
+.icon-buttonsDown:before {
+  content: "\e90e";
+}
+.icon-buttonsLeft:before {
+  content: "\e90f";
+}
+.icon-buttonsRight:before {
+  content: "\e910";
+}
+.icon-buttonsUp:before {
+  content: "\e911";
+}
+.icon-buttons:before {
+  content: "\e912";
+}
+.icon-buttonsBackspace:before {
+  content: "\e913";
+}
+.icon-buttonsEnter:before {
+  content: "\e914";
+}
+.icon-sensors:before {
+  content: "\e90d";
+}
+.icon-reset:before {
+  content: "\e90c";
+}
+.icon-keyboard:before {
+  content: "\e90b";
+}
+.icon-cameraArc:before {
   content: "\e900";
 }
-.icon-stop:before {
+.icon-cameraTop:before {
+  content: "\e901";
+}
+.icon-cameraFollow:before {
   content: "\e902";
 }
-.icon-play:before {
+.icon-ruler:before {
   content: "\e903";
 }
 .icon-camera:before {
-  content: "\e901";
+  content: "\e904";
+}
+.icon-virtualJoystickIndicator:before {
+  content: "\e905";
+}
+.icon-stop:before {
+  content: "\e906";
+}
+.icon-play:before {
+  content: "\e907";
+}
+.icon-globe:before {
+  content: "\e908";
+}
+.icon-virtualJoystick:before {
+  content: "\e909";
+}
+.icon-joystick:before {
+  content: "\e90a";
 }

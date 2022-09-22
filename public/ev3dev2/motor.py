@@ -508,7 +508,7 @@ class Motor:
 
         m.wait_until_not_moving()
     """
-    return self.wait(lambda state: self.STATE_RUNNING not in state or self.STATE_STALLED in state, timeout)
+    return self.wait(lambda state: (self.STATE_RUNNING not in state and self.STATE_RAMPING not in state) or self.STATE_STALLED in state, timeout)
 
   def wait_while(self, s, timeout=None):
     """

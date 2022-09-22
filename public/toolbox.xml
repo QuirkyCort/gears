@@ -67,6 +67,10 @@
     <block type="stop">
       <field name="stop_action">HOLD</field>
     </block>
+    <block type="set_movement_motors">
+      <field name="left_port">A</field>
+      <field name="right_port">B</field>
+    </block>
   </category>
   <category name="#blk-motor#" colour="#5b67a5">
     <block type="run_motor">
@@ -82,6 +86,7 @@
       <field name="port">A</field>
       <field name="unit">PERCENT</field>
       <field name="unit2">ROTATIONS</field>
+      <field name="block">BLOCK</field>
       <value name="speed">
         <shadow type="math_number">
           <field name="NUM">20</field>
@@ -96,6 +101,7 @@
     <block type="run_motor_to">
       <field name="port">A</field>
       <field name="unit">PERCENT</field>
+      <field name="block">BLOCK</field>
       <value name="speed">
         <shadow type="math_number">
           <field name="NUM">20</field>
@@ -126,6 +132,10 @@
       <field name="type">INTENSITY</field>
       <field name="port">AUTO</field>
     </block>
+    <block type="color">
+      <field name="color">BLACK</field>
+      <field name="type">NUMBER</field>
+    </block>
     <block type="ultrasonic_sensor">
       <field name="port">AUTO</field>
       <field name="units">CM</field>
@@ -153,7 +163,14 @@
       <field name="state">PRESSED</field>
       <field name="port">AUTO</field>
     </block>
-
+    <block type="button_state">
+      <field name="button">CENTER</field>
+      <field name="state">PRESSED</field>
+    </block>
+    <block type="wait_until_button">
+      <field name="button">CENTER</field>
+      <field name="state">PRESSED</field>
+    </block>
   </category>
   <category name="#blk-sound#" colour="#a5745b">
     <block type="say">
@@ -237,13 +254,60 @@
         </shadow>
       </value>
     </block>
+    <block type="wait_until">
+      <value name="value">
+        <block type="logic_compare">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+      </value>
+    </block>
     <block type="time"></block>
     <block type="exit"></block>
   </category>
   <category name="#blk-logic#" colour="#5b80a5">
     <block type="controls_if"></block>
+    <block type="controls_if">
+      <value name="IF0">
+        <block type="logic_compare">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+      </value>
+    </block>
     <block type="logic_compare">
       <field name="OP">EQ</field>
+    </block>
+    <block type="logic_compare">
+      <field name="OP">EQ</field>
+      <value name="A">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
     </block>
     <block type="logic_operation">
       <field name="OP">AND</field>
@@ -265,6 +329,11 @@
     </block>
     <block type="controls_whileUntil">
       <field name="MODE">WHILE</field>
+      <value name="BOOL">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
     </block>
     <block type="controls_for">
       <field name="VAR" id="VcE)ymM,ZOf#f[tO9di}">i</field>

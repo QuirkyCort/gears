@@ -135,32 +135,29 @@ nav {
   height: 100%;
   font-size: 120%; }
 
+#pythonCode.hide {
+  display: none; }
+
 .pythonModule {
   width: 100%;
   height: 100%;
   font-size: 120%; }
 
-.dialogWindow .selectRobot {
-  max-height: 60vh;
+.dialogWindow .selectRobot .description {
   display: flex;
-  flex-direction: column; }
-  .dialogWindow .selectRobot .description {
-    display: flex;
-    border: solid 1px white;
-    margin-top: 0.5em; }
-    .dialogWindow .selectRobot .description .thumbnail {
-      width: 200px;
-      height: 200px; }
-    .dialogWindow .selectRobot .description .text {
-      border-left: solid 1px white;
-      padding: 0 1em;
-      flex-shrink: 1; }
-  .dialogWindow .selectRobot .configurations {
-    border: solid 1px white;
-    margin-top: 0.5em;
-    padding: 0 0.5em;
-    overflow-y: auto;
-    max-height: 20em; }
+  border: solid 1px white;
+  margin-top: 0.5em; }
+  .dialogWindow .selectRobot .description .thumbnail {
+    width: 200px;
+    height: 200px; }
+  .dialogWindow .selectRobot .description .text {
+    border-left: solid 1px white;
+    padding: 0 1em;
+    flex-shrink: 1; }
+.dialogWindow .selectRobot .configurations {
+  border: solid 1px white;
+  margin-top: 0.5em;
+  padding: 0 0.5em; }
 
 ul.menuDropDown {
   background: #E4F0FE;
@@ -222,6 +219,9 @@ ul.menuDropDownRightAlign {
     left: auto;
     width: max-content; }
 
+.blocklyEditor.hide {
+  display: none; }
+
 #renderCanvas {
   width: 100%;
   height: 100%; }
@@ -271,20 +271,40 @@ ul.menuDropDownRightAlign {
   color: white;
   opacity: 0.8;
   top: 2em;
-  left: 8em;
+  left: 6em;
   font-size: 200%;
   cursor: pointer;
   user-select: none; }
 
-.camera {
+.cameraSelector, .cameraSelectorShort {
   position: absolute;
-  color: white;
+  overflow: hidden;
+  color: #444;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   opacity: 0.8;
-  top: 2em;
-  right: 2em;
-  font-size: 200%;
+  top: 1em;
+  right: 1.5em;
+  height: 6.2em;
+  font-size: 300%;
+  transition: 0.3s height, 0.3s color, 0.3s background-color;
   cursor: pointer;
   user-select: none; }
+  .cameraSelector > div, .cameraSelectorShort > div {
+    margin: 0.2em; }
+  .cameraSelector .hide, .cameraSelectorShort .hide {
+    display: none; }
+
+.cameraSelectorShort {
+  height: 3.5em; }
+
+.cameraSelector.closed, .cameraSelectorShort.closed {
+  color: white;
+  background: none;
+  height: 1.3em !important; }
 
 .ruler {
   position: absolute;
@@ -302,7 +322,7 @@ ul.menuDropDownRightAlign {
   align-items: center;
   width: 13em;
   overflow: hidden;
-  transition: 0.5s width; }
+  transition: 0.5s width, 0.5s color, 0.5s background-color; }
   .ruler .icon {
     margin-right: 0.5em;
     font-size: 120%; }
@@ -322,6 +342,107 @@ ul.menuDropDownRightAlign {
   color: white;
   background: none;
   width: 1.3em; }
+
+.joystick {
+  position: absolute;
+  color: black;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 6em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  width: 7em;
+  height: 4.8em;
+  overflow: hidden;
+  transition: 0.5s width, 0.5s height, 0.5s color, 0.5s background-color;
+  outline: none; }
+  .joystick .icon {
+    margin-right: 0.5em;
+    font-size: 120%; }
+  .joystick .virtualJoystick {
+    position: relative;
+    font-size: 150px;
+    height: 150px; }
+    .joystick .virtualJoystick .icon-virtualJoystickIndicator {
+      position: absolute;
+      color: #ddd;
+      top: 0;
+      left: 0; }
+    .joystick .virtualJoystick .icon-virtualJoystick {
+      position: absolute;
+      color: #bbb;
+      top: 0;
+      left: 0; }
+  .joystick .keyboard {
+    position: absolute;
+    top: 4em;
+    left: 0.5em; }
+
+.joystick.closed {
+  color: white;
+  background: none;
+  width: 1.3em;
+  height: 1.3em; }
+
+.hubButtons {
+  position: absolute;
+  color: black;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 8em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  width: 6.5em;
+  height: 4.8em;
+  overflow: hidden;
+  transition: 0.5s width, 0.5s height, 0.5s color, 0.5s background-color;
+  outline: none; }
+  .hubButtons .icon {
+    margin-right: 0.5em;
+    font-size: 120%; }
+  .hubButtons .controls {
+    font-size: 135%;
+    color: #bbb; }
+    .hubButtons .controls .icon-buttonsBackspace, .hubButtons .controls .icon-buttonsUp, .hubButtons .controls .icon-buttonsDown, .hubButtons .controls .icon-buttonsLeft, .hubButtons .controls .icon-buttonsRight, .hubButtons .controls .icon-buttonsEnter {
+      position: absolute; }
+    .hubButtons .controls .pressed {
+      color: #888; }
+    .hubButtons .controls .icon-buttonsBackspace {
+      left: 1.6em;
+      top: 0.2em; }
+    .hubButtons .controls .icon-buttonsUp {
+      left: 2.7em;
+      top: 0.28em; }
+    .hubButtons .controls .icon-buttonsDown {
+      left: 2.7em;
+      top: 2.5em; }
+    .hubButtons .controls .icon-buttonsLeft {
+      top: 1.4em;
+      left: 1.6em; }
+    .hubButtons .controls .icon-buttonsRight {
+      top: 1.4em;
+      left: 3.8em; }
+    .hubButtons .controls .icon-buttonsEnter {
+      top: 1.4em;
+      left: 2.7em; }
+
+.hubButtons.closed {
+  color: white;
+  background: none;
+  width: 1.3em;
+  height: 1.3em; }
 
 .console {
   position: absolute;
@@ -373,47 +494,41 @@ ul.menuDropDownRightAlign {
   .console.open .content {
     overflow-y: scroll; }
 
-.dialogWindow .selectWorld {
-  max-height: 60vh;
+.dialogWindow .selectWorld .description {
   display: flex;
-  flex-direction: column; }
-  .dialogWindow .selectWorld .description {
-    display: flex;
-    border: solid 1px white;
-    margin-top: 0.5em; }
-    .dialogWindow .selectWorld .description .thumbnail {
-      width: 200px;
-      height: 200px; }
-    .dialogWindow .selectWorld .description .text {
-      border-left: solid 1px white;
-      padding: 0 1em;
-      flex-shrink: 1; }
-  .dialogWindow .selectWorld .configurations {
-    border: solid 1px white;
-    margin-top: 0.5em;
-    padding: 0 0.5em;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 20em; }
-    .dialogWindow .selectWorld .configurations .configuration {
-      padding: 0.5em 0em; }
-      .dialogWindow .selectWorld .configurations .configuration input[type=text], .dialogWindow .selectWorld .configurations .configuration input[type=file] {
-        font-size: 100%;
-        background: none;
-        border: solid 1px white;
-        color: white; }
-      .dialogWindow .selectWorld .configurations .configuration .configurationTitle {
-        color: lightgray;
-        margin-bottom: 0.1em; }
-      .dialogWindow .selectWorld .configurations .configuration .slider {
-        display: flex; }
-        .dialogWindow .selectWorld .configurations .configuration .slider input[type=range] {
-          flex-grow: 1; }
-        .dialogWindow .selectWorld .configurations .configuration .slider input[type=text] {
-          width: 3em;
-          text-align: right; }
-      .dialogWindow .selectWorld .configurations .configuration .text input[type=text] {
-        width: 100%; }
+  border: solid 1px white;
+  margin-top: 0.5em; }
+  .dialogWindow .selectWorld .description .thumbnail {
+    width: 200px;
+    height: 200px; }
+  .dialogWindow .selectWorld .description .text {
+    border-left: solid 1px white;
+    padding: 0 1em;
+    flex-shrink: 1; }
+.dialogWindow .selectWorld .configurations {
+  border: solid 1px white;
+  margin-top: 0.5em;
+  padding: 0 0.5em;
+  overflow-x: hidden; }
+  .dialogWindow .selectWorld .configurations .configuration {
+    padding: 0.5em 0em; }
+    .dialogWindow .selectWorld .configurations .configuration input[type=text], .dialogWindow .selectWorld .configurations .configuration input[type=file] {
+      font-size: 100%;
+      background: none;
+      border: solid 1px white;
+      color: white; }
+    .dialogWindow .selectWorld .configurations .configuration .configurationTitle {
+      color: lightgray;
+      margin-bottom: 0.1em; }
+    .dialogWindow .selectWorld .configurations .configuration .slider {
+      display: flex; }
+      .dialogWindow .selectWorld .configurations .configuration .slider input[type=range] {
+        flex-grow: 1; }
+      .dialogWindow .selectWorld .configurations .configuration .slider input[type=text] {
+        width: 3em;
+        text-align: right; }
+    .dialogWindow .selectWorld .configurations .configuration .text input[type=text] {
+      width: 100%; }
 
 .tooltip {
   position: relative;
@@ -477,9 +592,9 @@ ul.menuDropDownRightAlign {
   position: absolute;
   color: white;
   opacity: 0.8;
-  top: 2em;
-  right: 8em;
-  font-size: 200%;
+  top: 1.2em;
+  right: 3.5em;
+  font-size: 300%;
   cursor: pointer;
   user-select: none; }
 
@@ -494,7 +609,9 @@ ul.menuDropDownRightAlign {
   font-size: 100%;
   width: 14em;
   max-height: 70%;
-  overflow-y: auto; }
+  overflow-y: auto;
+  opacity: 1;
+  transition: 0.5s opacity, 0.5s max-height, 0.5s padding; }
   .sensorReadings .sensorReading {
     margin-bottom: 0.5em; }
     .sensorReadings .sensorReading .sensorType {
@@ -507,10 +624,13 @@ ul.menuDropDownRightAlign {
         color: darkblue; }
       .sensorReadings .sensorReading table.sensorValues td.sensorValue {
         text-align: right;
-        width: 30%; }
+        min-width: 2em; }
 
 .sensorReadings.hide {
-  display: none; }
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0; }
 
 @keyframes flash {
   0% {
@@ -555,14 +675,22 @@ ul.menuDropDownRightAlign {
     color: #ffff00; }
   .worldInfo .p3.animate {
     color: #ff0000; }
+  .worldInfo .warn {
+    color: #ff0000; }
 
 .worldInfo.hide {
   display: none; }
 
+.fps {
+  position: absolute;
+  right: 4em;
+  top: 1em;
+  color: #eb09ff; }
+
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?bogrw9");
-  src: url("../fonts/icomoon.eot?bogrw9#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?bogrw9") format("truetype"), url("../fonts/icomoon.woff?bogrw9") format("woff"), url("../fonts/icomoon.svg?bogrw9#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?r1fe98");
+  src: url("../fonts/icomoon.eot?r1fe98#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?r1fe98") format("truetype"), url("../fonts/icomoon.woff?r1fe98") format("woff"), url("../fonts/icomoon.svg?r1fe98#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
@@ -579,20 +707,80 @@ ul.menuDropDownRightAlign {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.icon-globe:before {
-  content: "\e904"; }
+.icon-deleteFile:before {
+  content: "\e917"; }
 
-.icon-ruler:before {
+.icon-download:before {
+  content: "\e915"; }
+
+.icon-upload:before {
+  content: "\e916"; }
+
+.icon-newFile:before {
+  content: "\e919"; }
+
+.icon-buttonsDown:before {
+  content: "\e90e"; }
+
+.icon-buttonsLeft:before {
+  content: "\e90f"; }
+
+.icon-buttonsRight:before {
+  content: "\e910"; }
+
+.icon-buttonsUp:before {
+  content: "\e911"; }
+
+.icon-buttons:before {
+  content: "\e912"; }
+
+.icon-buttonsBackspace:before {
+  content: "\e913"; }
+
+.icon-buttonsEnter:before {
+  content: "\e914"; }
+
+.icon-sensors:before {
+  content: "\e90d"; }
+
+.icon-reset:before {
+  content: "\e90c"; }
+
+.icon-keyboard:before {
+  content: "\e90b"; }
+
+.icon-cameraArc:before {
   content: "\e900"; }
 
-.icon-stop:before {
+.icon-cameraTop:before {
+  content: "\e901"; }
+
+.icon-cameraFollow:before {
   content: "\e902"; }
 
-.icon-play:before {
+.icon-ruler:before {
   content: "\e903"; }
 
 .icon-camera:before {
-  content: "\e901"; }
+  content: "\e904"; }
+
+.icon-virtualJoystickIndicator:before {
+  content: "\e905"; }
+
+.icon-stop:before {
+  content: "\e906"; }
+
+.icon-play:before {
+  content: "\e907"; }
+
+.icon-globe:before {
+  content: "\e908"; }
+
+.icon-virtualJoystick:before {
+  content: "\e909"; }
+
+.icon-joystick:before {
+  content: "\e90a"; }
 
 #arenaFrame {
   background-color: white;
@@ -686,7 +874,7 @@ ul.menuDropDownRightAlign {
 .console .player3 {
   color: #FF0000; }
 
-.componentsWindow {
+.componentsWindow, .objectsWindow {
   position: absolute;
   color: white;
   background-color: rgba(255, 255, 255, 0.2);
@@ -699,37 +887,44 @@ ul.menuDropDownRightAlign {
   height: 90%;
   display: flex;
   flex-direction: column; }
-  .componentsWindow .buttons {
+  .componentsWindow .buttons, .objectsWindow .buttons {
     display: flex;
     width: 100%;
     justify-content: space-between;
     box-sizing: border-box;
     font-size: 120%; }
-    .componentsWindow .buttons div {
+    .componentsWindow .buttons div, .objectsWindow .buttons div {
       border: solid 2px #bbbbbb;
       padding: 0.3em 0.5em;
       border-radius: 0.5em;
       cursor: pointer;
       user-select: none; }
-  .componentsWindow .componentsList {
+  .componentsWindow .componentsList, .componentsWindow .objectsList, .objectsWindow .componentsList, .objectsWindow .objectsList {
     font-size: 120%;
     overflow: auto;
     flex-grow: 1;
     white-space: nowrap;
     margin-bottom: 1em; }
-    .componentsWindow .componentsList ul {
+    .componentsWindow .componentsList ul, .componentsWindow .objectsList ul, .objectsWindow .componentsList ul, .objectsWindow .objectsList ul {
       list-style-type: none;
       padding-inline-start: 0; }
-      .componentsWindow .componentsList ul ul {
+      .componentsWindow .componentsList ul ul, .componentsWindow .objectsList ul ul, .objectsWindow .componentsList ul ul, .objectsWindow .objectsList ul ul {
         padding-inline-start: 1em;
         list-style-type: "˪ "; }
-    .componentsWindow .componentsList li {
+    .componentsWindow .componentsList li, .componentsWindow .objectsList li, .objectsWindow .componentsList li, .objectsWindow .objectsList li {
       cursor: pointer;
       user-select: none; }
-    .componentsWindow .componentsList li.selected {
+    .componentsWindow .componentsList li.selected, .componentsWindow .objectsList li.selected, .objectsWindow .componentsList li.selected, .objectsWindow .objectsList li.selected {
       background-color: #bbbbbb; }
-    .componentsWindow .componentsList li.ulHolder {
+    .componentsWindow .componentsList li.ulHolder, .componentsWindow .objectsList li.ulHolder, .objectsWindow .componentsList li.ulHolder, .objectsWindow .objectsList li.ulHolder {
       list-style-type: none; }
+
+.objectID {
+  position: absolute;
+  top: 0.5em;
+  right: 2em;
+  width: 20em;
+  color: white; }
 
 .settingsWindow {
   position: absolute;
@@ -745,13 +940,15 @@ ul.menuDropDownRightAlign {
   display: flex;
   flex-direction: column; }
   .settingsWindow .settingsArea {
-    flex-grow: 1; }
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden; }
   .settingsWindow .buttons {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     box-sizing: border-box;
-    font-size: 120%; }
+    font-size: 90%; }
     .settingsWindow .buttons div {
       border: solid 2px #bbbbbb;
       padding: 0.3em 0.5em;
@@ -774,3 +971,53 @@ ul.menuDropDownRightAlign {
     .settingsWindow .slider input[type=text] {
       width: 3em;
       text-align: right; }
+  .settingsWindow input[type=number] {
+    width: 3em; }
+  .settingsWindow .tooltip .tooltiptext {
+    max-width: 10em; }
+
+.dialogWindow .selectImage, .dialogWindow .selectModel, .dialogWindow .editAnimationKeys {
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column; }
+  .dialogWindow .selectImage .search, .dialogWindow .selectModel .search, .dialogWindow .editAnimationKeys .search {
+    display: flex;
+    margin-top: 0.5em; }
+    .dialogWindow .selectImage .search input, .dialogWindow .selectModel .search input, .dialogWindow .editAnimationKeys .search input {
+      font-size: 100%;
+      width: 100%;
+      background: none;
+      color: white;
+      border: solid 1px white;
+      padding: 0 0.2em;
+      margin-left: 0.5em; }
+  .dialogWindow .selectImage .images, .dialogWindow .selectImage .items, .dialogWindow .selectModel .images, .dialogWindow .selectModel .items, .dialogWindow .editAnimationKeys .images, .dialogWindow .editAnimationKeys .items {
+    border: solid 1px white;
+    margin-top: 0.5em;
+    padding: 0.5em;
+    overflow-y: auto;
+    max-height: 20em; }
+    .dialogWindow .selectImage .images .row, .dialogWindow .selectImage .items .row, .dialogWindow .selectModel .images .row, .dialogWindow .selectModel .items .row, .dialogWindow .editAnimationKeys .images .row, .dialogWindow .editAnimationKeys .items .row {
+      display: flex; }
+      .dialogWindow .selectImage .images .row .description, .dialogWindow .selectImage .items .row .description, .dialogWindow .selectModel .images .row .description, .dialogWindow .selectModel .items .row .description, .dialogWindow .editAnimationKeys .images .row .description, .dialogWindow .editAnimationKeys .items .row .description {
+        border: solid 1px white;
+        flex-grow: 1;
+        padding: 0 0.5em; }
+      .dialogWindow .selectImage .images .row .select, .dialogWindow .selectImage .items .row .select, .dialogWindow .selectModel .images .row .select, .dialogWindow .selectModel .items .row .select, .dialogWindow .editAnimationKeys .images .row .select, .dialogWindow .editAnimationKeys .items .row .select {
+        border: solid 1px white;
+        padding: 0.5em; }
+    .dialogWindow .selectImage .images .row.hide, .dialogWindow .selectImage .items .row.hide, .dialogWindow .selectModel .images .row.hide, .dialogWindow .selectModel .items .row.hide, .dialogWindow .editAnimationKeys .images .row.hide, .dialogWindow .editAnimationKeys .items .row.hide {
+      display: none; }
+  .dialogWindow .selectImage table, .dialogWindow .selectModel table, .dialogWindow .editAnimationKeys table {
+    border: solid 1px white; }
+    .dialogWindow .selectImage table th, .dialogWindow .selectModel table th, .dialogWindow .editAnimationKeys table th {
+      border: solid 1px white; }
+    .dialogWindow .selectImage table th, .dialogWindow .selectImage table td, .dialogWindow .selectModel table th, .dialogWindow .selectModel table td, .dialogWindow .editAnimationKeys table th, .dialogWindow .editAnimationKeys table td {
+      width: 3em;
+      text-align: center; }
+      .dialogWindow .selectImage table th input, .dialogWindow .selectImage table td input, .dialogWindow .selectModel table th input, .dialogWindow .selectModel table td input, .dialogWindow .editAnimationKeys table th input, .dialogWindow .editAnimationKeys table td input {
+        width: 100%;
+        font-size: 100%;
+        box-sizing: border-box; }
+.dialogWindow .searchCount {
+  margin-right: auto; }

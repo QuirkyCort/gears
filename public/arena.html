@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,15 +10,15 @@
   <link rel="icon" href="favicon-167.png" sizes="167x167">
   <link rel="icon" href="favicon-192.png" sizes="192x192">
 
-  <link rel="stylesheet" href="css/main.css?v=4c2a89a3">
-  <link rel="stylesheet" href="css/widgets.css?v=c3d4f957">
+  <link rel="stylesheet" href="css/main.css?v=e4913234">
+  <link rel="stylesheet" href="css/widgets.css?v=9692a428">
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
 
   <script src="ammo/ammo-20200613.js"></script>
 
-  <script src="babylon/4.1.0/babylon-physicsFix.js"></script>
-  <script src="babylon/4.1.0/babylon.gui.min.js"></script>
+  <script src="babylon/4.2.1/babylon.js"></script>
+  <script src="babylon/4.2.1/babylon.gui.min.js"></script>
   <script src="pep/0.4.3/pep.min.js"></script>
 
   <script src="js/msg.js"></script>
@@ -30,8 +28,6 @@
 </head>
 
 <body>
-
-  
   <header>
     <img class="gearsIcon" src="favicon-32.png">
     <div>GearsBot Arena</div>
@@ -45,6 +41,7 @@
       </ul>
       <div class="menuBar">
         <div class="menuItem optionsMenu">Options</div>
+        <div class="menuItem worldsMenu">Worlds</div>
       </div>
     </nav>
     <div class="panels">
@@ -52,18 +49,18 @@
       <div class="panel botsPanel active" aria-labelledby="navBots">
         <div class="botsRow">
           <div class="bot">
-            <iframe id="player0Frame" src="arenaFrame.html?v=1601822039&player=0"></iframe>
+            <iframe id="player0Frame" src="arenaFrame.html?v=9482b2f6&player=0"></iframe>
           </div>
           <div class="bot">
-            <iframe id="player2Frame" src="arenaFrame.html?v=1601822039&player=2"></iframe>
+            <iframe id="player2Frame" src="arenaFrame.html?v=9482b2f6&player=2"></iframe>
           </div>
         </div>
         <div class="botsRow">
           <div class="bot">
-            <iframe id="player1Frame" src="arenaFrame.html?v=1601822039&player=1"></iframe>
+            <iframe id="player1Frame" src="arenaFrame.html?v=9482b2f6&player=1"></iframe>
           </div>
           <div class="bot">
-            <iframe id="player3Frame" src="arenaFrame.html?v=1601822039&player=3"></iframe>
+            <iframe id="player3Frame" src="arenaFrame.html?v=9482b2f6&player=3"></iframe>
           </div>
         </div>
       </div>
@@ -72,12 +69,23 @@
         <canvas id="renderCanvas" touch-action="none"></canvas>
         <div class="startSim"><span class="icon-play"></span></div>
         <div class="stopSim"><span class="icon-stop"></span></div>
-        <div class="world">World</div>
-        <div class="reset">Reset</div>
-        <div class="camera"><span class="icon-camera"></span> Arc</div>
+        <div class="world"><span class="icon-globe"></div>
+        <div class="reset"><span class="icon-reset"></span></div>
+        <div class="cameraSelectorShort closed">
+          <div class="camera">
+            <span class="icon-cameraArc"></span>
+          </div>
+          <div class="cameraOptions cameraTop">
+            <span class="icon-cameraTop"></span>
+          </div>
+          <div class="cameraOptions cameraArc">
+            <span class="icon-cameraArc"></span>
+          </div>
+        </div>
 
         <div class="worldInfo hide"></div>
-        <div class="sensorReadings hide"></div>
+
+        <div class="fps"></div>
 
         <div class="console">
           <div class="chevron"></div>
@@ -88,14 +96,17 @@
     </div>
   </main>
 
-  <script src="js/world_Grid.js?v=d07bb9a5"></script>
-  <script src="js/world_Maze.js?v=068748cc"></script>
-  <script src="js/world_Arena.js?v=a72f3889"></script>
-  <script src="js/world_Image.js?v=ec8c064e"></script>
-  <script src="js/robotComponents.js?v=0e9ea5a4"></script>
-  <script src="js/robotTemplates.js?v=dd3d35bd"></script>
-  <script src="js/Wheel.js?v=bcd088f9"></script>
-  <script src="js/Robot.js?v=8d897835"></script>
+  <script src="js/worlds/World_Base.js?v=37c3d441"></script>
+  <script src="js/worlds/world_Grid.js?v=3ed03b45"></script>
+  <script src="js/worlds/world_Maze.js?v=6571b2a6"></script>
+  <script src="js/worlds/world_Arena.js?v=c1828281"></script>
+  <script src="js/worlds/world_Custom.js?v=a56a2eb0"></script>
+  <script src="js/worlds/world_Football.js?v=ab1b9783"></script>
+  <script src="js/worlds/extra/world_Image.js?v=571c26b3"></script>
+  <script src="js/robotComponents.js?v=70339366"></script>
+  <script src="js/robotTemplates.js?v=c254ce16"></script>
+  <script src="js/Wheel.js?v=bb27211a"></script>
+  <script src="js/Robot.js?v=2d34504b"></script>
   <script>
     var robots = [];
 
@@ -116,10 +127,10 @@
       }
     }
   </script>
-  <script src="js/babylon.js?v=7a657644"></script>
+  <script src="js/babylon.js?v=f3411eb4"></script>
   <script src="js/botsPanel.js?v=dedf08f0"></script>
-  <script src="js/arenaPanel.js?v=0cf8c5d9"></script>
-  <script src="js/arena.js?v=156022dd"></script>
+  <script src="js/arenaPanel.js?v=3c96dbe6"></script>
+  <script src="js/arena.js?v=f4ef5a72"></script>
 
 </body>
 </html>

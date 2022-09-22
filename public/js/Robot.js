@@ -2,6 +2,7 @@ function Robot() {
   var self = this;
 
   this.options = {};
+  this.processedOptions = {};
 
   this.body = null;
   this.leftWheel = null;
@@ -12,7 +13,7 @@ function Robot() {
   this.actuatorCount = 2;
   this.componentIndex = 0;
 
-  this.playerColors = [
+  this.playerIndividualColors = [
     new BABYLON.Color3(0.2, 0.94, 0.94),
     new BABYLON.Color3(0.2, 0.94, 0.2),
     new BABYLON.Color3(0.94, 0.94, 0.2),
@@ -21,7 +22,31 @@ function Robot() {
     new BABYLON.Color3(0.2, 0.2, 0.94)
   ];
 
+  this.playerTeamColors = [
+    new BABYLON.Color3(0.09, 0.09, 0.902),
+    new BABYLON.Color3(0.09, 0.495, 0.9),
+    new BABYLON.Color3(0.9, 0.09, 0.09),
+    new BABYLON.Color3(0.9, 0.09, 0.495),
+  ];
+
+  this.defaultOptions = {
+    color: '#f09c0d',
+    imageType: 'all',
+    imageURL: '',
+    caster: true,
+    wheels: true
+  };
+
   this.mailboxes = {};
+
+  this.hubButtons = {
+    backspace: false,
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+    enter: false
+  };
 
   // Run on page load
   this.init = function() {
@@ -29,7 +54,9 @@ function Robot() {
 
   // Create the scene
   this.load = function (scene, robotStart) {
-    var options = self.options;
+    var options = {...self.defaultOptions};
+    self.processedOptions = options;
+    Object.assign(options, self.options);
     self.scene = scene;
 
     return new Promise(function(resolve, reject) {
@@ -46,10 +73,53 @@ function Robot() {
 
       // Body
       var bodyMat = new BABYLON.StandardMaterial('body', scene);
+      var faceUV = new Array(6);
+      for (var i = 0; i < 6; i++) {
+        faceUV[i] = new BABYLON.Vector4(0, 0, 0, 0);
+      }
+
+      function setCustomColors() {
+        let VALID_IMAGETYPES = ['top','front','repeat','all','cylinder','sphere'];
+        if (VALID_IMAGETYPES.indexOf(options.imageType) != -1 && options.imageURL != '') {
+          if (options.imageType == 'top') {
+            faceUV[4] = new BABYLON.Vector4(0, 0, 1, 1);
+          } else if (options.imageType == 'front') {
+            faceUV[1] = new BABYLON.Vector4(0, 0, 1, 1);
+          } else if (options.imageType == 'repeat') {
+            for (var i = 0; i < 6; i++) {
+              faceUV[i] = new BABYLON.Vector4(0, 0, 1, 1);
+            }
+          } else if (options.imageType == 'all') {
+            faceUV[0] = new BABYLON.Vector4(0,   0,   1/3, 1/2);
+            faceUV[1] = new BABYLON.Vector4(1/3, 0,   2/3, 1/2);
+            faceUV[2] = new BABYLON.Vector4(2/3, 0,   1,   1/2);
+            faceUV[3] = new BABYLON.Vector4(0,   1/2, 1/3, 1);
+            faceUV[4] = new BABYLON.Vector4(1/3, 1/2, 2/3, 1);
+            faceUV[5] = new BABYLON.Vector4(2/3, 1/2, 1,   1);
+          }
+
+          bodyMat.diffuseTexture = new BABYLON.Texture(options.imageURL, scene);
+        } else {
+          bodyMat = babylon.getMaterial(scene, options.color);
+        }
+      }
+
       if (self.player == 'single') {
-        bodyMat.diffuseColor = new BABYLON.Color3(0.94, 0.61, 0.05);
+        setCustomColors();
       } else {
-        bodyMat.diffuseColor = self.playerColors[self.player];
+        // Arena mode
+        let robotColorMode = null;
+        if (typeof arena != 'undefined') {
+          robotColorMode = arena.robotColorMode;
+        }
+
+        if (robotColorMode == 'team') {
+          bodyMat.diffuseColor = self.playerTeamColors[self.player];
+        } else if (robotColorMode == 'custom') {
+          setCustomColors();
+        } else {
+          bodyMat.diffuseColor = self.playerIndividualColors[self.player];
+        }
       }
       bodyMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
       bodyMat.freeze();
@@ -57,8 +127,9 @@ function Robot() {
       let bodyOptions = {
         height: options.bodyHeight,
         width: options.bodyWidth,
-        depth: options.bodyLength
-      }
+        depth: options.bodyLength,
+        faceUV: faceUV
+      };
       var body = BABYLON.MeshBuilder.CreateBox('body', bodyOptions, scene);
       self.body = body;
       body.material = bodyMat;
@@ -79,47 +150,51 @@ function Robot() {
       body.paintballCollide = self.paintballCollide;
 
       // Rear caster
-      var casterMat = new BABYLON.StandardMaterial('caster', scene);
-      casterMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.6);
-      casterMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
-      casterMat.freeze();
+      if (options.caster) {
 
-      let casterOptions = {
-        diameter: options.wheelDiameter,
-        segments: 5
-      }
-      if (typeof options.casterDiameter != 'undefined' && options.casterDiameter > 0) {
-        casterOptions.diameter = options.casterDiameter;
-      }
-      var caster = BABYLON.MeshBuilder.CreateSphere("sphere", casterOptions, scene);
-      caster.material = casterMat;
-      caster.position.y = -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY - options.wheelDiameter / 2 + casterOptions.diameter / 2;
-      caster.position.z = -(options.bodyLength / 2) + (casterOptions.diameter / 2);
-      if (typeof options.casterOffsetZ != 'undefined') {
-        caster.position.z += options.casterOffsetZ;
-      }
+        var casterMat = new BABYLON.StandardMaterial('caster', scene);
+        casterMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.6);
+        casterMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+        casterMat.freeze();
 
-      scene.shadowGenerator.addShadowCaster(caster);
-      caster.parent = body;
+        let casterOptions = {
+          diameter: options.wheelDiameter,
+          segments: 5
+        }
+        if (typeof options.casterDiameter != 'undefined' && options.casterDiameter > 0) {
+          casterOptions.diameter = options.casterDiameter;
+        }
+        var caster = BABYLON.MeshBuilder.CreateSphere("sphere", casterOptions, scene);
+        caster.material = casterMat;
+        caster.position.y = -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY - options.wheelDiameter / 2 + casterOptions.diameter / 2;
+        caster.position.z = -(options.bodyLength / 2) + (casterOptions.diameter / 2);
+        if (typeof options.casterOffsetZ != 'undefined') {
+          caster.position.z += options.casterOffsetZ;
+        }
 
+        scene.shadowGenerator.addShadowCaster(caster);
+        caster.parent = body;
+
+        caster.physicsImpostor = new BABYLON.PhysicsImpostor(
+          caster,
+          BABYLON.PhysicsImpostor.SphereImpostor,
+          {
+            mass: options.casterMass,
+            restitution: 0.0,
+            friction: options.casterFriction
+          },
+          scene
+        );
+      }
       // Add components
       self.components = [];
       self.sensorCount = 0;
-      self.motorCount = 2;
+      self.motorCount = options.wheels ? 2 : 0;
+
       self.componentIndex = 0;
       self.loadComponents(self.options.components, self.components, self.body);
 
       // Add Physics
-      caster.physicsImpostor = new BABYLON.PhysicsImpostor(
-        caster,
-        BABYLON.PhysicsImpostor.SphereImpostor,
-        {
-          mass: options.casterMass,
-          restitution: 0.0,
-          friction: options.casterFriction
-        },
-        scene
-      );
       body.physicsImpostor = new BABYLON.PhysicsImpostor(
         body,
         BABYLON.PhysicsImpostor.BoxImpostor,
@@ -156,42 +231,49 @@ function Robot() {
       // Add joints
       self.loadJoints(self.components);
 
-      // Wheels
-      self.leftWheel = new Wheel(scene, options);
-      self.rightWheel = new Wheel(scene, options);
-      self.leftWheel.load(
-        [
-          -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset,
-          options.wheelDiameter / 2,
-          (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
-        ],
-        startPos,
-        startRot,
-        body,
-        new BABYLON.Vector3(
-          -(options.bodyWidth / 2) - options.wheelToBodyOffset - options.wheelWidth / 2,
-          -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
-          options.bodyLength / 2 - options.bodyEdgeToWheelCenterZ
-        )
-      );
-      self.rightWheel.load(
-        [
-          (options.wheelWidth + options.bodyWidth) / 2 + options.wheelToBodyOffset,
-          options.wheelDiameter / 2,
-          (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
-        ],
-        startPos,
-        startRot,
-        body,
-        new BABYLON.Vector3(
-          (options.bodyWidth / 2) + options.wheelToBodyOffset + options.wheelWidth / 2,
-          -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
-          options.bodyLength / 2 - options.bodyEdgeToWheelCenterZ
-        )
-      );
-      self.leftWheel.stop();
-      self.rightWheel.stop();
 
+      // Wheels
+      driveWheelOptions = {
+        diameter: options.wheelDiameter,
+        width: options.wheelWidth,
+        mass: options.wheelMass,
+        friction: options.wheelFriction,
+        maxAcceleration: options.wheelMaxAcceleration,
+        stopActionHoldForce: options.wheelStopActionHoldForce,
+        tireDownwardsForce: options.wheelTireDownwardsForce
+      };
+
+      if (options.wheels){
+        self.leftWheel = new Wheel(
+          scene,
+          body,
+          [
+            -(options.wheelWidth + options.bodyWidth) / 2 - options.wheelToBodyOffset,
+            -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
+            (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
+          ],
+          [0,0,0],
+          'outA',
+          driveWheelOptions
+        );
+        self.leftWheel.loadImpostor();
+        self.leftWheel.loadJoints();
+
+        self.rightWheel = new Wheel(
+          scene,
+          body,
+          [
+            (options.wheelWidth + options.bodyWidth) / 2 + options.wheelToBodyOffset,
+            -(options.bodyHeight / 2) + options.bodyEdgeToWheelCenterY,
+            (options.bodyLength / 2) - options.bodyEdgeToWheelCenterZ
+          ],
+          [0,0,0],
+          'outB',
+          driveWheelOptions
+        );
+        self.rightWheel.loadImpostor();
+        self.rightWheel.loadJoints();
+      }
       resolve();
     });
   };
@@ -314,6 +396,13 @@ function Robot() {
           componentConfig.position,
           componentConfig.rotation,
           componentConfig.options);
+      } else if (componentConfig.type == 'WheelPassive') {
+        component = new WheelPassive(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          componentConfig.options);
       } else if (componentConfig.type == 'MagnetActuator') {
         component = new MagnetActuator(
           self.scene,
@@ -354,6 +443,14 @@ function Robot() {
           componentConfig.rotation,
           'out' + PORT_LETTERS[(++self.motorCount)],
           componentConfig.options);
+      } else if (componentConfig.type == 'WheelActuator') {
+        component = new Wheel(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'out' + PORT_LETTERS[(++self.motorCount)],
+          componentConfig.options);
       } else if (componentConfig.type == 'Pen') {
         component = new Pen(
           self.scene,
@@ -369,6 +466,14 @@ function Robot() {
           componentConfig.position,
           componentConfig.rotation,
           'in' + (++self.sensorCount),
+          componentConfig.options);
+      } else if (componentConfig.type == 'LinearActuator') {
+        component = new LinearActuator(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'out' + PORT_LETTERS[(++self.motorCount)],
           componentConfig.options);
       } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
@@ -441,8 +546,12 @@ function Robot() {
 
   // Reset robot
   this.reset = function() {
-    self.leftWheel.reset();
-    self.rightWheel.reset();
+    if (self.leftWheel) {
+      self.leftWheel.reset();
+    }
+    if (self.rightWheel) {
+      self.rightWheel.reset();
+    }
     self.components.forEach(function(component) {
       if (typeof component.reset == 'function') {
         component.reset();
@@ -452,8 +561,12 @@ function Robot() {
 
   // Render loop
   this.render = function(delta) {
-    self.leftWheel.render(delta);
-    self.rightWheel.render(delta);
+    if (self.leftWheel != null) {
+      self.leftWheel.render(delta);
+    }
+    if (self.rightWheel != null) {
+      self.rightWheel.render(delta);
+    }
 
     self.components.forEach(function(component) {
       if (typeof component.render == 'function') {
@@ -490,7 +603,11 @@ function Robot() {
     if (dest == 'all') {
       dest = ALL;
     } else if (dest == 'team') {
-      dest = TEAM_MATES[self.player];
+      if (self.player == 'single') {
+        dest = [1]
+      } else {
+        dest = TEAM_MATES[self.player];
+      }
     } else if (typeof dest == 'number') {
       dest = [dest];
     }
@@ -540,6 +657,79 @@ function Robot() {
     } else if (typeof self.mailboxes[mailbox] != 'undefined') {
       self.mailboxes[mailbox] = [];
     }
+  };
+
+  // Set button
+  this.setHubButton = function(btn, state) {
+    self.hubButtons[btn] = state;
+  };
+
+  // Get buttons
+  this.getHubButtons = function() {
+    return self.hubButtons;
+  };
+
+  this.objectTrackerGetByName = function(name){
+    if ([0,1,2,3,'team','opponent1','opponent2','self'].includes(name)){
+      if (self.player == 'single' && name != 'self'){
+        return null;
+      }
+
+      let player_num = 0;
+      if (typeof name == 'number'){
+        player_num = name;
+      }
+      else if (name == 'team'){
+        const TEAM_MATES = [1,0,3,2];
+        player_num = TEAM_MATES[self.player];
+      }
+      else if (name == 'opponent1'){
+        const OPP1 = [2,2,0,0];
+        player_num = OPP1[self.player];
+      }
+      else if (name == 'opponent2'){
+        const OPP2 = [3,3,1,1];
+        player_num = OPP2[self.player];
+      }
+      else{
+        if (self.player == 'single'){
+          player_num = 0;
+        }
+        else{
+          player_num = self.player;
+        }
+      }
+      let robot = robots[player_num];
+      if (robot != null && robot.body != null){
+          return robot.body;
+      }
+      return null;
+    } else if (typeof name == 'string'){
+      for (mesh of self.scene.meshes){
+        if (mesh.objectTrackerLabel == name){
+          return mesh;
+        }
+      }
+    }
+    return null;
+  };
+
+  this.objectTrackerPosition = function(name){
+    let temp = self.objectTrackerGetByName(name);
+    if (temp != null){
+      let pos = temp.absolutePosition;
+      return [pos.x, pos.y, pos.z];
+    }
+    return null;
+  };
+
+  this.objectTrackerVelocity = function(name){
+    let temp = self.objectTrackerGetByName(name);
+    if (temp != null && temp.physicsImpostor != null){
+      let vel = temp.physicsImpostor.getLinearVelocity();
+      return [vel.x, vel.y, vel.z];
+    }
+    return null;
   };
 
   // Init class

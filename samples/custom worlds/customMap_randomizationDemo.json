@@ -1,0 +1,52 @@
+{
+  "worldName": "custom",
+  "options": {
+    "imageURL": "randchoice(textures/box/cardboard.png,textures/maps/custom.png)",
+    "groundType": "box",
+    "length": 100,
+    "width": 100,
+    "uScale": 1,
+    "vScale": 1,
+    "imageScale": 1,
+    "timer": "none",
+    "timerDuration": 60,
+    "timerEnd": "continue",
+    "wall": true,
+    "wallHeight": 7.7,
+    "wallThickness": 4.5,
+    "wallColor": "#1A1A1A",
+    "groundFriction": 1,
+    "wallFriction": 0.1,
+    "groundRestitution": 0,
+    "wallRestitution": 0.1,
+    "objects": [
+      {
+        "type": "box",
+        "position": "randchoice([20,10,30],[-20,0,30])",
+        "size": [
+          "randchoice(randrange(5,10),randrange(20,25),30)",
+          10,
+          "randrange(5,30)"
+        ],
+        "rotationMode": "degrees",
+        "rotation": "randchoice([10,10,10],[20,20,20])",
+        "color": "randchoice(#FF0000,#00FF00,'000099')",
+        "imageType": "",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null
+      }
+    ],
+    "startPos": "center",
+    "startPosXYZStr": "",
+    "startRotStr": "",
+    "startPosXYZ": "randchoice([-10,-10], [10,10])",
+    "startRot": null,
+    "arenaStartPosXYZ": null,
+    "arenaStartRot": null
+  }
+}

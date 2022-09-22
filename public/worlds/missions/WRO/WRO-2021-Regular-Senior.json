@@ -1,0 +1,32 @@
+{
+  "worldName": "custom",
+  "options": {
+    "imageURL": "textures/maps/WRO/WRO-2021-Regular-Senior.jpg",
+    "groundType": "box",
+    "length": 100,
+    "width": 100,
+    "uScale": 1,
+    "vScale": 1,
+    "imageScale": 1,
+    "timer": "down",
+    "timerDuration": 120,
+    "timerEnd": "continue",
+    "wall": true,
+    "wallHeight": 7.7,
+    "wallThickness": 4.5,
+    "wallColor": "#1A1A1A",
+    "groundFriction": 1,
+    "wallFriction": 0.1,
+    "groundRestitution": 0,
+    "wallRestitution": 0.1,
+    "objects": [
+    ],
+    "startPos": "center",
+    "startPosXYZStr": "",
+    "startRotStr": "",
+    "startPosXYZ": [-103, 43, 0],
+    "startRot": 180,
+    "arenaStartPosXYZ": null,
+    "arenaStartRot": null
+  }
+}

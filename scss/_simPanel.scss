@@ -52,21 +52,47 @@
   color: white;
   opacity: 0.8;
   top: 2em;
-  left: 8em;
+  left: 6em;
   font-size: 200%;
   cursor: pointer;
   user-select: none;
 }
 
-.camera {
+.cameraSelector, .cameraSelectorShort {
   position: absolute;
-  color: white;
+  overflow: hidden;
+  color: #444;
+  background: rgba(255,255,255,0.5);
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   opacity: 0.8;
-  top: 2em;
-  right: 2em;
-  font-size: 200%;
+  top: 1em;
+  right: 1.5em;
+  height: 6.2em;
+  font-size: 300%;
+  transition: 0.3s height, 0.3s color, 0.3s background-color;
   cursor: pointer;
   user-select: none;
+
+  > div {
+    margin: 0.2em;
+  }
+
+  .hide {
+    display: none;
+  }
+}
+
+.cameraSelectorShort {
+  height: 3.5em;
+}
+
+.cameraSelector.closed, .cameraSelectorShort.closed {
+  color: white;
+  background: none;
+  height: 1.3em !important;
 }
 
 .ruler {
@@ -85,7 +111,7 @@
   align-items: center;
   width: 13em;
   overflow: hidden;
-  transition: 0.5s width;
+  transition: 0.5s width, 0.5s color, 0.5s background-color;
 
   .icon {
     margin-right: 0.5em;
@@ -115,6 +141,177 @@
   color: white;
   background: none;
   width: 1.3em;
+}
+
+.joystick {
+  position: absolute;
+  color: black;
+  background: rgba(255,255,255,0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 6em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  width: 7em;
+  height: 4.8em;
+  overflow: hidden;
+  transition: 0.5s width, 0.5s height, 0.5s color, 0.5s background-color;
+  outline: none;
+
+  .icon {
+    margin-right: 0.5em;
+    font-size: 120%;
+  }
+
+  // .row1, .row2 {
+  //   font-size: 50%;
+  //   white-space: nowrap;
+  // }
+
+  .virtualJoystick {
+    position: relative;
+    font-size: 150px;
+    height: 150px;
+
+    .icon-virtualJoystickIndicator {
+      position: absolute;
+      color: #ddd;
+      top: 0;
+      left: 0;
+    }
+
+    .icon-virtualJoystick {
+      position: absolute;
+      color: #bbb;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  .keyboard {
+    position: absolute;
+    top: 4em;
+    left: 0.5em;
+  }
+}
+
+.joystick.closed {
+  color: white;
+  background: none;
+  width: 1.3em;
+  height: 1.3em;
+}
+
+.hubButtons {
+  position: absolute;
+  color: black;
+  background: rgba(255,255,255,0.5);
+  border-radius: 0.5em;
+  padding: 0.2em;
+  opacity: 0.8;
+  top: 8em;
+  left: 2em;
+  font-size: 200%;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  width: 6.5em;
+  height: 4.8em;
+  overflow: hidden;
+  transition: 0.5s width, 0.5s height, 0.5s color, 0.5s background-color;
+  outline: none;
+
+  .icon {
+    margin-right: 0.5em;
+    font-size: 120%;
+  }
+
+  .controls {
+    font-size: 135%;
+    color: #bbb;
+
+    .icon-buttonsBackspace, .icon-buttonsUp, .icon-buttonsDown, .icon-buttonsLeft, .icon-buttonsRight, .icon-buttonsEnter {
+      position: absolute;
+    }
+    
+    .pressed {
+      color: #888;
+    }
+
+    .icon-buttonsBackspace {
+      left: 1.6em;
+      top: 0.2em;
+    }
+    
+    .icon-buttonsUp {
+      left: 2.7em;
+      top: 0.28em;
+    }
+    
+    .icon-buttonsDown {
+      left: 2.7em;
+      top: 2.5em;
+    }
+    
+    .icon-buttonsLeft {
+      top: 1.4em;
+      left: 1.6em;
+    }
+    
+    .icon-buttonsRight {
+      top: 1.4em;
+      left: 3.8em;
+    }
+    
+    .icon-buttonsEnter {
+      top: 1.4em;
+      left: 2.7em;
+    }
+  }
+
+  // .row1, .row2 {
+  //   font-size: 50%;
+  //   white-space: nowrap;
+  // }
+
+  // .virtualJoystick {
+  //   position: relative;
+  //   font-size: 150px;
+  //   height: 150px;
+
+  //   .icon-virtualJoystickIndicator {
+  //     position: absolute;
+  //     color: #ddd;
+  //     top: 0;
+  //     left: 0;
+  //   }
+
+  //   .icon-virtualJoystick {
+  //     position: absolute;
+  //     color: #bbb;
+  //     top: 0;
+  //     left: 0;
+  //   }
+  // }
+
+  // .keyboard {
+  //   position: absolute;
+  //   top: 4em;
+  //   left: 0.5em;
+  // }
+}
+
+.hubButtons.closed {
+  color: white;
+  background: none;
+  width: 1.3em;
+  height: 1.3em;
 }
 
 .console {
@@ -187,9 +384,9 @@
 
 .dialogWindow {
   .selectWorld {
-    max-height: 60vh;
-    display: flex;
-    flex-direction: column;
+    // max-height: 60vh;
+    // display: flex;
+    // flex-direction: column;
 
     .description {
       display: flex;
@@ -212,9 +409,9 @@
       border: solid 1px white;
       margin-top: 0.5em;
       padding: 0 0.5em;
-      overflow-y: auto;
+      // overflow-y: auto;
       overflow-x: hidden;
-      max-height: 20em;
+      // max-height: 20em;
 
       .configuration {
         padding: 0.5em 0em;
@@ -335,9 +532,9 @@
   position: absolute;
   color: white;
   opacity: 0.8;
-  top: 2em;
-  right: 8em;
-  font-size: 200%;
+  top: 1.2em;
+  right: 3.5em;
+  font-size: 300%;
   cursor: pointer;
   user-select: none;
 }
@@ -354,6 +551,8 @@
   width: 14em;
   max-height: 70%;
   overflow-y: auto;
+  opacity: 1;
+  transition: 0.5s opacity, 0.5s max-height, 0.5s padding;
 
   .sensorReading {
     margin-bottom: 0.5em;
@@ -373,14 +572,17 @@
 
       td.sensorValue {
         text-align: right;
-        width: 30%;
+        min-width: 2em;
       }
     }
   }
 }
 
 .sensorReadings.hide {
-  display: none;
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 @keyframes flash {
@@ -445,8 +647,19 @@
   .p3.animate {
     color: #ff0000;
   }
+
+  .warn {
+    color: #ff0000;
+  }
 }
 
 .worldInfo.hide {
   display: none;
+}
+
+.fps {
+  position: absolute;
+  right: 4em;
+  top: 1em;
+  color: #eb09ff;
 }

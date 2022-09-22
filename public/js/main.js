@@ -14,7 +14,7 @@ var main = new function() {
     self.$fileMenu = $('.fileMenu');
     self.$pythonMenu = $('.pythonMenu');
     self.$robotMenu = $('.robotMenu');
-    self.$arenaButton = $('.arenaButton');
+    self.$worldsMenu = $('.worldsMenu');
     self.$helpMenu = $('.helpMenu');
     self.$projectName = $('#projectName');
     self.$languageMenu = $('.language');
@@ -33,7 +33,7 @@ var main = new function() {
     self.$fileMenu.click(self.toggleFileMenu);
     self.$pythonMenu.click(self.togglePythonMenu);
     self.$robotMenu.click(self.toggleRobotMenu);
-    self.$arenaButton.click(self.arenaWindow);
+    self.$worldsMenu.click(self.toggleWorldsMenu);
     self.$helpMenu.click(self.toggleHelpMenu);
     self.$languageMenu.click(self.toggleLanguageMenu);
     self.$newsButton.click(self.showNews);
@@ -61,7 +61,7 @@ var main = new function() {
     $('#navSim').text(i18n.get('#main-sim#'));
     self.$fileMenu.text(i18n.get('#main-file#'));
     self.$robotMenu.text(i18n.get('#main-robot#'));
-    self.$arenaButton.text(i18n.get('#main-arena#'));
+    self.$worldsMenu.text(i18n.get('#main-worlds#'));
     self.$helpMenu.text(i18n.get('#main-help#'));
   };
 
@@ -82,8 +82,12 @@ var main = new function() {
         {html: 'English', line: false, callback: function() { setLang('en'); }},
         {html: 'Español', line: false, callback: function() { setLang('es'); }},
         {html: 'Français', line: false, callback: function() { setLang('fr'); }},
+        {html: 'עברית', line: false, callback: function() { setLang('he'); }},
         {html: 'Nederlands', line: false, callback: function() { setLang('nl'); }},
+        {html: 'Português', line: false, callback: function() { setLang('pt'); }},
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
+        {html: 'Русский', line: false, callback: function() { setLang('ru'); }},
+        {html: 'Magyar', line: false, callback: function() { setLang('hu'); }},
       ];
 
       menuDropDown(self.$languageMenu, menuItems, {className: 'languageMenuDropDown', align: 'right'});
@@ -117,14 +121,48 @@ var main = new function() {
   // Save robot to json file
   this.saveRobot = function() {
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(robot.options, null, 2));
+    hiddenElement.href = 'data:application/json;charset=UTF-8,' + encodeURIComponent(JSON.stringify(robot.options, null, 2));
     hiddenElement.target = '_blank';
     hiddenElement.download = robot.options.name + 'Robot.json';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
   };
 
-  // Load robot from json file
-  this.loadRobot = function() {
+  // Load robot
+  this.loadRobot = function(json) {
+    try {
+      data = JSON.parse(json);
+
+      // Is it a world file?
+      if (typeof data.worldName != 'undefined') {
+        showErrorModal(i18n.get('#main-invalid_robot_file_world#'));
+        return;
+      }
+
+      // Is it a robot file?
+      if (typeof data.bodyHeight == 'undefined') {
+        showErrorModal(i18n.get('#main-invalid_robot_file_robot#'));
+        return;
+      }
+
+      robot.options = data;
+      let i = robotTemplates.findIndex(r => r.name == robot.options.name);
+      if (i == -1) {
+        robotTemplates.push({...data});
+      } else {
+        robotTemplates[i] = {...data};
+      }
+      babylon.resetScene();
+      skulpt.hardInterrupt = true;
+      simPanel.setRunIcon('run');
+      simPanel.initSensorsPanel();
+    } catch (e) {
+      showErrorModal(i18n.get('#main-invalid_robot_file_json#'));
+    }
+
+  };
+
+  // Load robot from local json file
+  this.loadRobotLocal = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
     hiddenElement.accept = 'application/json,.json';
@@ -132,20 +170,26 @@ var main = new function() {
     hiddenElement.addEventListener('change', function(e){
       var reader = new FileReader();
       reader.onload = function() {
-        robot.options = JSON.parse(this.result);
-        let i = robotTemplates.findIndex(r => r.name == robot.options.name);
-        if (i == -1) {
-          robotTemplates.push(JSON.parse(this.result));
-        } else {
-          robotTemplates[i] = JSON.parse(this.result);
-        }
-        babylon.resetScene();
-        skulpt.hardInterrupt = true;
-        simPanel.setRunIcon('run');
-        simPanel.initSensorsPanel();
+        self.loadRobot(this.result);
       };
       reader.readAsText(e.target.files[0]);
     });
+  };
+
+  // Load robot from URL
+  this.loadRobotURL = function(url) {
+    return fetch(url)
+      .then(function(response) {
+        if (response.ok) {
+          return response.text();
+        } else {
+          toastMsg(i18n.get('#sim-not_found#'));
+          return Promise.reject(new Error('invalid_robot'));
+        }
+      })
+      .then(function(response) {
+        self.loadRobot(response);
+      });
   };
 
   // About page
@@ -163,13 +207,22 @@ var main = new function() {
           '<li><a href="https://skulpt.org/" target="_blank">Skulpt</a></li>' +
           '<li><a href="https://github.com/kripken/ammo.js/" target="_blank">Ammo.js</a> (port of <a href="https://pybullet.org/wordpress/" target="_blank">Bullet</a>)</li>' +
         '</ul>' +
+        '<p>Contributions from:</p>' +
+        '<ul>' +
+          '<li>Steven Murray</li>' +
+          '<li>humbug99</li>' +
+          '<li>Yuvix25</li>' +
+        '</ul>' +
         '<p>Translations Contributed By:</p>' +
         '<ul>' +
           '<li>Français: Sébastien CANET &lt;scanet@libreduc.cc&gt;</li>' +
           '<li>Nederlands: Henry Romkes</li>' +
           '<li>Ελληνικά: <a href="https://eduact.org/en" target="_blank">Eduact</a></li>' +
           '<li>Español: edurobotic</li>' +
-          '<li>Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix)</li>' +
+          '<li>Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix), germanicianus</li>' +
+          '<li>עברית: Koby Fruchtnis</li>' +
+          '<li>Русский: Pavel Khoroshevich &lt;khoroshevich.pa@gmail.com&gt;</li>' +
+          '<li>Magyar: Niethammer Zoltán</li>' +
         '</ul>' +
         '<h3>Contact</h3>' +
         '<p>Please direct all complaints or requests to <a href="mailto:cort@aposteriori.com.sg">Cort</a>.</p>' +
@@ -206,9 +259,15 @@ var main = new function() {
       let menuItems = [
         {html: 'Wiki', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears/wiki'); }},
         {html: 'Github', line: false, callback: function() { self.openPage('https://github.com/QuirkyCort/gears'); }},
-        {html: 'What\'s New', line: false, callback: function() { self.showWhatsNew(true); }},
-        {html: i18n.get('#main-about#'), line: false, callback: self.openAbout }
+        {html: 'URL Generator', line: false, callback: function() { self.openPage('genURL.html'); }},
+        {html: i18n.get('#main-whats_new#'), line: false, callback: function() { self.showWhatsNew(true); }},
+        {html: i18n.get('#main-privacy#'), line: false, callback: function() { self.openPage('privacy.html'); }},
+        {html: i18n.get('#main-about#'), line: true, callback: self.openAbout },
+        {html: i18n.get('#main-display_fps#'), line: false, callback: simPanel.toggleFPS }
       ];
+      if (simPanel.showFPS) {
+        menuItems[6].html = '<span class="tick">&#x2713;</span> ' + menuItems[6].html;
+      }
 
       menuDropDown(self.$helpMenu, menuItems, {className: 'helpMenuDropDown'});
     }
@@ -294,13 +353,17 @@ var main = new function() {
     let angles = robot.body.absoluteRotationQuaternion.toEulerAngles();
     let rot = Math.round(angles.y / Math.PI * 1800) / 10;
 
-    if (typeof babylon.world.defaultOptions.startPosXY != 'undefined') {
+    if (typeof babylon.world.defaultOptions.startPosXYZStr != 'undefined') {
+      babylon.world.options.startPosXYZStr = x + ',' +y;
+    } else if (typeof babylon.world.defaultOptions.startPosXY != 'undefined') {
       babylon.world.options.startPosXY = x + ',' +y;
     } else {
       toastMsg(i18n.get('#main-cannot_save_position#'));
       return;
     }
-    if (typeof babylon.world.defaultOptions.startRot != 'undefined') {
+    if (typeof babylon.world.defaultOptions.startRotStr != 'undefined') {
+      babylon.world.options.startRotStr = rot.toString();
+    } else if (typeof babylon.world.defaultOptions.startRot != 'undefined') {
       babylon.world.options.startRot = rot.toString();
     } else {
       toastMsg(i18n.get('#main-cannot_save_rotation#'));
@@ -331,7 +394,19 @@ var main = new function() {
     });
   };
 
-  // Toggle robot
+  // Open a window with a link to the world builder page
+  this.worldBuilderWindow = function() {
+    let options = {
+      title: i18n.get('#main-worldBuilder_title#'),
+      message: i18n.get('#main-worldBuilder_description#'),
+      confirm: i18n.get('#main-worldBuilder_go#')
+    };
+    confirmDialog(options, function(){
+      self.openPage('builder.html');
+    });
+  };
+
+  // Toggle robot menu
   this.toggleRobotMenu = function(e) {
     if ($('.robotMenuDropDown').length == 0) {
       $('.menuDropDown').remove();
@@ -340,7 +415,7 @@ var main = new function() {
       let menuItems = [
         {html: i18n.get('#main-select_robot#'), line: false, callback: self.selectRobot},
         {html: i18n.get('#main-robot_configurator#'), line: true, callback: self.configuratorWindow},
-        {html: i18n.get('#main-robot_load_file#'), line: false, callback: self.loadRobot},
+        {html: i18n.get('#main-robot_load_file#'), line: false, callback: self.loadRobotLocal},
         {html: i18n.get('#main-robot_save_file#'), line: true, callback: self.saveRobot},
         {html: i18n.get('#main-display_position#'), line: false, callback: self.displayPosition},
         {html: i18n.get('#main-save_position#'), line: false, callback: self.savePosition},
@@ -348,6 +423,24 @@ var main = new function() {
       ];
 
       menuDropDown(self.$robotMenu, menuItems, {className: 'robotMenuDropDown'});
+    }
+  };
+
+  // Toggle worlds menu
+  this.toggleWorldsMenu = function(e) {
+    if ($('.worldsMenuDropDown').length == 0) {
+      $('.menuDropDown').remove();
+      e.stopPropagation();
+
+      let menuItems = [
+        {html: i18n.get('#main-select_world#'), line: false, callback: simPanel.selectWorld},
+        {html: i18n.get('#main-world_builder#'), line: false, callback: self.worldBuilderWindow},
+        {html: i18n.get('#main-arena#'), line: true, callback: self.arenaWindow},
+        {html: i18n.get('#main-world_load_file#'), line: false, callback: simPanel.loadWorldLocal},
+        {html: i18n.get('#main-world_save_file#'), line: false, callback: simPanel.saveWorld},
+      ];
+
+      menuDropDown(self.$worldsMenu, menuItems, {className: 'worldsMenuDropDown'});
     }
   };
 
@@ -359,7 +452,7 @@ var main = new function() {
 
       let menuItems = [
         {html: 'Ev3dev Mode', line: false, callback: self.switchToEv3dev},
-        {html: 'Pybricks Mode (Currently not working with simulator)', line: true, callback: self.switchToPybricks},
+        {html: 'Pybricks Mode', line: true, callback: self.switchToPybricks},
         {html: 'Zoom In', line: false, callback: pythonPanel.zoomIn},
         {html: 'Zoom Out', line: false, callback: pythonPanel.zoomOut},
         {html: 'Reset Zoom', line: false, callback: pythonPanel.zoomReset},
@@ -380,12 +473,18 @@ var main = new function() {
   this.switchToEv3dev = function() {
     blockly.generator = ev3dev2_generator;
     blockly.generator.load();
+    if (! pythonPanel.modified) {
+      pythonPanel.loadPythonFromBlockly();
+    }
   };
 
   // switch to pybricks
   this.switchToPybricks = function() {
     blockly.generator = pybricks_generator;
     blockly.generator.load();
+    if (! pythonPanel.modified) {
+      pythonPanel.loadPythonFromBlockly();
+    }
   };
 
   // Toggle filemenu
@@ -415,6 +514,8 @@ var main = new function() {
       pythonPanel.modified = false;
       localStorage.setItem('pythonModified', false);
       blocklyPanel.setDisable(false);
+      self.$projectName.val('');
+      self.saveProjectName();
     });
   };
 
@@ -471,7 +572,7 @@ var main = new function() {
     }
 
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:application/xml;base64,' + btoa(blockly.getXmlText());
+    hiddenElement.href = 'data:application/xml;charset=UTF-8,' + encodeURIComponent(blockly.getXmlText());;
     hiddenElement.target = '_blank';
     hiddenElement.download = filename + '.xml';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
@@ -525,7 +626,7 @@ var main = new function() {
       code = blockly.generator.genCode();
     }
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/x-python;base64,' + btoa(code);
+    hiddenElement.href = 'data:text/x-python;charset=UTF-8,' + encodeURIComponent(code);
     hiddenElement.target = '_blank';
     hiddenElement.download = filename + '.py';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
@@ -549,7 +650,7 @@ var main = new function() {
         console.log(reader.error);
       };
       reader.readAsText(e.target.files[0]);
-      let filename = e.target.files[0].name.replace(/.py/, '');
+      let filename = e.target.files[0].name.replace(/\.py/, '');
       self.$projectName.val(filename);
       self.saveProjectName();
     });
@@ -563,7 +664,7 @@ var main = new function() {
     let code = null;
     code = pythonLibPanel.editor.getValue();
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/x-python;base64,' + btoa(code);
+    hiddenElement.href = 'data:text/x-python;charset=UTF-8,' + encodeURIComponent(code);
     hiddenElement.target = '_blank';
     hiddenElement.download = moduleName + '.py';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
@@ -721,11 +822,11 @@ var main = new function() {
             <span>.py</span>
           </span>
           <span class="py-mod-controls">
-            <i class="fa fa-cloud-upload upload-py-mod"
+            <i class="icon-upload upload-py-mod"
                title="Upload python module"></i>
-            <i class="fa fa-cloud-download download-py-mod"
+            <i class="icon-download download-py-mod"
                title="Download python module"></i>
-            <i class="fa fa-minus-circle del-py-mod"
+            <i class="icon-deleteFile del-py-mod"
                title="Delete this python module"></i>
           </span>
         </li>`
@@ -823,28 +924,30 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20201221;
+    let current = 20220821;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>21 Dec 2020</h3>' +
-          '<ul>' +
-          '<li>Added radio. This can be used in the multi-robot arena to send messages between robots.</li>' +
-          '</ul>' +
-          '<h3>20 Dec 2020</h3>' +
-          '<ul>' +
-          '<li>Added the touch sensor. You can add it to your robot throught the robot configurator.</li>' +
-          '<li>Setting port to "Auto" will automatically select the correct port if you only have one device of the type.</li>' +
-          '</ul>' +
-          '<h3>18 Dec 2020</h3>' +
-          '<ul>'+
-          '<li>Added a cylinder and sphere blocks to robot configuration.</li>' +
-          '<li>Allow custom colors for box, cylinder, and sphere blocks.</li>' +
-          '<li>Options to add cylinders and spheres to custom image world.</li>' +
-          '<li>Added Ελληνικά and Nederlands translations.</li>' +
-          '</ul>'
+          '<h3>21 Aug 2022 (Superpowered Complete!)</h3>' +
+          '<p>The FIRST Lego League 2022/2023 Superpowered missions are now complete.</p>' +
+          '<p>View a demo video <a href="https://youtu.be/-aoI6su6m84">on YouTube.</a></p>' +
+          '<h3>8 Aug 2022 (Superpowered)</h3>' +
+          '<p>Added the FIRST Lego League 2022/2023 Superpowered mission.</p>' +
+          '<p>' +
+            'It is incomplete for now, with only 4 out of 9 major mission models in place, but I will be adding to it over the coming days (...weeks?). ' +
+            'If you would like to help, contact me to find out how.' +
+          '</p>' +
+          '<h3>8 Aug 2022 (Challenges World)</h3>' +
+          '<p>' +
+            'A new "Challenges" world has been added. ' +
+            'It is using the new script loading system, so you will need to use this URL <a href="https://gears.aposteriori.com.sg/index.html?worldScripts=world_challenges">https://gears.aposteriori.com.sg/index.html?worldScripts=world_challenges</a> to access it.' +
+          '</p>' +
+          '<p>' +
+            'The "Challenges" world is designed for beginners, and consists of a series of basic coding challenges. ' +
+            'Educators who would like to create their own challenges should look at the <a href="https://github.com/QuirkyCort/gears/blob/master/public/js/worlds/extra/world_challenges.js">source code</a> to learn how.' +
+          '</p>'
       }
       acknowledgeDialog(options, function(){
         localStorage.setItem('whatsNew', current);
@@ -857,10 +960,12 @@ var main = new function() {
     let options = {
       title: 'News',
       message:
-        '<h3>Robo Compete virtual competition</h3>' +
-        '<p>'+
-        'MINT Genie from Germany is running the Robo Compete virtual competition using Gears. ' +
-        'Competition date is on 5 Dec 2020, and registration is open <a href="https://www.mintgenie.de/event-info/robo-compete" target="_blank">here</a>.' +
+        '<h3>Open MINT Masters</h3>' +
+        '<p>' +
+        'Registration for the online Open MINT Masters is open for teams of up to 5 pax, age 10 to 19. ' +
+        'The event is open to all teams around the world and registration closes on 31 May 2022.' +
+        '</p><p>' +
+        '<a href="http://m-learning.info" target="_blank">Find out more and register here.</a> (Site is in German, but readable via Google translate on Chrome.)' +
         '</p>'
     }
     acknowledgeDialog(options);

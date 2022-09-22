@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,18 +10,15 @@
   <link rel="icon" href="favicon-167.png" sizes="167x167">
   <link rel="icon" href="favicon-192.png" sizes="192x192">
 
-  <link rel="stylesheet" href="css/main.css?v=4c2a89a3">
-  <link rel="stylesheet" href="css/widgets.css?v=c3d4f957">
+  <link rel="stylesheet" href="css/main.css?v=e4913234">
+  <link rel="stylesheet" href="css/widgets.css?v=9692a428">
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
 
-  <script src="ammo/ammo-20200613.js"></script>
-  <!-- <script src="ammo/ammo-20200724.wasm.js"></script> -->
+  <!-- <script src="ammo/ammo-20210414.js"></script> -->
+  <script src="ammo/ammo-20210414.wasm.js"></script>
 
-  <script src="babylon/4.1.0/babylon-physicsFix.js"></script>
-  <!-- <script src="babylon/4.1.0/babylon.js"></script> -->
-  <!-- <script src="babylon/4.1.0/babylonjs.loaders.min.js"></script>
-  <script src="babylon/4.1.0/babylon.gui.min.js"></script> -->
+  <script src="babylon/4.2.1/babylon.js"></script>
   <script src="pep/0.4.3/pep.min.js"></script>
 
   <script src="js/msg.js"></script>
@@ -33,8 +28,6 @@
 </head>
 
 <body>
-
-
   <header>
     <img class="gearsIcon" src="favicon-32.png">
     <div>GearsBot Robot Configurator</div>
@@ -48,6 +41,8 @@
       </ul>
       <div class="menuBar">
         <div class="menuItem fileMenu">File</div>
+        <div class="menuItem robotMenu">Robot</div>
+        <div class="menuItem snapMenu">Snap</div>
       </div>
     </nav>
     <div class="panels">
@@ -60,8 +55,7 @@
           </div>
           <div class="componentsList"></div>
           <div class="buttons">
-            <div class="revert">Revert</div>
-            <div class="save">Save</div>
+            <div class="undo">Undo</div>
           </div>
         </div>
         <div class="settingsWindow">
@@ -89,11 +83,11 @@
     </div>
   </main>
 
-  <script src="js/world_Configurator.js?v=ba203d6e"></script>
-  <script src="js/robotComponents.js?v=0e9ea5a4"></script>
-  <script src="js/robotTemplates.js?v=dd3d35bd"></script>
-  <script src="js/Wheel.js?v=bcd088f9"></script>
-  <script src="js/Robot.js?v=8d897835"></script>
+  <script src="js/worlds/world_Configurator.js?v=70aec4b9"></script>
+  <script src="js/robotComponents.js?v=70339366"></script>
+  <script src="js/robotTemplates.js?v=c254ce16"></script>
+  <script src="js/Wheel.js?v=bb27211a"></script>
+  <script src="js/Robot.js?v=2d34504b"></script>
   <script>
     var robots = [];
 
@@ -102,13 +96,11 @@
     robot.player = 'single';
     robots.push(robot);
   </script>
-  <script src="js/babylon.js?v=7a657644"></script>
-  <script src="js/simPanel.js?v=332e9c68"></script>
-  <script src="js/configurator.js?v=0862a81d"></script>
+  <script src="js/babylon.js?v=f3411eb4"></script>
+  <script src="js/simPanel.js?v=2cf38c47"></script>
+  <script src="js/builtInImages.js?v=02f21986"></script>
+  <script src="js/GenConfig.js?v=3007e163"></script>
+  <script src="js/configurator.js?v=b7195519"></script>
 
-  <script>
-    // Disable physics
-    babylon.scene.physicsEnabled = false;
-  </script>
 </body>
 </html>

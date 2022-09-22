@@ -1,0 +1,214 @@
+.componentsWindow, .objectsWindow {
+  position: absolute;
+  color: white;
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 0.5em;
+  padding: 1em;
+  top: 2em;
+  left: 1em;
+  font-size: 100%;
+  width: 15em;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+
+  .buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
+    font-size: 120%;
+
+    div {
+      border: solid 2px #bbbbbb;
+      padding: 0.3em 0.5em;
+      border-radius: 0.5em;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
+  .componentsList, .objectsList {
+    font-size: 120%;
+    overflow: auto;
+    flex-grow: 1;
+    white-space: nowrap;
+    margin-bottom: 1em;
+
+    ul {
+      list-style-type: none;
+      padding-inline-start: 0;
+
+      ul {
+        padding-inline-start: 1em;
+        list-style-type: "˪ ";
+      }
+    }
+
+    li {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    li.selected {
+      background-color: #bbbbbb;
+    }
+
+    li.ulHolder {
+      list-style-type: none;
+    }
+  }
+}
+
+.objectID {
+  position: absolute;
+  top: 0.5em;
+  right: 2em;
+  width: 20em;
+  color: white;
+}
+
+.settingsWindow {
+  position: absolute;
+  color: white;
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 0.5em;
+  padding: 1em;
+  top: 2em;
+  right: 1em;
+  font-size: 100%;
+  width: 20em;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+
+  .settingsArea {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .buttons {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    font-size: 90%;
+
+    div {
+      border: solid 2px #bbbbbb;
+      padding: 0.3em 0.5em;
+      border-radius: 0.5em;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
+  .componentName {
+    text-align: center;
+    font-size: 120%;
+    font-weight: bold;
+  }
+
+  .configuration {
+    padding: 0.5em 0;
+  }
+
+  .configurationTitle {
+    color: lightgray;
+    margin-bottom: 0.1em;
+  }
+
+  .slider {
+    display: flex;
+
+    input[type=range] {
+      flex-grow: 1;
+    }
+    input[type=text] {
+      width: 3em;
+      text-align: right;
+    }
+  }
+
+  input[type=number] {
+    width: 3em;
+  }
+
+  .tooltip .tooltiptext {
+    max-width: 10em;
+  }
+}
+
+.dialogWindow {
+  .selectImage, .selectModel, .editAnimationKeys {
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+
+    .search {
+      display: flex;
+      margin-top: 0.5em;
+
+      input {
+        font-size: 100%;
+        width: 100%;
+        background: none;
+        color: white;
+        border: solid 1px white;
+        padding: 0 0.2em;
+        margin-left: 0.5em;
+      }
+    }
+
+    .images, .items {
+      border: solid 1px white;
+      margin-top: 0.5em;
+      padding: 0.5em;
+      overflow-y: auto;
+      max-height: 20em;
+
+      .row {
+        display: flex;
+
+        .description {
+          border: solid 1px white;
+          flex-grow: 1;
+          padding: 0 0.5em;
+        }
+
+        .select {
+          border: solid 1px white;
+          padding: 0.5em;
+        }
+      }
+
+      .row.hide {
+        display: none;
+      }
+    }
+
+    table {
+      border: solid 1px white;
+
+      th {
+        border: solid 1px white;
+      }
+
+      th, td {
+        width: 3em;
+        text-align: center;
+
+        input {
+          width: 100%;
+          font-size: 100%;
+          box-sizing: border-box;
+        }
+      }
+    }
+  }
+
+  .searchCount {
+    margin-right: auto;
+  }
+}

@@ -12,12 +12,15 @@ var ev3dev2_generator = new function() {
 
   // Load Python generators
   this.load = function() {
+    Blockly.Python.INDENT = '    ';
+
     Blockly.Python['when_started'] = self.when_started;
     Blockly.Python['move_tank'] = self.move_tank;
     Blockly.Python['move_tank_for'] = self.move_tank_for;
     Blockly.Python['move_steering'] = self.move_steering;
     Blockly.Python['move_steering_for'] = self.move_steering_for;
     Blockly.Python['stop'] = self.stop;
+    Blockly.Python['set_movement_motors'] = self.set_movement_motors;
     Blockly.Python['run_motor'] = self.run_motor;
     Blockly.Python['run_motor_for'] = self.run_motor_for;
     Blockly.Python['run_motor_to'] = self.run_motor_to;
@@ -26,6 +29,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['position'] = self.position;
     Blockly.Python['reset_motor'] = self.reset_motor;
     Blockly.Python['color_sensor'] = self.color_sensor;
+    Blockly.Python['color'] = self.color;
     Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
     Blockly.Python['laser_sensor'] = self.laser_sensor;
     Blockly.Python['gyro_sensor'] = self.gyro_sensor;
@@ -37,13 +41,16 @@ var ev3dev2_generator = new function() {
     Blockly.Python['exit'] = self.exit;
     Blockly.Python['time'] = self.time;
     Blockly.Python['gps_sensor'] = self.gps_sensor;
-    Blockly.Python['addPen'] = self.addPen;
     Blockly.Python['penDown'] = self.penDown;
     Blockly.Python['penUp'] = self.penUp;
     Blockly.Python['penSetColor'] = self.penSetColor;
     Blockly.Python['penSetWidth'] = self.penSetWidth;
     Blockly.Python['touch_state'] = self.touch_state;
     Blockly.Python['wait_for_state'] = self.wait_for_state;
+    Blockly.Python['button_state'] = self.button_state;
+    Blockly.Python['wait_until_button'] = self.wait_until_button;
+    Blockly.Python['wait_until'] = self.wait_until;
+
     Blockly.Python['radio_send'] = self.radio_send;
     Blockly.Python['radio_available'] = self.radio_available;
     Blockly.Python['radio_read'] = self.radio_read;
@@ -53,6 +60,14 @@ var ev3dev2_generator = new function() {
 
   // Generate python code
   this.genCode = function() {
+    let wheelCode = robot.processedOptions.wheels ?
+    ('motorA = LargeMotor(OUTPUT_A)\n' +
+    'motorB = LargeMotor(OUTPUT_B)\n' +
+    'left_motor = motorA\n' +
+    'right_motor = motorB\n' +
+    'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
+    'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n') :
+    '';
     let code =
       '#!/usr/bin/env python3\n' +
       `\n` +
@@ -61,19 +76,16 @@ var ev3dev2_generator = new function() {
       'import math\n' +
       'from ev3dev2.motor import *\n' +
       'from ev3dev2.sound import Sound\n' +
+      'from ev3dev2.button import Button\n' +
       'from ev3dev2.sensor import *\n' +
       'from ev3dev2.sensor.lego import *\n' +
       'from ev3dev2.sensor.virtual import *\n' +
       '\n' +
       '# Create the sensors and motors objects\n' +
-      'motorA = LargeMotor(OUTPUT_A)\n' +
-      'motorB = LargeMotor(OUTPUT_B)\n' +
-      'left_motor = motorA\n' +
-      'right_motor = motorB\n' +
-      'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
-      'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n' +
+      wheelCode +
       '\n' +
       'spkr = Sound()\n' +
+      'btn = Button()\n' +
       'radio = Radio()\n' +
       '\n';
 
@@ -88,7 +100,7 @@ var ev3dev2_generator = new function() {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n';
         self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'LaserRangeSensor') {
-        sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ') # Laser Range Sensor\n';
+        sensorsCode += 'laser_sensor_in' + i + ' = LaserRangeSensor(INPUT_' + i + ')\n';
         self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'GyroSensor') {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
@@ -108,7 +120,7 @@ var ev3dev2_generator = new function() {
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var motorsCode = '';
-    i = 3;
+    i = robot.processedOptions.wheels ? 3 : 1;
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'MagnetActuator') {
@@ -117,8 +129,12 @@ var ev3dev2_generator = new function() {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Arm\n';
       } else if (motor.type == 'SwivelActuator') {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Swivel\n';
+      } else if (motor.type == 'LinearActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Linear Actuator\n';
       } else if (motor.type == 'PaintballLauncherActuator') {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Paintball Launcher\n';
+      } else if (motor.type == 'WheelActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Wheel Actuator\n';
       }
       i++;
     }
@@ -280,6 +296,20 @@ var ev3dev2_generator = new function() {
     return code;
   };
 
+  // Set motors for move steering and move tank
+  this.set_movement_motors = function(block) {
+    var left_port = block.getFieldValue('left_port');
+    var right_port = block.getFieldValue('right_port');
+
+    var code =
+      'left_motor = motor' + left_port + '\n' +
+      'right_motor = motor' + right_port + '\n' +
+      'tank_drive = MoveTank(OUTPUT_' + left_port + ', OUTPUT_' + right_port + ')\n' +
+      'steering_drive = MoveSteering(OUTPUT_' + left_port + ', OUTPUT_' + right_port + ')\n';
+
+    return code;
+  };
+
   // Run motor
   this.run_motor = function(block) {
     var dropdown_port = block.getFieldValue('port');
@@ -306,6 +336,12 @@ var ev3dev2_generator = new function() {
     var dropdown_unit = block.getFieldValue('unit');
     var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
     var dropdown_unit2 = block.getFieldValue('unit2');
+    var dropdown_block = block.getFieldValue('block');
+
+    var block = '';
+    if (dropdown_block == 'NO_BLOCK') {
+      block = ', block=False';
+    }
 
     if (dropdown_unit == 'PERCENT') {
       var speedStr = value_speed;
@@ -329,7 +365,7 @@ var ev3dev2_generator = new function() {
       var durationStr = value_duration + ' / 1000';
     }
 
-    var code = 'motor' + dropdown_port + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + ')\n';
+    var code = 'motor' + dropdown_port + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + block + ')\n';
 
     return code;
   }
@@ -340,6 +376,12 @@ var ev3dev2_generator = new function() {
     var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
     var dropdown_unit = block.getFieldValue('unit');
     var value_degrees = Blockly.Python.valueToCode(block, 'degrees', Blockly.Python.ORDER_ATOMIC);
+    var dropdown_block = block.getFieldValue('block');
+
+    var block = '';
+    if (dropdown_block == 'NO_BLOCK') {
+      block = ', block=False';
+    }
 
     if (dropdown_unit == 'PERCENT') {
       var speedStr = value_speed;
@@ -349,7 +391,7 @@ var ev3dev2_generator = new function() {
       var speedStr = 'SpeedRPS(' + value_speed + ')';
     }
 
-    var code = 'motor' + dropdown_port + '.on_to_position(' + speedStr + ', ' + value_degrees + ')\n';
+    var code = 'motor' + dropdown_port + '.on_to_position(' + speedStr + ', ' + value_degrees + block + ')\n';
 
     return code;
   }
@@ -462,7 +504,7 @@ var ev3dev2_generator = new function() {
       var multiplier = ' * 10';
       var order = Blockly.Python.ORDER_MULTIPLICATIVE;
     }
-    var code = 'ultrasonic_sensor_in' + dropdown_port + '.distance_centimeters' + multiplier;
+    var code = 'laser_sensor_in' + dropdown_port + '.distance_centimeters' + multiplier;
     return [code, order];
   };
 
@@ -476,6 +518,14 @@ var ev3dev2_generator = new function() {
       var typeStr = 'angle';
     } else if (dropdown_type == 'RATE') {
       var typeStr = 'rate';
+    } else if (dropdown_type == 'PITCH_ANGLE') {
+      var typeStr = 'pitch_angle';
+    } else if (dropdown_type == 'PITCH_RATE') {
+      var typeStr = 'pitch_rate';
+    } else if (dropdown_type == 'ROLL_ANGLE') {
+      var typeStr = 'roll_angle';
+    } else if (dropdown_type == 'ROLL_RATE') {
+      var typeStr = 'roll_rate';
     }
     var code = 'gyro_sensor_in' + dropdown_port + '.' + typeStr;
 
@@ -502,7 +552,7 @@ var ev3dev2_generator = new function() {
       var play_type = '';
     }
 
-    var code = 'spkr.speak("' + value_text + '"' + play_type + ')\n';
+    var code = 'spkr.speak(' + value_text + '' + play_type + ')\n';
     return code;
   }
 
@@ -652,6 +702,50 @@ var ev3dev2_generator = new function() {
     return code;
   };
 
+  this.button_state = function(block) {
+    const map_button = {
+      'UP': 'up',
+      'DOWN': 'down',
+      'LEFT': 'left',
+      'RIGHT': 'right',
+      'CENTER': 'enter'
+    };
+
+    let button = map_button[block.getFieldValue('button')];
+    let state = block.getFieldValue('state');
+
+    if (state == 'PRESSED') {
+      var code = 'btn.' + button;
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    } else {
+      var code = 'not btn.' + button;
+      return [code, Blockly.Python.ORDER_RELATIONAL];
+    }
+  };
+
+  this.wait_until_button = function(block) {
+    const map_button = {
+      'UP': 'up',
+      'DOWN': 'down',
+      'LEFT': 'left',
+      'RIGHT': 'right',
+      'CENTER': 'enter'
+    };
+
+    let button = map_button[block.getFieldValue('button')];
+    let state = block.getFieldValue('state');
+
+    let code;
+    if (state == 'PRESSED') {
+      code = 'btn.wait_for_pressed';
+    } else {
+      code = 'btn.wait_for_released'
+    }
+
+    code += '([\'' + button + '\'])\n';
+    return code;
+  };
+
   this.radio_send = function(block) {
     var dropdown_robot = block.getFieldValue('robot');
     var text_mailbox = block.getFieldValue('mailbox');
@@ -694,6 +788,46 @@ var ev3dev2_generator = new function() {
     var text_mailbox = block.getFieldValue('mailbox');
 
     var code = 'radio.empty(\'' + text_mailbox + '\')\n';
+    return code;
+  };
+
+  this.color = function(block) {
+    const map_to_number = {
+      'BLACK': 1,
+      'BLUE': 2,
+      'GREEN': 3,
+      'YELLOW': 4,
+      'RED': 5,
+      'WHITE': 6,
+      'BROWN': 7,
+    };
+
+    const map_to_name = {
+      'BLACK': 'Black',
+      'BLUE': 'Blue',
+      'GREEN': 'Green',
+      'YELLOW': 'Yellow',
+      'RED': 'Red',
+      'WHITE': 'White',
+      'BROWN': 'Brown',
+    };
+
+    let color = block.getFieldValue('color');
+    let type = block.getFieldValue('type');
+
+    if (type == 'NUMBER') {
+      var code = map_to_number[color];
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    } else {
+      var code = '\'' + map_to_name[color] + '\'';
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    }
+  };
+
+  this.wait_until = function(block) {
+    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+
+    let code = 'while not ' + value_value + ':\n    pass\n';
     return code;
   };
 }

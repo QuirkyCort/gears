@@ -5,6 +5,11 @@ var arenaPanel = new function() {
 
   // Run on page load
   this.init = function() {
+    if (typeof babylon.scene == 'undefined') {
+      setTimeout(self.init, 500);
+      return;
+    }
+
     self.$console = $('.console');
     self.$consoleBtn = $('.console .chevron');
     self.$consoleContent = $('.console .content');
@@ -13,7 +18,10 @@ var arenaPanel = new function() {
     self.$stopSim = $('.stopSim');
     self.$world = $('.world');
     self.$reset = $('.reset');
+    self.$cameraSelector = $('.cameraSelectorShort');
     self.$camera = $('.camera');
+    self.$cameraOptions = $('.cameraOptions');
+    self.$fps = $('.fps');
 
     self.$worldInfoPanel = $('.worldInfo');
 
@@ -24,9 +32,29 @@ var arenaPanel = new function() {
     self.$stopSim.click(self.stopSim);
     self.$world.click(self.selectWorld);
     self.$reset.click(self.resetSim);
-    self.$camera.click(self.switchCamera);
+    self.$camera.click(self.toggleCameraSelector);
+    self.$cameraOptions.click(self.switchCamera);
 
     babylon.setCameraMode('arc');
+  };
+
+  // Run when the simPanel in inactive
+  this.onInActive = function() {
+    for (playerFrame of playerFrames) {
+      if (playerFrame.skulpt.running) {
+        return;
+      }
+    }
+
+    babylon.engine.stopRenderLoop();
+  };
+
+  // Run when the simPanel in active
+  this.onActive = function() {
+    if (babylon.engine._activeRenderLoops.length == 0)
+    babylon.engine.runRenderLoop(function(){
+      babylon.scene.render();
+    });
   };
 
   // clear world info
@@ -50,15 +78,25 @@ var arenaPanel = new function() {
   };
 
   // switch camera
-  this.switchCamera = function() {
-    if (babylon.cameraMode == 'arc') {
-      babylon.setCameraMode('orthoTop');
-      self.$camera.html('<span class="icon-camera"></span> Top');
-
-    } else if (babylon.cameraMode == 'orthoTop') {
+  this.switchCamera = function(e) {
+    if (e.currentTarget.classList.contains('cameraArc')) {
       babylon.setCameraMode('arc');
-      self.$camera.html('<span class="icon-camera"></span> Arc');
+      self.$camera.html('<span class="icon-cameraArc"></span>');
+
+    } else if (e.currentTarget.classList.contains('cameraTop')) {
+      babylon.setCameraMode('orthoTop');
+      self.$camera.html('<span class="icon-cameraTop"></span>');
     }
+
+    self.$cameraSelector.addClass('closed');
+  };
+
+  // Toggle camera selector
+  this.toggleCameraSelector = function() {
+    let current = self.$camera.children()[0].className.replace('icon-', '');
+    self.$cameraSelector.children().removeClass('hide');
+    self.$cameraSelector.find('.' + current).addClass('hide');
+    self.$cameraSelector.toggleClass('closed');
   };
 
   // Select world map
@@ -92,6 +130,7 @@ var arenaPanel = new function() {
       let $div = $('<div class="configuration"></div>');
       let $select = $('<select></select>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
@@ -119,6 +158,7 @@ var arenaPanel = new function() {
       let $select = $('<select></select>');
       let $html = $('<div></div>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
@@ -150,6 +190,7 @@ var arenaPanel = new function() {
       let $checkbox = $('<input type="checkbox" id="' + id + '">');
       let $label = $('<label for="' + id + '"></label>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $label.text(opt.label);
 
@@ -181,6 +222,7 @@ var arenaPanel = new function() {
       let $slider = $sliderBox.find('input[type=range]');
       let $input = $sliderBox.find('input[type=text]');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $slider.attr('min', opt.min);
       $slider.attr('max', opt.max);
@@ -208,6 +250,7 @@ var arenaPanel = new function() {
       let $textBox = $('<div class="text"><input type="text"></div>');
       let $input = $textBox.find('input');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $input.val(currentVal);
 
@@ -324,7 +367,7 @@ var arenaPanel = new function() {
           let world = worlds.find(world => world.name == loadedSave.worldName);
 
           if (typeof world == 'undefined') {
-            toastMsg('Invalid map configurations');
+            toastMsg(i18n.get('#sim-invalid_map#'));
             return;
           }
 
@@ -345,9 +388,8 @@ var arenaPanel = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       babylon.world = worlds.find(world => world.name == $select.val());
-      babylon.world.setOptions(worldOptionsSetting).then(function(){
-        self.resetSim();
-      });
+      self.worldOptionsSetting = worldOptionsSetting;
+      self.resetSim();
       $dialog.close();
     });
   };
@@ -362,8 +404,13 @@ var arenaPanel = new function() {
       babylon.world.startSim();
     }
   };
+
   // stop the simulator
-  this.stopSim = function() {
+  this.stopSim = function(stopRobot) {
+    if (typeof stopRobot == 'undefined') {
+      let stopRobot = false;
+    }
+
     playerFrames.forEach(function(playerFrame){
       if (playerFrame.skulpt.running) {
         playerFrame.skulpt.hardInterrupt = true;
@@ -374,24 +421,34 @@ var arenaPanel = new function() {
       babylon.world.stopSim();
     }
 
-    robots.forEach(function(robot){
-      robot.stopAll();
-    });
+    if (stopRobot) {
+      function repeatedReset(count) {
+        if (count > 0) {
+          robots.forEach(function(robot){
+            robot.reset();
+          });
+          setTimeout(function() { repeatedReset(count - 1) }, 100);
+        }
+      }
+      repeatedReset(15);  
+    }
   };
 
   // Reset simulator
   this.resetSim = function() {
-    self.clearWorldInfoPanel();
-    self.hideWorldInfoPanel();
-    babylon.resetScene();
-    playerFrames.forEach(function(playerFrame){
-      playerFrame.skulpt.hardInterrupt = true;
-    });
-    if (arena.showNames) {
-      robots.forEach(robot => {
-        robot.showLabel();
+    babylon.world.setOptions(self.worldOptionsSetting).then(function(){
+      self.clearWorldInfoPanel();
+      self.hideWorldInfoPanel();
+      babylon.resetScene();
+      playerFrames.forEach(function(playerFrame){
+        playerFrame.skulpt.hardInterrupt = true;
       });
-    }
+      if (arena.showNames) {
+        robots.forEach(robot => {
+          robot.showLabel();
+        });
+      }
+    });
   };
 
   // Strip html tags
@@ -431,6 +488,72 @@ var arenaPanel = new function() {
     var pre = self.$consoleContent[0];
     pre.scrollTop = pre.scrollHeight - pre.clientHeight
   };
+
+  // Toggle FPS display
+  this.toggleFPS = function() {
+    self.showFPS = ! self.showFPS;
+
+    if (! self.showFPS) {
+      self.$fps.text('');
+    }
+  };
+
+  // Load world
+  this.loadWorld = function(json) {
+    try {
+      let loadedSave = JSON.parse(json);
+  
+      // Is it a world file?
+      if (typeof loadedSave.bodyHeight != 'undefined') {
+        showErrorModal(i18n.get('#sim-invalid_world_file_robot#'));
+        return;
+      }
+
+      // Is it a world file?
+      let world = worlds.find(world => world.name == loadedSave.worldName);
+      if (typeof world == 'undefined') {
+        showErrorModal(i18n.get('#sim-invalid_map#'));
+        return;
+      }
+  
+      babylon.world = worlds.find(world => world.name == loadedSave.worldName);
+      self.worldOptionsSetting = loadedSave.options;
+      self.resetSim();  
+    } catch (e) {
+      showErrorModal(i18n.get('#sim-invalid_world_file_json#'));
+    }
+  };
+
+  // Load from file
+  this.loadWorldLocal = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'application/json,.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        self.loadWorld(this.result);
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+  };
+
+  // Save to file
+  this.saveWorld = function() {
+    let world = babylon.world;
+    let saveObj = {
+      worldName: world.name,
+      options: world.options
+    }
+
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(saveObj, null, 2));
+    hiddenElement.target = '_blank';
+    hiddenElement.download = world.name + 'Map_config.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
 }
 
 arenaPanel.init();

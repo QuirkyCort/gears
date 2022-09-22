@@ -7,6 +7,7 @@ var simPanel = new function() {
   self.pickedPoints = [null, null];
   self.touchDevice = false;
   self.drag = false;
+  self.showFPS = false;
 
   // Run on page load
   this.init = function() {
@@ -17,11 +18,21 @@ var simPanel = new function() {
     self.$runSim = $('.runSim');
     self.$world = $('.world');
     self.$reset = $('.reset');
+    self.$cameraSelector = $('.cameraSelector');
     self.$camera = $('.camera');
+    self.$cameraOptions = $('.cameraOptions');
     self.$sensors = $('.sensors');
     self.$ruler = $('.ruler');
+    self.$joystick = $('.joystick');
+    self.$joystickIcon = $('.joystick > .icon');
+    self.$virtualJoystick = $('.icon-virtualJoystick');
+    self.$virtualJoystickIndicator = $('.icon-virtualJoystickIndicator');
+    self.$hubButtons = $('.hubButtons');
+    self.$hubButtonsIcon = $('.hubButtons > .icon');
+    self.$keyboard = $('.keyboard');
+    self.$fps = $('.fps');
 
-    setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors]);
+    setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors, self.$joystickIcon, self.$hubButtonsIcon]);
 
     self.$sensorsPanel = $('.sensorReadings');
     self.$worldInfoPanel = $('.worldInfo');
@@ -31,13 +42,30 @@ var simPanel = new function() {
     self.$consoleClear.click(self.clearConsole);
     self.$runSim.click(self.runSim);
     self.$world.click(self.selectWorld);
-    self.$reset.click(self.resetSim);
-    self.$camera.click(self.switchCamera);
+    self.$reset.click(function() {
+      if (babylon.cameraMode == 'follow') {
+        self.resetSim().then(function(){
+          babylon.resetCamera();
+        });
+      } else {
+        self.resetSim();
+      }
+    });
+    self.$camera.click(self.toggleCameraSelector);
+    self.$cameraOptions.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
 
-    self.updateTextLanguage();
+    if (self.$hubButtons.length > 0) {
+      self.$hubButtonsIcon.click(self.toggleHubButtons);
+      self.setupHubButtons();
+    }
 
-    self.initSensorsPanel();
+    if (self.$virtualJoystick.length > 0) {
+      self.$joystickIcon.click(self.toggleJoystick);
+      self.$keyboard.click(self.keyboardHelp);
+      self.setupJoystick();
+      self.setupJoystickKeyControls();
+    }
 
     self.$ruler[0].addEventListener('pointerup', function(e){
       if (e.pointerType == 'touch') {
@@ -66,12 +94,248 @@ var simPanel = new function() {
     self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
   };
 
-  // Update text already in html
-  this.updateTextLanguage = function() {
-    self.$world.text(i18n.get('#sim-world#'));
-    self.$reset.text(i18n.get('#sim-reset#'));
-    self.$sensors.text(i18n.get('#sim-sensors#'));
-    self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-follow#'));
+  // Run when the simPanel in inactive
+  this.onInActive = function() {
+    if (! skulpt.running) {
+      babylon.engine.stopRenderLoop();
+    }
+  };
+
+  // Run when the simPanel in active
+  this.onActive = function() {
+    if (babylon.engine._activeRenderLoops.length == 0)
+    babylon.engine.runRenderLoop(function(){
+      babylon.scene.render();
+    });
+  };
+
+  // Setup virtual joystick
+  this.setupJoystick = function() {
+    function moveSteering(steering, speed) {
+      if (typeof babylon.world.manualMoved == 'function') {
+        babylon.world.manualMoved();
+      }
+
+      if (steering > 1) {
+        steering = 1;
+      } else if (steering < -1) {
+        steering = -1;
+      }
+      if (speed > 1) {
+        speed = 1;
+      } else if (speed < -1) {
+        speed = -1;
+      }
+
+      if (steering > 0) {
+        robot.leftWheel.speed_sp = speed * 1000;
+        robot.rightWheel.speed_sp = speed * 1000 * (1 - steering * 2);
+        robot.leftWheel.runForever();
+        robot.rightWheel.runForever();
+      } else {
+        robot.leftWheel.speed_sp = speed * 1000 * (1 + steering * 2)
+        robot.rightWheel.speed_sp = speed * 1000;
+        robot.leftWheel.runForever();
+        robot.rightWheel.runForever();
+      }
+    }
+    function stop() {
+      robot.leftWheel.speed_sp = 0;
+      robot.rightWheel.speed_sp = 0;
+      robot.leftWheel.stop();
+      robot.rightWheel.stop();
+    }
+
+    self.$virtualJoystick[0].addEventListener('pointermove', function(e){
+      if (e.buttons & 1) {
+        var rect = e.target.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        self.$virtualJoystickIndicator[0].style.left = (x - 75) + 'px';
+        self.$virtualJoystickIndicator[0].style.top = (y - 75) + 'px';
+        y = (75 - y) / 75;
+        x = (x - 75) / 75;
+
+        let steering = 1 - 2 * Math.abs(Math.atan2(y, x) / Math.PI);
+        let speed = Math.sqrt(y**2 + x**2);
+        if (y < 0) {
+          speed = -speed;
+          steering = -steering;
+        }
+
+        moveSteering(steering, speed);
+      }
+    });
+
+    function resetJoystick(e) {
+      self.$virtualJoystickIndicator[0].style.left = '0px';
+      self.$virtualJoystickIndicator[0].style.top = '0px';
+      stop();
+    }
+    self.$virtualJoystick[0].addEventListener('pointerup', resetJoystick);
+    self.$virtualJoystick[0].addEventListener('pointerleave', resetJoystick);
+  };
+
+  // Key controls for joystick
+  this.setupJoystickKeyControls = function() {
+    let left, right, up, down;
+
+    function moveTank(leftWheel, rightWheel) {
+      if (typeof babylon.world.manualMoved == 'function') {
+        babylon.world.manualMoved();
+      }
+
+      robot.leftWheel.speed_sp = leftWheel;
+      robot.rightWheel.speed_sp = rightWheel;
+      if (leftWheel == 0) {
+        robot.leftWheel.stop();
+      } else {
+        robot.leftWheel.runForever();
+      }
+      if (rightWheel == 0) {
+        robot.rightWheel.stop();
+      } else {
+        robot.rightWheel.runForever();
+      }
+    }
+
+    function drive() {
+      let l, r;
+      let SPEED = 200;
+
+      if (up) {
+        l = SPEED;
+        r = SPEED;
+        if (left) {
+          l = 0;
+        } else if (right) {
+          r = 0;
+        }
+      } else if (down) {
+        l = -SPEED;
+        r = -SPEED;
+        if (left) {
+          r = 0;
+        } else if (right) {
+          l = 0;
+        }
+      } else if (left) {
+        l = -SPEED / 2;
+        r = SPEED / 2;
+      } else if (right) {
+        l = SPEED / 2;
+        r = -SPEED / 2;
+      }
+
+      moveTank(l, r);
+    }
+
+    self.$joystick[0].addEventListener('keydown', event => {
+      if (event.isComposing) {
+        return;
+      }
+      if (self.$joystick.hasClass('closed')) {
+        return;
+      }
+
+      if (event.key == 'ArrowLeft') {
+        left = true;
+      } else if (event.key == 'ArrowUp') {
+        up = true;
+      } else if (event.key == 'ArrowRight') {
+        right = true;
+      } else if (event.key == 'ArrowDown') {
+        down = true;
+      }
+      drive();
+
+      event.preventDefault();
+    });
+
+    self.$joystick[0].addEventListener('keyup', event => {
+      if (event.isComposing) {
+        return;
+      }
+      if (self.$joystick.hasClass('closed')) {
+        return;
+      }
+      if (event.key == 'ArrowLeft') {
+        left = false;
+      } else if (event.key == 'ArrowUp') {
+        up = false;
+      } else if (event.key == 'ArrowRight') {
+        right = false;
+      } else if (event.key == 'ArrowDown') {
+        down = false;
+      }
+      drive();
+    });
+
+    self.$joystick[0].addEventListener('focusout', event => {
+      left = false;
+      right = false;
+      up = false;
+      down = false;
+      drive();
+    });
+  };
+
+  // Help message for keyboard controls
+  self.keyboardHelp = function() {
+    let options = {
+      title: 'Keyboard Controls',
+      message:
+        '<p>' +
+        'Use the arrow keys to manually drive the robot. ' +
+        'The virtual joystick window must be opened and selected (...click on it) for keyboard controls to work. ' +
+        '</p>'
+    }
+    acknowledgeDialog(options);
+  };
+
+  // Toggle virtual joystick
+  this.toggleJoystick = function() {
+    self.$joystick.toggleClass('closed');
+  };
+
+  // Setup hub buttons
+  this.setupHubButtons = function() {
+    let backspace = 'backspace';
+    let up = 'up';
+    let down = 'down';
+    let left = 'left';
+    let right = 'right';
+    let enter = 'enter';
+
+    let buttons = {};
+    buttons[backspace] = $('.hubButtons .icon-buttonsBackspace');
+    buttons[up] = $('.hubButtons .icon-buttonsUp');
+    buttons[down] = $('.hubButtons .icon-buttonsDown');
+    buttons[left] = $('.hubButtons .icon-buttonsLeft');
+    buttons[right] = $('.hubButtons .icon-buttonsRight');
+    buttons[enter] = $('.hubButtons .icon-buttonsEnter');
+
+    function setBtn(key, state) {
+      return function(evt) {
+        if (state) {
+          evt.target.classList.add('pressed');
+        } else {
+          evt.target.classList.remove('pressed');
+        }
+        robot.setHubButton(key, state);
+      }
+    }
+
+    for (let btn in buttons) {
+      buttons[btn][0].addEventListener('pointerdown', setBtn(btn, true));
+      buttons[btn][0].addEventListener('pointerup', setBtn(btn, false));
+      buttons[btn][0].addEventListener('pointerout', setBtn(btn, false));
+    }
+  };
+
+  // Toggle hub buttons
+  this.toggleHubButtons = function() {
+    self.$hubButtons.toggleClass('closed');
   };
 
   // toggle ruler
@@ -245,7 +509,7 @@ var simPanel = new function() {
       if (sensor.type == 'ColorSensor') {
         tmp = genDiv(
           sensor.port + ': ' + i18n.get('#sim-color_sensor#'),
-          [i18n.get('#sim-red#'), i18n.get('#sim-green#'), i18n.get('#sim-blue#'), i18n.get('#sim-intensity#')]
+          [i18n.get('#sim-color#'), i18n.get('#sim-red#'), i18n.get('#sim-green#'), i18n.get('#sim-blue#'), i18n.get('#sim-intensity#')]
         );
       } else if (sensor.type == 'UltrasonicSensor') {
         tmp = genDiv(
@@ -288,21 +552,23 @@ var simPanel = new function() {
       i++;
     }
 
-    let tmp = genDiv(
-      'outA: ' + i18n.get('#sim-left_motor#'),
-      [i18n.get('#sim-position#')]
-    );
-    self.$sensorsPanel.append(tmp[0]);
-    self.sensors.push([robot.leftWheel, tmp[1]]);
-    tmp = genDiv(
-      'outB: ' + i18n.get('#sim-right_motor#'),
-      [i18n.get('#sim-position#')]
-    );
-    self.$sensorsPanel.append(tmp[0]);
-    self.sensors.push([robot.rightWheel, tmp[1]]);
+    if (robot.processedOptions.wheels) {
+      let tmp = genDiv(
+        'outA: ' + i18n.get('#sim-left_motor#'),
+        [i18n.get('#sim-position#')]
+      );
+      self.$sensorsPanel.append(tmp[0]);
+      self.sensors.push([robot.leftWheel, tmp[1]]);
+      tmp = genDiv(
+        'outB: ' + i18n.get('#sim-right_motor#'),
+        [i18n.get('#sim-position#')]
+      );
+      self.$sensorsPanel.append(tmp[0]);
+      self.sensors.push([robot.rightWheel, tmp[1]]);
+    }
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    i = 3;
+    i = robot.processedOptions.wheels ? 3 : 1;
     var motor = null;
     while (motor = robot.getComponentByPort('out' + PORT_LETTERS[i])) {
       if (motor.type == 'ArmActuator') {
@@ -315,6 +581,11 @@ var simPanel = new function() {
           motor.port + ': ' + i18n.get('#sim-swivel#'),
           [i18n.get('#sim-position#')]
           );
+      } else if (motor.type == 'LinearActuator') {
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-linear#'),
+          [i18n.get('#sim-position#')]
+          );
       } else if (motor.type == 'PaintballLauncherActuator') {
         tmp = genDiv(
           motor.port + ': ' + i18n.get('#sim-paintball#'),
@@ -325,7 +596,12 @@ var simPanel = new function() {
           motor.port + ': ' + i18n.get('#sim-magnet#'),
           [i18n.get('#sim-magnet_power#')]
           );
-      }
+      } else if (motor.type == 'WheelActuator') {
+        tmp = genDiv(
+          motor.port + ': ' + i18n.get('#sim-wheel#'),
+          [i18n.get('#sim-position#')]
+          );
+        }
 
       if (tmp) {
         self.$sensorsPanel.append(tmp[0]);
@@ -344,20 +620,24 @@ var simPanel = new function() {
     self.sensors.forEach(function(sensor) {
       if (sensor[0].type == 'ColorSensor') {
         let rgb = sensor[0].getRGB();
-        sensor[1][0].text(Math.round(rgb[0]));
-        sensor[1][1].text(Math.round(rgb[1]));
-        sensor[1][2].text(Math.round(rgb[2]));
-        sensor[1][3].text(Math.round(rgb[0] / 2.55));
+        let hsv = Colors.toHSV(rgb);
+        let color = Colors.toColor(hsv);
+        let colorName = Colors.toColorName(color);
+        sensor[1][0].text(color + ' : ' + colorName);
+        sensor[1][1].text(Math.round(rgb[0]));
+        sensor[1][2].text(Math.round(rgb[1]));
+        sensor[1][3].text(Math.round(rgb[2]));
+        sensor[1][4].text(Math.round(rgb[0] / 2.55));
       } else if (sensor[0].type == 'UltrasonicSensor') {
         sensor[1][0].text(Math.round(sensor[0].getDistance() * 10) / 10);
       } else if (sensor[0].type == 'GyroSensor') {
-        sensor[1][0].text(Math.round(sensor[0].getAngle()));
+        sensor[1][0].text(Math.round(sensor[0].getYawAngle()));
       } else if (sensor[0].type == 'GPSSensor') {
         let position = sensor[0].getPosition();
         sensor[1][0].text(Math.round(position[0] * 10) / 10);
         sensor[1][1].text(Math.round(position[2] * 10) / 10);
         sensor[1][2].text(Math.round(position[1] * 10) / 10);
-      } else if (sensor[0].type == 'wheel') {
+      } else if (sensor[0].type == 'WheelActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'ArmActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
@@ -366,6 +646,8 @@ var simPanel = new function() {
       } else if (sensor[0].type == 'TouchSensor') {
         sensor[1][0].text(sensor[0].isPressed());
       } else if (sensor[0].type == 'SwivelActuator') {
+        sensor[1][0].text(Math.round(sensor[0].position));
+      } else if (sensor[0].type == 'LinearActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
       } else if (sensor[0].type == 'PaintballLauncherActuator') {
         sensor[1][0].text(Math.round(sensor[0].position));
@@ -377,23 +659,41 @@ var simPanel = new function() {
 
   // toggle sensors panel
   this.toggleSensorsPanel = function() {
+    if (self.sensors.length == 0) {
+      self.initSensorsPanel();
+    }
     self.$sensorsPanel.toggleClass('hide');
   };
 
   // switch camera
-  this.switchCamera = function() {
-    if (babylon.cameraMode == 'arc') {
-      babylon.setCameraMode('follow');
-      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-follow#'));
-
-    } else if (babylon.cameraMode == 'follow') {
-      babylon.setCameraMode('orthoTop');
-      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-top#'));
-
-    } else if (babylon.cameraMode == 'orthoTop') {
+  this.switchCamera = function(e) {
+    if (e.currentTarget.classList.contains('cameraArc')) {
       babylon.setCameraMode('arc');
-      self.$camera.html('<span class="icon-camera"></span> ' + i18n.get('#sim-arc#'));
+      self.$camera.html('<span class="icon-cameraArc"></span>');
+
+    } else if (e.currentTarget.classList.contains('cameraFollow')) {
+      babylon.setCameraMode('follow');
+      self.$camera.html('<span class="icon-cameraFollow"></span>');
+
+    } else if (e.currentTarget.classList.contains('cameraTop')) {
+      babylon.setCameraMode('orthoTop');
+      self.$camera.html('<span class="icon-cameraTop"></span>');
+
+    } else if (e.currentTarget.classList.contains('resetCamera')) {
+      babylon.resetCamera();
+      babylon.setCameraMode('follow');
+      self.$camera.html('<span class="icon-cameraFollow"></span>');
     }
+
+    self.$cameraSelector.addClass('closed');
+  };
+
+  // Toggle camera selector
+  this.toggleCameraSelector = function() {
+    let current = self.$camera.children()[0].className.replace('icon-', '');
+    self.$cameraSelector.children().removeClass('hide');
+    self.$cameraSelector.find('.' + current).addClass('hide');
+    self.$cameraSelector.toggleClass('closed');
   };
 
   // Select world map
@@ -427,6 +727,7 @@ var simPanel = new function() {
       let $div = $('<div class="configuration"></div>');
       let $select = $('<select></select>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
@@ -454,6 +755,7 @@ var simPanel = new function() {
       let $select = $('<select></select>');
       let $html = $('<div></div>');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       opt.options.forEach(function(option){
         let $opt = $('<option></option>');
@@ -516,6 +818,7 @@ var simPanel = new function() {
       let $slider = $sliderBox.find('input[type=range]');
       let $input = $sliderBox.find('input[type=text]');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $slider.attr('min', opt.min);
       $slider.attr('max', opt.max);
@@ -543,11 +846,58 @@ var simPanel = new function() {
       let $textBox = $('<div class="text"><input type="text"></div>');
       let $input = $textBox.find('input');
       let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
 
       $input.val(currentVal);
 
       $input.change(function(){
         worldOptionsSetting[opt.option] = $input.val();
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($textBox);
+
+      return $div;
+    }
+
+    function genInt(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $textBox = $('<div class="text"><input type="text"></div>');
+      let $input = $textBox.find('input');
+      let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
+
+      $input.val(currentVal);
+
+      $input.change(function(){
+        if (isNaN($input.val())) {
+          worldOptionsSetting[opt.option] = $input.val();
+        } else {
+          worldOptionsSetting[opt.option] = parseInt($input.val());
+        }
+      });
+
+      $div.append(getTitle(opt));
+      $div.append($textBox);
+
+      return $div;
+    }
+
+    function genFloat(opt, currentOptions) {
+      let $div = $('<div class="configuration"></div>');
+      let $textBox = $('<div class="text"><input type="text"></div>');
+      let $input = $textBox.find('input');
+      let currentVal = currentOptions[opt.option];
+      worldOptionsSetting[opt.option] = currentVal;
+
+      $input.val(currentVal);
+
+      $input.change(function(){
+        if (isNaN($input.val())) {
+          worldOptionsSetting[opt.option] = $input.val();
+        } else {
+          worldOptionsSetting[opt.option] = parseFloat($input.val());
+        }
       });
 
       $div.append(getTitle(opt));
@@ -583,7 +933,6 @@ var simPanel = new function() {
 
       $configurations.empty();
       worldOptionsSetting = {};
-      Object.assign(worldOptionsSetting, worldOptions);
       for (let optionConfiguration of world.optionsConfigurations) {
         if (optionConfiguration.type == 'select') {
           $configurations.append(genSelect(optionConfiguration, worldOptions));
@@ -595,6 +944,10 @@ var simPanel = new function() {
           $configurations.append(genSlider(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'text') {
           $configurations.append(genText(optionConfiguration, worldOptions));
+        } else if (optionConfiguration.type == 'int') {
+          $configurations.append(genInt(optionConfiguration, worldOptions));
+        } else if (optionConfiguration.type == 'float') {
+          $configurations.append(genFloat(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'file') {
           $configurations.append(genFile(optionConfiguration, worldOptions));
         } else if (optionConfiguration.type == 'set') {
@@ -681,18 +1034,124 @@ var simPanel = new function() {
     $buttons.siblings('.cancel').click(function() { $dialog.close(); });
     $buttons.siblings('.confirm').click(function(){
       babylon.world = worlds.find(world => world.name == $select.val());
-      babylon.world.setOptions(worldOptionsSetting).then(function(){
-        self.resetSim();
+      self.worldOptionsSetting = worldOptionsSetting;
+      self.resetSim().then(function(){
+        babylon.resetCamera();
+        babylon.setCameraMode('follow');
+        self.$camera.html('<span class="icon-cameraFollow"></span>');
       });
       $dialog.close();
     });
   };
 
+  // Load world
+  this.loadWorld = function(json) {
+    try {
+      let loadedSave = JSON.parse(json);
+
+      // Is it a world file?
+      if (typeof loadedSave.bodyHeight != 'undefined') {
+        showErrorModal(i18n.get('#sim-invalid_world_file_robot#'));
+        return;
+      }
+
+      // Is it a world file?
+      let world = worlds.find(world => world.name == loadedSave.worldName);
+      if (typeof world == 'undefined') {
+        showErrorModal(i18n.get('#sim-invalid_map#'));
+        return;
+      }
+
+      babylon.world = worlds.find(world => world.name == loadedSave.worldName);
+      self.worldOptionsSetting = loadedSave.options;
+      if (typeof babylon.world.setOptions == 'function') {
+        babylon.world.setOptions(self.worldOptionsSetting);
+      }
+      self.resetSim().then(function(){
+        babylon.resetCamera();
+        babylon.setCameraMode('follow');
+        self.$camera.html('<span class="icon-cameraFollow"></span>');
+      });
+    } catch (e) {
+      showErrorModal(i18n.get('#sim-invalid_world_file_json#'));
+    }
+  };
+
+  // Load from local file
+  this.loadWorldLocal = function() {
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = 'application/json,.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var reader = new FileReader();
+      reader.onload = function() {
+        self.loadWorld(this.result);
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+  };
+
+  // Load from URL
+  this.loadWorldURL = function(url) {
+    return fetch(url)
+      .then(function(response) {
+        if (response.ok) {
+          return response.text();
+        } else {
+          toastMsg(i18n.get('#sim-not_found#'));
+          return Promise.reject(new Error('invalid_map'));
+        }
+      })
+      .then(function(response) {
+        self.loadWorld(response);
+      });
+  };
+
+  // Save to file
+  this.saveWorld = function() {
+    let world = babylon.world;
+    let saveObj = {
+      worldName: world.name,
+      options: world.options
+    }
+
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:application/json;base64,' + btoa(JSON.stringify(saveObj, null, 2));
+    hiddenElement.target = '_blank';
+    hiddenElement.download = world.name + 'Map_config.json';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  };
+
+  // Stop the simulator
+  this.stopSim = function(stopRobot) {
+    if (typeof stopRobot == 'undefined') {
+      let stopRobot = false;
+    }
+
+    skulpt.hardInterrupt = true;
+    self.setRunIcon('run');
+
+    if (typeof babylon.world.stopSim == 'function') {
+      babylon.world.stopSim();
+    }
+
+
+    if (stopRobot) {
+      function repeatedReset(count) {
+        if (count > 0) {
+          robot.reset();
+          setTimeout(function() { repeatedReset(count - 1) }, 100);
+        }
+      }
+      repeatedReset(15);
+    }
+  };
+
   // Run the simulator
   this.runSim = function() {
     if (skulpt.running) {
-      skulpt.hardInterrupt = true;
-      self.setRunIcon('run');
+      self.stopSim();
     } else {
       if (! pythonPanel.modified) {
         pythonPanel.loadPythonFromBlockly();
@@ -716,13 +1175,22 @@ var simPanel = new function() {
   };
 
   // Reset simulator
-  this.resetSim = function() {
-    self.clearWorldInfoPanel();
-    self.hideWorldInfoPanel();
-    babylon.resetScene();
-    skulpt.hardInterrupt = true;
-    self.setRunIcon('run');
-    self.initSensorsPanel();
+  this.resetSim = function(resetPython) {
+    if (typeof resetPython == 'undefined') {
+      resetPython = true;
+    }
+
+    return babylon.world.setOptions(self.worldOptionsSetting).then(function(){
+      self.clearWorldInfoPanel();
+      self.hideWorldInfoPanel();
+      if (resetPython) {
+        skulpt.hardInterrupt = true;
+        self.setRunIcon('run');
+      }
+      return babylon.resetScene().then(function(){
+        self.initSensorsPanel();
+      });
+    });
   };
 
   // Strip html tags
@@ -761,6 +1229,15 @@ var simPanel = new function() {
   this.scrollConsoleToBottom = function() {
     var pre = self.$consoleContent[0];
     pre.scrollTop = pre.scrollHeight - pre.clientHeight
+  };
+
+  // Toggle FPS display
+  this.toggleFPS = function() {
+    self.showFPS = ! self.showFPS;
+
+    if (! self.showFPS) {
+      self.$fps.text('');
+    }
   };
 }
 
