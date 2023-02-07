@@ -1,293 +1,296 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" href="favicon-32.png" sizes="32x32">
-  <link rel="icon" href="favicon-128.png" sizes="128x128">
-  <link rel="icon" href="favicon-167.png" sizes="167x167">
-  <link rel="icon" href="favicon-192.png" sizes="192x192">
+    <link rel="icon" href="favicon-32.png" sizes="32x32" />
+    <link rel="icon" href="favicon-128.png" sizes="128x128" />
+    <link rel="icon" href="favicon-167.png" sizes="167x167" />
+    <link rel="icon" href="favicon-192.png" sizes="192x192" />
 
-  <link rel="stylesheet" href="css/main.css?v=e4913234">
-  <link rel="stylesheet" href="css/widgets.css?v=9692a428">
+    <link rel="stylesheet" href="css/main.css?v=e4913234" />
+    <link rel="stylesheet" href="css/widgets.css?v=9692a428" />
 
-  <script src="jquery/jquery-3.5.1.slim.min.js"></script>
+    <script src="jquery/jquery-3.5.1.slim.min.js"></script>
 
-  <script src="ace-1.4.10/src-min/ace.js"></script>
-  <script src="ace-1.4.10/src-min/ext-language_tools.js"></script>
+    <script src="ace-1.4.10/src-min/ace.js"></script>
+    <script src="ace-1.4.10/src-min/ext-language_tools.js"></script>
 
-  <script src="skulpt/0.11.0/skulpt.min.js"></script>
-  <script src="skulpt/0.11.0/skulpt-stdlib.js"></script>
+    <script src="skulpt/0.11.0/skulpt.min.js"></script>
+    <script src="skulpt/0.11.0/skulpt-stdlib.js"></script>
 
-  <!-- <script src="ammo/ammo-20210414.js"></script> -->
-  <script src="ammo/ammo-20210414.wasm.js"></script>
+    <!-- <script src="ammo/ammo-20210414.js"></script> -->
+    <script src="ammo/ammo-20210414.wasm.js"></script>
 
-  <script src="babylon/4.2.1/babylon.js"></script>
-  <script src="babylon/4.2.1/babylonjs.loaders.min.js"></script>
-  <script src="pep/0.4.3/pep.min.js"></script>
+    <script src="babylon/4.2.1/babylon.js"></script>
+    <script src="babylon/4.2.1/babylonjs.loaders.min.js"></script>
+    <script src="pep/0.4.3/pep.min.js"></script>
 
-  <script src="jszip/3.5.0/jszip.min.js"></script>
+    <script src="jszip/3.5.0/jszip.min.js"></script>
 
-  <script src="js/msg.js?v=167f9031"></script>
-  <script src="js/common/widgets.js?v=1f9e01aa"></script>
+    <script src="js/msg.js?v=167f9031"></script>
+    <script src="js/common/widgets.js?v=1f9e01aa"></script>
 
-  <!-- Add icon library -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!-- Add icon library -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
-  <title>GearsBot</title>
-</head>
+    <title>GearsBot</title>
+  </head>
 
-<body>
-  <header>
-    <img class="gearsIcon" src="favicon-32.png">
-    <div>GearsBot</div>
-    <input type="text" id="projectName" placeholder="Project Name">
-    <div class="language"><span class="icon-globe"></span> &#x25BE;</div>
-  </header>
+  <body>
+    <header>
+      <img class="gearsIcon" src="favicon-32.png" />
+      <div>GearsBot</div>
+      <input type="text" id="projectName" placeholder="Project Name" />
+      <div class="language"><span class="icon-globe"></span> &#x25BE;</div>
+    </header>
 
-  <main>
-    <nav>
-      <ul class="panelTabs">
-        <li id="navBlocks" class="active">Blocks</li>
-        <li id="navPython" class="pythonMain">
-          <span>
-            Python
-          </span>
-          <span class="py-mod-controls">
-            <i class="icon-upload upload-py-mod"
-               title="Upload python main"></i>
-            <i class="icon-download download-py-mod"
-              title="Download python main"></i>
-            <i class="icon-newFile add-py-mod"
-              title="Add python module"></i>
-          </span>
-        </li>
-        <li id="navSim">Simulator</li>
-      </ul>
-      <div class="menuBar">
-        <div class="menuItem fileMenu">File</div>
-        <div class="menuItem pythonMenu">Python</div>
-        <div class="menuItem robotMenu">Robot</div>
-        <div class="menuItem worldsMenu">Worlds</div>
-        <div class="menuItem helpMenu">Help</div>
+    <main>
+      <nav>
+        <ul class="panelTabs">
+          <li id="navBlocks" class="active">Blocks</li>
+          <li id="navPython" class="pythonMain">
+            <span> Python </span>
+            <span class="py-mod-controls">
+              <i
+                class="icon-upload upload-py-mod"
+                title="Upload python main"
+              ></i>
+              <i
+                class="icon-download download-py-mod"
+                title="Download python main"
+              ></i>
+              <i class="icon-newFile add-py-mod" title="Add python module"></i>
+            </span>
+          </li>
+          <li id="navSim">Simulator</li>
+        </ul>
+        <div class="menuBar">
+          <div class="menuItem fileMenu">File</div>
+          <div class="menuItem pythonMenu">Python</div>
+          <div class="menuItem robotMenu">Robot</div>
+          <div class="menuItem worldsMenu">Worlds</div>
+          <div class="menuItem helpMenu">Help</div>
+          <div class="menuItem dashBoard">Dashboard</div>
+        </div>
+
+        <div class="panelControlsArea">
+          <div class="panelControls active" aria-labelledby="navBlocks">
+            <div class="saveBlockly hide">Save Now</div>
+          </div>
+          <div class="panelControls" aria-labelledby="navPython">
+            <div class="savePython hide">Save Now</div>
+          </div>
+        </div>
+      </nav>
+      <div class="panels">
+        <div class="blocklyEditor panel active" aria-labelledby="navBlocks">
+          <div id="blocklyDiv" style="height: 100%; width: 100%"></div>
+          <div
+            id="blocklyHiddenDiv"
+            style="height: 100%; width: 100%; position: absolute; top: -10000px"
+          ></div>
+          <div id="blocklyPages"><span class="currentPage">Main</span></div>
+        </div>
+
+        <div class="panel" aria-labelledby="navPython">
+          <div id="pythonCode"></div>
+        </div>
+
+        <div class="panel" aria-labelledby="navSim" id="simPanel">
+          <canvas id="renderCanvas" touch-action="none"></canvas>
+          <div class="runSim"><span class="icon-play"></span></div>
+          <div class="world"><span class="icon-globe"></span></div>
+          <div class="reset"><span class="icon-reset"></span></div>
+          <div class="sensors"><span class="icon-sensors"></span></div>
+          <div class="sensorReadings hide"></div>
+          <div class="cameraSelector closed">
+            <div class="camera">
+              <span class="icon-cameraFollow"></span>
+            </div>
+            <div class="cameraOptions cameraFollow">
+              <span class="icon-cameraFollow"></span>
+            </div>
+            <div class="cameraOptions cameraTop">
+              <span class="icon-cameraTop"></span>
+            </div>
+            <div class="cameraOptions cameraArc">
+              <span class="icon-cameraArc"></span>
+            </div>
+            <div class="cameraOptions resetCamera">
+              <span class="icon-reset"></span>
+            </div>
+          </div>
+
+          <div class="worldInfo hide"></div>
+          <div class="ruler closed">
+            <div class="icon">
+              <span class="icon-ruler"></span>
+            </div>
+            <div class="measurements">
+              <table>
+                <tr>
+                  <td class="x">X:</td>
+                  <td class="y">Y:</td>
+                  <td class="alt">Alt:</td>
+                </tr>
+                <tr>
+                  <td class="dist" colspan="2">Distance:</td>
+                  <td class="angle">Angle:</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="joystick closed" tabindex="0">
+            <div class="icon">
+              <span class="icon-joystick"></span>
+            </div>
+            <div class="keyboard">
+              <span class="icon-keyboard"></span>
+            </div>
+            <div class="virtualJoystick">
+              <span class="icon-virtualJoystickIndicator"></span>
+              <span class="icon-virtualJoystick"></span>
+            </div>
+          </div>
+          <div class="hubButtons closed">
+            <div class="icon">
+              <span class="icon-buttons"></span>
+            </div>
+            <div class="controls">
+              <span class="icon-buttonsBackspace"></span>
+              <span class="icon-buttonsUp"></span>
+              <span class="icon-buttonsDown"></span>
+              <span class="icon-buttonsLeft"></span>
+              <span class="icon-buttonsRight"></span>
+              <span class="icon-buttonsEnter"></span>
+            </div>
+          </div>
+
+          <div class="fps"></div>
+
+          <div class="console">
+            <div class="chevron"></div>
+            <div title="Clear Console" class="clear">&#x239a;</div>
+            <pre class="content"></pre>
+          </div>
+        </div>
       </div>
-      <!-- <div class="news">
-        News!
-      </div> -->
-      </div>
-      <div class="panelControlsArea">
-        <div class="panelControls active" aria-labelledby="navBlocks">
-          <div class="saveBlockly hide">Save Now</div>
-        </div>
-        <div class="panelControls " aria-labelledby="navPython">
-          <div class="savePython hide">Save Now</div>
-        </div>
-      </div>
-    </nav>
-    <div class="panels">
+    </main>
 
-      <div class="blocklyEditor panel active" aria-labelledby="navBlocks">
-        <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
-        <div id="blocklyHiddenDiv" style="height: 100%; width: 100%; position: absolute; top: -10000px;"></div>
-        <div id="blocklyPages"><span class="currentPage">Main</span></div>
-      </div>
+    <script src="blockly/3.20200402.1/blockly.js"></script>
+    <script src="blockly/3.20200402.1/blocks.js"></script>
+    <script src="blockly/3.20200402.1/python.js"></script>
+    <!-- <script src="blockly/3.20200402.1/msg/en.js"></script> -->
 
-      <div class="panel" aria-labelledby="navPython">
-        <div id="pythonCode"></div>
-      </div>
+    <script src="js/ev3dev2_generator.js?v=c7ad811b"></script>
+    <script src="js/pybricks_generator.js?v=13a33c1a"></script>
+    <script src="js/blockly.js?v=d7813fd6"></script>
+    <script src="js/skulpt.js?v=1c418afb"></script>
+    <script src="js/worlds/World_Base.js?v=37c3d441"></script>
+    <script src="js/worlds/world_Grid.js?v=3ed03b45"></script>
+    <script src="js/worlds/world_LineFollowing.js?v=8e36de6c"></script>
+    <script src="js/worlds/world_Gyro.js?v=15f87e04"></script>
+    <script src="js/worlds/world_Paintball.js?v=04201b61"></script>
+    <script src="js/worlds/world_Sumo.js?v=e7b48574"></script>
+    <script src="js/worlds/world_FireRescue.js?v=e72671e3"></script>
+    <script src="js/worlds/world_Maze.js?v=6571b2a6"></script>
+    <script src="js/worlds/world_Missions.js?v=207f378d"></script>
+    <script src="js/worlds/world_Custom.js?v=a56a2eb0"></script>
+    <script src="js/worlds/world_Football.js?v=ab1b9783"></script>
+    <script src="js/worlds/world_Arena.js?v=c1828281"></script>
+    <script src="js/robotComponents.js?v=70339366"></script>
+    <script src="js/robotTemplates.js?v=c254ce16"></script>
+    <script src="js/Wheel.js?v=bb27211a"></script>
+    <script src="js/Robot.js?v=2d34504b"></script>
+    <script>
+      var robots = [];
 
-      <div class="panel" aria-labelledby="navSim" id="simPanel">
-        <canvas id="renderCanvas" touch-action="none"></canvas>
-        <div class="runSim"><span class="icon-play"></span></div>
-        <div class="world"><span class="icon-globe"></span></div>
-        <div class="reset"><span class="icon-reset"></span></div>
-        <div class="sensors"><span class="icon-sensors"></span></div>
-        <div class="sensorReadings hide"></div>
-        <div class="cameraSelector closed">
-          <div class="camera">
-            <span class="icon-cameraFollow"></span>
-          </div>
-          <div class="cameraOptions cameraFollow">
-            <span class="icon-cameraFollow"></span>
-          </div>
-          <div class="cameraOptions cameraTop">
-            <span class="icon-cameraTop"></span>
-          </div>
-          <div class="cameraOptions cameraArc">
-            <span class="icon-cameraArc"></span>
-          </div>
-          <div class="cameraOptions resetCamera">
-            <span class="icon-reset"></span>
-          </div>
-        </div>
+      var robot = new Robot();
+      robot.options = {};
+      Object.assign(robot.options, robotTemplates[0]);
+      robot.player = "single";
+      robots.push(robot);
+    </script>
+    <script src="js/babylon.js?v=f3411eb4"></script>
+    <script src="js/blocklyPanel.js?v=3a1d10b5"></script>
+    <script src="js/pythonPanel.js?v=84d500ff"></script>
+    <script src="js/pythonLibPanel.js?v=01359988"></script>
+    <script src="js/simPanel.js?v=2cf38c47"></script>
+    <script src="js/main.js?v=90af7425"></script>
 
-        <div class="worldInfo hide"></div>
-        <div class="ruler closed">
-          <div class="icon">
-            <span class="icon-ruler"></span>
-          </div>
-          <div class="measurements">
-            <table>
-              <tr>
-                <td class="x">X:</td>
-                <td class="y">Y:</td>
-                <td class="alt">Alt:</td>
-              </tr>
-              <tr>
-                <td class="dist" colspan="2">Distance:</td>
-                <td class="angle">Angle:</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="joystick closed" tabindex=0>
-          <div class="icon">
-            <span class="icon-joystick"></span>
-          </div>
-          <div class="keyboard">
-            <span class="icon-keyboard"></span>
-          </div>
-          <div class="virtualJoystick">
-            <span class="icon-virtualJoystickIndicator"></span>
-            <span class="icon-virtualJoystick"></span>
-          </div>
-        </div>
-        <div class="hubButtons closed">
-          <div class="icon">
-            <span class="icon-buttons"></span>
-          </div>
-          <div class="controls">
-            <span class="icon-buttonsBackspace"></span>
-            <span class="icon-buttonsUp"></span>
-            <span class="icon-buttonsDown"></span>
-            <span class="icon-buttonsLeft"></span>
-            <span class="icon-buttonsRight"></span>
-            <span class="icon-buttonsEnter"></span>
-          </div>
-        </div>
+    <script>
+      // Init classes
+      blockly.init();
 
-        <div class="fps"></div>
-
-        <div class="console">
-          <div class="chevron"></div>
-          <div title="Clear Console"  class="clear">&#x239a;</div>
-          <pre class="content"></pre>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <script src="blockly/3.20200402.1/blockly.js"></script>
-  <script src="blockly/3.20200402.1/blocks.js"></script>
-  <script src="blockly/3.20200402.1/python.js"></script>
-  <!-- <script src="blockly/3.20200402.1/msg/en.js"></script> -->
-
-  <script src="js/ev3dev2_generator.js?v=c7ad811b"></script>
-  <script src="js/pybricks_generator.js?v=13a33c1a"></script>
-  <script src="js/blockly.js?v=d7813fd6"></script>
-  <script src="js/skulpt.js?v=1c418afb"></script>
-  <script src="js/worlds/World_Base.js?v=37c3d441"></script>
-  <script src="js/worlds/world_Grid.js?v=3ed03b45"></script>
-  <script src="js/worlds/world_LineFollowing.js?v=8e36de6c"></script>
-  <script src="js/worlds/world_Gyro.js?v=15f87e04"></script>
-  <script src="js/worlds/world_Paintball.js?v=04201b61"></script>
-  <script src="js/worlds/world_Sumo.js?v=e7b48574"></script>
-  <script src="js/worlds/world_FireRescue.js?v=e72671e3"></script>
-  <script src="js/worlds/world_Maze.js?v=6571b2a6"></script>
-  <script src="js/worlds/world_Missions.js?v=207f378d"></script>
-  <script src="js/worlds/world_Custom.js?v=a56a2eb0"></script>
-  <script src="js/worlds/world_Football.js?v=ab1b9783"></script>
-  <script src="js/worlds/world_Arena.js?v=c1828281"></script>
-  <script src="js/robotComponents.js?v=70339366"></script>
-  <script src="js/robotTemplates.js?v=c254ce16"></script>
-  <script src="js/Wheel.js?v=bb27211a"></script>
-  <script src="js/Robot.js?v=2d34504b"></script>
-  <script>
-    var robots = [];
-
-    var robot = new Robot();
-    robot.options = {};
-    Object.assign(robot.options, robotTemplates[0]);
-    robot.player = 'single';
-    robots.push(robot);
-  </script>
-  <script src="js/babylon.js?v=f3411eb4"></script>
-  <script src="js/blocklyPanel.js?v=3a1d10b5"></script>
-  <script src="js/pythonPanel.js?v=84d500ff"></script>
-  <script src="js/pythonLibPanel.js?v=01359988"></script>
-  <script src="js/simPanel.js?v=2cf38c47"></script>
-  <script src="js/main.js?v=90af7425"></script>
-
-  <script>
-    // Init classes
-    blockly.init();
-
-    function loadWorldFromGET() {
-      let worldJSON = readGET('worldJSON');
-      if (worldJSON) {
-        simPanel.loadWorldURL(decodeURIComponent(worldJSON));
-      }
-    }
-
-    function loadRobotFromGET() {
-      let robotJSON = readGET('robotJSON');
-      if (robotJSON) {
-        main.loadRobotURL(decodeURIComponent(robotJSON));
-      }
-    }
-
-    function loadFilterFromGET() {
-      let filterBlocksJSON = readGET('filterBlocksJSON');
-      if (filterBlocksJSON) {
-        blockly.loadToolboxFilterURL(decodeURIComponent(filterBlocksJSON));
-      }
-    }
-
-    function loadScript(scriptName) {
-      var script = document.createElement('script');
-      script.src = scriptName;
-
-      document.documentElement.firstChild.appendChild(script);
-
-      return new Promise(resolve => {
-        script.onload = function() {
-          resolve();
+      function loadWorldFromGET() {
+        let worldJSON = readGET("worldJSON");
+        if (worldJSON) {
+          simPanel.loadWorldURL(decodeURIComponent(worldJSON));
         }
-      })
-    }
-
-    function loadWorldScriptFromGET() {
-      let scripts= readGET('worldScripts');
-
-      if (!scripts) {
-        return new Promise(resolve => {
-          resolve();
-        })
       }
 
-      let scriptsPromises = [];
-      for (let script of scripts.split(',')) {
-        scriptsPromises.push(loadScript('js/worlds/extra/' + script + '.js?v=' + Date.now()));
+      function loadRobotFromGET() {
+        let robotJSON = readGET("robotJSON");
+        if (robotJSON) {
+          main.loadRobotURL(decodeURIComponent(robotJSON));
+        }
       }
 
-      return Promise.all(scriptsPromises);
-    }
-
-    // Load world if specified
-    async function loadWhenReady() {
-      if (typeof babylon.scene != 'undefined' && babylon.scene.isReady()) {
-        await loadWorldScriptFromGET();
-        loadWorldFromGET();
-        loadRobotFromGET();
-        loadFilterFromGET();
-      } else {
-        setTimeout(loadWhenReady, 100);
+      function loadFilterFromGET() {
+        let filterBlocksJSON = readGET("filterBlocksJSON");
+        if (filterBlocksJSON) {
+          blockly.loadToolboxFilterURL(decodeURIComponent(filterBlocksJSON));
+        }
       }
-    }
 
-    loadWhenReady();
-  </script>
-</body>
+      function loadScript(scriptName) {
+        var script = document.createElement("script");
+        script.src = scriptName;
+
+        document.documentElement.firstChild.appendChild(script);
+
+        return new Promise((resolve) => {
+          script.onload = function () {
+            resolve();
+          };
+        });
+      }
+
+      function loadWorldScriptFromGET() {
+        let scripts = readGET("worldScripts");
+
+        if (!scripts) {
+          return new Promise((resolve) => {
+            resolve();
+          });
+        }
+
+        let scriptsPromises = [];
+        for (let script of scripts.split(",")) {
+          scriptsPromises.push(
+            loadScript("js/worlds/extra/" + script + ".js?v=" + Date.now())
+          );
+        }
+
+        return Promise.all(scriptsPromises);
+      }
+
+      // Load world if specified
+      async function loadWhenReady() {
+        if (typeof babylon.scene != "undefined" && babylon.scene.isReady()) {
+          await loadWorldScriptFromGET();
+          loadWorldFromGET();
+          loadRobotFromGET();
+          loadFilterFromGET();
+        } else {
+          setTimeout(loadWhenReady, 100);
+        }
+      }
+
+      loadWhenReady();
+    </script>
+  </body>
 </html>
