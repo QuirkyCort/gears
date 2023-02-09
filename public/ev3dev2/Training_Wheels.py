@@ -50,6 +50,29 @@ class Training_Wheels:
         self.x = cm * math.cos(base_dir / 180.0 * math.pi) + self.x
         self.y = cm * math.sin(base_dir / 180.0 * math.pi) + self.y
 
+    def rev_cm(self, cm):
+        base_dir = -self.dir + 90
+        dir_vec = self._get_unit_vec((math.cos(base_dir / 180.0 * math.pi), math.sin(base_dir / 180.0 * math.pi)))
+        nor_vec = (dir_vec[1], -dir_vec[0])
+
+        while True:
+            pos_vec = (self.gps.x - self.x, self.gps.y - self.y)
+            error = self._dot(pos_vec, nor_vec)
+            correction = -10 * error
+            distance_travelled = -self._dot(pos_vec, dir_vec)
+            speed = 25
+            if distance_travelled < 5:
+                speed = 5 + distance_travelled * 4
+            if distance_travelled > cm - 5:
+                distance_remaining = cm - distance_travelled
+                speed = 5 + distance_remaining * 4
+            if distance_travelled >= cm:
+                break
+            self.steering_drive.on(self._constrain(correction, -10, 10), -speed)
+        self.steering_drive.off(brake=True)
+        self.x = -cm * math.cos(base_dir / 180.0 * math.pi) + self.x
+        self.y = -cm * math.sin(base_dir / 180.0 * math.pi) + self.y
+
     def spin_right(self, dir):
         while True:
             current_dir = self.gyro.angle
