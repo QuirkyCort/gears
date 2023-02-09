@@ -1,5 +1,11 @@
 var blockly = new function() {
   var self = this;
+
+  self.theme = Blockly.Theme.defineTheme('customTheme', {
+    'base': Blockly.Themes.Classic,
+    'startHats': true
+  });
+
   var options = {
     toolbox : null,
     zoom: {
@@ -16,11 +22,12 @@ var blockly = new function() {
     horizontalLayout : false,
     toolboxPosition : 'start',
     css : true,
-    media : 'blockly/3.20200402.1/media/',
+    media: 'blockly-9.0.0/media',
     rtl : RTL,
     scrollbars : true,
     sounds : true,
-    oneBasedIndex : false
+    oneBasedIndex : false,
+    theme: self.theme
   };
 
   this.unsaved = false;
@@ -37,7 +44,7 @@ var blockly = new function() {
     };
 
     const script = document.createElement('script');
-    script.src = 'blockly/3.20200402.1/msg/' + LANG + '.js';
+    script.src = 'blockly-9.0.0/msg/js/' + LANG + '.js';
     script.addEventListener('load', function() {
       self.loadCustomBlocks()
         .then(self.loadToolBox)
@@ -117,7 +124,7 @@ var blockly = new function() {
       }
     }
 
-    self.displayedWorkspace.updateToolbox(filteredXml.getElementById('toolbox'));  
+    self.displayedWorkspace.updateToolbox(filteredXml.getElementById('toolbox'));
   };
 
   // Register variables and procedures toolboxes callbacks
@@ -143,7 +150,7 @@ var blockly = new function() {
     });
 
     self.displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function(workspace){
-      let blocks = self.workspace.toolboxCategoryCallbacks_.PROCEDURE(self.workspace);
+      let blocks = self.workspace.toolboxCategoryCallbacks.get('PROCEDURE')(self.workspace);
 
       for (let block of blocks) {
         let blockType = block.getAttribute('type');
@@ -166,11 +173,11 @@ var blockly = new function() {
     if (self.mirror == false) {
       return;
     }
-    if (primaryEvent instanceof Blockly.Events.Ui) {
+    if (primaryEvent.isUiEvent) {
       return;
     }
     if (
-      primaryEvent instanceof Blockly.Events.Create
+      primaryEvent.type == Blockly.Events.BLOCK_CREATE
       && primaryEvent.xml.tagName == 'shadow'
     ) {
       let id1 = primaryEvent.blockId;
@@ -201,14 +208,18 @@ var blockly = new function() {
         return;
       }
     }
+    if (typeof primaryEvent.varType != 'undefined') {
+      primaryEvent.varType = ' ';
+    }
     var json = primaryEvent.toJson();
+    json.varType = '';
     var secondaryEvent = Blockly.Events.fromJson(json, self.workspace);
     secondaryEvent.run(true);
 
-    if (primaryEvent instanceof Blockly.Events.Create) {
+    if (primaryEvent.type == Blockly.Events.BLOCK_CREATE) {
       self.assignOrphenToPage(blocklyPanel.currentPage);
     }
-    if (primaryEvent instanceof Blockly.Events.VarDelete) {
+    if (primaryEvent.type == Blockly.Events.VAR_DELETE) {
       self.displayedWorkspace.getToolbox().refreshSelection()
     }
   };
