@@ -124,6 +124,14 @@ var blockly = new function() {
       }
     }
 
+    if (typeof filter.show != 'undefined') {
+      if (typeof filter.show.categories != 'undefined') {
+        for (let show of filter.show.categories) {
+          filteredXml.querySelector('[name="' + show + '"]').setAttribute('hidden', false);
+        }
+      }
+    }
+
     self.displayedWorkspace.updateToolbox(filteredXml.getElementById('toolbox'));
   };
 
