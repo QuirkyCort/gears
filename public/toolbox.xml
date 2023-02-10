@@ -1,4 +1,10 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+  <category name="Movement" colour="#5b67a5" hidden="true">
+    <block type="tw_fwd"></block>
+    <block type="tw_rev"></block>
+    <block type="tw_left"></block>
+    <block type="tw_right"></block>
+  </category>
   <category name="#blk-motion#" colour="#5b67a5">
     <block type="move_tank">
       <field name="units">PERCENT</field>

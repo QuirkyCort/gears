@@ -56,10 +56,19 @@ var ev3dev2_generator = new function() {
     Blockly.Python['radio_read'] = self.radio_read;
     Blockly.Python['radio_read_content'] = self.radio_read_content;
     Blockly.Python['radio_empty'] = self.radio_empty;
+
+    Blockly.Python['tw_fwd'] = self.tw_fwd;
+    Blockly.Python['tw_rev'] = self.tw_rev;
+    Blockly.Python['tw_left'] = self.tw_left;
+    Blockly.Python['tw_right'] = self.tw_right;
   };
 
   // Generate python code
   this.genCode = function() {
+    self.training_wheels = false;
+
+    let workspaceCode = Blockly.Python.workspaceToCode(blockly.workspace);
+
     let wheelCode = robot.processedOptions.wheels ?
     ('motorA = LargeMotor(OUTPUT_A)\n' +
     'motorB = LargeMotor(OUTPUT_B)\n' +
@@ -142,9 +151,15 @@ var ev3dev2_generator = new function() {
     code += sensorsCode + '\n';
     code += motorsCode + '\n';
 
+    if (self.training_wheels) {
+      code +=
+        'from ev3dev2.Training_Wheels import Training_Wheels\n' +
+        'training_wheels = Training_Wheels(gps_sensor_in4, gyro_sensor_in3, steering_drive)\n\n'
+    }
+
     code += '# Here is where your code starts\n\n';
 
-    code += Blockly.Python.workspaceToCode(blockly.workspace);
+    code += workspaceCode;
     return code
   };
 
@@ -828,6 +843,34 @@ var ev3dev2_generator = new function() {
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
 
     let code = 'while not ' + value_value + ':\n    pass\n';
+    return code;
+  };
+
+  this.tw_fwd = function(block) {
+    self.training_wheels = true;
+
+    var code = 'training_wheels.fwd_cm(25)\n';
+    return code;
+  };
+
+  this.tw_rev = function(block) {
+    self.training_wheels = true;
+
+    var code = 'training_wheels.rev_cm(25)\n';
+    return code;
+  };
+
+  this.tw_left = function(block) {
+    self.training_wheels = true;
+
+    var code = 'training_wheels.turn_left()\n';
+    return code;
+  };
+
+  this.tw_right = function(block) {
+    self.training_wheels = true;
+
+    var code = 'training_wheels.turn_right()\n';
     return code;
   };
 }
