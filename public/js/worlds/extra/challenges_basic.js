@@ -27,6 +27,10 @@ var challenges_basic = new function() {
         ['Basic: Move and Turn 3', 'worlds/challenges_basic/basic-5.json?v=2af8b1e9'],
         ['Basic: Sleep 1', 'worlds/challenges_basic/sleep-1.json?v=b28b34e8'],
         ['Basic: Sleep 2', 'worlds/challenges_basic/sleep-2.json?v=a0d67ae4'],
+        ['Basic: Maze 1', 'worlds/challenges_basic/maze-1.json?v=1ce38425'],
+        ['Basic: Maze 2', 'worlds/challenges_basic/maze-2.json?v=4c257c21'],
+        ['Basic: Maze 3', 'worlds/challenges_basic/maze-3.json?v=52c6d5cd'],
+        ['Basic: Maze 4', 'worlds/challenges_basic/maze-4.json?v=324c0860'],
       ]
     },
     {
@@ -212,6 +216,26 @@ var challenges_basic = new function() {
         '<p>Move your robot into every box.</p>' +
         '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
       );
+    } else if (self.options.jsonFile.includes('maze-1.json')) {
+      $message = $(
+        '<p>Move your robot into every box.</p>' +
+        '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
+      );
+    } else if (self.options.jsonFile.includes('maze-2.json')) {
+      $message = $(
+        '<p>Move your robot into every box.</p>' +
+        '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
+      );
+    } else if (self.options.jsonFile.includes('maze-3.json')) {
+      $message = $(
+        '<p>Move your robot into every box.</p>' +
+        '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
+      );
+    } else if (self.options.jsonFile.includes('maze-4.json')) {
+      $message = $(
+        '<p>Move your robot into every box.</p>' +
+        '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
+      );
     }
 
     acknowledgeDialog({
@@ -241,7 +265,15 @@ var challenges_basic = new function() {
     } else if (self.options.jsonFile.includes('sleep-1.json')) {
       self.renderIntersectMulti(delta, ['worldBaseObject_box0', 'worldBaseObject_box1', 'worldBaseObject_box2', 'worldBaseObject_box3'], true, 'SLOTH');
     } else if (self.options.jsonFile.includes('sleep-2.json')) {
-      self.renderIntersectMulti(delta, ['worldBaseObject_box0', 'worldBaseObject_box1', 'worldBaseObject_box2', 'worldBaseObject_box3'], true, 'PIG');
+      self.renderIntersectMulti(delta, ['worldBaseObject_box0', 'worldBaseObject_box1', 'worldBaseObject_box2', 'worldBaseObject_box3'], true, 'PANDA');
+    } else if (self.options.jsonFile.includes('maze-1.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box1', 'worldBaseObject_box2'], true, 'MOLE');
+    } else if (self.options.jsonFile.includes('maze-2.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box1', 'worldBaseObject_box2'], true, 'HEDGEHOG');
+    } else if (self.options.jsonFile.includes('maze-3.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'RABBIT');
+    } else if (self.options.jsonFile.includes('maze-4.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'DONKEY');
     }
   };
 
