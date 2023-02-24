@@ -70,21 +70,30 @@ var challenges_basic = new function() {
     let endBox = babylon.scene.getMeshByID(meshID);
 
     if (
-      endBox
-      && endBox.intersectsPoint(robot.body.absolutePosition)
-      && skulpt.running == false
+      skulpt.running == false
       && robot.leftWheel.speed < 1 && robot.rightWheel.speed < 1
     ) {
-      self.ended = true;
-      let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
+      if (endBox.intersectsPoint(robot.body.absolutePosition)) {
+        self.ended = true;
+        let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
 
-      acknowledgeDialog({
-        title: 'COMPLETED!',
-        message: $(
-          '<p>Completion code: ' + completionCode + '</p>' +
-          '<p>Time: ' + time + ' seconds</p>'
-        )
-      });
+        acknowledgeDialog({
+          title: 'COMPLETED!',
+          message: $(
+            '<p>Completion code: ' + completionCode + '</p>' +
+            '<p>Time: ' + time + ' seconds</p>'
+          )
+        });
+      } else {
+        self.ended = true;
+        acknowledgeDialog({
+          title: 'Try Again!',
+          message: $(
+            '<p>You didn\'t make it this time, but don\'t give up!</p>' +
+            '<p>Click the "Reset" button then try again!</p>'
+          )
+        });
+      }
     }
   };
 
@@ -121,17 +130,32 @@ var challenges_basic = new function() {
         completed++;
       }
     }
-    if (completed == boxes.length) {
-      self.ended = true;
-      let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
+    if (
+      skulpt.running == false
+      && robot.leftWheel.speed < 1 && robot.rightWheel.speed < 1
+    ) {
+      if (completed == boxes.length) {
+        self.ended = true;
+        let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
 
-      acknowledgeDialog({
-        title: 'COMPLETED!',
-        message: $(
-          '<p>Completion code: ' + completionCode + '</p>' +
-          '<p>Time: ' + time + ' seconds</p>'
-        )
-      });
+        acknowledgeDialog({
+          title: 'COMPLETED!',
+          message: $(
+            '<p>Completion code: ' + completionCode + '</p>' +
+            '<p>Time: ' + time + ' seconds</p>'
+          )
+        });
+      } else {
+        self.ended = true;
+        let remaining = boxes.length - completed;
+        acknowledgeDialog({
+          title: 'Try Again!',
+          message: $(
+            '<p>You missed ' + remaining + ' boxes.</p>' +
+            '<p>Click the "Reset" button then try again!</p>'
+          )
+        });
+      }
     }
   };
 
@@ -252,6 +276,11 @@ var challenges_basic = new function() {
       return;
     }
 
+    let elapsedTime = Date.now() - self.challengeStartTime;
+    if (elapsedTime < 1000) {
+      return;
+    }
+
     if (self.options.jsonFile.includes('basic-1.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'UNICORN');
     } else if (self.options.jsonFile.includes('basic-2.json')) {
@@ -291,7 +320,21 @@ var challenges_basic = new function() {
   // detect if robot is manually moved
   this.manualMoved = function() {
     self.ended = true;
-  }
+  };
+
+  // stopSim
+  this.stopSim = function() {
+    self.ended = true;
+    acknowledgeDialog({
+      title: 'Oops!',
+      message: $(
+        '<p>You cannot stop and restart.</p>' +
+        '<p>Click the "Reset" button then try again!</p>' +
+        '<p>Make sure to click the "Run" button once and wait for it to complete.</p>'
+      )
+    });
+  };
+
 }
 
 // Init class
