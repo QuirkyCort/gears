@@ -2,7 +2,8 @@ var babylon = new function() {
   var self = this;
 
   this.DISABLE_ASYNC = true;
-  this.ENABLE_ANTIALIASING = false;
+  // this.ENABLE_ANTIALIASING = false;
+  this.ENABLE_ANTIALIASING = true;
 
   this.world = worlds[0];
 
