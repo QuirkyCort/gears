@@ -63,6 +63,12 @@ var challenges_basic = new function() {
   // Run on page load
   this.init = function() {
     Object.assign(self.options, self.defaultOptions);
+    self.audio = $('<audio src="audio/fanfare.mp3" preload="auto"></audio>');
+    $('body').append(self.audio);
+  };
+
+  this.playVictory = function() {
+    self.audio[0].play();
   };
 
   // Logic for intersecting one box
@@ -77,6 +83,7 @@ var challenges_basic = new function() {
         self.ended = true;
         let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
 
+        self.playVictory();
         acknowledgeDialog({
           title: 'COMPLETED!',
           message: $(
@@ -138,6 +145,7 @@ var challenges_basic = new function() {
         self.ended = true;
         let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
 
+        self.playVictory();
         acknowledgeDialog({
           title: 'COMPLETED!',
           message: $(
