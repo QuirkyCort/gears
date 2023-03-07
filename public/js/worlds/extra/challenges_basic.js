@@ -31,6 +31,11 @@ var challenges_basic = new function() {
         ['Basic: Maze 2', 'worlds/challenges_basic/maze-2.json?v=4c257c21'],
         ['Basic: Maze 3', 'worlds/challenges_basic/maze-3.json?v=52c6d5cd'],
         ['Basic: Maze 4', 'worlds/challenges_basic/maze-4.json?v=324c0860'],
+        ['Basic: Dungeon 0', 'worlds/challenges_basic/dungeon-0.json?v=d16421b8'],
+        ['Basic: Dungeon 1', 'worlds/challenges_basic/dungeon-1.json?v=4fcbabab'],
+        ['Basic: Dungeon 2', 'worlds/challenges_basic/dungeon-2.json?v=7114511d'],
+        ['Basic: Dungeon 3', 'worlds/challenges_basic/dungeon-3.json?v=0abf9ae2'],
+        ['Basic: Dungeon 4', 'worlds/challenges_basic/dungeon-4.json?v=59698c24'],
       ]
     },
     {
@@ -72,8 +77,26 @@ var challenges_basic = new function() {
   };
 
   // Logic for intersecting one box
-  this.renderIntersectOne = function(delta, meshID, completionCode) {
+  this.renderIntersectOne = function(delta, meshID, completionCode, interacts=[]) {
     let endBox = babylon.scene.getMeshByID(meshID);
+
+    for (let interact of interacts) {
+      if (interact.type == 'drop') {
+        let triggerBox = babylon.scene.getMeshByID(interact.trigger);
+        if (triggerBox.intersectsPoint(robot.body.absolutePosition)) {
+          let moveBox = babylon.scene.getMeshByID(interact.move);
+          moveBox.physicsImpostor.mass = 1;
+        }
+      } else if (interact.type == 'move') {
+        let triggerBox = babylon.scene.getMeshByID(interact.trigger);
+        if (triggerBox.intersectsPoint(robot.body.absolutePosition)) {
+          let moveBox = babylon.scene.getMeshByID(interact.move);
+          moveBox.position.x += interact.velocity.x;
+          moveBox.position.y += interact.velocity.y;
+          moveBox.position.z += interact.velocity.z;
+        }
+      }
+    }
 
     if (
       skulpt.running == false
@@ -268,6 +291,29 @@ var challenges_basic = new function() {
         '<p>Move your robot into every box.</p>' +
         '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
       );
+    } else if (self.options.jsonFile.includes('dungeon-0.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>'
+      );
+    } else if (self.options.jsonFile.includes('dungeon-1.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>'
+      );
+    } else if (self.options.jsonFile.includes('dungeon-2.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Be careful! The shortest route isn\'t always the best...</p>'
+      );
+    } else if (self.options.jsonFile.includes('dungeon-3.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Watch out for the monster!</p>'
+      );
+    } else if (self.options.jsonFile.includes('dungeon-4.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>How can we get that gate open?</p>'
+      );
     }
 
     acknowledgeDialog({
@@ -311,6 +357,37 @@ var challenges_basic = new function() {
       self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'RABBIT');
     } else if (self.options.jsonFile.includes('maze-4.json')) {
       self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'DONKEY');
+    } else if (self.options.jsonFile.includes('dungeon-0.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box5', 'IMP');
+    } else if (self.options.jsonFile.includes('dungeon-1.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box5', 'ORC');
+    } else if (self.options.jsonFile.includes('dungeon-2.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box5', 'TROLL',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box11',
+            move: 'worldBaseObject_box2'
+          }
+        ]
+      );
+    } else if (self.options.jsonFile.includes('dungeon-3.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box2', 'MINOTAUR');
+    } else if (self.options.jsonFile.includes('dungeon-4.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'CYCLOP',
+        [
+          {
+            type: 'move',
+            trigger: 'worldBaseObject_box10',
+            move: 'worldBaseObject_model11',
+            velocity: {
+              x: 0,
+              y: -0.1,
+              z: 0
+            },
+          }
+        ]
+      );
     }
   };
 
