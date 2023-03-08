@@ -35,7 +35,8 @@ var challenges_basic = new function() {
         ['Basic: Dungeon 1', 'worlds/challenges_basic/dungeon-1.json?v=4fcbabab'],
         ['Basic: Dungeon 2', 'worlds/challenges_basic/dungeon-2.json?v=7114511d'],
         ['Basic: Dungeon 3', 'worlds/challenges_basic/dungeon-3.json?v=0abf9ae2'],
-        ['Basic: Dungeon 4', 'worlds/challenges_basic/dungeon-4.json?v=59698c24'],
+        ['Basic: Dungeon 4', 'worlds/challenges_basic/dungeon-4.json?v=091f44ad'],
+        ['Basic: Dungeon 5', 'worlds/challenges_basic/dungeon-5.json?v=009cbf96'],
       ]
     },
     {
@@ -314,6 +315,11 @@ var challenges_basic = new function() {
         '<p>Move your robot into the green box and stop inside.</p>' +
         '<p>How can we get that gate open?</p>'
       );
+    } else if (self.options.jsonFile.includes('dungeon-5.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'ll need to use everything you\'ve learned!</p>'
+      );
     }
 
     acknowledgeDialog({
@@ -378,12 +384,32 @@ var challenges_basic = new function() {
         [
           {
             type: 'move',
-            trigger: 'worldBaseObject_box10',
-            move: 'worldBaseObject_model11',
+            trigger: 'worldBaseObject_cylinder11',
+            move: 'worldBaseObject_model10',
             velocity: {
               x: 0,
               y: -0.1,
               z: 0
+            },
+          }
+        ]
+      );
+    } else if (self.options.jsonFile.includes('dungeon-5.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'DRAGON',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box19',
+            move: 'worldBaseObject_box0'
+          },
+          {
+            type: 'move',
+            trigger: 'worldBaseObject_cylinder11',
+            move: 'worldBaseObject_model10',
+            velocity: {
+              x: 0,
+              y: 0,
+              z: -0.1
             },
           }
         ]
