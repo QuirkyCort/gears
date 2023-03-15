@@ -37,6 +37,13 @@ var challenges_basic = new function() {
         ['Basic: Dungeon 3', 'worlds/challenges_basic/dungeon-3.json?v=0abf9ae2'],
         ['Basic: Dungeon 4', 'worlds/challenges_basic/dungeon-4.json?v=091f44ad'],
         ['Basic: Dungeon 5', 'worlds/challenges_basic/dungeon-5.json?v=009cbf96'],
+        ['Loops: Repeat 0', 'worlds/challenges_basic/loops-0.json?v=dca8f7ad'],
+        ['Loops: Repeat 1', 'worlds/challenges_basic/loops-1.json?v=607f3c38'],
+        ['Loops: Repeat 2', 'worlds/challenges_basic/loops-2.json?v=848fd296'],
+        ['Loops: Repeat 3', 'worlds/challenges_basic/loops-3.json?v=ae7011eb'],
+        ['Loops: Repeat 4', 'worlds/challenges_basic/loops-4.json?v=5fa0c5f0'],
+        ['Loops: Repeat 5', 'worlds/challenges_basic/loops-5.json?v=ea21f9d5'],
+        ['Loops: Repeat 6', 'worlds/challenges_basic/loops-6.json?v=5484bb7c'],
       ]
     },
     {
@@ -77,10 +84,23 @@ var challenges_basic = new function() {
     self.audio[0].play();
   };
 
-  // Logic for intersecting one box
-  this.renderIntersectOne = function(delta, meshID, completionCode, interacts=[]) {
-    let endBox = babylon.scene.getMeshByID(meshID);
+  this.countBlocks = function() {
+    let blocks = blockly.workspace.getBlocksByType('when_started')[0].getDescendants();
+    let count = blocks.reduce(
+      function(s,e) {
+        if (e.previousConnection != null || e.nextConnection != null) {
+          return s+1
+        } else{
+          return s
+        }
+      },
+      0
+    );
 
+    return count - 1;
+  };
+
+  this.handleInteracts = function(interacts) {
     for (let interact of interacts) {
       if (interact.type == 'drop') {
         let triggerBox = babylon.scene.getMeshByID(interact.trigger);
@@ -98,23 +118,42 @@ var challenges_basic = new function() {
         }
       }
     }
+  };
+
+  // Logic for intersecting one box
+  this.renderIntersectOne = function(delta, meshID, completionCode, interacts=[], blocksLimit=-1) {
+    let endBox = babylon.scene.getMeshByID(meshID);
+
+    self.handleInteracts(interacts);
 
     if (
       skulpt.running == false
       && robot.leftWheel.speed < 1 && robot.rightWheel.speed < 1
     ) {
       if (endBox.intersectsPoint(robot.body.absolutePosition)) {
-        self.ended = true;
-        let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
+        let usedBlocks = self.countBlocks();
+        if (usedBlocks > blocksLimit && blocksLimit > 0) {
+          self.ended = true;
+          acknowledgeDialog({
+            title: 'Try Again!',
+            message: $(
+              '<p>You completed the mission, but used too many blocks!</p>' +
+              '<p>You used ' + usedBlocks + ' blocks, and will need to reduce it to ' + blocksLimit + ' blocks.</p>'
+            )
+          });
+        } else {
+          self.ended = true;
+          let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
 
-        self.playVictory();
-        acknowledgeDialog({
-          title: 'COMPLETED!',
-          message: $(
-            '<p>Completion code: ' + completionCode + '</p>' +
-            '<p>Time: ' + time + ' seconds</p>'
-          )
-        });
+          self.playVictory();
+          acknowledgeDialog({
+            title: 'COMPLETED!',
+            message: $(
+              '<p>Completion code: ' + completionCode + '</p>' +
+              '<p>Time: ' + time + ' seconds</p>'
+            )
+          });
+        }
       } else {
         self.ended = true;
         acknowledgeDialog({
@@ -129,11 +168,13 @@ var challenges_basic = new function() {
   };
 
   // Logic for multiple boxes
-  this.renderIntersectMulti = function(delta, meshIDs, stopRequired, completionCode) {
+  this.renderIntersectMulti = function(delta, meshIDs, stopRequired, completionCode, effect='color', interacts=[], blocksLimit=-1) {
     let boxes = [];
     for (let meshID of meshIDs) {
       boxes.push(babylon.scene.getMeshByID(meshID));
     }
+
+    self.handleInteracts(interacts);
 
     for (let box of boxes) {
       if (
@@ -142,14 +183,20 @@ var challenges_basic = new function() {
       ) {
         if (typeof box.challengeState == 'undefined') {
           box.challengeState = 1;
-          babylon.setMaterial(box, babylon.getMaterial(babylon.scene, 'ffff0070'));
+          if (effect == 'color') {
+            babylon.setMaterial(box, babylon.getMaterial(babylon.scene, 'ffff0070'));
+          }
         } else if (box.challengeState == 1) {
           if (
-            (Math.abs(robot.leftWheel.speed) < 1 && Math.abs(robot.rightWheel.speed < 1))
+            (Math.abs(robot.leftWheel.speed) < 1 && Math.abs(robot.rightWheel.speed) < 1)
             || stopRequired == false
           ) {
             box.challengeState = 2;
-            babylon.setMaterial(box, babylon.getMaterial(babylon.scene, '00ff0070'));
+            if (effect == 'color') {
+              babylon.setMaterial(box, babylon.getMaterial(babylon.scene, '00ff0070'));
+            } else if (effect == 'hide') {
+              box.setEnabled(false);
+            }
           }
         }
       }
@@ -166,17 +213,29 @@ var challenges_basic = new function() {
       && robot.leftWheel.speed < 1 && robot.rightWheel.speed < 1
     ) {
       if (completed == boxes.length) {
-        self.ended = true;
-        let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
+        let usedBlocks = self.countBlocks();
+        if (usedBlocks > blocksLimit && blocksLimit > 0) {
+          self.ended = true;
+          acknowledgeDialog({
+            title: 'Try Again!',
+            message: $(
+              '<p>You completed the mission, but used too many blocks!</p>' +
+              '<p>You used ' + usedBlocks + ' blocks, and will need to reduce it to ' + blocksLimit + ' blocks.</p>'
+            )
+          });
+        } else {
+          self.ended = true;
+          let time = Math.round((Date.now() - self.challengeStartTime) / 100) / 10;
 
-        self.playVictory();
-        acknowledgeDialog({
-          title: 'COMPLETED!',
-          message: $(
-            '<p>Completion code: ' + completionCode + '</p>' +
-            '<p>Time: ' + time + ' seconds</p>'
-          )
-        });
+          self.playVictory();
+          acknowledgeDialog({
+            title: 'COMPLETED!',
+            message: $(
+              '<p>Completion code: ' + completionCode + '</p>' +
+              '<p>Time: ' + time + ' seconds</p>'
+            )
+          });
+        }
       } else {
         self.ended = true;
         let remaining = boxes.length - completed;
@@ -320,6 +379,43 @@ var challenges_basic = new function() {
         '<p>Move your robot into the green box and stop inside.</p>' +
         '<p>You\'ll need to use everything you\'ve learned!</p>'
       );
+    } else if (self.options.jsonFile.includes('loops-0.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 4 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-1.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 5 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-2.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 6 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-3.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You may need to use more than one repeat loop.</p>' +
+        '<p>You\'re may only use 4 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-4.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Not every block needs to be inside a loop.</p>' +
+        '<p>You\'re may only use 6 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-5.json')) {
+      $message = $(
+        '<p>Collect all the coins.</p>' +
+        '<p>You\'re may only use 7 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-6.json')) {
+      $message = $(
+        '<p>Collect all the coins.</p>' +
+        '<p>You\'re may only use 10 blocks.</p>'
+      );
     }
 
     acknowledgeDialog({
@@ -413,6 +509,36 @@ var challenges_basic = new function() {
             },
           }
         ]
+      );
+    } else if (self.options.jsonFile.includes('loops-0.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box5', 'PLUTO', [], 4);
+    } else if (self.options.jsonFile.includes('loops-1.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box5', 'NEPTUNE', [], 5);
+    } else if (self.options.jsonFile.includes('loops-2.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'URANUS', [], 6);
+    } else if (self.options.jsonFile.includes('loops-3.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SATURN', [], 4);
+    } else if (self.options.jsonFile.includes('loops-4.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'JUPITER', [], 6);
+    } else if (self.options.jsonFile.includes('loops-5.json')) {
+      self.renderIntersectMulti(
+        delta,
+        ['worldBaseObject_model14', 'worldBaseObject_model15', 'worldBaseObject_model16', 'worldBaseObject_model17', 'worldBaseObject_model18', 'worldBaseObject_model19'],
+        false,
+        'MARS',
+        'hide',
+        [],
+        7
+      );
+    } else if (self.options.jsonFile.includes('loops-6.json')) {
+      self.renderIntersectMulti(
+        delta,
+        ['worldBaseObject_model13', 'worldBaseObject_model14', 'worldBaseObject_model15'],
+        false,
+        'EARTH',
+        'hide',
+        [],
+        10
       );
     }
   };
