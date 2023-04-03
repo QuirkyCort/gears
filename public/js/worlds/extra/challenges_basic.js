@@ -38,11 +38,14 @@ var challenges_basic = new function() {
         ['Basic: Dungeon 4', 'worlds/challenges_basic/dungeon-4.json?v=091f44ad'],
         ['Basic: Dungeon 5', 'worlds/challenges_basic/dungeon-5.json?v=009cbf96'],
         ['Loops: Repeat 0', 'worlds/challenges_basic/loops-0.json?v=dca8f7ad'],
+        ['Loops: Repeat 0b', 'worlds/challenges_basic/loops-0b.json?v=4db77619'],
         ['Loops: Repeat 1', 'worlds/challenges_basic/loops-1.json?v=607f3c38'],
         ['Loops: Repeat 2', 'worlds/challenges_basic/loops-2.json?v=848fd296'],
         ['Loops: Repeat 3', 'worlds/challenges_basic/loops-3.json?v=ae7011eb'],
+        ['Loops: Repeat 3b', 'worlds/challenges_basic/loops-3b.json?v=53bc0e16'],
         ['Loops: Repeat 4', 'worlds/challenges_basic/loops-4.json?v=5fa0c5f0'],
-        ['Loops: Repeat 5', 'worlds/challenges_basic/loops-5.json?v=ea21f9d5'],
+        ['Loops: Repeat 5', 'worlds/challenges_basic/loops-5.json?v=729ad780'],
+        ['Loops: Repeat 5b', 'worlds/challenges_basic/loops-5b.json?v=ea21f9d5'],
         ['Loops: Repeat 6', 'worlds/challenges_basic/loops-6.json?v=5484bb7c'],
       ]
     },
@@ -384,6 +387,11 @@ var challenges_basic = new function() {
         '<p>Move your robot into the green box and stop inside.</p>' +
         '<p>You\'re may only use 4 blocks.</p>'
       );
+    } else if (self.options.jsonFile.includes('loops-0b.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 4 blocks.</p>'
+      );
     } else if (self.options.jsonFile.includes('loops-1.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>' +
@@ -400,6 +408,12 @@ var challenges_basic = new function() {
         '<p>You may need to use more than one repeat loop.</p>' +
         '<p>You\'re may only use 4 blocks.</p>'
       );
+    } else if (self.options.jsonFile.includes('loops-3b.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You may need to use more than one repeat loop.</p>' +
+        '<p>You\'re may only use 4 blocks.</p>'
+      );
     } else if (self.options.jsonFile.includes('loops-4.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>' +
@@ -407,6 +421,11 @@ var challenges_basic = new function() {
         '<p>You\'re may only use 6 blocks.</p>'
       );
     } else if (self.options.jsonFile.includes('loops-5.json')) {
+      $message = $(
+        '<p>Collect all the coins.</p>' +
+        '<p>You\'re may only use 4 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-5b.json')) {
       $message = $(
         '<p>Collect all the coins.</p>' +
         '<p>You\'re may only use 7 blocks.</p>'
@@ -512,20 +531,34 @@ var challenges_basic = new function() {
       );
     } else if (self.options.jsonFile.includes('loops-0.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box5', 'PLUTO', [], 4);
+    } else if (self.options.jsonFile.includes('loops-0b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box5', 'CHARON', [], 4);
     } else if (self.options.jsonFile.includes('loops-1.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box5', 'NEPTUNE', [], 5);
     } else if (self.options.jsonFile.includes('loops-2.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'URANUS', [], 6);
     } else if (self.options.jsonFile.includes('loops-3.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SATURN', [], 4);
+    } else if (self.options.jsonFile.includes('loops-3b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'TITAN', [], 4);
     } else if (self.options.jsonFile.includes('loops-4.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'JUPITER', [], 6);
     } else if (self.options.jsonFile.includes('loops-5.json')) {
       self.renderIntersectMulti(
         delta,
-        ['worldBaseObject_model14', 'worldBaseObject_model15', 'worldBaseObject_model16', 'worldBaseObject_model17', 'worldBaseObject_model18', 'worldBaseObject_model19'],
+        ['worldBaseObject_model7', 'worldBaseObject_model8', 'worldBaseObject_model9'],
         false,
         'MARS',
+        'hide',
+        [],
+        7
+      );
+    } else if (self.options.jsonFile.includes('loops-5b.json')) {
+      self.renderIntersectMulti(
+        delta,
+        ['worldBaseObject_model14', 'worldBaseObject_model15', 'worldBaseObject_model16', 'worldBaseObject_model17', 'worldBaseObject_model18', 'worldBaseObject_model19'],
+        false,
+        'PHOBOS',
         'hide',
         [],
         7
