@@ -2071,6 +2071,9 @@ var builder = new function() {
       function snap10() {
         self.snapStep = [1, 1, 1];
       }
+      function snap50() {
+        self.snapStep = [5, 5, 5];
+      }
 
       let menuItems = [
         {html: 'No Snapping', line: false, callback: snapNone},
@@ -2079,6 +2082,7 @@ var builder = new function() {
         {html: 'Snap to Lego (xy: 0.4, z: 0.48)', line: false, callback: snapLego},
         {html: 'Snap to 0.5cm', line: false, callback: snap05},
         {html: 'Snap to 1cm', line: false, callback: snap10},
+        {html: 'Snap to 5cm', line: false, callback: snap50},
       ];
       var tickIndex = 0;
       if (self.snapStep[2] == 0) {
@@ -2093,6 +2097,8 @@ var builder = new function() {
         tickIndex = 4;
       } else if (self.snapStep[2] == 1) {
         tickIndex = 5;
+      } else if (self.snapStep[2] == 5) {
+        tickIndex = 6;
       }
       menuItems[tickIndex].html = '<span class="tick">&#x2713;</span> ' + menuItems[tickIndex].html;
 
