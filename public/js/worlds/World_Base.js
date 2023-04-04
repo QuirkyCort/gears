@@ -1444,11 +1444,15 @@ var World_Base = function() {
     fns.randchoiceE = function(string) {
       return fns.randchoice(string, self.choiceE);
     }
-    fns.shuffle = function(string, shuffleUsed) {
+    fns.shuffle = function(string, group) {
       if (typeof string != 'string') {
         return string;
       }
       string = string.trim();
+
+      if (typeof self.shuffleUsed[group] == 'undefined') {
+        self.shuffleUsed[group] = [];
+      }
 
       let params = processTerms(string.slice(1, -1));
       if (params.length == 0) {
@@ -1456,33 +1460,18 @@ var World_Base = function() {
       }
 
       let choice;
-      if (params.length <= shuffleUsed.length) {
+      if (params.length <= self.shuffleUsed[group].length) {
         toastMsg('Insufficient shuffle choices');
         return params[0];
       }
       while (true) {
         choice = Math.floor(self.mulberry32() * params.length);
-        if (shuffleUsed.indexOf(choice) == -1) {
-          shuffleUsed.push(choice);
+        if (self.shuffleUsed[group].indexOf(choice) == -1) {
+          self.shuffleUsed[group].push(choice);
           break;
         }
       }
       return params[choice];
-    }
-    fns.shuffleA = function(string) {
-      return fns.shuffle(string, self.shuffleUsedA);
-    }
-    fns.shuffleB = function(string) {
-      return fns.shuffle(string, self.shuffleUsedB);
-    }
-    fns.shuffleC = function(string) {
-      return fns.shuffle(string, self.shuffleUsedC);
-    }
-    fns.shuffleD = function(string) {
-      return fns.shuffle(string, self.shuffleUsedD);
-    }
-    fns.shuffleE = function(string) {
-      return fns.shuffle(string, self.shuffleUsedE);
     }
 
     function processFunction(string) {
@@ -1495,8 +1484,11 @@ var World_Base = function() {
       let fn = string.slice(0, i);
       let remainder = string.slice(i);
 
+      if (fn.slice(0,7) == 'shuffle') {
+        return fns['shuffle'](remainder, fn.slice(7,8));
+      }
       if (fn in fns) {
-        return fns[fn](remainder)
+        return fns[fn](remainder);
       } else {
         return string;
       }
@@ -1620,11 +1612,7 @@ var World_Base = function() {
     self.choiceD = self.mulberry32();
     self.choiceE = self.mulberry32();
 
-    self.shuffleUsedA = [];
-    self.shuffleUsedB = [];
-    self.shuffleUsedC = [];
-    self.shuffleUsedD = [];
-    self.shuffleUsedE = [];
+    self.shuffleUsed = [];
 
     self.seed = origSeed;
   };
