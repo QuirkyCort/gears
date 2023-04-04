@@ -557,6 +557,9 @@ var World_Base = function() {
       if (hingedObject.part2Mesh == null) {
         continue;
       }
+      if (typeof hingedObject.part2Mesh == 'string') {
+        hingedObject.part2Mesh = babylon.scene.getMeshByID(hingedObject.part2Mesh);
+      }
 
       let targetBody = hingedObject.part1Mesh;
       while (targetBody.parent) {
@@ -733,6 +736,12 @@ var World_Base = function() {
           options: options
         });
       }
+    } else if (options.attachID) {
+      self.hinges.push({
+        part1Mesh: part1Mesh,
+        part2Mesh: options.attachID,
+        options: options
+      })
     }
 
     return part1Mesh;

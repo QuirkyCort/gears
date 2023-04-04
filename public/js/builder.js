@@ -882,6 +882,11 @@ var builder = new function() {
         option: 'maxForce',
         type: 'floatText',
         help: 'Maximum force applied to achieve the specified speed'
+      },
+      {
+        option: 'attachID',
+        type: 'strText',
+        help: 'Mesh ID to attach to. Can only be used if there are no child meshes.'
       }
     ]
   };
