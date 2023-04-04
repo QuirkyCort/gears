@@ -932,7 +932,7 @@ var main = new function() {
         message:
           '<h3>4 Apr 2023 (Hinges and Shuffle)</h3>' +
           '<p>We can now specify a mesh ID to attach to a hinge. This allows you to to create a chain of hinges that forms a loop like <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FDemo%2FhingeMeshIDDemo.json">this</a>.</p3>' +
-          '<p>There are also a new "shuffle[X][Y]" directive that you can use to randomize your custom worlds. See <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/Demo">this page</a> for details.</p>' +
+          '<p>There is also a new "shuffle[X][Y]" directive that you can use to randomize your custom worlds. See <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/Demo">this page</a> for details.</p>' +
           '<h3>21 Aug 2022 (Superpowered Complete!)</h3>' +
           '<p>The FIRST Lego League 2022/2023 Superpowered missions are now complete.</p>' +
           '<p>View a demo video <a href="https://youtu.be/-aoI6su6m84">on YouTube.</a></p>' +
