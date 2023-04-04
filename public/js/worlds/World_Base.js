@@ -1444,8 +1444,28 @@ var World_Base = function() {
     fns.randchoiceE = function(string) {
       return fns.randchoice(string, self.choiceE);
     }
-    fns.shuffle = function(string, group) {
-      if (typeof string != 'string') {
+    fns.shuffle = function(string, group, index) {
+      if (typeof index != 'undefined') {
+        return fns.shuffleIndex(string, group, index);
+      } else {
+        return fns.shuffleNext(string, group);
+      }
+    }
+    fns.shuffleIndex = function(string, group, index) {
+      let params = processTerms(string.slice(1, -1));
+      if (params.length == 0) {
+        return null;
+      }
+
+      if (index >= self.shuffleUsed[group].length) {
+        toastMsg('Shuffle index not available');
+        return params[0];
+      }
+      let choice = self.shuffleUsed[group][index];
+      return params[choice];
+    }
+    fns.shuffleNext = function(string, group) {
+        if (typeof string != 'string') {
         return string;
       }
       string = string.trim();
@@ -1485,7 +1505,11 @@ var World_Base = function() {
       let remainder = string.slice(i);
 
       if (fn.slice(0,7) == 'shuffle') {
-        return fns['shuffle'](remainder, fn.slice(7,8));
+        if (fn.length > 8) {
+          return fns['shuffle'](remainder, fn.slice(7,8), parseInt(fn.slice(8)));
+        } else {
+          return fns['shuffle'](remainder, fn.slice(7,8));
+        }
       }
       if (fn in fns) {
         return fns[fn](remainder);
