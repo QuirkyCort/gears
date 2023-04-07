@@ -1059,7 +1059,7 @@ let MSGS = {
   },
   '#blk-wait_until#': {
     en: 'Wait until',
-    ru: 'ждать, пока',
+    ru: 'ждать до',
     hu: 'Várj, amíg',
   },
   '#blk-button#': {
