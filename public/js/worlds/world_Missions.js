@@ -21,8 +21,8 @@ var world_Missions = new function() {
       title: 'Select Mission',
       type: 'select',
       options: [
-        ['2023 WRO (Junior)', 'worlds/missions/WRO/WRO-2023-Junior.json?v=888f71dc'],
         ['2023 WRO (Elementary)', 'worlds/missions/WRO/WRO-2023-Elementary.json?v=bbda7305'],
+        ['2023 WRO (Junior)', 'worlds/missions/WRO/WRO-2023-Junior.json?v=888f71dc'],
         ['2022 FLL (Superpowered)', 'worlds/missions/FLL/FLL2022.json?v=8d10813a'],
         ['2022 WRO (Elementary)', 'worlds/missions/WRO/WRO-2022-Regular-Elementary-1.json?v=a2936cb0'],
         ['2022 WRO (Elementary) Randomization 2', 'worlds/missions/WRO/WRO-2022-Regular-Elementary-2.json?v=cc4e3604'],
