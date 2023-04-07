@@ -200,6 +200,11 @@ BUILT_IN_IMAGES = [
     description: 'Fire rescue warehouse map.'
   },
   {
+    url: 'textures/maps/FLL/FLL2022.jpg',
+    type: 'ground',
+    description: 'First Lego League 2022 : Superpowered'
+  },
+  {
     url: 'textures/maps/FLL/FLL2021.jpg',
     type: 'ground',
     description: 'First Lego League 2021 : Cargo Connect'
@@ -233,6 +238,21 @@ BUILT_IN_IMAGES = [
     url: 'textures/maps/Sumo/Red Circle.png',
     type: 'ground',
     description: 'White ground with red border. For use with a cylindrical ground.'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2023-Senior.png',
+    type: 'ground',
+    description: 'WRO 2023 Senior'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2023-Junior.png',
+    type: 'ground',
+    description: 'WRO 2023 Junior'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2023-Elementary.png',
+    type: 'ground',
+    description: 'WRO 2023 Elementary'
   },
   {
     url: 'textures/maps/WRO/WRO-2022-Regular-Senior.png',
