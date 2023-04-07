@@ -924,24 +924,20 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20230404;
+    let current = 20230407;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>7 Apr 2023 (WRO 2023)</h3>' +
+          '<p>The WRO 2023 mission are now available, with models and randomization for the Elementary and Junior events.</p3>' +
           '<h3>4 Apr 2023 (Hinges and Shuffle)</h3>' +
           '<p>We can now specify a mesh ID to attach to a hinge. This allows you to to create a chain of hinges that forms a loop like <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FDemo%2FhingeMeshIDDemo.json">this</a>.</p3>' +
           '<p>There is also a new "shuffle[X][Y]" directive that you can use to randomize your custom worlds. See <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/Demo">this page</a> for details.</p>' +
           '<h3>21 Aug 2022 (Superpowered Complete!)</h3>' +
           '<p>The FIRST Lego League 2022/2023 Superpowered missions are now complete.</p>' +
-          '<p>View a demo video <a href="https://youtu.be/-aoI6su6m84">on YouTube.</a></p>' +
-          '<h3>8 Aug 2022 (Superpowered)</h3>' +
-          '<p>Added the FIRST Lego League 2022/2023 Superpowered mission.</p>' +
-          '<p>' +
-            'It is incomplete for now, with only 4 out of 9 major mission models in place, but I will be adding to it over the coming days (...weeks?). ' +
-            'If you would like to help, contact me to find out how.' +
-          '</p>'
+          '<p>View a demo video <a href="https://youtu.be/-aoI6su6m84">on YouTube.</a></p>'
       }
       acknowledgeDialog(options, function(){
         localStorage.setItem('whatsNew', current);
