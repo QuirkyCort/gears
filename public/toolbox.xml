@@ -5,6 +5,9 @@
     <block type="tw_left"></block>
     <block type="tw_right"></block>
   </category>
+  <category name="Conditions" colour="#5b80a5" hidden="true">
+    <block type="controls_if"></block>
+  </category>
   <category name="#blk-motion#" colour="#5b67a5">
     <block type="move_tank">
       <field name="units">PERCENT</field>
@@ -134,6 +137,8 @@
     </block>
   </category>
   <category name="#blk-sensors#" colour="#5ba58c">
+    <block type="tw_color" hidden="true">
+    </block>
     <block type="color_sensor">
       <field name="type">INTENSITY</field>
       <field name="port">AUTO</field>

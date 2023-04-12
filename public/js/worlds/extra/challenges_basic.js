@@ -47,6 +47,12 @@ var challenges_basic = new function() {
         ['Loops: Repeat 5', 'worlds/challenges_basic/loops-5.json?v=729ad780'],
         ['Loops: Repeat 5b', 'worlds/challenges_basic/loops-5b.json?v=ea21f9d5'],
         ['Loops: Repeat 6', 'worlds/challenges_basic/loops-6.json?v=5484bb7c'],
+        ['Condition: Color 1', 'worlds/challenges_basic/conditions-1.json?v=b06212fe'],
+        ['Condition: Color 2', 'worlds/challenges_basic/conditions-2.json?v=4757e227'],
+        ['Condition: Color 3', 'worlds/challenges_basic/conditions-3.json?v=ecbb4ae5'],
+        ['Condition: Color 4', 'worlds/challenges_basic/conditions-4.json?v=4c96c864'],
+        ['Condition: Color 5', 'worlds/challenges_basic/conditions-5.json?v=d5353fa9'],
+        ['Condition: Color 6', 'worlds/challenges_basic/conditions-6.json?v=4f834e54'],
       ]
     },
     {
@@ -258,6 +264,7 @@ var challenges_basic = new function() {
     self.ended = false;
     self.started = false;
 
+    let match = false;
     if (self.options.useDefaultRobot) {
       let DEFAULT_ROBOT = {
         'basic': ['twBasic', 'https://files.aposteriori.com.sg/get/ygcmWx4oSE.json'],
@@ -266,9 +273,16 @@ var challenges_basic = new function() {
       for (let jsonFile in DEFAULT_ROBOT) {
         if (self.options.jsonFile.includes(jsonFile)) {
           if (robot.options.name != DEFAULT_ROBOT[jsonFile][0]) {
+            match = true;
             main.loadRobotURL(DEFAULT_ROBOT[jsonFile][1]);
           }
         }
+      }
+    }
+
+    if (match == false) {
+      if (robot.options.name != 'twBasic') {
+        main.loadRobotURL('https://files.aposteriori.com.sg/get/ygcmWx4oSE.json');
       }
     }
 
@@ -435,6 +449,42 @@ var challenges_basic = new function() {
         '<p>Collect all the coins.</p>' +
         '<p>You\'re may only use 10 blocks.</p>'
       );
+    } else if (self.options.jsonFile.includes('conditions-1.json')) {
+      $message = $(
+        '<p>Drive into the green box.</p>' +
+        '<p>The position of the box changes randomly every time the world is reset.</p>' +
+        '<p>Use the color on the ground to figure out where it will appear.</p>'
+      );
+    } else if (self.options.jsonFile.includes('conditions-2.json')) {
+      $message = $(
+        '<p>Drive into the green box.</p>' +
+        '<p>The position of the box changes randomly every time the world is reset.</p>' +
+        '<p>Use the color on the ground to figure out where it will appear.</p>'
+      );
+    } else if (self.options.jsonFile.includes('conditions-3.json')) {
+      $message = $(
+        '<p>Drive into the green box.</p>' +
+        '<p>The position of the box changes randomly every time the world is reset.</p>' +
+        '<p>Use the color on the ground to figure out where it will appear.</p>'
+      );
+    } else if (self.options.jsonFile.includes('conditions-4.json')) {
+      $message = $(
+        '<p>Drive into the green box.</p>' +
+        '<p>The position of the box changes randomly every time the world is reset.</p>' +
+        '<p>Use the color on the ground to figure out where it will appear.</p>'
+      );
+    } else if (self.options.jsonFile.includes('conditions-5.json')) {
+      $message = $(
+        '<p>Drive into the green box.</p>' +
+        '<p>The position of the box changes randomly every time the world is reset.</p>' +
+        '<p>Use the color on the ground to figure out where it will appear.</p>'
+      );
+    } else if (self.options.jsonFile.includes('conditions-6.json')) {
+      $message = $(
+        '<p>Drive into the green box.</p>' +
+        '<p>The position of the box changes randomly every time the world is reset.</p>' +
+        '<p>Use the color on the ground to figure out where it will appear.</p>'
+      );
     }
 
     acknowledgeDialog({
@@ -573,6 +623,18 @@ var challenges_basic = new function() {
         [],
         10
       );
+    } else if (self.options.jsonFile.includes('conditions-1.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'STONE');
+    } else if (self.options.jsonFile.includes('conditions-2.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SECRETS');
+    } else if (self.options.jsonFile.includes('conditions-3.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'AZKABAN');
+    } else if (self.options.jsonFile.includes('conditions-4.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'FIRE');
+    } else if (self.options.jsonFile.includes('conditions-5.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PHOENIX');
+    } else if (self.options.jsonFile.includes('conditions-6.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PRINCE');
     }
   };
 

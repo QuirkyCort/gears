@@ -2275,5 +2275,49 @@
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "tw_color",
+  "message0": "color sensor sees %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "color",
+      "options": [
+        [
+          "#blk-black#",
+          "BLACK"
+        ],
+        [
+          "#blk-blue#",
+          "BLUE"
+        ],
+        [
+          "#blk-green#",
+          "GREEN"
+        ],
+        [
+          "#blk-yellow#",
+          "YELLOW"
+        ],
+        [
+          "#blk-red#",
+          "RED"
+        ],
+        [
+          "#blk-white#",
+          "WHITE"
+        ],
+        [
+          "#blk-brown#",
+          "BROWN"
+        ]
+      ]
+    }
+  ],
+  "output": "Boolean",
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
 }
 ]

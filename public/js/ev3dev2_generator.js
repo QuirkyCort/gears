@@ -61,11 +61,20 @@ var ev3dev2_generator = new function() {
     Blockly.Python['tw_rev'] = self.tw_rev;
     Blockly.Python['tw_left'] = self.tw_left;
     Blockly.Python['tw_right'] = self.tw_right;
+    Blockly.Python['tw_color'] = self.tw_color;
   };
 
   // Generate python code
   this.genCode = function() {
     self.training_wheels = false;
+
+    var i = 1;
+    var sensor = robot.getComponentByPort('in' + i);
+    while (sensor) {
+      self.autoPorts[sensor.type] = i;
+      i++;
+      sensor = robot.getComponentByPort('in' + i);
+    }
 
     let workspaceCode = Blockly.Python.workspaceToCode(blockly.workspace);
 
@@ -99,32 +108,26 @@ var ev3dev2_generator = new function() {
       '\n';
 
     var sensorsCode = '';
-    var i = 1;
-    var sensor = null;
-    while (sensor = robot.getComponentByPort('in' + i)) {
+    i = 1;
+    sensor = robot.getComponentByPort('in' + i);
+    while (sensor) {
       if (sensor.type == 'ColorSensor') {
         sensorsCode += 'color_sensor_in' + i + ' = ColorSensor(INPUT_' + i + ')\n';
-        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'UltrasonicSensor') {
         sensorsCode += 'ultrasonic_sensor_in' + i + ' = UltrasonicSensor(INPUT_' + i + ')\n';
-        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'LaserRangeSensor') {
         sensorsCode += 'laser_sensor_in' + i + ' = LaserRangeSensor(INPUT_' + i + ')\n';
-        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'GyroSensor') {
         sensorsCode += 'gyro_sensor_in' + i + ' = GyroSensor(INPUT_' + i + ')\n';
-        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'GPSSensor') {
         sensorsCode += 'gps_sensor_in' + i + ' = GPSSensor(INPUT_' + i + ')\n';
-        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'TouchSensor') {
         sensorsCode += 'touch_sensor_in' + i + ' = TouchSensor(INPUT_' + i + ')\n';
-        self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'Pen') {
         sensorsCode += 'pen_in' + i + ' = Pen(INPUT_' + i + ')\n';
-        self.autoPorts[sensor.type] = i;
       }
       i++;
+      sensor = robot.getComponentByPort('in' + i)
     }
 
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -873,5 +876,25 @@ var ev3dev2_generator = new function() {
     var code = 'training_wheels.turn_right()\n';
     return code;
   };
+
+  this.tw_color = function(block) {
+    let dropdown_port = self.getPort("AUTO", 'ColorSensor');
+    let typeStr = 'color';
+
+    const map_to_number = {
+      'BLACK': 1,
+      'BLUE': 2,
+      'GREEN': 3,
+      'YELLOW': 4,
+      'RED': 5,
+      'WHITE': 6,
+      'BROWN': 7,
+    };
+
+    let color = block.getFieldValue('color');
+
+    var code = 'color_sensor_in' + dropdown_port + '.' + typeStr + ' == ' + map_to_number[color];
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  }
 }
 
