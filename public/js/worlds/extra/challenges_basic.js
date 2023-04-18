@@ -53,6 +53,12 @@ var challenges_basic = new function() {
         ['Condition: Color 4', 'worlds/challenges_basic/conditions-4.json?v=4c96c864'],
         ['Condition: Color 5', 'worlds/challenges_basic/conditions-5.json?v=d5353fa9'],
         ['Condition: Color 6', 'worlds/challenges_basic/conditions-6.json?v=4f834e54'],
+        ['Condition: Color 7', 'worlds/challenges_basic/conditions-7.json?v=86502bb0'],
+        ['Condition: Color 8', 'worlds/challenges_basic/conditions-8.json?v=8ad2c418'],
+        ['Condition: Color 9', 'worlds/challenges_basic/conditions-9.json?v=3702a992'],
+        ['Condition: Color 10', 'worlds/challenges_basic/conditions-10.json?v=87b48a99'],
+        ['Condition: Color 11', 'worlds/challenges_basic/conditions-11.json?v=85e3052e'],
+        ['Condition: Color 12', 'worlds/challenges_basic/conditions-12.json?v=6d42f222'],
       ]
     },
     {
@@ -449,37 +455,7 @@ var challenges_basic = new function() {
         '<p>Collect all the coins.</p>' +
         '<p>You\'re may only use 10 blocks.</p>'
       );
-    } else if (self.options.jsonFile.includes('conditions-1.json')) {
-      $message = $(
-        '<p>Drive into the green box.</p>' +
-        '<p>The position of the box changes randomly every time the world is reset.</p>' +
-        '<p>Use the color on the ground to figure out where it will appear.</p>'
-      );
-    } else if (self.options.jsonFile.includes('conditions-2.json')) {
-      $message = $(
-        '<p>Drive into the green box.</p>' +
-        '<p>The position of the box changes randomly every time the world is reset.</p>' +
-        '<p>Use the color on the ground to figure out where it will appear.</p>'
-      );
-    } else if (self.options.jsonFile.includes('conditions-3.json')) {
-      $message = $(
-        '<p>Drive into the green box.</p>' +
-        '<p>The position of the box changes randomly every time the world is reset.</p>' +
-        '<p>Use the color on the ground to figure out where it will appear.</p>'
-      );
-    } else if (self.options.jsonFile.includes('conditions-4.json')) {
-      $message = $(
-        '<p>Drive into the green box.</p>' +
-        '<p>The position of the box changes randomly every time the world is reset.</p>' +
-        '<p>Use the color on the ground to figure out where it will appear.</p>'
-      );
-    } else if (self.options.jsonFile.includes('conditions-5.json')) {
-      $message = $(
-        '<p>Drive into the green box.</p>' +
-        '<p>The position of the box changes randomly every time the world is reset.</p>' +
-        '<p>Use the color on the ground to figure out where it will appear.</p>'
-      );
-    } else if (self.options.jsonFile.includes('conditions-6.json')) {
+    } else if (self.options.jsonFile.includes('conditions-')) {
       $message = $(
         '<p>Drive into the green box.</p>' +
         '<p>The position of the box changes randomly every time the world is reset.</p>' +
@@ -635,6 +611,18 @@ var challenges_basic = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PHOENIX');
     } else if (self.options.jsonFile.includes('conditions-6.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'PRINCE');
+    } else if (self.options.jsonFile.includes('conditions-7.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'CHOCOLATE');
+    } else if (self.options.jsonFile.includes('conditions-8.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'BANANA');
+    } else if (self.options.jsonFile.includes('conditions-9.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'AVOCADO');
+    } else if (self.options.jsonFile.includes('conditions-10.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'VANILLA');
+    } else if (self.options.jsonFile.includes('conditions-11.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'CARAMEL');
+    } else if (self.options.jsonFile.includes('conditions-12.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'OREO');
     }
   };
 
