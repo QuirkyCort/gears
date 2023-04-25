@@ -59,6 +59,11 @@ var challenges_basic = new function() {
         ['Condition: Color 10', 'worlds/challenges_basic/conditions-10.json?v=87b48a99'],
         ['Condition: Color 11', 'worlds/challenges_basic/conditions-11.json?v=85e3052e'],
         ['Condition: Color 12', 'worlds/challenges_basic/conditions-12.json?v=6d42f222'],
+        ['Abstraction: Dungeon 1', 'worlds/challenges_basic/abstraction-1.json?v=3d38a55b'],
+        ['Abstraction: Dungeon 2', 'worlds/challenges_basic/abstraction-2.json?v=35d1b224'],
+        ['Abstraction: Dungeon 3', 'worlds/challenges_basic/abstraction-3.json?v=b07838d3'],
+        ['Abstraction: Dungeon 4', 'worlds/challenges_basic/abstraction-4.json?v=468cc179'],
+        ['Abstraction: Dungeon 5', 'worlds/challenges_basic/abstraction-5.json?v=926b32e2'],
       ]
     },
     {
@@ -461,6 +466,33 @@ var challenges_basic = new function() {
         '<p>The position of the box changes randomly every time the world is reset.</p>' +
         '<p>Use the color on the ground to figure out where it will appear.</p>'
       );
+    } else if (self.options.jsonFile.includes('abstraction-1.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Don\'t get distracted by the alien!</p>'
+      );
+    } else if (self.options.jsonFile.includes('abstraction-2.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Why is there a zebra in the dungeon?</p>'
+      );
+    } else if (self.options.jsonFile.includes('abstraction-3.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>The cat looks fascinated by the ball!</p>' +
+        '<p>You\'re may only use 5 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('abstraction-4.json')) {
+      $message = $(
+        '<p>Collect all the coins.</p>' +
+        '<p>Everything is spinning!</p>' +
+        '<p>You\'re may only use 4 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('abstraction-5.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Don\'t let the water distract you! The green box changes position on reset.</p>'
+      );
     }
 
     acknowledgeDialog({
@@ -623,6 +655,93 @@ var challenges_basic = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'CARAMEL');
     } else if (self.options.jsonFile.includes('conditions-12.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'OREO');
+    } else if (self.options.jsonFile.includes('abstraction-1.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'TABBY',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box19',
+            move: 'worldBaseObject_box0'
+          },
+        ]
+      );
+    } else if (self.options.jsonFile.includes('abstraction-2.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'CALICO',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box19',
+            move: 'worldBaseObject_box0'
+          },
+        ]
+      );
+    } else if (self.options.jsonFile.includes('abstraction-3.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'GINGER',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box18',
+            move: 'worldBaseObject_box0'
+          },
+          {
+            type: 'move',
+            trigger: 'worldBaseObject_cylinder11',
+            move: 'worldBaseObject_box13',
+            velocity: {
+              x: 0,
+              y: 0,
+              z: -0.1
+            },
+          }
+        ],
+        5
+      );
+    } else if (self.options.jsonFile.includes('abstraction-4.json')) {
+      self.renderIntersectMulti(
+        delta,
+        ['worldBaseObject_model28', 'worldBaseObject_model29', 'worldBaseObject_model30'],
+        false,
+        'SIAMESE',
+        'hide',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box16',
+            move: 'worldBaseObject_box0'
+          },
+          {
+            type: 'move',
+            trigger: 'worldBaseObject_cylinder9',
+            move: 'worldBaseObject_box11',
+            velocity: {
+              x: 0,
+              y: 0,
+              z: -0.1
+            },
+          }
+        ],
+        4
+      );
+    } else if (self.options.jsonFile.includes('abstraction-5.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'RAGDOLL',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box18',
+            move: 'worldBaseObject_box0'
+          },
+          {
+            type: 'move',
+            trigger: 'worldBaseObject_cylinder11',
+            move: 'worldBaseObject_box13',
+            velocity: {
+              x: 0,
+              y: 0,
+              z: -0.1
+            },
+          }
+        ]
+      );
     }
   };
 

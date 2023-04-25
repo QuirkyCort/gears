@@ -1,0 +1,1571 @@
+{
+  "worldName": "custom",
+  "options": {
+    "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+    "groundType": "box",
+    "length": 100,
+    "width": 100,
+    "uScale": 1,
+    "vScale": 1,
+    "imageScale": 1,
+    "timer": "none",
+    "timerDuration": 60,
+    "timerEnd": "continue",
+    "wall": false,
+    "wallHeight": 7.7,
+    "wallThickness": 4.5,
+    "wallColor": "#1A1A1A",
+    "groundFriction": 1,
+    "wallFriction": 0.1,
+    "groundRestitution": 0,
+    "wallRestitution": 0.1,
+    "restartAnimationOnRun": true,
+    "objects": [
+      {
+        "type": "box",
+        "position": [
+          -25,
+          25,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/KJpuubu9CA.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -25,
+          "randchoiceA(100,50)",
+          12.5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          25
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "00ff007c",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          25,
+          0,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          25,
+          75,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          75,
+          25,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          50,
+          -25,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -75,
+          0,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          50,
+          0,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -25,
+          0,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -50,
+          75,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          200,
+          -75,
+          25
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          90,
+          0
+        ],
+        "animationMode": "loop",
+        "animationKeys": [
+          {
+            "time": 0,
+            "position": [
+              -200,
+              -75,
+              25
+            ],
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          },
+          {
+            "time": 3,
+            "position": [
+              200,
+              -75,
+              25
+            ],
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        ],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Ships/Viking boat.glb",
+        "modelScale": 25,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "cylinder",
+        "position": [
+          50,
+          "randchoiceA(0,75)",
+          12.5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          25
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#ffff007c",
+        "imageType": "cylinder",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -25,
+          50,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -10,
+          75,
+          7.5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          90,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          1,
+          15
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "repeat",
+        "imageURL": "textures/box/metal.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -75,
+          50,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -50,
+          -25,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -75,
+          75,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -75,
+          100,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -25,
+          25,
+          12.5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          25
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#00ff0000",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -100,
+          50,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -50,
+          25,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          0,
+          -25,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          25,
+          100,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -25,
+          75,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          0,
+          25,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          0,
+          75,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -25,
+          100,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          50,
+          25,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          50,
+          50,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          50,
+          75,
+          -5
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "top",
+        "imageURL": "https://files.aposteriori.com.sg/get/n7NJNWounP.jpg",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": {
+          "friction": 1
+        },
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": true,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          0,
+          0,
+          -43
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          300,
+          300,
+          30
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#002aff66",
+        "imageType": "repeat",
+        "imageURL": "https://files.aposteriori.com.sg/get/ssWV4C2EZp.png",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          0,
+          0,
+          -13
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          300,
+          300,
+          30
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#002aff66",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "box",
+        "position": [
+          -25,
+          75,
+          0.05
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          25,
+          25,
+          0.1
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "randchoiceA(#00ff00ff,#ff0000ff)",
+        "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "false",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          115,
+          125,
+          23
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          -35,
+          0
+        ],
+        "animationMode": "alternate",
+        "animationKeys": [
+          {
+            "time": 0,
+            "position": [
+              115,
+              125,
+              22
+            ],
+            "rotation": [
+              0,
+              -35,
+              0
+            ]
+          },
+          {
+            "time": 2,
+            "position": [
+              115,
+              125,
+              23
+            ],
+            "rotation": [
+              0,
+              -35,
+              0
+            ]
+          }
+        ],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Ships/BoatWSail.glb",
+        "modelScale": 50,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          120,
+          -40,
+          -20
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          -360,
+          0
+        ],
+        "animationMode": "loop",
+        "animationKeys": [
+          {
+            "time": 0,
+            "position": [
+              120,
+              -40,
+              -20
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "time": 2,
+            "position": [
+              65,
+              100,
+              -20
+            ],
+            "rotation": [
+              0,
+              -60,
+              0
+            ]
+          },
+          {
+            "time": 4,
+            "position": [
+              -60,
+              110,
+              -20
+            ],
+            "rotation": [
+              0,
+              -135,
+              0
+            ]
+          },
+          {
+            "time": 6,
+            "position": [
+              -80,
+              -40,
+              -20
+            ],
+            "rotation": [
+              0,
+              -235,
+              0
+            ]
+          },
+          {
+            "time": 8,
+            "position": [
+              120,
+              -40,
+              -20
+            ],
+            "rotation": [
+              0,
+              -360,
+              0
+            ]
+          }
+        ],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Animals/Fish.glb",
+        "modelScale": 5,
+        "modelAnimation": "ArmatureAction",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          10,
+          55,
+          -25
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          0,
+          20,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/KayKit - Dungeon/chest_common_empty.gltf.glb",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          -120,
+          105,
+          -10
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          -10,
+          145,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/Quaternius - Animals/Whale.glb",
+        "modelScale": 10,
+        "modelAnimation": "ArmatureAction",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "model",
+        "position": [
+          90,
+          100,
+          -20
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          180,
+          10,
+          15
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          10,
+          10,
+          10
+        ],
+        "modelURL": "models/KayKit - Dungeon/sword_common.gltf.glb",
+        "modelScale": 20,
+        "modelAnimation": "None",
+        "color": "#80E680",
+        "imageType": "sphere",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      }
+    ],
+    "startPos": "center",
+    "startPosXYZStr": "",
+    "startRotStr": "",
+    "startPosXYZ": null,
+    "startRot": null,
+    "arenaStartPosXYZ": null,
+    "arenaStartRot": null
+  }
+}
