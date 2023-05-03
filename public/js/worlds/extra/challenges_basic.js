@@ -64,6 +64,12 @@ var challenges_basic = new function() {
         ['Abstraction: Dungeon 3', 'worlds/challenges_basic/abstraction-3.json?v=b07838d3'],
         ['Abstraction: Dungeon 4', 'worlds/challenges_basic/abstraction-4.json?v=468cc179'],
         ['Abstraction: Dungeon 5', 'worlds/challenges_basic/abstraction-5.json?v=926b32e2'],
+        ['Abstraction: Dungeon 6', 'worlds/challenges_basic/abstraction-6.json?v=a2f2969a'],
+        ['Abstraction: Dungeon 7', 'worlds/challenges_basic/abstraction-7.json?v=f5b3c468'],
+        ['Abstraction: Dungeon 8', 'worlds/challenges_basic/abstraction-8.json?v=3df6b51a'],
+        ['Abstraction: Dungeon 9', 'worlds/challenges_basic/abstraction-9.json?v=3b330462'],
+        ['Abstraction: Dungeon 10', 'worlds/challenges_basic/abstraction-10.json?v=499c54f1'],
+        ['Abstraction: Dungeon 11', 'worlds/challenges_basic/abstraction-11.json?v=4f35d8a5'],
       ]
     },
     {
@@ -493,6 +499,35 @@ var challenges_basic = new function() {
         '<p>Move your robot into the green box and stop inside.</p>' +
         '<p>Don\'t let the water distract you! The green box changes position on reset.</p>'
       );
+    } else if (self.options.jsonFile.includes('abstraction-6.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 1 block.</p>'
+      );
+    } else if (self.options.jsonFile.includes('abstraction-7.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 8 block.</p>'
+      );
+    } else if (self.options.jsonFile.includes('abstraction-8.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 11 block.</p>'
+      );
+    } else if (self.options.jsonFile.includes('abstraction-9.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 12 block.</p>'
+      );
+    } else if (self.options.jsonFile.includes('abstraction-10.json')) {
+      $message = $(
+        '<p>Collect all the coins.</p>' +
+        '<p>You\'re may only use 5 blocks.</p>'      );
+    } else if (self.options.jsonFile.includes('abstraction-11.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Don\'t let the water distract you! The green box changes position on reset.</p>'
+      );
     }
 
     acknowledgeDialog({
@@ -742,6 +777,26 @@ var challenges_basic = new function() {
           }
         ]
       );
+    } else if (self.options.jsonFile.includes('abstraction-6.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'Indri', [], 1);
+    } else if (self.options.jsonFile.includes('abstraction-7.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Fossa', [], 8);
+    } else if (self.options.jsonFile.includes('abstraction-8.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Dingo', [], 11);
+    } else if (self.options.jsonFile.includes('abstraction-9.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Aardvark', [], 12);
+    } else if (self.options.jsonFile.includes('abstraction-10.json')) {
+      self.renderIntersectMulti(
+        delta,
+        ['worldBaseObject_model158', 'worldBaseObject_model159', 'worldBaseObject_model160'],
+        false,
+        'Zapus',
+        'hide',
+        [],
+        5
+      );
+    } else if (self.options.jsonFile.includes('abstraction-11.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'Xerus');
     }
   };
 
