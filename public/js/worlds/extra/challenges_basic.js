@@ -526,7 +526,7 @@ var challenges_basic = new function() {
     } else if (self.options.jsonFile.includes('abstraction-11.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>' +
-        '<p>Don\'t let the water distract you! The green box changes position on reset.</p>'
+        '<p>No blocks limits, but the green box changes position on reset.</p>'
       );
     }
 
