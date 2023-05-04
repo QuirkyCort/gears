@@ -402,9 +402,9 @@
       {
         "type": "model",
         "position": [
-          85,
+          0,
           105,
-          5
+          6.9854334
         ],
         "rotationMode": "degrees",
         "rotation": [
@@ -924,14 +924,14 @@
       {
         "type": "model",
         "position": [
-          -100,
-          50,
+          -25,
+          0,
           10
         ],
         "rotationMode": "degrees",
         "rotation": [
           0,
-          90,
+          0,
           0
         ],
         "animationMode": "loop",
@@ -939,91 +939,91 @@
           {
             "time": 0,
             "position": [
-              -100,
-              50,
+              -25,
+              0,
               10
             ],
             "rotation": [
               0,
-              90,
+              0,
               0
             ]
           },
           {
             "time": 0.5,
             "position": [
-              -50,
+              -25,
               50,
               10
             ],
             "rotation": [
               0,
-              90,
+              0,
               0
             ]
           },
           {
             "time": 1,
             "position": [
-              -50,
+              -25,
               50,
               10
             ],
             "rotation": [
               0,
-              -90,
+              180,
               0
             ]
           },
           {
             "time": 4,
             "position": [
-              -50,
+              -25,
               50,
               10
             ],
             "rotation": [
               0,
-              -90,
+              180,
               0
             ]
           },
           {
             "time": 4.5,
             "position": [
-              -100,
-              50,
+              -25,
+              0,
               10
             ],
             "rotation": [
               0,
-              -90,
+              180,
               0
             ]
           },
           {
             "time": 5,
             "position": [
-              -100,
-              50,
+              -25,
+              0,
               10
             ],
             "rotation": [
               0,
-              90,
+              0,
               0
             ]
           },
           {
-            "time": 9,
+            "time": 9.5,
             "position": [
-              -100,
-              50,
+              -25,
+              0,
               10
             ],
             "rotation": [
               0,
-              90,
+              0,
               0
             ]
           }
