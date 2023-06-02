@@ -57,7 +57,7 @@ let MSGS = {
     he: 'עט (נסיוני)',
     ru: 'Рисование (В разработке)',
     hu: 'Toll',
-    pt: 'Caneta (Experimental',
+    pt: 'Caneta (Experimental)',
   },
   '#blk-radio-category#': {
     en: 'Radio (Experimental)',
