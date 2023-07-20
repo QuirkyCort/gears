@@ -31,6 +31,8 @@ var challenges_basic = new function() {
         ['Basic: Maze 2', 'worlds/challenges_basic/maze-2.json?v=4c257c21'],
         ['Basic: Maze 3', 'worlds/challenges_basic/maze-3.json?v=52c6d5cd'],
         ['Basic: Maze 4', 'worlds/challenges_basic/maze-4.json?v=324c0860'],
+        ['Basic: Maze 5', 'worlds/challenges_basic/maze-5.json?v=57ce4528'],
+        ['Basic: Maze 6', 'worlds/challenges_basic/maze-6.json?v=7bd986c4'],
         ['Basic: Dungeon 0', 'worlds/challenges_basic/dungeon-0.json?v=d16421b8'],
         ['Basic: Dungeon 1', 'worlds/challenges_basic/dungeon-1.json?v=4fcbabab'],
         ['Basic: Dungeon 2', 'worlds/challenges_basic/dungeon-2.json?v=7114511d'],
@@ -385,6 +387,16 @@ var challenges_basic = new function() {
         '<p>Move your robot into every box.</p>' +
         '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
       );
+    } else if (self.options.jsonFile.includes('maze-5.json')) {
+      $message = $(
+        '<p>Move your robot into every box.</p>' +
+        '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
+      );
+    } else if (self.options.jsonFile.includes('maze-6.json')) {
+      $message = $(
+        '<p>Move your robot into every box.</p>' +
+        '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
+      );
     } else if (self.options.jsonFile.includes('dungeon-0.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>'
@@ -571,6 +583,10 @@ var challenges_basic = new function() {
       self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'RABBIT');
     } else if (self.options.jsonFile.includes('maze-4.json')) {
       self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'DONKEY');
+    } else if (self.options.jsonFile.includes('maze-5.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'TURKEY');
+    } else if (self.options.jsonFile.includes('maze-6.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'FOX');
     } else if (self.options.jsonFile.includes('dungeon-0.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box5', 'IMP');
     } else if (self.options.jsonFile.includes('dungeon-1.json')) {
