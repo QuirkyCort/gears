@@ -39,6 +39,7 @@ var challenges_basic = new function() {
         ['Basic: Dungeon 3', 'worlds/challenges_basic/dungeon-3.json?v=0abf9ae2'],
         ['Basic: Dungeon 4', 'worlds/challenges_basic/dungeon-4.json?v=091f44ad'],
         ['Basic: Dungeon 5', 'worlds/challenges_basic/dungeon-5.json?v=009cbf96'],
+        ['Basic: Dungeon 6', 'worlds/challenges_basic/dungeon-6.json?v=80b8d5a6'],
         ['Loops: Repeat 0', 'worlds/challenges_basic/loops-0.json?v=dca8f7ad'],
         ['Loops: Repeat 0b', 'worlds/challenges_basic/loops-0b.json?v=4db77619'],
         ['Loops: Repeat 1', 'worlds/challenges_basic/loops-1.json?v=607f3c38'],
@@ -425,6 +426,11 @@ var challenges_basic = new function() {
         '<p>Move your robot into the green box and stop inside.</p>' +
         '<p>You\'ll need to use everything you\'ve learned!</p>'
       );
+    } else if (self.options.jsonFile.includes('dungeon-6.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Watch out for the ghost!</p>'
+      );
     } else if (self.options.jsonFile.includes('loops-0.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>' +
@@ -625,6 +631,36 @@ var challenges_basic = new function() {
             type: 'drop',
             trigger: 'worldBaseObject_box19',
             move: 'worldBaseObject_box0'
+          },
+          {
+            type: 'move',
+            trigger: 'worldBaseObject_cylinder11',
+            move: 'worldBaseObject_model10',
+            velocity: {
+              x: 0,
+              y: 0,
+              z: -0.1
+            },
+          }
+        ]
+      );
+    } else if (self.options.jsonFile.includes('dungeon-6.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'MANTICORE',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box16',
+            move: 'worldBaseObject_box0'
+          },
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box19',
+            move: 'worldBaseObject_box18'
+          },
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box32',
+            move: 'worldBaseObject_box31'
           },
           {
             type: 'move',
