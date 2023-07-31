@@ -44,6 +44,10 @@ var challenges_basic = new function() {
         ['Loops: Repeat 0b', 'worlds/challenges_basic/loops-0b.json?v=4db77619'],
         ['Loops: Repeat 1', 'worlds/challenges_basic/loops-1.json?v=607f3c38'],
         ['Loops: Repeat 2', 'worlds/challenges_basic/loops-2.json?v=848fd296'],
+        ['Loops: Repeat 2b', 'worlds/challenges_basic/loops-2b.json?v=eb903c3d'],
+        ['Loops: Repeat 2c', 'worlds/challenges_basic/loops-2c.json?v=fbab8903'],
+        ['Loops: Repeat 2d', 'worlds/challenges_basic/loops-2d.json?v=3023901c'],
+        ['Loops: Repeat 2e', 'worlds/challenges_basic/loops-2e.json?v=4935c9b8'],
         ['Loops: Repeat 3', 'worlds/challenges_basic/loops-3.json?v=ae7011eb'],
         ['Loops: Repeat 3b', 'worlds/challenges_basic/loops-3b.json?v=53bc0e16'],
         ['Loops: Repeat 4', 'worlds/challenges_basic/loops-4.json?v=5fa0c5f0'],
@@ -451,6 +455,26 @@ var challenges_basic = new function() {
         '<p>Move your robot into the green box and stop inside.</p>' +
         '<p>You\'re may only use 6 blocks.</p>'
       );
+    } else if (self.options.jsonFile.includes('loops-2b.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 4 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-2c.json')) {
+      $message = $(
+        '<p>Move your robot into every box and stop for 1 second.</p>' +
+        '<p>You\'re may only use 9 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-2d.json')) {
+      $message = $(
+        '<p>Move your robot into every box and stop for 1 second.</p>' +
+        '<p>You\'re may only use 10 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-2e.json')) {
+      $message = $(
+        '<p>Move your robot into every box and stop for 1 second.</p>' +
+        '<p>You\'re may only use 10 blocks.</p>'
+      );
     } else if (self.options.jsonFile.includes('loops-3.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>' +
@@ -682,6 +706,14 @@ var challenges_basic = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box5', 'NEPTUNE', [], 5);
     } else if (self.options.jsonFile.includes('loops-2.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'URANUS', [], 6);
+    } else if (self.options.jsonFile.includes('loops-2b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box5', 'TITANIA', [], 4);
+    } else if (self.options.jsonFile.includes('loops-2c.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box5', 'worldBaseObject_box11'], true, 'OBERON', 'color', [], 9);
+    } else if (self.options.jsonFile.includes('loops-2d.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box5', 'worldBaseObject_box16'], true, 'MIRANDA', 'color', [], 10);
+    } else if (self.options.jsonFile.includes('loops-2e.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box5', 'worldBaseObject_box8'], true, 'CRISSIDA', 'color', [], 10);
     } else if (self.options.jsonFile.includes('loops-3.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SATURN', [], 4);
     } else if (self.options.jsonFile.includes('loops-3b.json')) {
