@@ -51,9 +51,11 @@ var challenges_basic = new function() {
         ['Loops: Repeat 3', 'worlds/challenges_basic/loops-3.json?v=ae7011eb'],
         ['Loops: Repeat 3b', 'worlds/challenges_basic/loops-3b.json?v=53bc0e16'],
         ['Loops: Repeat 4', 'worlds/challenges_basic/loops-4.json?v=5fa0c5f0'],
+        ['Loops: Repeat 4b', 'worlds/challenges_basic/loops-4b.json?v=b8989a90'],
         ['Loops: Repeat 5', 'worlds/challenges_basic/loops-5.json?v=729ad780'],
         ['Loops: Repeat 5b', 'worlds/challenges_basic/loops-5b.json?v=ea21f9d5'],
         ['Loops: Repeat 6', 'worlds/challenges_basic/loops-6.json?v=5484bb7c'],
+        ['Loops: Repeat 7', 'worlds/challenges_basic/loops-7.json?v=a260f623'],
         ['Condition: Color 1', 'worlds/challenges_basic/conditions-1.json?v=b06212fe'],
         ['Condition: Color 2', 'worlds/challenges_basic/conditions-2.json?v=4757e227'],
         ['Condition: Color 3', 'worlds/challenges_basic/conditions-3.json?v=ecbb4ae5'],
@@ -493,6 +495,11 @@ var challenges_basic = new function() {
         '<p>Not every block needs to be inside a loop.</p>' +
         '<p>You\'re may only use 6 blocks.</p>'
       );
+    } else if (self.options.jsonFile.includes('loops-4b.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 7 blocks.</p>'
+      );
     } else if (self.options.jsonFile.includes('loops-5.json')) {
       $message = $(
         '<p>Collect all the coins.</p>' +
@@ -507,6 +514,12 @@ var challenges_basic = new function() {
       $message = $(
         '<p>Collect all the coins.</p>' +
         '<p>You\'re may only use 10 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-7.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Hint: Look at the example.</p>' +
+        '<p>You\'re may only use 8 blocks.</p>'
       );
     } else if (self.options.jsonFile.includes('conditions-')) {
       $message = $(
@@ -720,6 +733,8 @@ var challenges_basic = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'TITAN', [], 4);
     } else if (self.options.jsonFile.includes('loops-4.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'JUPITER', [], 6);
+    } else if (self.options.jsonFile.includes('loops-4b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'EUROPA', [], 7);
     } else if (self.options.jsonFile.includes('loops-5.json')) {
       self.renderIntersectMulti(
         delta,
@@ -750,6 +765,8 @@ var challenges_basic = new function() {
         [],
         10
       );
+    } else if (self.options.jsonFile.includes('loops-7.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'MOON', [], 8);
     } else if (self.options.jsonFile.includes('conditions-1.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'STONE');
     } else if (self.options.jsonFile.includes('conditions-2.json')) {
