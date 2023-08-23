@@ -67,7 +67,7 @@ var builder = new function() {
         min: '0',
         max: '10',
         step: '0.1',
-        help: 'Affects the bounciness of the ground'
+        help: 'Affects the bounciness of the ground. Higher number will increase bounciness.'
       },
     ]
   };
@@ -114,7 +114,7 @@ var builder = new function() {
         min: '0',
         max: '10',
         step: '0.1',
-        help: 'Affects the bounciness of the ground'
+        help: 'Affects the bounciness of the wall. Higher number will increase bounciness.'
       },
     ]
   };
@@ -291,7 +291,7 @@ var builder = new function() {
         option: 'physics_restitution',
         type: 'custom',
         generatorFunction: 'setPhysicsOptions',
-        help: 'Affects the bounciness of the object'
+        help: 'Affects the bounciness of the object. Higher number will increase bounciness.'
       },
       {
         option: 'physics_dampLinear',
@@ -453,7 +453,7 @@ var builder = new function() {
         option: 'physics_restitution',
         type: 'custom',
         generatorFunction: 'setPhysicsOptions',
-        help: 'Affects the bounciness of the object'
+        help: 'Affects the bounciness of the object. Higher number will increase bounciness.'
       },
       {
         option: 'physics_dampLinear',
@@ -615,7 +615,7 @@ var builder = new function() {
         option: 'physics_restitution',
         type: 'custom',
         generatorFunction: 'setPhysicsOptions',
-        help: 'Affects the bounciness of the object'
+        help: 'Affects the bounciness of the object. Higher number will increase bounciness.'
       },
       {
         option: 'physics_dampLinear',
@@ -776,7 +776,7 @@ var builder = new function() {
         option: 'physics_restitution',
         type: 'custom',
         generatorFunction: 'setPhysicsOptions',
-        help: 'Affects the bounciness of the object'
+        help: 'Affects the bounciness of the object. Higher number will increase bounciness.'
       },
       {
         option: 'physics_dampLinear',
