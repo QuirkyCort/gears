@@ -910,7 +910,7 @@ var builder = new function() {
         reset: true
       },
       {
-        option: 'sze',
+        option: 'size',
         type: 'slider',
         min: '1',
         max: '100',
