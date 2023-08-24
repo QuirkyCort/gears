@@ -503,7 +503,13 @@ var World_Base = function() {
       }
 
       // Compute all world matrices in order
-      self.computeAllWorldMatrices(scene.meshes);
+      let parentlessMeshes = [];
+      for (let mesh of scene.meshes) {
+        if (mesh.parent == null) {
+          parentlessMeshes.push(mesh);
+        }
+      }
+      self.computeAllWorldMatrices(parentlessMeshes);
 
       // Remove designated parents, keeping transform
       self.removeParents(self.parentsToRemove);
@@ -532,7 +538,7 @@ var World_Base = function() {
   this.computeAllWorldMatrices = function(meshes) {
     for (let mesh of meshes) {
       mesh.computeWorldMatrix(true);
-      let childMeshes = mesh.getChildMeshes();
+      let childMeshes = mesh.getChildren();
       if (childMeshes.length > 0) {
         self.computeAllWorldMatrices(childMeshes);
       }
