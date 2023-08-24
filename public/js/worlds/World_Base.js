@@ -538,7 +538,7 @@ var World_Base = function() {
   this.computeAllWorldMatrices = function(meshes) {
     for (let mesh of meshes) {
       mesh.computeWorldMatrix(true);
-      let childMeshes = mesh.getChildren();
+      let childMeshes = mesh.getChildMeshes(true);
       if (childMeshes.length > 0) {
         self.computeAllWorldMatrices(childMeshes);
       }
