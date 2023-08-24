@@ -64,7 +64,9 @@ var challenges_basic = new function() {
         ['Condition: Color 6', 'worlds/challenges_basic/conditions-6.json?v=4f834e54'],
         ['Condition: Color 7', 'worlds/challenges_basic/conditions-7.json?v=86502bb0'],
         ['Condition: Color 8', 'worlds/challenges_basic/conditions-8.json?v=8ad2c418'],
+        ['Condition: Color 8b', 'worlds/challenges_basic/conditions-8b.json?v=4aad9762'],
         ['Condition: Color 9', 'worlds/challenges_basic/conditions-9.json?v=3702a992'],
+        ['Condition: Color 9b', 'worlds/challenges_basic/conditions-9b.json?v=ac0bedb2'],
         ['Condition: Color 10', 'worlds/challenges_basic/conditions-10.json?v=87b48a99'],
         ['Condition: Color 11', 'worlds/challenges_basic/conditions-11.json?v=85e3052e'],
         ['Condition: Color 12', 'worlds/challenges_basic/conditions-12.json?v=6d42f222'],
@@ -783,8 +785,12 @@ var challenges_basic = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'CHOCOLATE');
     } else if (self.options.jsonFile.includes('conditions-8.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'BANANA');
+    } else if (self.options.jsonFile.includes('conditions-8b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SALTED CARAMEL');
     } else if (self.options.jsonFile.includes('conditions-9.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'AVOCADO');
+    } else if (self.options.jsonFile.includes('conditions-9b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'BLUEBERRY');
     } else if (self.options.jsonFile.includes('conditions-10.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'VANILLA');
     } else if (self.options.jsonFile.includes('conditions-11.json')) {
