@@ -817,6 +817,10 @@
         [
           "#blk-rollRate#",
           "ROLL_RATE"
+        ],
+        [
+          "#blk-heading#",
+          "HEADING"
         ]
       ]
     },

@@ -544,6 +544,8 @@ var ev3dev2_generator = new function() {
       var typeStr = 'roll_angle';
     } else if (dropdown_type == 'ROLL_RATE') {
       var typeStr = 'roll_rate';
+    } else if (dropdown_type == 'HEADING') {
+      var typeStr = 'heading';
     }
     var code = 'gyro_sensor_in' + dropdown_port + '.' + typeStr;
 

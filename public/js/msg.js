@@ -772,6 +772,9 @@ let MSGS = {
     nl: 'kantelscherpte',
     he: 'קצב גלגול',
   },
+  '#blk-heading#': {
+    en: 'heading',
+  },
   '#blk-reset_gyro_on_port#': {
     en: 'reset gyro on port',
     fr: 'réinitialiser le gyroscope sur le port',

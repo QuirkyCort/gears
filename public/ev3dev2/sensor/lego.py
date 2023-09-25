@@ -105,6 +105,11 @@ class GyroSensor:
     self.float = False
 
   @property
+  def heading(self):
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.heading(self.float)
+
+  @property
   def angle(self):
     return self.angle_and_rate[0]
 

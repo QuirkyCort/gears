@@ -20353,7 +20353,7 @@
                     "type": "box",
                     "position": [
                       1.0544897135935825,
-                      2.9359775956405927,
+                      2.8,
                       0
                     ],
                     "rotationMode": "degrees",
@@ -23104,6 +23104,42 @@
         "modelAnimation": "None",
         "color": "#80E680",
         "imageType": "repeat",
+        "imageURL": "",
+        "uScale": 1,
+        "vScale": 1,
+        "physicsOptions": "fixed",
+        "magnetic": false,
+        "laserDetection": null,
+        "ultrasonicDetection": null,
+        "receiveShadows": false,
+        "castShadows": false,
+        "isPickable": true
+      },
+      {
+        "type": "cylinder",
+        "position": [
+          11.7,
+          -41.26473337383652,
+          -1.3836617916639147
+        ],
+        "rotationMode": "degrees",
+        "rotation": [
+          90,
+          0,
+          0
+        ],
+        "animationMode": "none",
+        "animationKeys": [],
+        "size": [
+          7,
+          3,
+          10
+        ],
+        "modelURL": "",
+        "modelScale": 10,
+        "modelAnimation": "None",
+        "color": "#80e68000",
+        "imageType": "cylinder",
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,

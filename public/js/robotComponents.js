@@ -889,6 +889,10 @@ function GyroSensor(scene, parent, pos, port, options) {
     rotationRounds: 0,
     rotationAdjustment: 0
   };
+  this.heading = {
+    actual: 0,
+    adjustment: 0
+  }
   this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(0, 0, 0);
   this.UP = new BABYLON.Vector3(0,1,0);
   this.RIGHT = new BABYLON.Vector3(1,0,0);
@@ -977,6 +981,8 @@ function GyroSensor(scene, parent, pos, port, options) {
     let rot = BABYLON.Vector3.GetAngleBetweenVectors(self.s1, e, self.UP) / Math.PI * 180;
     calculateActualAndVelocity(rot, self.yawRotation);
 
+    self.heading.actual = rot;
+
     // Pitch
     e.y = ey;
     e.x = 0;
@@ -996,7 +1002,18 @@ function GyroSensor(scene, parent, pos, port, options) {
     self.yawRotation.rotationAdjustment = self.yawRotation.actualRotation;
     self.pitchRotation.rotationAdjustment = self.pitchRotation.actualRotation;
     self.rollRotation.rotationAdjustment = self.rollRotation.actualRotation;
+    self.heading.adjustment = self.heading.actual;
   };
+
+  this.getHeading = function() {
+    let heading = self.heading.actual - self.heading.adjustment;
+    if (heading >= 180) {
+      heading -= 360;
+    } else if (heading < -180) {
+      heading += 360;
+    }
+    return heading;
+  }
 
   this.getYawAngle = function() {
     return self.yawRotation.actualRotation - self.yawRotation.rotationAdjustment;
@@ -2861,7 +2878,7 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
       self.body.position.x + offset.x,
       self.body.position.y + offset.y,
       self.body.position.z + offset.z
-    )); 
+    ));
 
     let babylonQuaternion = BABYLON.Quaternion.FromEulerAngles(self.rotation.x, self.rotation.y, self.rotation.z);
     let ammoQuaternion = new Ammo.btQuaternion();
@@ -3007,7 +3024,7 @@ function WheelPassive(scene, parent, pos, rot, options) {
     self.end = self.mesh;
     self.body.component = self;
     self.mesh.material = wheelMat;
-    
+
     self.mesh.parent = parent;
     self.mesh.position = self.position;
     self.mesh.rotation.z = -Math.PI / 2;
@@ -3034,7 +3051,7 @@ function WheelPassive(scene, parent, pos, rot, options) {
 
   this.loadJoints = function(){
     var wheel2world = self.mesh.absoluteRotationQuaternion;
-    
+
     let zero = BABYLON.Vector3.Zero();
     var world2body = parent.absoluteRotationQuaternion;
     world2body = BABYLON.Quaternion.Inverse(world2body);

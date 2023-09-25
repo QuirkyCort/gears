@@ -215,6 +215,16 @@ var $builtinmodule = function(name) {
       }
     });
 
+    $loc.heading = new Sk.builtin.func(function(self, float) {
+      let heading = self.sensor.getHeading();
+
+      if (float.v == false) {
+        heading = Math.round(heading);
+      }
+
+      return Sk.ffi.remapToPy(heading);
+    });
+
     $loc.yawAngleAndRate = new Sk.builtin.func(function(self, float) {
       var gyro = [];
 
@@ -442,7 +452,7 @@ var $builtinmodule = function(name) {
 
       let pressed = [];
 
-      let hubButtons = robot.getHubButtons(); 
+      let hubButtons = robot.getHubButtons();
       for (let btn in hubButtons) {
         if (hubButtons[btn] && btn in map) {
           pressed.push(map[btn]);
