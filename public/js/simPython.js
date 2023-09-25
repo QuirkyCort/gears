@@ -221,6 +221,9 @@ var $builtinmodule = function(name) {
       if (float.v == false) {
         heading = Math.round(heading);
       }
+      if (heading == 180) {
+        heading = -180;
+      }
 
       return Sk.ffi.remapToPy(heading);
     });

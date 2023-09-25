@@ -9,7 +9,7 @@ var skulpt = new function() {
     './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
     './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=9fa3d991',
     './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=bba8d7d8',
-    './simPython.js': 'js/simPython.js?v=d96e9d69',
+    './simPython.js': 'js/simPython.js?v=66ca1922',
     './pybricks/__init__.py': false,
     './pybricks/parameters.py': 'pybricks/parameters.py?v=2db482b9',
     './pybricks/tools.py': 'pybricks/tools.py?v=20eafcfc',
