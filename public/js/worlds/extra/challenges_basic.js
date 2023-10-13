@@ -887,11 +887,29 @@ var challenges_basic = new function() {
     } else if (self.options.jsonFile.includes('abstraction-6.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'Indri', [], 1);
     } else if (self.options.jsonFile.includes('abstraction-7.json')) {
-      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Fossa', [], 8);
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Fossa', [
+        {
+          type: 'drop',
+          trigger: 'worldBaseObject_box9',
+          move: 'worldBaseObject_box0'
+        }
+      ], 8);
     } else if (self.options.jsonFile.includes('abstraction-8.json')) {
-      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Dingo', [], 11);
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Dingo', [
+        {
+          type: 'drop',
+          trigger: 'worldBaseObject_box19',
+          move: 'worldBaseObject_box0'
+        }
+      ], 11);
     } else if (self.options.jsonFile.includes('abstraction-9.json')) {
-      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Aardvark', [], 12);
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Aardvark', [
+        {
+          type: 'drop',
+          trigger: 'worldBaseObject_box12',
+          move: 'worldBaseObject_box0'
+        }
+      ], 12);
     } else if (self.options.jsonFile.includes('abstraction-10.json')) {
       self.renderIntersectMulti(
         delta,
@@ -899,7 +917,13 @@ var challenges_basic = new function() {
         false,
         'Zapus',
         'hide',
-        [],
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box11',
+            move: 'worldBaseObject_box0'
+          }
+        ],
         5
       );
     } else if (self.options.jsonFile.includes('abstraction-11.json')) {
