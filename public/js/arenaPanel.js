@@ -396,6 +396,9 @@ var arenaPanel = new function() {
 
   // Run the simulator
   this.startSim = function() {
+    robots.forEach(function(robot){
+      robot.reset();
+    });
     playerFrames.forEach(function(playerFrame){
       playerFrame.runPython();
     });
@@ -408,7 +411,7 @@ var arenaPanel = new function() {
   // stop the simulator
   this.stopSim = function(stopRobot) {
     if (typeof stopRobot == 'undefined') {
-      let stopRobot = false;
+      var stopRobot = false;
     }
 
     playerFrames.forEach(function(playerFrame){
@@ -430,7 +433,7 @@ var arenaPanel = new function() {
           setTimeout(function() { repeatedReset(count - 1) }, 100);
         }
       }
-      repeatedReset(15);  
+      repeatedReset(15);
     }
   };
 
@@ -502,7 +505,7 @@ var arenaPanel = new function() {
   this.loadWorld = function(json) {
     try {
       let loadedSave = JSON.parse(json);
-  
+
       // Is it a world file?
       if (typeof loadedSave.bodyHeight != 'undefined') {
         showErrorModal(i18n.get('#sim-invalid_world_file_robot#'));
@@ -515,10 +518,10 @@ var arenaPanel = new function() {
         showErrorModal(i18n.get('#sim-invalid_map#'));
         return;
       }
-  
+
       babylon.world = worlds.find(world => world.name == loadedSave.worldName);
       self.worldOptionsSetting = loadedSave.options;
-      self.resetSim();  
+      self.resetSim();
     } catch (e) {
       showErrorModal(i18n.get('#sim-invalid_world_file_json#'));
     }
