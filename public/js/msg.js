@@ -65,6 +65,9 @@ let MSGS = {
     ru: 'Радиосигналы (В разработке)',
     hu: 'Rádió',
   },
+  '#blk-objecttracker-category#': {
+    en: 'Object Tracker (Experimental)',
+  },
   '#blk-control#': {
     en: 'Control',
     tlh: 'SeH',
@@ -522,6 +525,18 @@ let MSGS = {
     he: 'כולם',
     ru: 'все',
   },
+  '#blk-opponent_1#': {
+    en: 'opponent 1',
+  },
+  '#blk-opponent_2#': {
+    en: 'opponent 2',
+  },
+  '#blk-self#': {
+    en: 'self',
+  },
+  '#blk-ball#': {
+    en: 'ball',
+  },
   '#blk-messages_available#': {
     en: 'number of messages in mailbox',
     nl: 'aantal berichten in postvak',
@@ -568,6 +583,9 @@ let MSGS = {
     de: 'Sendet die älteste Naricht zurück und entfernt sie von der Mailbox. Der zurückgegebene Wert ist der Inhalt der Nachricht.',
     ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение содержит только само сообщение.',
   },
+  '#blk-object_tracker_tooltip#': {
+    en: 'Virtual sensor that provides position or velocity of robots or the football.',
+  },
   '#blk-color_sensor#': {
     en: 'color_sensor',
     fr: 'capteur de couleurs',
@@ -578,6 +596,9 @@ let MSGS = {
     he: 'חיישן צבע',
     ru: 'датчик цвета',
     hu: 'szín szenzor',
+  },
+  '#blk-object_tracker#': {
+    en: 'object tracker',
   },
   '#blk-on_port#': {
     en: 'on port',
@@ -604,6 +625,9 @@ let MSGS = {
   '#blk-as#': {
     en: 'as',
     ru: 'в',
+  },
+  '#blk-of#': {
+    en: 'of',
   },
   '#blk-color#': {
     en: 'color',
@@ -915,6 +939,9 @@ let MSGS = {
     he: 'גוֹבַה',
     ru: 'высота',
   },
+  '#blk-valtitude#': {
+    en: 'valtitude',
+  },
   '#blk-position#': {
     en: 'position (list)',
     fr: 'position (liste)',
@@ -923,6 +950,9 @@ let MSGS = {
     de: 'position(Liste)',
     he: 'מקום',
     ru: 'позиция (список)',
+  },
+  '#blk-velocity#': {
+    en: 'velocity (list)',
   },
   '#blk-gps_tooltip#': {
     en: 'Virtual sensor that provides the robot\'s position',
@@ -2324,6 +2354,7 @@ var i18n = new function() {
   this.get = function(requestedKey) {
     let messages = MSGS[requestedKey];
     if (typeof messages == 'undefined') {
+      console.log(requestedKey);
       return requestedKey;
     }
     let message = messages[LANG]
