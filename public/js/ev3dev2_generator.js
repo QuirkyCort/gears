@@ -62,6 +62,8 @@ var ev3dev2_generator = new function() {
     Blockly.Python['tw_left'] = self.tw_left;
     Blockly.Python['tw_right'] = self.tw_right;
     Blockly.Python['tw_color'] = self.tw_color;
+
+    Blockly.Python['object_tracker'] = self.object_tracker;
   };
 
   // Generate python code
@@ -105,6 +107,7 @@ var ev3dev2_generator = new function() {
       'spkr = Sound()\n' +
       'btn = Button()\n' +
       'radio = Radio()\n' +
+      'obtr = ObjectTracker()\n' +
       '\n';
 
     var sensorsCode = '';
@@ -810,6 +813,47 @@ var ev3dev2_generator = new function() {
     var code = 'radio.empty(\'' + text_mailbox + '\')\n';
     return code;
   };
+
+  this.object_tracker = function(block) {
+    var dropdown_type = block.getFieldValue('type');
+    var dropdown_robot = block.getFieldValue('robot');
+
+    if (dropdown_type == 'X') {
+      var typeStr = 'x';
+    } else if (dropdown_type == 'Y') {
+      var typeStr = 'y';
+    } else if (dropdown_type == 'ALTITUDE') {
+      var typeStr = 'altitude';
+    } else if (dropdown_type == 'POSITION') {
+      var typeStr = 'position';
+    } else if (dropdown_type == 'VX') {
+      var typeStr = 'vx';
+    } else if (dropdown_type == 'VY') {
+      var typeStr = 'vy';
+    } else if (dropdown_type == 'VALTITUDE') {
+      var typeStr = 'valtitude';
+    } else if (dropdown_type == 'VELOCITY') {
+      var typeStr = 'velocity';
+    }
+
+    if (dropdown_robot == 'TEAM') {
+      var target = '\'team\'';
+    } else if (dropdown_robot == 'OPPONENT1') {
+      var target = '\'opponent1\'';
+    } else if (dropdown_robot == 'OPPONENT2') {
+      var target = '\'opponent2\'';
+    } else if (dropdown_robot == 'SELF') {
+      var target = '\'self\'';
+    } else if (dropdown_robot == 'BALL') {
+      var target = '\'ball\'';
+    }else {
+      var target = dropdown_robot;
+    } 
+
+    var code = 'obtr' + '.' + typeStr + '(' + target + ')';
+
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  }
 
   this.color = function(block) {
     const map_to_number = {

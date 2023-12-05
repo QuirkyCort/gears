@@ -1959,6 +1959,96 @@
   "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Radio"
 },
 {
+  "type": "object_tracker",
+  "message0": "#blk-object_tracker# %1 #blk-of# %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "x",
+          "X"
+        ],
+        [
+          "y",
+          "Y"
+        ],
+        [
+          "#blk-altitude#",
+          "ALTITUDE"
+        ],
+        [
+          "#blk-position#",
+          "POSITION"
+        ],
+        [
+          "vx",
+          "VX"
+        ],
+        [
+          "vy",
+          "VY"
+        ],
+        [
+          "#blk-valtitude#",
+          "VALTITUDE"
+        ],
+        [
+          "#blk-velocity#",
+          "VELOCITY"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "robot",
+      "options": [
+        [
+          "#blk-robot# 0",
+          "0"
+        ],
+        [
+          "#blk-robot# 1",
+          "1"
+        ],
+        [
+          "#blk-robot# 2",
+          "2"
+        ],
+        [
+          "#blk-robot# 3",
+          "3"
+        ],
+        [
+          "#blk-team_mates#",
+          "TEAM"
+        ],
+        [
+          "#blk-opponent_1#",
+          "OPPONENT1"
+        ],
+        [
+          "#blk-opponent_2#",
+          "OPPONENT2"
+        ],
+        [
+          "#blk-self#",
+          "SELF"
+        ],
+        [
+          "#blk-ball#",
+          "BALL"
+        ]
+      ]
+    }
+  ],
+  "output": null,
+  "colour": 160,
+  "tooltip": "#blk-object_tracker_tooltip#",
+  "helpUrl": ""
+},
+{
   "type": "set_movement_motors",
   "message0": "#blk-set_movement_motors# %1 #blk-and# %2",
   "args0": [
