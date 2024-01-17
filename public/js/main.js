@@ -924,12 +924,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20230825;
+    let current = 20240117;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>17 Jan 2024 (WRO 2024 Junior)</h3>' +
+          '<p>' +
+            'The WRO 2024 (Junior) mission is now available. ' +
+            'Find it under "Worlds => Select World => Missions => 2024 WRO (Junior)". ' +
+            'The Elementary and Senior missions will be added soon.' +
+          '</p>' +
           '<h3>25 Aug 2023 (FLL 2023)</h3>' +
           '<p>' +
             'The FLL 2023 (Masterpiece) mission is now available. ' +
@@ -938,12 +944,7 @@ var main = new function() {
           '<p>' +
             'It is now possible to add a ball joint in the world builder. ' +
             'See an example of it in the FLL 2023 mission world, where it is used to simulate a string.' +
-          '</p>' +
-          '<h3>7 Apr 2023 (WRO 2023)</h3>' +
-          '<p>The WRO 2023 mission are now available, with models and randomization for the Elementary and Junior events.</p>' +
-          '<h3>4 Apr 2023 (Hinges and Shuffle)</h3>' +
-          '<p>We can now specify a mesh ID to attach to a hinge. This allows you to to create a chain of hinges that forms a loop like <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FDemo%2FhingeMeshIDDemo.json">this</a>.</p>' +
-          '<p>There is also a new "shuffle[X][Y]" directive that you can use to randomize your custom worlds. See <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/Demo">this page</a> for details.</p>'
+          '</p>'
       }
       acknowledgeDialog(options, function(){
         localStorage.setItem('whatsNew', current);
