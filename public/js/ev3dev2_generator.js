@@ -378,7 +378,7 @@ var ev3dev2_generator = new function() {
     } else if (dropdown_unit2 == 'SECONDS') {
       var cmdStr = 'on_for_seconds';
       var durationStr = value_duration;
-    } else if (dropdown_units2 == 'MILLISECONDS') {
+    } else if (dropdown_unit2 == 'MILLISECONDS') {
       var cmdStr = 'on_for_seconds';
       var durationStr = value_duration + ' / 1000';
     }
