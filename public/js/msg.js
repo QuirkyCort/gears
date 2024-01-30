@@ -57,6 +57,7 @@ let MSGS = {
     he: 'עט (נסיוני)',
     ru: 'Рисование (В разработке)',
     hu: 'Toll',
+    de: 'Stift',
   },
   '#blk-radio-category#': {
     en: 'Radio (Experimental)',
@@ -64,6 +65,7 @@ let MSGS = {
     he: 'רדיו (נסיוני)',
     ru: 'Радиосигналы (В разработке)',
     hu: 'Rádió',
+    de: 'Kommunikation',
   },
   '#blk-control#': {
     en: 'Control',
@@ -569,7 +571,7 @@ let MSGS = {
     ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение содержит только само сообщение.',
   },
   '#blk-color_sensor#': {
-    en: 'color_sensor',
+    en: 'color sensor',
     fr: 'capteur de couleurs',
     el: 'αισθητήρας χρώματος',
     nl: 'kleurensensor',
@@ -578,6 +580,10 @@ let MSGS = {
     he: 'חיישן צבע',
     ru: 'датчик цвета',
     hu: 'szín szenzor',
+  },
+  '#blk-color_sensor_sees#': {
+    en: 'color sensor sees',
+    de: 'Farbsensor erkennt',
   },
   '#blk-on_port#': {
     en: 'on port',
@@ -604,6 +610,7 @@ let MSGS = {
   '#blk-as#': {
     en: 'as',
     ru: 'в',
+    de: 'als',
   },
   '#blk-color#': {
     en: 'color',
@@ -711,6 +718,7 @@ let MSGS = {
     he: 'מרחק לייזר ביציאה',
     ru: 'расстояние с лазерного дальномера порт',
     hu: 'LASER távolságmérő',
+    de: 'Entfernungslaser an dem Port',
   },
   '#blk-in#': {
     en: 'in',
@@ -1055,6 +1063,7 @@ let MSGS = {
   '#blk-set_movement_motors#': {
     en: 'Set movement motors to',
     ru: 'выбрать двигатели',
+    de: 'setze Bewegungsmotoren auf',
   },
   '#blk-set_movement_motors_tooltip#': {
     en: 'Only needed if not using the default of ports A and B',
@@ -1064,11 +1073,13 @@ let MSGS = {
     en: 'Wait until',
     ru: 'ждать до',
     hu: 'Várj, amíg',
+    de: 'Warte bis',
   },
   '#blk-button#': {
     en: 'button',
     ru: 'кнопка',
     hu: 'Gomb',
+    de: 'Knopf',
   },
   '#blk-center#': {
     en: 'Center',
@@ -1249,6 +1260,7 @@ let MSGS = {
     he: 'עולמות',
     ru: 'Окружение',
     hu: 'Világ',
+    de: 'Welten',
   },
   '#main-select_world#': {
     en: 'Select World',

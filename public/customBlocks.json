@@ -2282,7 +2282,7 @@
 },
 {
   "type": "tw_color",
-  "message0": "color sensor sees %1",
+  "message0": "#blk-color_sensor_sees# %1",
   "args0": [
     {
       "type": "field_dropdown",
