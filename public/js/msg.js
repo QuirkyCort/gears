@@ -434,7 +434,7 @@ let MSGS = {
     fr: 'avancer le tank avec une vitesse à gauche de',
     el: 'move tank με αριστερή ταχύτητα',
     nl: 'beweeg tank met linker snelheid',
-    de: 'bewege den Panzer mit einer linken Geschwindigkeit',
+    de: 'bewege den Kettenfahrzeug mit einer linken Geschwindigkeit',
     pt: 'mova o tanque com velocidade para a esquerda',
     he: 'הזז טנק במהירות שמאלית',
     ru: 'независимое управление скорость левого',
@@ -1635,6 +1635,10 @@ let MSGS = {
     en: 'Invalid robot file (Missing robot configuration data)',
     he: 'קובץ רובוט לא חוקי (חסרים נתוני תצורת רובוט)',
     hu: 'Érvénytelen robotfájl (hiányzó robotkonfigurációs adatok)',
+  },
+  '#main-main#': {
+    en: 'Main',
+    de: 'Start',
   },
   '#arena-show_names#': {
     en: 'Show Names',

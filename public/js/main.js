@@ -63,6 +63,8 @@ var main = new function() {
     self.$robotMenu.text(i18n.get('#main-robot#'));
     self.$worldsMenu.text(i18n.get('#main-worlds#'));
     self.$helpMenu.text(i18n.get('#main-help#'));
+    $('#blocklyPages').text(i18n.get('#main-main#'));
+
   };
 
   // Toggle language menu
