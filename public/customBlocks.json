@@ -2323,5 +2323,22 @@
   "colour": 160,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "comment",
+  "message0": "#blk-comment# %1",
+  "args0": [
+    {
+      "type": "field_multilinetext",
+      "name": "value",
+      "text": "Your comment here"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#000000",
+  "tooltip": "#blk-comment_tooltip#",
+  "helpUrl": ""
 }
 ]

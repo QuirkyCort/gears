@@ -257,6 +257,7 @@
     </block>
   </category>
   <category name="#blk-control#" colour="#9fa55b">
+    <block type="comment"></block>
     <block type="sleep">
       <field name="units">SECONDS</field>
       <value name="seconds">

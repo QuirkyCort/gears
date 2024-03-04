@@ -1106,6 +1106,12 @@ let MSGS = {
     ru: 'Вниз',
     hu: 'Le',
   },
+  '#blk-comment#': {
+    en: '# Comment:',
+  },
+  '#blk-comment_tooltip#': {
+    en: 'This blocks does nothing and is only used for comments. Multiple lines are supported.',
+  },
   '#main-blocks#': {
     en: 'Blocks',
     tlh: 'Porgh',

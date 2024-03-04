@@ -49,6 +49,7 @@ var pybricks_generator = new function() {
     Blockly.Python['button_state'] = self.button_state;
     Blockly.Python['wait_until_button'] = self.wait_until_button;
     Blockly.Python['wait_until'] = self.wait_until;
+    Blockly.Python['comment'] = self.comment;
   };
 
   // Generate python code
@@ -757,6 +758,21 @@ var pybricks_generator = new function() {
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
 
     let code = 'while not ' + value_value + ':\n    pass\n';
+    return code;
+  };
+
+  this.comment = function(block) {
+    var value = block.getFieldValue('value');
+
+    // var code = '\n# ' + value + '\n\n';
+    var code = '';
+
+    for (let line of value.split('\n')) {
+      code += '\n# ' + line;
+    }
+
+    code += '\n\n';
+
     return code;
   };
 }

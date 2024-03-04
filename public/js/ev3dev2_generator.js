@@ -62,6 +62,8 @@ var ev3dev2_generator = new function() {
     Blockly.Python['tw_left'] = self.tw_left;
     Blockly.Python['tw_right'] = self.tw_right;
     Blockly.Python['tw_color'] = self.tw_color;
+
+    Blockly.Python['comment'] = self.comment;
   };
 
   // Generate python code
@@ -897,6 +899,22 @@ var ev3dev2_generator = new function() {
 
     var code = 'color_sensor_in' + dropdown_port + '.' + typeStr + ' == ' + map_to_number[color];
     return [code, Blockly.Python.ORDER_ATOMIC];
-  }
+  };
+
+  this.comment = function(block) {
+    var value = block.getFieldValue('value');
+
+    // var code = '\n# ' + value + '\n\n';
+    var code = '';
+
+    for (let line of value.split('\n')) {
+      code += '\n# ' + line;
+    }
+
+    code += '\n\n';
+
+    return code;
+  };
+
 }
 
