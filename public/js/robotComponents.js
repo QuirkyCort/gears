@@ -3099,3 +3099,148 @@ function WheelPassive(scene, parent, pos, rot, options) {
 
   this.init();
 }
+
+function CameraSensor(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'CameraSensor';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.mask = [];
+  this.maskSize = 0;
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = new BABYLON.StandardMaterial('cameraSensorBody', scene);
+    var bodyTexture = new BABYLON.Texture('textures/robot/laserRange.png', scene);
+    bodyMat.diffuseTexture = bodyTexture;
+
+    var faceUV = new Array(6);
+    faceUV[1] = new BABYLON.Vector4(0, 0, 0, 0);
+    faceUV[0] = new BABYLON.Vector4(0, 0, 1, 0.375);
+    faceUV[2] = new BABYLON.Vector4(0, 0.375, 1, 1);
+    faceUV[3] = new BABYLON.Vector4(1,1,0, 0.375);
+    faceUV[4] = new BABYLON.Vector4(0, 0, 0, 0);
+    faceUV[5] = new BABYLON.Vector4(0, 0, 0, 0);
+
+    let bodyOptions = {
+      height: 1.5,
+      width: 1.5,
+      depth: 2.5,
+      faceUV: faceUV,
+    };
+    var body = BABYLON.MeshBuilder.CreateBox('cameraSensorBody', bodyOptions, scene);
+    self.body = body;
+    body.component = self;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.position.z -= 1.50001;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+
+    // Create camera and RTT
+    self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
+    self.rttCam.fov = self.options.sensorFov;
+    self.rttCam.minZ = self.options.sensorMinRange;
+    // self.rttCam.maxZ = self.options.sensorMaxRange;
+    self.rttCam.updateUpVectorFromRotation = true;
+
+    self.renderTarget = new BABYLON.RenderTargetTexture(
+      'cameraSensor',
+      self.options.sensorResolution, // texture size
+      scene,
+      false, // generateMipMaps
+      false, // doNotChangeAspectRatio
+      BABYLON.Constants.TEXTURETYPE_UNSIGNED_INT,
+      false,
+      BABYLON.Texture.NEAREST_NEAREST
+    );
+    self.renderTarget.clearColor = BABYLON.Color3.Black();
+    scene.customRenderTargets.push(self.renderTarget);
+    self.renderTarget.activeCamera = self.rttCam;
+    // self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
+
+    self.pixels = new Uint8Array(self.options.sensorResolution ** 2 * 4);
+    self.waitingSync = false;
+  };
+
+  this.loadMeshes = function(meshes) {
+    meshes.forEach(function(mesh){
+      self.renderTarget.renderList.push(mesh);
+    });
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      sensorResolution: 100,
+      sensorMinRange: 0.1,
+      // sensorMaxRange: 5,
+      sensorFov: 1.3
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.render = function(delta) {
+    let offset = new BABYLON.Vector3(0, 0, 1.25);
+    offset = offset.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, BABYLON.Vector3.Zero());
+    let position = new BABYLON.Vector3(0, 0, 0);
+    position.copyFrom(self.body.absolutePosition);
+    position.addInPlace(offset);
+    self.rttCam.position = position;
+    self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
+    if (babylon.engine._webGLVersion >= 2 && babylon.DISABLE_ASYNC == false) {
+      self.readPixelsAsync();
+    }
+  };
+
+  this.getImage = function() {
+    // self.renderTarget.resetRefreshCounter();
+    if (babylon.engine._webGLVersion < 2 || babylon.DISABLE_ASYNC) {
+      self.renderTarget.readPixels(0, 0, self.pixels);
+    }
+
+    let pixArray = [];
+    let rowSize = self.options.sensorResolution * 4;
+    for (let y=self.options.sensorResolution-1; y>=0; y--) {
+      let row = [];
+      for (let x=0; x<self.options.sensorResolution;x++) {
+        let pixel = [];
+        pixel.push(self.pixels[y * rowSize + x * 4 + 0])
+        pixel.push(self.pixels[y * rowSize + x * 4 + 1])
+        pixel.push(self.pixels[y * rowSize + x * 4 + 2])
+        row.push(pixel);
+      }
+      pixArray.push(row);
+    }
+
+    return pixArray;
+  };
+
+  this.init();
+}

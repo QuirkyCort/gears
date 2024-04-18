@@ -135,3 +135,13 @@ class Radio:
   def empty(self, mailbox=None):
     time.sleep(SENSOR_DELAY)
     return self.radio.empty(mailbox)
+
+class CameraSensor:
+  _DRIVER_NAME = 'virtual-camera'
+
+  def __init__(self, address=None):
+    self.sensor = simPython.CameraSensor(address)
+
+  def get_image(self):
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.getImage()

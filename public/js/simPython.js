@@ -354,6 +354,22 @@ var $builtinmodule = function(name) {
 
   }, 'TouchSensor', []);
 
+  mod.CameraSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor || self.sensor.type != 'CameraSensor') {
+        throw new Sk.builtin.TypeError('No camera sensor connected to ' + String(address.v));
+      }
+    });
+
+    $loc.getImage = new Sk.builtin.func(function(self) {
+      return Sk.ffi.remapToPy(self.sensor.getImage());
+    });
+
+  }, 'CameraSensor', []);
+
   mod.Sound = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 
