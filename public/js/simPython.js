@@ -364,8 +364,33 @@ var $builtinmodule = function(name) {
       }
     });
 
-    $loc.getImage = new Sk.builtin.func(function(self) {
-      return Sk.ffi.remapToPy(self.sensor.getImage());
+    $loc.captureImage = new Sk.builtin.func(function(self) {
+      return self.sensor.captureImage();
+    });
+
+    $loc.getRGB = new Sk.builtin.func(function(self) {
+      return Sk.ffi.remapToPy(self.sensor.getRGB());
+    });
+
+    $loc.getHSV = new Sk.builtin.func(function(self) {
+      return Sk.ffi.remapToPy(self.sensor.getHSV());
+    });
+
+    $loc.findBlob = new Sk.builtin.func(function(self, threshold, pixels_threshold) {
+      let resultsObj = self.sensor.findBlob(Sk.ffi.remapToJs(threshold), pixels_threshold.v);
+      let results = [];
+      for (let result of resultsObj) {
+        results.push([
+          result.pixels,
+          result.cx,
+          result.cy,
+          result.x,
+          result.y,
+          result.w,
+          result.h
+        ]);
+      }
+      return Sk.ffi.remapToPy(results);
     });
 
   }, 'CameraSensor', []);

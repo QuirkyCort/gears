@@ -541,6 +541,11 @@ var simPanel = new function() {
           sensor.port + ': ' + i18n.get('#sim-pen#'),
           []
         );
+      } else if (sensor.type == 'CameraSensor') {
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-camera#'),
+          []
+        );
       } else {
         console.log(sensor);
       }

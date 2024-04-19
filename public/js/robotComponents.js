@@ -3180,7 +3180,18 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
     // self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
 
     self.pixels = new Uint8Array(self.options.sensorResolution ** 2 * 4);
-    self.waitingSync = false;
+    self.rgbArray = [];
+    self.hsvArray = [];
+    for (let y=0; y<self.options.sensorResolution; y++) {
+      let rgbRow = [];
+      let hsvRow = [];
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        rgbRow.push([0,0,0]);
+        hsvRow.push([0,0,0]);
+      }
+      self.rgbArray.push(rgbRow);
+      self.hsvArray.push(hsvRow);
+    }
   };
 
   this.loadMeshes = function(meshes) {
@@ -3219,27 +3230,184 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
     }
   };
 
-  this.getImage = function() {
-    // self.renderTarget.resetRefreshCounter();
+  this.captureImage = function() {
     if (babylon.engine._webGLVersion < 2 || babylon.DISABLE_ASYNC) {
       self.renderTarget.readPixels(0, 0, self.pixels);
     }
 
-    let pixArray = [];
     let rowSize = self.options.sensorResolution * 4;
-    for (let y=self.options.sensorResolution-1; y>=0; y--) {
-      let row = [];
-      for (let x=0; x<self.options.sensorResolution;x++) {
-        let pixel = [];
-        pixel.push(self.pixels[y * rowSize + x * 4 + 0])
-        pixel.push(self.pixels[y * rowSize + x * 4 + 1])
-        pixel.push(self.pixels[y * rowSize + x * 4 + 2])
-        row.push(pixel);
+    for (let y=0; y<self.options.sensorResolution; y++) {
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        for (let c=0; c<3; c++) {
+          let pixelY = self.options.sensorResolution - y - 1;
+          self.rgbArray[y][x][c] = self.pixels[pixelY * rowSize + x * 4 + c]
+        }
       }
-      pixArray.push(row);
     }
 
-    return pixArray;
+    self.genHSV();
+  };
+
+  this.genHSV = function() {
+    for (let y=0; y<self.options.sensorResolution-1; y++) {
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        let hsv = Colors.toHSV(self.rgbArray[y][x]);
+        for (let c=0; c<3; c++) {
+          self.hsvArray[y][x][c] = hsv[c];
+        }
+      }
+    }
+  };
+
+  this.getRGB = function() {
+    return self.rgbArray;
+  };
+
+  this.getHSV = function() {
+    return self.hsvArray;
+  };
+
+  this.findBlob = function(thresholds, pixelsThreshold) {
+    function combineBlobsList(blobsList) {
+      let keys = Object.keys(blobsList).map(x=>parseInt(x)).sort();
+
+      for (let i=keys.length-1; i>0; i--) {
+        let key = keys[i];
+        for (let j=i-1; j>=0; j--) {
+          if (blobsList[keys[j]].includes(key)) {
+            for (let i of blobsList[key]) {
+              if (! blobsList[keys[j]].includes(i)) {
+                blobsList[keys[j]].push(i);
+              }
+            }
+            delete blobsList[key];
+          }
+        }
+      }
+
+      for (let i in blobsList) {
+        blobsList[i] = [...new Set(blobsList[i])];
+      }
+    }
+
+    function withinThresholdsHSV(pixel, thresholds) {
+      if (
+        pixel[0] >= thresholds[0] &&
+        pixel[0] <= thresholds[1] &&
+        pixel[1] >= thresholds[2] &&
+        pixel[1] <= thresholds[3] &&
+        pixel[2] >= thresholds[4] &&
+        pixel[2] <= thresholds[5]
+      ) {
+        return true;
+      }
+
+      return false;
+    }
+
+    // array to record pixel groupings
+    let groupings = [];
+    for (let y=0; y<self.options.sensorResolution-1; y++) {
+      let row = [];
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        row.push(0);
+      }
+      groupings.push(row);
+    }
+
+    // check if pixel within threshold
+    let blobsList = {};
+    let next_group = 1;
+    for (let y=0; y<self.options.sensorResolution-1; y++) {
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        if (withinThresholdsHSV(self.hsvArray[y][x], thresholds)) {
+          let left = 0;
+          let top = 0;
+          if (x != 0) {
+            left = groupings[y][x-1];
+          }
+          if (y != 0) {
+            top = groupings[y-1][x];
+          }
+
+          if (left == 0 && top == 0) {
+            groupings[y][x] = next_group;
+            blobsList[next_group] = [next_group];
+            next_group++;
+          } else if (left != 0 && top != 0) {
+            groupings[y][x] = left;
+            blobsList[Math.min(left, top)].push(Math.max(left, top));
+          } else {
+            groupings[y][x] = Math.max(left, top);
+          }
+        }
+      }
+    }
+
+    // combine blobs list
+    combineBlobsList(blobsList);
+
+    // process blobs
+    blobs = []
+    for (let b in blobsList) {
+      blobs.push({
+        groups: blobsList[b],
+        count: 0,
+        sumX: 0,
+        sumY: 0,
+        minX: self.options.sensorResolution - 1,
+        maxX: 0,
+        minY: self.options.sensorResolution - 1,
+        maxY: 0
+      })
+    }
+
+    for (let y=0; y<self.options.sensorResolution-1; y++) {
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        for (let blob of blobs) {
+          if (blob.groups.includes(groupings[y][x])) {
+            blob.count++;
+            blob.sumX += x;
+            blob.sumY += y;
+            blob.minX = Math.min(blob.minX, x)
+            blob.maxX = Math.max(blob.maxX, x)
+            blob.minY = Math.min(blob.minY, y)
+            blob.maxY = Math.max(blob.maxY, y)
+            break;
+          }
+        }
+      }
+    }
+
+    // Result
+    results = [];
+    for (let k in blobs) {
+      let blob = blobs[k];
+      if (blob.count < pixelsThreshold) {
+        continue;
+      }
+      results.push({
+        pixels: blob.count,
+        cx: blob.sumX / blob.count,
+        cy: blob.sumY / blob.count,
+        x: blob.minX,
+        y: blob.minY,
+        w: blob.maxX - blob.minX,
+        h: blob.maxY - blob.minY
+      })
+    }
+
+    function cmp(a, b) {
+      if (a.pixels > b.pixels) {
+        return -1;
+      } else if (a.pixels < b.pixels) {
+        return 1;
+      }
+      return 0
+    }
+    results.sort(cmp);
+
+    return results;
   };
 
   this.init();

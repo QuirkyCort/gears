@@ -142,6 +142,15 @@ class CameraSensor:
   def __init__(self, address=None):
     self.sensor = simPython.CameraSensor(address)
 
-  def get_image(self):
+  def capture_image(self):
     time.sleep(SENSOR_DELAY)
-    return self.sensor.getImage()
+    self.sensor.captureImage()
+
+  def get_rgb(self):
+    self.sensor.getRGB()
+
+  def get_hsv(self):
+    self.sensor.getHSV()
+
+  def find_blob(self, thresholds, pixels_threshold=10):
+    return self.sensor.findBlob(thresholds, pixels_threshold)

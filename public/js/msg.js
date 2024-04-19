@@ -1889,6 +1889,9 @@ let MSGS = {
     ru: 'Перо',
     hu: 'Toll',
   },
+  '#sim-camera#': {
+    en: 'Camera Sensor',
+  },
   '#sim-touch#': {
     en: 'Touch Sensor',
     nl: 'Drukknop-sensor',
