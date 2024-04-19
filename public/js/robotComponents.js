@@ -3111,9 +3111,6 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
   this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
   this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
 
-  this.mask = [];
-  this.maskSize = 0;
-
   this.init = function() {
     self.setOptions(options);
 
@@ -3182,6 +3179,7 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
     self.pixels = new Uint8Array(self.options.sensorResolution ** 2 * 4);
     self.rgbArray = [];
     self.hsvArray = [];
+    self.hsvExpired = true;
     for (let y=0; y<self.options.sensorResolution; y++) {
       let rgbRow = [];
       let hsvRow = [];
@@ -3245,11 +3243,11 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
       }
     }
 
-    self.genHSV();
+    self.hsvExpired = true;
   };
 
   this.genHSV = function() {
-    for (let y=0; y<self.options.sensorResolution-1; y++) {
+    for (let y=0; y<self.options.sensorResolution; y++) {
       for (let x=0; x<self.options.sensorResolution; x++) {
         let hsv = Colors.toHSV(self.rgbArray[y][x]);
         for (let c=0; c<3; c++) {
@@ -3257,6 +3255,7 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
         }
       }
     }
+    self.hsvExpired = false;
   };
 
   this.getRGB = function() {
@@ -3264,10 +3263,13 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
   };
 
   this.getHSV = function() {
+    if (self.hsvExpired) {
+      self.genHSV();
+    }
     return self.hsvArray;
   };
 
-  this.findBlob = function(thresholds, pixelsThreshold) {
+  this.findBlobs = function(thresholds, pixelsThreshold) {
     function combineBlobsList(blobsList) {
       let keys = Object.keys(blobsList).map(x=>parseInt(x)).sort();
 
@@ -3303,6 +3305,11 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
       }
 
       return false;
+    }
+
+    // generate hsv if needed
+    if (self.hsvExpired) {
+      self.genHSV();
     }
 
     // array to record pixel groupings
@@ -3397,6 +3404,7 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
       })
     }
 
+    // sort biggest blob to top
     function cmp(a, b) {
       if (a.pixels > b.pixels) {
         return -1;

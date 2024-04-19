@@ -376,8 +376,8 @@ var $builtinmodule = function(name) {
       return Sk.ffi.remapToPy(self.sensor.getHSV());
     });
 
-    $loc.findBlob = new Sk.builtin.func(function(self, threshold, pixels_threshold) {
-      let resultsObj = self.sensor.findBlob(Sk.ffi.remapToJs(threshold), pixels_threshold.v);
+    $loc.findBlobs = new Sk.builtin.func(function(self, threshold, pixels_threshold) {
+      let resultsObj = self.sensor.findBlobs(Sk.ffi.remapToJs(threshold), pixels_threshold.v);
       let results = [];
       for (let result of resultsObj) {
         results.push([

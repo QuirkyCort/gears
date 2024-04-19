@@ -1112,6 +1112,45 @@ let MSGS = {
   '#blk-comment_tooltip#': {
     en: 'This blocks does nothing and is only used for comments. Multiple lines are supported.',
   },
+  '#blk-camera_capture_image#': {
+    en: 'capture image with camera',
+  },
+  '#blk-camera_capture_image_tooltip#': {
+    en: 'You must run this before any other camera commands',
+  },
+  '#blk-camera_get_rgb#': {
+    en: 'get RGB values from camera',
+  },
+  '#blk-camera_get_rgb_tooltip#': {
+    en: 'You must run the capture image block first',
+  },
+  '#blk-camera_get_hsv#': {
+    en: 'get HSV values from camera',
+  },
+  '#blk-camera_get_hsv_tooltip#': {
+    en: 'You must run the capture image block first',
+  },
+  '#blk-camera_find_blobs#': {
+    en: 'find blobs from camera',
+  },
+  '#blk-camera_find_blobs_tooltip#': {
+    en: 'You must run the capture image block first. Inputs are min/max for HSV. Blobs with less than the specified number of pixels will be filtered out.',
+  },
+  '#blk-matching_H#': {
+    en: 'matching H:',
+  },
+  '#blk-S#': {
+    en: 'S:',
+  },
+  '#blk-V#': {
+    en: 'V:',
+  },
+  '#blk-and_at_least#': {
+    en: 'and at least',
+  },
+  '#blk-pixels#': {
+    en: 'pixels',
+  },
   '#main-blocks#': {
     en: 'Blocks',
     tlh: 'Porgh',
