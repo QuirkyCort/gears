@@ -926,26 +926,27 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20240117;
+    let current = 20240420;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>20 Apr 2024 (Camera Sensor)</h3>' +
+          '<p>' +
+            'A new Camera Sensor has been added. ' +
+            'You can use it to capture images and extract pixel values in RGB or HSV. ' +
+            'A blob detection function is also provided to detect blobs of a specified color. ' +
+          '</p>' +
+          '<p>' +
+            'See <a href="https://youtu.be/RfUcGx4qeMs" target=”_blank”>this video</a> for a demo of what you can do with this sensor. ' +
+            'None of the default robots comes with a camera sensor, so you will need to create a custom robot to use this. ' +
+          '</p>' +
           '<h3>17 Jan 2024 (WRO 2024 Junior)</h3>' +
           '<p>' +
             'The WRO 2024 (Junior) mission is now available. ' +
             'Find it under "Worlds => Select World => Missions => 2024 WRO (Junior)". ' +
             'The Elementary and Senior missions will be added soon.' +
-          '</p>' +
-          '<h3>25 Aug 2023 (FLL 2023)</h3>' +
-          '<p>' +
-            'The FLL 2023 (Masterpiece) mission is now available. ' +
-            'Find it under "Worlds => Select World => Missions => 2023 FLL".' +
-          '</p>' +
-          '<p>' +
-            'It is now possible to add a ball joint in the world builder. ' +
-            'See an example of it in the FLL 2023 mission world, where it is used to simulate a string.' +
           '</p>'
       }
       acknowledgeDialog(options, function(){
