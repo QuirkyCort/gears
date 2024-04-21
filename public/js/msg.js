@@ -1946,6 +1946,12 @@ let MSGS = {
     he: 'נלחץ',
     ru: 'Нажат',
   },
+  '#sim-show#': {
+    en: 'Show',
+  },
+  '#sim-hide#': {
+    en: 'Hide',
+  },
   '#sim-left_motor#': {
     en: 'Left Motor',
     fr: 'Moteur gauche',

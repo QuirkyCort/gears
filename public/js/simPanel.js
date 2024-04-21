@@ -542,10 +542,29 @@ var simPanel = new function() {
           []
         );
       } else if (sensor.type == 'CameraSensor') {
-        tmp = genDiv(
-          sensor.port + ': ' + i18n.get('#sim-camera#'),
-          []
+        tmp = $(
+          '<div class="sensorReading">' +
+            '<div class="sensorType">' + sensor.port + ': ' + i18n.get('#sim-camera#') + '</div>' +
+            '<table class="sensorValues">' +
+              '<tr><td class="sensorValueName">' +
+                '<button class="showRttView">' + i18n.get('#sim-show#') + '</button><button class="hideRttView">' + i18n.get('#sim-hide#') + '</button>' +
+              '</td></tr>' +
+            '</table>' +
+          '</div>'
         );
+        let clickHandler = function(type, port) {
+          return function() {
+            if (type == 'show') {
+              babylon.rttViewMat.diffuseTexture = robot.getComponentByPort(port).renderTarget;
+              babylon.rttView.setEnabled(true);
+            } else {
+              babylon.rttView.setEnabled(false);
+            }
+          }
+        }
+
+        tmp.find('.showRttView').click(clickHandler('show', sensor.port));
+        tmp.find('.hideRttView').click(clickHandler('hide', sensor.port));
       } else {
         console.log(sensor);
       }

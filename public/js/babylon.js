@@ -282,16 +282,20 @@ var babylon = new function() {
     return Promise.all(loader).then(function() {
       self.setCameraMode(); // Set after loading mesh as camera may be locked to mesh
 
-      // RTT test
-      // var mat = new BABYLON.StandardMaterial("RTT mat", self.scene);
-      // mat.diffuseTexture = robot.getComponentByPort('in1').renderTarget;
-      // mat.emissiveColor = new BABYLON.Color3(1,1,1);
-      // mat.disableLighting = true;
+      // For camera visualization
+      self.rttViewMat = new BABYLON.StandardMaterial("RTT mat", self.scene);
+      self.rttViewMat.diffuseTexture = robot.getComponentByPort('in1').renderTarget;
+      self.rttViewMat.emissiveColor = new BABYLON.Color3(1,1,1);
+      self.rttViewMat.disableLighting = true;
 
-      // var ground = BABYLON.MeshBuilder.CreateGround("RTT", {width: 10, height: 10}, self.scene);
-      // ground.rotation.x = -Math.PI / 2;
-      // ground.position.y = 20;
-      // ground.material = mat;
+      self.rttView = BABYLON.MeshBuilder.CreateGround("RTT", {width: 1, height: 1}, self.scene);
+      self.rttView.rotation.x = -Math.PI / 2;
+      self.rttView.position.x = 0;
+      self.rttView.position.y = 2;
+      self.rttView.position.z = 8;
+      self.rttView.material = self.rttViewMat;
+      self.rttView.parent = self.cameraArc;
+      self.rttView.setEnabled(false);
 
       // Some components in the robot may need to see the fully loaded meshes
       robots.forEach(function(robot){
