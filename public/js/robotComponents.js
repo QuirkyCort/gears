@@ -3277,9 +3277,9 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
         let key = keys[i];
         for (let j=i-1; j>=0; j--) {
           if (blobsList[keys[j]].includes(key)) {
-            for (let i of blobsList[key]) {
-              if (! blobsList[keys[j]].includes(i)) {
-                blobsList[keys[j]].push(i);
+            for (let k of blobsList[key]) {
+              if (! blobsList[keys[j]].includes(k)) {
+                blobsList[keys[j]].push(k);
               }
             }
             delete blobsList[key];
