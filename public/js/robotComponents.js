@@ -3283,6 +3283,7 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
               }
             }
             delete blobsList[key];
+            break;
           }
         }
       }
