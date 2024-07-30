@@ -3115,7 +3115,7 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
     self.setOptions(options);
 
     var bodyMat = new BABYLON.StandardMaterial('cameraSensorBody', scene);
-    var bodyTexture = new BABYLON.Texture('textures/robot/laserRange.png', scene);
+    var bodyTexture = new BABYLON.Texture('textures/robot/cameraSensor.png', scene);
     bodyMat.diffuseTexture = bodyTexture;
 
     var faceUV = new Array(6);
