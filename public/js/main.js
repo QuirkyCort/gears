@@ -90,6 +90,7 @@ var main = new function() {
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
         {html: 'Русский', line: false, callback: function() { setLang('ru'); }},
         {html: 'Magyar', line: false, callback: function() { setLang('hu'); }},
+        {html: 'Italiano', line: false, callback: function() { setLang('it'); }},
       ];
 
       menuDropDown(self.$languageMenu, menuItems, {className: 'languageMenuDropDown', align: 'right'});
