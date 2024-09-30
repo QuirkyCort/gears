@@ -7,7 +7,8 @@ var pybricks_generator = new function() {
     GyroSensor: 1,
     GPSSensor: 1,
     TouchSensor: 1,
-    Pen: 1
+    Pen: 1,
+    CameraSensor: 1
   };
 
   // Load Python generators
@@ -49,6 +50,12 @@ var pybricks_generator = new function() {
     Blockly.Python['button_state'] = self.button_state;
     Blockly.Python['wait_until_button'] = self.wait_until_button;
     Blockly.Python['wait_until'] = self.wait_until;
+    Blockly.Python['camera_capture_image'] = self.camera_capture_image;
+    Blockly.Python['camera_get_rgb'] = self.camera_get_rgb;
+    Blockly.Python['camera_get_hsv'] = self.camera_get_hsv;
+    Blockly.Python['camera_find_blobs'] = self.camera_find_blobs;
+
+    Blockly.Python['comment'] = self.comment;
   };
 
   // Generate python code
@@ -62,6 +69,7 @@ var pybricks_generator = new function() {
       'from pybricks.ev3devices import *\n' +
       'from pybricks.tools import wait\n' +
       'from pybricks.robotics import DriveBase\n' +
+      'from ev3dev2.sensor.virtual import *\n' +
       '\n' +
       '# Create the sensors and motors objects\n' +
       'ev3 = EV3Brick()\n' +
@@ -96,6 +104,9 @@ var pybricks_generator = new function() {
         self.autoPorts[sensor.type] = i;
       } else if (sensor.type == 'Pen') {
         sensorsCode += 'pen_in' + i + ' = Pen(Port.S' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
+      } else if (sensor.type == 'CameraSensor') {
+        sensorsCode += 'camera_sensor_in' + i + ' = CameraSensor(Port.S' + i + ')\n';
         self.autoPorts[sensor.type] = i;
       }
       i++;
@@ -757,6 +768,60 @@ var pybricks_generator = new function() {
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
 
     let code = 'while not ' + value_value + ':\n    pass\n';
+    return code;
+  };
+
+  this.camera_capture_image = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
+
+    var code = 'camera_sensor_in' + dropdown_port + '.capture_image()\n';
+    return code;
+  };
+
+  this.camera_get_hsv = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
+
+    var code = 'camera_sensor_in' + dropdown_port + '.get_hsv()';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.camera_get_rgb = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
+
+    var code = 'camera_sensor_in' + dropdown_port + '.get_rgb()';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.camera_find_blobs = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    var minH = Blockly.Python.valueToCode(block, 'minH', Blockly.Python.ORDER_ATOMIC);
+    var maxH = Blockly.Python.valueToCode(block, 'maxH', Blockly.Python.ORDER_ATOMIC);
+    var minS = Blockly.Python.valueToCode(block, 'minS', Blockly.Python.ORDER_ATOMIC);
+    var maxS = Blockly.Python.valueToCode(block, 'maxS', Blockly.Python.ORDER_ATOMIC);
+    var minV = Blockly.Python.valueToCode(block, 'minV', Blockly.Python.ORDER_ATOMIC);
+    var maxV = Blockly.Python.valueToCode(block, 'maxV', Blockly.Python.ORDER_ATOMIC);
+    var pixels_threshold = Blockly.Python.valueToCode(block, 'pixels_threshold', Blockly.Python.ORDER_ATOMIC);
+    dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
+
+    var code = 'camera_sensor_in' + dropdown_port + '.find_blobs((' + minH + ', ' + maxH + ', ' + minS + ', ' + maxS + ', ' + minV + ', ' + maxV + '), ' + pixels_threshold + ')';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  this.comment = function(block) {
+    var value = block.getFieldValue('value');
+
+    // var code = '\n# ' + value + '\n\n';
+    var code = '';
+
+    for (let line of value.split('\n')) {
+      code += '\n# ' + line;
+    }
+
+    code += '\n\n';
+
     return code;
   };
 }

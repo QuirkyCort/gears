@@ -63,6 +63,8 @@ var main = new function() {
     self.$robotMenu.text(i18n.get('#main-robot#'));
     self.$worldsMenu.text(i18n.get('#main-worlds#'));
     self.$helpMenu.text(i18n.get('#main-help#'));
+    $('#blocklyPages').text(i18n.get('#main-main#'));
+
   };
 
   // Toggle language menu
@@ -88,6 +90,7 @@ var main = new function() {
         {html: 'tlhIngan', line: false, callback: function() { setLang('tlh'); }},
         {html: 'Русский', line: false, callback: function() { setLang('ru'); }},
         {html: 'Magyar', line: false, callback: function() { setLang('hu'); }},
+        {html: 'Italiano', line: false, callback: function() { setLang('it'); }},
       ];
 
       menuDropDown(self.$languageMenu, menuItems, {className: 'languageMenuDropDown', align: 'right'});
@@ -924,26 +927,28 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20230825;
+    let current = 20240420;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>25 Aug 2023 (FLL 2023)</h3>' +
+          '<h3>20 Apr 2024 (Camera Sensor)</h3>' +
           '<p>' +
-            'The FLL 2023 (Masterpiece) mission is now available. ' +
-            'Find it under "Worlds => Select World => Missions => 2023 FLL".' +
+            'A new Camera Sensor has been added. ' +
+            'You can use it to capture images and extract pixel values in RGB or HSV. ' +
+            'A blob detection function is also provided to detect blobs of a specified color. ' +
           '</p>' +
           '<p>' +
-            'It is now possible to add a ball joint in the world builder. ' +
-            'See an example of it in the FLL 2023 mission world, where it is used to simulate a string.' +
+            'See <a href="https://youtu.be/RfUcGx4qeMs" target=”_blank”>this video</a> for a demo of what you can do with this sensor. ' +
+            'None of the default robots comes with a camera sensor, so you will need to create a custom robot to use this. ' +
           '</p>' +
-          '<h3>7 Apr 2023 (WRO 2023)</h3>' +
-          '<p>The WRO 2023 mission are now available, with models and randomization for the Elementary and Junior events.</p>' +
-          '<h3>4 Apr 2023 (Hinges and Shuffle)</h3>' +
-          '<p>We can now specify a mesh ID to attach to a hinge. This allows you to to create a chain of hinges that forms a loop like <a href="https://gears.aposteriori.com.sg/index.html?worldJSON=https%3A%2F%2Fraw.githubusercontent.com%2FQuirkyCort%2Fgears-contributions%2Fmain%2Fworlds%2Fcustom-world%2FDemo%2FhingeMeshIDDemo.json">this</a>.</p>' +
-          '<p>There is also a new "shuffle[X][Y]" directive that you can use to randomize your custom worlds. See <a href="https://github.com/QuirkyCort/gears-contributions/tree/main/worlds/custom-world/Demo">this page</a> for details.</p>'
+          '<h3>17 Jan 2024 (WRO 2024 Junior)</h3>' +
+          '<p>' +
+            'The WRO 2024 (Junior) mission is now available. ' +
+            'Find it under "Worlds => Select World => Missions => 2024 WRO (Junior)". ' +
+            'The Elementary and Senior missions will be added soon.' +
+          '</p>'
       }
       acknowledgeDialog(options, function(){
         localStorage.setItem('whatsNew', current);

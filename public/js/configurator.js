@@ -573,6 +573,45 @@ var configurator = new function() {
       ]
     },
     {
+      name: 'CameraSensor',
+      category: 'Sensors',
+      defaultConfig: {
+        type: 'CameraSensor',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: null
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vectors',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vectors',
+          min: '-180',
+          max: '180',
+          step: '5',
+          deg2rad: true,
+          reset: true
+        },
+        {
+          option: 'sensorMinRange',
+          type: 'floatText',
+          help: 'Anything nearer than this will not be detected. Leave blank to use default.'
+        },
+        {
+          option: 'sensorFov',
+          type: 'floatText',
+          help: 'Field of View in radians. Leave blank to use default.'
+        },
+      ]
+    },
+    {
       name: 'MagnetActuator',
       category: 'Actuators',
       defaultConfig: {

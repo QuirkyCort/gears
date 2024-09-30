@@ -2372,7 +2372,7 @@
 },
 {
   "type": "tw_color",
-  "message0": "color sensor sees %1",
+  "message0": "#blk-color_sensor_sees# %1",
   "args0": [
     {
       "type": "field_dropdown",
@@ -2413,5 +2413,298 @@
   "colour": 160,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "comment",
+  "message0": "#blk-comment# %1",
+  "args0": [
+    {
+      "type": "field_multilinetext",
+      "name": "value",
+      "text": "Your comment here"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#000000",
+  "tooltip": "#blk-comment_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "camera_capture_image",
+  "message0": "#blk-camera_capture_image# #blk-on_port# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "tooltip": "#blk-camera_capture_image_tooltip#",
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Camera-Sensor"
+},
+{
+  "type": "camera_get_rgb",
+  "message0": "#blk-camera_get_rgb# #blk-on_port# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "output": "Array",
+  "colour": 160,
+  "tooltip": "#blk-camera_get_rgb_tooltip#",
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Camera-Sensor"
+},
+{
+  "type": "camera_get_hsv",
+  "message0": "#blk-camera_get_hsv# #blk-on_port# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "output": "Array",
+  "colour": 160,
+  "tooltip": "#blk-camera_get_hsv_tooltip#",
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Camera-Sensor"
+},
+{
+  "type": "camera_find_blobs",
+  "message0": "#blk-camera_find_blobs# #blk-on_port# %1 #blk-matching_H# %2 %3 #blk-S# %4 %5 #blk-V# %6 %7 #blk-and_at_least# %8 #blk-pixels#",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "port",
+      "options": [
+        [
+          "Auto",
+          "AUTO"
+        ],
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+        ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ],
+        [
+          "10",
+          "10"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "minH",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "maxH",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "minS",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "maxS",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "minV",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "maxV",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "pixels_threshold",
+      "check": "Number"
+    }
+  ],
+  "output": "Array",
+  "colour": 160,
+  "tooltip": "#blk-camera_find_blobs_tooltip#",
+  "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Camera-Sensor"
 }
 ]

@@ -103,7 +103,7 @@ class Motor:
     self.motor.speed_sp(speed)
     self.motor.time_sp(time / 1000)
     self.motor.stop_action(then)
-    
+
     self.motor.command('run-timed')
 
     if wait:
@@ -117,7 +117,7 @@ class Motor:
     else:
       self.motor.position_sp(-rotation_angle)
     self.motor.stop_action(then)
-    
+
     self.motor.command('run-to-rel-pos')
 
     if wait:
@@ -128,7 +128,7 @@ class Motor:
     self.motor.speed_sp(abs(speed))
     self.motor.position_sp(target_angle)
     self.motor.stop_action(then)
-    
+
     self.motor.command('run-to-abs-pos')
 
     if wait:
@@ -144,7 +144,7 @@ class Motor:
     elif duty < -100:
       duty = -100
     self.run(duty * 1050 / 100)
-  
+
   def track_target(self, target_angle):
     self.run_target(100, target_angle, then=Stop.COAST, wait=False)
     time.sleep(SENSOR_DELAY)
@@ -183,6 +183,13 @@ class ColorSensor:
     for i in range(3):
       rgb[i] = rgb[i] / 2.55
     return rgb
+
+  def hsv(self):
+    time.sleep(SENSOR_DELAY)
+    hsv = self.sensor.valueHSV()
+    for i in range(3):
+      hsv[i] = int(hsv[i])
+    return hsv
 
 class UltrasonicSensor:
   def __init__(self, port=None):
