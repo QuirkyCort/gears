@@ -490,6 +490,7 @@ var World_Base = function() {
 
       // General objects
       self.hinges = [];
+      self.ballJoints = [];
       self.parentsToRemove = [];
       self.animationList = [];
       self.physicsToAdd = [];
@@ -502,7 +503,13 @@ var World_Base = function() {
       }
 
       // Compute all world matrices in order
-      self.computeAllWorldMatrices(scene.meshes);
+      let parentlessMeshes = [];
+      for (let mesh of scene.meshes) {
+        if (mesh.parent == null) {
+          parentlessMeshes.push(mesh);
+        }
+      }
+      self.computeAllWorldMatrices(parentlessMeshes);
 
       // Remove designated parents, keeping transform
       self.removeParents(self.parentsToRemove);
@@ -510,8 +517,9 @@ var World_Base = function() {
       // Add physics imposters
       self.addPhysicsToAll(scene, self.physicsToAdd);
 
-      // Add hinges
+      // Add hinges and ball joints
       self.addHingeJoints();
+      self.addBallJoints();
 
       // Show the info panel if timer is requested
       if (self.processedOptions.timer != 'none') {
@@ -530,7 +538,7 @@ var World_Base = function() {
   this.computeAllWorldMatrices = function(meshes) {
     for (let mesh of meshes) {
       mesh.computeWorldMatrix(true);
-      let childMeshes = mesh.getChildMeshes();
+      let childMeshes = mesh.getChildMeshes(true);
       if (childMeshes.length > 0) {
         self.computeAllWorldMatrices(childMeshes);
       }
@@ -611,6 +619,35 @@ var World_Base = function() {
     }
   };
 
+  // Add all ball joints
+  this.addBallJoints = function() {
+    for (let ballJointObject of self.ballJoints) {
+      if (ballJointObject.part2Mesh == null) {
+        continue;
+      }
+      if (typeof ballJointObject.part2Mesh == 'string') {
+        ballJointObject.part2Mesh = babylon.scene.getMeshByID(ballJointObject.part2Mesh);
+      }
+
+      let targetBody = ballJointObject.part1Mesh;
+      while (targetBody.parent) {
+        targetBody = targetBody.parent;
+      }
+
+      let matrix = targetBody.getWorldMatrix().clone().invert();
+      let mainPivot = BABYLON.Vector3.TransformCoordinates(ballJointObject.part1Mesh.absolutePosition, matrix);
+
+      matrix = ballJointObject.part2Mesh.getWorldMatrix().clone().invert();
+      let connectedPivot = BABYLON.Vector3.TransformCoordinates(ballJointObject.part1Mesh.absolutePosition, matrix);
+
+      self.joint = new BABYLON.PhysicsJoint(BABYLON.PhysicsJoint.BallAndSocketJoint, {
+        mainPivot: mainPivot,
+        connectedPivot: connectedPivot,
+      });
+      targetBody.physicsImpostor.addJoint(ballJointObject.part2Mesh.physicsImpostor, self.joint);
+    }
+  };
+
   // Add an object of any type
   this.addObject = async function(scene, object, indexObj) {
     let mesh = null;
@@ -621,6 +658,8 @@ var World_Base = function() {
       mesh = await self.addCompound(scene, options, indexObj);
     } else if (options.type == 'hinge') {
       mesh = await self.addHinge(scene, options, indexObj);
+    } else if (options.type == 'ballJoint') {
+      mesh = await self.addBallJoint(scene, options, indexObj);
     } else {
       mesh = await self.addBlock(scene, options, indexObj.index);
       indexObj.index++;
@@ -649,6 +688,10 @@ var World_Base = function() {
     }
     if (object.objects[0].type == 'hinge') {
       toastMsg('Invalid compound: Cannot have a hinge as first object');
+      return;
+    }
+    if (object.objects[0].type == 'ballJoint') {
+      toastMsg('Invalid compound: Cannot have a ball joint as first object');
       return;
     }
 
@@ -738,6 +781,84 @@ var World_Base = function() {
       }
     } else if (options.attachID) {
       self.hinges.push({
+        part1Mesh: part1Mesh,
+        part2Mesh: options.attachID,
+        options: options
+      })
+    }
+
+    return part1Mesh;
+  };
+
+  // Add a ballJoint object
+  this.addBallJoint = async function(scene, object, indexObj) {
+    if (! (object.objects instanceof Array)) {
+      return null;
+    }
+    if (object.objects.length > 1) {
+      console.log('Warning: Ball Joints may only contain one child');
+    }
+
+    let options = self.mergeObjectOptionsWithDefault(object);
+    if (options.position.length < 3) {
+      options.position.push(0);
+    }
+
+    let rotationRad = []
+    for (let i=0; i<options.rotation.length; i++) {
+      if (options.rotationMode == 'degrees') {
+        rotationRad[i] = options.rotation[i] / 180 * Math.PI;
+      } else {
+        rotationRad[i] = options.rotation[i];
+      }
+    }
+
+    let material = babylon.getMaterial(scene, "f00a");
+    if (options.hide) {
+      material = babylon.getMaterial(scene, "f005");
+    }
+
+    let meshOptions = {
+      material: material,
+      size: [
+        options.size,
+        0,
+        0
+      ],
+      position: new BABYLON.Vector3(
+        options.position[0],
+        options.position[2],
+        options.position[1]
+      ),
+      rotation: new BABYLON.Vector3(rotationRad[0], rotationRad[1], rotationRad[2]),
+      physicsOptions: false,
+      index: indexObj.index
+    };
+    let part1Mesh = self.addSphere(scene, meshOptions);
+    part1Mesh.id = 'worldBaseObject_ballJoint' + indexObj.index;
+    indexObj.index++;
+
+    if (options.hide && !self.overrideHide) {
+      part1Mesh.isVisible = false;
+    }
+
+    let part2Mesh = null;
+    if (object.objects.length > 0) {
+      let childOptions = self.mergeObjectOptionsWithDefault(object.objects[0])
+      part2Mesh = await self.addObject(scene, childOptions, indexObj);
+
+      if (part2Mesh) {
+        part2Mesh.parent = part1Mesh;
+        part2Mesh.pseudoParent = part1Mesh;
+        self.parentsToRemove.push([part1Mesh, part2Mesh]);
+        self.ballJoints.push({
+          part1Mesh: part1Mesh,
+          part2Mesh: part2Mesh,
+          options: options
+        });
+      }
+    } else if (options.attachID) {
+      self.ballJoints.push({
         part1Mesh: part1Mesh,
         part2Mesh: options.attachID,
         options: options

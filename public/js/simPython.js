@@ -215,6 +215,19 @@ var $builtinmodule = function(name) {
       }
     });
 
+    $loc.heading = new Sk.builtin.func(function(self, float) {
+      let heading = self.sensor.getHeading();
+
+      if (float.v == false) {
+        heading = Math.round(heading);
+      }
+      if (heading == 180) {
+        heading = -180;
+      }
+
+      return Sk.ffi.remapToPy(heading);
+    });
+
     $loc.yawAngleAndRate = new Sk.builtin.func(function(self, float) {
       var gyro = [];
 
@@ -341,6 +354,47 @@ var $builtinmodule = function(name) {
 
   }, 'TouchSensor', []);
 
+  mod.CameraSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor || self.sensor.type != 'CameraSensor') {
+        throw new Sk.builtin.TypeError('No camera sensor connected to ' + String(address.v));
+      }
+    });
+
+    $loc.captureImage = new Sk.builtin.func(function(self) {
+      return self.sensor.captureImage();
+    });
+
+    $loc.getRGB = new Sk.builtin.func(function(self) {
+      return Sk.ffi.remapToPy(self.sensor.getRGB());
+    });
+
+    $loc.getHSV = new Sk.builtin.func(function(self) {
+      return Sk.ffi.remapToPy(self.sensor.getHSV());
+    });
+
+    $loc.findBlobs = new Sk.builtin.func(function(self, threshold, pixels_threshold) {
+      let resultsObj = self.sensor.findBlobs(Sk.ffi.remapToJs(threshold), pixels_threshold.v);
+      let results = [];
+      for (let result of resultsObj) {
+        results.push([
+          result.pixels,
+          result.cx,
+          result.cy,
+          result.x,
+          result.y,
+          result.w,
+          result.h
+        ]);
+      }
+      return Sk.ffi.remapToPy(results);
+    });
+
+  }, 'CameraSensor', []);
+
   mod.Sound = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 
@@ -442,7 +496,7 @@ var $builtinmodule = function(name) {
 
       let pressed = [];
 
-      let hubButtons = robot.getHubButtons(); 
+      let hubButtons = robot.getHubButtons();
       for (let btn in hubButtons) {
         if (hubButtons[btn] && btn in map) {
           pressed.push(map[btn]);

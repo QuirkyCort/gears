@@ -135,3 +135,22 @@ class Radio:
   def empty(self, mailbox=None):
     time.sleep(SENSOR_DELAY)
     return self.radio.empty(mailbox)
+
+class CameraSensor:
+  _DRIVER_NAME = 'virtual-camera'
+
+  def __init__(self, address=None):
+    self.sensor = simPython.CameraSensor(address)
+
+  def capture_image(self):
+    time.sleep(SENSOR_DELAY)
+    self.sensor.captureImage()
+
+  def get_rgb(self):
+    return self.sensor.getRGB()
+
+  def get_hsv(self):
+    return self.sensor.getHSV()
+
+  def find_blobs(self, thresholds, pixels_threshold=10):
+    return self.sensor.findBlobs(thresholds, pixels_threshold)

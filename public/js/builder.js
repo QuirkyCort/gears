@@ -67,7 +67,7 @@ var builder = new function() {
         min: '0',
         max: '10',
         step: '0.1',
-        help: 'Affects the bounciness of the ground'
+        help: 'Affects the bounciness of the ground. Higher number will increase bounciness.'
       },
     ]
   };
@@ -114,7 +114,7 @@ var builder = new function() {
         min: '0',
         max: '10',
         step: '0.1',
-        help: 'Affects the bounciness of the ground'
+        help: 'Affects the bounciness of the wall. Higher number will increase bounciness.'
       },
     ]
   };
@@ -291,7 +291,7 @@ var builder = new function() {
         option: 'physics_restitution',
         type: 'custom',
         generatorFunction: 'setPhysicsOptions',
-        help: 'Affects the bounciness of the object'
+        help: 'Affects the bounciness of the object. Higher number will increase bounciness.'
       },
       {
         option: 'physics_dampLinear',
@@ -453,7 +453,7 @@ var builder = new function() {
         option: 'physics_restitution',
         type: 'custom',
         generatorFunction: 'setPhysicsOptions',
-        help: 'Affects the bounciness of the object'
+        help: 'Affects the bounciness of the object. Higher number will increase bounciness.'
       },
       {
         option: 'physics_dampLinear',
@@ -615,7 +615,7 @@ var builder = new function() {
         option: 'physics_restitution',
         type: 'custom',
         generatorFunction: 'setPhysicsOptions',
-        help: 'Affects the bounciness of the object'
+        help: 'Affects the bounciness of the object. Higher number will increase bounciness.'
       },
       {
         option: 'physics_dampLinear',
@@ -776,7 +776,7 @@ var builder = new function() {
         option: 'physics_restitution',
         type: 'custom',
         generatorFunction: 'setPhysicsOptions',
-        help: 'Affects the bounciness of the object'
+        help: 'Affects the bounciness of the object. Higher number will increase bounciness.'
       },
       {
         option: 'physics_dampLinear',
@@ -891,6 +891,46 @@ var builder = new function() {
     ]
   };
 
+  this.ballJointTemplate = {
+    optionsConfigurations: [
+      {
+        option: 'position',
+        type: 'vectors',
+        min: '-100',
+        max: '100',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'rotation',
+        type: 'vectors',
+        min: '-180',
+        max: '180',
+        step: '5',
+        reset: true
+      },
+      {
+        option: 'size',
+        type: 'slider',
+        min: '1',
+        max: '100',
+        step: '1',
+        reset: true
+      },
+      {
+        option: 'hide',
+        type: 'boolean',
+        help: 'If set, the joint will be hidden',
+        reset: true
+      },
+      {
+        option: 'attachID',
+        type: 'strText',
+        help: 'Mesh ID to attach to. Can only be used if there are no child meshes.'
+      }
+    ]
+  };
+
   this.objectDefault = {
     ...world_Custom.objectDefault,
     position: [0,0,20],
@@ -928,13 +968,21 @@ var builder = new function() {
   this.hingeDefault = {
     type: 'hinge',
     objects: [],
-    position: [20,0,0],
+    position: [0,0,20],
+    rotation: [0,0,0],
     size: [10,2,0],
     hide: true,
     speed: 0,
     maxForce: 0,
-    upperLimit: 0,
-    lowerLimit: 0
+  };
+
+  this.ballJointDefault = {
+    type: 'ballJoint',
+    objects: [],
+    position: [0,0,20],
+    rotation: [0,0,0],
+    size: 2,
+    hide: true,
   };
 
   // Run on page load
@@ -1494,7 +1542,7 @@ var builder = new function() {
   this.showObjectOptions = function(li) {
     let name = li.name;
 
-    let OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'hinge']
+    let OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'hinge', 'ballJoint']
     if (OBJECTS.indexOf(name) != -1) {
       self.$objectID.text('worldBaseObject_' + li.name + li.objectIndex);
     } else {
@@ -1526,6 +1574,8 @@ var builder = new function() {
       genConfig.displayOptionsConfigurations(self.modelTemplate, currentOptions);
     } else if (name == 'hinge') {
       genConfig.displayOptionsConfigurations(self.hingeTemplate, currentOptions);
+    } else if (name == 'ballJoint') {
+      genConfig.displayOptionsConfigurations(self.ballJointTemplate, currentOptions);
     }
   };
 
@@ -1587,7 +1637,7 @@ var builder = new function() {
     let $select = $('<select></select>');
     let $description = $('<div class="description"><div class="text"></div></div>');
 
-    let objectTypes = ['Box', 'Cylinder', 'Sphere', 'Model', 'Compound', 'Hinge'];
+    let objectTypes = ['Box', 'Cylinder', 'Sphere', 'Model', 'Compound', 'Hinge', 'Ball Joint'];
 
     objectTypes.forEach(function(type){
       let $object = $('<option></option>');
@@ -1624,6 +1674,8 @@ var builder = new function() {
         object = JSON.parse(JSON.stringify(self.compoundDefault));
       } else if ($select.val() == 'Hinge') {
         object = JSON.parse(JSON.stringify(self.hingeDefault));
+      } else if ($select.val() == 'Ball Joint') {
+        object = JSON.parse(JSON.stringify(self.ballJointDefault));
       }
 
       if ($select.val() == 'Compound') {
@@ -1646,6 +1698,18 @@ var builder = new function() {
         }
       }
 
+      if ($select.val() == 'Ball Joint') {
+        if (selected.name != 'compound') {
+          toastMsg('Ball Joints can only be added to compounds');
+          $dialog.close();
+          return;
+        } else if (selected.object.objects.length == 0) {
+          toastMsg('First object in a compound cannot be a ball joint');
+          $dialog.close();
+          return;
+        }
+      }
+
       if (selected.name == 'hinge') {
         if (selected.object.objects.length > 0) {
           toastMsg('Hinges can only contain one object');
@@ -1654,7 +1718,15 @@ var builder = new function() {
         }
       }
 
-      if (selected.name == 'compound' || selected.name == 'hinge') {
+      if (selected.name == 'ballJoint') {
+        if (selected.object.objects.length > 0) {
+          toastMsg('Ball Joint can only contain one object');
+          $dialog.close();
+          return
+        }
+      }
+
+      if (selected.name == 'compound' || selected.name == 'hinge' || selected.name == 'ballJoint') {
         selected.object.objects.push(object);
       } else {
         self.worldOptions.objects.push(object);
@@ -1668,7 +1740,7 @@ var builder = new function() {
   // Clone selected object
   this.cloneObject = function() {
     let $selected = self.getSelectedComponent();
-    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound', 'hinge'];
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound', 'hinge', 'ballJoint'];
     if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
       toastMsg('Only objects can be cloned');
       return;
@@ -1690,7 +1762,7 @@ var builder = new function() {
         currentIndex++;
         if (currentIndex == objectIndex) {
           return parent;
-        } else if (parent.objects[i].type == 'compound' || parent.objects[i].type == 'hinge') {
+        } else if (parent.objects[i].type == 'compound' || parent.objects[i].type == 'hinge' || parent.objects[i].type == 'ballJoint') {
           let result = findParent(parent.objects[i]);
           if (result != null) {
             return result;
@@ -1706,7 +1778,7 @@ var builder = new function() {
   // Delete selected object
   this.deleteObject = function() {
     let $selected = self.getSelectedComponent();
-    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound', 'hinge']
+    let VALID_OBJECTS = ['box', 'cylinder', 'sphere', 'model', 'compound', 'hinge', 'ballJoint']
     if (VALID_OBJECTS.indexOf($selected[0].name) == -1) {
       toastMsg('Only objects can be deleted');
       return;
@@ -1866,7 +1938,7 @@ var builder = new function() {
       $item[0].name = object.type;
       $item[0].object = object;
       $item[0].objectIndex = objectIndex++;
-      if (object.type == 'compound' || object.type == 'hinge') {
+      if (object.type == 'compound' || object.type == 'hinge' || object.type == 'ballJoint') {
         let $subList = $('<ul></ul>');
         object.objects.forEach(function(object){
           let $subItem = listObject(object);

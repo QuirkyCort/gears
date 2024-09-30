@@ -31,22 +31,31 @@ var challenges_basic = new function() {
         ['Basic: Maze 2', 'worlds/challenges_basic/maze-2.json?v=4c257c21'],
         ['Basic: Maze 3', 'worlds/challenges_basic/maze-3.json?v=52c6d5cd'],
         ['Basic: Maze 4', 'worlds/challenges_basic/maze-4.json?v=324c0860'],
+        ['Basic: Maze 5', 'worlds/challenges_basic/maze-5.json?v=57ce4528'],
+        ['Basic: Maze 6', 'worlds/challenges_basic/maze-6.json?v=7bd986c4'],
         ['Basic: Dungeon 0', 'worlds/challenges_basic/dungeon-0.json?v=d16421b8'],
         ['Basic: Dungeon 1', 'worlds/challenges_basic/dungeon-1.json?v=4fcbabab'],
         ['Basic: Dungeon 2', 'worlds/challenges_basic/dungeon-2.json?v=7114511d'],
         ['Basic: Dungeon 3', 'worlds/challenges_basic/dungeon-3.json?v=0abf9ae2'],
         ['Basic: Dungeon 4', 'worlds/challenges_basic/dungeon-4.json?v=091f44ad'],
         ['Basic: Dungeon 5', 'worlds/challenges_basic/dungeon-5.json?v=009cbf96'],
+        ['Basic: Dungeon 6', 'worlds/challenges_basic/dungeon-6.json?v=80b8d5a6'],
         ['Loops: Repeat 0', 'worlds/challenges_basic/loops-0.json?v=dca8f7ad'],
         ['Loops: Repeat 0b', 'worlds/challenges_basic/loops-0b.json?v=4db77619'],
         ['Loops: Repeat 1', 'worlds/challenges_basic/loops-1.json?v=607f3c38'],
         ['Loops: Repeat 2', 'worlds/challenges_basic/loops-2.json?v=848fd296'],
+        ['Loops: Repeat 2b', 'worlds/challenges_basic/loops-2b.json?v=eb903c3d'],
+        ['Loops: Repeat 2c', 'worlds/challenges_basic/loops-2c.json?v=fbab8903'],
+        ['Loops: Repeat 2d', 'worlds/challenges_basic/loops-2d.json?v=3023901c'],
+        ['Loops: Repeat 2e', 'worlds/challenges_basic/loops-2e.json?v=4935c9b8'],
         ['Loops: Repeat 3', 'worlds/challenges_basic/loops-3.json?v=ae7011eb'],
         ['Loops: Repeat 3b', 'worlds/challenges_basic/loops-3b.json?v=53bc0e16'],
         ['Loops: Repeat 4', 'worlds/challenges_basic/loops-4.json?v=5fa0c5f0'],
+        ['Loops: Repeat 4b', 'worlds/challenges_basic/loops-4b.json?v=b8989a90'],
         ['Loops: Repeat 5', 'worlds/challenges_basic/loops-5.json?v=729ad780'],
         ['Loops: Repeat 5b', 'worlds/challenges_basic/loops-5b.json?v=ea21f9d5'],
         ['Loops: Repeat 6', 'worlds/challenges_basic/loops-6.json?v=5484bb7c'],
+        ['Loops: Repeat 7', 'worlds/challenges_basic/loops-7.json?v=a260f623'],
         ['Condition: Color 1', 'worlds/challenges_basic/conditions-1.json?v=b06212fe'],
         ['Condition: Color 2', 'worlds/challenges_basic/conditions-2.json?v=4757e227'],
         ['Condition: Color 3', 'worlds/challenges_basic/conditions-3.json?v=ecbb4ae5'],
@@ -55,7 +64,9 @@ var challenges_basic = new function() {
         ['Condition: Color 6', 'worlds/challenges_basic/conditions-6.json?v=4f834e54'],
         ['Condition: Color 7', 'worlds/challenges_basic/conditions-7.json?v=86502bb0'],
         ['Condition: Color 8', 'worlds/challenges_basic/conditions-8.json?v=8ad2c418'],
+        ['Condition: Color 8b', 'worlds/challenges_basic/conditions-8b.json?v=4aad9762'],
         ['Condition: Color 9', 'worlds/challenges_basic/conditions-9.json?v=3702a992'],
+        ['Condition: Color 9b', 'worlds/challenges_basic/conditions-9b.json?v=ac0bedb2'],
         ['Condition: Color 10', 'worlds/challenges_basic/conditions-10.json?v=87b48a99'],
         ['Condition: Color 11', 'worlds/challenges_basic/conditions-11.json?v=85e3052e'],
         ['Condition: Color 12', 'worlds/challenges_basic/conditions-12.json?v=6d42f222'],
@@ -385,6 +396,16 @@ var challenges_basic = new function() {
         '<p>Move your robot into every box.</p>' +
         '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
       );
+    } else if (self.options.jsonFile.includes('maze-5.json')) {
+      $message = $(
+        '<p>Move your robot into every box.</p>' +
+        '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
+      );
+    } else if (self.options.jsonFile.includes('maze-6.json')) {
+      $message = $(
+        '<p>Move your robot into every box.</p>' +
+        '<p>You will need to stop inside each box for 1 second before moving to the next!</p>'
+      );
     } else if (self.options.jsonFile.includes('dungeon-0.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>'
@@ -413,6 +434,11 @@ var challenges_basic = new function() {
         '<p>Move your robot into the green box and stop inside.</p>' +
         '<p>You\'ll need to use everything you\'ve learned!</p>'
       );
+    } else if (self.options.jsonFile.includes('dungeon-6.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Watch out for the ghost!</p>'
+      );
     } else if (self.options.jsonFile.includes('loops-0.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>' +
@@ -433,6 +459,26 @@ var challenges_basic = new function() {
         '<p>Move your robot into the green box and stop inside.</p>' +
         '<p>You\'re may only use 6 blocks.</p>'
       );
+    } else if (self.options.jsonFile.includes('loops-2b.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 4 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-2c.json')) {
+      $message = $(
+        '<p>Move your robot into every box and stop for 1 second.</p>' +
+        '<p>You\'re may only use 9 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-2d.json')) {
+      $message = $(
+        '<p>Move your robot into every box and stop for 1 second.</p>' +
+        '<p>You\'re may only use 10 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-2e.json')) {
+      $message = $(
+        '<p>Move your robot into every box and stop for 1 second.</p>' +
+        '<p>You\'re may only use 10 blocks.</p>'
+      );
     } else if (self.options.jsonFile.includes('loops-3.json')) {
       $message = $(
         '<p>Move your robot into the green box and stop inside.</p>' +
@@ -451,6 +497,11 @@ var challenges_basic = new function() {
         '<p>Not every block needs to be inside a loop.</p>' +
         '<p>You\'re may only use 6 blocks.</p>'
       );
+    } else if (self.options.jsonFile.includes('loops-4b.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>You\'re may only use 7 blocks.</p>'
+      );
     } else if (self.options.jsonFile.includes('loops-5.json')) {
       $message = $(
         '<p>Collect all the coins.</p>' +
@@ -465,6 +516,12 @@ var challenges_basic = new function() {
       $message = $(
         '<p>Collect all the coins.</p>' +
         '<p>You\'re may only use 10 blocks.</p>'
+      );
+    } else if (self.options.jsonFile.includes('loops-7.json')) {
+      $message = $(
+        '<p>Move your robot into the green box and stop inside.</p>' +
+        '<p>Hint: Look at the example.</p>' +
+        '<p>You\'re may only use 8 blocks.</p>'
       );
     } else if (self.options.jsonFile.includes('conditions-')) {
       $message = $(
@@ -571,6 +628,10 @@ var challenges_basic = new function() {
       self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'RABBIT');
     } else if (self.options.jsonFile.includes('maze-4.json')) {
       self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'DONKEY');
+    } else if (self.options.jsonFile.includes('maze-5.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'TURKEY');
+    } else if (self.options.jsonFile.includes('maze-6.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box3', 'worldBaseObject_box4', 'worldBaseObject_box5'], true, 'FOX');
     } else if (self.options.jsonFile.includes('dungeon-0.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box5', 'IMP');
     } else if (self.options.jsonFile.includes('dungeon-1.json')) {
@@ -622,6 +683,36 @@ var challenges_basic = new function() {
           }
         ]
       );
+    } else if (self.options.jsonFile.includes('dungeon-6.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'MANTICORE',
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box16',
+            move: 'worldBaseObject_box0'
+          },
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box19',
+            move: 'worldBaseObject_box18'
+          },
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box32',
+            move: 'worldBaseObject_box31'
+          },
+          {
+            type: 'move',
+            trigger: 'worldBaseObject_cylinder11',
+            move: 'worldBaseObject_model10',
+            velocity: {
+              x: 0,
+              y: 0,
+              z: -0.1
+            },
+          }
+        ]
+      );
     } else if (self.options.jsonFile.includes('loops-0.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box5', 'PLUTO', [], 4);
     } else if (self.options.jsonFile.includes('loops-0b.json')) {
@@ -630,12 +721,22 @@ var challenges_basic = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box5', 'NEPTUNE', [], 5);
     } else if (self.options.jsonFile.includes('loops-2.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'URANUS', [], 6);
+    } else if (self.options.jsonFile.includes('loops-2b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box5', 'TITANIA', [], 4);
+    } else if (self.options.jsonFile.includes('loops-2c.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box5', 'worldBaseObject_box11'], true, 'OBERON', 'color', [], 9);
+    } else if (self.options.jsonFile.includes('loops-2d.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box5', 'worldBaseObject_box16'], true, 'MIRANDA', 'color', [], 10);
+    } else if (self.options.jsonFile.includes('loops-2e.json')) {
+      self.renderIntersectMulti(delta, ['worldBaseObject_box5', 'worldBaseObject_box8'], true, 'CRISSIDA', 'color', [], 10);
     } else if (self.options.jsonFile.includes('loops-3.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SATURN', [], 4);
     } else if (self.options.jsonFile.includes('loops-3b.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'TITAN', [], 4);
     } else if (self.options.jsonFile.includes('loops-4.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'JUPITER', [], 6);
+    } else if (self.options.jsonFile.includes('loops-4b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'EUROPA', [], 7);
     } else if (self.options.jsonFile.includes('loops-5.json')) {
       self.renderIntersectMulti(
         delta,
@@ -666,6 +767,8 @@ var challenges_basic = new function() {
         [],
         10
       );
+    } else if (self.options.jsonFile.includes('loops-7.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'MOON', [], 8);
     } else if (self.options.jsonFile.includes('conditions-1.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'STONE');
     } else if (self.options.jsonFile.includes('conditions-2.json')) {
@@ -682,8 +785,12 @@ var challenges_basic = new function() {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'CHOCOLATE');
     } else if (self.options.jsonFile.includes('conditions-8.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'BANANA');
+    } else if (self.options.jsonFile.includes('conditions-8b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'SALTED CARAMEL');
     } else if (self.options.jsonFile.includes('conditions-9.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'AVOCADO');
+    } else if (self.options.jsonFile.includes('conditions-9b.json')) {
+      self.renderIntersectOne(delta, 'worldBaseObject_box0', 'BLUEBERRY');
     } else if (self.options.jsonFile.includes('conditions-10.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'VANILLA');
     } else if (self.options.jsonFile.includes('conditions-11.json')) {
@@ -780,11 +887,29 @@ var challenges_basic = new function() {
     } else if (self.options.jsonFile.includes('abstraction-6.json')) {
       self.renderIntersectOne(delta, 'worldBaseObject_box0', 'Indri', [], 1);
     } else if (self.options.jsonFile.includes('abstraction-7.json')) {
-      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Fossa', [], 8);
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Fossa', [
+        {
+          type: 'drop',
+          trigger: 'worldBaseObject_box9',
+          move: 'worldBaseObject_box0'
+        }
+      ], 8);
     } else if (self.options.jsonFile.includes('abstraction-8.json')) {
-      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Dingo', [], 11);
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Dingo', [
+        {
+          type: 'drop',
+          trigger: 'worldBaseObject_box19',
+          move: 'worldBaseObject_box0'
+        }
+      ], 11);
     } else if (self.options.jsonFile.includes('abstraction-9.json')) {
-      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Aardvark', [], 12);
+      self.renderIntersectOne(delta, 'worldBaseObject_box1', 'Aardvark', [
+        {
+          type: 'drop',
+          trigger: 'worldBaseObject_box12',
+          move: 'worldBaseObject_box0'
+        }
+      ], 12);
     } else if (self.options.jsonFile.includes('abstraction-10.json')) {
       self.renderIntersectMulti(
         delta,
@@ -792,7 +917,13 @@ var challenges_basic = new function() {
         false,
         'Zapus',
         'hide',
-        [],
+        [
+          {
+            type: 'drop',
+            trigger: 'worldBaseObject_box11',
+            move: 'worldBaseObject_box0'
+          }
+        ],
         5
       );
     } else if (self.options.jsonFile.includes('abstraction-11.json')) {

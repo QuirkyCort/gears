@@ -889,6 +889,10 @@ function GyroSensor(scene, parent, pos, port, options) {
     rotationRounds: 0,
     rotationAdjustment: 0
   };
+  this.heading = {
+    actual: 0,
+    adjustment: 0
+  }
   this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(0, 0, 0);
   this.UP = new BABYLON.Vector3(0,1,0);
   this.RIGHT = new BABYLON.Vector3(1,0,0);
@@ -977,6 +981,8 @@ function GyroSensor(scene, parent, pos, port, options) {
     let rot = BABYLON.Vector3.GetAngleBetweenVectors(self.s1, e, self.UP) / Math.PI * 180;
     calculateActualAndVelocity(rot, self.yawRotation);
 
+    self.heading.actual = rot;
+
     // Pitch
     e.y = ey;
     e.x = 0;
@@ -996,7 +1002,18 @@ function GyroSensor(scene, parent, pos, port, options) {
     self.yawRotation.rotationAdjustment = self.yawRotation.actualRotation;
     self.pitchRotation.rotationAdjustment = self.pitchRotation.actualRotation;
     self.rollRotation.rotationAdjustment = self.rollRotation.actualRotation;
+    self.heading.adjustment = self.heading.actual;
   };
+
+  this.getHeading = function() {
+    let heading = self.heading.actual - self.heading.adjustment;
+    if (heading >= 180) {
+      heading -= 360;
+    } else if (heading < -180) {
+      heading += 360;
+    }
+    return heading;
+  }
 
   this.getYawAngle = function() {
     return self.yawRotation.actualRotation - self.yawRotation.rotationAdjustment;
@@ -2861,7 +2878,7 @@ function LinearActuator(scene, parent, pos, rot, port, options) {
       self.body.position.x + offset.x,
       self.body.position.y + offset.y,
       self.body.position.z + offset.z
-    )); 
+    ));
 
     let babylonQuaternion = BABYLON.Quaternion.FromEulerAngles(self.rotation.x, self.rotation.y, self.rotation.z);
     let ammoQuaternion = new Ammo.btQuaternion();
@@ -3007,7 +3024,7 @@ function WheelPassive(scene, parent, pos, rot, options) {
     self.end = self.mesh;
     self.body.component = self;
     self.mesh.material = wheelMat;
-    
+
     self.mesh.parent = parent;
     self.mesh.position = self.position;
     self.mesh.rotation.z = -Math.PI / 2;
@@ -3034,7 +3051,7 @@ function WheelPassive(scene, parent, pos, rot, options) {
 
   this.loadJoints = function(){
     var wheel2world = self.mesh.absoluteRotationQuaternion;
-    
+
     let zero = BABYLON.Vector3.Zero();
     var world2body = parent.absoluteRotationQuaternion;
     world2body = BABYLON.Quaternion.Inverse(world2body);
@@ -3078,6 +3095,328 @@ function WheelPassive(scene, parent, pos, rot, options) {
         self.options[name] = options[name];
       }
     }
+  };
+
+  this.init();
+}
+
+function CameraSensor(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'CameraSensor';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var bodyMat = new BABYLON.StandardMaterial('cameraSensorBody', scene);
+    var bodyTexture = new BABYLON.Texture('textures/robot/cameraSensor.png', scene);
+    bodyMat.diffuseTexture = bodyTexture;
+
+    var faceUV = new Array(6);
+    faceUV[1] = new BABYLON.Vector4(0, 0, 0, 0);
+    faceUV[0] = new BABYLON.Vector4(0, 0, 1, 0.375);
+    faceUV[2] = new BABYLON.Vector4(0, 0.375, 1, 1);
+    faceUV[3] = new BABYLON.Vector4(1,1,0, 0.375);
+    faceUV[4] = new BABYLON.Vector4(0, 0, 0, 0);
+    faceUV[5] = new BABYLON.Vector4(0, 0, 0, 0);
+
+    let bodyOptions = {
+      height: 1.5,
+      width: 1.5,
+      depth: 2.5,
+      faceUV: faceUV,
+    };
+    var body = BABYLON.MeshBuilder.CreateBox('cameraSensorBody', bodyOptions, scene);
+    self.body = body;
+    body.component = self;
+    body.material = bodyMat;
+    scene.shadowGenerator.addShadowCaster(body);
+
+    body.position.z -= 1.50001;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    body.parent = parent;
+
+    body.position = self.position;
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+
+    // Create camera and RTT
+    self.rttCam = new BABYLON.FreeCamera('Camera', self.position, scene, false);
+    self.rttCam.fov = self.options.sensorFov;
+    self.rttCam.minZ = self.options.sensorMinRange;
+    // self.rttCam.maxZ = self.options.sensorMaxRange;
+    self.rttCam.updateUpVectorFromRotation = true;
+
+    self.renderTarget = new BABYLON.RenderTargetTexture(
+      'cameraSensor',
+      self.options.sensorResolution, // texture size
+      scene,
+      false, // generateMipMaps
+      false, // doNotChangeAspectRatio
+      BABYLON.Constants.TEXTURETYPE_UNSIGNED_INT,
+      false,
+      BABYLON.Texture.NEAREST_NEAREST
+    );
+    self.renderTarget.clearColor = BABYLON.Color3.Black();
+    scene.customRenderTargets.push(self.renderTarget);
+    self.renderTarget.activeCamera = self.rttCam;
+    // self.renderTarget.refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
+
+    self.pixels = new Uint8Array(self.options.sensorResolution ** 2 * 4);
+    self.rgbArray = [];
+    self.hsvArray = [];
+    self.hsvExpired = true;
+    for (let y=0; y<self.options.sensorResolution; y++) {
+      let rgbRow = [];
+      let hsvRow = [];
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        rgbRow.push([0,0,0]);
+        hsvRow.push([0,0,0]);
+      }
+      self.rgbArray.push(rgbRow);
+      self.hsvArray.push(hsvRow);
+    }
+  };
+
+  this.loadMeshes = function(meshes) {
+    meshes.forEach(function(mesh){
+      self.renderTarget.renderList.push(mesh);
+    });
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      sensorResolution: 100,
+      sensorMinRange: 0.1,
+      // sensorMaxRange: 5,
+      sensorFov: 1.3
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.render = function(delta) {
+    let offset = new BABYLON.Vector3(0, 0, 1.25);
+    offset = offset.rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, BABYLON.Vector3.Zero());
+    let position = new BABYLON.Vector3(0, 0, 0);
+    position.copyFrom(self.body.absolutePosition);
+    position.addInPlace(offset);
+    self.rttCam.position = position;
+    self.rttCam.rotationQuaternion = self.body.absoluteRotationQuaternion;
+    if (babylon.engine._webGLVersion >= 2 && babylon.DISABLE_ASYNC == false) {
+      self.readPixelsAsync();
+    }
+  };
+
+  this.captureImage = function() {
+    if (babylon.engine._webGLVersion < 2 || babylon.DISABLE_ASYNC) {
+      self.renderTarget.readPixels(0, 0, self.pixels);
+    }
+
+    let rowSize = self.options.sensorResolution * 4;
+    for (let y=0; y<self.options.sensorResolution; y++) {
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        for (let c=0; c<3; c++) {
+          let pixelY = self.options.sensorResolution - y - 1;
+          self.rgbArray[y][x][c] = self.pixels[pixelY * rowSize + x * 4 + c]
+        }
+      }
+    }
+
+    self.hsvExpired = true;
+  };
+
+  this.genHSV = function() {
+    for (let y=0; y<self.options.sensorResolution; y++) {
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        let hsv = Colors.toHSV(self.rgbArray[y][x]);
+        for (let c=0; c<3; c++) {
+          self.hsvArray[y][x][c] = hsv[c];
+        }
+      }
+    }
+    self.hsvExpired = false;
+  };
+
+  this.getRGB = function() {
+    return self.rgbArray;
+  };
+
+  this.getHSV = function() {
+    if (self.hsvExpired) {
+      self.genHSV();
+    }
+    return self.hsvArray;
+  };
+
+  this.findBlobs = function(thresholds, pixelsThreshold) {
+    function combineBlobsList(blobsList) {
+      let keys = Object.keys(blobsList).map(x=>parseInt(x)).sort();
+
+      for (let i=keys.length-1; i>0; i--) {
+        let key = keys[i];
+        for (let j=i-1; j>=0; j--) {
+          if (blobsList[keys[j]].includes(key)) {
+            for (let k of blobsList[key]) {
+              if (! blobsList[keys[j]].includes(k)) {
+                blobsList[keys[j]].push(k);
+              }
+            }
+            delete blobsList[key];
+            break;
+          }
+        }
+      }
+
+      for (let i in blobsList) {
+        blobsList[i] = [...new Set(blobsList[i])];
+      }
+    }
+
+    function withinThresholdsHSV(pixel, thresholds) {
+      if (
+        pixel[0] >= thresholds[0] &&
+        pixel[0] <= thresholds[1] &&
+        pixel[1] >= thresholds[2] &&
+        pixel[1] <= thresholds[3] &&
+        pixel[2] >= thresholds[4] &&
+        pixel[2] <= thresholds[5]
+      ) {
+        return true;
+      }
+
+      return false;
+    }
+
+    // generate hsv if needed
+    if (self.hsvExpired) {
+      self.genHSV();
+    }
+
+    // array to record pixel groupings
+    let groupings = [];
+    for (let y=0; y<self.options.sensorResolution-1; y++) {
+      let row = [];
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        row.push(0);
+      }
+      groupings.push(row);
+    }
+
+    // check if pixel within threshold
+    let blobsList = {};
+    let next_group = 1;
+    for (let y=0; y<self.options.sensorResolution-1; y++) {
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        if (withinThresholdsHSV(self.hsvArray[y][x], thresholds)) {
+          let left = 0;
+          let top = 0;
+          if (x != 0) {
+            left = groupings[y][x-1];
+          }
+          if (y != 0) {
+            top = groupings[y-1][x];
+          }
+
+          if (left == 0 && top == 0) {
+            groupings[y][x] = next_group;
+            blobsList[next_group] = [next_group];
+            next_group++;
+          } else if (left != 0 && top != 0) {
+            groupings[y][x] = left;
+            blobsList[Math.min(left, top)].push(Math.max(left, top));
+          } else {
+            groupings[y][x] = Math.max(left, top);
+          }
+        }
+      }
+    }
+
+    // combine blobs list
+    combineBlobsList(blobsList);
+
+    // process blobs
+    blobs = []
+    for (let b in blobsList) {
+      blobs.push({
+        groups: blobsList[b],
+        count: 0,
+        sumX: 0,
+        sumY: 0,
+        minX: self.options.sensorResolution - 1,
+        maxX: 0,
+        minY: self.options.sensorResolution - 1,
+        maxY: 0
+      })
+    }
+
+    for (let y=0; y<self.options.sensorResolution-1; y++) {
+      for (let x=0; x<self.options.sensorResolution; x++) {
+        for (let blob of blobs) {
+          if (blob.groups.includes(groupings[y][x])) {
+            blob.count++;
+            blob.sumX += x;
+            blob.sumY += y;
+            blob.minX = Math.min(blob.minX, x)
+            blob.maxX = Math.max(blob.maxX, x)
+            blob.minY = Math.min(blob.minY, y)
+            blob.maxY = Math.max(blob.maxY, y)
+            break;
+          }
+        }
+      }
+    }
+
+    // Result
+    results = [];
+    for (let k in blobs) {
+      let blob = blobs[k];
+      if (blob.count < pixelsThreshold) {
+        continue;
+      }
+      results.push({
+        pixels: blob.count,
+        cx: blob.sumX / blob.count,
+        cy: blob.sumY / blob.count,
+        x: blob.minX,
+        y: blob.minY,
+        w: blob.maxX - blob.minX,
+        h: blob.maxY - blob.minY
+      })
+    }
+
+    // sort biggest blob to top
+    function cmp(a, b) {
+      if (a.pixels > b.pixels) {
+        return -1;
+      } else if (a.pixels < b.pixels) {
+        return 1;
+      }
+      return 0
+    }
+    results.sort(cmp);
+
+    return results;
   };
 
   this.init();

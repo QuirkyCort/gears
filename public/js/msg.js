@@ -58,6 +58,7 @@ let MSGS = {
     ru: 'Рисование (В разработке)',
     hu: 'Toll',
     pt: 'Caneta (Experimental)',
+    de: 'Stift',
   },
   '#blk-radio-category#': {
     en: 'Radio (Experimental)',
@@ -66,6 +67,7 @@ let MSGS = {
     ru: 'Радиосигналы (В разработке)',
     hu: 'Rádió',
     pt: 'Radio (Experimental)',
+    de: 'Kommunikation',
   },
   '#blk-control#': {
     en: 'Control',
@@ -440,7 +442,7 @@ let MSGS = {
     fr: 'avancer le tank avec une vitesse à gauche de',
     el: 'move tank με αριστερή ταχύτητα',
     nl: 'beweeg tank met linker snelheid',
-    de: 'bewege den Panzer mit einer linken Geschwindigkeit',
+    de: 'bewege den Kettenfahrzeug mit einer linken Geschwindigkeit',
     pt: 'mova o tanque com velocidade para a esquerda',
     he: 'הזז טנק במהירות שמאלית',
     ru: 'независимое управление скорость левого',
@@ -594,7 +596,7 @@ let MSGS = {
     ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение содержит только само сообщение.',
   },
   '#blk-color_sensor#': {
-    en: 'color_sensor',
+    en: 'color sensor',
     fr: 'capteur de couleurs',
     el: 'αισθητήρας χρώματος',
     nl: 'kleurensensor',
@@ -603,6 +605,10 @@ let MSGS = {
     he: 'חיישן צבע',
     ru: 'датчик цвета',
     hu: 'szín szenzor',
+  },
+  '#blk-color_sensor_sees#': {
+    en: 'color sensor sees',
+    de: 'Farbsensor erkennt',
   },
   '#blk-on_port#': {
     en: 'on port',
@@ -630,6 +636,7 @@ let MSGS = {
     en: 'as',
     ru: 'в',
     pt: 'como',
+    de: 'als',
   },
   '#blk-color#': {
     en: 'color',
@@ -744,6 +751,7 @@ let MSGS = {
     ru: 'расстояние с лазерного дальномера порт',
     hu: 'LASER távolságmérő',
     pt: 'distância do laser na porta',
+    de: 'Entfernungslaser an dem Port',
   },
   '#blk-in#': {
     en: 'in',
@@ -809,6 +817,9 @@ let MSGS = {
     nl: 'kantelscherpte',
     he: 'קצב גלגול',
     pt:'taxa de rolagem',
+  },
+  '#blk-heading#': {
+    en: 'heading',
   },
   '#blk-reset_gyro_on_port#': {
     en: 'reset gyro on port',
@@ -1120,6 +1131,7 @@ let MSGS = {
     en: 'Set movement motors to',
     pt: 'Defina os motores de movimento para',
     ru: 'выбрать двигатели',
+    de: 'setze Bewegungsmotoren auf',
   },
   '#blk-set_movement_motors_tooltip#': {
     en: 'Only needed if not using the default of ports A and B',
@@ -1131,12 +1143,14 @@ let MSGS = {
     pt: 'Espere até',
     ru: 'ждать до',
     hu: 'Várj, amíg',
+    de: 'Warte bis',
   },
   '#blk-button#': {
     en: 'button',
     pt: 'botão',
     ru: 'кнопка',
     hu: 'Gomb',
+    de: 'Knopf',
   },
   '#blk-center#': {
     en: 'Center',
@@ -1167,6 +1181,51 @@ let MSGS = {
     pt: 'baixo',
     ru: 'Вниз',
     hu: 'Le',
+  },
+  '#blk-comment#': {
+    en: '# Comment:',
+  },
+  '#blk-comment_tooltip#': {
+    en: 'This blocks does nothing and is only used for comments. Multiple lines are supported.',
+  },
+  '#blk-camera_capture_image#': {
+    en: 'capture image with camera',
+  },
+  '#blk-camera_capture_image_tooltip#': {
+    en: 'You must run this before any other camera commands',
+  },
+  '#blk-camera_get_rgb#': {
+    en: 'get RGB values from camera',
+  },
+  '#blk-camera_get_rgb_tooltip#': {
+    en: 'You must run the capture image block first',
+  },
+  '#blk-camera_get_hsv#': {
+    en: 'get HSV values from camera',
+  },
+  '#blk-camera_get_hsv_tooltip#': {
+    en: 'You must run the capture image block first',
+  },
+  '#blk-camera_find_blobs#': {
+    en: 'find blobs from camera',
+  },
+  '#blk-camera_find_blobs_tooltip#': {
+    en: 'You must run the capture image block first. Inputs are min/max for HSV. Blobs with less than the specified number of pixels will be filtered out.',
+  },
+  '#blk-matching_H#': {
+    en: 'matching H:',
+  },
+  '#blk-S#': {
+    en: 'S:',
+  },
+  '#blk-V#': {
+    en: 'V:',
+  },
+  '#blk-and_at_least#': {
+    en: 'and at least',
+  },
+  '#blk-pixels#': {
+    en: 'pixels',
   },
   '#main-blocks#': {
     en: 'Blocks',
@@ -1338,6 +1397,7 @@ let MSGS = {
     pt: 'Mundos',
     ru: 'Окружение',
     hu: 'Világ',
+    de: 'Welten',
   },
   '#main-select_world#': {
     en: 'Select World',
@@ -1756,6 +1816,10 @@ let MSGS = {
     pt: 'Arquivo de robô inválido (dados de configuração do robô ausentes)',
     hu: 'Érvénytelen robotfájl (hiányzó robotkonfigurációs adatok)',
   },
+  '#main-main#': {
+    en: 'Main',
+    de: 'Start',
+  },
   '#arena-show_names#': {
     en: 'Show Names',
     nl: 'Toon namen',
@@ -2025,6 +2089,9 @@ let MSGS = {
     ru: 'Перо',
     hu: 'Toll',
   },
+  '#sim-camera#': {
+    en: 'Camera Sensor',
+  },
   '#sim-touch#': {
     en: 'Touch Sensor',
     nl: 'Drukknop-sensor',
@@ -2041,6 +2108,12 @@ let MSGS = {
     pt: 'se pressionado',
     he: 'נלחץ',
     ru: 'Нажат',
+  },
+  '#sim-show#': {
+    en: 'Show',
+  },
+  '#sim-hide#': {
+    en: 'Hide',
   },
   '#sim-left_motor#': {
     en: 'Left Motor',

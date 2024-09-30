@@ -475,7 +475,15 @@ function Robot() {
           componentConfig.rotation,
           'out' + PORT_LETTERS[(++self.motorCount)],
           componentConfig.options);
-      } else {
+        } else if (componentConfig.type == 'CameraSensor') {
+        component = new CameraSensor(
+          self.scene,
+          parent,
+          componentConfig.position,
+          componentConfig.rotation,
+          'in' + (++self.sensorCount),
+          componentConfig.options);
+          } else {
         console.log('Unrecognized component type: ' + componentConfig.type);
       }
       if (component != null) {
