@@ -286,7 +286,11 @@
       </value>
     </block>
   </category>
-  <category name="#blk-radio-category#" colour="#a55b80">
+  <category name="#blk-experimental-category#" colour="#a55b80">
+    <block type="object_tracker">
+      <field name="type">X</field>
+      <field name="robot">0</field>
+    </block>
     <block type="radio_send">
       <value name="value">
         <shadow type="text">
@@ -301,12 +305,6 @@
     <block type="radio_read_content">
     </block>
     <block type="radio_empty">
-    </block>
-  </category>
-  <category name="#blk-objecttracker-category#" colour="#5ba58c">
-    <block type="object_tracker">
-      <field name="type">X</field>
-      <field name="robot">0</field>
     </block>
   </category>
   <category name="#blk-control#" colour="#9fa55b">

@@ -52,25 +52,20 @@ let MSGS = {
     hu: 'Hang',
   },
   '#blk-pen-category#': {
-    en: 'Pen (Experimental)',
-    nl: 'Pen (Experimenteel)',
-    he: 'עט (נסיוני)',
-    ru: 'Рисование (В разработке)',
+    en: 'Pen',
+    nl: 'Pen',
+    he: 'עט',
+    ru: 'Рисование',
     hu: 'Toll',
-    pt: 'Caneta (Experimental)',
+    pt: 'Caneta',
     de: 'Stift',
   },
-  '#blk-radio-category#': {
-    en: 'Radio (Experimental)',
-    nl: 'Radio (Experimenteel)',
-    he: 'רדיו (נסיוני)',
-    ru: 'Радиосигналы (В разработке)',
-    hu: 'Rádió',
-    pt: 'Radio (Experimental)',
-    de: 'Kommunikation',
-  },
-  '#blk-objecttracker-category#': {
-    en: 'Object Tracker (Experimental)',
+  '#blk-experimental-category#': {
+    en: 'Experimental',
+    nl: 'Experimenteel',
+    he: 'נסיוני',
+    ru: 'В разработке',
+    pt: 'Experimental',
   },
   '#blk-control#': {
     en: 'Control',
@@ -1715,7 +1710,7 @@ let MSGS = {
       '<p>A GearsBot Arena permite que até 4 robôs compitam ou cooperem entre si.</p>' +
       '<p>Programe seu robô usando a página GearsBot normal (...onde você está agora) e exporte seu programa e robô como um pacote zip (Arquivos -> Exportar Zip...).'+
       'Você pode então carregar o pacote zip no GearsBot Arena e executá-lo contra outros jogadores.</p>',
-    
+
     he:
       '<p>הזירה מאפשר לעד 4 רובוטים להתחרות או לשתף פעולה אחד עם השני.</p>' +
       '<p>תכנת את הרובוט שלך דרך העמוד בו אתה נמצא כעת, ויצא את התוכנית והרובוט כחבילת זיפ (Files -> Export Zip...).' +
