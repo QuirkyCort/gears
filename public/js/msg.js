@@ -11,6 +11,7 @@ let MSGS = {
     he: 'תְנוּעָה',
     ru: 'Движение',
     hu: 'Mozgás',
+    it: 'Movimento',
   },
   '#blk-motor#': {
     en: 'Motor',
@@ -24,6 +25,7 @@ let MSGS = {
     he: 'מָנוֹעַ',
     ru: 'Двигатель',
     hu: 'Motor',
+    it: 'Motore',
   },
   '#blk-sensors#': {
     en: 'Sensors',
@@ -37,6 +39,7 @@ let MSGS = {
     he: 'חיישנים',
     ru: 'Датчики',
     hu: 'Szenzor',
+    it: 'Sensore',
   },
   '#blk-sound#': {
     en: 'Sound',
@@ -50,6 +53,7 @@ let MSGS = {
     he: 'קול',
     ru: 'Звук',
     hu: 'Hang',
+    it: 'Suono',
   },
   '#blk-pen-category#': {
     en: 'Pen',
@@ -59,6 +63,7 @@ let MSGS = {
     hu: 'Toll',
     pt: 'Caneta',
     de: 'Stift',
+    it: 'penna',
   },
   '#blk-experimental-category#': {
     en: 'Experimental',
@@ -66,6 +71,7 @@ let MSGS = {
     he: 'נסיוני',
     ru: 'В разработке',
     pt: 'Experimental',
+    it: 'Sperimentale'
   },
   '#blk-control#': {
     en: 'Control',
@@ -79,6 +85,7 @@ let MSGS = {
     he: 'בקרה',
     ru: 'Управление',
     hu: 'Vezérlés',
+    it: 'controllo',
   },
   '#blk-logic#': {
     en: 'Logic',
@@ -92,6 +99,7 @@ let MSGS = {
     he: 'לוגיקה',
     ru: 'Условия',
     hu: 'Logika',
+    it: 'logica',
   },
   '#blk-loops#': {
     en: 'Loops',
@@ -105,6 +113,7 @@ let MSGS = {
     he: 'לולאות',
     ru: 'Циклы',
     hu: 'Ciklusok',
+    it: 'loop',
   },
   '#blk-math#': {
     en: 'Math',
@@ -118,6 +127,7 @@ let MSGS = {
     he: 'חישוב',
     ru: 'Математика',
     hu: 'Matematika',
+    it: 'Matematica',
   },
   '#blk-text#': {
     en: 'Text',
@@ -131,6 +141,7 @@ let MSGS = {
     he: 'טֶקסט',
     ru: 'Текст',
     hu: 'Szöveg',
+    it: 'Testo',
   },
   '#blk-lists#': {
     en: 'Lists',
@@ -144,6 +155,7 @@ let MSGS = {
     he: 'רשימות',
     ru: 'Списки',
     hu: 'Listák',
+    it: 'Lista',
   },
   '#blk-variables#': {
     en: 'Variables',
@@ -157,6 +169,7 @@ let MSGS = {
     he: 'משתנים',
     ru: 'Переменные',
     hu: 'Változók',
+    it: 'variabili',
   },
   '#blk-functions#': {
     en: 'Functions',
@@ -170,6 +183,7 @@ let MSGS = {
     he: 'פונקציות',
     ru: 'Функции',
     hu: 'Függvények',
+    it: 'funzioni',
   },
   '#blk-when_started#': {
     en: 'When Started',
@@ -182,6 +196,7 @@ let MSGS = {
     he: 'כשהתחיל',
     ru: 'Когда программа стартует',
     hu: 'Indításkor',
+    it: 'Quando si inizia',
   },
   '#blk-sleep_for#': {
     en: 'sleep for',
@@ -193,6 +208,7 @@ let MSGS = {
     he: 'הרדם למשך',
     ru: 'ждать',
     hu: 'várakozás',
+    it: 'aspettare per',
   },
   '#blk-seconds#': {
     en: 'seconds',
@@ -204,6 +220,7 @@ let MSGS = {
     he: 'שניות',
     ru: 'секунд',
     hu: 'másodperc',
+    it: 'Secondi',
   },
   '#blk-milliseconds#': {
     en: 'milliseconds',
@@ -215,6 +232,7 @@ let MSGS = {
     he: 'אלפיות השנייה',
     ru: 'миллисекунд',
     hu: 'ezred másodperc',
+    it: 'millisecondi',
   },
   '#blk-stop_moving_and#': {
     en: 'stop moving and',
@@ -226,6 +244,7 @@ let MSGS = {
     he: 'עצור ו',
     ru: 'выключить двигатели и',
     hu: 'Mozgás leáll, és',
+    it: 'smettere di muoversi e',
   },
   '#blk-brake#': {
     en: 'brake',
@@ -236,6 +255,7 @@ let MSGS = {
     pt: 'parar',
     he: 'בלום',
     hu: 'fékezés',
+    it: 'fermarsi',
   },
   '#blk-coast#': {
     en: 'coast',
@@ -246,7 +266,7 @@ let MSGS = {
     pt: 'costa',
     he: 'המשך',
     ru: 'двигаться по инерции',
-    pt: 'costa',
+    it: 'costa',
   },
   '#blk-hold#': {
     en: 'hold',
@@ -258,6 +278,7 @@ let MSGS = {
     he: 'המתן',
     ru: 'затормозить',
     hu: 'tartás',
+    it: 'tenere',
   },
   '#blk-stop_motor_on_port#': {
     en: 'stop motor on port',
@@ -269,6 +290,7 @@ let MSGS = {
     he: 'עצור מנוע ביציאה',
     ru: 'остановить двигатель порт',
     hu: 'Motor leáll a porton',
+    it: 'fermare il motore alla porta',
   },
   '#blk-and#': {
     en: 'and',
@@ -280,6 +302,7 @@ let MSGS = {
     ru: 'и',
     hu: 'és',
     pt: 'e',
+    it: 'e',
   },
   '#blk-move_steering_with_direction#': {
     en: 'move steering with direction',
@@ -291,6 +314,7 @@ let MSGS = {
     ru: 'рулевое управление по направлению',
     hu: 'Kormányzás irány:',
     pt: 'mover na direção de',
+    it: 'muoversi in direzione di',
   },
   '#blk-and_speed#': {
     en: 'and speed',
@@ -302,6 +326,7 @@ let MSGS = {
     he: 'ומהירות',
     ru: 'со скоростью',
     hu: 'sebesség:',
+    it: 'e velocità',
   },
   '#blk-degrees#': {
     en: 'degrees',
@@ -313,6 +338,7 @@ let MSGS = {
     he: 'מעלות',
     ru: 'градусов',
     hu: 'szög',
+    it: 'gradi',
   },
   '#blk-rotations#': {
     en: 'rotations',
@@ -324,6 +350,7 @@ let MSGS = {
     he: 'סיבובים',
     ru: 'оборотов',
     hu: 'fordulat',
+    it: 'rotazioni',
   },
   '#blk-move_steering_tooltip#': {
     en: 'direction ranges from -100 (left) to 0 (straight) to 100 (right)',
@@ -335,6 +362,7 @@ let MSGS = {
     ru: 'направление принимает значения от -100 (влево) до 0 (прямо) и до 100 (вправо)',
     hu: 'kormány irányok: -100:balra, 0:előre, 100: jobbra',
     pt: 'a direção varia de -100 (esquerda) a 0 (reta) a 100 (direita)',
+    it: 'la direzione varia da -100 (sinistra) a 0 (dritto) a 100 (destra)'
   },
   '#blk-for#': {
     en: 'for',
@@ -346,6 +374,7 @@ let MSGS = {
     he: 'ל',
     ru: 'для',
     hu: 'eddig:',
+    it: 'per',
   },
   '#blk-exit_program#': {
     en: 'exit program',
@@ -353,10 +382,11 @@ let MSGS = {
     el: 'Τερματισμός προγράμματος',
     nl: 'programma stoppen',
     de: 'beende Programm',
-    pt: 'sair do programa',
+    pt: 'interromper programa',
     he: 'יציאה מהתוכנית',
     ru: 'остановить программу',
     hu: 'kilépés a programból',
+    it: 'Interrompere il programma',
   },
   '#blk-position_of_motor_on_port#': {
     en: 'position of motor on port',
@@ -368,6 +398,7 @@ let MSGS = {
     he: 'מיקום המנוע ביציאה',
     ru: 'позиция двигателя порт',
     hu: 'motor helyzete a porton',
+    it: 'posizione del motore sulla porta',
   },
   '#blk-in_degrees#': {
     en: 'in degrees',
@@ -379,6 +410,7 @@ let MSGS = {
     he: 'במעלות',
     ru: 'в градусах',
     hu: 'fokban',
+    it: 'in gradi',
   },
   '#blk-speed_of_motor_on_port#': {
     en: 'speed of motor on port',
@@ -390,6 +422,7 @@ let MSGS = {
     he: 'מהירות המנוע ביציאה',
     ru: 'скорость двигателя порт',
     hu: 'motor sebessége a porton',
+    it: 'velocità del motore sulla porta',
   },
   '#blk-reset_position_of_motor_on_port#': {
     en: 'reset position of motor on port',
@@ -401,6 +434,8 @@ let MSGS = {
     he: 'איפוס מיקום מנוע ביציאה',
     ru: 'сбросить позицию двигателя порт',
     hu: 'pozíció törlése a porton',
+    it: 'ripristino della posizione del motore sulla porta',
+    
   },
   '#blk-both_wheels#': {
     en: 'Both wheels',
@@ -412,6 +447,7 @@ let MSGS = {
     he: 'שני הגלגלים',
     ru: 'Оба колеса',
     hu: 'Mindkét kerék',
+    it: 'Entrambe le ruote',
   },
   '#blk-left_wheel#': {
     en: 'Left Wheel',
@@ -423,6 +459,7 @@ let MSGS = {
     he: 'גלגל שמאל',
     ru: 'Левое колесо',
     hu: 'Bal kerék',
+    it: 'Ruota sinistra',
   },
   '#blk-right_wheel#': {
     en: 'Right Wheel',
@@ -434,6 +471,7 @@ let MSGS = {
     he: 'גלגל ימין',
     ru: 'Правое колесо',
     hu: 'Jobb kerék',
+    it: 'Ruota destra',
   },
   '#blk-move_tank_with_left_speed#': {
     en: 'move tank with left speed',
@@ -441,10 +479,11 @@ let MSGS = {
     el: 'move tank με αριστερή ταχύτητα',
     nl: 'beweeg tank met linker snelheid',
     de: 'bewege den Kettenfahrzeug mit einer linken Geschwindigkeit',
-    pt: 'mova o tanque com velocidade para a esquerda',
+    pt: 'mova o tanque para a esquerda com velocidade',
     he: 'הזז טנק במהירות שמאלית',
     ru: 'независимое управление скорость левого',
     hu: 'Tank mozgás bal:',
+    it: 'spostare il serbatoio a sinistra con velocità',
   },
   '#blk-and_right_speed#': {
     en: 'and right speed',
@@ -452,46 +491,52 @@ let MSGS = {
     el: 'και δεξιά ταχύτητα',
     nl: 'en rechter snelheid',
     de: 'und rechte Geschwindigkeit',
-    pt: 'com velocidade para a direita',
+    pt: 'para a direita com velocidade',
     he: 'ומהירות ימנית',
     ru: 'скорость правого',
     hu: 'jobb:',
+    it: 'a destra con velocità',
   },
   '#blk-touch_sensor#': {
-    en: 'touch_sensor',
+    en: 'touch sensor',
     nl: 'drukknop sensor',
     de: 'Berührungssensor',
     pt: 'Sensor de toque',
     he: 'חיישן מגע',
     ru: 'датчик касания',
     hu: 'érintés szenzor',
+    it: 'sensore tattile',
+    
   },
   '#blk-wait_until_touch_sensor#': {
-    en: 'wait until touch_sensor',
+    en: 'wait until touch sensor',
     nl: 'wacht tot drukknop sensor',
     de: 'warte bis der Berührungssensor',
     pt: 'espere até o sensor de toque',
     he: 'המתן עד שחיישן מגע',
     ru: 'ждать, пока датчик касания',
     hu: 'várj, amíg az érintés szenzor',
+    it: 'attendere fino a quando il sensore tattile',
   },
   '#blk-is_pressed#': {
     en: 'is Pressed',
     nl: 'is ingedrukt',
     de: 'ist gedrückt',
-    pt: 'se pressionado',
+    pt: 'é pressionado',
     he: 'נלחץ',
     ru: 'нажат(а)',
     hu: 'megnyomva',
+    it:'è premuto',
   },
   '#blk-is_released#': {
     en: 'is Released',
     nl: 'is losgelaten',
     de: 'ist losgelassen',
-    pt: 'lançado',
+    pt: 'é lançado',
     he: 'משוחרר',
     ru: 'отжат(а)',
     hu: 'elengedve',
+    it: 'è stato lanciato',
   },
   '#blk-is_bumped#': {
     en: 'is Bumped',
@@ -499,6 +544,7 @@ let MSGS = {
     de: 'ist angestoßen',
     pt: 'esbarrado',
     he: 'נתקל',
+    it: 'viene respinto',
   },
   '#blk-send_message#': {
     en: 'Send message to',
@@ -507,6 +553,7 @@ let MSGS = {
     pt: 'enviar mensagem para',
     he: 'שלח הודעה',
     ru: 'Отправить сообщение',
+    it: 'Inviare un messaggio a',
   },
   '#blk-via_mailbox#': {
     en: 'via mailbox',
@@ -515,6 +562,7 @@ let MSGS = {
     pt: 'via caixa de correio',
     he: 'דרך תיבת דואר',
     ru: 'через почтовый ящик',
+    it: 'via cassetta postale',
   },
   '#blk-robot#': {
     en: 'robot',
@@ -523,6 +571,7 @@ let MSGS = {
     pt: 'robô',
     he: 'רובוט',
     ru: 'робот',
+    it: 'robot',
   },
   '#blk-team_mates#': {
     en: 'team mates',
@@ -531,6 +580,7 @@ let MSGS = {
     pt: 'companheiros de equipe',
     he: 'חברי צוות',
     ru: 'члены команды',
+    it: 'compagni di squadra',
   },
   '#blk-all#': {
     en: 'all',
@@ -539,18 +589,28 @@ let MSGS = {
     pt: 'todos',
     he: 'כולם',
     ru: 'все',
+    it: 'tutti',
   },
   '#blk-opponent_1#': {
     en: 'opponent 1',
+    pt: 'oponente 1',
+    it: 'avversario 1',
   },
   '#blk-opponent_2#': {
     en: 'opponent 2',
+    pt: 'oponente 2',
+    it: 'avversario 2',
   },
   '#blk-self#': {
     en: 'self',
+    pt: 'autônomo',
+    it: 'autonomo',
   },
   '#blk-ball#': {
     en: 'ball',
+    pt: 'bola',
+    it: 'palla',
+    
   },
   '#blk-messages_available#': {
     en: 'number of messages in mailbox',
@@ -559,6 +619,7 @@ let MSGS = {
     pt: 'numero de mensagens na caixa de correio',
     he: 'הודעות זמינות',
     ru: 'количество сообщений в почтовом ящике',
+    it: 'numero di messaggi nella mailbox',
   },
   '#blk-read_message#': {
     en: 'read next message in mailbox',
@@ -567,6 +628,8 @@ let MSGS = {
     pt: 'ler a próxima mensagem na caixa de correio',
     he: 'קרא הודעה',
     ru: 'прочитать следующее сообщение в почтовом ящике',
+    it: 'leggere il prossimo messaggio nella casella di posta',
+    
   },
   '#blk-read_content#': {
     en: 'read content of next message in mailbox',
@@ -575,6 +638,7 @@ let MSGS = {
     pt: 'ler o conteúdo da próxima mensagem na caixa de correio',
     he: 'קרא תוכן',
     ru: 'прочитать содержимое следующего сообщения в ящике',
+    it: 'leggere il contenuto del prossimo messaggio nella cassetta postale',
   },
   '#blk-empty_mailbox#': {
     en: 'empty mailbox',
@@ -583,6 +647,7 @@ let MSGS = {
     pt: 'caixa de correio vazia',
     he: 'רוקן תיבת דואר',
     ru: 'очистить почтовый ящик',
+    it: 'cassetta postale vuota'
   },
   '#blk-radio_send_tooltip#': {
     en: 'Any type of messages can be sent, including numbers, text, and lists',
@@ -590,6 +655,7 @@ let MSGS = {
     de: 'Jede Art einer Nachricht kann gesendet werdem, sowie Zahlen, Text und Listen',
     pt: 'Qualquer tipo de mensagem pode ser enviada, incluindo números, texto e listas',
     ru: 'Можно отправлять сообщения различных типов - числа, текст и списки',
+    it: 'È possibile inviare qualsiasi tipo di messaggio, compresi numeri, testi ed elenchi',
   },
   '#blk-radio_read_tooltip#': {
     en: 'Returns the oldest message and remove it from the mailbox. Return value is a list containing both the message content and the sender id.',
@@ -597,6 +663,7 @@ let MSGS = {
     de: 'Sendet die älteste Naricht zurück und entfernt sie von der Mailbox. Der zurückgegebene Wert ist eine Liste mit dem Inhalt der Naricht und die ID des Absenders.',
     pt: 'Retorna a mensagem mais antiga e a remove da caixa de correio. O valor de retorno é uma lista contendo o conteúdo da mensagem e o ID do remetente.',
     ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение является списком, который содержит само сообщение а также идентификатор отправителя.',
+    it: 'Restituisce il messaggio più vecchio e lo rimuove dalla cassetta postale. Il valore restituito è un elenco contenente il contenuto del messaggio e l`id del mittente.'
   },
   '#blk-radio_read_content_tooltip#': {
     en: 'Returns the oldest message and remove it from the mailbox. Return value contains only the message content.',
@@ -604,9 +671,12 @@ let MSGS = {
     de: 'Sendet die älteste Naricht zurück und entfernt sie von der Mailbox. Der zurückgegebene Wert ist der Inhalt der Nachricht.',
     pt: 'Retorna a mensagem mais antiga e a remove da caixa de correio. O valor de retorno contém apenas o conteúdo da mensagem.',
     ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение содержит только само сообщение.',
+    it: 'Restituisce il messaggio più vecchio e lo rimuove dalla cassetta postale. Il valore di ritorno contiene solo il contenuto del messaggio.',
   },
   '#blk-object_tracker_tooltip#': {
     en: 'Virtual sensor that provides position or velocity of robots or the football.',
+    pt: 'Sensor virtual que fornece a posição ou a velocidade dos robôs ou da bola de futebol.',
+    it: 'Sensore virtuale che fornisce la posizione o la velocità dei robot o del pallone.',
   },
   '#blk-color_sensor#': {
     en: 'color sensor',
@@ -618,13 +688,18 @@ let MSGS = {
     he: 'חיישן צבע',
     ru: 'датчик цвета',
     hu: 'szín szenzor',
+    it: 'sensore di colore',
   },
   '#blk-object_tracker#': {
     en: 'object tracker',
+    pt: 'rastreador de objetos',
+    it: 'tracker di oggetti',
   },
   '#blk-color_sensor_sees#': {
     en: 'color sensor sees',
+    pt: 'sensor de cor vê',
     de: 'Farbsensor erkennt',
+    it: 'il sensore di colore vede',
   },
   '#blk-on_port#': {
     en: 'on port',
@@ -636,6 +711,7 @@ let MSGS = {
     he: 'ביציאה',
     ru: 'порт',
     hu: 'porton:',
+    it: 'sulla porta'
   },
   '#blk-reflected_light_intensity#': {
     en: 'reflected light intensity',
@@ -647,15 +723,19 @@ let MSGS = {
     he: 'עוצמת אור מוחזרת',
     ru: 'интенсивность отраженного света',
     hu: 'visszavert fény erőssége',
+    it: 'intensità della luce riflessa',
   },
   '#blk-as#': {
     en: 'as',
     ru: 'в',
     pt: 'como',
     de: 'als',
+    it: 'come',
   },
   '#blk-of#': {
     en: 'of',
+    pt: 'de',
+    it: 'di',
   },
   '#blk-color#': {
     en: 'color',
@@ -667,12 +747,14 @@ let MSGS = {
     he: 'צֶבַע',
     ru: 'цвет',
     hu: 'szín',
+    it: 'colore',
   },
   '#blk-color_number#': {
     en: 'color number',
     ru: 'номер цвета',
     hu: 'szín száma',
     pt: 'número de cor',
+    it: 'numero di colore',
   },
   '#blk-color_name#': {
     en: 'color name',
@@ -684,30 +766,35 @@ let MSGS = {
     he: 'שם צבע',
     ru: 'название цвета',
     hu: 'szín neve',
+    it: 'nome del colore',
   },
   '#blk-black#': {
     en: 'black',
     ru: 'черный',
     hu: 'fekete',
     pt: 'preto',
+    it: 'Nero',
   },
   '#blk-yellow#': {
     en: 'yellow',
     ru: 'желтый',
     hu: 'sárga',
     pt: 'amarelo',
+    it: 'giallo',
   },
   '#blk-white#': {
     en: 'white',
     ru: 'белый',
     hu: 'fehér',
     pt: 'branco',
+    it: 'bianco',
   },
   '#blk-brown#': {
     en: 'brown',
     ru: 'коричневый',
     hu: 'barna',
     pt: 'marrom',
+    it: 'marrone",
   },
   '#blk-red#': {
     en: 'red',
@@ -719,6 +806,7 @@ let MSGS = {
     he: 'אָדוֹם',
     ru: 'красный',
     hu: 'piros',
+    it: 'rosso',
   },
   '#blk-green#': {
     en: 'green',
@@ -730,6 +818,7 @@ let MSGS = {
     he: 'ירוק',
     ru: 'зеленый',
     hu: 'zöld',
+    it: 'verde',
   },
   '#blk-blue#': {
     en: 'blue',
