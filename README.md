@@ -69,8 +69,10 @@ Translations by:
 * Ελληνικά: Eduact, https://eduact.org/en
 * Español: edurobotic
 * Deutsch: Annette-Gymnasiums-Team (Johanna,Jule,Felix), germanicianus
-* Português: Mateus Lima
+* Português: [Mateus Lima](https://github.com/martelima)
+* Italiano: [Mateus Lima](https://github.com/martelima)
 * עברית: Koby Fruchtnis
+  
 
 License
 ---
