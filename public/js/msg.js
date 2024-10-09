@@ -830,6 +830,7 @@ let MSGS = {
     he: 'כָּחוֹל',
     ru: 'синий',
     hu: 'kék',
+    it: 'blu',
   },
   '#blk-rgb#': {
     en: 'rgb (list)',
@@ -840,6 +841,7 @@ let MSGS = {
     pt: 'RGB(Lista)',
     ru: 'rgb (список)',
     hu: 'rgb (lista)',
+    it: 'RGB (Lista),
   },
   '#blk-ultrasonic_distance_on_port#': {
     en: 'ultrasonic distance on port',
@@ -847,10 +849,11 @@ let MSGS = {
     el: 'αισθητήρας απόστασης υπερήχων στην θύρα',
     nl: 'ultrasonische afstand op poort',
     de: 'Ultraschalldistanz am Port',
-    pt: 'distancia ultrasonica na porta',
+    pt: 'Telêmetria  ultrassônico na porta',
     he: 'מרחק אולטראסאונד ביציאה',
     ru: 'расстояние с ультразвукового датчика порт',
     hu: 'ultrahangos távolságmérő',
+    it: 'telemetro a ultrasuoni sulla porta',
   },
   '#blk-laser_distance_on_port#': {
     en: 'laser distance on port',
@@ -860,6 +863,7 @@ let MSGS = {
     hu: 'LASER távolságmérő',
     pt: 'distância do laser na porta',
     de: 'Entfernungslaser an dem Port',
+    it: 'distanza laser sulla porta',
   },
   '#blk-in#': {
     en: 'in',
@@ -871,6 +875,8 @@ let MSGS = {
     he: 'ב',
     ru: 'в',
     hu: 'bemenet',
+    it: 'entrata',
+    
   },
   '#blk-gyro#': {
     en: 'gyro',
@@ -881,6 +887,7 @@ let MSGS = {
     pt: 'giroscópio',
     he: 'ג`יירו',
     ru: 'гироскоп',
+    it: 'giroscopio',
   },
   '#blk-angle#': {
     en: 'angle',
@@ -891,6 +898,7 @@ let MSGS = {
     pt: 'ângulo',
     he: 'זווית',
     ru: 'угол',
+    it: 'angolo',
   },
   '#blk-rate#': {
     en: 'rate',
@@ -898,36 +906,43 @@ let MSGS = {
     el: 'ρυθμός',
     nl: 'bochtscherpte',
     de: 'Rate',
-    pt: 'taxa',
+    pt: 'Cadencia',
     he: 'קצב',
     ru: 'ускорение',
+    it: 'cadenza',
   },
   '#blk-pitchAngle#': {
     en: 'pitch angle',
     nl: 'hellingsgraad',
     he: 'זווית גובה',
     pt: 'ângulo de inclinação',
+    it: 'angolo di inclinazione',
   },
   '#blk-pitchRate#': {
     en: 'pitch rate',
     nl: 'hellingsscherpte',
     he: 'קצב גובה גובה',
     pt: 'taxa de passo',
+    it: 'velocità del passo',
   },
   '#blk-rollAngle#': {
     en: 'roll angle',
     nl: 'kantelgraad',
     he: 'זווית גלגול',
-    pt: 'ângulo de rolagem',
+    pt: 'ângulo de rotação',
+    it: 'angolo di rotazione',
   },
   '#blk-rollRate#': {
     en: 'roll rate',
     nl: 'kantelscherpte',
     he: 'קצב גלגול',
-    pt:'taxa de rolagem',
+    pt: 'taxa de rolagem',
+    it: 'tasso di rotazione',
   },
   '#blk-heading#': {
     en: 'heading',
+    pt: 'título',
+    it: 'titolo',
   },
   '#blk-reset_gyro_on_port#': {
     en: 'reset gyro on port',
@@ -935,9 +950,10 @@ let MSGS = {
     el: 'επαναφορά γυροσκόπιου στη θύρα',
     nl: 'reset gyroscoop op poort',
     de: 'setze Gyroskop zurück am Port',
-    pt: 'reinicia o giroscópio na porta',
+    pt: 'redefinir o giroscópio na porta',
     he: 'איפוס ג`ירו ביציאה',
     ru: 'сбросить гироскоп порт',
+    it: 'resettare il giroscopio sulla porta',
   },
   '#blk-run_motor_on_port#': {
     en: 'run motor on port',
@@ -945,10 +961,11 @@ let MSGS = {
     el: 'ξεκίνα τον κινητήρα στη θύρα',
     nl: 'start motor op poort',
     de: 'nutze den Motor am Port',
-    pt: 'ligando o motor na porta',
+    pt: 'ligar o motor na porta',
     he: 'הפעל מנוע ביציאה',
     ru: 'запустить двигатель порт',
     hu: 'Motor sebessége:',
+    it: 'far girare il motore sul porto',
   },
   '#blk-at#': {
     en: 'at',
@@ -960,6 +977,7 @@ let MSGS = {
     he: 'בְּ',
     ru: 'скорость',
     hu: 'port',
+    it: 'a',
   },
   '#blk-run_motor_tooltip#': {
     en: 'motor will continue running until given a different command',
@@ -970,6 +988,7 @@ let MSGS = {
     pt: 'o motor continuará funcionando até receber um comando diferente',
     he: "המנוע ימשיך לפעול עד שתינתן פקודה אחרת",
     ru: 'двигатель будет работать, пока не будет дана другая команда',
+    it: 'il motore continuerà a funzionare fino a quando non verrà impartito un comando diverso',
   },
   '#blk-to_position#': {
     en: 'to position',
@@ -981,6 +1000,7 @@ let MSGS = {
     he: 'למיקום',
     ru: 'до позиции',
     hu: 'helyzetig',
+    it: 'per posizionare',
   },
   '#blk-say#': {
     en: 'say',
@@ -992,6 +1012,7 @@ let MSGS = {
     he: 'אמר',
     ru: 'сказать',
     hu: 'beszéd',
+    it: 'parlare',
   },
   '#blk-and_dont_wait#': {
     en: 'and don\'t wait',
@@ -1003,6 +1024,7 @@ let MSGS = {
     he: 'ואל תחכה',
     ru: 'и не ждать',
     hu: 'ne várjon',
+    it: 'e non aspettare',
   },
   '#blk-and_wait#': {
     en: 'and wait for completion',
@@ -1014,6 +1036,7 @@ let MSGS = {
     he: "ולחכות להשלמה",
     ru: 'и ждать выполнения',
     hu: 'várjon a befejezésig',
+    it: 'e aspettare il completamento',
   },
   '#blk-say_tooltip#': {
     en: 'Speak the string using text-to-speech',
@@ -1021,9 +1044,10 @@ let MSGS = {
     el: 'Εκφώνησε τη φράση χρησιμοποιόντας μετατροπή κειμένου σε ομιλία',
     nl: 'Spreek de tekst uit d.m.v. tekst-naar-spraak',
     de: 'Spreche den Satz in dem du Text zu Rede benutzt',
-    pt: 'Diga a frase usando síntese de voz',
+    pt: 'Fala a frase usando o sintetizador de voz',
     he: 'אמר את המחרוזת באמצעות טקסט לדיבור',
     ru: 'Произнести указанную строку при помощи text-to-speech',
+    it: 'Pronuncia la frase utilizzando il sintetizzatore vocale',
   },
   '#blk-beep#': {
     en: 'beep',
@@ -1034,6 +1058,7 @@ let MSGS = {
     pt: 'bipe',
     he: 'צליל',
     ru: 'бип',
+    it: 'bip',
   },
   '#blk-play_tone_at#': {
     en: 'play tone at',
@@ -1045,6 +1070,7 @@ let MSGS = {
     he: 'להשמיע טון ב',
     ru: 'играть звук частотой',
     hu: 'hang ',
+    it: 'suonare il tono a',
   },
   '#blk-time#': {
     en: 'time',
@@ -1056,6 +1082,7 @@ let MSGS = {
     he: 'זְמַן',
     ru: 'время',
     hu: 'idő',
+    it: 'tempo',
   },
   '#blk-time_tooltip#': {
     en: 'Current Unix time in seconds',
@@ -1066,6 +1093,7 @@ let MSGS = {
     nl: 'Huidige Unix tijd in seconden',
     he: 'זמן יוניקס נוכחי בשניות',
     ru: 'Текущее Unix-время в секундах',
+    it: 'Tempo Unix attuale in secondi',
   },
   '#blk-altitude#': {
     en: 'altitude',
@@ -1076,9 +1104,12 @@ let MSGS = {
     nl: 'hoogte',
     he: 'גוֹבַה',
     ru: 'высота',
+    it: 'altitudine',
   },
   '#blk-valtitude#': {
     en: 'valtitude',
+    pt: 'valor',
+    it: 'valore',
   },
   '#blk-position#': {
     en: 'position (list)',
@@ -1089,9 +1120,12 @@ let MSGS = {
     pt: 'posição (Listar)',
     he: 'מקום',
     ru: 'позиция (список)',
+    it: 'posizione (lista)',
   },
   '#blk-velocity#': {
     en: 'velocity (list)',
+    pt: 'Velocidade (Lista)',
+    it: 'velocità (lista)',
   },
   '#blk-gps_tooltip#': {
     en: 'Virtual sensor that provides the robot\'s position',
@@ -1102,6 +1136,7 @@ let MSGS = {
     pt: 'Sensor virtual que fornece a posição do robô',
     he: "חיישן וירטואלי המספק את מיקום הרובוט",
     ru: 'Виртуальный датчик для определения позиции робота в пространстве',
+    it: 'Sensore virtuale che fornisce la posizione del robot',
   },
   '#blk-pen_down#': {
     en: 'start drawing with pen',
@@ -1111,6 +1146,7 @@ let MSGS = {
     he: 'עט למטה',
     ru: 'начать рисование',
     hu: 'Rajzolás indul',
+    it: 'iniziare a disegnare con la penna',
   },
   '#blk-pen_up#': {
     en: 'stop drawing with pen',
@@ -1120,23 +1156,27 @@ let MSGS = {
     he: 'עט למעלה',
     ru: 'остановить рисование',
     hu: 'Rajzolás leáll',
+    it: 'smettere di disegnare con la penna',
   },
   '#blk-pen_color#': {
     en: 'set the pen color to',
     nl: 'zet de penkleur op',
     de: 'setze die Stiftfarbe zu',
+    pt: 'definir a cor da caneta como',
     he: 'צבע עט',
     ru: 'задать цвет пера',
     hu: 'Toll színe',
+    it: 'impostare il colore della penna su',
   },
   '#blk-pen_width#': {
     en: 'set the pen width to',
     nl: 'zet de pendikte op',
     de: 'setze die Stiftnreite zu',
-    pt: 'definir a cor da caneta para',
+    pt: 'definir a espessura da caneta como',
     he: 'רוחב עט',
     ru: 'задать толщину пера',
     hu: 'Toll vastagsága',
+    it: 'imposta la larghezza della penna a',
   },
   '#blk-sleep_tooltip#': {
     en: 'Pause the program for a while',
@@ -1144,18 +1184,21 @@ let MSGS = {
     pt: 'Pausar o programa por um tempo',
     he: "השהה את התוכנית לזמן מה",
     ru: 'Приостановить выполнение программы на некоторое время',
+    it: 'Mettere in pausa il programma per un po\' di tempo',
   },
   '#blk-stop_tooltip#': {
     en: 'Robot will stop faster if using brake or hold',
     nl: 'Robot stopt sneller bij gebruik van remmen of wachten',
     he: "הרובוט יעצור מהר יותר אם ישתמש בבלימה או בעצירה",
-    pt: 'O robô irá parar mais rápido se estiver usando freio ou espera',
+    pt: 'O robô parará mais rápido se usar o freio ou a retenção',
+    it: 'Il robot si arresta più rapidamente se si usa il freno o si tiene premuto',
   },
   '#blk-stop_motor_tooltip#': {
     en: 'Motor will stop faster if using brake or hold',
     nl: 'Motor stopt sneller bij gebruik van remmen of wachten',
-    pt: 'O motor irá parar mais rápido se estiver usando freio ou espera',
+    pt: 'O motor parará mais rapidamente se estiver usando o freio ou retenção',
     he: "הרובוט יעצור מהר יותר אם ישתמש בבלימה או בעצירה",
+    it: 'Il motore si arresta più rapidamente se si usa il freno o si tiene premuto',
   },
   '#blk-exit_tooltip#': {
     en: 'End the program',
@@ -1163,6 +1206,7 @@ let MSGS = {
     pt: 'Terminar o programa',
     he: "סיים את התוכנית",
     ru: 'Остановить выполнение программы',
+    it: 'Terminare il programma',
   },
   '#blk-position_tooltip#': {
     en: 'How much the motor has turned since the start of the program',
@@ -1170,6 +1214,7 @@ let MSGS = {
     pt: 'Quanto o motor girou desde o início do programa',
     he: "כמה המנוע הסתובב מאז תחילת התוכנית",
     ru: 'На сколько градусов повернулся двигатель с момента старта программы',
+    it: 'Quanto ha girato il motore dall\'inizio del programma',
   },
   '#blk-speed_tooltip#': {
     en: 'Rotation speed of the motor',
@@ -1177,6 +1222,7 @@ let MSGS = {
     pt: 'Velocidade de rotação do motor',
     he: "מהירות סיבוב של המנוע",
     ru: 'Скорость вращения двигателя',
+    it: 'Velocità di rotazione del motore',
   },
   '#blk-reset_motor_tooltip#': {
     en: 'Reset the motor position to zero',
@@ -1184,6 +1230,7 @@ let MSGS = {
     pt: 'Redefinir a posição do motor para zero',
     he: 'אפס מיקום מנוע',
     ru: 'Сбросить значение поворота двигателя',
+    it: 'Resetta la posizione del motore a zero',
   },
   '#blk-move_tank_tooltip#': {
     en: 'Robot will move continuously until given another command',
@@ -1191,12 +1238,14 @@ let MSGS = {
     pt: 'O robô se moverá continuamente até receber outro comando',
     he: 'רובוט ינוע בהתמדה עד למתן פקודה אחרת',
     ru: 'Робот будет двигаться до тех пор, пока не получит другую команду',
+    it: 'Il robot si muove continuamente fino a quando non riceve un altro comando',
   },
   '#blk-move_tank_for_tooltip#': {
     en: 'Robot will stop moving when the amount is reached',
     nl: 'Robot stopt met rijden als de hoeveelheid is bereikt',
     pt: 'O robô parará de se mover quando a quantidade for atingida',
     he: 'הרובוט יפסיק לנוע כאשר הכמות הנדרשת תתקבל',
+    it: 'Il robot si fermerà quando l\'importo sarà raggiunto',
   },
   '#blk-reset_gyro_tooltip#': {
     en: 'Sets the current heading to be the new zero degrees',
@@ -1204,53 +1253,62 @@ let MSGS = {
     pt: 'Define o rumo atual para os novos zero graus',
     he: 'קובע את הכיוון הנוכחי להיות 0 מעלות',
     ru: 'Текущее направление будет считаться нулевым',
+    it: 'Imposta la direzione corrente come nuovo zero gradi.',
   },
   '#blk-run_motor_for_tooltip#': {
     en: 'Motor will stop moving when the amount is reached',
     nl: 'Motor stopt met rijden als de hoeveelheid is bereikt',
     pt: 'O motor parará de se mover quando a quantidade for atingida',
     he: 'המנוע יפסיק לנוע כאשר הכמות הנדרשת תתקבל',
+    it: 'Il motore si ferma quando viene raggiunto l\'importo',
   },
   '#blk-run_motor_to_tooltip#': {
     en: 'Motor may turn forward or back depending on the current position and the specified position',
     nl: 'Motor zal vooruit of achteruit draaien, afhankelijk van de huidige positie en de ingestelde positie',
     pt: 'O motor pode girar para frente ou para trás dependendo da posição atual e da posição especificada',
     he: 'המנוע יסתובב קדימה או אחורה בהתאם למיקום הנוכחי ולמיקום הנדרש',
+    it: 'Il motore può ruotare in avanti o indietro a seconda della posizione corrente e della posizione specificata.',
   },
   '#blk-beep_tooltip#': {
     en: 'If set to wait, the program will only continue when the beep completes playing',
     nl: 'Als ingestelt op wacht zal het programma pas doorgaan als de bliep helemaal is afgespeeld',
-    pt: 'Se definido para esperar, o programa só continuará quando o bipe terminar de tocar',
+    pt: 'Se definido como esperar, o programa só continuará quando o bipe terminar de tocar',
     he: 'אם נקבעה להמתין, התוכנית תמשיך רק לאחר שהביפ יפסיק להתנגן',
+    it: 'Se si imposta l\'opzione di attesa, il programma continuerà solo al termine della riproduzione del segnale acustico.',
   },
   '#blk-play_tone_tooltip#': {
     en: 'If set to wait, the program will only continue when the tone completes playing',
     nl: 'Als ingestelt op wacht zal het programma pas doorgaan als de toon helemaal is afgespeeld',
-    pt: 'Se definido para esperar, o programa só continuará quando o tom terminar de tocar',
+    pt: 'Se definido como esperar, o programa só continuará quando o tom terminar de tocar',
     he: 'אם נקבע להמתין, התוכנית תמשיך רק לאחר שהצליל הפסיק להתנגן',
+    it: 'Se è impostato su Attesa, il programma continuerà solo quando il segnale acustico avrà terminato la sua esecuzione.',
   },
   '#blk-radio_available_tooltip#': {
     en: 'Number of unread messages in the mailbox',
     nl: 'Aantal ongelezen berichten in het postvak',
     pt: 'Número de mensagens não lidas na caixa de correio',
     he: 'כמות הודעות שלא נקראו בתיבת הדואר',
+    it: 'Numero di messaggi non letti nella cassetta postale',
   },
   '#blk-radio_empty_tooltip#': {
     en: 'Delete all messages in the mailbox',
     nl: 'Verwijderd alle berichten uit het postvak',
     pt: 'Excluir todas as mensagens na caixa de correio',
     he: 'מחק את כל ההודעות בתיבת הדואר',
+    it: 'Cancellare tutti i messaggi della cassetta postale',
   },
   '#blk-set_movement_motors#': {
     en: 'Set movement motors to',
     pt: 'Defina os motores de movimento para',
     ru: 'выбрать двигатели',
     de: 'setze Bewegungsmotoren auf',
+    it: 'Impostare i motori di movimento su',
   },
   '#blk-set_movement_motors_tooltip#': {
     en: 'Only needed if not using the default of ports A and B',
     pt: 'Necessário apenas se não estiver usando o padrão das portas A e B',
     ru: 'Необходимо настроить только, если не выбраны порты по умолчанию (A и B)',
+    it: 'Necessario solo se non si utilizzano le porte A e B predefinite.',
   },
   '#blk-wait_until#': {
     en: 'Wait until',
@@ -1258,6 +1316,7 @@ let MSGS = {
     ru: 'ждать до',
     hu: 'Várj, amíg',
     de: 'Warte bis',
+    it: 'Aspettare fino a quando',
   },
   '#blk-button#': {
     en: 'button',
@@ -1265,81 +1324,118 @@ let MSGS = {
     ru: 'кнопка',
     hu: 'Gomb',
     de: 'Knopf',
+    it: 'pulsante',
   },
   '#blk-center#': {
     en: 'Center',
     pt: 'centro',
     ru: 'Центральная',
     hu: 'Középső',
+    it: 'centro',
   },
   '#blk-left#': {
     en: 'Left',
     pt: 'esquerda',
     ru: 'Левая',
     hu: 'Bal',
+    it: 'Sinistra',
+    
   },
   '#blk-right#': {
     en: 'Right',
     pt: 'direita',
     ru: 'Правая',
     hu: 'Jobb',
+    it: 'destra',
   },
   '#blk-up#': {
     en: 'Up',
     pt: 'cima',
     ru: 'Вверх',
     hu: 'Fel',
+    it: 'su',
   },
   '#blk-down#': {
     en: 'Down',
     pt: 'baixo',
     ru: 'Вниз',
     hu: 'Le',
+    it: 'giù',
   },
   '#blk-comment#': {
     en: '# Comment:',
+    pt: '# Comentário:',
+    it: '# Commento:',
   },
   '#blk-comment_tooltip#': {
     en: 'This blocks does nothing and is only used for comments. Multiple lines are supported.',
+    pt: 'Esse bloco não faz nada e é usado apenas para comentários. Há suporte para várias linhas.',
+    it: 'Questo blocco non fa nulla ed è usato solo per i commenti. Sono supportate le righe multiple.',
   },
   '#blk-camera_capture_image#': {
     en: 'capture image with camera',
+    pt: 'capturar imagem com a câmera',
+    it: 'catturare l\'immagine con la fotocamera',
   },
   '#blk-camera_capture_image_tooltip#': {
     en: 'You must run this before any other camera commands',
+    pt: 'É necessário executá-lo antes de qualquer outro comando da câmera',
+    it: 'È necessario eseguirlo prima di qualsiasi altro comando della telecamera,
   },
   '#blk-camera_get_rgb#': {
     en: 'get RGB values from camera',
+    pt: 'obter valores RGB da câmera',
+    it: 'ottenere i valori RGB dalla telecamera',
   },
   '#blk-camera_get_rgb_tooltip#': {
     en: 'You must run the capture image block first',
+    pt: 'Você deve executar o bloco de captura de imagem primeiro',
+    it: 'È necessario eseguire prima il blocco di acquisizione dell\'immagine',
   },
   '#blk-camera_get_hsv#': {
     en: 'get HSV values from camera',
+    pt: 'obter valores HSV(Câmera de alta velocidade)',
+    it: 'ottenere i valori HSV (telecamera ad alta velocità)', 
   },
   '#blk-camera_get_hsv_tooltip#': {
     en: 'You must run the capture image block first',
+    pt: 'Você deve executar o bloco de captura de imagem primeiro',
+    it: 'È necessario eseguire prima il blocco di acquisizione dell\'immagine',
   },
   '#blk-camera_find_blobs#': {
     en: 'find blobs from camera',
+    pt: 'localizar bolhas na câmera',
+    it: 'trovare le bolle dalla fotocamera',
   },
   '#blk-camera_find_blobs_tooltip#': {
     en: 'You must run the capture image block first. Inputs are min/max for HSV. Blobs with less than the specified number of pixels will be filtered out.',
+    pt: 'Você deve executar o bloco de captura de imagem primeiro. As entradas são min/max para HSV. Os blocos com menos do que o número especificado de pixels serão filtrados.',
+    it: 'È necessario eseguire prima il blocco cattura immagine. Gli input sono min/max per HSV. I blob con un numero di pixel inferiore a quello specificato vengono filtrati.',
   },
   '#blk-matching_H#': {
     en: 'matching H:',
+    pt: 'correspondendo com H:',
+    it: 'corrispondenza con H:',
   },
   '#blk-S#': {
     en: 'S:',
+    pt: 'S:',
+    it: 'S:',
   },
   '#blk-V#': {
     en: 'V:',
+    pt: 'V:',
+    it: 'V:',
   },
   '#blk-and_at_least#': {
     en: 'and at least',
+    pt: 'e, no mínimo',
+    it: 'e almeno',
   },
   '#blk-pixels#': {
     en: 'pixels',
+    pt: 'pixels',
+    it: 'pixels',
   },
   '#main-blocks#': {
     en: 'Blocks',
@@ -1353,6 +1449,7 @@ let MSGS = {
     he: 'בלוקים',
     ru: 'Блоки',
     hu: 'Blokk',
+    it: 'Blocchi',
   },
   '#main-sim#': {
     en: 'Simulator',
@@ -1366,6 +1463,7 @@ let MSGS = {
     he: 'מדמה',
     ru: 'Симулятор',
     hu: 'Szimulátor',
+    it: 'Simulatore',
   },
   '#main-file#': {
     en: 'File',
@@ -1379,6 +1477,7 @@ let MSGS = {
     he: 'קובץ',
     ru: 'Файл',
     hu: 'Fájl',
+    it: 'archivio',
   },
   '#main-new_program#': {
     en: 'New Program',
@@ -1390,6 +1489,7 @@ let MSGS = {
     he: 'תוכנית חדשה',
     ru: 'Новая программа',
     hu: 'Új program',
+    it: 'Nuovo programma',
   },
   '#main-load_blocks#': {
     en: 'Load blocks from your computer',
@@ -1408,9 +1508,10 @@ let MSGS = {
     el: 'Εισαγωγή συναρτήσεων από αρχείο μπλοκ',
     nl: 'Importeer functies van blokkenbestand',
     de: 'Importiere Funktionen von Blöckedatei',
-    pt: 'Importar funções do arquivo de blocos',
+    pt: 'Importar blocos do computador',
     he: 'יבא פונקציות',
     ru: 'Импортировать функции из блок-программы',
+    it: 'Caricare i blocchi dal computer',
   },
   '#main-save_blocks#': {
     en: 'Save blocks to your computer',
@@ -1422,6 +1523,7 @@ let MSGS = {
     he: 'שמור בלוקים',
     ru: 'Сохранить блок-программу на компьютер',
     hu: 'Blokk program letöltése',
+    it: 'Salvare i blocchi sul computer',
   },
   '#main-load_python#': {
     en: 'Load Python from your computer',
@@ -1433,6 +1535,7 @@ let MSGS = {
     he: 'טען פייתון מהמחשב',
     ru: 'Загрузить Python-код с компьютера',
     hu: 'Python kód feltöltése',
+    it: 'Caricare Python dal computer',
   },
   '#main-save_python#': {
     en: 'Save Python to your computer',
@@ -1444,6 +1547,7 @@ let MSGS = {
     he: 'שמור פייתון למחשב',
     ru: 'Сохранить Python-код на компьютер',
     hu: 'Python kód letöltése',
+    it: 'Salvare Python sul computer',
   },
   '#main-load_python_lib#': {
     en: 'Load Python module from your computer',
@@ -1452,6 +1556,7 @@ let MSGS = {
     pt: 'Carregue o módulo Python do seu computador',
     he: 'טען מודול פייתון מהמחשב',
     hu: 'Python modul feltöltése',
+    it: 'Caricare il modulo Python dal computer',
   },
   '#main-save_python_lib#': {
     en: 'Save Python module to your computer',
@@ -1460,6 +1565,7 @@ let MSGS = {
     pt: 'Salve o módulo Python no seu computador',
     he: 'שמור מודול פייתון למחשב',
     hu: 'Python modul letöltése',
+    it: 'Salvare il modulo Python sul computer',
   },
   '#main-export_zip#': {
     en: 'Export zip package to your computer',
@@ -1471,6 +1577,7 @@ let MSGS = {
     he: 'יצא קובץ ZIP למחשב',
     ru: 'Экспортировать zip-архив',
     hu: 'ZIP csomag letöltése',
+    it: 'Esportare il pacchetto zip sul computer',
   },
   '#main-start_new_warning#': {
     en: 'Starting a new program will cause all unsaved work to be lost.',
@@ -1481,6 +1588,7 @@ let MSGS = {
     pt: 'Iniciar um novo programa fará com que todo o trabalho não salvo seja perdido.',
     he: 'יצירת תוכנית חדשה תגרום לאיבוד כל עבודה שלא נשמרה',
     ru: 'Создание новой программы удалит всю не сохраненную работу.',
+    it: 'L\'avvio di un nuovo programma comporta la perdita di tutto il lavoro non salvato.',
   },
   '#main-functions_imported': {
     en: 'Functions imported',
@@ -1490,6 +1598,7 @@ let MSGS = {
     de: 'Importiere Funktionen',
     pt: 'Funções importadas',
     he: 'פונקציות מיובאות',
+    it: 'Funzioni importate',
   },
   '#main-robot#': {
     en: 'Robot',
@@ -1503,6 +1612,7 @@ let MSGS = {
     he: 'רובוט',
     ru: 'Робот',
     hu: 'Robot',
+    it: 'Robot',
   },
   '#main-worlds#': {
     en: 'Worlds',
@@ -1512,6 +1622,7 @@ let MSGS = {
     ru: 'Окружение',
     hu: 'Világ',
     de: 'Welten',
+    it: 'Mondi',
   },
   '#main-select_world#': {
     en: 'Select World',
@@ -1520,6 +1631,7 @@ let MSGS = {
     pt: 'Selecionar Mundo',
     ru: 'Выбор окружения',
     hu: 'Világ kiválasztása',
+    it: 'Selezionare il mondo',
   },
   '#main-world_load_file#': {
     en: 'Load from file',
@@ -1531,6 +1643,8 @@ let MSGS = {
     he: 'טעינה מקובץ',
     ru: 'Загрузить из файла',
     hu: 'Feltöltés',
+    it: 'Carica da archivio',
+    
   },
   '#main-world_save_file#': {
     en: 'Save to file',
@@ -1542,6 +1656,7 @@ let MSGS = {
     he: 'שמירה לקובץ',
     ru: 'Сохранить в файл',
     hu: 'Letöltés',
+    it: 'Salva su archivio',
   },
   '#main-world_builder#': {
     en: 'World Builder',
@@ -1550,6 +1665,7 @@ let MSGS = {
     pt: 'Construtor de Mundos',
     ru: 'Создать окружение',
     hu: 'Világ szerkesztő',
+    it: 'Costruttore di mondi',
   },
   '#main-select_robot#': {
     en: 'Select Robot',
@@ -1561,6 +1677,7 @@ let MSGS = {
     he: 'בחירת רובוט',
     ru: 'Выбрать робота',
     hu: 'Robot kiválasztása',
+    it: 'Seleziona il robot',
   },
   '#main-robot_configurator#': {
     en: 'Robot Configurator',
@@ -1568,10 +1685,11 @@ let MSGS = {
     el: 'Διαμορφωτής ρομπότ',
     nl: 'Robot configurator',
     de: 'Roboterkonfigurator',
-    pt: 'Configurador do Robô',
+    pt: 'Configurador de robô',
     he: 'בניית רובוט',
     ru: 'Конфигуратор робота',
     hu: 'Robot szerkesztő',
+    it: 'Configuratore di robot',
   },
   '#main-robot_load_file#': {
     en: 'Load from file',
@@ -1579,10 +1697,11 @@ let MSGS = {
     el: 'Φόρτωση από αρχείο',
     nl: 'Laden van bestand',
     de: 'Öffne eine Datei',
-    pt: 'Carregar do arquivo',
+    pt: 'Carregar robô do arquivo',
     he: 'טעינה מקובץ',
     ru: 'Загрузить из файла',
     hu: 'Feltölés',
+    it: 'Carica il robot da un file',
   },
   '#main-robot_save_file#': {
     en: 'Save to file',
@@ -1590,10 +1709,11 @@ let MSGS = {
     el: 'Αποθήκευση σε αρχείο',
     nl: 'Opslaan naar bestand',
     de: 'Speichern unter',
-    pt: 'Salvar em arquivo',
+    pt: 'Salvar o robô em um arquivo',
     he: 'שמירה לקובץ',
     ru: 'Сохранить в файл',
     hu: 'Letöltés',
+    it: 'Salvare il robot su file'
   },
   '#main-display_position#': {
     en: 'Display current position',
@@ -1605,6 +1725,7 @@ let MSGS = {
     he: 'הצג מיקום נוכחי',
     ru: 'Показать текущую позицию',
     hu: 'Aktuális pozíció kijelzése',
+    it: 'Visualizzare la posizione corrente',
   },
   '#main-save_position#': {
     en: 'Save current position to settings',
@@ -1616,6 +1737,7 @@ let MSGS = {
     he: 'שמור מיקום נוכחי להגדרות',
     ru: 'Сохранить текущую позицию в настройки',
     hu: 'Aktuális pozíció mentése',
+    it: 'Salva la posizione attuale nelle configurazioni',
   },
   '#main-clear_position#': {
     en: 'Clear position in settings',
@@ -1623,10 +1745,11 @@ let MSGS = {
     el: 'Εκκαθάριση θέσης από τις ρυθμίσεις',
     nl: 'Schoon positie op in instellingen',
     de: 'Lösche die Positionen in den Einstellungen',
-    pt: 'Limpar posição nas cofigurações',
+    pt: 'Restaurar a posição atual nos parâmetros',
     he: 'אפס מיקום בהגדרות',
     ru: 'Сбросить позицию в настройках',
     hu: 'Pozíció mentés törlése',
+    it: 'Ripristina la posizione corrente nei parametri', 
   },
   '#main-robot_position#': {
     en: 'Robot Position',
@@ -1634,10 +1757,11 @@ let MSGS = {
     el: 'Θέση ρομπότ',
     nl: 'Robot positie',
     de: 'Position des Roboters',
-    pt: 'posição do robô',
+    pt: 'Posição do robô',
     he: 'מיקום רובוט',
     ru: 'Позиция робота',
     hu: 'Robot pozíció',
+    it: 'Posizione del robot',
   },
   '#main-position#': {
     en: 'Position',
@@ -1649,6 +1773,7 @@ let MSGS = {
     he: 'מיקום',
     ru: 'Координаты',
     hu: 'Pozíció',
+    it: 'Posizione',
   },
   '#main-rotation#': {
     en: 'Rotation',
@@ -1660,6 +1785,7 @@ let MSGS = {
     he: 'סיבוב',
     ru: 'Поворот',
     hu: 'Forgás',
+    it: 'Rotazione',
   },
   '#main-degrees#': {
     en: 'degrees',
@@ -1667,10 +1793,11 @@ let MSGS = {
     el: 'μοίρες',
     nl: 'graden',
     de: 'Grad',
-    pt: 'Graus',
+    pt: 'graus',
     he: 'מעלות',
     ru: 'градусов',
     hu: 'szög',
+    it: 'gradi',
   },
   '#main-cannot_save_position#': {
     en: 'Current world doesn\'t allow saving of position',
@@ -1682,6 +1809,7 @@ let MSGS = {
     he: 'עולם נוכחי לא מאפשר שמירת מיקום',
     ru: 'Текущая обстановка не позволяет сохранить выбранную позицию',
     hu: 'A jelenlegi világ nem teszi lehetővé a pozíció mentését',
+    it: 'Il mondo attuale non consente di salvare la posizione',
   },
   '#main-cannot_save_rotation#': {
     en: 'Current world doesn\'t allow saving of rotation',
@@ -1692,6 +1820,7 @@ let MSGS = {
     pt: 'O mundo atual não permite salvar a rotação',
     he: 'עולם נוכחי לא מאפשר שמירת סיבוב',
     hu: 'A jelenlegi világ nem teszi lehetővé a forgási szög mentését',
+    it: 'Il mondo attuale non consente di salvare la rotazione',
   },
   '#main-arena#': {
     en: 'Arena',
@@ -1705,6 +1834,7 @@ let MSGS = {
     he: 'זירה',
     ru: 'Арена',
     hu: 'Aréna',
+    it: 'Arena',
   },
   '#main-help#': {
     en: 'Help',
@@ -1718,6 +1848,7 @@ let MSGS = {
     he: 'עזרה',
     ru: 'Справка',
     hu: 'Súgó',
+    it: 'Aiuto',
   },
   '#main-whats_new#': {
     en: 'What\'s New',
@@ -1726,6 +1857,7 @@ let MSGS = {
     pt: 'O que há de novo',
     ru: 'Что нового',
     hu: 'Újdonságok',
+    it: 'Le novità',
   },
   '#main-display_fps#': {
     en: 'Display FPS',
@@ -1734,6 +1866,7 @@ let MSGS = {
     pt: 'Exibir FPS',
     ru: 'Показать FPS',
     hu: 'FPS kijelzése',
+    it: 'Visualizzazione FPS',
   },
   '#main-about#': {
     en: 'About',
@@ -1745,6 +1878,7 @@ let MSGS = {
     he: 'אודות',
     ru: 'О программе',
     hu: 'Névjegy',
+    it: 'Informazioni',
   },
   '#main-privacy#': {
     en: 'Privacy Policy',
@@ -1752,6 +1886,7 @@ let MSGS = {
     pt: 'Política de Privacidade',
     ru: 'Политика конфиденциальности',
     hu: 'Adatvédelem',
+    it: 'Informativa sulla privacy',
   },
   '#main-arenaTitle#': {
     en: 'GearsBot Arena',
@@ -1765,6 +1900,7 @@ let MSGS = {
     he: 'זירת GearsBot',
     ru: 'Арена GearsBot',
     hu: 'GearsBot Aréna',
+    it: 'GearsBot Arena'
   },
   '#main-arenaDescription#': {
     en:
@@ -1812,6 +1948,11 @@ let MSGS = {
       '<p>A GearsBot Arénában akár 4 robot is versenyezhet vagy együttműködhet egymással.</p>' +
       '<p>Programozza be robotját a normál GearsBot oldal használatával (...ahol most van), és exportálja a programot és a robotot zip-csomagként (Fájlok -> Csomag exportálása...).' +
       'Ezután betöltheti a zip-csomagot a GearsBot Arénába, és futtathatja más játékosok ellen.</p>',
+    it:
+      '<p>GearsBot Arena consente a un massimo di 4 robot di competere o cooperare tra loro.</p>' +
+      '<p>Programmare il robot utilizzando la normale pagina di GearsBot (...dove ci si trova ora) ed esportare il programma e il robot come pacchetto zip (File -> Esporta Zip...).' + 
+      '<p>È quindi possibile caricare il pacchetto zip nell\'Arena GearsBot ed eseguirlo contro altri giocatori.</p>',
+
   },
   '#main-arenaGo#': {
     en: 'Go to Arena',
@@ -1825,13 +1966,15 @@ let MSGS = {
     he: 'לך לזירה',
     ru: 'Перейти к Арене',
     hu: 'Menj az Arénába',
+    it: 'Vai all\'Arena',
   },
   '#main-worldBuilder_title#': {
     en: 'GearsBot World Builder',
     nl: 'GearsBot Wereld bouwer',
-    pt: 'GearsBot World Construtor',
+    pt: 'Construtor de mundos GearsBot',
     ru: 'Редактор окружения GearsBot',
     hu: 'GearsBot Világ szerkesztő',
+    it: 'Costruttore di mondi GearsBot',
   },
   '#main-worldBuilder_description#': {
     en:
@@ -1852,12 +1995,17 @@ let MSGS = {
     hu:
       '<p>A GearsBot World Builder segítségével egyéni világot hozhat létre.</p>' +
       '<p>Miután befejezte a testreszabást, mentse a létrehozást fájlba, és térjen vissza ide a betöltéséhez.</p>',
+    it:
+      '<p>GearsBot World Builder consente di creare un mondo personalizzato.</p>'+
+      '<p>Una volta completata la personalizzazione, salvate la vostra creazione come file e tornate qui per caricarla.</p>',
+    
   },
   '#main-worldBuilder_go#': {
     en: 'Go to World Builder',
     pt: 'Ir para o Construtor de Mundos',
     ru: 'Открыть Редактор окружения',
     hu: 'Világ szerkesztő indítása',
+    it: 'Vai al Costruttore di mondi',
   },
   '#main-configurator_title#': {
     en: 'GearsBot Robot Configurator',
@@ -1869,6 +2017,7 @@ let MSGS = {
     he: 'תצורת הרובוט',
     ru: 'Конфигуратор робота GearsBot',
     hu: 'GearsBot Robot szerkesztő',
+    pt: 'Configuratore di robot GearsBot',
   },
   '#main-configurator_description#': {
     en:
@@ -1898,6 +2047,10 @@ let MSGS = {
     hu:
       '<p>A GearsBot Robot Configurator lehetővé teszi egy meglévő robot testreszabását vagy új robotterv létrehozását.</p>' +
       '<p>Miután befejezte a testreszabást, mentse a létrehozást fájlba, és térjen vissza ide a betöltéséhez.</p>',
+    it:
+      '<p>Il configuratore di robot GearsBot consente di personalizzare un robot esistente o di creare un nuovo progetto di robot.</p>'+
+      '<p>Una volta completata la personalizzazione, salvate la vostra creazione come file e tornate qui per caricarla.</p>',
+   
   },
   '#main-configurator_go#': {
     en: 'Go to Configurator',
@@ -1909,6 +2062,7 @@ let MSGS = {
     he: 'לך למסך תצורה',
     ru: 'Перейти в конфигуратор',
     hu: 'Robot szerkesztő indítása',
+    it: 'Vai al configuratore',
   },
   '#main-invalid_robot_file_json#': {
     en: 'Invalid robot file (Not JSON)',
@@ -1916,6 +2070,7 @@ let MSGS = {
     pt: 'Arquivo de robô inválido (não é JSON)',
     ru: 'Неверный файл с настройками робота (Не JSON)',
     hu: 'Érvénytelen robot fájl (Not JSON)',
+    it: 'File robot non valido (non JSON)',
   },
   '#main-invalid_robot_file_world#': {
     en: 'Invalid robot file (...looks like a world configurations file)',
@@ -1923,24 +2078,29 @@ let MSGS = {
     pt: 'Arquivo de robô inválido (...parece um arquivo de configurações do mundo)',
     ru: 'Неверный файл с настройками робота (... похож на файл окружения)',
     hu: 'Érvénytelen robotfájl (...világkonfigurációs fájlnak tűnik)',
+    it: 'File robot non valido (...sembra un file di configurazione del mondo)',
   },
   '#main-invalid_robot_file_robot#': {
     en: 'Invalid robot file (Missing robot configuration data)',
     he: 'קובץ רובוט לא חוקי (חסרים נתוני תצורת רובוט)',
     pt: 'Arquivo de robô inválido (dados de configuração do robô ausentes)',
     hu: 'Érvénytelen robotfájl (hiányzó robotkonfigurációs adatok)',
+    it: 'File robot non valido (dati di configurazione del robot mancanti)',
   },
   '#main-main#': {
     en: 'Main',
     de: 'Start',
+    pt: 'principal',
+    it: 'Principale',
   },
   '#arena-show_names#': {
     en: 'Show Names',
     nl: 'Toon namen',
     he: 'הצג שמות',
-    pt: 'Mostrar nomes',
+    pt: 'Exibir nomes',
     ru: 'Показывать имена',
     hu: 'Nevek mutatása',
+    it: 'Mostra nomi',
   },
   '#arena-individual_colors#': {
     en: 'Individual Colors',
@@ -1949,6 +2109,7 @@ let MSGS = {
     pt: 'cores individuais',
     ru: 'Индивидуальная расцветка',
     hu: 'Egyéni színek',
+    it: 'Colori individuali',
   },
   '#arena-team_colors#': {
     en: 'Team Colors',
@@ -1957,6 +2118,7 @@ let MSGS = {
     pt: 'Cores do time',
     ru: 'Командная расцветка',
     hu: 'Csapat színek',
+    it: 'Colori della squadra',
   },
   '#arena-custom_colors#': {
     en: 'Custom Colors',
@@ -1965,6 +2127,7 @@ let MSGS = {
     pt: 'Cores personalizadas',
     ru: 'Пользовательская расцветка',
     hu: 'Egyéb színek',
+    it: 'Colori personalizzati',
   },
   '#sim-world#': {
     en: 'World',
@@ -1976,6 +2139,7 @@ let MSGS = {
     he: 'עוֹלָם',
     ru: 'Окружение',
     hu: 'Világ',
+    it: 'Mondo',
   },
   '#sim-reset#': {
     en: 'Reset',
@@ -1987,6 +2151,7 @@ let MSGS = {
     he: 'אפס',
     ru: 'Сброс',
     hu: 'Reset',
+    it: 'Reset',
   },
   '#sim-sensors#': {
     en: 'Sensors',
@@ -1994,10 +2159,11 @@ let MSGS = {
     el: 'Αισθητήρες',
     nl: 'Sensoren',
     de: 'Sensoren',
-    pt: 'sensores',
+    pt: 'Sensores',
     he: 'חיישנים',
     ru: 'Датчики',
     hu: 'Szenzorok',
+    it: 'Sensori',
   },
   '#sim-follow#': {
     en: 'Follow',
@@ -2008,6 +2174,7 @@ let MSGS = {
     pt: 'Seguir',
     he: 'עקוב אחר',
     hu: 'Követés',
+    it: 'Seguire',
   },
   '#sim-top#': {
     en: 'Top',
@@ -2015,8 +2182,9 @@ let MSGS = {
     el: 'Κάτοψη',
     nl: 'Van boven',
     de: 'Oben',
-    pt: 'topo',
+    pt: 'Superior',
     he: 'עליון',
+    it: 'Superiore',
   },
   '#sim-arc#': {
     en: 'Arc',
@@ -2024,8 +2192,9 @@ let MSGS = {
     el: 'Υπο γωνεία',
     nl: 'Draaien',
     de: 'Bogen',
-    pt: 'arco',
+    pt: 'Arco',
     he: 'קֶשֶׁת',
+    it: 'Arco',
   },
   '#sim-alt#': {
     en: 'Alt', // Short for altitude
@@ -2036,6 +2205,7 @@ let MSGS = {
     pt: 'Altitude',
     he: 'גובה',
     ru: 'Высота',
+    it: 'Altitudine',
   },
   '#sim-distance#': {
     en: 'Distance',
@@ -2046,6 +2216,7 @@ let MSGS = {
     pt: 'Distância',
     he: 'מֶרְחָק',
     ru: 'Расстояние',
+    it: 'Distanza',
   },
   '#sim-angle#': {
     en: 'Angle',
@@ -2056,6 +2227,7 @@ let MSGS = {
     pt: 'Ângulo',
     he: 'זווית',
     ru: 'Угол',
+    it: 'Angolo',
   },
   '#sim-color_sensor#': {
     en: 'Color Sensor',
@@ -2067,6 +2239,7 @@ let MSGS = {
     he: 'חיישן צבע',
     ru: 'Датчик цвета',
     hu: 'szín szenzor',
+    it: 'Sensore di colore',
   },
   '#sim-color#': {
     en: 'Color',
@@ -2077,6 +2250,7 @@ let MSGS = {
     pt: 'Cor',
     he: 'צֶבַע',
     ru: 'Цвет',
+    it: 'Colore',
   },
   '#sim-red#': {
     en: 'Red',
@@ -2087,6 +2261,7 @@ let MSGS = {
     pt: 'Vermelho',
     he: 'אדום',
     ru: 'Красный',
+    it: 'Rosso',
   },
   '#sim-green#': {
     en: 'Green',
@@ -2097,6 +2272,7 @@ let MSGS = {
     pt: 'Verde',
     he: 'ירוק',
     ru: 'Зеленый',
+    it: 'Verde',
   },
   '#sim-blue#': {
     en: 'Blue',
@@ -2107,6 +2283,7 @@ let MSGS = {
     pt: 'Azul',
     he: 'כָּחוֹל',
     ru: 'Синий',
+    it: 'Blu',
   },
   '#sim-intensity#': {
     en: 'Intensity (%)',
@@ -2117,6 +2294,7 @@ let MSGS = {
     pt: 'Intensidade(%)',
     he: 'עוצמה (%)',
     ru: 'Интенсивность (%)',
+    it: 'Intensità (%)',
   },
   '#sim-ultrasonic#': {
     en: 'Ultrasonic Sensor',
@@ -2128,6 +2306,7 @@ let MSGS = {
     he: 'חיישן אולטרא-קולי',
     ru: 'Ультразвуковой датчик',
     hu: 'Ultrahangos távolság',
+    it: 'Sensore a ultrasuoni',
   },
   '#sim-distance#': {
     en: 'Distance',
@@ -2139,6 +2318,7 @@ let MSGS = {
     he: 'מֶרְחָק',
     ru: 'Расстояние',
     hu: 'Távolság',
+    it: 'Distanza',
   },
   '#sim-gyro#': {
     en: 'Gyro Sensor',
@@ -2150,6 +2330,7 @@ let MSGS = {
     he: 'חיישן ג`ירו',
     ru: 'Гироскоп',
     hu: 'Giroszkóp szenzor',
+    it: 'Giroscopio',
   },
   '#sim-angle#': {
     en: 'Angle (degrees)',
@@ -2161,6 +2342,7 @@ let MSGS = {
     he: 'זווית (מעלות)',
     ru: 'Угол (градусы)',
     hu: 'Szög (fok)',
+    it: 'Angolo (gradi)',
   },
   '#sim-gps#': {
     en: 'GPS Sensor',
@@ -2172,6 +2354,7 @@ let MSGS = {
     he: 'חיישן GPS',
     ru: 'GPS-датчик',
     hu: 'GPS szenzor',
+    it: 'Sensore GPS',
   },
   '#sim-altitude#': {
     en: 'Altitude (cm)',
@@ -2182,6 +2365,7 @@ let MSGS = {
     pt: 'Altitude (cm)',
     he: 'גובה (ס"מ)',
     ru: 'Высота (см)',
+    it: 'Altitudine (cm)'
   },
   '#sim-laser#': {
     en: 'Laser Range Sensor',
@@ -2193,6 +2377,7 @@ let MSGS = {
     he: 'חיישן טווח לייזר',
     ru: 'Лазерный дальномер',
     hu: 'LASER távolság',
+    it: 'Range del sensore laser',
   },
   '#sim-pen#': {
     en: 'Pen',
@@ -2202,32 +2387,41 @@ let MSGS = {
     he: 'עֵט',
     ru: 'Перо',
     hu: 'Toll',
+    it: 'Penna',
   },
   '#sim-camera#': {
     en: 'Camera Sensor',
+    pt: 'Sensor Câmera',
+    it: 'Sensore della fotocamera',
   },
   '#sim-touch#': {
     en: 'Touch Sensor',
     nl: 'Drukknop-sensor',
     de: 'Behrührungssensor',
-    pt: 'sensor de toque',
+    pt: 'Sensor de toque',
     he: 'חיישן מגע',
     ru: 'Датчик касания',
     hu: 'Érintés szenzot',
+    it: 'Sensore tattile',
   },
   '#sim-is_pressed#': {
     en: 'Is Pressed',
     nl: 'Is ingedrukt',
     de: 'Ist gedrückt',
-    pt: 'se pressionado',
+    pt: 'é pressionado',
     he: 'נלחץ',
     ru: 'Нажат',
+    it: 'È pressato',
   },
   '#sim-show#': {
     en: 'Show',
+    pt: 'Mostrar',
+    it: 'Mostra',
   },
   '#sim-hide#': {
     en: 'Hide',
+    pt: 'Ocultar',
+    it: 'Nascondere',
   },
   '#sim-left_motor#': {
     en: 'Left Motor',
@@ -2239,6 +2433,7 @@ let MSGS = {
     he: "מנוע שמאלי",
     ru: 'Левый двигатель',
     hu: 'Bal motor',
+    it: 'Motore sinistro',
   },
   '#sim-position#': {
     en: 'Position (degrees)',
@@ -2250,6 +2445,7 @@ let MSGS = {
     he: 'מיקום (מעלות)',
     ru: 'Позиция (градусы)',
     hu: 'Pozíció (szög)',
+    it: 'Posizione (gradi)',
   },
   '#sim-magnet#': {
     en: 'Electromagnet',
@@ -2258,14 +2454,16 @@ let MSGS = {
     pt: 'Eletromagnético',
     ru: 'Электромагнит',
     hu: 'Elektromágnes',
+    it: 'Elettromagnete',
   },
   '#sim-magnet_power#': {
     en: 'Magnet Power (%)',
     nl: 'Magneet kracht (%)',
     he: 'כוח מגנט (%)',
-    pt: 'poder Magnético(%)',
+    pt: 'potencia Magnética(%)',
     ru: 'Сила магнита (%)',
     hu: 'Mágnes erőssége (%)',
+    it: 'Potenza del magnete (%)',
   },
   '#sim-right_motor#': {
     en: 'Right Motor',
@@ -2277,6 +2475,7 @@ let MSGS = {
     he: 'מנוע ימין',
     ru: 'Правый двигатель',
     hu: 'Jobb Motor',
+    it: 'Motore destro',
   },
   '#sim-arm#': {
     en: 'Arm Actuator',
@@ -2284,9 +2483,10 @@ let MSGS = {
     el: 'Ενεργοποιητής Bραχίονα',
     nl: 'Arm aandrijving',
     de: 'Armantrieb',
-    pt: 'Atuador do Braço',
+    pt: 'Braço atuador',
     he: 'מפעיל זרוע',
     ru: 'Привод рычага',
+    it: 'Braccio Attuatore',
   },
   '#sim-swivel#': {
     en: 'Swivel Actuator',
@@ -2297,16 +2497,19 @@ let MSGS = {
     pt: 'Atuador giratório',
     he: 'מפעיל סיבוב',
     ru: 'Поворотный привод',
+    it: 'Attuatore girevole',
   },
   '#sim-linear#': {
     en: 'Linear Actuator',
     he: 'מפעיל תנועה בקו ישר',
     pt: 'Atuador linear',
+    it: 'Attuatore lineare',
   },
   '#sim-wheel#': {
     en: 'Wheel Actuator',
-    pt: 'Atuador de Roda',
+    pt: 'Atuador Roda',
     he: 'מפעיל גלגל',
+    it: 'Attuatore ruota',
   },
   '#sim-paintball#': {
     en: 'Paintball Launcher',
@@ -2314,9 +2517,10 @@ let MSGS = {
     el: 'Ενεργοποιητής Εκτοξευτήρα Paintball',
     nl: 'Paintball kanon',
     de: 'Paintball Launcher',
-    pt: 'lançador de paintball',
+    pt: 'Lançador de paintball',
     he: 'משגר פיינטבול',
     ru: 'Пейнтбольная ракетница',
+    it: 'Lanciatore Paintball',
   },
   '#sim-save#': {
     en: 'Save',
@@ -2324,10 +2528,11 @@ let MSGS = {
     el: 'Αποθηκεύση',
     nl: 'Opslaan',
     de: 'Speichern',
-    pt: 'salvar',
+    pt: 'Salvar',
     he: 'שמור',
     ru: 'Сохранить',
     hu: 'Letöltés',
+    it: 'Salvare
   },
   '#sim-load#': {
     en: 'Load',
@@ -2339,6 +2544,7 @@ let MSGS = {
     he: 'טען',
     ru: 'Загрузить',
     hu: 'Feltöltés',
+    it: 'Carico',
   },
   '#sim-default#': {
     en: 'Default',
@@ -2350,6 +2556,7 @@ let MSGS = {
     he: 'ברירת מחדל',
     ru: 'По умолчанию',
     hu: 'Alapérték',
+    it: 'Predefinito',
   },
   '#sim-cancel#': {
     en: 'Cancel',
@@ -2361,15 +2568,17 @@ let MSGS = {
     he: 'בטל',
     ru: 'Отмена',
     hu: 'Mégsem',
+    it: 'Annulla',
   },
   '#sim-ok#': {
     en: 'Ok',
     fr: 'Ok',
     nl: 'Oké',
     de: 'Ok',
-    pt: 'OK',
+    pt: 'Ok',
     he: 'בסדר',
     ru: 'Ok',
+    it: 'Ok',
   },
   '#sim-select_world#': {
     en: 'Select World',
@@ -2381,6 +2590,7 @@ let MSGS = {
     he: 'בחר עולם',
     ru: 'Выбор окружения',
     hu: 'Világ kiválasztása',
+    it: 'Seleziona il mondo',
   },
   '#sim-invalid_map#': {
     en: 'Invalid map configurations',
@@ -2391,17 +2601,20 @@ let MSGS = {
     pt: 'Configurações de mapa inválidas',
     he: 'תצורת מפה לא תקינה',
     ru: 'Неверная конфигурация окружения',
+    it: 'Configurazioni di mappa non valide',
   },
   '#sim-invalid_world_file_json#': {
     en: 'Invalid world file (Not JSON)',
     he: 'קובץ עולם לא חוקי (לא JSON)',
     pt: 'Arquivo de mundo inválido (não é JSON)',
+    it: 'File mondo non valido (non JSON)',
   },
   '#sim-invalid_world_file_robot#': {
     en: 'Invalid world file (...looks like a robot configurations file)',
     he: 'קובץ עולם לא חוקי (...נראה כמו קובץ תצורות רובוט)',
     pt: 'Arquivo de mundo inválido (...parece um arquivo de configurações de robô)',
     ru: 'Неверный файл конфигурации окружения (... похож на конфигурацию робота)',
+    it: 'File del mondo non valido (...sembra un file di configurazione del robot)',
   },
   '#sim-not_found#': {
     en: 'File not found',
@@ -2409,6 +2622,7 @@ let MSGS = {
     pt: 'Arquivo não encontrado',
     he: 'הקובץ לא נמצא',
     ru: 'Файл не найден',
+    it: 'File non trovato',
   },
   '#blockly-save#': {
     en: 'Save Now',
@@ -2419,6 +2633,7 @@ let MSGS = {
     pt: 'Salvar agora',
     he: 'שמור',
     ru: 'Сохранить сейчас',
+    it: 'Salva ora',
   },
   '#blockly-add_page#': {
     en: 'Add Page',
@@ -2429,6 +2644,7 @@ let MSGS = {
     pt: 'Adicionar uma página',
     he: 'הוסף עמוד',
     ru: 'Добавить страницу',
+    it: 'Aggiungi pagina',
   },
   '#blockly-copy_page#': {
     en: 'Copy Current Page',
@@ -2439,6 +2655,7 @@ let MSGS = {
     pt: 'Copiar página atual',
     he: 'העתק עמוד נוכחי',
     ru: 'Копировать текущую страницу',
+    it: 'Copy Current Page',
   },
   '#blockly-move_selected#': {
     en: 'Move Selected Blocks',
@@ -2446,6 +2663,7 @@ let MSGS = {
     he: 'הזז בלוקים נבחרים',
     pt: 'Mover Blocos Selecionados',
     ru: 'Переместить выбранные блоки',
+    it: 'Spostare i blocchi selezionati',
   },
   '#blockly-move_to_page_name#': {
     en: 'Move selected blocks to page name',
@@ -2453,6 +2671,7 @@ let MSGS = {
     he: 'העתק בלוקים נבחרים לעמוד בשם',
     pt: 'Mova os blocos selecionados para o nome da página',
     ru: 'Переместить выбранные блоки к странице с именем',
+    it: 'Spostare i blocchi selezionati nel nome della pagina',
   },
   '#blockly-moved_to#': {
     en: 'Blocks moved to',
@@ -2460,6 +2679,7 @@ let MSGS = {
     pt: 'Blocos movidos para',
     he: 'בלוקים הועברו ל',
     ru: 'Блоки перемещены в',
+    it: 'Blocchi spostati in',
   },
   '#blockly-no_selected#': {
     en: 'No blocks selected',
@@ -2467,6 +2687,7 @@ let MSGS = {
     he: 'לא נבחרו בלוקים',
     pt: 'Nenhum bloco selecionado',
     ru: 'Нет выделенных блоков',
+    it: 'Nessun blocco selezionato',
   },
   '#blockly-cannot_move#': {
     en: 'Cannot move "When Started" block',
@@ -2474,6 +2695,7 @@ let MSGS = {
     he: 'לא ניתן להעביר בלוק "התחלה"',
     pt: 'Não é possível mover o bloco "Quando iniciado"',
     ru: 'Нельзя переместить блок "Когда программа стартует"',
+    it: 'Non è possibile spostare il blocco "Quando si inizia"',
   },
   '#blockly-cannot_move_child#': {
     en: 'Only top level blocks can be moved',
@@ -2481,6 +2703,7 @@ let MSGS = {
     he: 'רק הבלוקים ברמה העליונה יכולים להיות מוזזים',
     pt: 'Somente blocos de nível superior podem ser movidos',
     ru: 'Только блоки верхнего уровня можно переместить',
+    it: 'È possibile spostare solo i blocchi di livello superiore'
   },
   '#blockly-rename_page#': {
     en: 'Rename Current Page',
@@ -2491,6 +2714,7 @@ let MSGS = {
     pt: 'Renomear página atual',
     he: 'שנה שם עמוד נוכחי',
     ru: 'Переименовать текущую страницу',
+    it: 'Rinominare la pagina attuale',
   },
   '#blockly-delete_page#': {
     en: 'Delete Current Page',
@@ -2501,6 +2725,7 @@ let MSGS = {
     nl: 'Verwijder huidige pagina',
     he: 'מחק עמוד נוכחי',
     ru: 'Удалить текущую страницу',
+    it: 'Elimina la pagina corrente',
   },
   '#blockly-new_page_name#': {
     en: 'New page name',
@@ -2510,6 +2735,7 @@ let MSGS = {
     de: 'neuer Seitenname',
     pt: 'Nome da nova página',
     he: 'שם עמוד חדש',
+    it: 'Nome della nuova pagina',
   },
   '#blockly-page_name#': {
     en: 'Page name',
@@ -2520,6 +2746,7 @@ let MSGS = {
     pt: 'Nome da página',
     he: 'שם עמוד',
     ru: 'Имя страницы',
+    it: 'Nome della pagina',
   },
   '#blockly-is_in_use#': {
     en: 'is already in use',
@@ -2530,6 +2757,7 @@ let MSGS = {
     pt: 'já está em uso',
     he: 'כבר בשימוש',
     ru: 'уже существует',
+    it: 'è già in uso',
   },
   '#blockly-page#': {
     en: 'Page',
@@ -2540,6 +2768,7 @@ let MSGS = {
     pt: 'Página',
     he: 'עמוד',
     ru: 'Страница',
+    it: 'Pagina',
   },
   '#blockly-added#': {
     en: 'added',
@@ -2550,6 +2779,7 @@ let MSGS = {
     pt: 'adicionado',
     he: 'הוסף',
     ru: 'добавлена',
+    it: 'aggiunto',
   },
   '#blockly-copy_to_page_name#': {
     en: 'Copy to page name',
@@ -2560,6 +2790,7 @@ let MSGS = {
     pt: 'Copiar para o nome da página',
     he: 'העתק לעמוד בשם',
     ru: 'Скопировать на страницу с именем',
+    it: 'Copia nel nome della pagina',
   },
   '#blockly-copied_to#': {
     en: 'copied to',
@@ -2571,6 +2802,7 @@ let MSGS = {
     he: 'הועתק ל',
     ru: 'копировать в',
     hu: 'másolva',
+    it: 'copiato a',
   },
   '#blockly-cannot_rename_main#': {
     en: 'Cannot rename Main page',
@@ -2582,6 +2814,7 @@ let MSGS = {
     he: 'לא ניתן לשנות את שם העמוד הראשי',
     ru: 'Нельзя переименовать Главную страницу',
     hu: 'A főoldalt nem lehet átnevezni',
+    it: 'Impossibile rinominare la pagina principale',
   },
   '#blockly-new_page_name#': {
     en: 'New page name',
@@ -2593,6 +2826,7 @@ let MSGS = {
     he: 'שם עמוד חדש',
     ru: 'Имя новой страницы',
     hu: 'Új oldal neve',
+    it: 'Nome della nuova pagina',
   },
   '#blockly-is_in_use#': {
     en: 'is already in use',
@@ -2604,6 +2838,7 @@ let MSGS = {
     he: 'כבר בשימוש',
     ru: 'уже используется',
     hu: 'már használatban van',
+    it: 'è già in uso',
   },
   '#blockly-cannot_delete_main#': {
     en: 'Cannot delete Main page',
@@ -2615,6 +2850,7 @@ let MSGS = {
     he: 'לא ניתן למחוק את העמוד הראשי',
     ru: 'Нельзя удалить Главную страницу',
     hu: 'A főoldal nem törölhető!',
+    it: 'Impossibile cancellare la pagina principale',
   },
   '#blockly-delete#': {
     en: 'Delete',
@@ -2626,6 +2862,7 @@ let MSGS = {
     he: 'מחק',
     ru: 'Удалить',
     hu: 'törlés',
+    it: 'Cancellare',
   },
   '#blockly-all_blocks_lost_warning#': {
     en: 'All blocks on page will be lost.',
@@ -2637,6 +2874,7 @@ let MSGS = {
     he: 'כל הבלוקים בעמוד יאבדו',
     ru: 'Все блоки на странице будут потеряны.',
     hu: 'Az oldalon lévő összes blokk elveszik!',
+    it: 'Tutti i blocchi della pagina andranno persi.',
   },
   '#blockly-enable_blocks#': {
     en: 'Enable Blocks Mode',
@@ -2648,6 +2886,7 @@ let MSGS = {
     he: 'אפשר מצב בלוקים',
     ru: 'Включить режим Блоков',
     hu: 'Blokk mód engedélyezése',
+    it: 'Abilita la modalità Blocchi',
   },
   '#blockly-python_lost_warning#': {
     en: 'Enabling blocks mode will cause all Python changes to be lost.',
@@ -2659,6 +2898,7 @@ let MSGS = {
     he: 'אפשור מצב בלוקים יגרום לכל שינויי פייתון להמחק.',
     ru: 'Включение режима Блоков удалит все изменения в Python-коде.',
     hu: 'A blokkolási mód engedélyezésével minden Python-módosítás elvész!',
+    it: 'Se si attiva la modalità di blocco, tutte le modifiche di Python andranno perse.',
   },
   '#python-save#': {
     en: 'Save Now',
@@ -2670,6 +2910,7 @@ let MSGS = {
     he: 'שמור',
     ru: 'Сохранить сейчас',
     hu: 'Mentés most',
+    it: 'Salva ora',
   },
   '#python-warning#': {
     en: 'Warning!',
@@ -2681,6 +2922,7 @@ let MSGS = {
     he: 'אזהרה!',
     ru: 'Внимание',
     hu: 'Figyelem!',
+    it: 'Attenzione!',
   },
   '#python-cannot_change_back_warning#': {
     en: 'Changes to Python code cannot be converted back into blocks!',
@@ -2692,6 +2934,7 @@ let MSGS = {
     he: 'שינוים לקוד פייתון לא יכולים להיות מומרים חזרה לבלוקים!',
     ru: 'Изменения в Python-коде нельзя преобразовать в блоки!',
     hu: 'A Python kód módosításai nem konvertálhatók vissza blokkokká!',
+    it: 'Le modifiche al codice Python non possono essere riconvertite in blocchi!',
   },
 };
 let MSGS_KEYS = Object.keys(MSGS);
