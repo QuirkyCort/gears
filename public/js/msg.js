@@ -435,7 +435,6 @@ let MSGS = {
     ru: 'сбросить позицию двигателя порт',
     hu: 'pozíció törlése a porton',
     it: 'ripristino della posizione del motore sulla porta',
-    
   },
   '#blk-both_wheels#': {
     en: 'Both wheels',
@@ -506,7 +505,6 @@ let MSGS = {
     ru: 'датчик касания',
     hu: 'érintés szenzor',
     it: 'sensore tattile',
-    
   },
   '#blk-wait_until_touch_sensor#': {
     en: 'wait until touch sensor',
@@ -610,7 +608,6 @@ let MSGS = {
     en: 'ball',
     pt: 'bola',
     it: 'palla',
-    
   },
   '#blk-messages_available#': {
     en: 'number of messages in mailbox',
@@ -629,7 +626,6 @@ let MSGS = {
     he: 'קרא הודעה',
     ru: 'прочитать следующее сообщение в почтовом ящике',
     it: 'leggere il prossimo messaggio nella casella di posta',
-    
   },
   '#blk-read_content#': {
     en: 'read content of next message in mailbox',
@@ -794,7 +790,7 @@ let MSGS = {
     ru: 'коричневый',
     hu: 'barna',
     pt: 'marrom',
-    it: 'marrone",
+    it: 'marrone',
   },
   '#blk-red#': {
     en: 'red',
@@ -841,7 +837,7 @@ let MSGS = {
     pt: 'RGB(Lista)',
     ru: 'rgb (список)',
     hu: 'rgb (lista)',
-    it: 'RGB (Lista),
+    it: 'RGB (Lista)',
   },
   '#blk-ultrasonic_distance_on_port#': {
     en: 'ultrasonic distance on port',
@@ -876,7 +872,6 @@ let MSGS = {
     ru: 'в',
     hu: 'bemenet',
     it: 'entrata',
-    
   },
   '#blk-gyro#': {
     en: 'gyro',
@@ -1339,7 +1334,6 @@ let MSGS = {
     ru: 'Левая',
     hu: 'Bal',
     it: 'Sinistra',
-    
   },
   '#blk-right#': {
     en: 'Right',
@@ -1380,7 +1374,7 @@ let MSGS = {
   '#blk-camera_capture_image_tooltip#': {
     en: 'You must run this before any other camera commands',
     pt: 'É necessário executá-lo antes de qualquer outro comando da câmera',
-    it: 'È necessario eseguirlo prima di qualsiasi altro comando della telecamera,
+    it: 'È necessario eseguirlo prima di qualsiasi altro comando della telecamera',
   },
   '#blk-camera_get_rgb#': {
     en: 'get RGB values from camera',
@@ -1395,7 +1389,7 @@ let MSGS = {
   '#blk-camera_get_hsv#': {
     en: 'get HSV values from camera',
     pt: 'obter valores HSV(Câmera de alta velocidade)',
-    it: 'ottenere i valori HSV (telecamera ad alta velocità)', 
+    it: 'ottenere i valori HSV (telecamera ad alta velocità)',
   },
   '#blk-camera_get_hsv_tooltip#': {
     en: 'You must run the capture image block first',
@@ -1644,7 +1638,6 @@ let MSGS = {
     ru: 'Загрузить из файла',
     hu: 'Feltöltés',
     it: 'Carica da archivio',
-    
   },
   '#main-world_save_file#': {
     en: 'Save to file',
@@ -1749,7 +1742,7 @@ let MSGS = {
     he: 'אפס מיקום בהגדרות',
     ru: 'Сбросить позицию в настройках',
     hu: 'Pozíció mentés törlése',
-    it: 'Ripristina la posizione corrente nei parametri', 
+    it: 'Ripristina la posizione corrente nei parametri',
   },
   '#main-robot_position#': {
     en: 'Robot Position',
@@ -1950,9 +1943,8 @@ let MSGS = {
       'Ezután betöltheti a zip-csomagot a GearsBot Arénába, és futtathatja más játékosok ellen.</p>',
     it:
       '<p>GearsBot Arena consente a un massimo di 4 robot di competere o cooperare tra loro.</p>' +
-      '<p>Programmare il robot utilizzando la normale pagina di GearsBot (...dove ci si trova ora) ed esportare il programma e il robot come pacchetto zip (File -> Esporta Zip...).' + 
+      '<p>Programmare il robot utilizzando la normale pagina di GearsBot (...dove ci si trova ora) ed esportare il programma e il robot come pacchetto zip (File -> Esporta Zip...).' +
       '<p>È quindi possibile caricare il pacchetto zip nell\'Arena GearsBot ed eseguirlo contro altri giocatori.</p>',
-
   },
   '#main-arenaGo#': {
     en: 'Go to Arena',
@@ -1998,7 +1990,6 @@ let MSGS = {
     it:
       '<p>GearsBot World Builder consente di creare un mondo personalizzato.</p>'+
       '<p>Una volta completata la personalizzazione, salvate la vostra creazione come file e tornate qui per caricarla.</p>',
-    
   },
   '#main-worldBuilder_go#': {
     en: 'Go to World Builder',
@@ -2050,7 +2041,6 @@ let MSGS = {
     it:
       '<p>Il configuratore di robot GearsBot consente di personalizzare un robot esistente o di creare un nuovo progetto di robot.</p>'+
       '<p>Una volta completata la personalizzazione, salvate la vostra creazione come file e tornate qui per caricarla.</p>',
-   
   },
   '#main-configurator_go#': {
     en: 'Go to Configurator',
@@ -2532,7 +2522,7 @@ let MSGS = {
     he: 'שמור',
     ru: 'Сохранить',
     hu: 'Letöltés',
-    it: 'Salvare
+    it: 'Salvare',
   },
   '#sim-load#': {
     en: 'Load',
