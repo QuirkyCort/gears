@@ -2328,7 +2328,7 @@
 },
 {
   "type": "tw_fwd",
-  "message0": "Move Forward",
+  "message0": "#blk-tw_fwd#",
   "args0": [],
   "inputsInline": true,
   "previousStatement": null,
@@ -2339,7 +2339,7 @@
 },
 {
   "type": "tw_rev",
-  "message0": "Move Back",
+  "message0": "#blk-tw_rev#",
   "args0": [],
   "inputsInline": true,
   "previousStatement": null,
@@ -2350,7 +2350,7 @@
 },
 {
   "type": "tw_left",
-  "message0": "Turn Left",
+  "message0": "#blk-tw_left#",
   "args0": [],
   "inputsInline": true,
   "previousStatement": null,
@@ -2361,7 +2361,7 @@
 },
 {
   "type": "tw_right",
-  "message0": "Turn Right",
+  "message0": "#blk-tw_right#",
   "args0": [],
   "inputsInline": true,
   "previousStatement": null,

@@ -1431,6 +1431,18 @@ let MSGS = {
     pt: 'pixels',
     it: 'pixels',
   },
+  '#blk-tw_fwd#': {
+    en: 'Move Forward',
+  },
+  '#blk-tw_rev#': {
+    en: 'Move Back',
+  },
+  '#blk-tw_left#': {
+    en: 'Turn Left',
+  },
+  '#blk-tw_right#': {
+    en: 'Turn Right',
+  },
   '#main-blocks#': {
     en: 'Blocks',
     tlh: 'Porgh',
