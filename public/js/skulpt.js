@@ -3,13 +3,13 @@ var skulpt = new function() {
 
   this.externalLibs = {
     './ev3dev2/__init__.py': false,
-    './ev3dev2/motor.py': 'ev3dev2/motor.py?v=08e6bcd6',
+    './ev3dev2/motor.py': 'ev3dev2/motor.py?v=d118b16a',
     './ev3dev2/sound.py': 'ev3dev2/sound.py?v=ec3085ff',
     './ev3dev2/button.py': 'ev3dev2/button.py?v=a7f892ad',
     './ev3dev2/sensor/__init__.py': 'ev3dev2/sensor/__init__.py?v=6d1f054c',
     './ev3dev2/sensor/lego.py': 'ev3dev2/sensor/lego.py?v=9fa3d991',
     './ev3dev2/sensor/virtual.py': 'ev3dev2/sensor/virtual.py?v=dd9c8d67',
-    './simPython.js': 'js/simPython.js?v=592d70db',
+    './simPython.js': 'js/simPython.js?v=624e88db',
     './pybricks/__init__.py': false,
     './pybricks/parameters.py': 'pybricks/parameters.py?v=2db482b9',
     './pybricks/tools.py': 'pybricks/tools.py?v=20eafcfc',

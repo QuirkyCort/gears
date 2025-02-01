@@ -397,9 +397,15 @@ class Motor:
     """
     Resets the motor the default value. It will also stop the motor.
     """
+    self._duty_cycle_sp = 0
+    self.polarity = self.ENCODER_POLARITY_NORMAL
+    self.wheel.position(0)
+    self.wheel.position_sp(0)
+    self.wheel.speed_sp(0)
+    self.wheel.stop_action(self.STOP_ACTION_HOLD)
     for k in kwargs:
       setattr(self, k, kwargs[k])
-    self.command = 'reset'
+    self.command = 'stop'
 
   def run_direct(self, **kwargs):
     """
@@ -454,7 +460,7 @@ class Motor:
     """
     for k in kwargs:
       setattr(self, k, kwargs[k])
-    self.command = ''
+    self.command = 'stop'
 
   def wait(self, cond, timeout=None):
     """

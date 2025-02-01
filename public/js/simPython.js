@@ -47,6 +47,9 @@ var $builtinmodule = function(name) {
       } else if (command.v == 'run-forever') {
         self.motor.runForever();
 
+      } else if (command.v == 'stop') {
+        self.motor.stop();
+
       } else if (command.v == '') {
         self.motor.stop();
       }

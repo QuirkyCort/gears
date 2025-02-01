@@ -200,6 +200,16 @@ BUILT_IN_IMAGES = [
     description: 'Fire rescue warehouse map.'
   },
   {
+    url: 'textures/maps/FLL/FLL2024.jpg',
+    type: 'ground',
+    description: 'First Lego League 2024 : Submerged'
+  },
+  {
+    url: 'textures/maps/FLL/FLL2023.jpg',
+    type: 'ground',
+    description: 'First Lego League 2023 : Masterpiece'
+  },
+  {
     url: 'textures/maps/FLL/FLL2022.jpg',
     type: 'ground',
     description: 'First Lego League 2022 : Superpowered'
@@ -238,6 +248,36 @@ BUILT_IN_IMAGES = [
     url: 'textures/maps/Sumo/Red Circle.png',
     type: 'ground',
     description: 'White ground with red border. For use with a cylindrical ground.'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2025-Senior.png',
+    type: 'ground',
+    description: 'WRO 2025 Senior'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2025-Junior.jpg',
+    type: 'ground',
+    description: 'WRO 2025 Junior'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2025-Elementary.png',
+    type: 'ground',
+    description: 'WRO 2025 Elementary'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2024-Senior.png',
+    type: 'ground',
+    description: 'WRO 2024 Senior'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2024-Junior.png',
+    type: 'ground',
+    description: 'WRO 2024 Junior'
+  },
+  {
+    url: 'textures/maps/WRO/WRO-2024-Elementary.png',
+    type: 'ground',
+    description: 'WRO 2024 Elementary'
   },
   {
     url: 'textures/maps/WRO/WRO-2023-Senior.png',
