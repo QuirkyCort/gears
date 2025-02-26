@@ -933,6 +933,12 @@ var main = new function() {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>26 Feb 2025 (FLL 2024)</h3>' +
+          '<p>' +
+            'A partial FLL 2024 (Submerged) mission is now available. ' +
+            'Find it under "Worlds => Select World => Missions => 2024 FLL (Submerged)". ' +
+            'This one is taking way too long, so I am adding it in a partially completed form while I continue to work on it.' +
+          '</p>' +
           '<h3>20 Apr 2024 (Camera Sensor)</h3>' +
           '<p>' +
             'A new Camera Sensor has been added. ' +
