@@ -2381,6 +2381,9 @@ let MSGS = {
     hu: 'LASER távolság',
     it: 'Range del sensore laser',
   },
+  '#sim-lidar#': {
+    en: 'LIDAR Sensor',
+  },
   '#sim-pen#': {
     en: 'Pen',
     nl: 'Pen',

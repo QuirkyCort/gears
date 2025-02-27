@@ -147,6 +147,9 @@ i18n.append({
     nl: 'Laser afstandsensor',
     he: 'חיישן טווח לייזר',
   },
+  '#robot-lidar#': {
+    en: 'LIDAR Sensor (360° Distance)',
+  },
   '#robot-pen#': {
     en: 'Pen',
     nl: 'Pen',

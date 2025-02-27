@@ -69,7 +69,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['tw_color'] = self.tw_color;
 
     Blockly.Python['object_tracker'] = self.object_tracker;
-    
+
     Blockly.Python['comment'] = self.comment;
   };
 
@@ -137,6 +137,8 @@ var ev3dev2_generator = new function() {
         sensorsCode += 'pen_in' + i + ' = Pen(INPUT_' + i + ')\n';
       } else if (sensor.type == 'CameraSensor') {
         sensorsCode += 'camera_sensor_in' + i + ' = CameraSensor(INPUT_' + i + ')\n';
+      } else if (sensor.type == 'LidarSensor') {
+        sensorsCode += 'lidar_sensor_in' + i + ' = LidarSensor(INPUT_' + i + ')\n';
       }
       i++;
       sensor = robot.getComponentByPort('in' + i)
@@ -896,7 +898,7 @@ var ev3dev2_generator = new function() {
       var target = '\'ball\'';
     }else {
       var target = dropdown_robot;
-    } 
+    }
 
     var code = 'obtr' + '.' + typeStr + '(' + target + ')';
 

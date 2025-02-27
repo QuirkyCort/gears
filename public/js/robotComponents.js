@@ -3100,6 +3100,7 @@ function WheelPassive(scene, parent, pos, rot, options) {
   this.init();
 }
 
+// Camera for machine vision
 function CameraSensor(scene, parent, pos, rot, port, options) {
   var self = this;
 
@@ -3417,6 +3418,118 @@ function CameraSensor(scene, parent, pos, rot, port, options) {
     results.sort(cmp);
 
     return results;
+  };
+
+  this.init();
+}
+
+// 360 degree distance sensor
+function LidarSensor(scene, parent, pos, rot, port, options) {
+  var self = this;
+
+  this.type = 'LidarSensor';
+  this.port = port;
+  this.options = null;
+
+  this.position = new BABYLON.Vector3(pos[0], pos[1], pos[2]);
+  this.rotation = new BABYLON.Vector3(rot[0], rot[1], rot[2]);
+  this.initialQuaternion = new BABYLON.Quaternion.FromEulerAngles(rot[0], rot[1], rot[2]);
+
+  this.init = function() {
+    self.setOptions(options);
+
+    var faceUV = new Array(3);
+    faceUV[0] = new BABYLON.Vector4(0, 0, 200/828, 1);
+    faceUV[1] = new BABYLON.Vector4(200/828, 3/4, 1, 1);
+    faceUV[2] = new BABYLON.Vector4(0, 0, 200/828, 1);
+    let cylinderOptions = {
+      height: 1,
+      diameter: 4,
+      tessellation: 12,
+      faceUV: faceUV
+    };
+
+    var body = BABYLON.MeshBuilder.CreateCylinder('lidarSensorBody', cylinderOptions, scene);
+    self.body = body;
+    body.component = self;
+    body.visibility = true;
+    body.isPickable = false;
+    body.parent = parent;
+    body.position = self.position;
+    body.physicsImpostor = new BABYLON.PhysicsImpostor(
+      body,
+      BABYLON.PhysicsImpostor.CylinderImpostor,
+      {
+        mass: 0
+      },
+      scene
+    );
+    body.rotate(BABYLON.Axis.X, self.rotation.x, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Y, self.rotation.y, BABYLON.Space.LOCAL)
+    body.rotate(BABYLON.Axis.Z, self.rotation.z, BABYLON.Space.LOCAL)
+
+    var bodyMat = new BABYLON.StandardMaterial('lidarSensorBody', scene);
+    var bodyTexture = new BABYLON.Texture('textures/robot/lidar.png', scene);
+    bodyMat.diffuseTexture = bodyTexture;
+    body.material = bodyMat;
+
+    // Prep rays
+    self.rays = [];
+    self.rayVectors = [];
+    var straightVector = new BABYLON.Vector3(0,0,1);
+    let origin = new BABYLON.Vector3(0,0,0);
+
+    for (let i=0; i<self.options.rayCount; i++) {
+      let rayRotation = i * 2 * Math.PI / self.options.rayCount;
+      let matrixY = BABYLON.Matrix.RotationAxis(BABYLON.Axis.Y, rayRotation);
+      let vec = BABYLON.Vector3.TransformCoordinates(straightVector, matrixY);
+      self.rayVectors.push(vec);
+      var ray = new BABYLON.Ray(origin, vec, self.options.rayLength);
+      self.rays.push(ray);
+      // BABYLON.RayHelper.CreateAndShow(ray, scene, new BABYLON.Color3(1, 1, 1));
+    }
+  };
+
+  this.setOptions = function(options) {
+    self.options = {
+      rayLength: 600,
+      rayCount: 360
+    };
+
+    for (let name in options) {
+      if (typeof self.options[name] == 'undefined') {
+        console.log('Unrecognized option: ' + name);
+      } else {
+        self.options[name] = options[name];
+      }
+    }
+  };
+
+  this.filterRay = function(mesh) {
+    if (mesh.isPickable == false) {
+      return false;
+    }
+    if (mesh.laserDetection == 'invisible') {
+      return false;
+    }
+    return true;
+  };
+
+  this.getDistances = function() {
+    self.rays[0].origin.copyFrom(self.body.absolutePosition);
+
+    let distances = [];
+    for (let i=0; i<self.options.rayCount; i++) {
+      self.rayVectors[i].rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, self.rays[i].direction);
+      let hit = scene.pickWithRay(self.rays[i], self.filterRay);
+      if (hit.hit == false || hit.pickedMesh.laserDetection == 'absorb') {
+        distances.push(self.options.rayLength);
+      } else {
+        distances.push(hit.distance);
+      }
+    }
+
+    return distances;
   };
 
   this.init();

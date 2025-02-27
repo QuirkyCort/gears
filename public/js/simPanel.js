@@ -531,6 +531,11 @@ var simPanel = new function() {
           sensor.port + ': ' + i18n.get('#sim-laser#'),
           [i18n.get('#sim-distance#') + ' (cm)']
         );
+      } else if (sensor.type == 'LidarSensor') {
+        tmp = genDiv(
+          sensor.port + ': ' + i18n.get('#sim-lidar#'),
+          []
+        );
       } else if (sensor.type == 'TouchSensor') {
         tmp = genDiv(
           sensor.port + ': ' + i18n.get('#sim-touch#'),

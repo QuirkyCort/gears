@@ -341,6 +341,22 @@ var $builtinmodule = function(name) {
 
   }, 'UltrasonicSensor', []);
 
+  mod.LidarSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, address) {
+      self.sensor = robot.getComponentByPort(address.v);
+      if (!self.sensor || (self.sensor.type != 'LidarSensor')) {
+        throw new Sk.builtin.TypeError('No lidar sensor connected to ' + String(address.v));
+      }
+    });
+
+    $loc.distances = new Sk.builtin.func(function(self) {
+      return Sk.ffi.remapToPy(self.sensor.getDistances());
+    });
+
+  }, 'LidarSensor', []);
+
   mod.TouchSensor = Sk.misceval.buildClass(mod, function($gbl, $loc) {
     var self = this;
 

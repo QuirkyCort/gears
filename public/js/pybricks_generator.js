@@ -108,6 +108,9 @@ var pybricks_generator = new function() {
       } else if (sensor.type == 'CameraSensor') {
         sensorsCode += 'camera_sensor_in' + i + ' = CameraSensor(Port.S' + i + ')\n';
         self.autoPorts[sensor.type] = i;
+      } else if (sensor.type == 'LidarSensor') {
+        sensorsCode += 'lidar_sensor_in' + i + ' = LidarSensor(Port.S' + i + ')\n';
+        self.autoPorts[sensor.type] = i;
       }
       i++;
     }

@@ -242,7 +242,7 @@ var configurator = new function() {
           type: 'strText',
           reset: true,
           help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
-        },  
+        },
       ]
     },
     {
@@ -364,7 +364,7 @@ var configurator = new function() {
           type: 'strText',
           reset: true,
           help: 'URL for image texture. Will not work with most webhosts; Imgur will work.'
-        },  
+        },
       ]
     },
     {
@@ -481,6 +481,45 @@ var configurator = new function() {
           option: 'rayLength',
           type: 'floatText',
           help: 'Anything further than this will not be detected. Leave blank to use default.'
+        },
+      ]
+    },
+    {
+      name: 'LidarSensor',
+      category: 'Sensors',
+      defaultConfig: {
+        type: 'LidarSensor',
+        position: [0, 5, 0],
+        rotation: [0, 0, 0],
+        options: null
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vectors',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vectors',
+          min: '-180',
+          max: '180',
+          step: '5',
+          deg2rad: true,
+          reset: true
+        },
+        {
+          option: 'rayLength',
+          type: 'floatText',
+          help: 'Anything further than this will not be detected. Leave blank to use default (600 cm).'
+        },
+        {
+          option: 'rayCount',
+          type: 'floatText',
+          help: 'Number of rays emitted. Leave blank to use default of 360 (1 ray per degree).'
         },
       ]
     },
@@ -1111,7 +1150,7 @@ var configurator = new function() {
           min: '0',
           max: '1',
           step: '0.05',
-        },        
+        },
       ]
     },
     {
@@ -1181,7 +1220,7 @@ var configurator = new function() {
           min: '0',
           max: '1',
           step: '0.05',
-        },        
+        },
       ]
     },
     {
@@ -1293,11 +1332,11 @@ var configurator = new function() {
       // Object drag
       function drag(event) {
         let delta = event.delta;
-        
+
         if (dragBody.parent) {
           let matrix = dragBody.parent.getWorldMatrix().clone().invert();
           matrix.setTranslation(BABYLON.Vector3.Zero());
-          delta = BABYLON.Vector3.TransformCoordinates(delta, matrix);  
+          delta = BABYLON.Vector3.TransformCoordinates(delta, matrix);
         }
 
         dragBodyPos.addInPlace(delta);
@@ -1346,7 +1385,7 @@ var configurator = new function() {
       dragBody.addBehavior(pointerDragBehavior);
     }
   };
-  
+
   // Runs every frame
   this.render = function(delta) {
     let camera = babylon.scene.activeCamera;
@@ -1605,12 +1644,12 @@ var configurator = new function() {
           let $target = self.$componentList.find('li[componentIndex=' + component.componentIndex + ']');
           if ($target.length > 0) {
             $target.addClass('selected');
-            self.showComponentOptions($target[0].component);  
+            self.showComponentOptions($target[0].component);
           } else {
             $($components[0]).addClass('selected');
             self.showComponentOptions($components[0].component);
           }
-  
+
           self.highlightSelected();
           self.applyDragToSelected();
         }
@@ -1763,7 +1802,7 @@ var configurator = new function() {
       wireframe.isPickable = false;
 
       wireframe.body = body;
-      self.wireframe = wireframe;    
+      self.wireframe = wireframe;
 
       wireframe.position = body.absolutePosition;
 
@@ -1876,6 +1915,8 @@ var configurator = new function() {
         sensors += '<li>#robot-port# ' + i + ' : GPS</li>';
       } else if (sensor.type == 'LaserRangeSensor') {
         sensors += '<li>#robot-port# ' + i + ' : #robot-laser#</li>';
+      } else if (sensor.type == 'LidarSensor') {
+        sensors += '<li>#robot-port# ' + i + ' : #robot-lidar#</li>';
       } else if (sensor.type == 'TouchSensor') {
         sensors += '<li>#robot-port# ' + i + ' : #robot-touch#</li>';
       } else if (sensor.type == 'Pen') {

@@ -154,3 +154,14 @@ class CameraSensor:
 
   def find_blobs(self, thresholds, pixels_threshold=10):
     return self.sensor.findBlobs(thresholds, pixels_threshold)
+
+
+class LidarSensor:
+  _DRIVER_NAME = 'virtual-lidar'
+
+  def __init__(self, address=None):
+    self.sensor = simPython.LidarSensor(address)
+
+  def get_distances(self):
+    time.sleep(SENSOR_DELAY)
+    return self.sensor.distances()
