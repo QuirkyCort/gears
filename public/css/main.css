@@ -687,6 +687,16 @@ ul.menuDropDownRightAlign {
   top: 1em;
   color: #eb09ff; }
 
+#plotter {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  bottom: 3em;
+  right: 0; }
+
+#plotter.hide {
+  display: none; }
+
 @font-face {
   font-family: 'icomoon';
   src: url("../fonts/icomoon.eot?r1fe98");

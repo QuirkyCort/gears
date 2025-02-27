@@ -586,5 +586,73 @@ var $builtinmodule = function(name) {
 
   }, 'HubButtons', []);
 
+  mod.Plotter = Sk.misceval.buildClass(mod, function($gbl, $loc) {
+    var self = this;
+
+    $loc.__init__ = new Sk.builtin.func(function(self, minX, minY, maxX, maxY) {
+      self.canvas = document.getElementById('plotter');
+      self.ctx = self.canvas.getContext('2d');
+
+      self.minX = minX.v;
+      self.minY = minY.v;
+      self.width = maxX.v - minX.v;
+      self.height = maxY.v - minY.v;
+
+      self.ctx.fillStyle = 'white';
+      self.ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
+
+      self.ctx.fillStyle = 'black';
+      self.ctx.strokeStyle = 'black';
+      self.pointSize = 3;
+
+      self.getPos = function(x, y) {
+        x = (x - self.minX) / self.width * self.canvas.width;
+        y = self.canvas.height - (y - self.minY) / self.height * self.canvas.height;
+        return [x, y];
+      }
+    });
+
+    $loc.show = new Sk.builtin.func(function(self) {
+      self.canvas.classList.remove('hide');
+    });
+
+    $loc.hide = new Sk.builtin.func(function(self) {
+      self.canvas.classList.add('hide');
+    });
+
+    $loc.clear = new Sk.builtin.func(function(self) {
+      let color = self.ctx.fillStyle;
+
+      self.ctx.fillStyle = 'white';
+      self.ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
+
+      self.ctx.fillStyle = color;
+    });
+
+    $loc.setColor = new Sk.builtin.func(function(self, color) {
+      self.ctx.fillStyle = color.v;
+      self.ctx.strokeStyle = color.v;
+    });
+
+    $loc.setPointSize = new Sk.builtin.func(function(self, size) {
+      self.pointSize = size.v;
+    });
+
+    $loc.drawPoint = new Sk.builtin.func(function(self, x, y) {
+      [x, y] = self.getPos(x.v, y.v);
+
+      self.ctx.fillRect(x - self.pointSize / 2, y - self.pointSize / 2, self.pointSize, self.pointSize);
+    });
+
+    $loc.drawLine = new Sk.builtin.func(function(self, x1, y1, x2, y2) {
+      [x1, y1] = self.getPos(x1.v, y1.v);
+      [x2, y2] = self.getPos(x2.v, y2.v);
+      self.ctx.beginPath();
+      self.ctx.moveTo(x1, y1);
+      self.ctx.lineTo(x2, y2);
+      self.ctx.stroke();
+    });
+  }, 'Plotter', []);
+
   return mod;
 };

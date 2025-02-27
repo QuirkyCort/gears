@@ -239,7 +239,7 @@
     .icon-buttonsBackspace, .icon-buttonsUp, .icon-buttonsDown, .icon-buttonsLeft, .icon-buttonsRight, .icon-buttonsEnter {
       position: absolute;
     }
-    
+
     .pressed {
       color: #888;
     }
@@ -248,27 +248,27 @@
       left: 1.6em;
       top: 0.2em;
     }
-    
+
     .icon-buttonsUp {
       left: 2.7em;
       top: 0.28em;
     }
-    
+
     .icon-buttonsDown {
       left: 2.7em;
       top: 2.5em;
     }
-    
+
     .icon-buttonsLeft {
       top: 1.4em;
       left: 1.6em;
     }
-    
+
     .icon-buttonsRight {
       top: 1.4em;
       left: 3.8em;
     }
-    
+
     .icon-buttonsEnter {
       top: 1.4em;
       left: 2.7em;
@@ -662,4 +662,16 @@
   right: 4em;
   top: 1em;
   color: #eb09ff;
+}
+
+#plotter {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  bottom: 3em;
+  right: 0;
+}
+
+#plotter.hide {
+  display: none;
 }

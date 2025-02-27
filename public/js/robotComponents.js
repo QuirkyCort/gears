@@ -3484,7 +3484,7 @@ function LidarSensor(scene, parent, pos, rot, port, options) {
       let matrixY = BABYLON.Matrix.RotationAxis(BABYLON.Axis.Y, rayRotation);
       let vec = BABYLON.Vector3.TransformCoordinates(straightVector, matrixY);
       self.rayVectors.push(vec);
-      var ray = new BABYLON.Ray(origin, vec, self.options.rayLength);
+      var ray = new BABYLON.Ray(origin, new BABYLON.Vector3(0,0,1), self.options.rayLength);
       self.rays.push(ray);
       // BABYLON.RayHelper.CreateAndShow(ray, scene, new BABYLON.Color3(1, 1, 1));
     }
@@ -3516,10 +3516,9 @@ function LidarSensor(scene, parent, pos, rot, port, options) {
   };
 
   this.getDistances = function() {
-    self.rays[0].origin.copyFrom(self.body.absolutePosition);
-
     let distances = [];
     for (let i=0; i<self.options.rayCount; i++) {
+      self.rays[i].origin.copyFrom(self.body.absolutePosition);
       self.rayVectors[i].rotateByQuaternionToRef(self.body.absoluteRotationQuaternion, self.rays[i].direction);
       let hit = scene.pickWithRay(self.rays[i], self.filterRay);
       if (hit.hit == false || hit.pickedMesh.laserDetection == 'absorb') {
