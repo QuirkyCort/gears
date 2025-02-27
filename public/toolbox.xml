@@ -229,6 +229,9 @@
         </shadow>
       </value>
     </block>
+    <block type="lidar_sensor">
+      <field name="port">AUTO</field>
+    </block>
   </category>
   <category name="#blk-sound#" colour="#a5745b">
     <block type="say">

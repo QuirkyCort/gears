@@ -861,6 +861,9 @@ let MSGS = {
     de: 'Entfernungslaser an dem Port',
     it: 'distanza laser sulla porta',
   },
+  '#blk-lidar_distance_on_port#': {
+    en: 'lidar distances on port',
+  },
   '#blk-in#': {
     en: 'in',
     fr: 'entrée',

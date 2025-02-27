@@ -55,6 +55,7 @@ var ev3dev2_generator = new function() {
     Blockly.Python['camera_get_rgb'] = self.camera_get_rgb;
     Blockly.Python['camera_get_hsv'] = self.camera_get_hsv;
     Blockly.Python['camera_find_blobs'] = self.camera_find_blobs;
+    Blockly.Python['lidar_sensor'] = self.lidar_sensor;
 
     Blockly.Python['radio_send'] = self.radio_send;
     Blockly.Python['radio_available'] = self.radio_available;
@@ -538,6 +539,15 @@ var ev3dev2_generator = new function() {
     }
     var code = 'laser_sensor_in' + dropdown_port + '.distance_centimeters' + multiplier;
     return [code, order];
+  };
+
+  // lidar
+  this.lidar_sensor = function(block) {
+    var dropdown_port = block.getFieldValue('port');
+    dropdown_port = self.getPort(dropdown_port, 'LidarSensor');
+
+    var code = 'lidar_sensor_in' + dropdown_port + '.get_distances()';
+    return [code, Blockly.Python.ORDER_ATOMIC];
   };
 
   // gyro
