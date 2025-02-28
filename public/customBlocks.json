@@ -2767,5 +2767,214 @@
   "colour": 160,
   "tooltip": "#blk-camera_find_blobs_tooltip#",
   "helpUrl": "https://github.com/QuirkyCort/gears/wiki/Camera-Sensor"
+},
+{
+  "type": "plotter_init",
+  "message0": "#blk-plotter_init# %1 #blk-minY# %2 #blk-maxX# %3 #blk-maxY# %4",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "minX",
+      "text": "-400"
+    },
+    {
+      "type": "field_input",
+      "name": "minY",
+      "text": "-400"
+    },
+    {
+      "type": "field_input",
+      "name": "maxX",
+      "text": "400"
+    },
+    {
+      "type": "field_input",
+      "name": "maxY",
+      "text": "400"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_init_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "plotter_showHide",
+  "message0": "#blk-plotter_showHide# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        ["Show", "SHOW"],
+        ["Hide", "HIDE"]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_showHide_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "plotter_clear",
+  "message0": "#blk-plotter_clear#",
+  "args0": [],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_clear_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "plotter_setColor",
+  "message0": "#blk-plotter_setColor# %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "color",
+      "options": [
+        ["Black", "black"],
+        ["Red", "red"],
+        ["Green", "green"],
+        ["Blue", "blue"],
+        ["Orange", "orange"]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_setColor_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "plotter_setPointSize",
+  "message0": "#blk-plotter_setPointSize# %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "size",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_setPointSize_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "plotter_drawPoint",
+  "message0": "#blk-plotter_drawPoint# %1 %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_drawPoint_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "plotter_drawLine",
+  "message0": "#blk-plotter_drawLine# %1 %2 #blk-to# %3 %4",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x1",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y1",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "x2",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y2",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_drawLine_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "plotter_drawTriangle",
+  "message0": "#blk-plotter_drawTriangle# %1 %2 #blk-and_dir# %3",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "dir",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_drawTriangle_tooltip#",
+  "helpUrl": ""
+},
+{
+  "type": "plotter_drawGrid",
+  "message0": "#blk-plotter_drawGrid# %1 #blk-and_size# %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        ["Cartesian", "CARTESIAN"],
+        ["Polar", "POLAR"]
+      ]
+    },
+    {
+      "type": "field_input",
+      "name": "size",
+      "text": "100"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "tooltip": "#blk-plotter_drawGrid_tooltip#",
+  "helpUrl": ""
 }
 ]

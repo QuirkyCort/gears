@@ -671,7 +671,7 @@ var $builtinmodule = function(name) {
       let leftY = y - 5 * Math.sin(angle + Math.PI / 3 * 2);
       let rightX = x + 5 * Math.cos(angle - Math.PI / 3 * 2);
       let rightY = y - 5 * Math.sin(angle - Math.PI / 3 * 2);
-      self.ctx.fillRect(x - self.pointSize / 2, y - self.pointSize / 2, self.pointSize, self.pointSize);
+      self.ctx.fillRect(x - 1, y - 1, 2, 2);
       self.ctx.beginPath();
       self.ctx.moveTo(tipX, tipY);
       self.ctx.lineTo(leftX, leftY);

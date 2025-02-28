@@ -301,14 +301,74 @@
         </shadow>
       </value>
     </block>
-    <block type="radio_available">
+    <block type="radio_available"></block>
+    <block type="radio_read"></block>
+    <block type="radio_read_content"></block>
+    <block type="radio_empty"></block>
+    <block type="plotter_init"></block>
+    <block type="plotter_showHide"></block>
+    <block type="plotter_clear"></block>
+    <block type="plotter_drawGrid"></block>
+    <block type="plotter_setColor"></block>
+    <block type="plotter_setPointSize">
+      <value name="size">
+        <shadow type="math_number">
+          <field name="NUM">2</field>
+        </shadow>
+      </value>
     </block>
-    <block type="radio_read">
+    <block type="plotter_drawPoint">
+      <value name="x">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="y">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
     </block>
-    <block type="radio_read_content">
+    <block type="plotter_drawLine">
+      <value name="x1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="y1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="x2">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+      <value name="y2">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
     </block>
-    <block type="radio_empty">
+    <block type="plotter_drawTriangle">
+      <value name="x">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="y">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="dir">
+        <shadow type="math_number">
+          <field name="NUM">90</field>
+        </shadow>
+      </value>
     </block>
+
   </category>
   <category name="#blk-control#" colour="#9fa55b">
     <block type="comment"></block>

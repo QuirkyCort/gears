@@ -1446,6 +1446,79 @@ let MSGS = {
   '#blk-tw_right#': {
     en: 'Turn Right',
   },
+  '#blk-plotter_init#': {
+    en: 'Init plotter with minX',
+  },
+  '#blk-minY#': {
+    en: 'minY',
+  },
+  '#blk-maxX#': {
+    en: 'maxX',
+  },
+  '#blk-maxY#': {
+    en: 'maxY',
+  },
+  '#blk-plotter_init_tooltip#': {
+    en: 'You must run this before any other plotter blocks',
+  },
+  '#blk-plotter_showHide#': {
+    en: 'plotter',
+  },
+  '#blk-plotter_showHide_tooltip#': {
+    en: 'The plotter is shown by default when initialized, but you can hide it with this block.',
+  },
+  '#blk-plotter_clear#': {
+    en: 'clear plotter',
+  },
+  '#blk-plotter_clear_tooltip#': {
+    en: 'Clear the plotter, including all grids.',
+  },
+  '#blk-plotter_drawGrid#': {
+    en: 'plotter draw grid of type',
+  },
+  '#blk-and_size#': {
+    en: 'and size',
+  },
+  '#blk-plotter_drawGrid_tooltip#': {
+    en: 'Draw a grid on the plotter. The size is the distance between each grid line.',
+  },
+  '#blk-plotter_setColor#': {
+    en: 'set plotter color to',
+  },
+  '#blk-plotter_setColor_tooltip#': {
+    en: 'Sets colors of all future plotter drawings. Does not affect grid color.',
+  },
+  '#blk-plotter_setPointSize#': {
+    en: 'set plotter point size to',
+  },
+  '#blk-plotter_setPointSize_tooltip#': {
+    en: 'Only affect size of points drawn with plotter draw point. Lines and triangles are always 1 pixel wide.',
+  },
+  '#blk-plotter_drawPoint#': {
+    en: 'plotter draw point at',
+  },
+  '#blk-plotter_drawPoint_tooltip#': {
+    en: 'Draw a point at the specified x, y location.',
+  },
+  '#blk-plotter_drawLine#': {
+    en: 'plotter draw line from',
+  },
+  '#blk-to#': {
+    en: 'to',
+  },
+  '#blk-plotter_drawLine_tooltip#': {
+    en: 'Draw a line from the start point to the end point.',
+  },
+  '#blk-plotter_drawTriangle#': {
+    en: 'plotter draw triangle at',
+  },
+  '#blk-and_dir#': {
+    en: 'and direction',
+  },
+  '#blk-plotter_drawTriangle_tooltip#': {
+    en: 'Draw a triangle at the specified location, pointed and the specified direction.',
+  },
+
   '#main-blocks#': {
     en: 'Blocks',
     tlh: 'Porgh',

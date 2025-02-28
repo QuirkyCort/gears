@@ -72,6 +72,16 @@ var ev3dev2_generator = new function() {
     Blockly.Python['object_tracker'] = self.object_tracker;
 
     Blockly.Python['comment'] = self.comment;
+
+    Blockly.Python['plotter_init'] = self.plotter_init;
+    Blockly.Python['plotter_showHide'] = self.plotter_showHide;
+    Blockly.Python['plotter_clear'] = self.plotter_clear;
+    Blockly.Python['plotter_drawGrid'] = self.plotter_drawGrid;
+    Blockly.Python['plotter_setColor'] = self.plotter_setColor;
+    Blockly.Python['plotter_setPointSize'] = self.plotter_setPointSize;
+    Blockly.Python['plotter_drawPoint'] = self.plotter_drawPoint;
+    Blockly.Python['plotter_drawLine'] = self.plotter_drawLine;
+    Blockly.Python['plotter_drawTriangle'] = self.plotter_drawTriangle;
   };
 
   // Generate python code
@@ -1015,6 +1025,89 @@ var ev3dev2_generator = new function() {
 
     code += '\n\n';
 
+    return code;
+  };
+
+  // Plotter
+  this.plotter_init = function(block) {
+    let minX = block.getFieldValue('minX');
+    let minY = block.getFieldValue('minY');
+    let maxX = block.getFieldValue('maxX');
+    let maxY = block.getFieldValue('maxY');
+
+    let code = 'plotter = simPython.Plotter(' + minX + ', ' + minY + ', ' + maxX + ', ' + maxY + ')\n';
+    return code;
+  };
+
+  this.plotter_showHide = function(block) {
+    let type = block.getFieldValue('type');
+
+    let code;
+    if (type == 'SHOW') {
+      code = 'plotter.show()\n';
+    } else {
+      code = 'plotter.hide()\n';
+    }
+    return code;
+  };
+
+  this.plotter_clear = function(block) {
+    let code = 'plotter.clear()\n';
+    return code;
+  };
+
+  this.plotter_drawGrid = function(block) {
+    let type = block.getFieldValue('type');
+    let size = block.getFieldValue('size');
+
+    if (type == 'CARTESIAN') {
+      type = '';
+    } else {
+      type = 'Polar';
+    }
+
+    let code = 'plotter.drawGrid' + type + '(' + size + ')\n';
+    return code;
+  };
+
+  this.plotter_setColor = function(block) {
+    let color = block.getFieldValue('color');
+
+    let code = 'plotter.setColor(\'' + color + '\')\n';
+    return code;
+  };
+
+  this.plotter_setPointSize = function(block) {
+    let size = Blockly.Python.valueToCode(block, 'size', Blockly.Python.ORDER_ATOMIC);
+
+    let code = 'plotter.setPointSize(' + size + ')\n';
+    return code;
+  };
+
+  this.plotter_drawPoint = function(block) {
+    let x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
+    let y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
+
+    let code = 'plotter.drawPoint(' + x + ', ' + y + ')\n';
+    return code;
+  };
+
+  this.plotter_drawLine = function(block) {
+    let x1 = Blockly.Python.valueToCode(block, 'x1', Blockly.Python.ORDER_ATOMIC);
+    let y1 = Blockly.Python.valueToCode(block, 'y1', Blockly.Python.ORDER_ATOMIC);
+    let x2 = Blockly.Python.valueToCode(block, 'x2', Blockly.Python.ORDER_ATOMIC);
+    let y2 = Blockly.Python.valueToCode(block, 'y2', Blockly.Python.ORDER_ATOMIC);
+
+    let code = 'plotter.drawLine(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ')\n';
+    return code;
+  };
+
+  this.plotter_drawTriangle = function(block) {
+    let x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
+    let y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
+    let dir = Blockly.Python.valueToCode(block, 'dir', Blockly.Python.ORDER_ATOMIC);
+
+    let code = 'plotter.drawTriangle(' + x + ', ' + y + ', ' + dir + ')\n';
     return code;
   };
 
