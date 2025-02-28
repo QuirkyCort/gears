@@ -590,11 +590,19 @@ var $builtinmodule = function(name) {
     var self = this;
 
     $loc.__init__ = new Sk.builtin.func(function(self, minX, minY, maxX, maxY) {
-      self.canvas = document.getElementById('plotter');
+      self.div = document.getElementById('plotter');
+      self.canvas = document.getElementById('plotterCanvas');
       self.ctx = self.canvas.getContext('2d');
+
+      self.canvas.minX = minX.v;
+      self.canvas.minY = minY.v;
+      self.canvas.maxX = maxX.v;
+      self.canvas.maxY = maxY.v;
 
       self.minX = minX.v;
       self.minY = minY.v;
+      self.maxX = maxX.v;
+      self.maxY = maxY.v;
       self.width = maxX.v - minX.v;
       self.height = maxY.v - minY.v;
 
@@ -603,21 +611,22 @@ var $builtinmodule = function(name) {
 
       self.ctx.fillStyle = 'black';
       self.ctx.strokeStyle = 'black';
-      self.pointSize = 3;
+      self.pointSize = 2;
 
       self.getPos = function(x, y) {
         x = (x - self.minX) / self.width * self.canvas.width;
         y = self.canvas.height - (y - self.minY) / self.height * self.canvas.height;
         return [x, y];
       }
+      self.div.classList.remove('hide');
     });
 
     $loc.show = new Sk.builtin.func(function(self) {
-      self.canvas.classList.remove('hide');
+      self.div.classList.remove('hide');
     });
 
     $loc.hide = new Sk.builtin.func(function(self) {
-      self.canvas.classList.add('hide');
+      self.div.classList.add('hide');
     });
 
     $loc.clear = new Sk.builtin.func(function(self) {
@@ -652,6 +661,99 @@ var $builtinmodule = function(name) {
       self.ctx.lineTo(x2, y2);
       self.ctx.stroke();
     });
+
+    $loc.drawTriangle = new Sk.builtin.func(function(self, x, y, dir) {
+      let angle = dir.v / 180 * Math.PI;
+      [x, y] = self.getPos(x.v, y.v);
+      let tipX = x + 8 * Math.cos(angle);
+      let tipY = y - 8 * Math.sin(angle);
+      let leftX = x + 5 * Math.cos(angle + Math.PI / 3 * 2);
+      let leftY = y - 5 * Math.sin(angle + Math.PI / 3 * 2);
+      let rightX = x + 5 * Math.cos(angle - Math.PI / 3 * 2);
+      let rightY = y - 5 * Math.sin(angle - Math.PI / 3 * 2);
+      self.ctx.fillRect(x - self.pointSize / 2, y - self.pointSize / 2, self.pointSize, self.pointSize);
+      self.ctx.beginPath();
+      self.ctx.moveTo(tipX, tipY);
+      self.ctx.lineTo(leftX, leftY);
+      self.ctx.lineTo(rightX, rightY);
+      self.ctx.closePath();
+      self.ctx.stroke();
+    });
+
+    $loc.drawGrid = new Sk.builtin.func(function(self, size) {
+      let [x, y] = self.getPos(0, 0);
+      let [rx, ry] = self.getPos(size.v, size.v);
+      rx -= x;
+      ry = y - ry;
+
+      let color = self.ctx.strokeStyle;
+
+      self.ctx.strokeStyle = 'lightgray';
+      self.ctx.beginPath();
+      for (let i=Math.floor(self.minX / size.v); i<Math.ceil(self.maxX / size.v); i++) {
+        let x2 = Math.round(x + i*rx);
+        self.ctx.moveTo(x2, 0);
+        self.ctx.lineTo(x2, self.canvas.height);
+      }
+      for (let i=Math.floor(self.minY / size.v); i<Math.ceil(self.maxY / size.v); i++) {
+        let [x2, y2] = self.getPos(0, i*size.v);
+        y2 = Math.round(y2);
+        self.ctx.moveTo(0, y2);
+        self.ctx.lineTo(self.canvas.width, y2);
+      }
+      self.ctx.stroke();
+
+      self.ctx.strokeStyle = 'darkgray';
+      self.ctx.beginPath();
+      self.ctx.moveTo(x, 0);
+      self.ctx.lineTo(x, self.canvas.height);
+      self.ctx.moveTo(0, y);
+      self.ctx.lineTo(self.canvas.width, y);
+      self.ctx.stroke();
+
+      self.ctx.strokeStyle = color;
+    });
+
+    $loc.drawGridPolar = new Sk.builtin.func(function(self, size) {
+      let [x, y] = self.getPos(0, 0);
+      let [rx, ry] = self.getPos(size.v, size.v);
+      rx -= x;
+      ry = y - ry;
+
+      let color = self.ctx.strokeStyle;
+      self.ctx.strokeStyle = 'lightgray';
+
+      self.ctx.beginPath();
+      self.ctx.moveTo(x, 0);
+      self.ctx.lineTo(x, self.canvas.height);
+      self.ctx.moveTo(0, y);
+      self.ctx.lineTo(self.canvas.width, y);
+
+      let [xMin, yMin] = self.getPos(self.minX, self.minY);
+      let [xMax, yMax] = self.getPos(self.maxX, self.maxY);
+
+      self.ctx.moveTo(x, y);
+      self.ctx.lineTo(xMin, yMin);
+      self.ctx.moveTo(x, y);
+      self.ctx.lineTo(xMin, yMax);
+      self.ctx.moveTo(x, y);
+      self.ctx.lineTo(xMax, yMin);
+      self.ctx.moveTo(x, y);
+      self.ctx.lineTo(xMax, yMax);
+      self.ctx.stroke()
+
+      let biggestX = Math.max(Math.abs(self.minX), Math.abs(self.maxX));
+      let biggestY = Math.max(Math.abs(self.minY), Math.abs(self.maxY));
+      let count = Math.ceil(Math.sqrt(biggestX * biggestX + biggestY * biggestY) / size.v);
+      self.ctx.beginPath();
+      for (let i=1; i<count; i++) {
+        self.ctx.ellipse(x, y, i*rx, i*ry, 0, 0, Math.PI * 2);
+      }
+      self.ctx.stroke();
+
+      self.ctx.strokeStyle = color;
+    });
+
   }, 'Plotter', []);
 
   return mod;

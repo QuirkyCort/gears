@@ -670,8 +670,36 @@
   height: 300px;
   bottom: 3em;
   right: 0;
+
+  .close {
+    color: white;
+    border: solid 1px white;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 300px;
+    left: 0px;
+    background: #fff4;
+    cursor: pointer;
+  }
+
+  .position {
+    height: 1em;
+    position: absolute;
+    bottom: 300px;
+    left: 1em;
+    background: #fff4;
+    color: white;
+    padding: 0 0.5em;
+  }
 }
 
 #plotter.hide {
   display: none;
+}
+
+#plotterCanvas {
+  cursor: crosshair;
 }

@@ -31,6 +31,10 @@ var simPanel = new function() {
     self.$hubButtonsIcon = $('.hubButtons > .icon');
     self.$keyboard = $('.keyboard');
     self.$fps = $('.fps');
+    self.$plotter = $('#plotter');
+    self.$plotterCanvas = $('#plotterCanvas');
+    self.$closePlotter = $('#plotter .close');
+    self.$plotterPosition = $('#plotter .position');
 
     setOnClickAnimation([self.$runSim, self.$world, self.$reset, self.$camera, self.$ruler, self.$sensors, self.$joystickIcon, self.$hubButtonsIcon]);
 
@@ -54,6 +58,8 @@ var simPanel = new function() {
     self.$camera.click(self.toggleCameraSelector);
     self.$cameraOptions.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
+    self.$closePlotter.click(self.closePlotter);
+    self.$plotterCanvas[0].addEventListener('mousemove', self.plotterDisplayPosition);
 
     if (self.$hubButtons.length > 0) {
       self.$hubButtonsIcon.click(self.toggleHubButtons);
@@ -92,6 +98,31 @@ var simPanel = new function() {
     setInterval(self.displayMeasurements, 50);
 
     self.updateSensorsPanelTimer = setInterval(self.updateSensorsPanel, 250);
+  };
+
+  // Close plotter window
+  this.closePlotter = function() {
+    self.$plotter.addClass('hide');
+  };
+
+  // Draw plotter position
+  this.plotterDisplayPosition = function(e) {
+    let canvas = self.$plotterCanvas[0];
+    let bounding = canvas.getBoundingClientRect();
+    let x = e.clientX - bounding.left;
+    let y = canvas.offsetHeight - (e.clientY - bounding.top);
+    let w = canvas.maxX - canvas.minX;
+    let h = canvas.maxY - canvas.minY;
+    x = x / canvas.offsetWidth * w + canvas.minX;
+    y = y / canvas.offsetHeight * h + canvas.minY;
+    let angle = Math.atan2(y, x) / Math.PI * 180;
+    let dist = Math.sqrt(x**2 + y**2);
+    x = Math.round(x);
+    y = Math.round(y);
+    angle = Math.round(angle);
+    dist = Math.round(dist);
+
+    self.$plotterPosition.text('x: ' + x + ' y: ' + y + ' angle: ' + angle + ' dist: ' + dist);
   };
 
   // Run when the simPanel in inactive
