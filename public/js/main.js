@@ -927,12 +927,20 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20250226;
+    let current = 20250228;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>28 Feb 2025 (LIDAR and Plotter)</h3>' +
+          '<p>' +
+            'Added new LIDAR sensor that returns distances in all directions (...as a list), and a plotter that draws in a small window in the simulator tab. ' +
+            'None of the default robots comes with a LIDAR sensor, so you will need to create a custom robot to use this.' +
+          '</p>' +
+          '<p>' +
+            'These two can be used together for basic SLAM simulation and visualization.' +
+          '</p>' +
           '<h3>26 Feb 2025 (FLL 2024)</h3>' +
           '<p>' +
             'A partial FLL 2024 (Submerged) mission is now available. ' +
@@ -948,12 +956,6 @@ var main = new function() {
           '<p>' +
             'See <a href="https://youtu.be/RfUcGx4qeMs" target=”_blank”>this video</a> for a demo of what you can do with this sensor. ' +
             'None of the default robots comes with a camera sensor, so you will need to create a custom robot to use this. ' +
-          '</p>' +
-          '<h3>17 Jan 2024 (WRO 2024 Junior)</h3>' +
-          '<p>' +
-            'The WRO 2024 (Junior) mission is now available. ' +
-            'Find it under "Worlds => Select World => Missions => 2024 WRO (Junior)". ' +
-            'The Elementary and Senior missions will be added soon.' +
           '</p>'
       }
       acknowledgeDialog(options, function(){
