@@ -628,8 +628,6 @@ var main = new function() {
         console.log('No file selected.');
       }
     });
-
-    hiddenElement.click();
   };
   
   // save to computer
