@@ -583,24 +583,29 @@ var main = new function() {
         reader.onload = function(e) {
           JSZip.loadAsync(e.target.result)
             .then(function(zip) {
+              loadFile(zip, 'meta.json')
+              .then(function(metaParams) {
+                let {projName, pythonModified} = JSON.parse(metaParams);
+                pythonPanel.modified = pythonModified; //
+                self.$projectName.val(projName);
+                self.saveProjectName();
+              });
               loadFile(zip, 'gearsBlocks.xml')
                 .then(function(xmlText) {
                   blockly.loadXmlText(xmlText);
                 })
               loadFile(zip, 'gearsPython.py')
               .then(function(pythonCode) {
+                // update the python code, and warn user if 
+                // loaded code is modified WRT loaded blocks
+                let modifyOrig = pythonPanel.modified;
+                pythonPanel.modified = !pythonPanel.modified;
                 pythonPanel.editor.setValue(pythonCode, 1);
+                pythonPanel.modified = modifyOrig;
               });
               loadFile(zip, 'gearsRobot.json')
               .then(function(robotConf) {
                 self.loadRobot(robotConf)
-              });
-              loadFile(zip, 'meta.json')
-              .then(function(metaParams) {
-                let {projName, pythonModified} = metaParams;
-                pythonPanel.modified = pythonModified;
-                self.$projectName.val(projName);
-                self.saveProjectName();
               });
             })
             .catch(function(err) {
