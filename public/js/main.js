@@ -602,8 +602,6 @@ var main = new function() {
                 self.$projectName.val(projName);
                 self.saveProjectName();
               });
-              // TODO: consider adding Python modules loading
-
             })
             .catch(function(err) {
               console.error('JSZip error:', err);
