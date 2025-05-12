@@ -602,20 +602,8 @@ var main = new function() {
                 self.$projectName.val(projName);
                 self.saveProjectName();
               });
-              // // Load Python modules
-              // zip.forEach(function (relativePath, zipEntry) {
-              //   if (relativePath.endsWith('.py') && relativePath !== 'gearsPython.py') {
-              //     pyModulePromises.push(zipEntry.async('text').then(function (moduleCode) {
-              //       pythonLibPanel.editor.setValue(moduleCode, 0);
-              //       pythonLibPanel.moduleName = moduleName;
-              //       // and change the name on the tab
-              //       selector = "nav li#" + moduleID;
-              //       moduleTabEls = $(selector);
-              //       nameSpanEls = moduleTabEls.find('span.name-edit');
-              //       nameSpanEls[0].innerText = moduleName;
-              //     }));
-              //   }
-              // });
+              // TODO: consider adding Python modules loading
+
             })
             .catch(function(err) {
               console.error('JSZip error:', err);
