@@ -569,13 +569,14 @@ var main = new function() {
   };
 
 
-  this.loadZipFromComputer = function(callback) {
-    var fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.zip';
-
-    fileInput.addEventListener('change', function(event) {
-      var file = event.target.files[0];
+  this.loadZipFromComputer = function() {
+    // TODO: add automatic importing of additional python modules
+    var hiddenElement = document.createElement('input');
+    hiddenElement.type = 'file';
+    hiddenElement.accept = '.zip';
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    hiddenElement.addEventListener('change', function(e){
+      var file = e.target.files[0];
       if (file) {
         var reader = new FileReader();
 
@@ -589,10 +590,7 @@ var main = new function() {
               loadFile(zip, 'gearsPython.py')
               .then(function(pythonCode) {
                 pythonPanel.editor.setValue(pythonCode, 1);
-                self.tabClicked('navPython');
-                pythonPanel.warnModify();
-                // let filename = 'gearsPython.py'.replace(/\.py/, '');
-              })
+              });
               loadFile(zip, 'gearsRobot.json')
               .then(function(robotConf) {
                 self.loadRobot(robotConf)
@@ -604,21 +602,24 @@ var main = new function() {
                 self.$projectName.val(projName);
                 self.saveProjectName();
               });
-              // loadPythonModuleFromComputer
-  //                 // Load Python modules
-  //                 loadedData.pythonModules = {};
-  //                 const pyModulePromises = [];
-  //                 zip.forEach(function (relativePath, zipEntry) {
-  //                   if (relativePath.endsWith('.py') && relativePath !== 'gearsPython.py') {
-  //                     pyModulePromises.push(zipEntry.async('text').then(function (moduleCode) {
-  //                       const moduleName = relativePath.slice(0, -3);
-  //                       loadedData.pythonModules[moduleName] = moduleCode;
-  //                     }));
-  //                   }
+              // // Load Python modules
+              // zip.forEach(function (relativePath, zipEntry) {
+              //   if (relativePath.endsWith('.py') && relativePath !== 'gearsPython.py') {
+              //     pyModulePromises.push(zipEntry.async('text').then(function (moduleCode) {
+              //       pythonLibPanel.editor.setValue(moduleCode, 0);
+              //       pythonLibPanel.moduleName = moduleName;
+              //       // and change the name on the tab
+              //       selector = "nav li#" + moduleID;
+              //       moduleTabEls = $(selector);
+              //       nameSpanEls = moduleTabEls.find('span.name-edit');
+              //       nameSpanEls[0].innerText = moduleName;
+              //     }));
+              //   }
+              // });
             })
             .catch(function(err) {
-              console.error('JSZip error (step 4):', err);
-              alert('Failed to load zip with JSZip (step 4).');
+              console.error('JSZip error:', err);
+              alert('Failed to load zip with JSZip');
             });
         };
 
@@ -642,7 +643,7 @@ var main = new function() {
       }
     });
 
-    fileInput.click();
+    hiddenElement.click();
   };
   
   // save to computer
