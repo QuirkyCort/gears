@@ -15,7 +15,6 @@ Features
 - Prevent jumping over wall when backing up. (Increasing wall friction doesn't work...)
 - Set duty_cycle_sp. Useful for aligning to wall.
 - Buttons
-- Load zip file
 - Touch sensor extendable touch surface
 - Switch to monaco?
 - Add support for Lego Python?

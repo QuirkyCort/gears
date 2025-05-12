@@ -1661,6 +1661,18 @@ let MSGS = {
     hu: 'ZIP csomag letöltése',
     it: 'Esportare il pacchetto zip sul computer',
   },
+  '#main-import_zip#': {
+    en: 'Import zip package from your computer',
+    fr: 'Importer une archive zip',
+    el: 'Φορτώστε το αρχείο zip από τον υπολογιστή σας',
+    nl: 'Importeer een zip-bestand van uw computer',
+    de: 'Importieren eine zip Datei von Ihrem Computer',
+    pt: 'Importar arquivo ZIP',
+    he: 'יבא קובץ ZIP מהמחשב',
+    ru: 'Импортировать zip-архив',
+    hu: 'ZIP csomag feltöltése',
+    it: 'Importa il pacchetto zip dal tuo computer'
+  },
   '#main-start_new_warning#': {
     en: 'Starting a new program will cause all unsaved work to be lost.',
     fr: 'Commencer un nouveau programme fera perdre tout le travail non sauvegardé.',

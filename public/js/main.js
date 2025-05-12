@@ -503,7 +503,8 @@ var main = new function() {
         {html: i18n.get('#main-save_blocks#'), line: true, callback: self.saveToComputer},
         {html: i18n.get('#main-load_python#'), line: false, callback: self.loadPythonFromComputer},
         {html: i18n.get('#main-save_python#'), line: true, callback: self.savePythonToComputer},
-        {html: i18n.get('#main-export_zip#'), line: true, callback: self.saveZipToComputer}
+        {html: i18n.get('#main-export_zip#'), line: false, callback: self.saveZipToComputer},
+        {html: i18n.get('#main-import_zip#'), line: false, callback: self.loadZipFromComputer}
       ];
 
       menuDropDown(self.$fileMenu, menuItems, {className: 'fileMenuDropDown'});
@@ -567,6 +568,83 @@ var main = new function() {
     });
   };
 
+
+  this.loadZipFromComputer = function(callback) {
+    var fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.zip';
+
+    fileInput.addEventListener('change', function(event) {
+      var file = event.target.files[0];
+      if (file) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          JSZip.loadAsync(e.target.result)
+            .then(function(zip) {
+              loadFile(zip, 'gearsBlocks.xml')
+                .then(function(xmlText) {
+                  blockly.loadXmlText(xmlText);
+                })
+              loadFile(zip, 'gearsPython.py')
+              .then(function(pythonCode) {
+                pythonPanel.editor.setValue(pythonCode, 1);
+                self.tabClicked('navPython');
+                pythonPanel.warnModify();
+                // let filename = 'gearsPython.py'.replace(/\.py/, '');
+              })
+              loadFile(zip, 'gearsRobot.json')
+              .then(function(robotConf) {
+                self.loadRobot(robotConf)
+              });
+              loadFile(zip, 'meta.json')
+              .then(function(metaParams) {
+                let {projName, pythonModified} = metaParams;
+                pythonPanel.modified = pythonModified;
+                self.$projectName.val(projName);
+                self.saveProjectName();
+              });
+              // loadPythonModuleFromComputer
+  //                 // Load Python modules
+  //                 loadedData.pythonModules = {};
+  //                 const pyModulePromises = [];
+  //                 zip.forEach(function (relativePath, zipEntry) {
+  //                   if (relativePath.endsWith('.py') && relativePath !== 'gearsPython.py') {
+  //                     pyModulePromises.push(zipEntry.async('text').then(function (moduleCode) {
+  //                       const moduleName = relativePath.slice(0, -3);
+  //                       loadedData.pythonModules[moduleName] = moduleCode;
+  //                     }));
+  //                   }
+            })
+            .catch(function(err) {
+              console.error('JSZip error (step 4):', err);
+              alert('Failed to load zip with JSZip (step 4).');
+            });
+        };
+
+        async function loadFile(zip, filename) {
+          const file = zip.file(filename);
+          if (file) {
+            return await file.async('text');
+          }
+          console.warn('File not found in zip:', filename);
+          return null;
+        }
+
+        reader.onerror = function(err) {
+          console.error('FileReader error:', err);
+          alert('Failed to read file.');
+        };
+
+        reader.readAsArrayBuffer(file);
+      } else {
+        console.log('No file selected.');
+      }
+    });
+
+    fileInput.click();
+  };
+  
   // save to computer
   this.saveToComputer = function() {
     let filename = self.$projectName.val();
