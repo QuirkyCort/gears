@@ -585,7 +585,7 @@ var main = new function() {
             .then(function(zip) {
               loadFile(zip, 'meta.json')
               .then(function(metaParams) {
-                let {projName, pythonModified} = JSON.parse(metaParams);
+                let {name: projName, pythonModified} = JSON.parse(metaParams);
                 pythonPanel.modified = pythonModified; //
                 self.$projectName.val(projName);
                 self.saveProjectName();
