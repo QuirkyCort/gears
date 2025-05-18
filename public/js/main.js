@@ -608,6 +608,7 @@ var main = new function() {
                 .then(function(pythonCode) {
                   if (relativePath.endsWith('.py') && relativePath !== 'gearsPython.py') {
                   const moduleName = relativePath.slice(0, -3);
+                  // load into new tab, or overwrite existing tab
                   var moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`)
                   if(moduleSpan.length == 0) {
                     self.addPythonModule(moduleName)
@@ -615,6 +616,7 @@ var main = new function() {
                   var moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`)
                   var moduleID = moduleSpan.closest('.pythonModule').attr('id');
                   pythonLibPanel = self.pyModuleId2Panel[moduleID];
+                  pythonLibPanel.modified = true;
                   pythonLibPanel.editor.setValue(pythonCode, 0);
                   }});
                 });
