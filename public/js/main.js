@@ -570,7 +570,6 @@ var main = new function() {
 
 
   this.loadZipFromComputer = function() {
-    // TODO: add automatic importing of additional python modules
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
     hiddenElement.accept = '.zip';
@@ -603,6 +602,22 @@ var main = new function() {
                 pythonPanel.editor.setValue(pythonCode, 1);
                 pythonPanel.modified = modifyOrig;
               });
+              // Load Python modules
+              zip.forEach(function (relativePath, zipEntry) {
+                loadFile(zip, relativePath)
+                .then(function(pythonCode) {
+                  if (relativePath.endsWith('.py') && relativePath !== 'gearsPython.py') {
+                  const moduleName = relativePath.slice(0, -3);
+                  var moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`)
+                  if(moduleSpan.length == 0) {
+                    self.addPythonModule(moduleName)
+                  };
+                  var moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`)
+                  var moduleID = moduleSpan.closest('.pythonModule').attr('id');
+                  pythonLibPanel = self.pyModuleId2Panel[moduleID];
+                  pythonLibPanel.editor.setValue(pythonCode, 0);
+                  }});
+                });
               loadFile(zip, 'gearsRobot.json')
               .then(function(robotConf) {
                 self.loadRobot(robotConf)
