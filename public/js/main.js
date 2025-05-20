@@ -543,7 +543,6 @@ var main = new function() {
       zip.file('gearsPython.py', blockly.generator.genCode());
     }
     // add each python module to the zip
-
     for (var moduleID in self.pyModuleId2Panel) {
       panel = pythonLibPanelFactory.pyModuleId2Panel[moduleID];
       var module_code = panel.editor.getValue()
@@ -581,48 +580,30 @@ var main = new function() {
 
         reader.onload = function(e) {
           JSZip.loadAsync(e.target.result)
-            .then(function(zip) {
-              loadFile(zip, 'meta.json')
-              .then(function(metaParams) {
-                let {name: projName, pythonModified} = JSON.parse(metaParams);
-                pythonPanel.modified = pythonModified; //
-                self.$projectName.val(projName);
-                self.saveProjectName();
-              });
-              loadFile(zip, 'gearsBlocks.xml')
-                .then(function(xmlText) {
-                  blockly.loadXmlText(xmlText);
-                })
-              loadFile(zip, 'gearsPython.py')
-              .then(function(pythonCode) {
-                // update the python code, and warn user if 
-                // loaded code is modified WRT loaded blocks
-                let modifyOrig = pythonPanel.modified;
-                pythonPanel.modified = !pythonPanel.modified;
-                pythonPanel.editor.setValue(pythonCode, 1);
-                pythonPanel.modified = modifyOrig;
-              });
+            .then(async function(zip) {
+              const metaParams = await loadFile(zip, 'meta.json');
+              let {name: projName, pythonModified} = JSON.parse(metaParams);
+              pythonPanel.modified = pythonModified;
+              self.$projectName.val(projName);
+              self.saveProjectName();
+
+              const xmlText = await loadFile(zip, 'gearsBlocks.xml');
+              blockly.loadXmlText(xmlText);
+
+              const robotConf = await loadFile(zip, 'gearsRobot.json')
+              self.loadRobot(robotConf)
+
+              // load python code, and warn if loaded
+              // code is modified WRT loaded blocks
+              const pythonCode = await loadFile(zip, 'gearsPython.py')
+              let modifyOrig = pythonPanel.modified;
+              pythonPanel.modified = !pythonPanel.modified;
+              pythonPanel.editor.setValue(pythonCode, 1);
+              pythonPanel.modified = modifyOrig;
+
               // Load Python modules
-              zip.forEach(function (relativePath, zipEntry) {
-                loadFile(zip, relativePath)
-                .then(function(pythonCode) {
-                  if (relativePath.endsWith('.py') && relativePath !== 'gearsPython.py') {
-                  const moduleName = relativePath.slice(0, -3);
-                  // load into new tab, or overwrite existing tab
-                  var moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`)
-                  if(moduleSpan.length == 0) {
-                    self.addPythonModule(moduleName)
-                  };
-                  var moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`)
-                  var moduleID = moduleSpan.closest('.pythonModule').attr('id');
-                  pythonLibPanel = self.pyModuleId2Panel[moduleID];
-                  pythonLibPanel.modified = true;
-                  pythonLibPanel.editor.setValue(pythonCode, 0);
-                  }});
-                });
-              loadFile(zip, 'gearsRobot.json')
-              .then(function(robotConf) {
-                self.loadRobot(robotConf)
+              loadZipPyModules(zip).then(importedPyModules => {
+                closeOldPyModules(importedPyModules)
               });
             })
             .catch(function(err) {
@@ -640,6 +621,44 @@ var main = new function() {
           return null;
         }
 
+        function closeOldPyModules(importedPyModules) {
+          const openTabs = $('nav li .del-py-mod');
+          for (const tab of openTabs) {
+            const moduleName = $(tab).parent().parent().find('.py-mod-name .name-edit').text();
+            if (!importedPyModules.includes(moduleName)) {
+              tab.dispatchEvent(new Event('click'));
+            }
+          }
+        }
+
+        async function loadZipPyModules(zip) {
+          const panelModulesNames = pythonLibPanelFactory.getModuleNames();
+          const loadPromises = Object.keys(zip.files)
+            .filter((relativePath) => relativePath.endsWith('.py') && relativePath !== 'gearsPython.py')
+            .map(async (relativePath) => {
+              try {
+                const pythonCode = await loadFile(zip, relativePath);
+                const moduleName = relativePath.slice(0, -3);
+        
+                if (!panelModulesNames.includes(moduleName)) {
+                  self.addPythonModule(moduleName);
+                }
+        
+                const moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`);
+                const moduleID = moduleSpan.closest('.pythonModule').attr('id');
+                pythonLibPanel = self.pyModuleId2Panel[moduleID];
+                pythonLibPanel.modified = true;
+                pythonLibPanel.editor.setValue(pythonCode, 0);
+                return moduleName;
+              } catch (error) {
+                console.error(`Error loading ${relativePath}:`, error);
+                return null;
+              }
+            });
+        
+          return importedPyModules = (await Promise.all(loadPromises)).filter(Boolean); 
+        }
+      
         reader.onerror = function(err) {
           console.error('FileReader error:', err);
           alert('Failed to read file.');
@@ -858,6 +877,7 @@ var main = new function() {
 
   // Remove a python module tab and its editor
   this.pyDelModule = function(event) {
+    console.log('ALSDJHFSDKJLF');
     tabNodes = $( event.target.parentNode.parentNode );
     moduleID = tabNodes[0].id;
     pythonLibPanel = self.pyModuleId2Panel[moduleID];
