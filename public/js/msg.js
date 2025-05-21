@@ -1656,10 +1656,22 @@ let MSGS = {
     nl: 'Exporteer zip bestand naar de computer',
     de: 'Exportiere eine zip Datei auf deinen Computer',
     pt: 'Exportar arquivo ZIP',
-    he: 'יצא קובץ ZIP למחשב',
+    he: 'ZIP שמור קובץ',
     ru: 'Экспортировать zip-архив',
     hu: 'ZIP csomag letöltése',
     it: 'Esportare il pacchetto zip sul computer',
+  },
+  '#main-import_zip#': {
+    en: 'Import zip package from your computer',
+    fr: 'Importer une archive zip',
+    el: 'Φορτώστε το αρχείο zip από τον υπολογιστή σας',
+    nl: 'Importeer een zip-bestand van uw computer',
+    de: 'Importieren eine zip Datei von Ihrem Computer',
+    pt: 'Importar arquivo ZIP',
+    he: 'ZIP טען קובץ',
+    ru: 'Импортировать zip-архив',
+    hu: 'ZIP csomag feltöltése',
+    it: 'Importa il pacchetto zip dal tuo computer'
   },
   '#main-start_new_warning#': {
     en: 'Starting a new program will cause all unsaved work to be lost.',
