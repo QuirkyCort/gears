@@ -597,9 +597,10 @@ var main = new function() {
               // code is modified WRT loaded blocks
               const pythonCode = await loadFile(zip, 'gearsPython.py')
               let modifyOrig = pythonPanel.modified;
-              pythonPanel.modified = !pythonPanel.modified;
+              pythonPanel.modified = true;
               pythonPanel.editor.setValue(pythonCode, 1);
               pythonPanel.modified = modifyOrig;
+              blocklyPanel.setDisable(modifyOrig);
 
               // Load Python modules
               loadZipPyModules(zip).then(importedPyModules => {
