@@ -597,9 +597,10 @@ var main = new function() {
               // code is modified WRT loaded blocks
               const pythonCode = await loadFile(zip, 'gearsPython.py')
               let modifyOrig = pythonPanel.modified;
-              pythonPanel.modified = !pythonPanel.modified;
+              pythonPanel.modified = true;
               pythonPanel.editor.setValue(pythonCode, 1);
               pythonPanel.modified = modifyOrig;
+              blocklyPanel.setDisable(modifyOrig);
 
               // Load Python modules
               loadZipPyModules(zip).then(importedPyModules => {
@@ -877,7 +878,6 @@ var main = new function() {
 
   // Remove a python module tab and its editor
   this.pyDelModule = function(event) {
-    console.log('ALSDJHFSDKJLF');
     tabNodes = $( event.target.parentNode.parentNode );
     moduleID = tabNodes[0].id;
     pythonLibPanel = self.pyModuleId2Panel[moduleID];
