@@ -608,6 +608,7 @@ let MSGS = {
     he: 'דרך תיבת דואר',
     ru: 'через почтовый ящик',
     it: 'via cassetta postale',
+    ko: '해당 메일박스로 :',
   },
   '#blk-robot#': {
     en: 'robot',
@@ -617,6 +618,7 @@ let MSGS = {
     he: 'רובוט',
     ru: 'робот',
     it: 'robot',
+    ko: '로봇',
   },
   '#blk-team_mates#': {
     en: 'team mates',
@@ -626,6 +628,7 @@ let MSGS = {
     he: 'חברי צוות',
     ru: 'члены команды',
     it: 'compagni di squadra',
+    ko: '팀원',
   },
   '#blk-all#': {
     en: 'all',
@@ -635,16 +638,19 @@ let MSGS = {
     he: 'כולם',
     ru: 'все',
     it: 'tutti',
+    ko: '전체',
   },
   '#blk-opponent_1#': {
     en: 'opponent 1',
     pt: 'oponente 1',
     it: 'avversario 1',
+    ko: '적팀 1',
   },
   '#blk-opponent_2#': {
     en: 'opponent 2',
     pt: 'oponente 2',
     it: 'avversario 2',
+    ko: '적팀 2',
   },
   '#blk-self#': {
     en: 'self',
@@ -664,6 +670,7 @@ let MSGS = {
     he: 'הודעות זמינות',
     ru: 'количество сообщений в почтовом ящике',
     it: 'numero di messaggi nella mailbox',
+    ko: '메일박스에 있는 메시지 수',
   },
   '#blk-read_message#': {
     en: 'read next message in mailbox',
@@ -1416,7 +1423,7 @@ let MSGS = {
     hu: 'Várj, amíg',
     de: 'Warte bis',
     it: 'Aspettare fino a quando',
-    ko: '',
+    ko: '다음 조건까지 기다리기: ',
   },
   '#blk-button#': {
     en: 'button',
