@@ -354,7 +354,7 @@ let MSGS = {
     ru: 'со скоростью',
     hu: 'sebesség:',
     it: 'e velocità',
-    ko: '속도:',
+    ko: '속력:',
 
   },
   '#blk-degrees#': {
@@ -524,7 +524,7 @@ let MSGS = {
     ru: 'независимое управление скорость левого',
     hu: 'Tank mozgás bal:',
     it: 'spostare il serbatoio a sinistra con velocità',
-    ko: '[로봇 전진] 왼쪽 바퀴 속도:',
+    ko: '[로봇 전진] 왼쪽 바퀴 속력:',
   },
   '#blk-and_right_speed#': {
     en: 'and right speed',
@@ -537,7 +537,7 @@ let MSGS = {
     ru: 'скорость правого',
     hu: 'jobb:',
     it: 'a destra con velocità',
-    ko: '오른쪽 바퀴 속도:',
+    ko: '오른쪽 바퀴 속력:',
   },
   '#blk-touch_sensor#': {
     en: 'touch sensor',
@@ -737,7 +737,7 @@ let MSGS = {
     en: 'Virtual sensor that provides position or velocity of robots or the football.',
     pt: 'Sensor virtual que fornece a posição ou a velocidade dos robôs ou da bola de futebol.',
     it: 'Sensore virtuale che fornisce la posizione o la velocità dei robot o del pallone.',
-    ko: '로봇이나 공의 위치 또는 속도를 제공하는 가상 센서입니다.',
+    ko: '로봇이나 공의 위치 또는 속력을 제공하는 가상 센서입니다.',
   },
   '#blk-color_sensor#': {
     en: 'color sensor',
@@ -1217,7 +1217,7 @@ let MSGS = {
     en: 'valtitude',
     pt: 'valor',
     it: 'valore',
-    ko: '높이 방향 속도(Valtitude)',
+    ko: '높이 방향 속력(Valtitude)',
   },
   '#blk-position#': {
     en: 'position (list)',
@@ -1343,7 +1343,7 @@ let MSGS = {
     he: "מהירות סיבוב של המנוע",
     ru: 'Скорость вращения двигателя',
     it: 'Velocità di rotazione del motore',
-    ko: '모터 회전 속도',
+    ko: '모터 회전 속력',
   },
   '#blk-reset_motor_tooltip#': {
     en: 'Reset the motor position to zero',
