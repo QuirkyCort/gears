@@ -77,7 +77,7 @@ let MSGS = {
     ru: 'В разработке',
     pt: 'Experimental',
     it: 'Sperimentale',
-    ko: '디버깅',
+    ko: '실험실',
   },
   '#blk-control#': {
     en: 'Control',
@@ -264,7 +264,7 @@ let MSGS = {
     ru: 'выключить двигатели и',
     hu: 'Mozgás leáll, és',
     it: 'smettere di muoversi e',
-    ko: "정지 후에",
+    ko: "[로봇 정지]",
 
   },
   '#blk-brake#': {
@@ -341,7 +341,7 @@ let MSGS = {
     hu: 'Kormányzás irány:',
     pt: 'mover na direção de',
     it: 'muoversi in direzione di',
-    ko: '[조향] 방향:',
+    ko: '[로봇 조향] 방향:',
   },
   '#blk-and_speed#': {
     en: 'and speed',
@@ -393,7 +393,8 @@ let MSGS = {
     ru: 'направление принимает значения от -100 (влево) до 0 (прямо) и до 100 (вправо)',
     hu: 'kormány irányok: -100:balra, 0:előre, 100: jobbra',
     pt: 'a direção varia de -100 (esquerda) a 0 (reta) a 100 (direita)',
-    it: 'la direzione varia da -100 (sinistra) a 0 (dritto) a 100 (destra)'
+    it: 'la direzione varia da -100 (sinistra) a 0 (dritto) a 100 (destra)',
+    ko: '방향은 -100(왼쪽)에서 0(직진) 및 100(오른쪽)까지입니다.',
   },
   '#blk-for#': {
     en: 'for',
@@ -445,6 +446,7 @@ let MSGS = {
     ru: 'в градусах',
     hu: 'fokban',
     it: 'in gradi',
+    ko: '단위: 도',
   },
   '#blk-speed_of_motor_on_port#': {
     en: 'speed of motor on port',
@@ -470,7 +472,7 @@ let MSGS = {
     ru: 'сбросить позицию двигателя порт',
     hu: 'pozíció törlése a porton',
     it: 'ripristino della posizione del motore sulla porta',
-    ko: '[모터 위치 초기화] 포트 :',
+    ko: '[모터 초기화] 포트 :',
   },
   '#blk-both_wheels#': {
     en: 'Both wheels',
@@ -522,7 +524,7 @@ let MSGS = {
     ru: 'независимое управление скорость левого',
     hu: 'Tank mozgás bal:',
     it: 'spostare il serbatoio a sinistra con velocità',
-    ko: '[전진] 왼쪽 바퀴 속도:',
+    ko: '[로봇 전진] 왼쪽 바퀴 속도:',
   },
   '#blk-and_right_speed#': {
     en: 'and right speed',
@@ -598,7 +600,7 @@ let MSGS = {
     he: 'שלח הודעה',
     ru: 'Отправить сообщение',
     it: 'Inviare un messaggio a',
-    ko: '메시지 보내기 to',
+    ko: '[문자] 보내기 ',
   },
   '#blk-via_mailbox#': {
     en: 'via mailbox',
@@ -608,7 +610,7 @@ let MSGS = {
     he: 'דרך תיבת דואר',
     ru: 'через почтовый ящик',
     it: 'via cassetta postale',
-    ko: '해당 메일박스로 :',
+    ko: '의 해당 문자함으로 :',
   },
   '#blk-robot#': {
     en: 'robot',
@@ -656,11 +658,13 @@ let MSGS = {
     en: 'self',
     pt: 'autônomo',
     it: 'autonomo',
+    ko: '자신(self)',
   },
   '#blk-ball#': {
     en: 'ball',
     pt: 'bola',
     it: 'palla',
+    ko: '공',
   },
   '#blk-messages_available#': {
     en: 'number of messages in mailbox',
@@ -670,7 +674,7 @@ let MSGS = {
     he: 'הודעות זמינות',
     ru: 'количество сообщений в почтовом ящике',
     it: 'numero di messaggi nella mailbox',
-    ko: '메일박스에 있는 메시지 수',
+    ko: '[문자함] 문자 수 :',
   },
   '#blk-read_message#': {
     en: 'read next message in mailbox',
@@ -680,6 +684,7 @@ let MSGS = {
     he: 'קרא הודעה',
     ru: 'прочитать следующее сообщение в почтовом ящике',
     it: 'leggere il prossimo messaggio nella casella di posta',
+    ko: '[문자함] 문자 읽기 :',
   },
   '#blk-read_content#': {
     en: 'read content of next message in mailbox',
@@ -689,6 +694,7 @@ let MSGS = {
     he: 'קרא תוכן',
     ru: 'прочитать содержимое следующего сообщения в ящике',
     it: 'leggere il contenuto del prossimo messaggio nella cassetta postale',
+    ko: '[문자함] 문자 내용 읽기 :',
   },
   '#blk-empty_mailbox#': {
     en: 'empty mailbox',
@@ -697,7 +703,8 @@ let MSGS = {
     pt: 'caixa de correio vazia',
     he: 'רוקן תיבת דואר',
     ru: 'очистить почтовый ящик',
-    it: 'cassetta postale vuota'
+    it: 'cassetta postale vuota',
+    ko: '[문자함] 비우기 :',
   },
   '#blk-radio_send_tooltip#': {
     en: 'Any type of messages can be sent, including numbers, text, and lists',
@@ -706,6 +713,7 @@ let MSGS = {
     pt: 'Qualquer tipo de mensagem pode ser enviada, incluindo números, texto e listas',
     ru: 'Можно отправлять сообщения различных типов - числа, текст и списки',
     it: 'È possibile inviare qualsiasi tipo di messaggio, compresi numeri, testi ed elenchi',
+    ko: '모든 종류의 문자를 보낼 수 있습니다. 숫자, 텍스트 및 목록을 포함합니다.',
   },
   '#blk-radio_read_tooltip#': {
     en: 'Returns the oldest message and remove it from the mailbox. Return value is a list containing both the message content and the sender id.',
@@ -713,7 +721,8 @@ let MSGS = {
     de: 'Sendet die älteste Naricht zurück und entfernt sie von der Mailbox. Der zurückgegebene Wert ist eine Liste mit dem Inhalt der Naricht und die ID des Absenders.',
     pt: 'Retorna a mensagem mais antiga e a remove da caixa de correio. O valor de retorno é uma lista contendo o conteúdo da mensagem e o ID do remetente.',
     ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение является списком, который содержит само сообщение а также идентификатор отправителя.',
-    it: 'Restituisce il messaggio più vecchio e lo rimuove dalla cassetta postale. Il valore restituito è un elenco contenente il contenuto del messaggio e l`id del mittente.'
+    it: 'Restituisce il messaggio più vecchio e lo rimuove dalla cassetta postale. Il valore restituito è un elenco contenente il contenuto del messaggio e l`id del mittente.',
+    ko: '가장 오래된 문자를 반환하고 문자함에서 제거합니다. 반환 값은 문자 내용과 발신자 ID를 포함하는 목록입니다.'  
   },
   '#blk-radio_read_content_tooltip#': {
     en: 'Returns the oldest message and remove it from the mailbox. Return value contains only the message content.',
@@ -722,11 +731,13 @@ let MSGS = {
     pt: 'Retorna a mensagem mais antiga e a remove da caixa de correio. O valor de retorno contém apenas o conteúdo da mensagem.',
     ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение содержит только само сообщение.',
     it: 'Restituisce il messaggio più vecchio e lo rimuove dalla cassetta postale. Il valore di ritorno contiene solo il contenuto del messaggio.',
+    ko: '가장 오래된 문자를 반환하고 문자함에서 제거합니다. 반환 값은 문자 내용만 포함합니다.',
   },
   '#blk-object_tracker_tooltip#': {
     en: 'Virtual sensor that provides position or velocity of robots or the football.',
     pt: 'Sensor virtual que fornece a posição ou a velocidade dos robôs ou da bola de futebol.',
     it: 'Sensore virtuale che fornisce la posizione o la velocità dei robot o del pallone.',
+    ko: '로봇이나 공의 위치 또는 속도를 제공하는 가상 센서입니다.',
   },
   '#blk-color_sensor#': {
     en: 'color sensor',
@@ -745,7 +756,7 @@ let MSGS = {
     en: 'object tracker',
     pt: 'rastreador de objetos',
     it: 'tracker di oggetti',
-    ko: '정확한 값 :',
+    ko: '[물체 추적] 값 :',
   },
   '#blk-color_sensor_sees#': {
     en: 'color sensor sees',
@@ -778,6 +789,7 @@ let MSGS = {
     ru: 'интенсивность отраженного света',
     hu: 'visszavert fény erőssége',
     it: 'intensità della luce riflessa',
+    ko: '반사된 빛의 세기',
   },
   '#blk-as#': {
     en: 'as',
@@ -785,11 +797,13 @@ let MSGS = {
     pt: 'como',
     de: 'als',
     it: 'come',
+    ko: "을 다음으로 설정 : ",
   },
   '#blk-of#': {
     en: 'of',
     pt: 'de',
     it: 'di',
+    ko: ', 다음에서 얻기 :'
   },
   '#blk-color#': {
     en: 'color',
@@ -802,6 +816,7 @@ let MSGS = {
     ru: 'цвет',
     hu: 'szín',
     it: 'colore',
+    ko: '색상',
   },
   '#blk-color_number#': {
     en: 'color number',
@@ -809,6 +824,7 @@ let MSGS = {
     hu: 'szín száma',
     pt: 'número de cor',
     it: 'numero di colore',
+    ko: '색상 번호',
   },
   '#blk-color_name#': {
     en: 'color name',
@@ -821,6 +837,7 @@ let MSGS = {
     ru: 'название цвета',
     hu: 'szín neve',
     it: 'nome del colore',
+    ko: '색상 이름',
   },
   '#blk-black#': {
     en: 'black',
@@ -944,6 +961,7 @@ let MSGS = {
     ru: 'в',
     hu: 'bemenet',
     it: 'entrata',
+    ko: '을 다음으로 설정 :',
   },
   '#blk-gyro#': {
     en: 'gyro',
@@ -967,6 +985,7 @@ let MSGS = {
     he: 'זווית',
     ru: 'угол',
     it: 'angolo',
+    ko: '각도(Angle)',
   },
   '#blk-rate#': {
     en: 'rate',
@@ -978,6 +997,7 @@ let MSGS = {
     he: 'קצב',
     ru: 'ускорение',
     it: 'cadenza',
+    ko: '비율(Rate)',
   },
   '#blk-pitchAngle#': {
     en: 'pitch angle',
@@ -985,6 +1005,7 @@ let MSGS = {
     he: 'זווית גובה',
     pt: 'ângulo de inclinação',
     it: 'angolo di inclinazione',
+    ko: '피지 각도(Pitch Angle)',
   },
   '#blk-pitchRate#': {
     en: 'pitch rate',
@@ -992,6 +1013,7 @@ let MSGS = {
     he: 'קצב גובה גובה',
     pt: 'taxa de passo',
     it: 'velocità del passo',
+    ko: '피치 비율(Pitch Rate)',
   },
   '#blk-rollAngle#': {
     en: 'roll angle',
@@ -999,6 +1021,7 @@ let MSGS = {
     he: 'זווית גלגול',
     pt: 'ângulo de rotação',
     it: 'angolo di rotazione',
+    ko: '롤 각도(Roll Angle)',
   },
   '#blk-rollRate#': {
     en: 'roll rate',
@@ -1006,11 +1029,13 @@ let MSGS = {
     he: 'קצב גלגול',
     pt: 'taxa de rolagem',
     it: 'tasso di rotazione',
+    ko: '롤 비율(Roll Rate)',
   },
   '#blk-heading#': {
     en: 'heading',
     pt: 'título',
     it: 'titolo',
+    ko: '방향(Heading)',
   },
   '#blk-reset_gyro_on_port#': {
     en: 'reset gyro on port',
@@ -1048,7 +1073,7 @@ let MSGS = {
     ru: 'скорость',
     hu: 'port',
     it: 'a',
-    ko: '를'
+    ko: '를 다음으로 설정 :',
   },
   '#blk-run_motor_tooltip#': {
     en: 'motor will continue running until given a different command',
@@ -1086,7 +1111,7 @@ let MSGS = {
     ru: 'сказать',
     hu: 'beszéd',
     it: 'parlare',
-    ko: '말하기 : ',
+    ko: '[소리 재생] 말하기 : ',
   },
   '#blk-and_dont_wait#': {
     en: 'and don\'t wait',
@@ -1099,7 +1124,7 @@ let MSGS = {
     ru: 'и не ждать',
     hu: 'ne várjon',
     it: 'e non aspettare',
-    ko: '까지 기다리지 않기',
+    ko: '완료까지 기다리지 않기',
   },
   '#blk-and_wait#': {
     en: 'and wait for completion',
@@ -1112,7 +1137,7 @@ let MSGS = {
     ru: 'и ждать выполнения',
     hu: 'várjon a befejezésig',
     it: 'e aspettare il completamento',
-    ko: '까지 기다리기',
+    ko: '완료까지 기다리기',
   },
   '#blk-say_tooltip#': {
     en: 'Speak the string using text-to-speech',
@@ -1136,7 +1161,7 @@ let MSGS = {
     he: 'צליל',
     ru: 'бип',
     it: 'bip',
-    ko: '삐 소리',
+    ko: '[소리 재생] 삐 소리',
   },
   '#blk-play_tone_at#': {
     en: 'play tone at',
@@ -1149,7 +1174,7 @@ let MSGS = {
     ru: 'играть звук частотой',
     hu: 'hang ',
     it: 'suonare il tono a',
-    ko: '음 높이 :',
+    ko: '[소리 재생] 음 높이 :',
   },
   '#blk-time#': {
     en: 'time',
@@ -1186,12 +1211,13 @@ let MSGS = {
     he: 'גוֹבַה',
     ru: 'высота',
     it: 'altitudine',
-    ko: '고도',
+    ko: '높이(Altitute)',
   },
   '#blk-valtitude#': {
     en: 'valtitude',
     pt: 'valor',
     it: 'valore',
+    ko: '높이 방향 속도(Valtitude)',
   },
   '#blk-position#': {
     en: 'position (list)',
@@ -1203,13 +1229,13 @@ let MSGS = {
     he: 'מקום',
     ru: 'позиция (список)',
     it: 'posizione (lista)',
-    ko: '위치 (리스트)',
+    ko: '위치(position) (리스트)',
   },
   '#blk-velocity#': {
     en: 'velocity (list)',
     pt: 'Velocidade (Lista)',
     it: 'velocità (lista)',
-    ko: '속도 (리스트)',
+    ko: '속도(velocity) (리스트)',
   },
   '#blk-gps_tooltip#': {
     en: 'Virtual sensor that provides the robot\'s position',
@@ -1221,7 +1247,7 @@ let MSGS = {
     he: "חיישן וירטואלי המספק את מיקום הרובוט",
     ru: 'Виртуальный датчик для определения позиции робота в пространстве',
     it: 'Sensore virtuale che fornisce la posizione del robot',
-    ko: '로봇의 위치를 제공하는 가상 센서'
+    ko: '로봇의 위치를 제공하는 가상 센서입니다.',
   },
   '#blk-pen_down#': {
     en: 'start drawing with pen',
@@ -1232,7 +1258,7 @@ let MSGS = {
     ru: 'начать рисование',
     hu: 'Rajzolás indul',
     it: 'iniziare a disegnare con la penna',
-    ko: '펜으로 그리기 시작하기',
+    ko: '[그림 그리기] 시작하기 | ',
   },
   '#blk-pen_up#': {
     en: 'stop drawing with pen',
@@ -1243,7 +1269,7 @@ let MSGS = {
     ru: 'остановить рисование',
     hu: 'Rajzolás leáll',
     it: 'smettere di disegnare con la penna',
-    ko: '펜으로 그리기 중지하기',
+    ko: '[그림 그리기] 중지하기 | ',
   },
   '#blk-pen_color#': {
     en: 'set the pen color to',
@@ -1254,7 +1280,7 @@ let MSGS = {
     ru: 'задать цвет пера',
     hu: 'Toll színe',
     it: 'impostare il colore della penna su',
-    ko: '펜 색상 설정 :',
+    ko: '[그림 설정] 연필 색상 설정 : ',
   },
   '#blk-pen_width#': {
     en: 'set the pen width to',
@@ -1265,7 +1291,7 @@ let MSGS = {
     ru: 'задать толщину пера',
     hu: 'Toll vastagsága',
     it: 'imposta la larghezza della penna a',
-    ko: '펜 두께 설정 :',
+    ko: '[그림 설정] 연필 두께 설정 :',
   },
   '#blk-sleep_tooltip#': {
     en: 'Pause the program for a while',
@@ -1274,7 +1300,7 @@ let MSGS = {
     he: "השהה את התוכנית לזמן מה",
     ru: 'Приостановить выполнение программы на некоторое время',
     it: 'Mettere in pausa il programma per un po\' di tempo',
-    ko: '프로그램 일시 정지',
+    ko: '프로그램을 일시 정지합니다.',
   },
   '#blk-stop_tooltip#': {
     en: 'Robot will stop faster if using brake or hold',
@@ -1282,7 +1308,7 @@ let MSGS = {
     he: "הרובוט יעצור מהר יותר אם ישתמש בבלימה או בעצירה",
     pt: 'O robô parará mais rápido se usar o freio ou a retenção',
     it: 'Il robot si arresta più rapidamente se si usa il freno o si tiene premuto',
-    ko: '빨리 멈추기는 brake, 천천히 멈추기는 coast, 위치 유지하기는 hold에 해당합니다.',
+    ko: '로봇의 빨리 멈추기는 brake, 천천히 멈추기는 coast, 위치 유지하기는 hold에 해당합니다.',
   },
   '#blk-stop_motor_tooltip#': {
     en: 'Motor will stop faster if using brake or hold',
@@ -1290,7 +1316,7 @@ let MSGS = {
     pt: 'O motor parará mais rapidamente se estiver usando o freio ou retenção',
     he: "הרובוט יעצור מהר יותר אם ישתמש בבלימה או בעצירה",
     it: 'Il motore si arresta più rapidamente se si usa il freno o si tiene premuto',
-    ko: '빨리 멈추기는 brake, 천천히 멈추기는 coast, 위치 유지하기는 hold에 해당합니다.',
+    ko: '모터의 빨리 멈추기는 brake, 천천히 멈추기는 coast, 위치 유지하기는 hold에 해당합니다.',
   },
   '#blk-exit_tooltip#': {
     en: 'End the program',
@@ -1299,7 +1325,7 @@ let MSGS = {
     he: "סיים את התוכנית",
     ru: 'Остановить выполнение программы',
     it: 'Terminare il programma',
-    ko: '프로그램 종료',
+    ko: '프로그램을 종료합니다.',
   },
   '#blk-position_tooltip#': {
     en: 'How much the motor has turned since the start of the program',
@@ -1392,7 +1418,7 @@ let MSGS = {
     pt: 'Número de mensagens não lidas na caixa de correio',
     he: 'כמות הודעות שלא נקראו בתיבת הדואר',
     it: 'Numero di messaggi non letti nella cassetta postale',
-    ko: '받은 편지함에 읽지 않은 메시지 수 : ',
+    ko: '받은 편지함에 읽지 않은 문자 수 : ',
   },
   '#blk-radio_empty_tooltip#': {
     en: 'Delete all messages in the mailbox',
@@ -1400,7 +1426,7 @@ let MSGS = {
     pt: 'Excluir todas as mensagens na caixa de correio',
     he: 'מחק את כל ההודעות בתיבת הדואר',
     it: 'Cancellare tutti i messaggi della cassetta postale',
-    ko: '받은 편지함의 모든 메시지 삭제 : ',
+    ko: '받은 편지함의 모든 문자 삭제 : ',
   },
   '#blk-set_movement_motors#': {
     en: 'Set movement motors to',
@@ -1408,13 +1434,14 @@ let MSGS = {
     ru: 'выбрать двигатели',
     de: 'setze Bewegungsmotoren auf',
     it: 'Impostare i motori di movimento su',
-    ko: '이동 모터 설정: ',
+    ko: '[로봇 설정] 이동 모터 : ',
   },
   '#blk-set_movement_motors_tooltip#': {
     en: 'Only needed if not using the default of ports A and B',
     pt: 'Necessário apenas se não estiver usando o padrão das portas A e B',
     ru: 'Необходимо настроить только, если не выбраны порты по умолчанию (A и B)',
     it: 'Necessario solo se non si utilizzano le porte A e B predefinite.',
+    ko: '기본 포트 A와 B를 사용하지 않는 경우에만 필요합니다. 기본 포트는 A와 B입니다.',
   },
   '#blk-wait_until#': {
     en: 'Wait until',
@@ -1432,7 +1459,7 @@ let MSGS = {
     hu: 'Gomb',
     de: 'Knopf',
     it: 'pulsante',
-    ko: '이 다음 상태가 될 때까지 기다리기 :',
+    ko: '버튼',
   },
   '#blk-center#': {
     en: 'Center',
@@ -1440,7 +1467,7 @@ let MSGS = {
     ru: 'Центральная',
     hu: 'Középső',
     it: 'centro',
-    ko: '[촉각 센서] 중앙 버튼',
+    ko: '중앙',
   },
   '#blk-left#': {
     en: 'Left',
@@ -1448,7 +1475,7 @@ let MSGS = {
     ru: 'Левая',
     hu: 'Bal',
     it: 'Sinistra',
-    ko: '[촉각 센서] 왼쪽 버튼',
+    ko: '왼쪽',
   },
   '#blk-right#': {
     en: 'Right',
@@ -1456,7 +1483,7 @@ let MSGS = {
     ru: 'Правая',
     hu: 'Jobb',
     it: 'destra',
-    ko: '[촉각 센서] 오른쪽 버튼',
+    ko: '오른쪽',
   },
   '#blk-up#': {
     en: 'Up',
@@ -1464,7 +1491,7 @@ let MSGS = {
     ru: 'Вверх',
     hu: 'Fel',
     it: 'su',
-    ko: '[촉각 센서] 위쪽 버튼',
+    ko: '위쪽',
   },
   '#blk-down#': {
     en: 'Down',
@@ -1472,7 +1499,7 @@ let MSGS = {
     ru: 'Вниз',
     hu: 'Le',
     it: 'giù',
-    ko: '[촉각 센서] 아래쪽 버튼',
+    ko: '아래쪽',
   },
   '#blk-comment#': {
     en: '# Comment:',
@@ -1484,6 +1511,7 @@ let MSGS = {
     en: 'This blocks does nothing and is only used for comments. Multiple lines are supported.',
     pt: 'Esse bloco não faz nada e é usado apenas para comentários. Há suporte para várias linhas.',
     it: 'Questo blocco non fa nulla ed è usato solo per i commenti. Sono supportate le righe multiple.',
+    ko: '이 블록은 아무것도 하지 않으며 주석에만 사용됩니다. 여러 줄을 지원합니다.',
   },
   '#blk-camera_capture_image#': {
     en: 'capture image with camera',
@@ -1530,22 +1558,25 @@ let MSGS = {
     en: 'You must run the capture image block first. Inputs are min/max for HSV. Blobs with less than the specified number of pixels will be filtered out.',
     pt: 'Você deve executar o bloco de captura de imagem primeiro. As entradas são min/max para HSV. Os blocos com menos do que o número especificado de pixels serão filtrados.',
     it: 'È necessario eseguire prima il blocco cattura immagine. Gli input sono min/max per HSV. I blob con un numero di pixel inferiore a quello specificato vengono filtrati.',
+    ko: '[카메라 센서] 사진 찍기 블록을 먼저 실행해야 합니다. 입력은 HSV의 최소/최대값입니다. 지정된 픽셀 수보다 적은 블롭은 필터링됩니다.',
   },
   '#blk-matching_H#': {
     en: 'matching H:',
     pt: 'correspondendo com H:',
     it: 'corrispondenza con H:',
-    ko: '매칭 H :',
+    ko: '다음을 만족 : H :',
   },
   '#blk-S#': {
     en: 'S:',
     pt: 'S:',
     it: 'S:',
+    ko: 'S:',
   },
   '#blk-V#': {
     en: 'V:',
     pt: 'V:',
     it: 'V:',
+    ko: 'V:',
   },
   '#blk-and_at_least#': {
     en: 'and at least',
@@ -1561,87 +1592,115 @@ let MSGS = {
   },
   '#blk-tw_fwd#': {
     en: 'Move Forward',
+    ko: '앞으로 이동하기',
   },
   '#blk-tw_rev#': {
     en: 'Move Back',
+    ko: '뒤로 이동하기',
   },
   '#blk-tw_left#': {
     en: 'Turn Left',
+    ko: '왼쪽으로 회전하기',
   },
   '#blk-tw_right#': {
     en: 'Turn Right',
+    ko: '오른쪽으로 회전하기',
   },
   '#blk-plotter_init#': {
     en: 'Init plotter with minX',
+    ko: '[실험실 그리기] 캔버스 생성: 최소 X 좌표',
   },
   '#blk-minY#': {
     en: 'minY',
+    ko: '최소 Y 좌표',
   },
   '#blk-maxX#': {
     en: 'maxX',
+    ko: '최대 X 좌표',
   },
   '#blk-maxY#': {
     en: 'maxY',
+    ko: '최대 Y 좌표',
   },
   '#blk-plotter_init_tooltip#': {
     en: 'You must run this before any other plotter blocks',
+    ko: '다른 [실험실 그리기] 블록을 사용하기 전에 이 블록을 먼저 실행해야 합니다.',
   },
   '#blk-plotter_showHide#': {
     en: 'plotter',
+    ko: '[실험실 그리기] 표시',
   },
   '#blk-plotter_showHide_tooltip#': {
     en: 'The plotter is shown by default when initialized, but you can hide it with this block.',
+    ko: '[실험실 그리기]는 초기화 시 기본적으로 표시되지만, 이 블록을 사용하여 숨길 수 있습니다.',
   },
   '#blk-plotter_clear#': {
     en: 'clear plotter',
+    ko: '[실험실 그리기] 지우기',
   },
   '#blk-plotter_clear_tooltip#': {
     en: 'Clear the plotter, including all grids.',
+    ko: '[실험실 그리기]를 포함하여 모든 격자를 지웁니다.',
   },
   '#blk-plotter_drawGrid#': {
     en: 'plotter draw grid of type',
+    ko: '[실험실 그리기] 격자 설정',
   },
   '#blk-and_size#': {
     en: 'and size',
+    ko: '와 크기',
   },
   '#blk-plotter_drawGrid_tooltip#': {
     en: 'Draw a grid on the plotter. The size is the distance between each grid line.',
+    ko: '[실험실 그리기]에 격자를 그립니다. 크기는 각 그리드 선 사이의 거리입니다.',
   },
   '#blk-plotter_setColor#': {
     en: 'set plotter color to',
+    ko: '[실험실 그리기] 색상 설정',
   },
   '#blk-plotter_setColor_tooltip#': {
     en: 'Sets colors of all future plotter drawings. Does not affect grid color.',
+    ko: '모든 향후 [실험실 그리기] 색상을 설정합니다. 격자 색상에는 영향을 주지 않습니다.',
   },
   '#blk-plotter_setPointSize#': {
     en: 'set plotter point size to',
+    ko: '[실험실 그리기] 점 크기 설정',
   },
   '#blk-plotter_setPointSize_tooltip#': {
     en: 'Only affect size of points drawn with plotter draw point. Lines and triangles are always 1 pixel wide.',
+    ko: '[실험실 그리기] 점 크기를 설정합니다. [실험실 그리기] 점을 그릴 때만 영향을 미칩니다. 선과 삼각형은 항상 1픽셀 너비입니다.',
   },
   '#blk-plotter_drawPoint#': {
     en: 'plotter draw point at',
+    ko: '[실험실 그리기] 점 생성',
   },
   '#blk-plotter_drawPoint_tooltip#': {
     en: 'Draw a point at the specified x, y location.',
+    ko: '지정된 x, y 위치에 점을 그립니다.',
   },
   '#blk-plotter_drawLine#': {
     en: 'plotter draw line from',
+    ko: '[실험실 그리기] 선 생성',
   },
   '#blk-to#': {
     en: 'to',
+    ko: '부터 다음까지 :',
   },
   '#blk-plotter_drawLine_tooltip#': {
     en: 'Draw a line from the start point to the end point.',
+    ko: '시작점에서 끝점까지 선을 그립니다.',
   },
   '#blk-plotter_drawTriangle#': {
     en: 'plotter draw triangle at',
+    ko: '[실험실 그리기] 삼각형 생성',
   },
   '#blk-and_dir#': {
     en: 'and direction',
+    ko: '와 방향',
   },
   '#blk-plotter_drawTriangle_tooltip#': {
     en: 'Draw a triangle at the specified location, pointed and the specified direction.',
+    ko: '지정된 위치에 삼각형을 그리고, 지정된 방향을 향하도록 합니다.',
   },
 
   '#main-blocks#': {
@@ -1657,6 +1716,7 @@ let MSGS = {
     ru: 'Блоки',
     hu: 'Blokk',
     it: 'Blocchi',
+    ko: '블록 (Blocks)',
   },
   '#main-sim#': {
     en: 'Simulator',
@@ -1671,6 +1731,7 @@ let MSGS = {
     ru: 'Симулятор',
     hu: 'Szimulátor',
     it: 'Simulatore',
+    ko: '시뮬레이터 (Simulator)',
   },
   '#main-file#': {
     en: 'File',
@@ -1685,6 +1746,7 @@ let MSGS = {
     ru: 'Файл',
     hu: 'Fájl',
     it: 'archivio',
+    ko: '파일(File)',
   },
   '#main-new_program#': {
     en: 'New Program',
