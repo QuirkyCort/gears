@@ -600,7 +600,7 @@ let MSGS = {
     he: 'שלח הודעה',
     ru: 'Отправить сообщение',
     it: 'Inviare un messaggio a',
-    ko: '[문자] 보내기 ',
+    ko: '[문자함] 문자 보내기 :',
   },
   '#blk-via_mailbox#': {
     en: 'via mailbox',
