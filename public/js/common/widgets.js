@@ -156,6 +156,9 @@ function dialog(title, $bodyContent, $buttons, className='') {
   $box.append($buttonsRow);
   $dialog.append($box);
 
+  $dialog.$body = $body;
+  $dialog.$buttonsRow = $buttonsRow;
+
   $buttons = $buttonsRow.children();
 
   $dialog.close = function(callback) {
@@ -224,6 +227,8 @@ function acknowledgeDialog(options, callback) {
   var $dialog = dialog(options.title, bodyContent, $button, options.className);
 
   $button.click(function() { $dialog.close(callback); });
+
+  return $dialog;
 }
 
 // Error modal. Only close when clicked.
