@@ -15,8 +15,10 @@
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
 
-  <script src="ace-1.4.10/src-min/ace.js"></script>
-  <script src="ace-1.4.10/src-min/ext-language_tools.js"></script>
+  <script src="ace-1.11.2/ace.js"></script>
+  <script src="ace-1.11.2/ext-language_tools.js"></script>
+  <!-- <script src="ace-1.4.10/src-min/ace.js"></script>
+  <script src="ace-1.4.10/src-min/ext-language_tools.js"></script> -->
 
   <script src="skulpt/0.11.0/skulpt.min.js"></script>
   <script src="skulpt/0.11.0/skulpt-stdlib.js"></script>
@@ -55,14 +57,14 @@
           <span>
             Python
           </span>
-          <span class="py-mod-controls">
+          <!-- <span class="py-mod-controls">
             <i class="icon-upload upload-py-mod"
                title="Upload python main"></i>
             <i class="icon-download download-py-mod"
               title="Download python main"></i>
             <i class="icon-newFile add-py-mod"
               title="Add python module"></i>
-          </span>
+          </span> -->
         </li>
         <li id="navSim">Simulator</li>
       </ul>
@@ -95,7 +97,13 @@
       </div>
 
       <div class="panel" aria-labelledby="navPython">
-        <div id="pythonCode"></div>
+        <div class="python">
+          <div id="pythonCode"></div>
+          <div id="filesRow">
+            <div id="filesList"></div>
+            <div id="addNewFile"><span class="icon-plus"></span></div>
+          </div>
+        </div>
       </div>
 
       <div class="panel" aria-labelledby="navSim" id="simPanel">
@@ -221,7 +229,8 @@
   <script src="js/babylon.js?v=6061094f"></script>
   <script src="js/blocklyPanel.js?v=3a1d10b5"></script>
   <script src="js/pythonPanel.js?v=84d500ff"></script>
-  <script src="js/pythonLibPanel.js?v=01359988"></script>
+  <script src="js/filesManager.js?v=e82aa616"></script>
+  <!-- <script src="js/pythonLibPanel.js?v=01359988"></script> -->
   <script src="js/simPanel.js?v=cd8644f4"></script>
   <script src="js/main.js?v=61cecb38"></script>
 

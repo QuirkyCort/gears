@@ -2,9 +2,9 @@ var main = new function() {
   var self = this;
   // mapping of nav panel id to panel object, for py module panels.
   // We add it to the pythonLibPanelFactory instead of to an instance.
-  pythonLibPanelFactory.pyModuleId2Panel = {}
+  // pythonLibPanelFactory.pyModuleId2Panel = {}
   // syntatic sugar, make it look local
-  self.pyModuleId2Panel = pythonLibPanelFactory.pyModuleId2Panel;
+  // self.pyModuleId2Panel = pythonLibPanelFactory.pyModuleId2Panel;
 
   // Run on page load
   this.init = function() {
@@ -477,7 +477,8 @@ var main = new function() {
   this.switchToEv3dev = function() {
     blockly.generator = ev3dev2_generator;
     blockly.generator.load();
-    if (! pythonPanel.modified) {
+    // if (! pythonPanel.modified) {
+    if (! filesManager.modified) {
       pythonPanel.loadPythonFromBlockly();
     }
   };
@@ -486,7 +487,8 @@ var main = new function() {
   this.switchToPybricks = function() {
     blockly.generator = pybricks_generator;
     blockly.generator.load();
-    if (! pythonPanel.modified) {
+    // if (! pythonPanel.modified) {
+    if (! filesManager.modified) {
       pythonPanel.loadPythonFromBlockly();
     }
   };
@@ -516,8 +518,10 @@ var main = new function() {
   this.newProgram = function() {
     confirmDialog(i18n.get('#main-start_new_warning#'), function() {
       blockly.loadDefaultWorkspace();
-      pythonPanel.modified = false;
-      localStorage.setItem('pythonModified', false);
+      // pythonPanel.modified = false;
+      filesManager.modified = false;
+      // localStorage.setItem('pythonModified', false);
+      localStorage.setItem('gearsPythonModified', false);
       blocklyPanel.setDisable(false);
       self.$projectName.val('');
       self.saveProjectName();
@@ -533,27 +537,33 @@ var main = new function() {
 
     let meta = {
       name: filename,
-      pythonModified: pythonPanel.modified
+      pythonModified: filesManager.modified
+      // pythonModified: pythonPanel.modified
     };
 
     var zip = new JSZip();
     zip.file('gearsBlocks.xml', blockly.getXmlText());
-    if (pythonPanel.modified) {
-      zip.file('gearsPython.py', pythonPanel.editor.getValue());
+    // if (pythonPanel.modified) {
+    //   zip.file('gearsPython.py', pythonPanel.editor.getValue());
+    if (filesManager.modified) {
+      // Save all files in the filesManager
+      for (let filename in filesManager.files) {
+        zip.file(filename, filesManager.files[filename]);
+      };
     } else {
-      zip.file('gearsPython.py', blockly.generator.genCode());
+      zip.file('main.py', blockly.generator.genCode());
     }
     // add each python module to the zip
-    for (var moduleID in self.pyModuleId2Panel) {
-      panel = pythonLibPanelFactory.pyModuleId2Panel[moduleID];
-      var module_code = panel.editor.getValue()
-      // NOTE - It seems to me that loading a zip file should restore
-      // the state of the editor windows.  Therefore, if a module is
-      // empty at zip export time, save it as an empty file.
-      // if (module_code.trim() === "") {
-      moduleFilename = panel.moduleName + '.py'
-      zip.file(moduleFilename, module_code);
-    }
+    // for (var moduleID in self.pyModuleId2Panel) {
+    //   panel = pythonLibPanelFactory.pyModuleId2Panel[moduleID];
+    //   var module_code = panel.editor.getValue()
+    //   // NOTE - It seems to me that loading a zip file should restore
+    //   // the state of the editor windows.  Therefore, if a module is
+    //   // empty at zip export time, save it as an empty file.
+    //   // if (module_code.trim() === "") {
+    //   moduleFilename = panel.moduleName + '.py'
+    //   zip.file(moduleFilename, module_code);
+    // }
 
     zip.file('gearsRobot.json', JSON.stringify(robot.options, null, 2));
     zip.file('meta.json', JSON.stringify(meta, null, 2));
@@ -572,7 +582,7 @@ var main = new function() {
   this.loadZipFromComputer = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
-    hiddenElement.accept = '.zip';
+    hiddenElement.accept = 'application/zip,.zip';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
     hiddenElement.addEventListener('change', function(e){
       var file = e.target.files[0];
@@ -582,9 +592,15 @@ var main = new function() {
         reader.onload = function(e) {
           JSZip.loadAsync(e.target.result)
             .then(async function(zip) {
+              filesManager.deleteAll();
+
               const metaParams = await loadFile(zip, 'meta.json');
               let {name: projName, pythonModified} = JSON.parse(metaParams);
-              pythonPanel.modified = pythonModified;
+              filesManager.modified = pythonModified;
+              if (pythonModified) {
+                blocklyPanel.setDisable(true);
+              }
+              // pythonPanel.modified = pythonModified;
               self.$projectName.val(projName);
               self.saveProjectName();
 
@@ -596,17 +612,31 @@ var main = new function() {
 
               // load python code, and warn if loaded
               // code is modified WRT loaded blocks
-              const pythonCode = await loadFile(zip, 'gearsPython.py')
-              let modifyOrig = pythonPanel.modified;
-              pythonPanel.modified = true;
-              pythonPanel.editor.setValue(pythonCode, 1);
-              pythonPanel.modified = modifyOrig;
-              blocklyPanel.setDisable(modifyOrig);
+              // const pythonCode = await loadFile(zip, 'gearsPython.py')
+              // let modifyOrig = pythonPanel.modified;
+              // pythonPanel.modified = true;
+              // pythonPanel.editor.setValue(pythonCode, 1);
+              // pythonPanel.modified = modifyOrig;
+              // blocklyPanel.setDisable(modifyOrig);
 
               // Load Python modules
-              loadZipPyModules(zip).then(importedPyModules => {
-                closeOldPyModules(importedPyModules)
-              });
+              // await loadZipPyModules(zip);
+              for (filename in zip.files) {
+                if (filename.endsWith('.py')) {
+                  const pythonCode = await loadFile(zip, filename);
+                  if (filename == 'gearsPython.py') {
+                    filename = 'main.py';
+                  }
+                  filesManager.add(filename, pythonCode);
+                }
+              }
+              if (pythonModified) {
+                filesManager.unsaved = true;
+                filesManager.saveLocalStorage();
+              }
+              // loadZipPyModules(zip).then(importedPyModules => {
+              //   closeOldPyModules(importedPyModules)
+              // });
             })
             .catch(function(err) {
               console.error('JSZip error:', err);
@@ -623,44 +653,48 @@ var main = new function() {
           return null;
         }
 
-        function closeOldPyModules(importedPyModules) {
-          const openTabs = $('nav li .del-py-mod');
-          for (const tab of openTabs) {
-            const moduleName = $(tab).parent().parent().find('.py-mod-name .name-edit').text();
-            if (!importedPyModules.includes(moduleName)) {
-              tab.dispatchEvent(new Event('click'));
-            }
-          }
-        }
+        // function closeOldPyModules(importedPyModules) {
+        //   const openTabs = $('nav li .del-py-mod');
+        //   for (const tab of openTabs) {
+        //     const moduleName = $(tab).parent().parent().find('.py-mod-name .name-edit').text();
+        //     if (!importedPyModules.includes(moduleName)) {
+        //       tab.dispatchEvent(new Event('click'));
+        //     }
+        //   }
+        // }
 
-        async function loadZipPyModules(zip) {
-          const panelModulesNames = pythonLibPanelFactory.getModuleNames();
-          const loadPromises = Object.keys(zip.files)
-            .filter((relativePath) => relativePath.endsWith('.py') && relativePath !== 'gearsPython.py')
-            .map(async (relativePath) => {
-              try {
-                const pythonCode = await loadFile(zip, relativePath);
-                const moduleName = relativePath.slice(0, -3);
-        
-                if (!panelModulesNames.includes(moduleName)) {
-                  self.addPythonModule(moduleName);
-                }
-        
-                const moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`);
-                const moduleID = moduleSpan.closest('.pythonModule').attr('id');
-                pythonLibPanel = self.pyModuleId2Panel[moduleID];
-                pythonLibPanel.modified = true;
-                pythonLibPanel.editor.setValue(pythonCode, 0);
-                return moduleName;
-              } catch (error) {
-                console.error(`Error loading ${relativePath}:`, error);
-                return null;
-              }
-            });
-        
-          return importedPyModules = (await Promise.all(loadPromises)).filter(Boolean); 
-        }
-      
+        // async function loadZipPyModules(zip) {
+        //   // const panelModulesNames = pythonLibPanelFactory.getModuleNames();
+        //   const loadPromises = Object.keys(zip.files)
+        //     .filter((relativePath) => relativePath.endsWith('.py'))
+        //     .map(async (relativePath) => {
+        //       try {
+        //         const pythonCode = await loadFile(zip, relativePath);
+        //         if (relativePath == 'gearsPython.py') {
+        //           relativePath = 'main.py';
+        //         }
+        //         filesManager.add(relativePath, pythonCode);
+        //         // const moduleName = relativePath.slice(0, -3);
+
+        //         // if (!panelModulesNames.includes(moduleName)) {
+        //         //   self.addPythonModule(moduleName);
+        //         // }
+
+        //         // const moduleSpan = $(`.pythonModule .name-edit:contains('${moduleName}')`);
+        //         // const moduleID = moduleSpan.closest('.pythonModule').attr('id');
+        //         // pythonLibPanel = self.pyModuleId2Panel[moduleID];
+        //         // pythonLibPanel.modified = true;
+        //         // pythonLibPanel.editor.setValue(pythonCode, 0);
+        //         // return moduleName;
+        //       } catch (error) {
+        //         console.error(`Error loading ${relativePath}:`, error);
+        //         return null;
+        //       }
+        //     });
+
+        //   // return importedPyModules = (await Promise.all(loadPromises)).filter(Boolean);
+        // }
+
         reader.onerror = function(err) {
           console.error('FileReader error:', err);
           alert('Failed to read file.');
@@ -672,7 +706,7 @@ var main = new function() {
       }
     });
   };
-  
+
   // save to computer
   this.saveToComputer = function() {
     let filename = self.$projectName.val();
@@ -721,25 +755,64 @@ var main = new function() {
     });
   };
 
+  // Download to single file
+  this.downloadFile = function(filename, content, mimetype) {
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:' + mimetype + ';base64,' + content;
+    hiddenElement.target = '_blank';
+    hiddenElement.download = filename;
+    hiddenElement.dispatchEvent(new MouseEvent('click'));
+  }
+
+  // Download to zip file
+  this.downloadZipFile = function(filename, files) {
+    var zip = new JSZip();
+    for (let f in files) {
+      zip.file(f, files[f]);
+    }
+
+    zip.generateAsync({
+      type:'base64',
+      compression: "DEFLATE"
+    })
+    .then(function(content) {
+      self.downloadFile(filename + '.zip', content, 'application/zip');
+    });
+  }
+
   // save to computer
-  this.savePythonToComputer = function() {
+  this.savePythonToComputer = async function() {
     let filename = self.$projectName.val();
     if (filename.trim() == '') {
       filename = 'gearsBot';
     }
 
-    let code = null;
-    if (pythonPanel.modified) {
-      code = pythonPanel.editor.getValue();
-    } else {
-      code = blockly.generator.genCode();
+    if (filesManager.modified == false) {
+      await pythonPanel.loadPythonFromBlockly();
     }
-    var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/x-python;charset=UTF-8,' + encodeURIComponent(code);
-    hiddenElement.target = '_blank';
-    hiddenElement.download = filename + '.py';
-    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    filesManager.updateCurrentFile();
+
+    self.downloadZipFile(filename, filesManager.files);
   };
+  // this.savePythonToComputer = function() {
+  //   let filename = self.$projectName.val();
+  //   if (filename.trim() == '') {
+  //     filename = 'gearsBot';
+  //   }
+
+  //   let code = null;
+  //   // if (pythonPanel.modified) {
+  //   if (filesManager.modified) {
+  //     code = pythonPanel.editor.getValue();
+  //   } else {
+  //     code = blockly.generator.genCode();
+  //   }
+  //   var hiddenElement = document.createElement('a');
+  //   hiddenElement.href = 'data:text/x-python;charset=UTF-8,' + encodeURIComponent(code);
+  //   hiddenElement.target = '_blank';
+  //   hiddenElement.download = filename + '.py';
+  //   hiddenElement.dispatchEvent(new MouseEvent('click'));
+  // };
 
   // load from computer
   this.loadPythonFromComputer = function() {
@@ -751,7 +824,13 @@ var main = new function() {
       var reader = new FileReader();
       reader.onload = function() {
         // second arg: 0 select all, -1 start, 1 end
-        pythonPanel.editor.setValue(this.result, 1);
+        // pythonPanel.editor.setValue(this.result, 1);
+        filesManager.deleteAll()
+        filesManager.add('main.py', this.result);
+        filesManager.modified = true;
+        filesManager.unsaved = true;
+        filesManager.saveLocalStorage();
+
         self.tabClicked('navPython');
         pythonPanel.warnModify();
       };
@@ -765,217 +844,284 @@ var main = new function() {
     });
   };
 
-  // save library.py to computer
-  this.savePythonModuleToComputer = function(moduleID) {
-    pythonLibPanel = self.pyModuleId2Panel[moduleID];
-    moduleName = pythonLibPanel.moduleName
-    // let filename = 'library'
-    let code = null;
-    code = pythonLibPanel.editor.getValue();
-    var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/x-python;charset=UTF-8,' + encodeURIComponent(code);
-    hiddenElement.target = '_blank';
-    hiddenElement.download = moduleName + '.py';
-    hiddenElement.dispatchEvent(new MouseEvent('click'));
-  };
-
-  // load python module from computer to pythonLibPanel
-  this.loadPythonModuleFromComputer = function(moduleID) {
-    pythonLibPanel = self.pyModuleId2Panel[moduleID];
-    // console.log('starting load of library.py');
+  this.loadPythonFromComputer = function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
-    hiddenElement.accept = 'text/x-python,.py';
+    hiddenElement.accept = 'text/x-python,.py,application/zip,.zip';
     hiddenElement.dispatchEvent(new MouseEvent('click'));
     hiddenElement.addEventListener('change', function(e){
-      var reader = new FileReader();
-      reader.onload = function() {
-        // console.log('read library.py text:');
-        // console.log(this.result);
-        // second arg: 0 replace all, -1 start, 1 end
-        pythonLibPanel.editor.setValue(this.result, 0);
-        // At the moment this is only called from the module tab, don't click
-        // self.tabClicked('libPython');
-      };
-      reader.onerror = function() {
-        console.log(reader.error);
-      };
-      reader.readAsText(e.target.files[0]);
-      let moduleName = e.target.files[0].name.replace(/.py/, '');
-      pythonLibPanel.moduleName = moduleName;
-      // and change the name on the tab
-      selector = "nav li#" + moduleID;
-      moduleTabEls = $(selector);
-      nameSpanEls = moduleTabEls.find('span.name-edit');
-      nameSpanEls[0].innerText = moduleName;
+      let filename = e.target.files[0].name;
+      if (filename.endsWith('.zip')) {
+        self.loadPythonFromComputerZip(e);
+      } else {
+        self.loadSinglePythonFile(e);
+      }
+      self.$projectName.val(filename.replace(/\.py$/, ''));
+      self.saveProjectName();
     });
   };
 
+  this.loadPythonFromComputerZip = function(e) {
+    async function loadFiles(zip) {
+      filesManager.deleteAll();
+
+      let filenames = [];
+      zip.forEach(function(path, file) {
+        filenames.push(path);
+      });
+
+      if (! filenames.includes('main.py')) {
+        throw new Error('No main.py in zip archive');
+      }
+
+      for (let filename of filenames) {
+        await zip.file(filename).async('string')
+          .then(function(content){
+            filesManager.add(filename, content);
+          });
+      }
+
+      filesManager.modified = true;
+      filesManager.unsaved = true;
+      filesManager.saveLocalStorage();
+      self.tabClicked('navPython');
+    }
+
+    JSZip.loadAsync(e.target.files[0])
+      .then(loadFiles)
+      .catch(error => showErrorModal(i18n.get('#main-invalid_python_file#')));
+  }
+
+  this.loadSinglePythonFile = function(e) {
+    var reader = new FileReader();
+    reader.onload = function() {
+      filesManager.deleteAll()
+      filesManager.add('main.py', this.result);
+      filesManager.modified = true;
+      filesManager.unsaved = true;
+      filesManager.saveLocalStorage();
+
+      self.tabClicked('navPython');
+      pythonPanel.warnModify();
+    };
+    reader.onerror = function() {
+      console.log(reader.error);
+    };
+    reader.readAsText(e.target.files[0]);
+  };
+
+  // save library.py to computer
+  // this.savePythonModuleToComputer = function(moduleID) {
+  //   pythonLibPanel = self.pyModuleId2Panel[moduleID];
+  //   moduleName = pythonLibPanel.moduleName
+  //   // let filename = 'library'
+  //   let code = null;
+  //   code = pythonLibPanel.editor.getValue();
+  //   var hiddenElement = document.createElement('a');
+  //   hiddenElement.href = 'data:text/x-python;charset=UTF-8,' + encodeURIComponent(code);
+  //   hiddenElement.target = '_blank';
+  //   hiddenElement.download = moduleName + '.py';
+  //   hiddenElement.dispatchEvent(new MouseEvent('click'));
+  // };
+
+  // load python module from computer to pythonLibPanel
+  // this.loadPythonModuleFromComputer = function(moduleID) {
+  //   pythonLibPanel = self.pyModuleId2Panel[moduleID];
+  //   // console.log('starting load of library.py');
+  //   var hiddenElement = document.createElement('input');
+  //   hiddenElement.type = 'file';
+  //   hiddenElement.accept = 'text/x-python,.py';
+  //   hiddenElement.dispatchEvent(new MouseEvent('click'));
+  //   hiddenElement.addEventListener('change', function(e){
+  //     var reader = new FileReader();
+  //     reader.onload = function() {
+  //       // console.log('read library.py text:');
+  //       // console.log(this.result);
+  //       // second arg: 0 replace all, -1 start, 1 end
+  //       pythonLibPanel.editor.setValue(this.result, 0);
+  //       // At the moment this is only called from the module tab, don't click
+  //       // self.tabClicked('libPython');
+  //     };
+  //     reader.onerror = function() {
+  //       console.log(reader.error);
+  //     };
+  //     reader.readAsText(e.target.files[0]);
+  //     let moduleName = e.target.files[0].name.replace(/.py/, '');
+  //     pythonLibPanel.moduleName = moduleName;
+  //     // and change the name on the tab
+  //     selector = "nav li#" + moduleID;
+  //     moduleTabEls = $(selector);
+  //     nameSpanEls = moduleTabEls.find('span.name-edit');
+  //     nameSpanEls[0].innerText = moduleName;
+  //   });
+  // };
+
   // Check for unsaved changes
   this.checkUnsaved = function (event) {
-    if (blockly.unsaved || pythonPanel.unsaved) {
+    // if (blockly.unsaved || pythonPanel.unsaved) {
+    if (blockly.unsaved || filesManager.unsaved) {
       event.preventDefault();
       event.returnValue = '';
     }
   };
 
   // used for both main and module tabs.
-  this.pyUploadModule = function(event) {
-    tabNodes = $( event.target.parentNode.parentNode );
-    if (tabNodes.hasClass("pythonMain")) {
-      self.loadPythonFromComputer();
-    } else {
-      moduleID = tabNodes[0].id
-      self.loadPythonModuleFromComputer(moduleID);
-    }
-  }
+  // this.pyUploadModule = function(event) {
+  //   tabNodes = $( event.target.parentNode.parentNode );
+  //   if (tabNodes.hasClass("pythonMain")) {
+  //     self.loadPythonFromComputer();
+  //   } else {
+  //     moduleID = tabNodes[0].id
+  //     self.loadPythonModuleFromComputer(moduleID);
+  //   }
+  // }
 
   // used for both main and module tabs.
-  this.pyDownloadModule = function(event) {
-    tabNodes = $( event.target.parentNode.parentNode );
-    if (tabNodes.hasClass("pythonMain")) {
-      self.savePythonToComputer();
-    } else {
-      moduleID = tabNodes[0].id
-      self.savePythonModuleToComputer(moduleID);
-    }
-  }
+  // this.pyDownloadModule = function(event) {
+  //   tabNodes = $( event.target.parentNode.parentNode );
+  //   if (tabNodes.hasClass("pythonMain")) {
+  //     self.savePythonToComputer();
+  //   } else {
+  //     moduleID = tabNodes[0].id
+  //     self.savePythonModuleToComputer(moduleID);
+  //   }
+  // }
 
   // event callback used for both main and module tabs.
-  this.pyAddModule = function(event) {
-    self.addPythonModule();
-  }
+  // this.pyAddModule = function(event) {
+  //   self.addPythonModule();
+  // }
 
   // used for module tabs only, called on focusoout
-  this.pyRenameModule = function(event) {
-    tabNodes = $( event.target.parentNode.parentNode );
-    moduleID = tabNodes[0].id;
-    // first, clean / validate the new name
-    newName = event.target.innerText;
-    newName = newName.replace(/\s+/g, "").trim();
-    pythonLibPanel = self.pyModuleId2Panel[moduleID];
-    oldModuleName = pythonLibPanel.moduleName;
-    isValid = true
-    errMsg = `Unable to change python module name to ${newName}`
-    if (oldModuleName != newName) {
-      panelModuleNames = pythonLibPanelFactory.getModuleNames()
-      if (panelModuleNames.includes(newName)) {
-        // the new name is a duplicate, don't accept it
-        isValid = false;
-        errMsg = `Unable to change python module name to ${newName}, as it would be the same as another module`
-      }
-      // TODO, better validation to py module name rules
-      if (isValid) {
-        pythonLibPanel.moduleName = newName;
-        console.log(`renamed module ${oldModuleName} to ${newName}`);
-      } else {
-        // Show UI indication that we failed.
-        self.showDialog('Warning', errMsg)
-        // set the name back to what it was before the edit
-        event.target.innerText = oldModuleName;
-      }
-    }
-  }
+  // this.pyRenameModule = function(event) {
+  //   tabNodes = $( event.target.parentNode.parentNode );
+  //   moduleID = tabNodes[0].id;
+  //   // first, clean / validate the new name
+  //   newName = event.target.innerText;
+  //   newName = newName.replace(/\s+/g, "").trim();
+  //   pythonLibPanel = self.pyModuleId2Panel[moduleID];
+  //   oldModuleName = pythonLibPanel.moduleName;
+  //   isValid = true
+  //   errMsg = `Unable to change python module name to ${newName}`
+  //   if (oldModuleName != newName) {
+  //     panelModuleNames = pythonLibPanelFactory.getModuleNames()
+  //     if (panelModuleNames.includes(newName)) {
+  //       // the new name is a duplicate, don't accept it
+  //       isValid = false;
+  //       errMsg = `Unable to change python module name to ${newName}, as it would be the same as another module`
+  //     }
+  //     // TODO, better validation to py module name rules
+  //     if (isValid) {
+  //       pythonLibPanel.moduleName = newName;
+  //       console.log(`renamed module ${oldModuleName} to ${newName}`);
+  //     } else {
+  //       // Show UI indication that we failed.
+  //       self.showDialog('Warning', errMsg)
+  //       // set the name back to what it was before the edit
+  //       event.target.innerText = oldModuleName;
+  //     }
+  //   }
+  // }
 
   // Remove a python module tab and its editor
-  this.pyDelModule = function(event) {
-    tabNodes = $( event.target.parentNode.parentNode );
-    moduleID = tabNodes[0].id;
-    pythonLibPanel = self.pyModuleId2Panel[moduleID];
-    moduleName = pythonLibPanel.moduleName;
-    // remove all event handlers for the tab
-    $(tabNodes[0]).off()
-    // remove tab and panel from the DOM.
-    tabNodes[0].remove();
-    modulePanel = self.$panels.siblings('[aria-labelledby="' + moduleID + '"]')
-    modulePanel.remove();
-    self.recalcElementSets();
-    // TODO, do we need to remove the ACE editor / other associated cleanup?
-    pythonLibPanel.editor.destroy()
-    // remove from the hash table
-    delete self.pyModuleId2Panel[moduleID];
-    console.log(`deleted module ID ${moduleID} NAME ${moduleName}`);
-    // switch tabs away from the deleted one
-    self.tabClicked('navPython');
-  }
+  // this.pyDelModule = function(event) {
+  //   tabNodes = $( event.target.parentNode.parentNode );
+  //   moduleID = tabNodes[0].id;
+  //   pythonLibPanel = self.pyModuleId2Panel[moduleID];
+  //   moduleName = pythonLibPanel.moduleName;
+  //   // remove all event handlers for the tab
+  //   $(tabNodes[0]).off()
+  //   // remove tab and panel from the DOM.
+  //   tabNodes[0].remove();
+  //   modulePanel = self.$panels.siblings('[aria-labelledby="' + moduleID + '"]')
+  //   modulePanel.remove();
+  //   self.recalcElementSets();
+  //   // TODO, do we need to remove the ACE editor / other associated cleanup?
+  //   pythonLibPanel.editor.destroy()
+  //   // remove from the hash table
+  //   delete self.pyModuleId2Panel[moduleID];
+  //   console.log(`deleted module ID ${moduleID} NAME ${moduleName}`);
+  //   // switch tabs away from the deleted one
+  //   self.tabClicked('navPython');
+  // }
 
   // function that we call from the callback and from init code
   // if moduleName is given, attempt to use it, but if it is already taken,
   // then default to the regular pattern.
-  this.addPythonModule = function(moduleName) {
-    // find an unused module ID
-    candIDNum = 0
-    while (true) {
-      candIDNum += 1
-      moduleID = `pythonModule${candIDNum}`
-      if (! (moduleID in self.pyModuleId2Panel) ) {
-        break;
-      }
-    }
-    // find an unused module name
-    candNum = 0
-    while (true) {
-      // inc at top of loop so continue in loop gets the next candidate.
-      candNum += 1
-      if ((candNum>1) || (moduleName === undefined)) {
-        moduleName = `module${candNum}`
-      }
-      panelModuleNames = pythonLibPanelFactory.getModuleNames()
-      if (! (panelModuleNames.includes(moduleName)) ) {
-        break;
-      }
-    }
-    newTabHtml = `<li id="${moduleID}" class="pythonModule">
-          <span class="py-mod-name">
-            <span class="name-edit">${moduleName}</span>
-            <span>.py</span>
-          </span>
-          <span class="py-mod-controls">
-            <i class="icon-upload upload-py-mod"
-               title="Upload python module"></i>
-            <i class="icon-download download-py-mod"
-               title="Download python module"></i>
-            <i class="icon-deleteFile del-py-mod"
-               title="Delete this python module"></i>
-          </span>
-        </li>`
-    // add it just before the simulator Tab
-    simTabEl = $('nav li#navSim')
-    // before() returns the same element it was called on.
-    newTabEl = simTabEl.before(newTabHtml).prev()
-    // now add event handlers.  TODO, duplicates code in init()
-    newTabEl.click(self.tabClicked)
-    //newModuleEl.find('.upload-py-mod').click(self.pyUploadModule)
-    upIcon = newTabEl.find('.upload-py-mod')
-    upIcon.click(self.pyUploadModule)
-    newTabEl.find('.download-py-mod').click(self.pyDownloadModule)
-    newTabEl.find('.del-py-mod').click(self.pyDelModule)
-    newTabEl.find('span.name-edit').focusout(self.pyRenameModule)
-    // add panel element to the parent
-    newPanelHtml = `<div class="panel" aria-labelledby="${moduleID}">
-                      <div class="pythonModule" id="pythonModule_${moduleID}"></div>
-                    </div>`
-    // ACE uses the id to attach the editor to the correct DOM element
-    simPanelEl = $('div.panels div#simPanel')
-    // before() returns the same element it was called on.
-    newPanelEl = simPanelEl.before(newPanelHtml).prev()
-    // now add event handlers.  TODO, duplicates code in init()
-    pyLibPanel = new pythonLibPanelFactory()
-    pyLibPanel.init(moduleID, moduleName); // without the .py extn
-    self.pyModuleId2Panel[moduleID] = pyLibPanel;
-    console.log(`added py panel ${moduleID} for ${moduleName}`);
-    self.recalcElementSets();
-    // TODO in theory this should transfer focus to the panel... but something
-    // about the event handling seems to be causing a later click on navPython
-    self.tabClicked(moduleID);
-  }
+  // this.addPythonModule = function(moduleName) {
+  //   // find an unused module ID
+  //   candIDNum = 0
+  //   while (true) {
+  //     candIDNum += 1
+  //     moduleID = `pythonModule${candIDNum}`
+  //     if (! (moduleID in self.pyModuleId2Panel) ) {
+  //       break;
+  //     }
+  //   }
+  //   // find an unused module name
+  //   candNum = 0
+  //   while (true) {
+  //     // inc at top of loop so continue in loop gets the next candidate.
+  //     candNum += 1
+  //     if ((candNum>1) || (moduleName === undefined)) {
+  //       moduleName = `module${candNum}`
+  //     }
+  //     panelModuleNames = pythonLibPanelFactory.getModuleNames()
+  //     if (! (panelModuleNames.includes(moduleName)) ) {
+  //       break;
+  //     }
+  //   }
+  //   newTabHtml = `<li id="${moduleID}" class="pythonModule">
+  //         <span class="py-mod-name">
+  //           <span class="name-edit">${moduleName}</span>
+  //           <span>.py</span>
+  //         </span>
+  //         <span class="py-mod-controls">
+  //           <i class="icon-upload upload-py-mod"
+  //              title="Upload python module"></i>
+  //           <i class="icon-download download-py-mod"
+  //              title="Download python module"></i>
+  //           <i class="icon-deleteFile del-py-mod"
+  //              title="Delete this python module"></i>
+  //         </span>
+  //       </li>`
+  //   // add it just before the simulator Tab
+  //   simTabEl = $('nav li#navSim')
+  //   // before() returns the same element it was called on.
+  //   newTabEl = simTabEl.before(newTabHtml).prev()
+  //   // now add event handlers.  TODO, duplicates code in init()
+  //   newTabEl.click(self.tabClicked)
+  //   //newModuleEl.find('.upload-py-mod').click(self.pyUploadModule)
+  //   upIcon = newTabEl.find('.upload-py-mod')
+  //   upIcon.click(self.pyUploadModule)
+  //   newTabEl.find('.download-py-mod').click(self.pyDownloadModule)
+  //   newTabEl.find('.del-py-mod').click(self.pyDelModule)
+  //   newTabEl.find('span.name-edit').focusout(self.pyRenameModule)
+  //   // add panel element to the parent
+  //   newPanelHtml = `<div class="panel" aria-labelledby="${moduleID}">
+  //                     <div class="pythonModule" id="pythonModule_${moduleID}"></div>
+  //                   </div>`
+  //   // ACE uses the id to attach the editor to the correct DOM element
+  //   simPanelEl = $('div.panels div#simPanel')
+  //   // before() returns the same element it was called on.
+  //   newPanelEl = simPanelEl.before(newPanelHtml).prev()
+  //   // now add event handlers.  TODO, duplicates code in init()
+  //   pyLibPanel = new pythonLibPanelFactory()
+  //   pyLibPanel.init(moduleID, moduleName); // without the .py extn
+  //   self.pyModuleId2Panel[moduleID] = pyLibPanel;
+  //   console.log(`added py panel ${moduleID} for ${moduleName}`);
+  //   self.recalcElementSets();
+  //   // TODO in theory this should transfer focus to the panel... but something
+  //   // about the event handling seems to be causing a later click on navPython
+  //   self.tabClicked(moduleID);
+  // }
 
   // recalculate jquery dom element sets each time we modify the dom
-  this.recalcElementSets = function() {
-    self.$navs = $('nav li');
-    self.$panelControls = $('.panelControlsArea .panelControls');
-    self.$panels = $('.panels .panel');
-  }
+  // this.recalcElementSets = function() {
+  //   self.$navs = $('nav li');
+  //   self.$panelControls = $('.panelControlsArea .panelControls');
+  //   self.$panels = $('.panels .panel');
+  // }
 
   // Clicked on tab
   this.tabClicked = function(tabNav) {
@@ -987,9 +1133,10 @@ var main = new function() {
 
     function getPanelByNav(nav) {
       // the python module panels are all in the dict, look there first
-      if (nav in self.pyModuleId2Panel) {
-        return self.pyModuleId2Panel[nav];
-      } else if (nav == 'navBlocks') {
+      // if (nav in self.pyModuleId2Panel) {
+      //   return self.pyModuleId2Panel[nav];
+      // } else if (nav == 'navBlocks') {
+      if (nav == 'navBlocks') {
         return blocklyPanel;
       } else if (nav == 'navPython') {
         return pythonPanel;
@@ -1004,9 +1151,9 @@ var main = new function() {
     active = getPanelByNav(match);
 
     self.$navs.removeClass('active');
-    self.$navs.find('span.name-edit').attr('contenteditable', false);
+    // self.$navs.find('span.name-edit').attr('contenteditable', false);
     $('#' + match).addClass('active');
-    $('#' + match).find('span.name-edit').attr('contenteditable', true);
+    // $('#' + match).find('span.name-edit').attr('contenteditable', true);
 
     self.$panels.removeClass('active');
     self.$panels.siblings('[aria-labelledby="' + match + '"]').addClass('active');

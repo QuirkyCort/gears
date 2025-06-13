@@ -85,18 +85,18 @@ nav {
       user-select: none;
       white-space:nowrap;
 
-      .py-mod-controls {
-        display: none;
+      // .py-mod-controls {
+      //   display: none;
 
-        span {
-          padding: 0px;
-        }
-      }
+      //   span {
+      //     padding: 0px;
+      //   }
+      // }
     }
 
-    li.active .py-mod-controls {
-      display: inline;
-    }
+    // li.active .py-mod-controls {
+    //   display: inline;
+    // }
 
     li:hover {
       background: #E4F0FE;
@@ -178,20 +178,20 @@ nav {
   display: none;
 }
 
-#pythonCode {
-  width: 100%;
-  height: 100%;
-  font-size: 120%;
-}
+// #pythonCode {
+//   width: 100%;
+//   height: 100%;
+//   font-size: 120%;
+// }
 
-#pythonCode.hide {
-  display: none;
-}
+// #pythonCode.hide {
+//   display: none;
+// }
 
-.pythonModule {
-  width: 100%;
-  height: 100%;
-  font-size: 120%; }
+// .pythonModule {
+//   width: 100%;
+//   height: 100%;
+//   font-size: 120%; }
 
 .dialogWindow {
   .selectRobot {
@@ -265,4 +265,5 @@ ul.menuDropDownRightAlign {
 @import '_simPanel.scss';
 @import '_font.scss';
 @import '_arena.scss';
+@import '_pythonPanel.scss';
 @import '_configuratorAndBuilder.scss';

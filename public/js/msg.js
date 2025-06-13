@@ -212,7 +212,7 @@ let MSGS = {
     hu: 'Indításkor',
     it: 'Quando si inizia',
     ko: '프로그램 시작',
-    
+
   },
   '#blk-sleep_for#': {
     en: 'sleep for',
@@ -722,7 +722,7 @@ let MSGS = {
     pt: 'Retorna a mensagem mais antiga e a remove da caixa de correio. O valor de retorno é uma lista contendo o conteúdo da mensagem e o ID do remetente.',
     ru: 'Возвращает последнее сообщение, находящееся в почтовом ящике и удаляет его. Возвращаемое значение является списком, который содержит само сообщение а также идентификатор отправителя.',
     it: 'Restituisce il messaggio più vecchio e lo rimuove dalla cassetta postale. Il valore restituito è un elenco contenente il contenuto del messaggio e l`id del mittente.',
-    ko: '가장 오래된 문자를 반환하고 문자함에서 제거합니다. 반환 값은 문자 내용과 발신자 ID를 포함하는 목록입니다.'  
+    ko: '가장 오래된 문자를 반환하고 문자함에서 제거합니다. 반환 값은 문자 내용과 발신자 ID를 포함하는 목록입니다.'
   },
   '#blk-radio_read_content_tooltip#': {
     en: 'Returns the oldest message and remove it from the mailbox. Return value contains only the message content.',
@@ -2270,7 +2270,7 @@ let MSGS = {
       '<p>GearsBot Arena consente a un massimo di 4 robot di competere o cooperare tra loro.</p>' +
       '<p>Programmare il robot utilizzando la normale pagina di GearsBot (...dove ci si trova ora) ed esportare il programma e il robot come pacchetto zip (File -> Esporta Zip...).' +
       '<p>È quindi possibile caricare il pacchetto zip nell\'Arena GearsBot ed eseguirlo contro altri giocatori.</p>',
-    ko: 
+    ko:
       '<p>기어스봇 아레나(GearsBot Arena)에서는 최대 4개의 로봇이 서로 경쟁하거나 협력할 수 있습니다.</p>' +
       '<p>로봇을 일반 기어스봇(GearsBot) 페이지(현재 위치)에서 프로그래밍하고 프로그램과 로봇을 ZIP 패키지로 내보내세요.(파일 -> ZIP 패키지: 컴퓨터에 저장하기...). ' +
       '그런 다음 기어스봇 아레나(GearsBot Arena)에 ZIP 패키지를 로드하여 다른 플레이어와 대결할 수 있습니다.</p>',
@@ -2426,6 +2426,9 @@ let MSGS = {
     pt: 'principal',
     it: 'Principale',
     ko: 'Main',
+  },
+  '#main-invalid_python_file#': {
+    en: 'Invalid Python file (...maybe it contains Blocks instead?)',
   },
   '#arena-show_names#': {
     en: 'Show Names',
