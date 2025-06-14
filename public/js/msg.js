@@ -2430,6 +2430,9 @@ let MSGS = {
   '#main-invalid_python_file#': {
     en: 'Invalid Python file (...maybe it contains Blocks instead?)',
   },
+  '#main-invalid_zip_package#': {
+    en: 'Invalid zip package',
+  },
   '#arena-show_names#': {
     en: 'Show Names',
     nl: 'Toon namen',

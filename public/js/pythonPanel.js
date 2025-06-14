@@ -1,10 +1,6 @@
 var pythonPanel = new function() {
   var self = this;
 
-  // this.unsaved = false;
-  // this.modified = false;
-  // this.blocklyModified = false;
-
   this.ignoreChange = 0;
 
   // Run on page load
@@ -88,11 +84,7 @@ var pythonPanel = new function() {
     };
     langTools.addCompleter(staticWordCompleter);
 
-    // self.loadLocalStorage();
-
     self.editor.on('change', self.warnModify);
-
-    // setInterval(self.saveLocalStorage, 15 * 1000);
   };
 
   // Warn when changing python code
@@ -109,19 +101,6 @@ var pythonPanel = new function() {
       });
       filesManager.modified = true;
     }
-    // if (self.blocklyModified) {
-    //   return;
-    // }
-    // self.unsaved = true;
-    // self.showSave();
-
-    // if (! self.modified) {
-    //   acknowledgeDialog({
-    //     title: i18n.get('#python-warning#'),
-    //     message: i18n.get('#python-cannot_change_back_warning#')
-    //   });
-    //   self.modified = true;
-    // }
   };
 
   // Load Python code from blockly
@@ -132,32 +111,7 @@ var pythonPanel = new function() {
     let code = blockly.generator.genCode();
     self.editor.setValue(code, 1);
     self.ignoreChange--;
-    // self.blocklyModified = true;
-    // let code = blockly.generator.genCode();
-    // self.editor.setValue(code, 1);
-    // self.blocklyModified = false;
   };
-
-  // // Save to local storage
-  // this.saveLocalStorage = function() {
-  //   if (self.unsaved) {
-  //     self.unsaved = false;
-  //     self.hideSave();
-  //     localStorage.setItem('pythonCode', self.editor.getValue());
-  //     localStorage.setItem('pythonModified', self.modified);
-  //   }
-  // };
-
-  // // Load from local storage
-  // this.loadLocalStorage = function() {
-  //   var code = localStorage.getItem('pythonCode');
-  //   if (code) {
-  //     self.editor.setValue(code);
-  //   }
-  //   if (localStorage.getItem('pythonModified') == 'true') {
-  //     self.modified = true;
-  //   }
-  // };
 
   // // Save
   // this.save = function() {
