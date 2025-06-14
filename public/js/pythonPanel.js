@@ -32,10 +32,10 @@ var pythonPanel = new function() {
     self.$pythonCode.css('font-size', '120%');
   };
 
-  // Update text already in html
-  this.updateTextLanguage = function() {
-    self.$save.text(i18n.get('#python-save#'));
-  };
+  // // Update text already in html
+  // this.updateTextLanguage = function() {
+  //   self.$save.text(i18n.get('#python-save#'));
+  // };
 
   // Runs when panel is made active
   this.onActive = function() {
@@ -110,6 +110,7 @@ var pythonPanel = new function() {
     filesManager.select('main.py');
     let code = blockly.generator.genCode();
     self.editor.setValue(code, 1);
+    filesManager.updateCurrentFile();
     self.ignoreChange--;
   };
 

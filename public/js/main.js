@@ -533,11 +533,7 @@ var main = new function() {
 
     zip.generateAsync({type:'base64'})
     .then(function(content) {
-      var hiddenElement = document.createElement('a');
-      hiddenElement.href = 'data:application/xml;base64,' + content;
-      hiddenElement.target = '_blank';
-      hiddenElement.download = filename + '.zip';
-      hiddenElement.dispatchEvent(new MouseEvent('click'));
+      self.downloadFile(filename + '.zip', content, 'application/xml');
     });
   };
 
@@ -562,7 +558,7 @@ var main = new function() {
                 const meta = JSON.parse(metaParams);
 
                 pythonModified = meta.pythonModified;
-                self.$projectName.val(meta.projName);
+                self.$projectName.val(meta.name);
                 self.saveProjectName();
               }
 
@@ -627,12 +623,7 @@ var main = new function() {
     if (filename.trim() == '') {
       filename = 'gearsBot';
     }
-
-    var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:application/xml;charset=UTF-8,' + encodeURIComponent(blockly.getXmlText());;
-    hiddenElement.target = '_blank';
-    hiddenElement.download = filename + '.xml';
-    hiddenElement.dispatchEvent(new MouseEvent('click'));
+    self.downloadFile(filename + '.xml', encodeURIComponent(blockly.getXmlText()), 'application/xml;', encoding='charset=UTF-8');
   };
 
   // import functions from file
@@ -670,9 +661,9 @@ var main = new function() {
   };
 
   // Download to single file
-  this.downloadFile = function(filename, content, mimetype) {
+  this.downloadFile = function(filename, content, mimetype, encoding='base64') {
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:' + mimetype + ';base64,' + content;
+    hiddenElement.href = 'data:' + mimetype + ';' + encoding + ',' + content;
     hiddenElement.target = '_blank';
     hiddenElement.download = filename;
     hiddenElement.dispatchEvent(new MouseEvent('click'));

@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="css/main.css?v=b6624f30">
+  <link rel="stylesheet" href="css/main.css?v=e8576f64">
 
   <script src="jquery/jquery-3.5.1.slim.min.js"></script>
 
@@ -37,7 +37,7 @@
   </main>
 
   <script src="js/robotComponents.js?v=6d5ae435"></script>
-  <script src="js/skulpt.js?v=9d1dd283"></script>
+  <script src="js/skulpt.js?v=7acc5d68"></script>
   <script>
     function readGET(name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -107,43 +107,60 @@
       uploadFile(e.target.files[0]);
     });
 
+    // Simplified files manager
+    let filesManager = {
+      files: {}
+    };
+
+    async function loadFile(zip, filename) {
+      const file = zip.file(filename);
+      if (file) {
+        return await file.async('text');
+      }
+      console.warn('File not found in zip:', filename);
+      return null;
+    }
+
     function uploadFile(file) {
       document.getElementById('zipFileName').value = file.name;
       JSZip.loadAsync(file)
-        .then(function(zip){
-          let metaFile = zip.file('meta.json');
-          if (metaFile) {
-            metaFile.async('string')
-              .then(function(content){
-                let meta = JSON.parse(content);
-                robot.name = meta.name;
-              });
-          }
-          zip.file('gearsPython.py').async('string')
-            .then(function(content){
-              pythonProgram = content;
-            });
-          zip.file('gearsRobot.json').async('string')
-            .then(function(content){
-              robot.options = JSON.parse(content);
+        .then(async function(zip){
+          // Load metadata
+          const metaParams = await loadFile(zip, 'meta.json');
+          const meta = JSON.parse(metaParams);
+          robot.name = meta.name;
 
-              function setColor(components) {
-                components.forEach(function(component) {
-                  if (component.type == 'PaintballLauncherActuator') {
-                    if (component.options == null) {
-                      component.options = {};
-                    }
-                    component.options.color = player;
-                  }
-                  if (typeof component.components != 'undefined') {
-                    setColor(component.components);
-                  }
-                });
+          // Load Python files
+          filesManager.files = {};
+          for (filename in zip.files) {
+            if (filename.endsWith('.py')) {
+              const pythonCode = await loadFile(zip, filename);
+              if (filename == 'gearsPython.py') {
+                filename = 'main.py';
               }
-              setColor(robot.options.components);
+              filesManager.files[filename] = pythonCode;
+            }
+          }
 
-              parent.arenaPanel.resetSim();
+          // Load robot configuration
+          const robotConf = await loadFile(zip, 'gearsRobot.json')
+          robot.options = JSON.parse(robotConf);
+          function setColor(components) {
+            components.forEach(function(component) {
+              if (component.type == 'PaintballLauncherActuator') {
+                if (component.options == null) {
+                  component.options = {};
+                }
+                component.options.color = player;
+              }
+              if (typeof component.components != 'undefined') {
+                setColor(component.components);
+              }
             });
+          }
+          setColor(robot.options.components);
+
+          parent.arenaPanel.resetSim();
         })
     };
 
@@ -153,8 +170,8 @@
         return;
       }
 
-      if (pythonProgram) {
-        skulpt.runPython(pythonProgram);
+      if ('main.py' in filesManager.files) {
+        skulpt.runPython(filesManager.files['main.py']);
       }
     };
   </script>

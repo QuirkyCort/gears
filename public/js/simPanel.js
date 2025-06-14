@@ -1213,12 +1213,10 @@ var simPanel = new function() {
     if (skulpt.running) {
       self.stopSim();
     } else {
-      // if (! pythonPanel.modified) {
       if (! filesManager.modified) {
         pythonPanel.loadPythonFromBlockly();
       }
       robot.reset();
-      // skulpt.runPython(pythonPanel.editor.getValue());
       skulpt.runPython(filesManager.files['main.py']);
       self.setRunIcon('stop');
       if (typeof babylon.world.startSim == 'function') {
