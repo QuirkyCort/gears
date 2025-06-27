@@ -2197,20 +2197,26 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
 
     // Paintball colors
     self.paintballColors = []
-    self.paintballColors.push(babylon.getMaterial(scene, '0ff'));
-    self.paintballColors.push(babylon.getMaterial(scene, '0f0'));
-    self.paintballColors.push(babylon.getMaterial(scene, 'ff0'));
-    self.paintballColors.push(babylon.getMaterial(scene, 'f00'));
-    self.paintballColors.push(babylon.getMaterial(scene, 'f0f'));
-    self.paintballColors.push(babylon.getMaterial(scene, '00f'));
+    self.paintballColors.push(babylon.getMaterial(scene, '00ffff'));
+    self.paintballColors.push(babylon.getMaterial(scene, '00ff00'));
+    self.paintballColors.push(babylon.getMaterial(scene, 'ffff00'));
+    self.paintballColors.push(babylon.getMaterial(scene, 'ff0000'));
+    self.paintballColors.push(babylon.getMaterial(scene, 'ff00ff'));
+    self.paintballColors.push(babylon.getMaterial(scene, '0000ff'));
 
     // Paint splatter material
     self.splatterColors = [];
+    self.splatterRttColors = [];
     for (let i=0; i<6; i++) {
-      self.splatterColors.push(new BABYLON.StandardMaterial('paintSplatter', scene));
+      self.splatterColors.push(new BABYLON.StandardMaterial('paintSplatter' + i, scene));
       self.splatterColors[i].diffuseTexture = new BABYLON.Texture('textures/robot/splatter' + i + '.png', scene);
       self.splatterColors[i].diffuseTexture.hasAlpha = true;
       self.splatterColors[i].zOffset = -1;
+
+      // RTT material
+      self.splatterRttColors.push(self.splatterColors[i].clone('paintSplatterRtt' + i));
+      self.splatterRttColors[i].disableLighting = true;
+      self.splatterRttColors[i].emissiveColor = new BABYLON.Color3(1, 1, 1);
     }
   };
 
@@ -2235,7 +2241,8 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       color: 0,
       ttl: 10000,
       ammo: -1,
-      splatterTTL: -1
+      splatterTTL: -1,
+      splatterVisibleToSensors: false
     };
 
     for (let name in options) {
@@ -2304,6 +2311,23 @@ function PaintballLauncherActuator(scene, parent, pos, rot, port, options) {
       scene
     );
     decal.material = self.splatterColors[self.options.color];
+
+    if (self.options.splatterVisibleToSensors) {
+      decal.rttMaterial = self.splatterRttColors[self.options.color];
+
+      function addMeshToSensor(component) {
+        if (component.type === 'ColorSensor' || component.type === 'CameraSensor') {
+          component.renderTarget.renderList.push(decal);
+        }
+        if (component.components) {
+          component.components.forEach(addMeshToSensor);
+        }
+      }
+
+      robots.forEach(function(robot) {
+        robot.components.forEach(addMeshToSensor);
+      });
+    }
 
     decal.parent = otherImpostor.object;
     var m = new BABYLON.Matrix();
@@ -2495,7 +2519,8 @@ function Pen(scene, parent, pos, rot, port, options) {
 
   this.setOptions = function(options) {
     self.options = {
-      doubleSided: false
+      doubleSided: false,
+      traceVisibleToSensors: false
     };
 
     for (let name in options) {
@@ -2543,7 +2568,9 @@ function Pen(scene, parent, pos, rot, port, options) {
     g = ('0' + Math.round(g*255).toString(16)).slice(-2);
     b = ('0' + Math.round(b*255).toString(16)).slice(-2);
     self.traceColor = r + g + b;
-    self.traceMat = babylon.getMaterial(scene, self.traceColor);
+    self.traceMat = new BABYLON.StandardMaterial("penTraceMat" + self.traceColor, scene);
+    self.traceMat.emissiveColor = BABYLON.Color3.FromHexString('#' + self.traceColor);
+    self.traceMat.disableLighting = true;
   };
 
   this.setWidth = function(width) {
@@ -2590,7 +2617,9 @@ function Pen(scene, parent, pos, rot, port, options) {
       self.currentMesh.dispose();
     }
     if (self.traceMat == null) {
-      self.traceMat = babylon.getMaterial(scene, self.traceColor);
+      self.traceMat = new BABYLON.StandardMaterial("penTraceMat" + self.traceColor, scene);
+      self.traceMat.emissiveColor = BABYLON.Color3.FromHexString('#' + self.traceColor);
+      self.traceMat.disableLighting = true;
     }
     let options = {
       pathArray: self.currentRibbonPath,
@@ -2600,6 +2629,25 @@ function Pen(scene, parent, pos, rot, port, options) {
     }
     self.currentMesh = BABYLON.MeshBuilder.CreateRibbon("ribbon", options, scene);
     self.currentMesh.material = self.traceMat;
+
+    if (self.options.traceVisibleToSensors) {
+      // The material for the pen trace is already suitable for RTT.
+      // We just need to assign it to rttMaterial.
+      self.currentMesh.rttMaterial = self.traceMat;
+
+      function addMeshToSensor(component) {
+        if (component.type === 'ColorSensor' || component.type === 'CameraSensor') {
+          component.renderTarget.renderList.push(self.currentMesh);
+        }
+        if (component.components) {
+          component.components.forEach(addMeshToSensor);
+        }
+      }
+
+      robots.forEach(function(robot) {
+        robot.components.forEach(addMeshToSensor);
+      });
+    }
   };
 
   this.init();
