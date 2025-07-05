@@ -1081,6 +1081,11 @@ var configurator = new function() {
           type: 'intText',
           help: 'Time-To-Live in milliseconds for the paint splatter. After this duration, the paint splatter will be removed. Set a negative number to last forever. Leave blank to use default.'
         },
+        {
+          option: 'splatterVisibleToSensors',
+          type: 'boolean',
+          help: 'If true, the paint splatter will be visible to color and camera sensors.'
+        },
       ]
     },
     {
@@ -1231,7 +1236,8 @@ var configurator = new function() {
         position: [0, 5, 0],
         rotation: [0, 0, 0],
         options: {
-          doubleSided: false
+          doubleSided: false,
+          traceVisibleToSensors: false
         }
       },
       optionsConfigurations: [
@@ -1247,6 +1253,11 @@ var configurator = new function() {
           option: 'doubleSided',
           type: 'boolean',
           help: 'If true, the drawn trace will be visible from both sides.'
+        },
+        {
+          option: 'traceVisibleToSensors',
+          type: 'boolean',
+          help: 'If true, the drawn trace will be visible to color and camera sensors.'
         }
       ]
     },
