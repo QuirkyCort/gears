@@ -831,12 +831,21 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20250228;
+    let current = 20250728;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>28 Jul 2025 (Python Editor and Color Sensor)</h3>' +
+          '<p>' +
+            'Multi-file support for the Python editor has been changed to the <a href="https://tutorials.aposteriori.com.sg/120-IoTy/10-Introduction/10-Intro.html">IoTy style</a>, making it easier for me to maintain. ' +
+            'Saving of Python to computer now produces a zip file containing all Python code. ' +
+            'Autocomplete has also been improved thanks to sgmurray.' +
+          '</p>' +
+          '<p>' +
+            'Pen traces and paintball splatter can now be visible to the camera (...needs to be set in the robot configurator). ' +
+          '</p>' +
           '<h3>28 Feb 2025 (LIDAR and Plotter)</h3>' +
           '<p>' +
             'Added new LIDAR sensor that returns distances in all directions (...as a list), and a plotter that draws in a small window in the simulator tab. ' +
@@ -850,16 +859,6 @@ var main = new function() {
             'A partial FLL 2024 (Submerged) mission is now available. ' +
             'Find it under "Worlds => Select World => Missions => 2024 FLL (Submerged)". ' +
             'This one is taking way too long, so I am adding it in a partially completed form while I continue to work on it.' +
-          '</p>' +
-          '<h3>20 Apr 2024 (Camera Sensor)</h3>' +
-          '<p>' +
-            'A new Camera Sensor has been added. ' +
-            'You can use it to capture images and extract pixel values in RGB or HSV. ' +
-            'A blob detection function is also provided to detect blobs of a specified color. ' +
-          '</p>' +
-          '<p>' +
-            'See <a href="https://youtu.be/RfUcGx4qeMs" target=”_blank”>this video</a> for a demo of what you can do with this sensor. ' +
-            'None of the default robots comes with a camera sensor, so you will need to create a custom robot to use this. ' +
           '</p>'
       }
       acknowledgeDialog(options, function(){
