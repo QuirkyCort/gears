@@ -831,12 +831,21 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20250728;
+    let current = 20250829;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>29 Aug 2025 (FLL 2025, WRO 2025, WRO 2024)</h3>' +
+          '<p>' +
+            'Added the playfield for FLL 2025, WRO 2025, and WRO 2024. ' +
+            'Find it under "Worlds => Select World => Missions". ' +
+          '</p>' +
+          '<p>' +
+            'Unfortunately, I haven\'t found the time to add in the mission models for most of these, but I\'ll rather not delay it any longer. ' +
+            'Adding mission models can take a lot of time; if anyone is keen to help, do get in touch. ' +
+          '</p>' +
           '<h3>28 Jul 2025 (Python Editor and Color Sensor)</h3>' +
           '<p>' +
             'Multi-file support for the Python editor has been changed to the <a href="https://tutorials.aposteriori.com.sg/120-IoTy/10-Introduction/10-Intro.html">IoTy style</a>, making it easier for me to maintain. ' +
@@ -853,12 +862,6 @@ var main = new function() {
           '</p>' +
           '<p>' +
             'These two can be used together for basic SLAM simulation and visualization.' +
-          '</p>' +
-          '<h3>26 Feb 2025 (FLL 2024)</h3>' +
-          '<p>' +
-            'A partial FLL 2024 (Submerged) mission is now available. ' +
-            'Find it under "Worlds => Select World => Missions => 2024 FLL (Submerged)". ' +
-            'This one is taking way too long, so I am adding it in a partially completed form while I continue to work on it.' +
           '</p>'
       }
       acknowledgeDialog(options, function(){
