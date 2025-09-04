@@ -166,7 +166,7 @@ var blockly = new function() {
           block.setAttribute('inline', true);
           let argsNumber = block.getElementsByTagName('arg').length;
           for (let i=0; i<argsNumber; i++) {
-            let shadow = Blockly.Xml.textToDom('<value name="ARG' + i + '"><shadow type="math_number"><field name="NUM">0</field></shadow></value>');
+            let shadow = Blockly.utils.xml.textToDom('<value name="ARG' + i + '"><shadow type="math_number"><field name="NUM">0</field></shadow></value>');
             block.append(shadow);
           }
         }
@@ -279,7 +279,7 @@ var blockly = new function() {
     let oldXmlText = self.getXmlText();
     if (xmlText) {
       try {
-        let dom = Blockly.Xml.textToDom(xmlText);
+        let dom = Blockly.utils.xml.textToDom(xmlText);
         self.workspace.clear();
         Blockly.Xml.domToWorkspace(dom, self.workspace);
         self.assignOrphenToPage('Main');
@@ -308,7 +308,7 @@ var blockly = new function() {
     if (xmlText) {
       try {
         let procs = [];
-        let dom = Blockly.Xml.textToDom(xmlText);
+        let dom = Blockly.utils.xml.textToDom(xmlText);
 
         // Save all functions
         dom.querySelectorAll('[type="procedures_defnoreturn"]').forEach(function(block){
@@ -319,7 +319,7 @@ var blockly = new function() {
         });
 
         // Empty dom
-        dom = Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
+        dom = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
         procs.forEach(function(block){
           dom.append(block);
         });

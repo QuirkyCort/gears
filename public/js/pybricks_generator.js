@@ -15,48 +15,54 @@ var pybricks_generator = new function() {
   this.load = function() {
     Blockly.Python.INDENT = '    ';
 
-    Blockly.Python['when_started'] = self.when_started;
-    Blockly.Python['move_tank'] = self.move_tank;
-    Blockly.Python['move_tank_for'] = self.move_tank_for;
-    Blockly.Python['move_steering'] = self.move_steering;
-    Blockly.Python['move_steering_for'] = self.move_steering_for;
-    Blockly.Python['stop'] = self.stop;
-    Blockly.Python['set_movement_motors'] = self.set_movement_motors;
-    Blockly.Python['run_motor'] = self.run_motor;
-    Blockly.Python['run_motor_for'] = self.run_motor_for;
-    Blockly.Python['run_motor_to'] = self.run_motor_to;
-    Blockly.Python['stop_motor'] = self.stop_motor;
-    Blockly.Python['speed'] = self.speed;
-    Blockly.Python['position'] = self.position;
-    Blockly.Python['reset_motor'] = self.reset_motor;
-    Blockly.Python['color_sensor'] = self.color_sensor;
-    Blockly.Python['color'] = self.color;
-    Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
-    Blockly.Python['gyro_sensor'] = self.gyro_sensor;
-    Blockly.Python['reset_gyro'] = self.reset_gyro;
-    Blockly.Python['say'] = self.say;
-    Blockly.Python['beep'] = self.beep;
-    Blockly.Python['play_tone'] = self.play_tone;
-    Blockly.Python['sleep'] = self.sleep;
-    Blockly.Python['exit'] = self.exit;
-    Blockly.Python['time'] = self.time;
-    Blockly.Python['gps_sensor'] = self.gps_sensor;
-    Blockly.Python['penDown'] = self.penDown;
-    Blockly.Python['penUp'] = self.penUp;
-    Blockly.Python['penSetColor'] = self.penSetColor;
-    Blockly.Python['penSetWidth'] = self.penSetWidth;
-    Blockly.Python['touch_state'] = self.touch_state;
-    Blockly.Python['wait_for_state'] = self.wait_for_state;
-    Blockly.Python['button_state'] = self.button_state;
-    Blockly.Python['wait_until_button'] = self.wait_until_button;
-    Blockly.Python['wait_until'] = self.wait_until;
-    Blockly.Python['camera_capture_image'] = self.camera_capture_image;
-    Blockly.Python['camera_get_rgb'] = self.camera_get_rgb;
-    Blockly.Python['camera_get_hsv'] = self.camera_get_hsv;
-    Blockly.Python['camera_find_blobs'] = self.camera_find_blobs;
-    Blockly.Python['lidar_sensor'] = self.lidar_sensor;
+    const generators = [
+      'when_started',
+      'move_tank',
+      'move_tank_for',
+      'move_steering',
+      'move_steering_for',
+      'stop',
+      'set_movement_motors',
+      'run_motor',
+      'run_motor_for',
+      'run_motor_to',
+      'stop_motor',
+      'speed',
+      'position',
+      'reset_motor',
+      'color_sensor',
+      'color',
+      'ultrasonic_sensor',
+      'gyro_sensor',
+      'reset_gyro',
+      'say',
+      'beep',
+      'play_tone',
+      'sleep',
+      'exit',
+      'time',
+      'gps_sensor',
+      'penDown',
+      'penUp',
+      'penSetColor',
+      'penSetWidth',
+      'touch_state',
+      'wait_for_state',
+      'button_state',
+      'wait_until_button',
+      'wait_until',
+      'camera_capture_image',
+      'camera_get_rgb',
+      'camera_get_hsv',
+      'camera_find_blobs',
+      'lidar_sensor',
 
-    Blockly.Python['comment'] = self.comment;
+      'comment',
+    ];
+
+    for (let generator of generators) {
+      Blockly.Python.forBlock[generator] = self[generator];
+    }
   };
 
   // Generate python code
@@ -143,59 +149,59 @@ var pybricks_generator = new function() {
     code +=
       '# Pybricks lacks move_tank and move_steering, so we\'ll add in our own\n' +
       'def move_tank_dc(left, right):\n' +
-      '  left_motor.dc(left)\n' +
-      '  right_motor.dc(right)\n' +
+      '    left_motor.dc(left)\n' +
+      '    right_motor.dc(right)\n' +
       '\n' +
       'def move_steering_dc(steer, dc):\n' +
-      '  (left_dc, right_dc) = get_speed_steering(steer, dc)\n' +
-      '  move_tank_dc(left_dc, right_dc)\n' +
+      '    (left_dc, right_dc) = get_speed_steering(steer, dc)\n' +
+      '    move_tank_dc(left_dc, right_dc)\n' +
       '\n' +
       'def move_tank(left, right):\n' +
-      '  left_motor.run(left)\n' +
-      '  right_motor.run(right)\n' +
+      '    left_motor.run(left)\n' +
+      '    right_motor.run(right)\n' +
       '\n' +
       'def move_tank_for_degrees(left, right, degrees):\n' +
-      '  if degrees == 0 or (left == 0 and right == 0):\n' +
-      '    left_degrees = 0\n' +
-      '    right_degrees = 0\n' +
-      '  elif abs(left) > abs(right):\n' +
-      '    left_degrees = degrees\n' +
-      '    right_degrees = abs(right / float(left)) * degrees\n' +
-      '  else:\n' +
-      '    left_degrees = abs(left / float(right)) * degrees\n' +
-      '    right_degrees = degrees\n' +
-      '  if abs(left) > abs(right):\n' +
-      '    right_motor.run_angle(right, right_degrees, wait=False)\n' +
-      '    left_motor.run_angle(left, left_degrees, wait=True)\n' +
-      '  else:\n' +
-      '    left_motor.run_angle(left, left_degrees, wait=False)\n' +
-      '    right_motor.run_angle(right, right_degrees, wait=True)\n' +
+      '    if degrees == 0 or (left == 0 and right == 0):\n' +
+      '        left_degrees = 0\n' +
+      '        right_degrees = 0\n' +
+      '    elif abs(left) > abs(right):\n' +
+      '        left_degrees = degrees\n' +
+      '        right_degrees = abs(right / float(left)) * degrees\n' +
+      '    else:\n' +
+      '        left_degrees = abs(left / float(right)) * degrees\n' +
+      '        right_degrees = degrees\n' +
+      '    if abs(left) > abs(right):\n' +
+      '        right_motor.run_angle(right, right_degrees, wait=False)\n' +
+      '        left_motor.run_angle(left, left_degrees, wait=True)\n' +
+      '    else:\n' +
+      '        left_motor.run_angle(left, left_degrees, wait=False)\n' +
+      '        right_motor.run_angle(right, right_degrees, wait=True)\n' +
       '\n' +
       'def move_tank_for_milliseconds(left, right, milliseconds):\n' +
-      '  left_motor.run_time(left, milliseconds, wait=False)\n' +
-      '  right_motor.run_time(right, milliseconds, wait=True)\n' +
+      '    left_motor.run_time(left, milliseconds, wait=False)\n' +
+      '    right_motor.run_time(right, milliseconds, wait=True)\n' +
       '\n' +
       'def get_speed_steering(steer, speed):\n' +
-      '  left_speed = speed\n' +
-      '  right_speed = speed\n' +
-      '  speed_factor = (50 - abs(float(steer))) / 50.0\n' +
-      '  if steer >= 0:\n' +
-      '    right_speed *= speed_factor\n' +
-      '  else:\n' +
-      '    left_speed *= speed_factor\n' +
-      '  return (left_speed, right_speed)\n' +
+      '    left_speed = speed\n' +
+      '    right_speed = speed\n' +
+      '    speed_factor = (50 - abs(float(steer))) / 50.0\n' +
+      '    if steer >= 0:\n' +
+      '        right_speed *= speed_factor\n' +
+      '    else:\n' +
+      '        left_speed *= speed_factor\n' +
+      '    return (left_speed, right_speed)\n' +
       '\n' +
       'def move_steering(steer, speed):\n' +
-      '  (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
-      '  move_tank(left_speed, right_speed)\n' +
+      '    (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
+      '    move_tank(left_speed, right_speed)\n' +
       '\n' +
       'def move_steering_for_degrees(steer, speed, degrees):\n' +
-      '  (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
-      '  move_tank_for_degrees(left_speed, right_speed, degrees)\n' +
+      '    (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
+      '    move_tank_for_degrees(left_speed, right_speed, degrees)\n' +
       '\n' +
       'def move_steering_for_milliseconds(steer, speed, milliseconds):\n' +
-      '  (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
-      '  move_tank_for_milliseconds(left_speed, right_speed, milliseconds)\n\n';
+      '    (left_speed, right_speed) = get_speed_steering(steer, speed)\n' +
+      '    move_tank_for_milliseconds(left_speed, right_speed, milliseconds)\n\n';
 
     code += '# Here is where your code starts\n\n';
 

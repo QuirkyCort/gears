@@ -15,73 +15,79 @@ var ev3dev2_generator = new function() {
   this.load = function() {
     Blockly.Python.INDENT = '    ';
 
-    Blockly.Python['when_started'] = self.when_started;
-    Blockly.Python['move_tank'] = self.move_tank;
-    Blockly.Python['move_tank_for'] = self.move_tank_for;
-    Blockly.Python['move_steering'] = self.move_steering;
-    Blockly.Python['move_steering_for'] = self.move_steering_for;
-    Blockly.Python['stop'] = self.stop;
-    Blockly.Python['set_movement_motors'] = self.set_movement_motors;
-    Blockly.Python['run_motor'] = self.run_motor;
-    Blockly.Python['run_motor_for'] = self.run_motor_for;
-    Blockly.Python['run_motor_to'] = self.run_motor_to;
-    Blockly.Python['stop_motor'] = self.stop_motor;
-    Blockly.Python['speed'] = self.speed;
-    Blockly.Python['position'] = self.position;
-    Blockly.Python['reset_motor'] = self.reset_motor;
-    Blockly.Python['color_sensor'] = self.color_sensor;
-    Blockly.Python['color'] = self.color;
-    Blockly.Python['ultrasonic_sensor'] = self.ultrasonic_sensor;
-    Blockly.Python['laser_sensor'] = self.laser_sensor;
-    Blockly.Python['gyro_sensor'] = self.gyro_sensor;
-    Blockly.Python['reset_gyro'] = self.reset_gyro;
-    Blockly.Python['say'] = self.say;
-    Blockly.Python['beep'] = self.beep;
-    Blockly.Python['play_tone'] = self.play_tone;
-    Blockly.Python['sleep'] = self.sleep;
-    Blockly.Python['exit'] = self.exit;
-    Blockly.Python['time'] = self.time;
-    Blockly.Python['gps_sensor'] = self.gps_sensor;
-    Blockly.Python['penDown'] = self.penDown;
-    Blockly.Python['penUp'] = self.penUp;
-    Blockly.Python['penSetColor'] = self.penSetColor;
-    Blockly.Python['penSetWidth'] = self.penSetWidth;
-    Blockly.Python['touch_state'] = self.touch_state;
-    Blockly.Python['wait_for_state'] = self.wait_for_state;
-    Blockly.Python['button_state'] = self.button_state;
-    Blockly.Python['wait_until_button'] = self.wait_until_button;
-    Blockly.Python['wait_until'] = self.wait_until;
-    Blockly.Python['camera_capture_image'] = self.camera_capture_image;
-    Blockly.Python['camera_get_rgb'] = self.camera_get_rgb;
-    Blockly.Python['camera_get_hsv'] = self.camera_get_hsv;
-    Blockly.Python['camera_find_blobs'] = self.camera_find_blobs;
-    Blockly.Python['lidar_sensor'] = self.lidar_sensor;
+    const generators = [
+      'when_started',
+      'move_tank',
+      'move_tank_for',
+      'move_steering',
+      'move_steering_for',
+      'stop',
+      'set_movement_motors',
+      'run_motor',
+      'run_motor_for',
+      'run_motor_to',
+      'stop_motor',
+      'speed',
+      'position',
+      'reset_motor',
+      'color_sensor',
+      'color',
+      'ultrasonic_sensor',
+      'laser_sensor',
+      'gyro_sensor',
+      'reset_gyro',
+      'say',
+      'beep',
+      'play_tone',
+      'sleep',
+      'exit',
+      'time',
+      'gps_sensor',
+      'penDown',
+      'penUp',
+      'penSetColor',
+      'penSetWidth',
+      'touch_state',
+      'wait_for_state',
+      'button_state',
+      'wait_until_button',
+      'wait_until',
+      'camera_capture_image',
+      'camera_get_rgb',
+      'camera_get_hsv',
+      'camera_find_blobs',
+      'lidar_sensor',
 
-    Blockly.Python['radio_send'] = self.radio_send;
-    Blockly.Python['radio_available'] = self.radio_available;
-    Blockly.Python['radio_read'] = self.radio_read;
-    Blockly.Python['radio_read_content'] = self.radio_read_content;
-    Blockly.Python['radio_empty'] = self.radio_empty;
+      'radio_send',
+      'radio_available',
+      'radio_read',
+      'radio_read_content',
+      'radio_empty',
 
-    Blockly.Python['tw_fwd'] = self.tw_fwd;
-    Blockly.Python['tw_rev'] = self.tw_rev;
-    Blockly.Python['tw_left'] = self.tw_left;
-    Blockly.Python['tw_right'] = self.tw_right;
-    Blockly.Python['tw_color'] = self.tw_color;
+      'tw_fwd',
+      'tw_rev',
+      'tw_left',
+      'tw_right',
+      'tw_color',
 
-    Blockly.Python['object_tracker'] = self.object_tracker;
+      'object_tracker',
 
-    Blockly.Python['comment'] = self.comment;
+      'comment',
 
-    Blockly.Python['plotter_init'] = self.plotter_init;
-    Blockly.Python['plotter_showHide'] = self.plotter_showHide;
-    Blockly.Python['plotter_clear'] = self.plotter_clear;
-    Blockly.Python['plotter_drawGrid'] = self.plotter_drawGrid;
-    Blockly.Python['plotter_setColor'] = self.plotter_setColor;
-    Blockly.Python['plotter_setPointSize'] = self.plotter_setPointSize;
-    Blockly.Python['plotter_drawPoint'] = self.plotter_drawPoint;
-    Blockly.Python['plotter_drawLine'] = self.plotter_drawLine;
-    Blockly.Python['plotter_drawTriangle'] = self.plotter_drawTriangle;
+      'plotter_init',
+      'plotter_showHide',
+      'plotter_clear',
+      'plotter_drawGrid',
+      'plotter_setColor',
+      'plotter_setPointSize',
+      'plotter_drawPoint',
+      'plotter_drawLine',
+      'plotter_drawTriangle',
+    ];
+
+    for (let generator of generators) {
+      Blockly.Python.forBlock[generator] = self[generator];
+    }
   };
 
   // Generate python code

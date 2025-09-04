@@ -831,12 +831,20 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20250829;
+    let current = 20250904;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>4 Sep 2025 (Blockly 12.3.0)</h3>' +
+          '<p>' +
+            'Updated the blocks library (Blockly) to version 12.3.0. ' +
+            'This should fix a long standing bug that causes the if/else block to generate incorrect code is some circumstances. ' +
+          '</p>' +
+          '<p>' +
+            'As this is a rather major update, please let me know if you encounter any issues. ' +
+          '</p>' +
           '<h3>29 Aug 2025 (FLL 2025, WRO 2025, WRO 2024)</h3>' +
           '<p>' +
             'Added the playfield for FLL 2025, WRO 2025, and WRO 2024. ' +
@@ -854,14 +862,6 @@ var main = new function() {
           '</p>' +
           '<p>' +
             'Pen traces and paintball splatter can now be visible to the camera (...needs to be set in the robot configurator). ' +
-          '</p>' +
-          '<h3>28 Feb 2025 (LIDAR and Plotter)</h3>' +
-          '<p>' +
-            'Added new LIDAR sensor that returns distances in all directions (...as a list), and a plotter that draws in a small window in the simulator tab. ' +
-            'None of the default robots comes with a LIDAR sensor, so you will need to create a custom robot to use this.' +
-          '</p>' +
-          '<p>' +
-            'These two can be used together for basic SLAM simulation and visualization.' +
           '</p>'
       }
       acknowledgeDialog(options, function(){
