@@ -148,7 +148,7 @@ var blockly = new function() {
       workspace.registerButtonCallback('CREATE_VARIABLE', function(button) {
         Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace());
         setTimeout(function(){
-          self.displayedWorkspace.toolbox_.refreshSelection()
+          self.displayedWorkspace.toolbox.refreshSelection()
         }, 100);
       });
 
@@ -160,20 +160,23 @@ var blockly = new function() {
     });
 
     self.displayedWorkspace.registerToolboxCategoryCallback('PROCEDURE2', function(workspace){
-      let blocks = self.workspace.toolboxCategoryCallbacks.get('PROCEDURE')(self.workspace);
-
+      let blocks = self.workspace.getToolboxCategoryCallback('PROCEDURE')(self.workspace);
       for (let block of blocks) {
-        let blockType = block.getAttribute('type');
-        if (blockType == 'procedures_callnoreturn' || blockType == 'procedures_callreturn') {
-          block.setAttribute('inline', true);
-          let argsNumber = block.getElementsByTagName('arg').length;
-          for (let i=0; i<argsNumber; i++) {
-            let shadow = Blockly.utils.xml.textToDom('<value name="ARG' + i + '"><shadow type="math_number"><field name="NUM">0</field></shadow></value>');
-            block.append(shadow);
+        if (block.type == 'procedures_callnoreturn' || block.type == 'procedures_callreturn') {
+          block.inline = true;
+          block.inputs = {};
+          for (let i=0; i<block.extraState.params.length; i++) {
+            block.inputs['ARG' + i] = {
+              'shadow': {
+                'type': 'math_number',
+                'fields': {
+                  'NUM': 0
+                }
+              }
+            }
           }
         }
       }
-
       return blocks;
     });
   };
