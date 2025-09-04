@@ -841,6 +841,7 @@ var main = new function() {
           '<p>' +
             'Updated the blocks library (Blockly) to version 12.3.0. ' +
             'This should fix a long standing bug that causes the if/else block to generate incorrect code is some circumstances. ' +
+            'I\'ve also added a blocks minimap; this should make large programs easier to navigate. ' +
           '</p>' +
           '<p>' +
             'As this is a rather major update, please let me know if you encounter any issues. ' +
