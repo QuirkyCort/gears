@@ -15,53 +15,8 @@ var pybricks_generator = new function() {
   this.load = function() {
     Blockly.Python.INDENT = '    ';
 
-    const generators = [
-      'when_started',
-      'move_tank',
-      'move_tank_for',
-      'move_steering',
-      'move_steering_for',
-      'stop',
-      'set_movement_motors',
-      'run_motor',
-      'run_motor_for',
-      'run_motor_to',
-      'stop_motor',
-      'speed',
-      'position',
-      'reset_motor',
-      'color_sensor',
-      'color',
-      'ultrasonic_sensor',
-      'gyro_sensor',
-      'reset_gyro',
-      'say',
-      'beep',
-      'play_tone',
-      'sleep',
-      'exit',
-      'time',
-      'gps_sensor',
-      'penDown',
-      'penUp',
-      'penSetColor',
-      'penSetWidth',
-      'touch_state',
-      'wait_for_state',
-      'button_state',
-      'wait_until_button',
-      'wait_until',
-      'camera_capture_image',
-      'camera_get_rgb',
-      'camera_get_hsv',
-      'camera_find_blobs',
-      'lidar_sensor',
-
-      'comment',
-    ];
-
-    for (let generator of generators) {
-      Blockly.Python.forBlock[generator] = self[generator];
+    for (let generator in self.generators) {
+      Blockly.Python.forBlock[generator] = self.generators[generator];
     }
   };
 
@@ -220,628 +175,630 @@ var pybricks_generator = new function() {
   // Python Generators
   //
 
-  // Start
-  this.when_started = function(block) {
-    var code = '';
-    return code;
-  };
+  this.generators = {
+    // Start
+    'when_started': function(block) {
+      var code = '';
+      return code;
+    },
 
-  // move tank
-  this.move_tank = function(block) {
-    var value_left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
-    var value_right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_units = block.getFieldValue('units');
+    // move tank
+    'move_tank': function(block) {
+      var value_left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
+      var value_right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_units = block.getFieldValue('units');
 
-    if (dropdown_units == 'PERCENT') {
-      var leftStr = '(' + value_left + ' / 100) * 1050';
-      var rightStr = '(' + value_right + ' / 100) * 1050';
-    } else if (dropdown_units == 'DEGREES') {
-      var leftStr = value_left;
-      var rightStr = value_right;
-    } else if (dropdown_units == 'ROTATIONS') {
-      var leftStr = value_left + ' * 360';
-      var rightStr = value_right + ' * 360';
-    }
+      if (dropdown_units == 'PERCENT') {
+        var leftStr = '(' + value_left + ' / 100) * 1050';
+        var rightStr = '(' + value_right + ' / 100) * 1050';
+      } else if (dropdown_units == 'DEGREES') {
+        var leftStr = value_left;
+        var rightStr = value_right;
+      } else if (dropdown_units == 'ROTATIONS') {
+        var leftStr = value_left + ' * 360';
+        var rightStr = value_right + ' * 360';
+      }
 
-    var code = 'move_tank(' + leftStr + ', ' + rightStr + ')\n';
+      var code = 'move_tank(' + leftStr + ', ' + rightStr + ')\n';
 
-    return code;
-  };
+      return code;
+    },
 
-  // move tank for
-  this.move_tank_for = function(block) {
-    var value_left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
-    var value_right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_units = block.getFieldValue('units');
-    var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_units2 = block.getFieldValue('units2');
+    // move tank for
+    'move_tank_for': function(block) {
+      var value_left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
+      var value_right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_units = block.getFieldValue('units');
+      var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_units2 = block.getFieldValue('units2');
 
-    if (dropdown_units == 'PERCENT') {
-      var leftStr = '(' + value_left + ' / 100) * 1050';
-      var rightStr = '(' + value_right + ' / 100) * 1050';
-    } else if (dropdown_units == 'DEGREES') {
-      var leftStr = value_left;
-      var rightStr = value_right;
-    } else if (dropdown_units == 'ROTATIONS') {
-      var leftStr = value_left + ' * 360';
-      var rightStr = value_right + ' * 360';
-    }
+      if (dropdown_units == 'PERCENT') {
+        var leftStr = '(' + value_left + ' / 100) * 1050';
+        var rightStr = '(' + value_right + ' / 100) * 1050';
+      } else if (dropdown_units == 'DEGREES') {
+        var leftStr = value_left;
+        var rightStr = value_right;
+      } else if (dropdown_units == 'ROTATIONS') {
+        var leftStr = value_left + ' * 360';
+        var rightStr = value_right + ' * 360';
+      }
 
-    if (dropdown_units2 == 'ROTATIONS') {
-      var cmdStr = 'move_tank_for_degrees';
-      var durationStr = value_duration + ' * 360';
-    } else if (dropdown_units2 == 'DEGREES') {
-      var cmdStr = 'move_tank_for_degrees';
-      var durationStr = value_duration;
-    } else if (dropdown_units2 == 'SECONDS') {
-      var cmdStr = 'move_tank_for_milliseconds';
-      var durationStr = value_duration + ' * 1000';
-    } else if (dropdown_units2 == 'MILLISECONDS') {
-      var cmdStr = 'move_tank_for_milliseconds';
-      var durationStr = value_duration;
-    }
+      if (dropdown_units2 == 'ROTATIONS') {
+        var cmdStr = 'move_tank_for_degrees';
+        var durationStr = value_duration + ' * 360';
+      } else if (dropdown_units2 == 'DEGREES') {
+        var cmdStr = 'move_tank_for_degrees';
+        var durationStr = value_duration;
+      } else if (dropdown_units2 == 'SECONDS') {
+        var cmdStr = 'move_tank_for_milliseconds';
+        var durationStr = value_duration + ' * 1000';
+      } else if (dropdown_units2 == 'MILLISECONDS') {
+        var cmdStr = 'move_tank_for_milliseconds';
+        var durationStr = value_duration;
+      }
 
-    var code = cmdStr + '(' + leftStr + ', ' + rightStr + ', ' + durationStr + ')\n';
+      var code = cmdStr + '(' + leftStr + ', ' + rightStr + ', ' + durationStr + ')\n';
 
-    return code;
-  };
+      return code;
+    },
 
-  // Move steering
-  this.move_steering = function(block) {
-    var value_steering = Blockly.Python.valueToCode(block, 'steering', Blockly.Python.ORDER_ATOMIC);
-    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_units = block.getFieldValue('units');
+    // Move steering
+    'move_steering': function(block) {
+      var value_steering = Blockly.Python.valueToCode(block, 'steering', Blockly.Python.ORDER_ATOMIC);
+      var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_units = block.getFieldValue('units');
 
-    if (dropdown_units == 'PERCENT') {
-      var speedStr = '(' + value_speed + ' / 100) * 1050';
-    } else if (dropdown_units == 'DEGREES') {
-      var speedStr = value_speed;
-    } else if (dropdown_units == 'ROTATIONS') {
-      var speedStr = value_speed + ' * 360';
-    }
+      if (dropdown_units == 'PERCENT') {
+        var speedStr = '(' + value_speed + ' / 100) * 1050';
+      } else if (dropdown_units == 'DEGREES') {
+        var speedStr = value_speed;
+      } else if (dropdown_units == 'ROTATIONS') {
+        var speedStr = value_speed + ' * 360';
+      }
 
-    var code = 'move_steering(' + value_steering + ', ' + speedStr + ')\n';
+      var code = 'move_steering(' + value_steering + ', ' + speedStr + ')\n';
 
-    return code;
-  };
+      return code;
+    },
 
-  // Move steering for
-  this.move_steering_for = function(block) {
-    var value_steering = Blockly.Python.valueToCode(block, 'steering', Blockly.Python.ORDER_ATOMIC);
-    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_units = block.getFieldValue('units');
-    var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_units2 = block.getFieldValue('units2');
+    // Move steering for
+    'move_steering_for': function(block) {
+      var value_steering = Blockly.Python.valueToCode(block, 'steering', Blockly.Python.ORDER_ATOMIC);
+      var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_units = block.getFieldValue('units');
+      var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_units2 = block.getFieldValue('units2');
 
-    if (dropdown_units == 'PERCENT') {
-      var speedStr = '(' + value_speed + ' / 100) * 1050';
-    } else if (dropdown_units == 'DEGREES') {
-      var speedStr = value_speed;
-    } else if (dropdown_units == 'ROTATIONS') {
-      var speedStr = value_speed + ' * 360';
-    }
+      if (dropdown_units == 'PERCENT') {
+        var speedStr = '(' + value_speed + ' / 100) * 1050';
+      } else if (dropdown_units == 'DEGREES') {
+        var speedStr = value_speed;
+      } else if (dropdown_units == 'ROTATIONS') {
+        var speedStr = value_speed + ' * 360';
+      }
 
-    if (dropdown_units2 == 'ROTATIONS') {
-      var cmdStr = 'move_steering_for_degrees';
-      var durationStr = value_duration + ' * 360';
-    } else if (dropdown_units2 == 'DEGREES') {
-      var cmdStr = 'move_steering_for_degrees';
-      var durationStr = value_duration;
-    } else if (dropdown_units2 == 'SECONDS') {
-      var cmdStr = 'move_steering_for_milliseconds';
-      var durationStr = value_duration + ' * 1000';
-    } else if (dropdown_units2 == 'MILLISECONDS') {
-      var cmdStr = 'move_steering_for_milliseconds';
-      var durationStr = value_duration;
-    }
+      if (dropdown_units2 == 'ROTATIONS') {
+        var cmdStr = 'move_steering_for_degrees';
+        var durationStr = value_duration + ' * 360';
+      } else if (dropdown_units2 == 'DEGREES') {
+        var cmdStr = 'move_steering_for_degrees';
+        var durationStr = value_duration;
+      } else if (dropdown_units2 == 'SECONDS') {
+        var cmdStr = 'move_steering_for_milliseconds';
+        var durationStr = value_duration + ' * 1000';
+      } else if (dropdown_units2 == 'MILLISECONDS') {
+        var cmdStr = 'move_steering_for_milliseconds';
+        var durationStr = value_duration;
+      }
 
-    var code = cmdStr + '(' + value_steering + ', ' + speedStr + ', ' + durationStr + ')\n';
+      var code = cmdStr + '(' + value_steering + ', ' + speedStr + ', ' + durationStr + ')\n';
 
-    return code;
-  };
+      return code;
+    },
 
-  // Stop
-  this.stop = function(block) {
-    var dropdown_stop_action = block.getFieldValue('stop_action');
+    // Stop
+    'stop': function(block) {
+      var dropdown_stop_action = block.getFieldValue('stop_action');
 
-    if (dropdown_stop_action == 'BRAKE') {
+      if (dropdown_stop_action == 'BRAKE') {
+        var code =
+          'left_motor.brake()\n' +
+          'right_motor.brake()\n';
+      } else if (dropdown_stop_action == 'COAST') {
+        var code =
+          'left_motor.stop()\n' +
+          'right_motor.stop()\n';
+      } else if (dropdown_stop_action == 'HOLD') {
+        var code =
+          'left_motor.hold()\n' +
+          'right_motor.hold()\n';
+      }
+
+      return code;
+    },
+
+    // Set motors for move steering and move tank
+    'set_movement_motors': function(block) {
+      var left_port = block.getFieldValue('left_port');
+      var right_port = block.getFieldValue('right_port');
+
       var code =
-        'left_motor.brake()\n' +
-        'right_motor.brake()\n';
-    } else if (dropdown_stop_action == 'COAST') {
-      var code =
-        'left_motor.stop()\n' +
-        'right_motor.stop()\n';
-    } else if (dropdown_stop_action == 'HOLD') {
-      var code =
-        'left_motor.hold()\n' +
-        'right_motor.hold()\n';
-    }
-
-    return code;
-  };
-
-  // Set motors for move steering and move tank
-  this.set_movement_motors = function(block) {
-    var left_port = block.getFieldValue('left_port');
-    var right_port = block.getFieldValue('right_port');
-
-    var code =
-      'left_motor = motor' + left_port + '\n' +
-      'right_motor = motor' + right_port + '\n';
-
-    return code;
-  };
-
-  // Run motor
-  this.run_motor = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_unit = block.getFieldValue('unit');
-
-    if (dropdown_unit == 'PERCENT') {
-      var speedStr = '(' + value_speed + ' / 100) * 1050';
-    } else if (dropdown_unit == 'DEGREES') {
-      var speedStr = value_speed;
-    } else if (dropdown_unit == 'ROTATIONS') {
-      var speedStr = value_speed + ' * 360';
-    }
-
-    var code = 'motor' + dropdown_port + '.run(' + speedStr + ')\n';
-
-    return code;
-  }
-
-  // Run motor for
-  this.run_motor_for = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_unit = block.getFieldValue('unit');
-    var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_unit2 = block.getFieldValue('unit2');
-
-    if (dropdown_unit == 'PERCENT') {
-      var speedStr = '(' + value_speed + ' / 100) * 1050';
-    } else if (dropdown_unit == 'DEGREES') {
-      var speedStr = value_speed;
-    } else if (dropdown_unit == 'ROTATIONS') {
-      var speedStr = value_speed + ' * 360';
-    }
-
-    if (dropdown_unit2 == 'ROTATIONS') {
-      var cmdStr = 'run_angle';
-      var durationStr = value_duration + ' * 360';
-    } else if (dropdown_unit2 == 'DEGREES') {
-      var cmdStr = 'run_angle';
-      var durationStr = value_duration;
-    } else if (dropdown_unit2 == 'SECONDS') {
-      var cmdStr = 'run_time';
-      var durationStr = value_duration + ' * 1000';
-    } else if (dropdown_unit2 == 'MILLISECONDS') {
-      var cmdStr = 'run_time';
-      var durationStr = value_duration;
-    }
-
-    var code = 'motor' + dropdown_port + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + ')\n';
-
-    return code;
-  }
-
-  // Run motor to
-  this.run_motor_to = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_unit = block.getFieldValue('unit');
-    var value_degrees = Blockly.Python.valueToCode(block, 'degrees', Blockly.Python.ORDER_ATOMIC);
-
-    if (dropdown_unit == 'PERCENT') {
-      var speedStr = '(' + value_speed + ' / 100) * 1050';
-    } else if (dropdown_unit == 'DEGREES') {
-      var speedStr = value_speed;
-    } else if (dropdown_unit == 'ROTATIONS') {
-      var speedStr = value_speed + ' * 360';
-    }
-
-    var code = 'motor' + dropdown_port + '.run_target(' + speedStr + ', ' + value_degrees + ')\n';
-
-    return code;
-  }
-
-  // Stop motor
-  this.stop_motor = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    var dropdown_stop_action = block.getFieldValue('stop_action');
-
-    if (dropdown_stop_action == 'BRAKE') {
-      var cmd = 'brake';
-    } else if (dropdown_stop_action == 'COAST') {
-      var cmd = 'stop';
-    } else if (dropdown_stop_action == 'HOLD') {
-      var cmd = 'hold';
-    }
-
-    var code = 'motor' + dropdown_port + '.' + cmd + '()\n';
-
-    return code;
-  };
-
-  // get speed
-  this.speed = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-
-    var code = 'motor' + dropdown_port + '.speed()';
-
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  // get position
-  this.position = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-
-    var code = 'motor' + dropdown_port + '.angle()';
-
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  // reset position
-  this.reset_motor = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-
-    if (dropdown_port == 'BOTH') {
-      var code =
-        'left_motor.reset_angle(0)\n' +
-        'right_motor.reset_angle(0)\n';
-    } else {
-      var code = 'motor' + dropdown_port + '.reset_angle(0)\n';
-    }
-
-    return code;
-  };
-
-  // color sensor value
-  this.color_sensor = function(block) {
-    var dropdown_type = block.getFieldValue('type');
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'ColorSensor');
-    var typeStr = '';
-
-    if (dropdown_type == 'INTENSITY') {
-      typeStr = 'reflection()';
-    } else if (dropdown_type == 'COLOR') {
-      typeStr = 'color()';
-    } else if (dropdown_type == 'COLOR_NAME') {
-      typeStr = 'color()';
-    } else if (dropdown_type == 'RED') {
-      typeStr = 'rgb()[0]';
-    } else if (dropdown_type == 'GREEN') {
-      typeStr = 'rgb()[1]';
-    } else if (dropdown_type == 'BLUE') {
-      typeStr = 'rgb()[2]';
-    } else if (dropdown_type == 'RGB') {
-      typeStr = 'rgb()';
-    }
-
-    var code = 'color_sensor_in' + dropdown_port + '.' + typeStr;
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  // ultrasonic
-  this.ultrasonic_sensor = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    var dropdown_units = block.getFieldValue('units');
-    dropdown_port = self.getPort(dropdown_port, 'UltrasonicSensor');
-
-    if (dropdown_units == 'CM') {
-      var multiplier = ' * 0.1';
-      var order = Blockly.Python.ORDER_MULTIPLICATIVE;
-    } else if (dropdown_units == 'MM') {
-      var multiplier = '';
-      var order = Blockly.Python.ORDER_ATOMIC;
-    }
-
-    var code = 'ultrasonic_sensor_in' + dropdown_port + '.distance()' + multiplier;
-    return [code, order];
-  };
-
-  // lidar
-  this.lidar_sensor = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'LidarSensor');
-
-    var code = 'lidar_sensor_in' + dropdown_port + '.get_distances()';
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  // gyro
-  this.gyro_sensor = function(block) {
-    var dropdown_type = block.getFieldValue('type');
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'GyroSensor');
-
-    if (dropdown_type == 'ANGLE') {
-      var typeStr = 'angle()';
-    } else if (dropdown_type == 'RATE') {
-      var typeStr = 'speed()';
-    }
-    var code = 'gyro_sensor_in' + dropdown_port + '.' + typeStr;
-
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  // gyro reset
-  this.reset_gyro = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'GyroSensor');
-
-    var code = 'gyro_sensor_in' + dropdown_port + '.reset_angle()\n';
-    return code;
-  };
-
-  // say
-  this.say = function(block) {
-    var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_block = block.getFieldValue('block');
-
-    var code = 'ev3.speaker.say(' + value_text + ')\n';
-    return code;
-  }
-
-  // beep
-  this.beep = function(block) {
-    var dropdown_block = block.getFieldValue('block');
-
-    var code = 'ev3.speaker.beep()\n';
-    return code;
-  }
-
-  // play tone
-  this.play_tone = function(block) {
-    var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
-    var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_block = block.getFieldValue('block');
-
-    var code = 'ev3.speaker.beep(' + value_frequency + ', ' + value_duration + ' * 1000)\n';
-    return code;
-  }
-
-  // Sleep
-  this.sleep = function(block) {
-    var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
-    var dropdown_units = block.getFieldValue('units');
-
-    var code = 'wait(' + value_seconds;
-    if (dropdown_units == 'SECONDS') {
-      code += ' * 1000)\n';
-    } else if (dropdown_units == 'MILLISECONDS') {
-      code += ')\n';
-    }
-    return code;
-  };
-
-  // Exit
-  this.exit = function(block) {
-    var code = 'exit()\n';
-    return code;
-  };
-
-  // time
-  this.time = function(block) {
-    var code = 'time.time()';
-
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  // gps
-  this.gps_sensor = function(block) {
-    var dropdown_type = block.getFieldValue('type');
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'GPSSensor');
-
-    if (dropdown_type == 'X') {
-      var typeStr = 'x';
-    } else if (dropdown_type == 'Y') {
-      var typeStr = 'y';
-    } else if (dropdown_type == 'ALTITUDE') {
-      var typeStr = 'altitude';
-    } else if (dropdown_type == 'POSITION') {
-      var typeStr = 'position';
-    }
-
-    var code = 'gps_sensor_in' + dropdown_port + '.' + typeStr;
-
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  }
-
-  this.penDown = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'Pen');
-
-    var code = 'pen_in' + dropdown_port + '.down()\n';
-    return code;
-  };
-
-  this.penUp = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'Pen');
-
-    var code = 'pen_in' + dropdown_port + '.up()\n';
-    return code;
-  };
-
-  this.penSetColor = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'Pen');
-
-    var value_red = Blockly.Python.valueToCode(block, 'red', Blockly.Python.ORDER_ATOMIC);
-    var value_green = Blockly.Python.valueToCode(block, 'green', Blockly.Python.ORDER_ATOMIC);
-    var value_blue = Blockly.Python.valueToCode(block, 'blue', Blockly.Python.ORDER_ATOMIC);
-    var code = 'pen_in' + dropdown_port + '.setColor(' + value_red + ', ' + value_green + ', ' + value_blue + ')\n';
-    return code;
-  };
-
-  this.penSetWidth = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'Pen');
-
-    var value_width = Blockly.Python.valueToCode(block, 'width', Blockly.Python.ORDER_ATOMIC);
-    var code = 'pen_in' + dropdown_port + '.setWidth(' + value_width + ')\n';
-    return code;
-  };
-
-  this.touch_state = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    var dropdown_state = block.getFieldValue('state');
-    dropdown_port = self.getPort(dropdown_port, 'TouchSensor');
-
-    var code;
-    if (dropdown_state == 'PRESSED') {
-      code = 'touch_sensor_in' + dropdown_port + '.pressed()';
-    } else if (dropdown_state == 'RELEASED') {
-      code = 'not touch_sensor_in' + dropdown_port + '.pressed()';
-    }
-
-    return [code, Blockly.Python.ORDER_LOGICAL_NOT];
-  };
-
-  this.wait_for_state = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    var dropdown_state = block.getFieldValue('state');
-    dropdown_port = self.getPort(dropdown_port, 'TouchSensor');
-
-    var code;
-    if (dropdown_state == 'PRESSED') {
-      code = 'while not touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
-    } else if (dropdown_state == 'RELEASED') {
-      code = 'while touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
-    } else if (dropdown_state == 'BUMPED') {
-      code = 'while not touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
-      code += 'while touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
-    }
-
-    return code;
-  };
-
-  this.button_state = function(block) {
-    const map_button = {
-      'UP': 'Button.UP',
-      'DOWN': 'Button.DOWN',
-      'LEFT': 'Button.LEFT',
-      'RIGHT': 'Button.RIGHT',
-      'CENTER': 'Button.CENTER'
-    };
-
-    let button = map_button[block.getFieldValue('button')];
-    let state = block.getFieldValue('state');
-
-    if (state == 'PRESSED') {
-      var code = button + ' in ev3.buttons.pressed()';
-      return [code, Blockly.Python.ORDER_RELATIONAL];
-    } else {
-      var code = 'not ' + button + ' in ev3.buttons.pressed()';
-      return [code, Blockly.Python.ORDER_RELATIONAL];
-    }
-  };
-
-  this.wait_until_button = function(block) {
-    const map_button = {
-      'UP': 'Button.UP',
-      'DOWN': 'Button.DOWN',
-      'LEFT': 'Button.LEFT',
-      'RIGHT': 'Button.RIGHT',
-      'CENTER': 'Button.CENTER'
-    };
-
-    let button = map_button[block.getFieldValue('button')];
-    let state = block.getFieldValue('state');
-
-    let code = 'while '
-    if (state == 'PRESSED') {
-      code += 'not ' + button + ' in ev3.buttons.pressed():\n';
-    } else {
-      code += button + ' in ev3.buttons.pressed():\n';
-    }
-    code += '  pass\n';
-
-    return code;
-  };
-
-  this.color = function(block) {
-    // Pybricks doesn't use color name
-    const map_to_param = {
-      'BLACK': 'Color.BLACK',
-      'BLUE': 'Color.BLUE',
-      'GREEN': 'Color.GREEN',
-      'YELLOW': 'Color.YELLOW',
-      'RED': 'Color.RED',
-      'WHITE': 'Color.WHITE',
-      'BROWN': 'Color.BROWN',
-    };
-
-    let color = block.getFieldValue('color');
-
-    var code = map_to_param[color];
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  this.wait_until = function(block) {
-    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
-
-    let code = 'while not ' + value_value + ':\n    pass\n';
-    return code;
-  };
-
-  this.camera_capture_image = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
-
-    var code = 'camera_sensor_in' + dropdown_port + '.capture_image()\n';
-    return code;
-  };
-
-  this.camera_get_hsv = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
-
-    var code = 'camera_sensor_in' + dropdown_port + '.get_hsv()';
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  this.camera_get_rgb = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
-
-    var code = 'camera_sensor_in' + dropdown_port + '.get_rgb()';
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  this.camera_find_blobs = function(block) {
-    var dropdown_port = block.getFieldValue('port');
-    var minH = Blockly.Python.valueToCode(block, 'minH', Blockly.Python.ORDER_ATOMIC);
-    var maxH = Blockly.Python.valueToCode(block, 'maxH', Blockly.Python.ORDER_ATOMIC);
-    var minS = Blockly.Python.valueToCode(block, 'minS', Blockly.Python.ORDER_ATOMIC);
-    var maxS = Blockly.Python.valueToCode(block, 'maxS', Blockly.Python.ORDER_ATOMIC);
-    var minV = Blockly.Python.valueToCode(block, 'minV', Blockly.Python.ORDER_ATOMIC);
-    var maxV = Blockly.Python.valueToCode(block, 'maxV', Blockly.Python.ORDER_ATOMIC);
-    var pixels_threshold = Blockly.Python.valueToCode(block, 'pixels_threshold', Blockly.Python.ORDER_ATOMIC);
-    dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
-
-    var code = 'camera_sensor_in' + dropdown_port + '.find_blobs((' + minH + ', ' + maxH + ', ' + minS + ', ' + maxS + ', ' + minV + ', ' + maxV + '), ' + pixels_threshold + ')';
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
-
-  this.comment = function(block) {
-    var value = block.getFieldValue('value');
-
-    // var code = '\n# ' + value + '\n\n';
-    var code = '';
-
-    for (let line of value.split('\n')) {
-      code += '\n# ' + line;
-    }
-
-    code += '\n\n';
-
-    return code;
+        'left_motor = motor' + left_port + '\n' +
+        'right_motor = motor' + right_port + '\n';
+
+      return code;
+    },
+
+    // Run motor
+    'run_motor': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_unit = block.getFieldValue('unit');
+
+      if (dropdown_unit == 'PERCENT') {
+        var speedStr = '(' + value_speed + ' / 100) * 1050';
+      } else if (dropdown_unit == 'DEGREES') {
+        var speedStr = value_speed;
+      } else if (dropdown_unit == 'ROTATIONS') {
+        var speedStr = value_speed + ' * 360';
+      }
+
+      var code = 'motor' + dropdown_port + '.run(' + speedStr + ')\n';
+
+      return code;
+    },
+
+    // Run motor for
+    'run_motor_for': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_unit = block.getFieldValue('unit');
+      var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_unit2 = block.getFieldValue('unit2');
+
+      if (dropdown_unit == 'PERCENT') {
+        var speedStr = '(' + value_speed + ' / 100) * 1050';
+      } else if (dropdown_unit == 'DEGREES') {
+        var speedStr = value_speed;
+      } else if (dropdown_unit == 'ROTATIONS') {
+        var speedStr = value_speed + ' * 360';
+      }
+
+      if (dropdown_unit2 == 'ROTATIONS') {
+        var cmdStr = 'run_angle';
+        var durationStr = value_duration + ' * 360';
+      } else if (dropdown_unit2 == 'DEGREES') {
+        var cmdStr = 'run_angle';
+        var durationStr = value_duration;
+      } else if (dropdown_unit2 == 'SECONDS') {
+        var cmdStr = 'run_time';
+        var durationStr = value_duration + ' * 1000';
+      } else if (dropdown_unit2 == 'MILLISECONDS') {
+        var cmdStr = 'run_time';
+        var durationStr = value_duration;
+      }
+
+      var code = 'motor' + dropdown_port + '.' + cmdStr + '(' + speedStr + ', ' + durationStr + ')\n';
+
+      return code;
+    },
+
+    // Run motor to
+    'run_motor_to': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_unit = block.getFieldValue('unit');
+      var value_degrees = Blockly.Python.valueToCode(block, 'degrees', Blockly.Python.ORDER_ATOMIC);
+
+      if (dropdown_unit == 'PERCENT') {
+        var speedStr = '(' + value_speed + ' / 100) * 1050';
+      } else if (dropdown_unit == 'DEGREES') {
+        var speedStr = value_speed;
+      } else if (dropdown_unit == 'ROTATIONS') {
+        var speedStr = value_speed + ' * 360';
+      }
+
+      var code = 'motor' + dropdown_port + '.run_target(' + speedStr + ', ' + value_degrees + ')\n';
+
+      return code;
+    },
+
+    // Stop motor
+    'stop_motor': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      var dropdown_stop_action = block.getFieldValue('stop_action');
+
+      if (dropdown_stop_action == 'BRAKE') {
+        var cmd = 'brake';
+      } else if (dropdown_stop_action == 'COAST') {
+        var cmd = 'stop';
+      } else if (dropdown_stop_action == 'HOLD') {
+        var cmd = 'hold';
+      }
+
+      var code = 'motor' + dropdown_port + '.' + cmd + '()\n';
+
+      return code;
+    },
+
+    // get speed
+    'speed': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+
+      var code = 'motor' + dropdown_port + '.speed()';
+
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    // get position
+    'position': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+
+      var code = 'motor' + dropdown_port + '.angle()';
+
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    // reset position
+    'reset_motor': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+
+      if (dropdown_port == 'BOTH') {
+        var code =
+          'left_motor.reset_angle(0)\n' +
+          'right_motor.reset_angle(0)\n';
+      } else {
+        var code = 'motor' + dropdown_port + '.reset_angle(0)\n';
+      }
+
+      return code;
+    },
+
+    // color sensor value
+    'color_sensor': function(block) {
+      var dropdown_type = block.getFieldValue('type');
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'ColorSensor');
+      var typeStr = '';
+
+      if (dropdown_type == 'INTENSITY') {
+        typeStr = 'reflection()';
+      } else if (dropdown_type == 'COLOR') {
+        typeStr = 'color()';
+      } else if (dropdown_type == 'COLOR_NAME') {
+        typeStr = 'color()';
+      } else if (dropdown_type == 'RED') {
+        typeStr = 'rgb()[0]';
+      } else if (dropdown_type == 'GREEN') {
+        typeStr = 'rgb()[1]';
+      } else if (dropdown_type == 'BLUE') {
+        typeStr = 'rgb()[2]';
+      } else if (dropdown_type == 'RGB') {
+        typeStr = 'rgb()';
+      }
+
+      var code = 'color_sensor_in' + dropdown_port + '.' + typeStr;
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    // ultrasonic
+    'ultrasonic_sensor': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      var dropdown_units = block.getFieldValue('units');
+      dropdown_port = self.getPort(dropdown_port, 'UltrasonicSensor');
+
+      if (dropdown_units == 'CM') {
+        var multiplier = ' * 0.1';
+        var order = Blockly.Python.ORDER_MULTIPLICATIVE;
+      } else if (dropdown_units == 'MM') {
+        var multiplier = '';
+        var order = Blockly.Python.ORDER_ATOMIC;
+      }
+
+      var code = 'ultrasonic_sensor_in' + dropdown_port + '.distance()' + multiplier;
+      return [code, order];
+    },
+
+    // lidar
+    'lidar_sensor': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'LidarSensor');
+
+      var code = 'lidar_sensor_in' + dropdown_port + '.get_distances()';
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    // gyro
+    'gyro_sensor': function(block) {
+      var dropdown_type = block.getFieldValue('type');
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'GyroSensor');
+
+      if (dropdown_type == 'ANGLE') {
+        var typeStr = 'angle()';
+      } else if (dropdown_type == 'RATE') {
+        var typeStr = 'speed()';
+      }
+      var code = 'gyro_sensor_in' + dropdown_port + '.' + typeStr;
+
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    // gyro reset
+    'reset_gyro': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'GyroSensor');
+
+      var code = 'gyro_sensor_in' + dropdown_port + '.reset_angle()\n';
+      return code;
+    },
+
+    // say
+    'say': function(block) {
+      var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_block = block.getFieldValue('block');
+
+      var code = 'ev3.speaker.say(' + value_text + ')\n';
+      return code;
+    },
+
+    // beep
+    'beep': function(block) {
+      var dropdown_block = block.getFieldValue('block');
+
+      var code = 'ev3.speaker.beep()\n';
+      return code;
+    },
+
+    // play tone
+    'play_tone': function(block) {
+      var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
+      var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_block = block.getFieldValue('block');
+
+      var code = 'ev3.speaker.beep(' + value_frequency + ', ' + value_duration + ' * 1000)\n';
+      return code;
+    },
+
+    // Sleep
+    'sleep': function(block) {
+      var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
+      var dropdown_units = block.getFieldValue('units');
+
+      var code = 'wait(' + value_seconds;
+      if (dropdown_units == 'SECONDS') {
+        code += ' * 1000)\n';
+      } else if (dropdown_units == 'MILLISECONDS') {
+        code += ')\n';
+      }
+      return code;
+    },
+
+    // Exit
+    'exit': function(block) {
+      var code = 'exit()\n';
+      return code;
+    },
+
+    // time
+    'time': function(block) {
+      var code = 'time.time()';
+
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    // gps
+    'gps_sensor': function(block) {
+      var dropdown_type = block.getFieldValue('type');
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'GPSSensor');
+
+      if (dropdown_type == 'X') {
+        var typeStr = 'x';
+      } else if (dropdown_type == 'Y') {
+        var typeStr = 'y';
+      } else if (dropdown_type == 'ALTITUDE') {
+        var typeStr = 'altitude';
+      } else if (dropdown_type == 'POSITION') {
+        var typeStr = 'position';
+      }
+
+      var code = 'gps_sensor_in' + dropdown_port + '.' + typeStr;
+
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    'penDown': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'Pen');
+
+      var code = 'pen_in' + dropdown_port + '.down()\n';
+      return code;
+    },
+
+    'penUp': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'Pen');
+
+      var code = 'pen_in' + dropdown_port + '.up()\n';
+      return code;
+    },
+
+    'penSetColor': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'Pen');
+
+      var value_red = Blockly.Python.valueToCode(block, 'red', Blockly.Python.ORDER_ATOMIC);
+      var value_green = Blockly.Python.valueToCode(block, 'green', Blockly.Python.ORDER_ATOMIC);
+      var value_blue = Blockly.Python.valueToCode(block, 'blue', Blockly.Python.ORDER_ATOMIC);
+      var code = 'pen_in' + dropdown_port + '.setColor(' + value_red + ', ' + value_green + ', ' + value_blue + ')\n';
+      return code;
+    },
+
+    'penSetWidth': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'Pen');
+
+      var value_width = Blockly.Python.valueToCode(block, 'width', Blockly.Python.ORDER_ATOMIC);
+      var code = 'pen_in' + dropdown_port + '.setWidth(' + value_width + ')\n';
+      return code;
+    },
+
+    'touch_state': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      var dropdown_state = block.getFieldValue('state');
+      dropdown_port = self.getPort(dropdown_port, 'TouchSensor');
+
+      var code;
+      if (dropdown_state == 'PRESSED') {
+        code = 'touch_sensor_in' + dropdown_port + '.pressed()';
+      } else if (dropdown_state == 'RELEASED') {
+        code = 'not touch_sensor_in' + dropdown_port + '.pressed()';
+      }
+
+      return [code, Blockly.Python.ORDER_LOGICAL_NOT];
+    },
+
+    'wait_for_state': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      var dropdown_state = block.getFieldValue('state');
+      dropdown_port = self.getPort(dropdown_port, 'TouchSensor');
+
+      var code;
+      if (dropdown_state == 'PRESSED') {
+        code = 'while not touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
+      } else if (dropdown_state == 'RELEASED') {
+        code = 'while touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
+      } else if (dropdown_state == 'BUMPED') {
+        code = 'while not touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
+        code += 'while touch_sensor_in' + dropdown_port + '.pressed(): pass\n';
+      }
+
+      return code;
+    },
+
+    'button_state': function(block) {
+      const map_button = {
+        'UP': 'Button.UP',
+        'DOWN': 'Button.DOWN',
+        'LEFT': 'Button.LEFT',
+        'RIGHT': 'Button.RIGHT',
+        'CENTER': 'Button.CENTER'
+      };
+
+      let button = map_button[block.getFieldValue('button')];
+      let state = block.getFieldValue('state');
+
+      if (state == 'PRESSED') {
+        var code = button + ' in ev3.buttons.pressed()';
+        return [code, Blockly.Python.ORDER_RELATIONAL];
+      } else {
+        var code = 'not ' + button + ' in ev3.buttons.pressed()';
+        return [code, Blockly.Python.ORDER_RELATIONAL];
+      }
+    },
+
+    'wait_until_button': function(block) {
+      const map_button = {
+        'UP': 'Button.UP',
+        'DOWN': 'Button.DOWN',
+        'LEFT': 'Button.LEFT',
+        'RIGHT': 'Button.RIGHT',
+        'CENTER': 'Button.CENTER'
+      };
+
+      let button = map_button[block.getFieldValue('button')];
+      let state = block.getFieldValue('state');
+
+      let code = 'while '
+      if (state == 'PRESSED') {
+        code += 'not ' + button + ' in ev3.buttons.pressed():\n';
+      } else {
+        code += button + ' in ev3.buttons.pressed():\n';
+      }
+      code += '  pass\n';
+
+      return code;
+    },
+
+    'color': function(block) {
+      // Pybricks doesn't use color name
+      const map_to_param = {
+        'BLACK': 'Color.BLACK',
+        'BLUE': 'Color.BLUE',
+        'GREEN': 'Color.GREEN',
+        'YELLOW': 'Color.YELLOW',
+        'RED': 'Color.RED',
+        'WHITE': 'Color.WHITE',
+        'BROWN': 'Color.BROWN',
+      };
+
+      let color = block.getFieldValue('color');
+
+      var code = map_to_param[color];
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    'wait_until': function(block) {
+      var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+
+      let code = 'while not ' + value_value + ':\n    pass\n';
+      return code;
+    },
+
+    'camera_capture_image': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
+
+      var code = 'camera_sensor_in' + dropdown_port + '.capture_image()\n';
+      return code;
+    },
+
+    'camera_get_hsv': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
+
+      var code = 'camera_sensor_in' + dropdown_port + '.get_hsv()';
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    'camera_get_rgb': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
+
+      var code = 'camera_sensor_in' + dropdown_port + '.get_rgb()';
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    'camera_find_blobs': function(block) {
+      var dropdown_port = block.getFieldValue('port');
+      var minH = Blockly.Python.valueToCode(block, 'minH', Blockly.Python.ORDER_ATOMIC);
+      var maxH = Blockly.Python.valueToCode(block, 'maxH', Blockly.Python.ORDER_ATOMIC);
+      var minS = Blockly.Python.valueToCode(block, 'minS', Blockly.Python.ORDER_ATOMIC);
+      var maxS = Blockly.Python.valueToCode(block, 'maxS', Blockly.Python.ORDER_ATOMIC);
+      var minV = Blockly.Python.valueToCode(block, 'minV', Blockly.Python.ORDER_ATOMIC);
+      var maxV = Blockly.Python.valueToCode(block, 'maxV', Blockly.Python.ORDER_ATOMIC);
+      var pixels_threshold = Blockly.Python.valueToCode(block, 'pixels_threshold', Blockly.Python.ORDER_ATOMIC);
+      dropdown_port = self.getPort(dropdown_port, 'CameraSensor');
+
+      var code = 'camera_sensor_in' + dropdown_port + '.find_blobs((' + minH + ', ' + maxH + ', ' + minS + ', ' + maxS + ', ' + minV + ', ' + maxV + '), ' + pixels_threshold + ')';
+      return [code, Blockly.Python.ORDER_ATOMIC];
+    },
+
+    'comment': function(block) {
+      var value = block.getFieldValue('value');
+
+      // var code = '\n# ' + value + '\n\n';
+      var code = '';
+
+      for (let line of value.split('\n')) {
+        code += '\n# ' + line;
+      }
+
+      code += '\n\n';
+
+      return code;
+    },
   };
 }
 

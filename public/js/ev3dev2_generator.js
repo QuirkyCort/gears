@@ -1048,8 +1048,5 @@ var ev3dev2_generator = new function() {
       return code;
     },
   };
-
-
-
 }
 
