@@ -203,6 +203,14 @@ ul.menuDropDownRightAlign {
 .blocklyEditor.hide {
   display: none; }
 
+.blockly-minimap {
+  position: absolute;
+  box-shadow: none;
+  width: 200px;
+  height: 150px;
+  top: 3em;
+  right: 1em; }
+
 #renderCanvas {
   width: 100%;
   height: 100%; }
