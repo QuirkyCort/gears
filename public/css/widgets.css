@@ -97,6 +97,8 @@
     .dialogScreen > .dialogWindow > .dialogBody {
       padding: 0.8rem 1.2rem;
       overflow-y: auto; }
+      .dialogScreen > .dialogWindow > .dialogBody input {
+        font-size: 100%; }
     .dialogScreen > .dialogWindow > .dialogButtonsRow {
       display: flex;
       justify-content: flex-end;

@@ -101,6 +101,10 @@
     > .dialogBody {
       padding: 0.8rem 1.2rem;
       overflow-y: auto;
+
+      input {
+        font-size: 100%;
+      }
     }
 
     > .dialogButtonsRow {
