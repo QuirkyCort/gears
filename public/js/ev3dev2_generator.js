@@ -139,6 +139,16 @@ var ev3dev2_generator = new function() {
   //
 
   this.generators = {
+    //
+    // Special generators
+    //
+    'math_change': function(block) {
+      var argument0 = Blockly.Python.valueToCode(block, 'DELTA',
+          Blockly.Python.ORDER_ADDITIVE) || '0';
+      var varName = Blockly.Python.nameDB_.getNameForUserVariable(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+      return varName + ' += ' + argument0 + '\n';
+    },
+
     // Start
     'when_started': function(block) {
       var code = '';
