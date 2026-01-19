@@ -225,7 +225,11 @@ var blockly = new function() {
     var json = primaryEvent.toJson();
     json.varType = '';
     var secondaryEvent = Blockly.Events.fromJson(json, self.workspace);
-    secondaryEvent.run(true);
+    try {
+      secondaryEvent.run(true);
+    } catch (err) {
+      console.log(err);
+    }
 
     if (primaryEvent.type == Blockly.Events.BLOCK_CREATE) {
       self.assignOrphenToPage(blocklyPanel.currentPage);
