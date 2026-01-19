@@ -63,8 +63,8 @@ var blockly = new function() {
         options.toolbox = self.toolboxXml.getElementById('toolbox');
         self.workspace = Blockly.inject('blocklyHiddenDiv', options);
         self.displayedWorkspace = Blockly.inject('blocklyDiv', options);
-        self.minimap = new Minimap(self.displayedWorkspace);
-        self.minimap.init();
+        // self.minimap = new Minimap(self.displayedWorkspace);
+        // self.minimap.init();
         self.displayedWorkspace.addChangeListener(self.mirrorEvent);
         self.registerCustomToolboxes();
 
