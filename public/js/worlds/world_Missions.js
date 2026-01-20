@@ -21,6 +21,7 @@ var world_Missions = new function() {
       title: 'Select Mission',
       type: 'select',
       options: [
+        ['2026 WRO (Junior)', 'worlds/missions/WRO/WRO-2026-Junior.json?v=9b1d44c7'],
         ['2025 FLL (Unearthed)', 'worlds/missions/FLL/FLL2025.json?v=00d2ba8a'],
         ['2025 WRO (Elementary)', 'worlds/missions/WRO/WRO-2025-Elementary.json?v=c85eb989'],
         ['2025 WRO (Junior)', 'worlds/missions/WRO/WRO-2025-Junior.json?v=97f15769'],

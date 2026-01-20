@@ -831,12 +831,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20250904;
+    let current = 20260121;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>21 Jan 2026 (WRO 2026)</h3>' +
+          '<p>' +
+            'Added the playfield for WRO 2026 Robomission Junior. ' +
+            'Find it under "Worlds => Select World => Missions". ' +
+            'Elementary and Senior will (hopefully) be added soon.' +
+          '</p>' +
           '<h3>4 Sep 2025 (Blockly 12.3.0)</h3>' +
           '<p>' +
             'Updated the blocks library (Blockly) to version 12.3.0. ' +
@@ -854,15 +860,6 @@ var main = new function() {
           '<p>' +
             'Unfortunately, I haven\'t found the time to add in the mission models for most of these, but I\'ll rather not delay it any longer. ' +
             'Adding mission models can take a lot of time; if anyone is keen to help, do get in touch. ' +
-          '</p>' +
-          '<h3>28 Jul 2025 (Python Editor and Color Sensor)</h3>' +
-          '<p>' +
-            'Multi-file support for the Python editor has been changed to the <a href="https://tutorials.aposteriori.com.sg/120-IoTy/10-Introduction/10-Intro.html">IoTy style</a>, making it easier for me to maintain. ' +
-            'Saving of Python to computer now produces a zip file containing all Python code. ' +
-            'Autocomplete has also been improved thanks to sgmurray.' +
-          '</p>' +
-          '<p>' +
-            'Pen traces and paintball splatter can now be visible to the camera (...needs to be set in the robot configurator). ' +
           '</p>'
       }
       acknowledgeDialog(options, function(){
