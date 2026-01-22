@@ -831,17 +831,17 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20260121;
+    let current = 20260122;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
-          '<h3>21 Jan 2026 (WRO 2026)</h3>' +
+          '<h3>22 Jan 2026 (WRO 2026)</h3>' +
           '<p>' +
             'Added the playfield for WRO 2026 Robomission Junior. ' +
             'Find it under "Worlds => Select World => Missions". ' +
-            'Elementary and Senior will (hopefully) be added soon.' +
+            'All robomission plafields (Elementary, Junior, and Senior) are now available.' +
           '</p>' +
           '<h3>4 Sep 2025 (Blockly 12.3.0)</h3>' +
           '<p>' +

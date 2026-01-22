@@ -23,6 +23,7 @@ var world_Missions = new function() {
       options: [
         ['2026 WRO (Elementary)', 'worlds/missions/WRO/WRO-2026-Elementary.json?v=e728d1d8'],
         ['2026 WRO (Junior)', 'worlds/missions/WRO/WRO-2026-Junior.json?v=9b1d44c7'],
+        ['2026 WRO (Senior)', 'worlds/missions/WRO/WRO-2026-Senior.json?v=0adf1193'],
         ['2025 FLL (Unearthed)', 'worlds/missions/FLL/FLL2025.json?v=00d2ba8a'],
         ['2025 WRO (Elementary)', 'worlds/missions/WRO/WRO-2025-Elementary.json?v=c85eb989'],
         ['2025 WRO (Junior)', 'worlds/missions/WRO/WRO-2025-Junior.json?v=97f15769'],
