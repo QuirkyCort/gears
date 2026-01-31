@@ -25,6 +25,7 @@ var world_Missions = new function() {
         ['2026 WRO (Junior)', 'worlds/missions/WRO/WRO-2026-Junior.json?v=9b1d44c7'],
         ['2026 WRO (Senior)', 'worlds/missions/WRO/WRO-2026-Senior.json?v=0adf1193'],
         ['2025 FLL (Unearthed)', 'worlds/missions/FLL/FLL2025.json?v=00d2ba8a'],
+        ['2025 WRO (Sport)', 'worlds/missions/WRO/WRO-2025-Sport.json?v=ec9e0e06'],
         ['2025 WRO (Elementary)', 'worlds/missions/WRO/WRO-2025-Elementary.json?v=c85eb989'],
         ['2025 WRO (Junior)', 'worlds/missions/WRO/WRO-2025-Junior.json?v=97f15769'],
         ['2025 WRO (Senior)', 'worlds/missions/WRO/WRO-2025-Senior.json?v=9a88d813'],

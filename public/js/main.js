@@ -831,12 +831,22 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20260122;
+    let current = 20260131;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>31 Jan 2026 (WRO RoboSport)</h3>' +
+          '<p>' +
+            'Added the playfield for WRO RoboSport (2025 Playfield). ' +
+            'Find it under "Worlds => Select World => Missions". ' +
+            'Also available in the multi-robot arena.' +
+          '</p>' +
+          '<p>' +
+            'A sample robot for the RoboSport challenge has also been added. ' +
+            'Find it under "Robot => Select Robot => WRO RoboSport". ' +
+          '</p>' +
           '<h3>22 Jan 2026 (WRO 2026)</h3>' +
           '<p>' +
             'Added the playfield for WRO 2026 Robomission Junior. ' +
@@ -851,15 +861,6 @@ var main = new function() {
           '</p>' +
           '<p>' +
             'As this is a rather major update, please let me know if you encounter any issues. ' +
-          '</p>' +
-          '<h3>29 Aug 2025 (FLL 2025, WRO 2025, WRO 2024)</h3>' +
-          '<p>' +
-            'Added the playfield for FLL 2025, WRO 2025, and WRO 2024. ' +
-            'Find it under "Worlds => Select World => Missions". ' +
-          '</p>' +
-          '<p>' +
-            'Unfortunately, I haven\'t found the time to add in the mission models for most of these, but I\'ll rather not delay it any longer. ' +
-            'Adding mission models can take a lot of time; if anyone is keen to help, do get in touch. ' +
           '</p>'
       }
       acknowledgeDialog(options, function(){

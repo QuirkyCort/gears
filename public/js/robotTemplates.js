@@ -343,6 +343,14 @@ i18n.append({
     en:
       '<p>This robot is equipped with front and back electromagnets to capture and shoot the football.</p>' +
       '<p>The electromagnets on this robot are customized to have a longer range and higher power.</p>'
+  },
+  '#robot-WROSportShort#': {
+    en: 'WRO RoboSport',
+  },
+  '#robot-WROSportLong#': {
+    en:
+      '<p>Sample robot for WRO RoboSport.</p>' +
+      '<p>Use the electromagnet (Port C) to capture and shoot the ball (...shoot by setting the magnet power to -100%).</p>'
   }
 });
 
@@ -1393,6 +1401,169 @@ var robotTemplates = [
           "diameter": 5.6,
           "color": "E0E0E0"
         }
+      }
+    ],
+    "options": {}
+  },
+  {
+    "name": "WROSport",
+    "shortDescription": "#robot-WROSportShort#",
+    "longDescription": "#robot-WROSportLong#",
+    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : #robot-electromagnet#</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-color#</li><li>#robot-port# 2 : #robot-gyro#</li><li>#robot-port# 4 : #robot-laser#</li></ul>",
+    "thumbnail": "images/robots/WROSport.jpg",
+    "bodyHeight": 4,
+    "bodyWidth": 14,
+    "bodyLength": 16,
+    "wheels": true,
+    "wheelDiameter": 5.6,
+    "wheelWidth": 0.8,
+    "wheelToBodyOffset": 0.2,
+    "bodyEdgeToWheelCenterY": 1,
+    "bodyEdgeToWheelCenterZ": 2,
+    "bodyMass": 1000,
+    "wheelMass": 200,
+    "casterMass": 0,
+    "caster": true,
+    "wheelFriction": 10,
+    "bodyFriction": 0,
+    "casterFriction": 0,
+    "color": "#abababff",
+    "imageType": "all",
+    "imageURL": "",
+    "components": [
+      {
+        "type": "ColorSensor",
+        "position": [
+          0,
+          -1,
+          5
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "GyroSensor",
+        "position": [
+          0,
+          2.5,
+          2.5
+        ],
+        "options": {}
+      },
+      {
+        "type": "MagnetActuator",
+        "position": [
+          0,
+          -2.2,
+          7.5
+        ],
+        "rotation": [
+          -1.6580627893946132,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "Box",
+        "position": [
+          2.1,
+          -1.5,
+          8.5
+        ],
+        "rotation": [
+          0,
+          0.2617993877991494,
+          0
+        ],
+        "options": {
+          "height": 4,
+          "width": 1,
+          "depth": 4,
+          "color": "#525252ff",
+          "imageType": "repeat",
+          "imageURL": "",
+          "uScale": 1,
+          "vScale": 1
+        }
+      },
+      {
+        "type": "Box",
+        "position": [
+          -2.1,
+          -1.5,
+          8.5
+        ],
+        "rotation": [
+          0,
+          -0.2617993877991494,
+          0
+        ],
+        "options": {
+          "height": 4,
+          "width": 1,
+          "depth": 4,
+          "color": "#525252ff",
+          "imageType": "repeat",
+          "imageURL": "",
+          "uScale": 1,
+          "vScale": 1
+        }
+      },
+      {
+        "type": "CameraSensor",
+        "position": [
+          0,
+          5.5,
+          7
+        ],
+        "rotation": [
+          0.2617993877991494,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "Box",
+        "position": [
+          0,
+          3.5,
+          6.5
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "options": {
+          "height": 3,
+          "width": 2,
+          "depth": 3,
+          "color": "#c7c7c7ff",
+          "imageType": "repeat",
+          "imageURL": "",
+          "uScale": 1,
+          "vScale": 1
+        }
+      },
+      {
+        "type": "LaserRangeSensor",
+        "position": [
+          0,
+          1.5,
+          8
+        ],
+        "rotation": [
+          -0.7853981633974483,
+          0,
+          0
+        ],
+        "options": {}
       }
     ],
     "options": {}
