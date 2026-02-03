@@ -831,12 +831,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20260131;
+    let current = 20260203;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>3 Feb 2026 (WRO Future Engineer)</h3>' +
+          '<p>' +
+            'Added the playfield for WRO Future Engineer (2025 Playfield). ' +
+            'Find it under "Worlds => Select World => Missions". ' +
+            'See <a href="https://www.youtube.com/watch?v=jc1r_H7WTIU" target="_blank">this YouTube video</a> for a demo.' +
+          '</p>' +
           '<h3>31 Jan 2026 (WRO RoboSport)</h3>' +
           '<p>' +
             'Added the playfield for WRO RoboSport (2025 Playfield). ' +
@@ -852,15 +858,6 @@ var main = new function() {
             'Added the playfield for WRO 2026 Robomission Junior. ' +
             'Find it under "Worlds => Select World => Missions". ' +
             'All robomission plafields (Elementary, Junior, and Senior) are now available.' +
-          '</p>' +
-          '<h3>4 Sep 2025 (Blockly 12.3.0)</h3>' +
-          '<p>' +
-            'Updated the blocks library (Blockly) to version 12.3.0. ' +
-            'This should fix a long standing bug that causes the if/else block to generate incorrect code is some circumstances. ' +
-            'I\'ve also added a blocks minimap; this should make large programs easier to navigate. ' +
-          '</p>' +
-          '<p>' +
-            'As this is a rather major update, please let me know if you encounter any issues. ' +
           '</p>'
       }
       acknowledgeDialog(options, function(){
