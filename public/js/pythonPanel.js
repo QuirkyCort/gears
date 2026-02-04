@@ -63,6 +63,11 @@ var pythonPanel = new function() {
       enableLiveAutocompletion: true
     });
 
+    // Disable auto select of first suggestion
+    let Autocomplete = ace.require("ace/autocomplete").Autocomplete;
+    Autocomplete.prototype.__defineSetter__("autoSelect", function() { })
+    Autocomplete.prototype.__defineGetter__("autoSelect", function() { })
+
     // Add the custom GearsBot completer for context-aware suggestions.
     langTools.addCompleter(GearsBotCompleter.Completer);
 
