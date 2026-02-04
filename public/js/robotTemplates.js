@@ -1409,7 +1409,7 @@ var robotTemplates = [
     "name": "WROSport",
     "shortDescription": "#robot-WROSportShort#",
     "longDescription": "#robot-WROSportLong#",
-    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : #robot-electromagnet#</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-color#</li><li>#robot-port# 2 : #robot-gyro#</li><li>#robot-port# 4 : #robot-laser#</li></ul>",
+    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : #robot-electromagnet#</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-color#</li><li>#robot-port# 2 : #robot-gyro#</li><li>#robot-port# 4 : #robot-color#</li></ul>",
     "thumbnail": "images/robots/WROSport.jpg",
     "bodyHeight": 4,
     "bodyWidth": 14,
@@ -1552,14 +1552,14 @@ var robotTemplates = [
         }
       },
       {
-        "type": "LaserRangeSensor",
+        "type": "ColorSensor",
         "position": [
           0,
           1.5,
           8
         ],
         "rotation": [
-          -0.7853981633974483,
+          0.7853981633974483,
           0,
           0
         ],
