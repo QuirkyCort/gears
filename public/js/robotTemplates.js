@@ -1409,7 +1409,7 @@ var robotTemplates = [
     "name": "WROSport",
     "shortDescription": "#robot-WROSportShort#",
     "longDescription": "#robot-WROSportLong#",
-    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : #robot-electromagnet#</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-color#</li><li>#robot-port# 2 : #robot-gyro#</li><li>#robot-port# 4 : #robot-color#</li></ul>",
+    "longerDescription": "<h3>#robot-dimensions#</h3><ul><li>#robot-wheelDiameter#: 5.6 cm</li><li>#robot-wheelSpacing#: 15.2 cm</li></ul><h3>#robot-actuators#</h3><ul><li>#robot-port# A : #robot-leftWheel#</li><li>#robot-port# B : #robot-rightWheel#</li><li>#robot-port# C : #robot-electromagnet#</li></ul><h3>#robot-sensors#</h3><ul><li>#robot-port# 1 : #robot-color#</li><li>#robot-port# 2 : #robot-gyro#</li><li>#robot-port# 4 : #robot-color#</li><li>#robot-port# 5 : GPS</li></ul>",
     "thumbnail": "images/robots/WROSport.jpg",
     "bodyHeight": 4,
     "bodyWidth": 14,
@@ -1419,7 +1419,7 @@ var robotTemplates = [
     "wheelWidth": 0.8,
     "wheelToBodyOffset": 0.2,
     "bodyEdgeToWheelCenterY": 1,
-    "bodyEdgeToWheelCenterZ": 2,
+    "bodyEdgeToWheelCenterZ": 4,
     "bodyMass": 1000,
     "wheelMass": 200,
     "casterMass": 0,
@@ -1436,7 +1436,7 @@ var robotTemplates = [
         "position": [
           0,
           -1,
-          5
+          6
         ],
         "rotation": [
           1.5707963267948966,
@@ -1450,7 +1450,7 @@ var robotTemplates = [
         "position": [
           0,
           2.5,
-          2.5
+          2
         ],
         "options": {}
       },
@@ -1459,7 +1459,7 @@ var robotTemplates = [
         "position": [
           0,
           -2.2,
-          7.5
+          8.5
         ],
         "rotation": [
           -1.6580627893946132,
@@ -1519,10 +1519,10 @@ var robotTemplates = [
         "position": [
           0,
           5.5,
-          7
+          8
         ],
         "rotation": [
-          0.2617993877991494,
+          0.4363323129985824,
           0,
           0
         ],
@@ -1556,10 +1556,70 @@ var robotTemplates = [
         "position": [
           0,
           1.5,
-          8
+          9
         ],
         "rotation": [
           0.7853981633974483,
+          0,
+          0
+        ],
+        "options": {}
+      },
+      {
+        "type": "Box",
+        "position": [
+          5.2,
+          -1,
+          9
+        ],
+        "rotation": [
+          0,
+          -1.0471975511965976,
+          0
+        ],
+        "options": {
+          "height": 4,
+          "width": 1,
+          "depth": 6,
+          "color": "#525252ff",
+          "imageType": "repeat",
+          "imageURL": "",
+          "uScale": 1,
+          "vScale": 1
+        }
+      },
+      {
+        "type": "Box",
+        "position": [
+          -5.2,
+          -1,
+          9
+        ],
+        "rotation": [
+          0,
+          1.0471975511965976,
+          0
+        ],
+        "options": {
+          "height": 4,
+          "width": 1,
+          "depth": 6,
+          "color": "#525252ff",
+          "imageType": "repeat",
+          "imageURL": "",
+          "uScale": 1,
+          "vScale": 1
+        }
+      },
+      {
+        "type": "GPSSensor",
+        "position": [
+          0,
+          2.5,
+          4
+        ],
+        "rotation": [
+          0,
           0,
           0
         ],
