@@ -841,13 +841,14 @@ var main = new function() {
           '<p>' +
             'Added the playfield for WRO Future Engineer (2025 Playfield). ' +
             'Find it under "Worlds => Select World => Missions". ' +
-            'See <a href="https://www.youtube.com/watch?v=jc1r_H7WTIU" target="_blank">this YouTube video</a> for a demo.' +
+            'See <a href="https://youtu.be/jc1r_H7WTIU" target="_blank">this YouTube video</a> for a demo.' +
           '</p>' +
           '<h3>31 Jan 2026 (WRO RoboSport)</h3>' +
           '<p>' +
             'Added the playfield for WRO RoboSport (2025 Playfield). ' +
             'Find it under "Worlds => Select World => Missions". ' +
             'Also available in the multi-robot arena.' +
+            'See <a href="https://youtu.be/wz15pH2amHY" target="_blank">this YouTube video</a> for a demo.' +
           '</p>' +
           '<p>' +
             'A sample robot for the RoboSport challenge has also been added. ' +
