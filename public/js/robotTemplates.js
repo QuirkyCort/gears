@@ -1518,11 +1518,11 @@ var robotTemplates = [
         "type": "CameraSensor",
         "position": [
           0,
-          5.5,
+          7,
           8
         ],
         "rotation": [
-          0.4363323129985824,
+          0.6108652381980153,
           0,
           0
         ],
@@ -1532,7 +1532,7 @@ var robotTemplates = [
         "type": "Box",
         "position": [
           0,
-          3.5,
+          4.5,
           6.5
         ],
         "rotation": [
@@ -1541,7 +1541,7 @@ var robotTemplates = [
           0
         ],
         "options": {
-          "height": 3,
+          "height": 5,
           "width": 2,
           "depth": 3,
           "color": "#c7c7c7ff",

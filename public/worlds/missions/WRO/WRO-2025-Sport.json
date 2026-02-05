@@ -17,8 +17,8 @@
     "wallColor": "#ffffffff",
     "groundFriction": 1,
     "wallFriction": 0.1,
-    "groundRestitution": 0,
-    "wallRestitution": 0.1,
+    "groundRestitution": 0.6,
+    "wallRestitution": 0.6,
     "restartAnimationOnRun": false,
     "objects": [
       {
