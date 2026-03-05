@@ -14,6 +14,8 @@ var ev3dev2_generator = new function() {
   // Load Python generators
   this.load = function() {
     Blockly.Python.INDENT = '    ';
+    Blockly.Python.addReservedWords('motorA, motorB, left_motor, right_motor, tank_drive, steering_drive');
+    Blockly.Python.addReservedWords('time, math, spkr, btn, radio, obtr');
 
     for (let generator in self.generators) {
       Blockly.Python.forBlock[generator] = self.generators[generator];
@@ -34,14 +36,17 @@ var ev3dev2_generator = new function() {
 
     let workspaceCode = Blockly.Python.workspaceToCode(blockly.workspace);
 
-    let wheelCode = robot.processedOptions.wheels ?
-    ('motorA = LargeMotor(OUTPUT_A)\n' +
-    'motorB = LargeMotor(OUTPUT_B)\n' +
-    'left_motor = motorA\n' +
-    'right_motor = motorB\n' +
-    'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
-    'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n') :
-    '';
+    let wheelCode = '';
+    if (robot.processedOptions.wheels) {
+      wheelCode =
+        'motorA = LargeMotor(OUTPUT_A)\n' +
+        'motorB = LargeMotor(OUTPUT_B)\n' +
+        'left_motor = motorA\n' +
+        'right_motor = motorB\n' +
+        'tank_drive = MoveTank(OUTPUT_A, OUTPUT_B)\n' +
+        'steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)\n';
+    }
+
     let code =
       '#!/usr/bin/env python3\n' +
       `\n` +
@@ -145,7 +150,7 @@ var ev3dev2_generator = new function() {
     'math_change': function(block) {
       var argument0 = Blockly.Python.valueToCode(block, 'DELTA',
           Blockly.Python.ORDER_ADDITIVE) || '0';
-      var varName = Blockly.Python.nameDB_.getNameForUserVariable(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+      let varName = Blockly.Python.getVariableName(block.getFieldValue('VAR'));
       return varName + ' += ' + argument0 + '\n';
     },
 
