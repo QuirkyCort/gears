@@ -6095,7 +6095,7 @@
       -40,
       0
     ],
-    "startRot": null,
+    "startRot": 0,
     "arenaStartPosXYZ": null,
     "arenaStartRot": null
   }
