@@ -709,10 +709,11 @@ var main = new function() {
       let filename = e.target.files[0].name;
       if (filename.endsWith('.zip')) {
         self.loadPythonFromComputerZip(e);
+        self.$projectName.val(filename.replace(/\.zip$/, ''));
       } else {
         self.loadSinglePythonFile(e);
+        self.$projectName.val(filename.replace(/\.py$/, ''));
       }
-      self.$projectName.val(filename.replace(/\.py$/, ''));
       self.saveProjectName();
     });
   };
