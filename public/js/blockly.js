@@ -55,14 +55,23 @@ var blockly = new function() {
 
   // Load toolbox
   this.loadToolBox = function() {
-    return fetch('toolbox.xml?v=f7456359')
+    return fetch('toolbox.xml?v=b4181648')
       .then(response => response.text())
       .then(function(response) {
         response = i18n.replace(response);
         self.toolboxXml = (new DOMParser()).parseFromString(response, "text/xml");
         options.toolbox = self.toolboxXml.getElementById('toolbox');
-        self.workspace = Blockly.inject('blocklyHiddenDiv', options);
         self.displayedWorkspace = Blockly.inject('blocklyDiv', options);
+
+        // Strip search from toolbox as it cannot be loaded twice
+        for (let i=0; i<options.toolbox.childNodes.length; i++) {
+          if (options.toolbox.childNodes[i].tagName == 'search') {
+            options.toolbox.removeChild(options.toolbox.childNodes[i]);
+            break;
+          }
+        }
+
+        self.workspace = Blockly.inject('blocklyHiddenDiv', options);
         // self.minimap = new Minimap(self.displayedWorkspace);
         // self.minimap.init();
         self.displayedWorkspace.addChangeListener(self.mirrorEvent);
