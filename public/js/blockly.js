@@ -285,28 +285,51 @@ var blockly = new function() {
   this.loadXmlText = function(xmlText) {
     let oldXmlText = self.getXmlText();
     if (xmlText) {
+      let dom;
       try {
-        let dom = Blockly.utils.xml.textToDom(xmlText);
-        self.workspace.clear();
-        Blockly.Xml.domToWorkspace(dom, self.workspace);
-        self.assignOrphenToPage('Main');
-        self.showPage('Main');
-
-        let pages = [];
-        self.workspace.getAllBlocks().forEach(function(block){
-          if (pages.indexOf(block.data) == -1) {
-            pages.push(block.data);
-          }
-        });
-        blocklyPanel.loadPagesOptions(pages);
-      }
-      catch (err) {
+        dom = Blockly.utils.xml.textToDom(xmlText);
+      } catch (err) {
         console.log(err);
-        if (err.name == 'Error') {
-          toastMsg('Invalid Blocks');
-          self.loadXmlText(oldXmlText);
+        toastMsg('File does not appear to be a valid XML');
+        return;
+      }
+
+      // Attempt to cleanup Dom
+      let whenStartedLoaded = false;
+      for (let i=0; i<dom.childNodes.length; i++) {
+        if (dom.childNodes[i].tagName == 'shadow') {
+          dom.removeChild(dom.childNodes[i]);
+          i--;
+        }
+        if (dom.childNodes[i].getAttribute('type') == 'when_started') {
+          if (whenStartedLoaded) {
+            dom.removeChild(dom.childNodes[i]);
+            i--;
+          }
+          whenStartedLoaded = true;
         }
       }
+
+      self.workspace.clear();
+
+      try {
+        Blockly.Xml.domToWorkspace(dom, self.workspace);
+      } catch (err) {
+        console.log(err);
+        toastMsg('Error loading blocks');
+        self.loadXmlText(oldXmlText);
+      }
+
+      self.assignOrphenToPage('Main');
+      self.showPage('Main');
+
+      let pages = [];
+      self.workspace.getAllBlocks().forEach(function(block){
+        if (pages.indexOf(block.data) == -1) {
+          pages.push(block.data);
+        }
+      });
+      blocklyPanel.loadPagesOptions(pages);
     }
   };
 
