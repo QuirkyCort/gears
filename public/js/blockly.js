@@ -310,12 +310,16 @@ var blockly = new function() {
           dom.removeChild(dom.childNodes[i]);
           i--;
         }
-        if (dom.childNodes[i].getAttribute('type') == 'when_started') {
-          if (whenStartedLoaded) {
-            dom.removeChild(dom.childNodes[i]);
-            i--;
+        try {
+          if (dom.childNodes[i].getAttribute('type') == 'when_started') {
+            if (whenStartedLoaded) {
+              dom.removeChild(dom.childNodes[i]);
+              i--;
+            }
+            whenStartedLoaded = true;
           }
-          whenStartedLoaded = true;
+        } catch (err) {
+          // Ignore
         }
       }
 
