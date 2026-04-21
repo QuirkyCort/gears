@@ -55,7 +55,7 @@ var blockly = new function() {
 
   // Load toolbox
   this.loadToolBox = function() {
-    return fetch('toolbox.xml?v=b4181648')
+    return fetch('toolbox.xml?v=b53ac963')
       .then(response => response.text())
       .then(function(response) {
         response = i18n.replace(response);
@@ -114,20 +114,28 @@ var blockly = new function() {
 
     let filteredXml = self.toolboxXml.cloneNode(true);
 
+    let removedCategories = [];
+    let removedBlocks = [];
+
     if (typeof filter.deny != 'undefined') {
       if (typeof filter.deny.categories != 'undefined') {
         for (let deny of filter.deny.categories) {
-          let toRemove = filteredXml.querySelector('[name="' + deny + '"]');
-          if (toRemove) {
-            toRemove.remove();
+          let toHide = filteredXml.querySelector('[id="' + deny + '"]');
+          if (toHide) {
+            removedCategories.push(toHide);
+            for (let i=0; i<toHide.children.length; i++) {
+              if (toHide.children[i].tagName == 'block') {
+                removedBlocks.push(toHide.children[i]);
+              }
+            }
           }
         }
       }
       if (typeof filter.deny.blocks != 'undefined') {
         for (let deny of filter.deny.blocks) {
-          let toRemove = filteredXml.querySelector('[type="' + deny + '"]').remove();
-          if (toRemove) {
-            toRemove.remove();
+          let toHide = filteredXml.querySelector('[type="' + deny + '"]');
+          if (toHide) {
+            removedBlocks.push(toHide);
           }
         }
       }
@@ -136,9 +144,39 @@ var blockly = new function() {
     if (typeof filter.show != 'undefined') {
       if (typeof filter.show.categories != 'undefined') {
         for (let show of filter.show.categories) {
-          filteredXml.querySelector('[name="' + show + '"]').setAttribute('hidden', false);
+          let toShow = filteredXml.querySelector('[id="' + show + '"]');
+          if (toShow) {
+            removedCategories = removedCategories.filter(function(item) {
+              return item != toShow;
+            });
+          }
         }
       }
+      if (typeof filter.show.blocks != 'undefined') {
+        for (let show of filter.show.blocks) {
+          let toShow = filteredXml.querySelectorAll('[type="' + show + '"]');
+          if (toShow.length > 0) {
+            for (let i=0; i<toShow.length; i++) {
+              if (toShow[i].tagName == 'block') {
+                let parent = toShow[i].parentNode;
+                removedCategories = removedCategories.filter(function(item) {
+                  return item != parent;
+                });
+                removedBlocks = removedBlocks.filter(function(item) {
+                  return item != toShow[i];
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+
+    for (let category of removedCategories) {
+      category.setAttribute('hidden', true);
+    }
+    for (let block of removedBlocks) {
+      block.remove();
     }
 
     self.displayedWorkspace.updateToolbox(filteredXml.getElementById('toolbox'));
