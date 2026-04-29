@@ -115,6 +115,7 @@ var blockly = new function() {
     let filteredXml = self.toolboxXml.cloneNode(true);
 
     let removedCategories = [];
+    let showCategories = [];
     let removedBlocks = [];
 
     if (typeof filter.deny != 'undefined') {
@@ -149,6 +150,7 @@ var blockly = new function() {
             removedCategories = removedCategories.filter(function(item) {
               return item != toShow;
             });
+            showCategories.push(toShow);
           }
         }
       }
@@ -174,6 +176,9 @@ var blockly = new function() {
 
     for (let category of removedCategories) {
       category.setAttribute('hidden', true);
+    }
+    for (let category of showCategories) {
+      category.setAttribute('hidden', false);
     }
     for (let block of removedBlocks) {
       block.remove();
