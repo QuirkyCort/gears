@@ -207,14 +207,15 @@ class GyroSensor:
   def __init__(self, port=None):
     self.sensor = simPython.GyroSensor(port)
     self.zeroAngle = 0
+    self.float = False
 
   def speed(self):
     time.sleep(SENSOR_DELAY)
-    return self.sensor.yawAngleAndRate(False)[1]
+    return self.sensor.yawAngleAndRate(self.float)[1]
 
   def angle(self):
     time.sleep(SENSOR_DELAY)
-    return self.sensor.yawAngleAndRate(False)[0] - self.zeroAngle
+    return self.sensor.yawAngleAndRate(self.float)[0] - self.zeroAngle
 
   def reset_angle(self, angle):
     self.zeroAngle = self.angle() - angle
