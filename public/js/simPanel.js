@@ -59,7 +59,9 @@ var simPanel = new function() {
     self.$cameraOptions.click(self.switchCamera);
     self.$sensors.click(self.toggleSensorsPanel);
     self.$closePlotter.click(self.closePlotter);
-    self.$plotterCanvas[0].addEventListener('mousemove', self.plotterDisplayPosition);
+    if (self.$plotterCanvas[0]) {
+      self.$plotterCanvas[0].addEventListener('mousemove', self.plotterDisplayPosition);
+    }
 
     if (self.$hubButtons.length > 0) {
       self.$hubButtonsIcon.click(self.toggleHubButtons);
