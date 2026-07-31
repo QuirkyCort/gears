@@ -1159,6 +1159,76 @@ var configurator = new function() {
       ]
     },
     {
+      name: 'WheelOmniActuator',
+      category: 'Actuators',
+      defaultConfig: {
+        type: 'WheelOmniActuator',
+        position: [0, 2.8, 0],
+        rotation: [0, 0, 0],
+        components: [],
+        options: {
+          diameter: 5.6,
+          width: 0.8,
+          mass: 200,
+          friction: 10,
+          restitution: 0.8
+        }
+      },
+      optionsConfigurations: [
+        {
+          option: 'position',
+          type: 'vectors',
+          min: '-20',
+          max: '20',
+          step: '1',
+          reset: true
+        },
+        {
+          option: 'rotation',
+          type: 'vectors',
+          min: '-180',
+          max: '180',
+          step: '5',
+          deg2rad: true,
+          reset: true
+        },
+        {
+          option: 'diameter',
+          type: 'slider',
+          min: '1',
+          max: '10',
+          step: '0.1',
+          reset: true
+        },
+        {
+          option: 'width',
+          type: 'slider',
+          min: '0.2',
+          max: '4',
+          step: '0.1',
+          reset: true
+        },
+        {
+          option: 'mass',
+          type: 'floatText',
+        },
+        {
+          option: 'friction',
+          type: 'slider',
+          min: '0',
+          max: '10',
+          step: '0.1',
+        },
+        {
+          option: 'restitution',
+          type: 'slider',
+          min: '0',
+          max: '1',
+          step: '0.05',
+        },
+      ]
+    },
+    {
       name: 'WheelPassive',
       category: 'Others',
       defaultConfig: {
