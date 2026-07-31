@@ -2896,6 +2896,9 @@ let MSGS = {
     it: 'Attuatore ruota',
     ko: '바퀴 모터(Wheel Actuator)',
   },
+  '#sim-omniwheel#': {
+    en: 'Omni Wheel Actuator',
+  },
   '#sim-paintball#': {
     en: 'Paintball Launcher',
     fr: 'Lanceur de paintball',

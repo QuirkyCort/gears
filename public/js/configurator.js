@@ -1763,7 +1763,7 @@ var configurator = new function() {
   // Add a new component to selected
   this.addComponent = function() {
     let $selected = self.getSelectedComponent();
-    let COMPATIBLE_TYPES = ['ArmActuator', 'SwivelActuator', 'LinearActuator', 'WheelActuator', 'WheelPassive'];
+    let COMPATIBLE_TYPES = ['ArmActuator', 'SwivelActuator', 'LinearActuator', 'WheelActuator', 'WheelOmniActuator', 'WheelPassive'];
     if (
       $selected.text() != 'Body'
       && COMPATIBLE_TYPES.indexOf($selected[0].component.type) == -1
@@ -1919,7 +1919,7 @@ var configurator = new function() {
   // Load robot into components window
   this.loadIntoComponentsWindow = function(options) {
     let PORT_LETTERS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'LinearActuator', 'PaintballLauncherActuator','WheelActuator'];
+    let ACTUATORS = ['MagnetActuator', 'ArmActuator', 'SwivelActuator', 'LinearActuator', 'PaintballLauncherActuator','WheelActuator', 'WheelOmniActuator'];
     let DUMB_BLOCKS = ['Box', 'Cylinder', 'Sphere', 'WheelPassive'];
     let motorCount = options.wheels ? 2 : 0;
     let sensorCount = 0;
@@ -2027,6 +2027,8 @@ var configurator = new function() {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-electromagnet#</li>';
       } else if (motor.type == 'WheelActuator') {
         ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-wheel#</li>';
+      } else if (motor.type == 'WheelOmniActuator') {
+        ports += '<li>#robot-port# ' + PORT_LETTERS[i] + ' : #robot-wheelOmni#</li>';
       }
       i++;
     }

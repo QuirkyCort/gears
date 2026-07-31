@@ -113,6 +113,8 @@ var ev3dev2_generator = new function() {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Paintball Launcher\n';
       } else if (motor.type == 'WheelActuator') {
         motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Wheel Actuator\n';
+      } else if (motor.type == 'WheelOmniActuator') {
+        motorsCode += 'motor' + PORT_LETTERS[i] + ' = LargeMotor(OUTPUT_' + PORT_LETTERS[i] + ') # Wheel Actuator\n';
       }
       i++;
     }

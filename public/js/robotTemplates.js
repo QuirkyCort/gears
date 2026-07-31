@@ -164,6 +164,9 @@ i18n.append({
     en: 'Wheel',
     he: 'גלגל',
   },
+  '#robot-wheelOmni#': {
+    en: 'Omni Wheel',
+  },
   '#robot-singleFollowerShort#': {
     en: 'Single Sensor Line Follower',
     fr: 'Suiveur de ligne à un capteur (Single Sensor Line Follower)',

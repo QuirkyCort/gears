@@ -115,34 +115,33 @@ var main = new function() {
   this.loadRobot = function(json) {
     try {
       data = JSON.parse(json);
-
-      // Is it a world file?
-      if (typeof data.worldName != 'undefined') {
-        showErrorModal(i18n.get('#main-invalid_robot_file_world#'));
-        return;
-      }
-
-      // Is it a robot file?
-      if (typeof data.bodyHeight == 'undefined') {
-        showErrorModal(i18n.get('#main-invalid_robot_file_robot#'));
-        return;
-      }
-
-      robot.options = data;
-      let i = robotTemplates.findIndex(r => r.name == robot.options.name);
-      if (i == -1) {
-        robotTemplates.push({...data});
-      } else {
-        robotTemplates[i] = {...data};
-      }
-      babylon.resetScene();
-      skulpt.hardInterrupt = true;
-      simPanel.setRunIcon('run');
-      simPanel.initSensorsPanel();
     } catch (e) {
       showErrorModal(i18n.get('#main-invalid_robot_file_json#'));
     }
 
+    // Is it a world file?
+    if (typeof data.worldName != 'undefined') {
+      showErrorModal(i18n.get('#main-invalid_robot_file_world#'));
+      return;
+    }
+
+    // Is it a robot file?
+    if (typeof data.bodyHeight == 'undefined') {
+      showErrorModal(i18n.get('#main-invalid_robot_file_robot#'));
+      return;
+    }
+
+    robot.options = data;
+    let i = robotTemplates.findIndex(r => r.name == robot.options.name);
+    if (i == -1) {
+      robotTemplates.push({...data});
+    } else {
+      robotTemplates[i] = {...data};
+    }
+    babylon.resetScene();
+    skulpt.hardInterrupt = true;
+    simPanel.setRunIcon('run');
+    simPanel.initSensorsPanel();
   };
 
   // Load robot from local json file
@@ -832,12 +831,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20260203;
+    let current = 20260731;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>31 Jul 2026 (Omni Wheels)</h3>' +
+          '<p>' +
+            'Added Omni Wheels; you can add it to your robot using the robot configurator. ' +
+            'This allows you to create robots with holonomic movement capabilities. ' +
+            'See <a href="https://youtu.be/JLA5hO20wvg" target="_blank">this YouTube video</a> for a demo.' +
+          '</p>' +
           '<h3>3 Feb 2026 (WRO Future Engineer)</h3>' +
           '<p>' +
             'Added the playfield for WRO Future Engineer (2025 Playfield). ' +
@@ -854,12 +859,6 @@ var main = new function() {
           '<p>' +
             'A sample robot for the RoboSport challenge has also been added. ' +
             'Find it under "Robot => Select Robot => WRO RoboSport". ' +
-          '</p>' +
-          '<h3>22 Jan 2026 (WRO 2026)</h3>' +
-          '<p>' +
-            'Added the playfield for WRO 2026 Robomission Junior. ' +
-            'Find it under "Worlds => Select World => Missions". ' +
-            'All robomission plafields (Elementary, Junior, and Senior) are now available.' +
           '</p>'
       }
       acknowledgeDialog(options, function(){

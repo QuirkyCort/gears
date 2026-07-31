@@ -3736,7 +3736,7 @@ function WheelOmni(scene, parent, pos, rot, port, options) {
       scene
     );
 
-    self.mesh.physicsImpostor.physicsBody.setAnisotropicFriction(new Ammo.btVector3(0, 1, 1), 1);
+    self.mesh.physicsImpostor.physicsBody.setAnisotropicFriction(new Ammo.btVector3(1, 0, 1), 1);
 
     // Hold position if speed is too low
     var origin = self.mesh.physicsImpostor.physicsBody.getWorldTransform().getOrigin();
