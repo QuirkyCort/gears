@@ -218,7 +218,7 @@ class GyroSensor:
     return self.sensor.yawAngleAndRate(self.float)[0] - self.zeroAngle
 
   def reset_angle(self, angle):
-    self.zeroAngle = self.angle() - angle
+    self.zeroAngle = self.sensor.yawAngleAndRate(self.float)[0] - angle
 
 # Virtual Devices
 class Pen:
