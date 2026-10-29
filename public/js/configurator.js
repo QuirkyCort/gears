@@ -2057,17 +2057,26 @@ var configurator = new function() {
     var hiddenElement = document.createElement('input');
     hiddenElement.type = 'file';
     hiddenElement.accept = 'application/json,.json';
-    hiddenElement.dispatchEvent(new MouseEvent('click'));
-    hiddenElement.addEventListener('change', function(e){
-      var reader = new FileReader();
-      reader.onload = function() {
-        robot.options = JSON.parse(this.result);
-        self.clearHistory();
-        self.saveHistory();
-        self.resetScene();
-      };
-      reader.readAsText(e.target.files[0]);
-    });
+
+    // Append to the DOM (hidden)
+    hiddenElement.style.display = 'none';
+    document.body.appendChild(hiddenElement);
+    
+    hiddenElement.addEventListener('change', function(e){       
+        var reader = new FileReader();       
+        reader.onload = function() {   
+            robot.options = JSON.parse(this.result);         
+            self.clearHistory();         
+            self.saveHistory();         
+            self.resetScene();       
+        };         
+        reader.readAsText(e.target.files[0]);         
+        
+        // Clean up the element from the DOM
+        document.body.removeChild(hiddenElement);
+    });     
+
+    hiddenElement.click();
   };
 
   // Select robot from templates
