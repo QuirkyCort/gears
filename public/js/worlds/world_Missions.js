@@ -21,6 +21,8 @@ var world_Missions = new function() {
       title: 'Select Mission',
       type: 'select',
       options: [
+        ['2027 WRO (Future Engineer Senior 1 Rack Clearance)', 'worlds/missions/WRO/WRO-2027-Future-Engineer-Senior-1.json?v=521b9050'],
+        ['2027 WRO (Future Engineer Senior 2 Order Picking)', 'worlds/missions/WRO/WRO-2027-Future-Engineer-Senior-2.json?v=738155ce'],
         ['2026 WRO (Elementary)', 'worlds/missions/WRO/WRO-2026-Elementary.json?v=3f6ac0f5'],
         ['2026 WRO (Junior)', 'worlds/missions/WRO/WRO-2026-Junior.json?v=ddc3454b'],
         ['2026 WRO (Senior)', 'worlds/missions/WRO/WRO-2026-Senior.json?v=214a3821'],
