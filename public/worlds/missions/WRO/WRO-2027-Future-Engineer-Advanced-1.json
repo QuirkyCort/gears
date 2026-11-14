@@ -14166,11 +14166,11 @@
     "startPosXYZStr": "",
     "startRotStr": "",
     "startPosXYZ": [
-      -95,
+      "randchoiceB(-95, 95)",
       73,
       0
     ],
-    "startRot": 90,
+    "startRot": "randchoiceB(90, -90)",
     "arenaStartPosXYZ": null,
     "arenaStartRot": null
   }
