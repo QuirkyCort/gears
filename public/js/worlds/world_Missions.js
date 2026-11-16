@@ -23,8 +23,8 @@ var world_Missions = new function() {
       options: [
         ['2027 WRO (Future Engineer Senior 1 Rack Clearance)', 'worlds/missions/WRO/WRO-2027-Future-Engineer-Senior-1.json?v=f1509067'],
         ['2027 WRO (Future Engineer Senior 2 Order Picking)', 'worlds/missions/WRO/WRO-2027-Future-Engineer-Senior-2.json?v=ff158992'],
-        ['2027 WRO (Future Engineer Advanced 1 Route Replanning)', 'worlds/missions/WRO/WRO-2027-Future-Engineer-Advanced-1.json?v=e92f530b'],
-        ['2027 WRO (Future Engineer Advanced 2 Product Classification)', 'worlds/missions/WRO/WRO-2027-Future-Engineer-Advanced-2.json?v=abf508cf'],
+        ['2027 WRO (Future Engineer Advanced 1 Route Replanning)', 'worlds/missions/WRO/WRO-2027-Future-Engineer-Advanced-1.json?v=b854059a'],
+        ['2027 WRO (Future Engineer Advanced 2 Product Classification)', 'worlds/missions/WRO/WRO-2027-Future-Engineer-Advanced-2.json?v=e8d08398'],
         ['2026 WRO (Elementary)', 'worlds/missions/WRO/WRO-2026-Elementary.json?v=3f6ac0f5'],
         ['2026 WRO (Junior)', 'worlds/missions/WRO/WRO-2026-Junior.json?v=ddc3454b'],
         ['2026 WRO (Senior)', 'worlds/missions/WRO/WRO-2026-Senior.json?v=214a3821'],

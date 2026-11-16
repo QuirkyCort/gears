@@ -831,12 +831,18 @@ var main = new function() {
 
   // Display what's new if not seen before
   this.showWhatsNew = function(forceShow=false) {
-    let current = 20260731;
+    let current = 20261116;
     let lastShown = localStorage.getItem('whatsNew');
     if (lastShown == null || parseInt(lastShown) < current || forceShow) {
       let options = {
         title: 'What\'s New',
         message:
+          '<h3>16 Nov 2026 (WRO Future Engineer 2027)</h3>' +
+          '<p>' +
+            'Added the playfield for the upcoming 2027 WRO Future Engineer. ' +
+            'Find it under "Worlds => Select World => Missions". ' +
+            'See <a href="https://youtu.be/0Vpha3OpfVo" target="_blank">this YouTube video</a> for a demo.' +
+          '</p>' +
           '<h3>31 Jul 2026 (Omni Wheels)</h3>' +
           '<p>' +
             'Added Omni Wheels; you can add it to your robot using the robot configurator. ' +
@@ -848,17 +854,6 @@ var main = new function() {
             'Added the playfield for WRO Future Engineer (2025 Playfield). ' +
             'Find it under "Worlds => Select World => Missions". ' +
             'See <a href="https://youtu.be/jc1r_H7WTIU" target="_blank">this YouTube video</a> for a demo.' +
-          '</p>' +
-          '<h3>31 Jan 2026 (WRO RoboSport)</h3>' +
-          '<p>' +
-            'Added the playfield for WRO RoboSport (2025 Playfield). ' +
-            'Find it under "Worlds => Select World => Missions". ' +
-            'Also available in the multi-robot arena.' +
-            'See <a href="https://youtu.be/wz15pH2amHY" target="_blank">this YouTube video</a> for a demo.' +
-          '</p>' +
-          '<p>' +
-            'A sample robot for the RoboSport challenge has also been added. ' +
-            'Find it under "Robot => Select Robot => WRO RoboSport". ' +
           '</p>'
       }
       acknowledgeDialog(options, function(){

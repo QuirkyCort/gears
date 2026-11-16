@@ -10993,88 +10993,11 @@
       },
 
       {
-        "type": "compound",
-        "objects": [
-          {
-            "type": "box",
-            "position": "shuffleC([8, 112.1, 7.44], [-8, 112.1, 7.44], [24, 112.1, 7.44], [-24, 112.1, 7.44], [6, 125, 1.5], [-6, 125, 1.5])",
-            "rotationMode": "degrees",
-            "rotation": [
-              0,
-              0,
-              0
-            ],
-            "animationMode": "none",
-            "animationKeys": [],
-            "size": [
-              4,
-              4,
-              3
-            ],
-            "modelURL": "",
-            "modelScale": 10,
-            "modelAnimation": "None",
-            "color": "#80e68000",
-            "imageType": "repeat",
-            "imageURL": "",
-            "uScale": 1,
-            "vScale": 1,
-            "physicsOptions": {
-              "mass": 20,
-              "friction": 1
-            },
-            "magnetic": false,
-            "laserDetection": null,
-            "ultrasonicDetection": null,
-            "receiveShadows": false,
-            "castShadows": false,
-            "isPickable": true
-          },
-          {
-            "type": "model",
-            "position": [
-              0,
-              0,
-              0
-            ],
-            "rotationMode": "degrees",
-            "rotation": [
-              -90,
-              0,
-              0
-            ],
-            "animationMode": "none",
-            "animationKeys": [],
-            "size": [
-              10,
-              10,
-              10
-            ],
-            "modelURL": "models/WRO/WRO_FE_2027_Pyramid.gltf",
-            "modelScale": 100,
-            "modelAnimation": "None",
-            "color": "#80E680",
-            "imageType": "sphere",
-            "imageURL": "",
-            "uScale": 1,
-            "vScale": 1,
-            "physicsOptions": "fixed",
-            "magnetic": false,
-            "laserDetection": null,
-            "ultrasonicDetection": null,
-            "receiveShadows": false,
-            "castShadows": false,
-            "isPickable": true
-          }
-        ],
-        "position": [
-          0,
-          0,
-          20
-        ],
+        "type": "model",
+        "position": "shuffleC([8, 112.1, 7.44], [-8, 112.1, 7.44], [24, 112.1, 7.44], [-24, 112.1, 7.44], [6, 125, 1.5], [-6, 125, 1.5])",
         "rotationMode": "degrees",
         "rotation": [
-          0,
+          -90,
           0,
           0
         ],
@@ -11085,15 +11008,18 @@
           10,
           10
         ],
-        "modelURL": "",
-        "modelScale": 10,
+        "modelURL": "models/WRO/WRO_FE_2027_Pyramid.gltf",
+        "modelScale": 100,
         "modelAnimation": "None",
         "color": "#80E680",
-        "imageType": "repeat",
+        "imageType": "sphere",
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": {
+          "mass": 20,
+          "friction": 1
+        },
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null,
@@ -11102,88 +11028,11 @@
         "isPickable": true
       },
       {
-        "type": "compound",
-        "objects": [
-          {
-            "type": "box",
-            "position": "shuffleC([8, 112.1, 7.44], [-8, 112.1, 7.44], [24, 112.1, 7.44], [-24, 112.1, 7.44], [6, 125, 1.5], [-6, 125, 1.5])",
-            "rotationMode": "degrees",
-            "rotation": [
-              0,
-              0,
-              0
-            ],
-            "animationMode": "none",
-            "animationKeys": [],
-            "size": [
-              4,
-              4,
-              3
-            ],
-            "modelURL": "",
-            "modelScale": 10,
-            "modelAnimation": "None",
-            "color": "#80e68000",
-            "imageType": "repeat",
-            "imageURL": "",
-            "uScale": 1,
-            "vScale": 1,
-            "physicsOptions": {
-              "mass": 20,
-              "friction": 1
-            },
-            "magnetic": false,
-            "laserDetection": null,
-            "ultrasonicDetection": null,
-            "receiveShadows": false,
-            "castShadows": false,
-            "isPickable": true
-          },
-          {
-            "type": "model",
-            "position": [
-              0,
-              0,
-              0
-            ],
-            "rotationMode": "degrees",
-            "rotation": [
-              -90,
-              0,
-              0
-            ],
-            "animationMode": "none",
-            "animationKeys": [],
-            "size": [
-              10,
-              10,
-              10
-            ],
-            "modelURL": "models/WRO/WRO_FE_2027_Pyramid.gltf",
-            "modelScale": 100,
-            "modelAnimation": "None",
-            "color": "#80E680",
-            "imageType": "sphere",
-            "imageURL": "",
-            "uScale": 1,
-            "vScale": 1,
-            "physicsOptions": "fixed",
-            "magnetic": false,
-            "laserDetection": null,
-            "ultrasonicDetection": null,
-            "receiveShadows": false,
-            "castShadows": false,
-            "isPickable": true
-          }
-        ],
-        "position": [
-          0,
-          0,
-          20
-        ],
+        "type": "model",
+        "position": "shuffleC([8, 112.1, 7.44], [-8, 112.1, 7.44], [24, 112.1, 7.44], [-24, 112.1, 7.44], [6, 125, 1.5], [-6, 125, 1.5])",
         "rotationMode": "degrees",
         "rotation": [
-          0,
+          -90,
           0,
           0
         ],
@@ -11194,15 +11043,18 @@
           10,
           10
         ],
-        "modelURL": "",
-        "modelScale": 10,
+        "modelURL": "models/WRO/WRO_FE_2027_Pyramid.gltf",
+        "modelScale": 100,
         "modelAnimation": "None",
         "color": "#80E680",
-        "imageType": "repeat",
+        "imageType": "sphere",
         "imageURL": "",
         "uScale": 1,
         "vScale": 1,
-        "physicsOptions": "fixed",
+        "physicsOptions": {
+          "mass": 20,
+          "friction": 1
+        },
         "magnetic": false,
         "laserDetection": null,
         "ultrasonicDetection": null,
@@ -11418,7 +11270,7 @@
             "imageURL": "",
             "uScale": 1,
             "vScale": 1,
-            "physicsOptions": "fixed",
+            "physicsOptions": "false",
             "magnetic": false,
             "laserDetection": null,
             "ultrasonicDetection": null,
@@ -11636,7 +11488,7 @@
             "imageURL": "",
             "uScale": 1,
             "vScale": 1,
-            "physicsOptions": "fixed",
+            "physicsOptions": "false",
             "magnetic": false,
             "laserDetection": null,
             "ultrasonicDetection": null,
@@ -11854,7 +11706,7 @@
             "imageURL": "",
             "uScale": 1,
             "vScale": 1,
-            "physicsOptions": "fixed",
+            "physicsOptions": "false",
             "magnetic": false,
             "laserDetection": null,
             "ultrasonicDetection": null,
@@ -12072,7 +11924,7 @@
             "imageURL": "",
             "uScale": 1,
             "vScale": 1,
-            "physicsOptions": "fixed",
+            "physicsOptions": "false",
             "magnetic": false,
             "laserDetection": null,
             "ultrasonicDetection": null,
